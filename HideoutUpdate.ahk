@@ -75,7 +75,7 @@ If ((A_GuiEvent = "DoubleClick") || (Trigger_Action))
 {
 clipboard=
 LV_GetText(C1,A_EventInfo,1)
-HideoutSet := C1
+HideoutSet = %C1%
 Gui, Destroy
 GoSub, WriteFile
 Return
