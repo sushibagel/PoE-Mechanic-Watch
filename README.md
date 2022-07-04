@@ -39,3 +39,5 @@ Credits:
 Thank you to Griding Gear Games the developers of Path of Exile
 Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://github.com/hi5/TF
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/
+
+![Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay.jpg?raw=true)
