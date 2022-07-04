@@ -41,3 +41,13 @@ Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://g
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/
 
 ![Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay.jpg?raw=true)
+
+![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay%20Active.jpg?raw=true)
+
+![Notification](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Notification.jpg?raw=true)
+
+![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Move%20Overlay.jpg?raw=true)
+
+![Set Hideout](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Set%20Hideout.jpg?raw=true)
+
+![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
