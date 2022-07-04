@@ -9,8 +9,9 @@ Menu, Tray, NoStandard
 Menu, Tray, Add, Set Hideout, SetHideout
 Menu, Tray, Add, Move Overlay, Move
 Menu, Tray, Add
-Menu Tray, Add, Window Spy, WindowSpy
 Menu, Tray, Add, Reload, Reload
+Menu, Tray, Add, View Log, ViewLog
+Menu, Tray, Add, Window Spy, WindowSpy
 Menu, Tray, Add, Edit This Script, mwt_Edit
 Menu, Tray, Add, Exit, Exit
 Menu,Tray,Icon,%A_ScriptDir%/Blood-filled_Vessel_inventory_icon.png
@@ -24,18 +25,22 @@ Global height
 Global width
 Global height1
 Global width1
+Global POEPathTrim
 Global LogPath
 Global WarningActive
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
+GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 
 FileReadLine, hideoutcheck, CurrentHideout.txt, 1
-StringTrimLeft, MyHideout, hideoutcheck, 12
+StringTrimLeft, MyHideout, hideoutcheck, 12 
 
 MetamorphButton = 1
 RitualButton = 1
+
+GoSub, GetLogPath
 
 Monitor: ;Monitor for Path of Exile window to be active. This will hide the overlay if the window is inactive and activate it when active. 
 Loop 
@@ -165,7 +170,7 @@ Reminder:
 GuiClose:
 ButtonYes!:
 Gui, 1:Submit
-WinActivate, ahk_exe PathOfExileSteam.exe
+WinActivate, ahk_group PoeWindow
 WarningActive = No
 Loop 
 {
@@ -374,4 +379,8 @@ Return
 
 SetHideout:
 Run, HideoutUpdate.ahk
+Return
+
+ViewLog:
+run, %POEPathTrim%logs
 Return
