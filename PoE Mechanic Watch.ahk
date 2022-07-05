@@ -1,6 +1,6 @@
 #SingleInstance, force
 #Persistent
-#Include, tf.ahk
+#Include, Resources/Scripts/tf.ahk
 #NoEnv
 CoordMode, Screen
 DetectHiddenWindows, On
@@ -14,7 +14,7 @@ Menu, Tray, Add, View Log, ViewLog
 Menu, Tray, Add, Window Spy, WindowSpy
 Menu, Tray, Add, Edit This Script, mwt_Edit
 Menu, Tray, Add, Exit, Exit
-Menu,Tray,Icon,%A_ScriptDir%/Blood-filled_Vessel_inventory_icon.png
+Menu, Tray, Icon, Resources/Images/Blood-filled_Vessel_inventory_icon.png
 Global RitualText
 Global MetamorphText
 Global Hideout
@@ -34,7 +34,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 
-FileReadLine, hideoutcheck, CurrentHideout.txt, 1
+FileReadLine, hideoutcheck, Resources/Settings/CurrentHideout.txt, 1
 StringTrimLeft, MyHideout, hideoutcheck, 12 
 
 MetamorphButton = 1
@@ -64,27 +64,27 @@ Loop
 
 Overlay:
 {
-    FileReadLine, heightVar, overlayposition.txt, 1
+    FileReadLine, heightVar, Resources/Settings/overlayposition.txt, 1
     StringTrimLeft, height, heightVar, 7
-    FileReadLine, widthVar, overlayposition.txt, 2
+    FileReadLine, widthVar, Resources/Settings/overlayposition.txt, 2
     StringTrimLeft, width, widthVar, 6
     Gui, 2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, 2:Color, 808080
     if (MetamorphButton = 1)
         {
-            Gui, 2:Add, Picture, gMetamorph x5 y5 w50 h40 , %A_ScriptDir%/metamorph.png
+            Gui, 2:Add, Picture, gMetamorph x5 y5 w50 h40 , Resources/Images/metamorph.png
         }
     if (MetamorphButton = 2)
         {
-            Gui, 2:Add, Picture, gMetamorph x5 y5 w50 h40 , %A_ScriptDir%/metamorph_selected.png
+            Gui, 2:Add, Picture, gMetamorph x5 y5 w50 h40 , Resources/Images/metamorph_selected.png
         }
     if (RitualButton = 1)
         {
-            Gui, 2:Add, Picture, gRitual x60 y5 w50 h40 , %A_ScriptDir%/Blood-filled_Vessel_inventory_icon.png
+            Gui, 2:Add, Picture, gRitual x60 y5 w50 h40 , Resources/Images/Blood-filled_Vessel_inventory_icon.png
         }
     if (RitualButton = 2)
         {
-            Gui, 2:Add, Picture, gRitual x60 y5 w50 h40 , %A_ScriptDir%/Blood-filled_Vessel_inventory_icon_selected.png
+            Gui, 2:Add, Picture, gRitual x60 y5 w50 h40 , Resources/Images/Blood-filled_Vessel_inventory_icon_selected.png
         }
     Gui, 2:+AlwaysOnTop
     Gui, 2:Show, NoActivate x%width% y%height%, Overlay
@@ -266,8 +266,8 @@ Return
 Move:
 heightoff := height - 25
 widthoff := width - 105
-    Gui, 3:Add, Picture, gnone x105 y5 w50 h40 , %A_ScriptDir%/metamorph.png
-    Gui, 3:Add, Picture, gnone x160 y5 w50 h40 , %A_ScriptDir%/Blood-filled_Vessel_inventory_icon.png
+    Gui, 3:Add, Picture, gnone x105 y5 w50 h40 , Resources/Images/metamorph.png
+    Gui, 3:Add, Picture, gnone x160 y5 w50 h40 , Resources/Images/Blood-filled_Vessel_inventory_icon.png
     Gui, 3:Add, Button, gLock x20 y10, &Lock
     Gui, 3:+AlwaysOnTop
     Gui, 3:Show, x%widthoff% y%heightoff%, Move
@@ -284,7 +284,7 @@ Exit:
 ExitApp
 Return
 
-WindowSpy:
+WindowSpy: ; Window Spy is a tool to be able to view window information
   RegRead ahkInstallDir, HKEY_LOCAL_MACHINE, SOFTWARE\AutoHotkey, InstallDir
   Run %ahkInstallDir%\WindowSpy.ahk
   WinWait Active Window Info,,3
@@ -300,9 +300,9 @@ Gui, 3:Destroy
 setheight:=newheight + 25
 setwidth:=newwidth + 105
 
-FileDelete, overlayposition.txt
-FileAppend, height=%setheight% `n, overlayposition.txt
-FileAppend, width=%setwidth%, overlayposition.txt
+FileDelete, Resources/Settings/overlayposition.txt
+FileAppend, height=%setheight% `n, Resources/Settings/overlayposition.txt
+FileAppend, width=%setwidth%, Resources/Settings/overlayposition.txt
 Return
 
 WindowMonitor:
@@ -378,7 +378,7 @@ LogPath = %POEPathTrim%logs\Client.txt
 Return
 
 SetHideout:
-Run, HideoutUpdate.ahk
+Run, Resources\Scripts\HideoutUpdate.ahk
 Return
 
 ViewLog:
