@@ -11,8 +11,6 @@ Menu, Tray, Add, Move Overlay, Move
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add, View Log, ViewLog
-Menu, Tray, Add, Window Spy, WindowSpy
-Menu, Tray, Add, Edit This Script, mwt_Edit
 Menu, Tray, Add, Exit, Exit
 Menu, Tray, Icon, Resources/Images/Blood-filled_Vessel_inventory_icon.png
 Global RitualText
@@ -276,21 +274,9 @@ Return
 none:
 Return
 
-mwt_Edit:
-Edit
-return
-
 Exit:
 ExitApp
 Return
-
-WindowSpy: ; Window Spy is a tool to be able to view window information
-  RegRead ahkInstallDir, HKEY_LOCAL_MACHINE, SOFTWARE\AutoHotkey, InstallDir
-  Run %ahkInstallDir%\WindowSpy.ahk
-  WinWait Active Window Info,,3
-  if not ErrorLevel
-    WinMove A,, A_ScreenWidth-400, 200 ; Move the window to the side a little for convenience.
-return
 
 Lock:
 DetectHiddenWindows, On
