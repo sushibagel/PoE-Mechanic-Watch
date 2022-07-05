@@ -2,6 +2,8 @@
 #SingleInstance force
 SetBatchLines, -1
 Global HideoutSet
+Global UpOneLevel
+Global UpTwoLevels
 
 LVArray := []
 Gui, Add, Text, cWhite ,Search:
@@ -13,7 +15,11 @@ Gui, -Border
 Gui, Color, 4e4f53
 Gui, -Caption
 Gui, Add, Button, gCancel, &Cancel
-Loop, Read, Hideoutlist.txt
+
+StringTrimRight, UpOneLevel, A_ScriptDir, 7
+StringTrimRight, UpTwoLevels, UpOneLevel, 10
+
+Loop, Read, %UpOneLevel%Data\HideoutList.txt
 {
    LV_Add("", A_LoopReadLine)
    LVArray.Push(A_LoopReadLine)
@@ -84,9 +90,9 @@ Return
 WriteFile:
 if HideoutSet !=
 {
-   FileDelete, CurrentHideout.txt
-   FileAppend, MyHideout = %HideoutSet% `n, CurrentHideout.txt
+   FileDelete, Resources\Settings\CurrentHideout.txt
+   FileAppend, MyHideout = %HideoutSet% `n, Resources\Settings\CurrentHideout.txt
    HideoutSet :=
-   Run, PoE Mechanic Watch.ahk
+   Run, %UpTwoLevels%PoE Mechanic Watch.ahk
    ExitApp
 }
