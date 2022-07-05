@@ -10,6 +10,7 @@ Menu, Tray, Add, Set Hideout, SetHideout
 Menu, Tray, Add, Move Overlay, Move
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
+Menu, Tray, Add, Check for Updates, UpdateCheck
 Menu, Tray, Add, View Log, ViewLog
 Menu, Tray, Add, Exit, Exit
 Menu, Tray, Icon, Resources/Images/Blood-filled_Vessel_inventory_icon.png
@@ -37,7 +38,7 @@ StringTrimLeft, MyHideout, hideoutcheck, 12
 
 MetamorphButton = 1
 RitualButton = 1
-
+GoSub, UpdateCheck
 GoSub, GetLogPath
 
 Monitor: ;Monitor for Path of Exile window to be active. This will hide the overlay if the window is inactive and activate it when active. 
@@ -369,4 +370,34 @@ Return
 
 ViewLog:
 run, %POEPathTrim%logs
+Return
+
+UpdateCheck:
+FileReadLine, InstalledVersion, Resources/Data/Version.txt, 1
+Filename = %A_ScriptDir%/PoE Mechanic Watch Update.zip
+url = https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Resources/Data/Version.txt
+whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+whr.Open("GET", "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/Resources/Data/Version.txt", true)
+whr.Send()
+whr.WaitForResponse() 
+CurrentVersion1 := whr.ResponseText
+UpdateURL = https://github.com/sushibagel/PoE-Mechanic-Watch/archive/refs/tags/%version%.zip
+CurrentVersion := SubStr(CurrentVersion1, 1, 6)
+If (InstalledVersion=CurrentVersion)
+{
+    TrayTip, Up-To-Date, PoE Mechanic Watch Is Up-To-Date,
+    Return
+}
+Else
+{
+    MsgBox, 1, Press OK to download, Your currently installed version is %InstalledVersion%. The latest is %CurrentVersion%.
+	IfMsgBox OK
+	UrlDownloadToFile, *0 %UpdateUrl%, %Filename%
+	    if ErrorLevel = 1
+			MsgBox, There was some error updating the file. You may have the latest version, or it is blocked.
+		else if ErrorLevel = 0
+			MsgBox, The update/ download appears to have been successful or you clicked cancel. Please check the update folder %A_ScriptDir% for the download. To install unzip it and replace the existing files with the ones found in the zip. 
+		else 
+			MsgBox, some other crazy error occured. 
+}
 Return
