@@ -43,6 +43,9 @@ Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://g
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater. 
 
+Donations: 
+There are no obligations for anyone to donate but if you wish to you can here: [PayPal](https://www.paypal.com/paypalme/Drew149).
+
 ![Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay.jpg?raw=true)
 
 ![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay%20Active.jpg?raw=true)
