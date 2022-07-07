@@ -32,6 +32,8 @@ If at any time the script freezes right click the icon in the System Tray and cl
 
 If clicking the "View Log" button isn't taking you to the correct path, this is likely due to because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
 
+To avoid the need to change all your settings on each update I recommend not copying over not copying the "Settings" folder from the update zip. 
+
 Additional Notes: 
 New hideouts can be added to the Hideout menu by editing the "HideoutList.txt" and typing in the hideout name on a new line. 
 
