@@ -988,7 +988,6 @@ whr.Open("GET", "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch
 whr.Send()
 whr.WaitForResponse() 
 CurrentVersion1 := whr.ResponseText
-UpdateURL = https://github.com/sushibagel/PoE-Mechanic-Watch/archive/refs/tags/%version%.zip
 CurrentVersion := SubStr(CurrentVersion1, 1, 6)
 If (InstalledVersion=CurrentVersion)
 {
@@ -1002,7 +1001,7 @@ whr.Open("GET", "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch
 whr.Send()
 whr.WaitForResponse() 
 changelog := whr.ResponseText
-
+UpdateURL = https://github.com/sushibagel/PoE-Mechanic-Watch/archive/refs/tags/%CurrentVersion%.zip
     MsgBox, 1, An update is available. Press OK to download., Your currently installed version is %InstalledVersion%. The latest is %CurrentVersion%.`n`nTo avoid the need to change all your settings on each update I recommend not copying over not copying the "Settings" folder from the update zip.`n`nChangelog:`n%changelog%
 	IfMsgBox OK
 	UrlDownloadToFile, *0 %UpdateUrl%, %Filename%
