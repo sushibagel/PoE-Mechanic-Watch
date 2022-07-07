@@ -8,17 +8,14 @@ DetectHiddenWindows, On
 Menu, Tray, NoStandard
 Menu, Tray, Add, Set Hideout, SetHideout
 Menu, Tray, Add, Move Overlay, Move
+Menu, Tray, Add, Select Mechanics, SelectMechanics
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add, Check for Updates, UpdateCheck
 Menu, Tray, Add, View Log, ViewLog
 Menu, Tray, Add, Exit, Exit
-Menu, Tray, Icon, Resources/Images/Blood-filled_Vessel_inventory_icon.png
-Global RitualText
-Global MetamorphText
+Menu, Tray, Icon, Resources/Images/ritual.png
 Global Hideout
-Global MetamorphButton
-Global RitualButton 
 Global MyHideout
 Global height
 Global width
@@ -27,6 +24,24 @@ Global width1
 Global POEPathTrim
 Global LogPath
 Global WarningActive
+Global AbyssOn
+Global BlightOn
+Global BreachOn
+Global ExpeditionOn
+Global HarvestOn
+Global IncursionOn
+Global MetamorphOn
+Global RitualOn
+Global GenericOn
+Global AbyssActive
+Global BlightActive
+Global BreachActive
+Global ExpeditionActive
+Global HarvestActive
+Global IncursionActive
+Global MetamorphActive
+Global RitualActive
+Global GenericActive
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
@@ -36,11 +51,20 @@ GroupAdd, PoeWindow, Overlay
 FileReadLine, hideoutcheck, Resources/Settings/CurrentHideout.txt, 1
 StringTrimLeft, MyHideout, hideoutcheck, 12 
 
-MetamorphButton = 1
-RitualButton = 1
 GoSub, UpdateCheck
 GoSub, GetLogPath
 
+ReadMechanics:
+    IniRead, AbyssOn, Resources\Settings\Mechanics.ini, Checkboxes, Abyss
+    IniRead, BlightOn, Resources\Settings\Mechanics.ini, Checkboxes, Blight
+    IniRead, BreachOn, Resources\Settings\Mechanics.ini, Checkboxes, Breach
+    IniRead, ExpeditionOn, Resources\Settings\Mechanics.ini, Checkboxes, Expedition
+    IniRead, HarvestOn, Resources\Settings\Mechanics.ini, Checkboxes, Harvest
+    IniRead, IncursionOn, Resources\Settings\Mechanics.ini, Checkboxes, Incursion
+    IniRead, MetamorphOn, Resources\Settings\Mechanics.ini, Checkboxes, Metamorph
+    IniRead, RitualOn, Resources\Settings\Mechanics.ini, Checkboxes, Ritual
+    IniRead, GenericOn, Resources\Settings\Mechanics.ini, Checkboxes, Generic
+    
 Monitor: ;Monitor for Path of Exile window to be active. This will hide the overlay if the window is inactive and activate it when active. 
 Loop 
 {
@@ -69,22 +93,198 @@ Overlay:
     StringTrimLeft, width, widthVar, 6
     Gui, 2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, 2:Color, 808080
-    if (MetamorphButton = 1)
+
+    GoSub, MechanicsActive
+
+mechaniccheck = Abyss
+    if (%mechaniccheck%On = 1)
+    {
+        if (%mechaniccheck%Active = 1)
         {
-            Gui, 2:Add, Picture, gMetamorph x5 y5 w50 h40 , Resources/Images/metamorph.png
+            Gui, 2:Add, Picture, g%mechaniccheck% x5 y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
         }
-    if (MetamorphButton = 2)
+        Else
         {
-            Gui, 2:Add, Picture, gMetamorph x5 y5 w50 h40 , Resources/Images/metamorph_selected.png
+            Gui, 2:Add, Picture, g%mechaniccheck% x5 y5 w50 h40 , Resources/Images/%mechaniccheck%.png
         }
-    if (RitualButton = 1)
+    }
+
+mechaniccheck = Blight
+    if (%mechaniccheck%On = 1)
+    {
+        if (AbyssOn = 1)
         {
-            Gui, 2:Add, Picture, gRitual x60 y5 w50 h40 , Resources/Images/Blood-filled_Vessel_inventory_icon.png
+            rx=55
         }
-    if (RitualButton = 2)
+        else
         {
-            Gui, 2:Add, Picture, gRitual x60 y5 w50 h40 , Resources/Images/Blood-filled_Vessel_inventory_icon_selected.png
+            rx=0
         }
+        mechanicx := rx+5
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+mechaniccheck = Breach
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+    mechaniccheck = Expedition
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+    mechaniccheck = Harvest
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+        mechaniccheck = Incursion
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+     mechaniccheck = Metamorph
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+         mechaniccheck = Ritual
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+         mechaniccheck = Generic
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn + RitualOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 2:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
     Gui, 2:+AlwaysOnTop
     Gui, 2:Show, NoActivate x%width% y%height%, Overlay
     WinSet, Style, -0xC00000, Overlay
@@ -101,11 +301,13 @@ Loop
     {
         if (RitualButton = 1)
         {
-            Gosub, Monitor
-            Break
+            if (HarvestButton = 1)
+            {
+                Gosub, Monitor
+             Break
+            }
         }
     }
-
     IfWinNotActive, ahk_group PoeWindow
     {
         Gui, 1:Destroy
@@ -130,41 +332,104 @@ Loop
 }
 
 Reminder:
-        WarningActive = Yes
-        height1 := (A_ScreenHeight / 2) - 100
-        width1 := (A_ScreenWidth / 2)-180
-        Gui, 1:Destroy
-        Gui, 1:Font, cWhite s12
-        if RitualText !=
-        {
-            if MetamorphText !=
-            {
-                 Gui, 1:Add, Text,,Did you forget to complete your Metamorph and Ritual?
-            }
-            Else
-            {
-                 Gui, 1:Add, Text,,Did you forget to complete your Ritual?
-            }
-        }
+    WarningActive = Yes
+    height1 := (A_ScreenHeight / 2) - 100
+    width1 := (A_ScreenWidth / 2)-180
+    Gui, 1:Destroy
+    Gui, 1:Font, cWhite s12
+Active = 
+Active1 = 
+Active2 =
+Active3 =
+Active4 =
+Active5 =
+Active6 =
+Active7 =
+Active8 =
+Active9 =
 
-        if MetamorphText !=
-        {
-            if RitualText =
-            {
-                 Gui, 1:Add, Text,,Did you forget to complete your Metamorph?
-            }
-        }
-        Gui, 1:Font, s10
-        Gui, 1:Add, Button,x90 y40, Yes!
-        Gui, 1:Add, Button,x200 y40, No
-        Gui, 1:Color, 4e4f53
-        Gui, 1:-Border
-        Gui, 1:+AlwaysOnTop
-        Gui, 1:show, x%width1% y%height1%, Reminder
-        WinSet, Style, -0xC00000, Reminder
-        Gui, 2:Show, NoActivate x%width% y%height%, Overlay
-        Gosub, WindowMonitor
-        Return
+GoSub, MechanicsActive
+
+If (AbyssActive = 1)
+{
+    Active1 := "Abyss" A_Space
+}
+If (BlightActive = 1)
+{
+    Active2 := "Blight" A_Space
+}
+If (BreachActive = 1)
+{
+    Active3 := "Breach" A_Space
+}
+If (ExpeditionActive = 1)
+{
+    Active4 := "Expedition" A_Space
+}
+If (HarvestActive = 1)
+{
+    Active5 := "Harvest" A_Space
+}
+If (IncursionActive = 1)
+{
+    Active6 := "Incursion" A_Space
+}
+If (MetamorphActive = 1)
+{
+    Active7 := "Metamorph" A_Space
+}
+If (RitualActive = 1)
+{
+    Active8 := "Ritual" A_Space
+}
+If (GenericActive = 1)
+{
+    Active8 := "Mechanic" A_Space
+}
+
+MechanicsActive := MetamorphActive + RitualActive + HarvestActive + BlightActive + ExpeditionActive + AbyssActive + BreachActive + IncursionActive + GenericActive
+
+Active = %Active1%%Active2%%Active3%%Active4%%Active5%%Active6%%Active7%%Active8%%Active9%
+
+if (MechanicsActive >= 3)
+{
+    TMech := MechanicsActive - 2
+    ReminderText1 := StrReplace(Active, A_Space,",",, TMech)
+    Active1 := StrReplace(ReminderText1, A_Space, "and",, 1)
+    ReminderText2 := StrReplace(Active1, ",", ","A_Space)
+    Active2 := StrReplace(ReminderText2, "and", A_Space "and"A_Space)
+    
+    ReminderText := Active2
+}
+
+if (MechanicsActive = 2)
+{
+    ReminderText := StrReplace(Active, A_Space, A_Space "and" A_Space,, 1)
+}
+
+if (MechanicsActive = 1)
+{
+    ReminderText := Active
+}
+    Sleep, 100
+    Gui, 1:Add, Text,,Did you forget to complete your %ReminderText%?
+    Gui, 1:Font, s10
+    Gui, 1:Color, 4e4f53
+    Gui, 1:-Border
+    Gui, 1:+AlwaysOnTop
+    Gui, 1:Show, x%width1% y%height1%, Reminder
+    WinGetPos,,, Width, Height, Reminder
+    Gui, 1:Hide,
+    WinSet, Style, -0xC00000, Reminder
+    xpos := (width/4)
+    xpos2 := xpos+80
+    gheight := height + 20
+    nwidth := width1 - xpos
+    Gui, 1:Add, Button, x%xpos% y40, Yes!
+    Gui, 1:Add, Button,x%xpos2% y40, No
+    Gui, 1:Show, x%nwidth% y%height1% h%gheight%, Reminder
+    Gosub, WindowMonitor
+    Return
 
 GuiClose:
 ButtonYes!:
@@ -206,30 +471,139 @@ Return
 ButtonNo:
 Gui, 1:submit
 WarningActive = No
-MetamorphButton = 1
-RitualButton = 1
-MetamorphText =
-RitualText =
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Abyss
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Blight
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Breach
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Expedition
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Harvest
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Incursion
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Metamorph
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Ritual  
+IniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Generic
 Gui, 2:Destroy
 Gosub, Monitor
 Return
 
-Metamorph:
+Abyss:
+GoSub, MechanicsActive
 {
-if (MetamorphButton = 1)
+if (AbyssActive = 0)
     {
-        MetamorphButton = 2
-        MetamorphText = Metamorph
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Abyss
         Gui, 2:Destroy
         Gosub, Overlay
         Gosub, LogMonitor
         return
     }
 
-if (MetamorphButton = 2)
+if (AbyssActive = 1)
     {
-        MetamorphButton = 1
-        MetamorphText =
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Abyss
+        Gui, 2:Destroy
+        Gosub, Overlay
+        return
+    }
+}
+
+Blight:
+GoSub, MechanicsActive
+{
+if (BlightActive = 0)
+    {
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Blight
+        Gui, 2:Destroy
+        Gosub, Overlay
+        Gosub, LogMonitor
+        return
+    }
+
+if (BlightActive = 1)
+    {
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Blight
+        Gui, 2:Destroy
+        Gosub, Overlay
+        return
+    }
+}
+
+Breach:
+GoSub, MechanicsActive
+{
+if (BreachActive = 0)
+    {
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Breach
+        Gui, 2:Destroy
+        Gosub, Overlay
+        Gosub, LogMonitor
+        return
+    }
+
+if (BreachActive = 1)
+    {
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Breach
+        Gui, 2:Destroy
+        Gosub, Overlay
+        return
+    }
+}
+
+Expedition:
+GoSub, MechanicsActive
+{
+if (ExpeditionActive = 0)
+    {
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Expedition
+        Gui, 2:Destroy
+        Gosub, Overlay
+        Gosub, LogMonitor
+        return
+    }
+
+if (ExpeditionActive = 1)
+    {
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Expedition
+        Gui, 2:Destroy
+        Gosub, Overlay
+        return
+    }
+}
+
+Incursion:
+GoSub, MechanicsActive
+{
+if (IncursionActive = 0)
+    {
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Incursion
+        Gui, 2:Destroy
+        Gosub, Overlay
+        Gosub, LogMonitor
+        return
+    }
+
+if (IncursionActive = 1)
+    {
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Incursion
+        Gui, 2:Destroy
+        Gosub, Overlay
+        return
+    }
+}
+
+Metamorph:
+GoSub, MechanicsActive
+{
+if (MetamorphActive = 0)
+    {
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Metamorph
+        Gui, 2:Destroy
+        Gosub, Overlay
+        Gosub, LogMonitor
+        return
+    }
+
+if (MetamorphActive = 1)
+    {
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Metamorph
         Gui, 2:Destroy
         Gosub, Overlay
         return
@@ -237,21 +611,62 @@ if (MetamorphButton = 2)
 }
 
 Ritual:
+GoSub, MechanicsActive
 {
-if (RitualButton = 1)
+if (RitualActive = 0)
     {
-        RitualButton = 2
-        RitualText = Ritual
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Ritual
         Gui, 2:Destroy
         Gosub, Overlay
         Gosub, LogMonitor
         return
     }
 
-if (RitualButton = 2)
+if (RitualActive = 1)
     {
-        RitualButton = 1
-        RitualText =
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Ritual
+        Gui, 2:Destroy
+        Gosub, Overlay
+        return
+    }
+}
+
+Harvest:
+GoSub, MechanicsActive
+{
+if (HarvestActive = 0)
+    {
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Harvest
+        Gui, 2:Destroy
+        Gosub, Overlay
+        Gosub, LogMonitor
+        return
+    }
+
+if (HarvestActive = 1)
+    {
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Harvest
+        Gui, 2:Destroy
+        Gosub, Overlay
+        return
+    }
+}
+
+Generic:
+GoSub, MechanicsActive
+{
+if (GenericActive = 0)
+    {
+        iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Generic
+        Gui, 2:Destroy
+        Gosub, Overlay
+        Gosub, LogMonitor
+        return
+    }
+
+if (GenericActive = 1)
+    {
+        iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Generic
         Gui, 2:Destroy
         Gosub, Overlay
         return
@@ -263,13 +678,205 @@ Reload
 Return
 
 Move:
-heightoff := height - 25
-widthoff := width - 105
-    Gui, 3:Add, Picture, gnone x105 y5 w50 h40 , Resources/Images/metamorph.png
-    Gui, 3:Add, Picture, gnone x160 y5 w50 h40 , Resources/Images/Blood-filled_Vessel_inventory_icon.png
-    Gui, 3:Add, Button, gLock x20 y10, &Lock
+heightoff := height - 30
+widthoff := width - 5
+GoSub, RecheckMechanics
+mechaniccheck = Abyss
+    if (%mechaniccheck%On = 1)
+    {
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x5 y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x5 y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+mechaniccheck = Blight
+    if (%mechaniccheck%On = 1)
+    {
+        if (AbyssOn = 1)
+        {
+            rx=55
+        }
+        else
+        {
+            rx=0
+        }
+        mechanicx := rx+5
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+mechaniccheck = Breach
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+    mechaniccheck = Expedition
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+    mechaniccheck = Harvest
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+        mechaniccheck = Incursion
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+     mechaniccheck = Metamorph
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+         mechaniccheck = Ritual
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+
+             mechaniccheck = Generic
+    if (%mechaniccheck%On = 1)
+    {
+        mechanictest := AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn + RitualOn
+        if (mechanictest = 0)
+        {
+            mechanicx=5
+        }
+        else
+        {
+            mechanicx := (mechanictest*55)+5
+        }
+        if (%mechaniccheck%Active = 1)
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%_selected.png
+        }
+        Else
+        {
+            Gui, 3:Add, Picture, g%mechaniccheck% x%mechanicx% y5 w50 h40 , Resources/Images/%mechaniccheck%.png
+        }
+    }
+    Gui, 3:Add, Button, gLock x20 y50, &Lock
     Gui, 3:+AlwaysOnTop
-    Gui, 3:Show, x%widthoff% y%heightoff%, Move
+    GuiWidth := ((AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn + RitualOn + GenericOn)*55)+15
+    If (GuiWidth < 195)
+    {
+        GuiWidth := 200
+    }
+    Gui, 3:Show, x%widthoff% y%heightoff% w%GuiWidth%, Move
 Return
 
 none:
@@ -284,8 +891,8 @@ DetectHiddenWindows, On
 WinGetPos,newwidth, newheight
 Gui, 3:Submit
 Gui, 3:Destroy
-setheight:=newheight + 25
-setwidth:=newwidth + 105
+setheight:=newheight + 5
+setwidth:=newwidth + 15
 
 FileDelete, Resources/Settings/overlayposition.txt
 FileAppend, height=%setheight% `n, Resources/Settings/overlayposition.txt
@@ -297,7 +904,7 @@ Loop
 {
     IfWinNotActive, ahk_group PoeWindow
     {
-        Sleep, 100
+        Sleep, 200
         IfWinNotActive, ahk_group PoeWindow
         {
             Gui, 1:Destroy
@@ -390,7 +997,13 @@ If (InstalledVersion=CurrentVersion)
 }
 Else
 {
-    MsgBox, 1, Press OK to download, Your currently installed version is %InstalledVersion%. The latest is %CurrentVersion%.
+whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+whr.Open("GET", "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/changelog.txt", true)
+whr.Send()
+whr.WaitForResponse() 
+changelog := whr.ResponseText
+
+    MsgBox, 1, An update is available. Press OK to download., Your currently installed version is %InstalledVersion%. The latest is %CurrentVersion%.`n`nTo avoid the need to change all your settings on each update I recommend not copying over not copying the "Settings" folder from the update zip.`n`nChangelog:`n%changelog%
 	IfMsgBox OK
 	UrlDownloadToFile, *0 %UpdateUrl%, %Filename%
 	    if ErrorLevel = 1
@@ -400,4 +1013,35 @@ Else
 		else 
 			MsgBox, some other crazy error occured. 
 }
+Return
+
+SelectMechanics:
+RunWait, Resources\Scripts\MechanicSelector.ahk
+GoSub, RecheckMechanics
+Gui, 2:Destroy
+Gosub, Overlay
+Return
+
+MechanicsActive:
+IniRead, AbyssActive, Resources\Data\MechanicsActive.ini, Active, Abyss
+IniRead, BlightActive, Resources\Data\MechanicsActive.ini, Active, Blight
+IniRead, BreachActive, Resources\Data\MechanicsActive.ini, Active, Breach
+IniRead, ExpeditionActive, Resources\Data\MechanicsActive.ini, Active, Expedition
+IniRead, HarvestActive, Resources\Data\MechanicsActive.ini, Active, Harvest
+IniRead, IncursionActive, Resources\Data\MechanicsActive.ini, Active, Incursion
+IniRead, MetamorphActive, Resources\Data\MechanicsActive.ini, Active, Metamorph
+IniRead, RitualActive, Resources\Data\MechanicsActive.ini, Active, Ritual 
+IniRead, GenericActive, Resources\Data\MechanicsActive.ini, Active, Generic 
+Return
+
+RecheckMechanics:
+IniRead, AbyssOn, Resources\Settings\Mechanics.ini, Checkboxes, Abyss
+    IniRead, BlightOn, Resources\Settings\Mechanics.ini, Checkboxes, Blight
+    IniRead, BreachOn, Resources\Settings\Mechanics.ini, Checkboxes, Breach
+    IniRead, ExpeditionOn, Resources\Settings\Mechanics.ini, Checkboxes, Expedition
+    IniRead, HarvestOn, Resources\Settings\Mechanics.ini, Checkboxes, Harvest
+    IniRead, IncursionOn, Resources\Settings\Mechanics.ini, Checkboxes, Incursion
+    IniRead, MetamorphOn, Resources\Settings\Mechanics.ini, Checkboxes, Metamorph
+    IniRead, RitualOn, Resources\Settings\Mechanics.ini, Checkboxes, Ritual
+    IniRead, GenericOn, Resources\Settings\Mechanics.ini, Checkboxes, Generic
 Return
