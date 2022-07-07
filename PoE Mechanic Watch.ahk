@@ -297,19 +297,11 @@ LogMonitor: ;Monitor the PoE client.txt
 Gosub, GetLogPath
 Loop 
 {
-    if (MetamorphButton = 1)
-    {
-        if (RitualButton = 1)
-        {
-            if (HarvestButton = 1)
-            {
-                Gosub, Monitor
-             Break
-            }
-        }
-    }
     IfWinNotActive, ahk_group PoeWindow
     {
+        Sleep, 100
+        IfWinNotActive, ahk_group PoeWindow
+        {
         Gui, 1:Destroy
         Gui, 2:Destroy
         Loop
@@ -320,6 +312,7 @@ Loop
                 Gosub, LogMonitor
                 Break
             }
+        }
         }
     }
 
