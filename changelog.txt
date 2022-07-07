@@ -6,7 +6,7 @@ Breach
 Expedition
 Harvest
 Incursion
-Generic - (Generic was added to fulfill a request for 1 Button for All mechanic tracking, this may come in handy as a catch-all for future league mechanids.)
+Generic - (Generic was added to fulfill a request for 1 Button for All mechanic tracking, this may come in handy as a catch-all for future league mechanics.)
 
 Added images for each new mechanic. 
 Added MechanicSelector.ahk which handles selection of active mechanics. 
