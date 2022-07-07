@@ -14,3 +14,6 @@ Added Mechanics.ini for tracking of which mechanics are active.
 Added MechanicsActive.ini for tracking which mechanics are being currently tracked.
 Added a changelog 
 Changelog is now displayed in the update notification. 
+
+v1.1.2
+Fix button behavior
