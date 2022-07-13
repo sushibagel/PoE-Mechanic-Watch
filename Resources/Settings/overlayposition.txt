@@ -1,2 +1,2 @@
-height=947 
-width=1731
+height=948 
+width=1019

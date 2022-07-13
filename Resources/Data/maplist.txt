@@ -1,0 +1,100 @@
+Acid Caverns
+Alleyways
+Ancient City
+Arachnid Nest
+Arcade
+Arid Lake
+Armoury
+Arsenal
+Ashen Woods
+Atoll
+Barrows
+Basilica
+Bog
+Bone Crypt
+Caldera
+Canyon
+Carcass
+Cells
+Cemetery
+Chateau
+Colosseum
+Conservatory
+Core
+Courtyard
+Crimson Temple
+Crimson Township
+Cursed Crypt
+Dark Forest
+Defiled Cathedral 
+Desert
+Dig
+Dry Sea
+Dunes
+Dungeon
+Estuary
+Fields
+Flooded Mine
+Forbidden Woods
+Forking River
+Foundry
+Fungal Hollow
+Gardens
+Ghetto
+Glacier
+Grave Trough
+Grotto
+Haunted Mansion
+Laboratory
+Lair
+Lava Lake
+Leyline
+Lighthouse
+Lookout
+Malformation
+Mausoleum
+Maze
+Mineral Pools
+Moon Temple
+Mud Geyser
+Museum
+Necropolis
+Orchard
+Overgrown Ruin
+Overgrown Shrine
+Palace
+Park
+Pit
+Plateau
+Plaza
+Port
+Primordial Blocks
+Promenade
+Racecourse
+Reef
+Relic Chambers
+Sepulchre
+Shore
+Siege
+Silo
+Spider Forest
+Spider Lair
+Stagnation
+Strand
+Sulphur Vents
+Summit
+Sunken City
+Temple
+Terrace
+Thicket
+Tower
+Toxic Sewer
+Tropical Island
+Underground River
+Underground Sea
+Vaal Pyramid
+Vault
+Waste Pool
+Wasteland
+Waterways
+Wharf

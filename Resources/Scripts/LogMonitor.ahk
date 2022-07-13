@@ -1,7 +1,5 @@
 LogMonitor: ;Monitor the PoE client.txt
 Global IncursionGo
-Global IncursionGo1
-Global IncursionGo2
 IncursionGo = Master Explorer: Let,Master Explorer: It's time,Master Explorer: Time to
 
 Gosub, GetLogPath

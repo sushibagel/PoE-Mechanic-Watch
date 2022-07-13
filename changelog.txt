@@ -1,26 +1,9 @@
-Significantly reworked the script for better modularity, readability and to make adding future mechanics simpler. 
-Added an option to Launch Path of Exile to the Tray Menu.(Note: The game will need to be launched at least once with the script open before this works.)
-Added the following files:
-    Overlay.ahk         to:     Resources/Scripts/
-    Reminder.ahk        to:     Resources/Scripts/
-    Move.ahk            to:     Resources/Scripts/
-    UpdateCheck.ahk     to:     Resources/Scripts/
-    LaunchPath.txt      to:     Resources/Data/
+Added a notification sound for reminders. 
+        Note: The notification sound is off by default. 
+Added a "Sound Settings" tray menu option. 
+Added the following items for sound support:
+    notification.ini    to      Resources/Settings
+    "Sounds" Folder     to      Resources
+    reminder.wav        to      Resources/Sounds
 
-Added an Auto Enable/Disable feature. https://youtu.be/kMowzpj714A
-(Note: Auto Enable requires the the corresponding mechanic to be turned on seperately.)
-Added an option "Select Auto Enable" to the tray menu. 
-Auto Enable/Disable is currently only supported by Blight, Expedition and Incursion.
-(Note: For Incursion Auto Disable only happens after the completion of the 3rd encounter. If 3 Incursions aren't completed click the button to disable the reminders.)
-Added the following files to enable support for Auto Enable/Disable
-    blightdialogs.txt               Resources/Data/
-    blightdialogsdisable.txt        Resources/Data/
-    expeditiondialogs.txt           Resources/Data/
-    expeditiondialogsdisable.txt    Resources/Data/
-    incursiondialogs.txt            Resources/Data/
-    incursiondialogsdisable.txt     Resources/Data/
-    AutoMechanics.ini               Resources/Settings/
-    AutoMechanicSelector.ahk        Resources/Scripts/
-
-For this to work the "Output Dialogue To Chat" setting MUST be turned on in the "UI" section of the settings in game. 
-I'm considering this feature to be a in Beta as it's very likely not going to work in all scenarios. I've tried to be as thorough as possible in adding dialogs but I may have missed some as there is some variance in the. To give me feedback on this feature feel free to message me on Reddit at: Sushibagels, Message me in game at ExilesFate, on the Path Of Exile website at Sushibagel, or through the Github issue tracker.
+ To give me feedback feel free to message me on Reddit at: Sushibagels, Message me in game at ExilesFate, on the Path Of Exile website at Sushibagel, or through the Github issue tracker.

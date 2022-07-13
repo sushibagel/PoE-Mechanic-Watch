@@ -1,4 +1,7 @@
 Reminder:
+IniRead, NotificationSound, Resources/Settings/notification.ini, Sounds, Notification
+IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
+
 WarningActive = Yes
 height1 := (A_ScreenHeight / 2) - 100
 width1 := (A_ScreenWidth / 2)-180
@@ -58,6 +61,10 @@ if (MechanicsActive = 1)
     Gui, 1:Add, Button, x%xpos% y40, Yes!
     Gui, 1:Add, Button,x%xpos2% y40, No
     Gui, 1:Show, x%nwidth% y%height1% h%gheight%, Reminder
+    If (NotificationActive = 1)
+    {
+        SoundPlay, %NotificationSound%
+    }
     Gosub, WindowMonitor
     Return
 
@@ -140,3 +147,28 @@ Loop
         Break
     }
 }
+
+UpdateNotification:
+IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
+Gui, Sounds:Add, Checkbox, vNotification Checked%Notification%, Notification
+Gui, Sounds:Font, s10 Bold
+Gui, Sounds:Add, Button, x10 y210 w80 h40, Change Notification
+Gui, Sounds:Add, Button, x105 y210 w80 h40, OK
+Gui, Sounds:Show, W200, Sounds
+Return
+
+SoundsButtonOk: 
+Gui, Submit, NoHide 
+IniWrite, %Notification%, Resources/Settings/notification.ini, Active, Notification
+Gui, Destroy
+Return
+
+SoundsButtonChangeNotification:
+Gui, Submit, NoHide
+IniWrite, %Notification%, Resources/Settings/notification.ini, Active, Notification
+FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
+If (NewSound != "")
+{
+    IniWrite, %NewSound%, Resources/Settings/notification.ini, Sounds, Notification
+}
+Return

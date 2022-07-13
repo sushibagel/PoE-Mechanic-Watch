@@ -1,3 +1,8 @@
+;;;;; List of things to do to add a new mechanic. ;;;;;;;;
+;Add mechanic specific global variables
+;Add the mechanic to the "MechanicSearch" variable
+;Add mechanic specific sub routines
+
 #SingleInstance, force
 #Persistent
 #NoEnv
@@ -9,6 +14,7 @@ Menu, Tray, NoStandard
 Menu, Tray, Add, Set Hideout, SetHideout
 Menu, Tray, Add, Move Overlay, Move
 Menu, Tray, Add, Select Mechanics, SelectMechanics
+Menu, Tray, Add, Sound Settings, UpdateNotification
 Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add
@@ -29,6 +35,8 @@ Global MechanicsActive
 Global height
 Global width
 Global sleepmechanic
+Global NotificationSound
+Global NotificationActive
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
 Global AbyssOn
@@ -62,6 +70,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExile.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
+GroupAdd, PoeWindow, ahk_exe Code.exe ;;;;; Delete
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Setup ;;;;;;;;;;;;;;;;;;;;;;;;;
 Start:
