@@ -64,4 +64,5 @@ There are no obligations for anyone to donate but if you wish to you can here: [
 
 ![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
 
+Auto Mechanic Tracking Video
 [![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)
