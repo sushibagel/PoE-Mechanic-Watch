@@ -34,6 +34,12 @@ If clicking the "View Log" button isn't taking you to the correct path, this is 
 
 To avoid the need to change all your settings on each update I recommend not copying over not copying the "Settings" folder from the update zip. 
 
+The Auto Enable/Disable feature is currently in Beta. For it to work it requires the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. I've tried to be as thorough as possible in adding dialogs but I may have missed some as there is some variance in the.
+
+For the "Launch Path of Exile" tray menu command to work properly, the game must be launched at least once with this tool running first. 
+
+To give me feedback on feel free to message me on Reddit at: Sushibagels, message me in game at ExilesFate, on the Path Of Exile website at Sushibagel, or through the Github issue tracker.
+
 Additional Notes: 
 New hideouts can be added to the Hideout menu by editing the "HideoutList.txt" and typing in the hideout name on a new line. 
 
@@ -57,3 +63,5 @@ There are no obligations for anyone to donate but if you wish to you can here: [
 ![Set Hideout](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Set%20Hideout.jpg?raw=true)
 
 ![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
+
+[![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)
