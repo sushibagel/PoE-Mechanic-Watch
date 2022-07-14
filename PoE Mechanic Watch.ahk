@@ -2,6 +2,7 @@
 ;Add mechanic specific global variables
 ;Add the mechanic to the "MechanicSearch" variable
 ;Add mechanic specific sub routines
+;Add mechanic in MechanicSelector.ahk
 
 #SingleInstance, force
 #Persistent
@@ -14,8 +15,9 @@ Menu, Tray, NoStandard
 Menu, Tray, Add, Set Hideout, SetHideout
 Menu, Tray, Add, Move Overlay, Move
 Menu, Tray, Add, Select Mechanics, SelectMechanics
-Menu, Tray, Add, Sound Settings, UpdateNotification
 Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
+Menu, Tray, Add, Sound Settings, UpdateNotification
+Menu, Tray, Add, Change Hotkey, HotkeyUpdate
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
@@ -63,6 +65,8 @@ Global IncursionAuto
 Global BlightSleep
 Global ExpeditionSleep
 Global IncursionSleep
+Global SearingOn
+Global EaterOn
 
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
@@ -70,11 +74,10 @@ GroupAdd, PoeWindow, ahk_exe PathOfExile.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
-GroupAdd, PoeWindow, ahk_exe Code.exe ;;;;; Delete
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Setup ;;;;;;;;;;;;;;;;;;;;;;;;;
 Start:
-MechanicSearch = Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic
+MechanicSearch = Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic|Eater|Searing
 
 AutoMechanicSearch = Blight|Expedition|Incursion
 
@@ -131,6 +134,35 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
     If (%Mechanic% = 0)
     %Mechanic%On := 0
 }
+SetTitleMatchMode, 2
+FileRead, Influences, Resources/Data/Influences.txt
+Loop, 1
+For each, Influence in StrSplit(Influences, "|")
+{
+    IniRead, %Influence%, Resources/Settings/Mechanics.ini, Influence, %Influence%
+    If (%Influence% = 1)
+    %Influence%On := 1
+    If (%Influence% = 0)
+    %Influence%On := 0
+}
+If (SearingOn = 1) or (EaterOn = 1)
+{
+   IfWinActive, ahk_group PoeWindow
+   {
+    IfWinNotExist, Influences.ahk
+    {
+         Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
+    }
+   }
+}
+If (SearingOn = 0) and (EaterOn = 0)
+{
+    IfWinExist, Influences.ahk
+    {
+        WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
+    }
+}
+SetTitleMatchMode, 1
 Return
 
 MechanicsActive:
@@ -227,6 +259,14 @@ FileRead, PoeLaunch, Resources/Data/LaunchPath.txt
 run, %PoeLaunch%
 Return
 
+HotkeyUpdate:
+Run, Resources\Scripts\hotkeyselect.ahk
+RunWait, Resources\Scripts\hotkeyselect.ahk
+SetTitleMatchMode, 2
+WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
+SetTitleMatchMode, 1
+Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
+Return
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
 Abyss:
 GoSub, MechanicsActive
@@ -417,6 +457,22 @@ if (GenericActive = 1)
         return
     }
 }
+
+Eater:
+IniRead, Eater, Resources/Settings/Mechanics.ini, InfluenceTrack, Eater
+OldTrack := Eater
+Eater ++
+IniWrite, %Eater%, Resources/Settings/Mechanics.ini, InfluenceTrack, Eater
+ControlSetText, %OldTrack%, %Eater%, Overlay
+Return
+
+Searing:
+IniRead, Searing, Resources/Settings/Mechanics.ini, InfluenceTrack, Searing
+OldTrack := Searing
+Searing ++
+IniWrite, %Searing%, Resources/Settings/Mechanics.ini, InfluenceTrack, Searing
+ControlSetText, %OldTrack%, %Searing%, Overlay
+Return
 
 ;;;;;;;;;;;;;;;; Include Scripts ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 #Include, Resources/Scripts/tf.ahk
