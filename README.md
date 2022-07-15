@@ -11,6 +11,11 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 
 You can reposition the overlay to your liking by right clicking the script icon in your System Tray and selecting "Move Overlay" once positioned to your liking click "Lock" and the the overlay position will be remembered. You can also change the overlay position by changing the coordinates in the "overlayposition.txt" and restarting the script.
 
+Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon. 
+The Hotkey can be changed using the "Change Hotkey" tray menu option.
+
+Auto mechanic tracking for Blight, Expedition and Incursion can be enabled in a seperate menu. This feature requires the "Output Dialogue To Chat" setting turned on in the "UI" section of the settings in game. Incursion reminders are only disabled after the 3rd encounter. Please note this feature depends on NPC dialogs, due to dialogs being random it may not be 100% reliable. 
+
 Installation:
 To run this script you MUST have AutoHotKey installed. https://www.autohotkey.com/
 

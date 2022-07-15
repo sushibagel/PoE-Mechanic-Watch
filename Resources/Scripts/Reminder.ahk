@@ -151,9 +151,9 @@ Loop
 UpdateNotification:
 IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
 Gui, Sounds:Add, Checkbox, vNotification Checked%Notification%, Notification
-Gui, Sounds:Font, s10 Bold
-Gui, Sounds:Add, Button, x10 y210 w80 h40, Change Notification
-Gui, Sounds:Add, Button, x105 y210 w80 h40, OK
+Gui, Sounds:Font, s8 Bold
+Gui, Sounds:Add, Button, x10 y30 w80 h40, Change Notification
+Gui, Sounds:Add, Button, x105 y30 w80 h40, OK
 Gui, Sounds:Show, W200, Sounds
 Return
 

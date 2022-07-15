@@ -6,4 +6,14 @@ Added the following items for sound support:
     "Sounds" Folder     to      Resources
     reminder.wav        to      Resources/Sounds
 
+Added Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon. 
+Added a "Change Hotkey" tray menu option. This allows you to set a new hotkey for reversing the map count by 1. 
+Added the following items for Influenced Map tracking:
+        Influences.txt          to      Resources/Data
+        eater.png               to      Resources/Images
+        searing.png             to      Resources/Images
+        hotkeyselect.ahk        to      Resources/Scripts
+        Influences.ahk          to      Resources/Scripts
+        Hotkeys.ini             to      Resources/Settings
+
  To give me feedback feel free to message me on Reddit at: Sushibagels, Message me in game at ExilesFate, on the Path Of Exile website at Sushibagel, or through the Github issue tracker.

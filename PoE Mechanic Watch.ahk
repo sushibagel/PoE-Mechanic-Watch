@@ -249,6 +249,12 @@ Return
 
 SelectMechanics:
 RunWait, Resources\Scripts\MechanicSelector.ahk
+SetTitleMatchMode, 2
+WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
+SetTitleMatchMode, 1
+Sleep, 100
+Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
+Return
 GoSub, ReadMechanics
 Gui, 2:Destroy
 Gosub, Overlay

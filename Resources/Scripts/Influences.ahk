@@ -1,4 +1,5 @@
 DetectHiddenWindows, On
+Global LogPath
 Global SearingActive
 Global EaterActive
 Global InfluenceTrack
@@ -9,8 +10,8 @@ Global heigth
 Global Length
 Global Hotkey
 Global HK
-;;;;;; fix this !!!!
-LogPath = C:\Program Files (x86)\Steam\steamapps\common\Path of Exile\logs\Client.txt
+
+GoSub, GetLogPath
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 
 IniRead, Hotkey, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, 1
@@ -32,19 +33,20 @@ If Hotkey contains #
 {
     StringReplace, Hotkey, Hotkey, # , Win +%A_Space%,
 }
+
+InfluenceTrack:
+Gosub, InfluenceActive
 Winwait, Overlay
 WinGetPos,Width, Height, Length,, Overlay
 height := height - 50
 Length := Length - 10
-InfluenceTrack:
-Gosub, InfluenceActive
 
 FileRead, map, %UpOneLevel%Data\maplist.txt
 Loop
 For each, MapName in StrSplit(Map, "`n")
 {
 MapTrack  := TF_Tail(LogPath, 2)
-If MapTrack contains %MapName%
+If MapTrack contains %MapName% and not "Karui Shores"
 {
     IniRead, InfluenceTrack, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
 	OldTrack = %InfluenceTrack%
@@ -177,6 +179,52 @@ If (EaterActive = 1)
 }
 Return
 
+GetLogPath:
+WinGet, POEpath, ProcessPath, Path of Exile
+
+If (POEPath != "")
+{
+    FileDelete, Resources/Data/LaunchPath.txt
+    FileAppend, %POEpath%, Resources/Data/LaunchPath.txt
+}
+
+IfInstring, POEpath, PathOfExileSteam.exe
+{
+    StringTrimRight, POEPathTrim, POEpath, 20
+}
+
+IfInstring, POEpath, PathOfExile_x64Steam.exe
+{
+    StringTrimRight, POEPathTrim, POEpath, 23
+}
+
+IfInstring, POEpath, Client.exe
+{
+    StringTrimRight, POEPathTrim, POEpath, 10
+}
+
+IfInstring, POEpath, PathOfExile.exe
+{
+    StringTrimRight, POEPathTrim, POEpath, 15
+}
+
+IfInstring, POEpath, PathOfExile_x64.exe
+{
+    StringTrimRight, POEPathTrim, POEpath, 18
+}
+
+IfInstring, POEpath, PathOfExileEGS.exe
+{
+    StringTrimRight, POEPathTrim, POEpath, 18 
+}
+
+IfInstring, POEpath, PathOfExile_x64EGS.exe
+{
+    StringTrimRight, POEPathTrim, POEpath, 21 
+}
+
+LogPath = %POEPathTrim%logs\Client.txt
+Return
 
 ;;;;;;;; TF Info Here ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 /*

@@ -24,7 +24,7 @@ mechanictest = 0
             {
                 mechanicx := (mechanictest*55)+5
             }
-            If (%Mechanic% = Eater) or (%Mechanic% = Searing)
+            If (Mechanic = "Eater") or (Mechanic = "Searing")
             {
                 IniRead, InfluenceCount, Resources/Settings/Mechanics.ini, InfluenceTrack, %Mechanic%
                 Gui, 2:Font, cWhite s12
