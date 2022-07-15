@@ -2,9 +2,9 @@ SelectAuto:
 Gosub, ReadAutoMechanics
 Sleep, 100
 Gui, Auto:-Border
-Gui, Auto:Color, 4e4f53
+Gui, Auto:Color, %Background%
 Gui, Auto:-Caption
-Gui, Auto:Font, cWhite s10
+Gui, Auto:Font, c%Font% s10
 Loop, 1
 For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
 {

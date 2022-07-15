@@ -6,7 +6,7 @@ WarningActive = Yes
 height1 := (A_ScreenHeight / 2) - 100
 width1 := (A_ScreenWidth / 2)-180
 Gui, 1:Destroy
-Gui, 1:Font, cWhite s12
+Gui, 1:Font, c%Font% s12
 
 ;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
 Gosub, MechanicsActive
@@ -47,7 +47,7 @@ if (MechanicsActive = 1)
     Sleep, 100
     Gui, 1:Add, Text,,Did you forget to complete your %ReminderText%?
     Gui, 1:Font, s10
-    Gui, 1:Color, 4e4f53
+    Gui, 1:Color, %Background%
     Gui, 1:-Border
     Gui, 1:+AlwaysOnTop
     Gui, 1:Show, x%width1% y%height1%, Reminder
@@ -150,10 +150,10 @@ Loop
 
 UpdateNotification:
 IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
-Gui, Sounds:Font, cWhite s10
+Gui, Sounds:Font, c%Font% s10
 Gui, Sounds:Add, Checkbox, vNotification Checked%Notification%, Notification
 Gui, Sounds:-Border
-Gui, Sounds:Color, 4e4f53
+Gui, Sounds:Color, %Background%
 Gui, Sounds:-Caption
 Gui, Sounds:Font, s8 Bold
 Gui, Sounds:Add, Button, x10 y30 w80 h30, Change Notification

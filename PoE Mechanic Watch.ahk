@@ -42,6 +42,9 @@ Global width
 Global sleepmechanic
 Global NotificationSound
 Global NotificationActive
+Global Background
+Global Secondary
+Global Font
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
 Global AbyssOn
@@ -86,6 +89,8 @@ AutoMechanicSearch = Blight|Expedition|Incursion
 
 GoSub, UpdateCheck
 GoSub, GetLogPath
+
+Gosub, CheckTheme
 
 Gosub, GetHideout
 GoSub, ReadMechanics
@@ -239,6 +244,7 @@ Reload
 Return
 
 Exit:
+Gosub, ExitInfluences
 ExitApp
 Return
 
@@ -285,6 +291,13 @@ ExitInfluences:
 SetTitleMatchMode, 2
 WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
 SetTitleMatchMode, 1
+Return
+
+CheckTheme:
+IniRead, ColorMode, Resources/Settings/Theme.ini, Theme, Theme
+IniRead, Font, Resources/Settings/Theme.ini, %ColorMode%, Font
+IniRead, Background, Resources/Settings/Theme.ini, %ColorMode%, Background
+IniRead, Secondary, Resources/Settings/Theme.ini, %ColorMode%, Secondary
 Return
 
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;

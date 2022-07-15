@@ -5,10 +5,14 @@ SetBatchLines, -1
 
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 
-Gui, Color, 4e4f53
+IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
+IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
+IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
+
+Gui, Color, %Background%
 #ctrls = 1  ;How many Hotkey controls to add.
 Loop,% #ctrls {
- Gui, Font, cWhite s11
+ Gui, Font, c%Font% s11
  Gui, Add, Text, xm, Reverse Map Count Hotkey #%A_Index%:
  IniRead, savedHK%A_Index%, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, %A_Index%, %A_Space%
  If savedHK%A_Index%                                       ;Check for saved hotkeys in INI file.
@@ -21,7 +25,7 @@ Loop,% #ctrls {
 Gui, Show,,Dynamic Hotkeys
 return
 GuiClose:
- ExitApp
+ExitApp
 
 Label:
  If %A_GuiControl% in +,^,!,+^,+!,^!,+^!    ;If the hotkey contains only modifiers, return to wait for a key.

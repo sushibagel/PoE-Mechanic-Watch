@@ -3,9 +3,13 @@
 Start:
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 
+IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
+IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
+IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
+
 MechanicSearch = Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic
 
-Gui, Mechanic:Font, cWhite s10
+Gui, Mechanic:Font, c%Font% s10
 Loop, 1
 For each, Mechanic in StrSplit(MechanicSearch, "|")
 {
@@ -35,14 +39,14 @@ For each, Influence in StrSplit(Influences, "|")
     IniRead, %Influence%State, %UpOneLevel%/Settings/Mechanics.ini, Influence, %Influence%
 }
 Gui, Mechanic:-Border
-Gui, Mechanic:Color, 4e4f53
+Gui, Mechanic:Color, %Background%
 Gui, Mechanic:-Caption
-Gui, Mechanic:Font, s1 ce5f1fb
+Gui, Mechanic:Font, s1 %Seondary%
 Gui, Mechanic:Add, Text
 Gui, Mechanic:Add, Text, w200 0x10
 Gui, Mechanic:Font, Bold s11
 Gui, Mechanic:Add, Text,,Select One
-Gui, Mechanic:Font, s1 cWhite
+Gui, Mechanic:Font, s1 c%Font%
 Gui, Mechanic:Font, Normal s10
 FileRead, Influences, %UpOneLevel%Data/Influences.txt
 For each, Influence in StrSplit(Influences, "|")

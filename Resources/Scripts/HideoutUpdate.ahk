@@ -5,19 +5,24 @@ Global HideoutSet
 Global UpOneLevel
 Global UpTwoLevels
 
+StringTrimRight, UpOneLevel, A_ScriptDir, 7
+StringTrimRight, UpTwoLevels, UpOneLevel, 10
+
+IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
+IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
+IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
+IniRead, Secondary, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Secondary
+
 LVArray := []
-Gui, Add, Text, cWhite ,Search:
+Gui, Add, Text, c%Font% ,Search:
 Gui, Add, Edit, w130 vSearchTerm gSearch -Caption -Border
-Gui, Color, Edit, a6a6a6
+Gui, Color, Edit, %Secondary%
 Gui, Add, ListView, grid r15 w130 vLV gSubmit +AltSubmit, Hideout Name
 Gui, +AlwaysOnTop
 Gui, -Border
-Gui, Color, 4e4f53
+Gui, Color, %Background%
 Gui, -Caption
 Gui, Add, Button, gCancel, &Cancel
-
-StringTrimRight, UpOneLevel, A_ScriptDir, 7
-StringTrimRight, UpTwoLevels, UpOneLevel, 10
 
 Loop, Read, %UpOneLevel%Data\HideoutList.txt
 {
@@ -60,9 +65,7 @@ Enter::
 NumpadEnter::
 if SearchTerm =
 {
-   Gui, Destroy
-   MsgBox, Warning! You Submitted a blank hideout name. Please select a valid hideout!
-   Reload
+   Gosub, Warning
 }
 Else
 {
@@ -86,6 +89,7 @@ Gui, Destroy
 GoSub, WriteFile
 Return
 }
+Return
 
 WriteFile:
 if HideoutSet !=
@@ -96,3 +100,19 @@ if HideoutSet !=
    Run, %UpTwoLevels%PoE Mechanic Watch.ahk
    ExitApp
 }
+
+WarningButtonOK:
+Reload
+ExitApp
+Return
+
+Warning:
+   Gui, Destroy
+   Gui, Warning:Font, s11
+   Gui, Warning:Add, Text, c%Font% ,Warning! You Submitted a blank hideout name. Please select a valid hideout!
+   Gui, Warning:+AlwaysOnTop
+   Gui, Warning:-Border
+   Gui, Warning:Color, %Background%
+   Gui, Warning:-Caption
+   Gui, Warning:Add, Button,,&OK
+   Gui, Warning:Show

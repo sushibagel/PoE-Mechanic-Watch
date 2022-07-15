@@ -9,7 +9,8 @@ widthoff := width - 5
 GoSub, ReadMechanics
 GoSub, MechanicsActive
 mechanictest = 0
-
+Gui, 3:Color, %Background%
+Gui, 3:Font, c%Font% s11
 Loop, 1
 For each, Mechanic in StrSplit(MechanicSearch, "|")
 {
@@ -40,9 +41,9 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
     Gui, 3:Add, Button, gLock x20 y50, &Lock
     If (mechanicx < 200)
     {
-        mechanicx = 200
+        mechanicx = 190
     }
-    Gui, 3:Add, Text, +Wrap w%mechanicx% y53 x60,Drag around and press "Lock" to reposition overlay.
+    Gui, 3:Add, Text, +Wrap w%mechanicx% y53 x70,Drag around and press "Lock" to reposition overlay.
     Gui, 3:+AlwaysOnTop
     GuiWidth := ((AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn + RitualOn + GenericOn + SearingOn + EaterOn)*55)+15
     If (GuiWidth < 250)

@@ -12,10 +12,18 @@ Global Length
 Global HK
 Global NotMaps
 Global MyHideout
+Global Background
+Global Font
+Global Secondary
 
 GoSub, GetLogPath
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 Gosub, GetHideout
+
+IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
+IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
+IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
+IniRead, Secondary, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Secondary
 
 NotMaps = Karui Shores
 GoSub, HotkeySet
@@ -61,8 +69,8 @@ If MapTrack contains %MapName%
     InfluenceTrack ++
 	ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
     IniWrite, %InfluenceTrack%, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
-    Gui, Influence:Color, 4e4f53
-    Gui, Influence:Font, cWhite s10
+    Gui, Influence:Color, %Background%
+    Gui, Influence:Font, c%Font% s10
     Gui, Influence:-Border
     Gui, Influence:+AlwaysOnTop
     Gui, Influence:Add, Text,,You just entered a new map, press %HK% to subtract 1 map
@@ -76,7 +84,7 @@ If MapTrack contains %MapName%
 
     If (InfluenceTrack = 14)
         {
-            Gui, Reminder:Font, cWhite s12
+            Gui, Reminder:Font, c%Font% s12
             If (InfluenceActive = "Searing")
             {
                 Gui, Reminder:Add, Text,,This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
@@ -89,7 +97,7 @@ If MapTrack contains %MapName%
         }
     If (InfluenceTrack = 28)
             {
-            Gui, Reminder:Font, cWhite s12
+            Gui, Reminder:Font, c%Font% s12
             If (InfluenceActive = "Searing")
             {
                 Gui, Reminder:Add, Text,,This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
@@ -135,7 +143,7 @@ Reminder:
 height1 := (A_ScreenHeight / 2) - 100
 width1 := (A_ScreenWidth / 2)-180
 Gui, Reminder:Font, s10
-Gui, Reminder:Color, 4e4f53
+Gui, Reminder:Color, %Background%
 Gui, Reminder:-Border
 Gui, Reminder:+AlwaysOnTop
 Gui, Reminder:Add, Button, x150 y40, OK
