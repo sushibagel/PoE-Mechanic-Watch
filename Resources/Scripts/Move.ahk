@@ -38,11 +38,16 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
 }
 
     Gui, 3:Add, Button, gLock x20 y50, &Lock
-    Gui, 3:+AlwaysOnTop
-    GuiWidth := ((AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn + RitualOn + GenericOn)*55)+15
-    If (GuiWidth < 195)
+    If (mechanicx < 200)
     {
-        GuiWidth := 200
+        mechanicx = 200
+    }
+    Gui, 3:Add, Text, +Wrap w%mechanicx% y53 x60,Drag around and press "Lock" to reposition overlay.
+    Gui, 3:+AlwaysOnTop
+    GuiWidth := ((AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn + RitualOn + GenericOn + SearingOn + EaterOn)*55)+15
+    If (GuiWidth < 250)
+    {
+        GuiWidth := 250
     }
     Gui, 3:Show, x%widthoff% y%heightoff% w%GuiWidth%, Move
 Return

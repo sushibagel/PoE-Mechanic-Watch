@@ -4,7 +4,7 @@ StringTrimLeft, height, heightVar, 7
 FileReadLine, widthVar, Resources/Settings/overlayposition.txt, 2
 StringTrimLeft, width, widthVar, 6
 Gui, 2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-Gui, 2:Color, 808080
+Gui, 2:Color, 1e1e1e
 Gosub, ReadMechanics
 Gosub, MechanicsActive
 mechanictest = 0
@@ -33,11 +33,11 @@ mechanictest = 0
             }
             if (%mechanicactive% = 1)
             {
-                Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40 , Resources/Images/%Mechanic%_selected.png
+                Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%_selected.png
             }
             Else
             {
-                Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40 , Resources/Images/%Mechanic%.png
+                Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%.png
             }
             mechanictest ++
         }
@@ -45,5 +45,5 @@ mechanictest = 0
 Gui, 2:+AlwaysOnTop
 Gui, 2:Show, NoActivate x%width% y%height%, Overlay
 WinSet, Style, -0xC00000, Overlay
-WinSet, TransColor, 808080, Overlay
+WinSet, TransColor, 1e1e1e, Overlay
 Return

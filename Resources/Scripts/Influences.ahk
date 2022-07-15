@@ -1,3 +1,4 @@
+#NoTrayIcon
 DetectHiddenWindows, On
 Global LogPath
 Global SearingActive
@@ -8,15 +9,17 @@ Global InfluenceActive
 Global width
 Global heigth
 Global Length
-Global Hotkey
 Global HK
+Global NotMaps
+Global MyHideout
 
 GoSub, GetLogPath
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
+Gosub, GetHideout
 
-IniRead, Hotkey, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, 1
-Hk := Hotkey
-Hotkey, ~%HK%, SubtractOne
+NotMaps = Karui Shores
+GoSub, HotkeySet
+
 If Hotkey contains +
 {
     StringReplace, Hotkey, Hotkey, + , Shift +%A_Space%,
@@ -45,9 +48,14 @@ FileRead, map, %UpOneLevel%Data\maplist.txt
 Loop
 For each, MapName in StrSplit(Map, "`n")
 {
-MapTrack  := TF_Tail(LogPath, 2)
-If MapTrack contains %MapName% and not "Karui Shores"
+MapTrack  := TF_Tail(LogPath, 3)
+If MapTrack contains %MapName%
 {
+	If MapTrack contains %NotMaps%
+	{
+		Gosub, InfluenceTrack
+		Break
+	}
     IniRead, InfluenceTrack, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
 	OldTrack = %InfluenceTrack%
     InfluenceTrack ++
@@ -57,7 +65,7 @@ If MapTrack contains %MapName% and not "Karui Shores"
     Gui, Influence:Font, cWhite s10
     Gui, Influence:-Border
     Gui, Influence:+AlwaysOnTop
-    Gui, Influence:Add, Text,,You just entered a new map, press %Hotkey% to subtract 1 map
+    Gui, Influence:Add, Text,,You just entered a new map, press %HK% to subtract 1 map
     Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
     WinSet, Style, -0xC00000, Influence
     WinGetPos, Xi, Yi, Widthi, Heighti, Influence
@@ -95,9 +103,11 @@ If MapTrack contains %MapName% and not "Karui Shores"
     Loop
     {
         MapTrack  := TF_Tail(LogPath, 2)
-        If MapTrack not contains %MapName%
+        If MapTrack contains %MyHideout%
         {
-            Gosub, InfluenceTrack
+			Sleep 500
+            Reload
+			Break
         }
     }
 }
@@ -154,6 +164,7 @@ If (SearingActive = 1)
 }
 Sleep, 100
 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+Reload
 Return
 
 InfluenceActive:
@@ -224,6 +235,17 @@ IfInstring, POEpath, PathOfExile_x64EGS.exe
 }
 
 LogPath = %POEPathTrim%logs\Client.txt
+Return
+
+HotkeySet:
+IniRead, Hotkey1, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, 1
+Hk := Hotkey1
+Hotkey, %HK%, SubtractOne
+Return
+
+GetHideout:
+FileReadLine, hideoutcheck, %UpOneLevel%Settings/CurrentHideout.txt, 1
+StringTrimLeft, MyHideout, hideoutcheck, 12 
 Return
 
 ;;;;;;;; TF Info Here ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

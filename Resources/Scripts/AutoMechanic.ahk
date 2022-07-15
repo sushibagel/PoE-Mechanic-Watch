@@ -1,6 +1,10 @@
 SelectAuto:
 Gosub, ReadAutoMechanics
 Sleep, 100
+Gui, Auto:-Border
+Gui, Auto:Color, 4e4f53
+Gui, Auto:-Caption
+Gui, Auto:Font, cWhite s10
 Loop, 1
 For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
 {
@@ -15,7 +19,7 @@ For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     }
     Gui, Auto:Add, Checkbox, v%Mechanic% Checked%autochecked%, %Mechanic%
 }
-Gui, Auto:Font, s10 Bold
+Gui, Auto:Font, s10
 Gui, Auto:Add, Text, +Wrap w180, Note: to use Auto Mechanics the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel. 
 Gui, Auto:Add, Button, x10 y210 w80 h40, Select Mechanics
 Gui, Auto:Add, Button, x105 y210 w80 h40, OK

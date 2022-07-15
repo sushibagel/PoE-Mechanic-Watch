@@ -1,8 +1,11 @@
+#SingleInstance, Force
+
 Start:
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 
 MechanicSearch = Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic
 
+Gui, Mechanic:Font, cWhite s10
 Loop, 1
 For each, Mechanic in StrSplit(MechanicSearch, "|")
 {
@@ -31,12 +34,16 @@ For each, Influence in StrSplit(Influences, "|")
 {
     IniRead, %Influence%State, %UpOneLevel%/Settings/Mechanics.ini, Influence, %Influence%
 }
-Gui, Mechanic:Font, s1
+Gui, Mechanic:-Border
+Gui, Mechanic:Color, 4e4f53
+Gui, Mechanic:-Caption
+Gui, Mechanic:Font, s1 ce5f1fb
 Gui, Mechanic:Add, Text
 Gui, Mechanic:Add, Text, w200 0x10
-Gui, Mechanic:Font, Bold s10
+Gui, Mechanic:Font, Bold s11
 Gui, Mechanic:Add, Text,,Select One
-Gui, Mechanic:Font, Normal s8
+Gui, Mechanic:Font, s1 cWhite
+Gui, Mechanic:Font, Normal s10
 FileRead, Influences, %UpOneLevel%Data/Influences.txt
 For each, Influence in StrSplit(Influences, "|")
 {
@@ -52,8 +59,13 @@ For each, Influence in StrSplit(Influences, "|")
     Gui, Mechanic:Add, Checkbox, v%Influence% Checked%autochecked%, %Influence%
 }
 
-Gui, Mechanic:Add, Button, x100 y245 w80 h20, OK
+Gui, Mechanic:Add, Button, x100 y295 w80 h20, OK
 Gui Mechanic:Show
+Return
+
+MechanicGuiClose:
+ExitApp
+Gui, Destroy
 Return
 
 MechanicButtonOk: 

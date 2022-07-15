@@ -150,13 +150,18 @@ Loop
 
 UpdateNotification:
 IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
+Gui, Sounds:Font, cWhite s10
 Gui, Sounds:Add, Checkbox, vNotification Checked%Notification%, Notification
+Gui, Sounds:-Border
+Gui, Sounds:Color, 4e4f53
+Gui, Sounds:-Caption
 Gui, Sounds:Font, s8 Bold
-Gui, Sounds:Add, Button, x10 y30 w80 h40, Change Notification
-Gui, Sounds:Add, Button, x105 y30 w80 h40, OK
-Gui, Sounds:Show, W200, Sounds
+Gui, Sounds:Add, Button, x10 y30 w80 h30, Change Notification
+Gui, Sounds:Add, Button, x105 y30 w80 h30, OK
+Gui, Sounds:Show, W200 h70, Sounds
 Return
 
+SoundsGuiClose:
 SoundsButtonOk: 
 Gui, Submit, NoHide 
 IniWrite, %Notification%, Resources/Settings/notification.ini, Active, Notification

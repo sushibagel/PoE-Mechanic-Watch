@@ -5,8 +5,10 @@ SetBatchLines, -1
 
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 
+Gui, Color, 4e4f53
 #ctrls = 1  ;How many Hotkey controls to add.
 Loop,% #ctrls {
+ Gui, Font, cWhite s11
  Gui, Add, Text, xm, Reverse Map Count Hotkey #%A_Index%:
  IniRead, savedHK%A_Index%, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, %A_Index%, %A_Space%
  If savedHK%A_Index%                                       ;Check for saved hotkeys in INI file.
@@ -53,7 +55,7 @@ setHK(num,INI,GUI) {
   Hotkey, %GUI%, Label%num%, On
  IniWrite,% GUI ? GUI:null, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, %num%
  savedHK%num%  := HK%num%
- TrayTip, Label%num%,% !INI ? GUI " ON":!GUI ? INI " OFF":GUI " ON`n" INI " OFF"
+ TrayTip, Map Hotkey Changed, % !INI ? GUI " ON":!GUI ? INI " OFF":GUI " ON`n" INI " OFF"
 }
 
 ;These labels may contain any commands for their respective hotkeys to perform.

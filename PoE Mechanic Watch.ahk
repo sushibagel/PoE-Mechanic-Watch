@@ -20,6 +20,9 @@ Menu, Tray, Add, Sound Settings, UpdateNotification
 Menu, Tray, Add, Change Hotkey, HotkeyUpdate
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add
+Menu, Tray, Add, Reload Influences.ahk, ReloadInfluences
+Menu, Tray, Add, Exit Influences.ahk, ExitInfluences
+Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add, Check for Updates, UpdateCheck
 Menu, Tray, Add, View Log, ViewLog
@@ -268,11 +271,22 @@ Return
 HotkeyUpdate:
 Run, Resources\Scripts\hotkeyselect.ahk
 RunWait, Resources\Scripts\hotkeyselect.ahk
+Gosub, ReloadInfluences
+Return
+
+ReloadInfluences:
 SetTitleMatchMode, 2
 WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
 SetTitleMatchMode, 1
 Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
 Return
+
+ExitInfluences:
+SetTitleMatchMode, 2
+WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
+SetTitleMatchMode, 1
+Return
+
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
 Abyss:
 GoSub, MechanicsActive

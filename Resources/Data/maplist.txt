@@ -3,6 +3,7 @@ Alleyways
 Ancient City
 Arachnid Nest
 Arcade
+Arena
 Arid Lake
 Armoury
 Arsenal
@@ -10,34 +11,48 @@ Ashen Woods
 Atoll
 Barrows
 Basilica
+Bazaar
+Beach
 Bog
 Bone Crypt
+Bramble Valley
+Burial Chambers
+Cage
 Caldera
 Canyon
 Carcass
 Cells
 Cemetery
 Chateau
+City Square
+Cold River
+Colonnade
 Colosseum
 Conservatory
+Coral Ruins
 Core
 Courtyard
 Crimson Temple
 Crimson Township
+Crystal Ore
 Cursed Crypt
 Dark Forest
 Defiled Cathedral 
 Desert
+Desert Springs
 Dig
 Dry Sea
 Dunes
 Dungeon
 Estuary
+Factory
 Fields
 Flooded Mine
 Forbidden Woods
 Forking River
+Forge of the Phoenix
 Foundry
+Frozen Cabins
 Fungal Hollow
 Gardens
 Ghetto
@@ -45,15 +60,24 @@ Glacier
 Grave Trough
 Grotto
 Haunted Mansion
+Iceberg
+Infested Valley
+Ivory Temple
+Jungle Valley
 Laboratory
 Lair
+Lair of the Hydra
+Lava Chamber
 Lava Lake
 Leyline
 Lighthouse
 Lookout
 Malformation
+Marshes
 Mausoleum
 Maze
+Maze of the Minotaur
+Mesa
 Mineral Pools
 Moon Temple
 Mud Geyser
@@ -64,15 +88,21 @@ Overgrown Ruin
 Overgrown Shrine
 Palace
 Park
+Peninsula
 Pit
+Pit of the Chimera
 Plateau
 Plaza
 Port
+Precinct
 Primordial Blocks
+Primordial Pool
 Promenade
 Racecourse
+Ramparts
 Reef
 Relic Chambers
+Residence
 Sepulchre
 Shore
 Siege
@@ -94,6 +124,8 @@ Underground River
 Underground Sea
 Vaal Pyramid
 Vault
+Villa
+Volcano
 Waste Pool
 Wasteland
 Waterways

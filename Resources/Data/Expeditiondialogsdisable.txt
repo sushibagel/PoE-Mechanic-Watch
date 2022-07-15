@@ -15,7 +15,8 @@ Tujen: Treasure'll make this worth it.
 Tujen: After a bit of that ancient treasure
 Tujen: It'll be a battle then
 Tujen: Shall we
-Toujen: Rousing a fight
+Tujen: Rousing a fight
+Tujen: Risky choice
 Rog: I hope you know what you're doing
 Rog: Stay safe
 go after the treasure

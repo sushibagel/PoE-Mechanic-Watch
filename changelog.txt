@@ -1,3 +1,16 @@
+v1.2.2
+Fixed the behavior of the notification sound settings if the box is closed.
+Removed the tray menu icon for Influences.ahk. Added controls to the main script to reload and close Influences.ahk.
+
+Added an additional Tujen voice line, for auto disabling.
+
+Updated the theming of several settings menus. 
+
+Updated the list of maps.... (Wiki was apparently very outdated...)
+
+Fixed some issues with Influenced Map tracking
+
+v1.2.1
 Added a notification sound for reminders. 
         Note: The notification sound is off by default. 
 Added a "Sound Settings" tray menu option. 
