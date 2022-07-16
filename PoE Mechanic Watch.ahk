@@ -18,10 +18,10 @@ Menu, Tray, Add, Select Mechanics, SelectMechanics
 Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
 Menu, Tray, Add, Sound Settings, UpdateNotification
 Menu, Tray, Add, Change Hotkey, HotkeyUpdate
+Menu, Tray, Add, Change Theme, SelectTheme
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add
 Menu, Tray, Add, Reload Influences.ahk, ReloadInfluences
-Menu, Tray, Add, Exit Influences.ahk, ExitInfluences
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add, Check for Updates, UpdateCheck
@@ -511,3 +511,4 @@ Return
 #Include, Resources/Scripts/Move.ahk
 #Include, Resources/Scripts/AutoMechanic.ahk
 #Include, Resources/Scripts/LogMonitor.ahk
+#Include, Resources/Scripts/SelectTheme.ahk
