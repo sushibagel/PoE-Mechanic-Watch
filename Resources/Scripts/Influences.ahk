@@ -19,6 +19,7 @@ Global MyHideout
 Global Background
 Global Font
 Global Secondary
+Global CurrentInfluence
 
 GoSub, GetLogPath
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
@@ -69,6 +70,8 @@ If MapTrack contains %MapName%
 		Gosub, InfluenceTrack
 		Break
 	}
+	If (CurrentInfluence != None)
+	{
     IniRead, InfluenceTrack, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
 	OldTrack = %InfluenceTrack%
     InfluenceTrack ++
@@ -113,6 +116,7 @@ If MapTrack contains %MapName%
             }
             Gosub, Reminder
         }
+	}
     Loop
     {
         MapTrack  := TF_Tail(LogPath, 2)
@@ -210,6 +214,15 @@ If (SearingActive = 1)
 If (EaterActive = 1)
 {
     InfluenceActive = Eater
+}
+
+If (EaterActive = 0) and (SearingActive = 0)
+{
+	CurrentInfluence = None
+}
+Else
+{
+	CurrentInfluence = %InfluenceActive%
 }
 Return
 
