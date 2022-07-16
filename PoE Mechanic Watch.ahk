@@ -153,16 +153,12 @@ For each, Influence in StrSplit(Influences, "|")
     If (%Influence% = 0)
     %Influence%On := 0
 }
-If (SearingOn = 1) or (EaterOn = 1)
+IfWinNotExist, Influences.ahk
 {
-   IfWinActive, ahk_group PoeWindow
-   {
-    IfWinNotExist, Influences.ahk
-    {
-         Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
-    }
-   }
+    Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
 }
+
+
 If (SearingOn = 0) and (EaterOn = 0)
 {
     IfWinExist, Influences.ahk
