@@ -1,4 +1,8 @@
 #NoTrayIcon
+GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
+GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
+GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
+#IfWinActive Ahk_Group PoeWindow
 DetectHiddenWindows, On
 Global LogPath
 Global SearingActive
@@ -53,8 +57,9 @@ height := height - 50
 Length := Length - 10
 
 FileRead, map, %UpOneLevel%Data\maplist.txt
+
 Loop
-For each, MapName in StrSplit(Map, "`n")
+For each, MapName in StrSplit(Map, "`n", "`r")
 {
 MapTrack  := TF_Tail(LogPath, 3)
 If MapTrack contains %MapName%
@@ -172,6 +177,16 @@ If (SearingActive = 1)
 }
 Sleep, 100
 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+    Loop
+    {
+        MapTrack  := TF_Tail(LogPath, 2)
+        If MapTrack contains %MyHideout%
+        {
+			Sleep 500
+            Reload
+			Break
+        }
+    }
 Reload
 Return
 
@@ -200,12 +215,6 @@ Return
 
 GetLogPath:
 WinGet, POEpath, ProcessPath, Path of Exile
-
-If (POEPath != "")
-{
-    FileDelete, Resources/Data/LaunchPath.txt
-    FileAppend, %POEpath%, Resources/Data/LaunchPath.txt
-}
 
 IfInstring, POEpath, PathOfExileSteam.exe
 {
