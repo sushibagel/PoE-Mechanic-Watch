@@ -62,12 +62,11 @@ There are no obligations for anyone to donate but if you wish to you can here: [
 
 ![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay%20Active.jpg?raw=true)
 
-![Notification](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Notification.jpg?raw=true)
-
 ![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Move%20Overlay.jpg?raw=true)
 
-![Set Hideout](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Set%20Hideout.jpg?raw=true)
+![Theme Selector](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Theme%20Selector.png?raw=true)
 
 ![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
 
+See Auto-Mechanic Tracking in action (Click Image Below)
 [![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)

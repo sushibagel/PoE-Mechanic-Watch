@@ -1,32 +1,8 @@
-v1.2.2
-Fixed the behavior of the notification sound settings if the box is closed.
-Removed the tray menu icon for Influences.ahk. Added controls to the main script to reload and close Influences.ahk.
+v1.2.3
+More fixes to Influence tracking
 
-Added an additional Tujen voice line, for auto disabling.
-
-Updated the theming of several settings menus. 
-
-Updated the list of maps.... (Wiki was apparently very outdated...)
-
-Fixed some issues with Influenced Map tracking
-
-v1.2.1
-Added a notification sound for reminders. 
-        Note: The notification sound is off by default. 
-Added a "Sound Settings" tray menu option. 
-Added the following items for sound support:
-    notification.ini    to      Resources/Settings
-    "Sounds" Folder     to      Resources
-    reminder.wav        to      Resources/Sounds
-
-Added Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon. 
-Added a "Change Hotkey" tray menu option. This allows you to set a new hotkey for reversing the map count by 1. 
-Added the following items for Influenced Map tracking:
-        Influences.txt          to      Resources/Data
-        eater.png               to      Resources/Images
-        searing.png             to      Resources/Images
-        hotkeyselect.ahk        to      Resources/Scripts
-        Influences.ahk          to      Resources/Scripts
-        Hotkeys.ini             to      Resources/Settings
-
- To give me feedback feel free to message me on Reddit at: Sushibagels, Message me in game at ExilesFate, on the Path Of Exile website at Sushibagel, or through the Github issue tracker.
+Add theme support
+        Added several images for Theme Selector examples to Resources/Image/Dark Theme and Resources/Images/Light Theme
+        Added SelectTheme.ahk to Resources/Scripts
+        Added Theme.ini to Resources/Settings
+        Added "Change Theme" to Tray Icon Menu
