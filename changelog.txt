@@ -6,3 +6,8 @@ Add theme support
         Added SelectTheme.ahk to Resources/Scripts
         Added Theme.ini to Resources/Settings
         Added "Change Theme" to Tray Icon Menu
+
+Added sounds for Influenced Notifications
+        Added a new icon volume.png to Resources/Images
+        Added a new icon volume white.png to Resources/Images
+        Updated Sound Settings for Influenced sounds

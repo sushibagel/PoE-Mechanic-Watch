@@ -271,6 +271,13 @@ IfInstring, POEpath, PathOfExile_x64EGS.exe
     StringTrimRight, POEPathTrim, POEpath, 21 
 }
 
+If (LogPath = "logs\Client.txt")
+{
+    IniRead, LogPath, C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Data\LaunchPath.ini, POE, Log
+    msgbox, help
+}
+
+
 LogPath = %POEPathTrim%logs\Client.txt
 Return
 

@@ -191,8 +191,7 @@ WinGet, POEpath, ProcessPath, Path of Exile
 
 If (POEPath != "")
 {
-    FileDelete, Resources/Data/LaunchPath.txt
-    FileAppend, %POEpath%, Resources/Data/LaunchPath.txt
+    IniWrite, %POEpath%, Resources/Data/LaunchPath.ini, POE, exe
 }
 
 IfInstring, POEpath, PathOfExileSteam.exe
@@ -231,6 +230,10 @@ IfInstring, POEpath, PathOfExile_x64EGS.exe
 }
 
 LogPath = %POEPathTrim%logs\Client.txt
+If (LogPath != "")
+{
+    IniWrite, %LogPath%, Resources/Data/LaunchPath.ini, POE, log
+}
 Return
 
 Gosub, LogMonitor
@@ -267,7 +270,7 @@ Gosub, Overlay
 Return
 
 LaunchPoe:
-FileRead, PoeLaunch, Resources/Data/LaunchPath.txt
+IniRead, PoeLaunch, Resources/Data/LaunchPath.ini, POE, exe
 run, %PoeLaunch%
 Return
 

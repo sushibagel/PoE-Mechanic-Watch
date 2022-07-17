@@ -81,7 +81,6 @@ If (Searing = 1) and (Eater = 1)
     Reload
 }
 iniWrite, %Abyss%, %UpOneLevel%Settings\Mechanics.ini, Checkboxes, Abyss
-IniWrite, Value, Filename, Section, Key
 iniWrite, %Blight%, %UpOneLevel%Settings\Mechanics.ini, Checkboxes, Blight
 iniWrite, %Breach%, %UpOneLevel%Settings\Mechanics.ini, Checkboxes, Breach
 iniWrite, %Expedition%, %UpOneLevel%Settings\Mechanics.ini, Checkboxes, Expedition
