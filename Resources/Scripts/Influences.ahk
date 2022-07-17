@@ -1,4 +1,5 @@
 #NoTrayIcon
+#SingleInstance, force
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
@@ -190,7 +191,7 @@ Sleep, 100
 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
     Loop
     {
-        MapTrack  := TF_Tail(LogPath, 2)
+        MapTrack  := TF_Tail(LogPath, 3)
         If MapTrack contains %MyHideout%
         {
 			Sleep 500
@@ -198,7 +199,6 @@ ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
 			Break
         }
     }
-Reload
 Return
 
 InfluenceActive:
