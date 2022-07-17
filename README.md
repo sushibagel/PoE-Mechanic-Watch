@@ -54,6 +54,7 @@ Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://g
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater. 
 Thanks to user "jaco0646" for the code for the Hotkey Selector posted on the AutoHotKey forums. 
+Icons were found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>
 
 Donations: 
 There are no obligations for anyone to donate but if you wish to you can here: [PayPal](https://www.paypal.com/paypalme/Drew149).

@@ -42,6 +42,7 @@ Global width
 Global sleepmechanic
 Global NotificationSound
 Global NotificationActive
+Global ColorMode
 Global Background
 Global Secondary
 Global Font

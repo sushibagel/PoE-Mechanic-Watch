@@ -150,21 +150,35 @@ Loop
 
 UpdateNotification:
 IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
+IniRead, InfluenceSoundActive, Resources/Settings/notification.ini, Active, Influence
 Gui, Sounds:Font, c%Font% s10
 Gui, Sounds:Add, Checkbox, vNotification Checked%Notification%, Notification
+
+If (ColorMode = "Dark")
+{
+    IconColor = volume white.png
+}
+If (ColorMode = "Light")
+{
+    IconColor = volume.png
+}
+
+Gui, Sounds:Add, Picture, gSoundsButtonChangeNotification x165 y5 w20 h20, Resources/Images/%IconColor%
+Gui, Sounds:Add, Checkbox, vInfluenceNotification Checked%InfluenceSoundActive% x10, Influence Notification
+Gui, Sounds:Add, Picture, gSoundsInfluenceNotification x165 y30 w20 h20, Resources/Images/%IconColor%
 Gui, Sounds:-Border
 Gui, Sounds:Color, %Background%
 Gui, Sounds:-Caption
 Gui, Sounds:Font, s8 Bold
-Gui, Sounds:Add, Button, x10 y30 w80 h30, Change Notification
-Gui, Sounds:Add, Button, x105 y30 w80 h30, OK
-Gui, Sounds:Show, W200 h70, Sounds
+Gui, Sounds:Add, Button, x135 y60 w80 h30, OK
+Gui, Sounds:Show, W220 h95, Sounds
 Return
 
 SoundsGuiClose:
 SoundsButtonOk: 
 Gui, Submit, NoHide 
 IniWrite, %Notification%, Resources/Settings/notification.ini, Active, Notification
+IniWrite, %InfluenceNotification%, Resources/Settings/notification.ini, Active, Influence
 Gui, Destroy
 Return
 
@@ -175,5 +189,15 @@ FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the n
 If (NewSound != "")
 {
     IniWrite, %NewSound%, Resources/Settings/notification.ini, Sounds, Notification
+}
+Return
+
+SoundsInfluenceNotification:
+Gui, Submit, NoHide
+IniWrite, %InfluenceNotification%, Resources/Settings/notification.ini, Active, Influence
+FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
+If (NewSound != "")
+{
+    IniWrite, %NewSound%, Resources/Settings/notification.ini, Sounds, Influence
 }
 Return

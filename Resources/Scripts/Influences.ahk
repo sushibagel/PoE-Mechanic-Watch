@@ -20,11 +20,15 @@ Global Background
 Global Font
 Global Secondary
 Global CurrentInfluence
+Global InfluenceSound
+Global InfluenceSoundActive
 
 GoSub, GetLogPath
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 Gosub, GetHideout
 
+IniRead, InfluenceSound, Resources/Settings/notification.ini, Sounds, Influence
+IniRead, InfluenceSoundActive, Resources/Settings/notification.ini, Active, Influence
 IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
 IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
 IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
@@ -96,10 +100,12 @@ If MapTrack contains %MapName%
             If (InfluenceActive = "Searing")
             {
                 Gui, Reminder:Add, Text,,This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
+				Gosub, NotificationSound
             }
             If (InfluenceActive = "Eater")
             {
                 Gui, Reminder:Add, Text,,This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
+				Gosub, NotificationSound
             }
             Gosub, Reminder
         }
@@ -109,10 +115,12 @@ If MapTrack contains %MapName%
             If (InfluenceActive = "Searing")
             {
                 Gui, Reminder:Add, Text,,This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
+				Gosub, NotificationSound
             }
             If (InfluenceActive = "Eater")
             {
                 Gui, Reminder:Add, Text,,This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
+				Gosub, NotificationSound
             }
             Gosub, Reminder
         }
@@ -144,8 +152,7 @@ Return
 
 ReminderButtonRevertCount:
 Gui, Reminder:Destroy
-InfluenceTrack --
-IniWrite, %InfluenceTrack%, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
+Gosub, SubtractOne
 Return
 
 Reminder:
@@ -278,6 +285,12 @@ FileReadLine, hideoutcheck, %UpOneLevel%Settings/CurrentHideout.txt, 1
 StringTrimLeft, MyHideout, hideoutcheck, 12 
 Return
 
+NotificationSound:
+If (InfluenceSoundActive = 1)
+{
+	SoundPlay, %InfluenceSound%
+}
+Return
 ;;;;;;;; TF Info Here ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 /*
 Name          : TF: Textfile & String Library for AutoHotkey
