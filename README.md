@@ -1,5 +1,5 @@
 # PoE-Mechanic-Watch
-AHK Script that watches the Path of Exile Cleint.txt and warns the user to complete certain mechanics. 
+AHK Script that watches the Path of Exile Client.txt and warns the user to complete certain mechanics. 
 
 This program is a AutoHotKey Script. AutoHotKey can be downloaded for free here: https://www.autohotkey.com/
 
