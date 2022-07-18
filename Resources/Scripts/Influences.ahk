@@ -23,6 +23,12 @@ Global Secondary
 Global CurrentInfluence
 Global InfluenceSound
 Global InfluenceSoundActive
+Global ReminderText
+GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
+GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
+GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
+GroupAdd, PoeWindow, Reminder
+GroupAdd, PoeWindow, Overlay
 
 GoSub, GetLogPath
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
@@ -97,37 +103,47 @@ If MapTrack contains %MapName%
 
     If (InfluenceTrack = 14)
         {
-            Gui, Reminder:Font, c%Font% s12
             If (InfluenceActive = "Searing")
             {
-                Gui, Reminder:Add, Text,,This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
-				Gosub, NotificationSound
+                ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
             }
             If (InfluenceActive = "Eater")
             {
-                Gui, Reminder:Add, Text,,This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
-				Gosub, NotificationSound
+                ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
             }
             Gosub, Reminder
         }
     If (InfluenceTrack = 28)
             {
-            Gui, Reminder:Font, c%Font% s12
             If (InfluenceActive = "Searing")
             {
-                Gui, Reminder:Add, Text,,This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
-				Gosub, NotificationSound
+				ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
             }
             If (InfluenceActive = "Eater")
             {
-                Gui, Reminder:Add, Text,,This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
-				Gosub, NotificationSound
+                ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
             }
             Gosub, Reminder
         }
 	}
     Loop
     {
+		IfWinNotActive, ahk_group PoeWindow
+		{
+			Sleep, 100
+			IfWinNotActive, ahk_group PoeWindow
+			{
+				Gui, Reminder:Destroy
+				Loop
+				{
+					IfWinActive, ahk_group PoeWindow
+					{
+						Gosub, Reminder
+						Break
+					}
+				}
+			}
+		}
         MapTrack  := TF_Tail(LogPath, 2)
         If MapTrack contains %MyHideout%
         {
@@ -157,6 +173,8 @@ Gosub, SubtractOne
 Return
 
 Reminder:
+Gui, Reminder:Font, c%Font% s12
+Gui, Reminder:Add, Text,,%ReminderText%
 height1 := (A_ScreenHeight / 2) - 100
 width1 := (A_ScreenWidth / 2)-180
 Gui, Reminder:Font, s10
@@ -167,6 +185,7 @@ Gui, Reminder:Add, Button, x150 y40, OK
 Gui, Reminder:Add, Button, x300 y40, Revert Count
 Gui, Reminder:Show, x%width1% y%height1%, Reminder
 WinSet, Style, -0xC00000, Reminder
+Gosub, NotificationSound
 Return
 
 SubtractOne:
