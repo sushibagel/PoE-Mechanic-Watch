@@ -139,5 +139,9 @@ If Hideout contains %MyDialogsDisable%
             }
         }
     }
+    IfWinActive, First2
+    {
+        Return
+    }
 }
 Return

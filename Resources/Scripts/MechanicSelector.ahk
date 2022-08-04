@@ -24,7 +24,7 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
         autochecked = 1
     }
-    If (%autchecked% = 0)
+    If (%autochecked% = 0)
     {
         autochecked = 0
     }
@@ -56,7 +56,7 @@ For each, Influence in StrSplit(Influences, "|")
     {
         autochecked = 1
     }
-    If (%autchecked% = 0)
+    If (%autochecked% = 0)
     {
         autochecked = 0
     }

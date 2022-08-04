@@ -1,4 +1,5 @@
 SelectAuto:
+AutoMechanicSearch = Blight|Expedition|Incursion
 Gosub, ReadAutoMechanics
 Sleep, 100
 Gui, Auto:-Border

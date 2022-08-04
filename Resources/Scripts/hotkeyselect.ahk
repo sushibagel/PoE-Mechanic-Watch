@@ -8,12 +8,15 @@ StringTrimRight, UpOneLevel, A_ScriptDir, 7
 IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
 IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
 IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
-
+HotkeyText1 = Reverse Map Count Hotkey
+HotkeyText2 = Launch Path of Exile
 Gui, Color, %Background%
-#ctrls = 1  ;How many Hotkey controls to add.
+#ctrls = 2  ;How many Hotkey controls to add.
 Loop,% #ctrls {
  Gui, Font, c%Font% s11
- Gui, Add, Text, xm, Reverse Map Count Hotkey #%A_Index%:
+ Hotkeytext = HotkeyText%A_Index%
+ text := %Hotkeytext%
+ Gui, Add, Text, xm, %text% #%A_Index%:
  IniRead, savedHK%A_Index%, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, %A_Index%, %A_Space%
  If savedHK%A_Index%                                       ;Check for saved hotkeys in INI file.
   Hotkey,% savedHK%A_Index%, Label%A_Index%                 ;Activate saved hotkeys if found.
@@ -21,7 +24,7 @@ Loop,% #ctrls {
  StringReplace, noMods, noMods, #,,UseErrorLevel              ;They are incompatible with hotkey controls (cannot be shown).
  Gui, Add, Hotkey, x+5 vHK%A_Index% gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
  Gui, Add, CheckBox, x+5 vCB%A_Index% Checked%ErrorLevel%, Win  ;Add checkboxes to allow the Windows key (#) as a modifier...
-}                                                                ;Check the box if Win modifier is used.
+}
 Gui, Show,,Dynamic Hotkeys
 return
 GuiClose:

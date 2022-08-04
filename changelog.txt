@@ -1,13 +1,45 @@
-v1.2.3
-More fixes to Influence tracking
+Minor fixes
+Fixed an odd condition where reverting influence tracking count could result in a negative total.
+Fixed an issue that caused the directory "logs" containing "Client.txt" to be created when launching Path of Exile using the tray menu shortcut. 
+Clicking the influence icons will no longer allow the count to go beyond 28.
+Added a Hotkey option to launch Path of Exile
 
-Add theme support
-        Added several images for Theme Selector examples to Resources/Image/Dark Theme and Resources/Images/Light Theme
-        Added SelectTheme.ahk to Resources/Scripts
-        Added Theme.ini to Resources/Settings
-        Added "Change Theme" to Tray Icon Menu
+Added an option to launch other applications/utilities along with Path of Exile. LaunchOptions.ahk was added to Resources/Scripts/ to as part of support for the utility.
 
-Added sounds for Influenced Notifications
-        Added a new icon volume.png to Resources/Images
-        Added a new icon volume white.png to Resources/Images
-        Updated Sound Settings for Influenced sounds
+Added a First Run/Setup utility. Firstrun.ahk was added to Resources/Scripts/ to as part of support for the utility. 
+
+Added notificaiton voulume controls. 
+        The following files were added to support notificaiton volume controls:
+             play white.png     to      Resources/Images/
+             play.png           to      Resources/Images/
+             VolumeAdjust.ahk   to      Resources/Scripts/
+             blank.wav          to      Resources/Sounds/   
+
+Reworked the Tray Menu. 
+        Added an "About" tray menu submenu with the following options:
+        Version
+        Changelog
+        Q&A/Feedback
+
+        Added a "Setup" tray menu submenu. The following menu items have been moved into the Setup submenu. 
+        Setup Menu
+        Set Hideout
+        Change Theme
+        Change Hotkey
+        Sound Settings
+        Launch Assist
+
+        The following files were added for support of the new tray menu items:
+        Version.ahk 
+        Changelog.ahk
+
+The following files should no longer be included with updates, the script will now instead check for the files and create them if they are missing: (This is to avoid overwriting user preferences)
+        AutoMechanics.ini       located in      Resources/Settings
+        CurrentHideout.txt      located in      Resources/Settings
+        Hotkeys.ini             located in      Resources/Settings
+        Mechanics.ini           located in      Resources/Settings
+        notification.ini        located in      Resources/Settings
+        overlayposition.txt     located in      Resources/Settings
+        Theme.ini               located in      Resources/Settings
+        LaunchPath.ini          located in      Resources/Data
+        MechanicsActive.ini     located in      Resources/Data

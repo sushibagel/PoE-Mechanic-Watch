@@ -43,7 +43,7 @@ The Auto Enable/Disable feature is currently in Beta. For it to work it requires
 
 For the "Launch Path of Exile" tray menu command to work properly, the game must be launched at least once with this tool running first. 
 
-To give me feedback on feel free to message me on Reddit at: Sushibagels, message me in game at ExilesFate, on the Path Of Exile website at Sushibagel, or through the Github issue tracker.
+For feedback, questions or suggestions please visit the <a href="https://github.com/sushibagel/PoE-Mechanic-Watch/discussions" title="Discussion Section"> of the Github. 
 
 Additional Notes: 
 New hideouts can be added to the Hideout menu by editing the "HideoutList.txt" and typing in the hideout name on a new line. 
@@ -54,7 +54,9 @@ Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://g
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater. 
 Thanks to user "jaco0646" for the code for the Hotkey Selector posted on the AutoHotKey forums. 
-Icons were found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>
+Thanks to user "masonjar13" on the AutoHotKey forums for the Volume Adjust "VA" library used in the volume control settings. 
+The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>
+The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>
 
 Donations: 
 There are no obligations for anyone to donate but if you wish to you can here: [PayPal](https://www.paypal.com/paypalme/Drew149).

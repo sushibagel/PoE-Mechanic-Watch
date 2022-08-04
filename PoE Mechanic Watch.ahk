@@ -12,21 +12,29 @@ DetectHiddenWindows, On
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
-Menu, Tray, Add, Set Hideout, SetHideout
-Menu, Tray, Add, Move Overlay, Move
 Menu, Tray, Add, Select Mechanics, SelectMechanics
 Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
-Menu, Tray, Add, Sound Settings, UpdateNotification
-Menu, Tray, Add, Change Hotkey, HotkeyUpdate
-Menu, Tray, Add, Change Theme, SelectTheme
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
+Menu, Tray, Add, View Path of Exile Log, ViewLog
 Menu, Tray, Add
-Menu, Tray, Add, Reload Influences.ahk, ReloadInfluences
+Menu, SetupMenu, Add, Setup Menu, FirstRun
+Menu, Tray, Add, Setup, :SetupMenu
+Menu, SetupMenu, Add, Set Hideout, SetHideout
+Menu, SetupMenu, Add, Change Theme, SelectTheme
+Menu, SetupMenu, Add, Move Overlay, Move
+Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
+Menu, SetupMenu, Add, Sound Settings, UpdateNotification
+Menu, SetupMenu, Add, Launch Assist, LaunchGui
 Menu, Tray, Add
+Menu, Tray, Add, Reload Influences, ReloadInfluences
 Menu, Tray, Add, Reload, Reload
+Menu, Tray, Add
 Menu, Tray, Add, Check for Updates, UpdateCheck
-Menu, Tray, Add, View Log, ViewLog
 Menu, Tray, Add, Exit, Exit
+Menu, AboutMenu, Add, Version, Version
+Menu, Tray, Add, About, :AboutMenu
+Menu, AboutMenu, Add, Changelog, Changelog
+Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
 Menu, Tray, Icon, Resources/Images/ritual.png
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Global Variables ;;;;;;;;;;;;;;;;;;;;;
@@ -46,6 +54,9 @@ Global ColorMode
 Global Background
 Global Secondary
 Global Font
+Global Hk2
+Global iniFile
+Global iniSection
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
 Global AbyssOn
@@ -81,21 +92,122 @@ GroupAdd, PoeWindow, ahk_exe PathOfExile.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
+GroupAdd, PoeWindow, First2
+
+;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
+
+ThemeiniPath = Resources\Settings\Theme.ini
+
+If !FileExist(ThemeiniPath)
+{
+	IniWrite, White, Resources\Settings\Theme.ini, Dark, Font
+    IniWrite, 4e4f53, Resources\Settings\Theme.ini, Dark, Background
+    IniWrite, a6a6a6, Resources\Settings\Theme.ini, Dark, Secondary
+    IniWrite, Black, Resources\Settings\Theme.ini, Light, Font
+    IniWrite, White, Resources\Settings\Theme.ini, Light, Background
+    IniWrite, ededed, Resources\Settings\Theme.ini, Light, Secondary
+    IniWrite, Dark, Resources\Settings\Theme.ini, Theme, Theme
+}
+
+
+Gosub, CheckTheme
+
+PositiontxtPath = Resources\Settings\overlayposition.txt
+
+If !FileExist(PositiontxtPath)
+{
+    FileAppend, height=962 `n, Resources/Settings/overlayposition.txt
+    FileAppend, width=570, Resources/Settings/overlayposition.txt
+}
+
+FirstruniniPath = Resources\Data\Firstrun.ini
+
+If !FileExist(FirstruniniPath)
+{
+    Gosub, FirstRun
+}
+If FileExist(FirstruniniPath)
+{
+    Gosub, ReadItems
+    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0)
+    {
+        Gosub, FirstRun
+    }
+}
+
+LaunchiniPath = Resources\Data\LaunchPath.ini
+
+If !FileExist(LaunchiniPath)
+{
+    MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
+    WinWait, ahk_Group PoeWindow
+}
+
+NotificationiniPath = Resources\Settings\notification.ini
+
+If !FileExist(NotificationiniPath)
+{
+	IniWrite, Resources\Sounds\reminder.wav, Resources\Settings\notification.ini, Sounds, Notification
+    IniWrite, Resources\Sounds\reminder.wav, Resources\Settings\notification.ini, Sounds, Influence
+    IniWrite, 0, Resources\Settings\notification.ini, Active, Notification
+    IniWrite, 0, Resources\Settings\notification.ini, Active, Influence
+    IniWrite, 100, Resources\Settings\notification.ini, Volume, Notification
+    IniWrite, 100, Resources\Settings\notification.ini, Volume, Influence
+}
+
+AutoiniPath = Resources\Settings\AutoMechanics.ini
+
+If !FileExist(AutoiniPath)
+{
+	IniWrite, 0, Resources\Settings\AutoMechanics.ini, Checkboxes, Blight
+    IniWrite, 0, Resources\Settings\AutoMechanics.ini, Checkboxes, Expedition
+    IniWrite, 0, Resources\Settings\AutoMechanics.ini, Checkboxes, Incursion
+}
+
+MechanicsiniPath = Resources\Settings\Mechanics.ini
+
+If !FileExist(MechanicsiniPath)
+{
+	IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Abyss
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Blight
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Breach
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Expedition
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Harvest
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Incursion
+    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Metamorph
+    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Ritual
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Generic
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Influence, Searing
+    IniWrite, 1, Resources\Settings\Mechanics.ini, Influence, Eater
+    IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
+    IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
+}
+
+HideouttxtPath = Resources\Settings\CurrentHideout.txt
+
+If !FileExist(HideouttxtPath)
+{
+GroupAdd, FirstRunGroup, First2
+GroupAdd, FirstRunGroup, Move
+
+    IfWinNotActive, ahk_Group FirstRunGroup
+    {
+        Gosub, SetHideout
+    }    
+}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Setup ;;;;;;;;;;;;;;;;;;;;;;;;;
 Start:
 MechanicSearch = Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic|Eater|Searing
 
-AutoMechanicSearch = Blight|Expedition|Incursion
-
 GoSub, UpdateCheck
 GoSub, GetLogPath
-
 Gosub, CheckTheme
-
+Gosub, HotkeyCheck
 Gosub, GetHideout
 GoSub, ReadMechanics
 Gosub, ReadAutoMechanics
+Gosub, LaunchGlobals
 Gosub, Monitor
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Sub Routines ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -130,6 +242,10 @@ Loop
         {
             Gui, 2:Destroy
         }
+    }
+    IfWinExist, First
+    {
+        Return
     }
 }
 
@@ -230,9 +346,10 @@ IfInstring, POEpath, PathOfExile_x64EGS.exe
 }
 
 LogPath = %POEPathTrim%logs\Client.txt
-If (LogPath != "")
+If (LogPath != "logs\Client.txt")
 {
     IniWrite, %LogPath%, Resources/Data/LaunchPath.ini, POE, log
+    IniWrite, %POEPathTrim%, Resources/Data/LaunchPath.ini, POE, Directory
 }
 Return
 
@@ -263,7 +380,6 @@ WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
 SetTitleMatchMode, 1
 Sleep, 500
 Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
-Return
 GoSub, ReadMechanics
 Gui, 2:Destroy
 Gosub, Overlay
@@ -271,13 +387,33 @@ Return
 
 LaunchPoe:
 IniRead, PoeLaunch, Resources/Data/LaunchPath.ini, POE, exe
+IniRead, PoeDir, Resources/Data/LaunchPath.ini, POE, Directory
+SetWOrkingDir, %PoeDir%
 run, %PoeLaunch%
+SetWorkingDir, %A_ScriptDir%
+Gosub, LaunchSupport
 Return
 
 HotkeyUpdate:
+IniWrite, 1, Resources/Settings/Hotkeys.ini, Reload, Influences
+Gosub, ReloadInfluences
+IniRead, Hotkey2, Resources/Settings/Hotkeys.ini, Hotkeys, 2
+If !(Hotkey2 = "")
+{
+    Hotkey, %Hotkey2%, Off
+}
 Run, Resources\Scripts\hotkeyselect.ahk
 RunWait, Resources\Scripts\hotkeyselect.ahk
 Gosub, ReloadInfluences
+Gosub, HotkeyCheck
+Return
+
+HotkeyCheck:
+IniRead, Hotkey2, Resources/Settings/Hotkeys.ini, Hotkeys, 2
+If !(Hotkey2 = "")
+{
+    Hotkey, %Hotkey2%, LaunchPoe
+}
 Return
 
 ReloadInfluences:
@@ -298,6 +434,18 @@ IniRead, ColorMode, Resources/Settings/Theme.ini, Theme, Theme
 IniRead, Font, Resources/Settings/Theme.ini, %ColorMode%, Font
 IniRead, Background, Resources/Settings/Theme.ini, %ColorMode%, Background
 IniRead, Secondary, Resources/Settings/Theme.ini, %ColorMode%, Secondary
+Return
+
+Version:
+Run, Resources\Scripts\Version.ahk
+Return
+
+Changelog:
+Run, Resources\Scripts\Changelog.ahk
+Return
+
+Feedback:
+Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
 Return
 
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
@@ -495,6 +643,10 @@ Eater:
 IniRead, Eater, Resources/Settings/Mechanics.ini, InfluenceTrack, Eater
 OldTrack := Eater
 Eater ++
+If(Eater = 29)
+{
+    Eater = 0
+}
 IniWrite, %Eater%, Resources/Settings/Mechanics.ini, InfluenceTrack, Eater
 ControlSetText, %OldTrack%, %Eater%, Overlay
 Return
@@ -503,6 +655,10 @@ Searing:
 IniRead, Searing, Resources/Settings/Mechanics.ini, InfluenceTrack, Searing
 OldTrack := Searing
 Searing ++
+If(Searing = 29)
+{
+    Searing = 0
+}
 IniWrite, %Searing%, Resources/Settings/Mechanics.ini, InfluenceTrack, Searing
 ControlSetText, %OldTrack%, %Searing%, Overlay
 Return
@@ -516,3 +672,6 @@ Return
 #Include, Resources/Scripts/AutoMechanic.ahk
 #Include, Resources/Scripts/LogMonitor.ahk
 #Include, Resources/Scripts/SelectTheme.ahk
+#Include, Resources/Scripts/VolumeAdjust.ahk
+#Include, Resources/Scripts/Firstrun.ahk
+#Include, Resources/Scripts/LaunchOptions.ahk
