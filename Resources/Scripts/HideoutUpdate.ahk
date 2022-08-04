@@ -1,5 +1,6 @@
 #NoEnv
 #SingleInstance force
+DetectHiddenWindows, On
 SetBatchLines, -1
 Global HideoutSet
 Global UpOneLevel
@@ -94,10 +95,18 @@ Return
 WriteFile:
 if HideoutSet !=
 {
-   FileDelete, Resources\Settings\CurrentHideout.txt
+   If FileExist("Resources\Settings\CurrentHideout.txt")
+   {
+      FileDelete, Resources\Settings\CurrentHideout.txt
+   }
    FileAppend, MyHideout = %HideoutSet% `n, Resources\Settings\CurrentHideout.txt
    HideoutSet :=
-   Run, %UpTwoLevels%PoE Mechanic Watch.ahk
+   IfWinNotExist, First2
+   {
+      msgbox, test
+      Run, %UpTwoLevels%PoE Mechanic Watch.ahk
+      ExitApp
+   }
    ExitApp
 }
 

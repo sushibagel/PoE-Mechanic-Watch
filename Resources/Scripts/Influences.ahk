@@ -35,13 +35,6 @@ GoSub, GetLogPath
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 Gosub, GetHideout
 
-HokeyiniPath = %UpOneLevel%Settings\Hotkeys.ini
-
-If !FileExist(HokeyiniPath)
-{
-	IniWrite, ^r, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, 1
-}
-
 IniRead, InfluenceSound, %UpOneLevel%Settings/notification.ini, Sounds, Influence
 IniRead, InfluenceSoundActive, %UpOneLevel%Settings/notification.ini, Active, Influence
 IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme

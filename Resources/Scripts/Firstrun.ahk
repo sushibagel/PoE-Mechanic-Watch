@@ -86,13 +86,14 @@ Return
 HideoutSelect:
 Gui, Submit, NoHide
 Gui, First:Destroy
-Gui, First2:Destroy
+Gui, First2:Hide
 RunWait, Resources\Scripts\HideoutUpdate.ahk
+Gui, First2:Destroy
+Gosub, FirstRun
 If FileExist(HideouttxtPath)
 {
     Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Hideout
 }
-Gosub, FirstRun
 Return
 
 MechanicSelect:

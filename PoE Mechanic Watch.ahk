@@ -120,6 +120,14 @@ If !FileExist(PositiontxtPath)
     FileAppend, width=570, Resources/Settings/overlayposition.txt
 }
 
+HokeyiniPath = Resources\Settings\Hotkeys.ini
+
+If !FileExist(HokeyiniPath)
+{
+	IniWrite, "#^+r", Resources/Settings/Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
+    IniWrite, "#^q", Resources/Settings/Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
+}
+
 FirstruniniPath = Resources\Data\Firstrun.ini
 
 If !FileExist(FirstruniniPath)
