@@ -100,6 +100,10 @@ ThemeiniPath = Resources\Settings\Theme.ini
 
 If !FileExist(ThemeiniPath)
 {
+    If !FileExist("Resources\Settings")
+    {
+        FileCreateDir, Resources\Settings
+    }
 	IniWrite, White, Resources\Settings\Theme.ini, Dark, Font
     IniWrite, 4e4f53, Resources\Settings\Theme.ini, Dark, Background
     IniWrite, a6a6a6, Resources\Settings\Theme.ini, Dark, Secondary

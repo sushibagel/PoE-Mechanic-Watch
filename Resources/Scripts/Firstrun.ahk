@@ -56,7 +56,7 @@ if !(%ClientOpened% = 0)
         Gui, FirstReminder:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
         Gui, FirstReminder:Color, %Background%
         Gui, FirstReminder:Font, c%Font% s10
-        Gui, FirstReminder:Add, Text, w550 +Center, You must open Path of Exile to continue. This is required so the Client.txt path can be obtained. (This is only necessary for the first run)
+        Gui, FirstReminder:Add, Text, w500 +Center, You must open Path of Exile to continue. This is required so the Client.txt path can be obtained. (This is only necessary for the first run)
         Gui, FirstReminder:Add, Button, x490, OK
         Gui, FirstReminder: +AlwaysOnTop -Caption
         Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
