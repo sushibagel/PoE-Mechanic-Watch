@@ -147,11 +147,6 @@ If !FileExist(NotificationiniPath)
 }
 
 FirstruniniPath = Resources\Data\Firstrun.ini
-
-If !FileExist(FirstruniniPath)
-{
-    Gosub, FirstRun
-}
 If FileExist(FirstruniniPath)
 {
     Gosub, ReadItems
@@ -159,6 +154,10 @@ If FileExist(FirstruniniPath)
     {
         Gosub, FirstRun
     }
+}
+If !FileExist(FirstruniniPath)
+{
+    Gosub, FirstRun
 }
 
 LaunchiniPath = Resources\Data\LaunchPath.ini
