@@ -179,6 +179,10 @@ If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0)
     Gui, FirstWarning:Show, NoActivate x%xh% y%yh% w550, FirstWarning
     WinWaitClose, FirstWarning
 }
+Else
+{
+    Reload
+}
 Return
 
 ReadItems:
