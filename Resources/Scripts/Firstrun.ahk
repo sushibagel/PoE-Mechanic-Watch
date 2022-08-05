@@ -109,7 +109,7 @@ If FileExist(MechanicsiniPath)
 Gosub, FirstRun
 Return
 
-PositionSelect:
+PositionSelect: ;;;;;; add loading notification
 GoSub, Start
 Gui, Submit, NoHide
 Gui, First:Destroy
@@ -141,17 +141,6 @@ Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Hotkey
 Gosub, FirstRun
 Return
 
-SoundSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Gosub, UpdateNotification
-WinWaitClose, Sounds
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Sound
-Gosub, FirstRun
-Return
-
-
 LaunchAssistSelect:
 Gui, Submit, NoHide
 Gui, First:Destroy
@@ -159,6 +148,16 @@ Gui, First2:Destroy
 Gosub, LaunchGui
 WinWaitClose, Launcher
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, LaunchAssist
+Gosub, FirstRun
+Return
+
+SoundSelect:
+Gui, Submit, NoHide
+Gui, First:Destroy
+Gui, First2:Destroy
+Gosub, UpdateNotification
+WinWaitClose, Sounds
+Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Sound
 Gosub, FirstRun
 Return
 
