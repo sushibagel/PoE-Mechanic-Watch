@@ -62,13 +62,14 @@ if !(%ClientOpened% = 0)
         Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
         Iniwrite, 0, Resources\Data\FirstRun.ini, Checkboxes, Client
         WinWaitClose, FirstReminder
-        Gosub, FirstRun
+        Gosub, ReadItems
+        Gosub, ReloadCheck
     }
     IfWinExist, ahk_group PoeWindow
     {
         Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Client
         GoSub, GetLogPath
-        GoSub, FirstRun
+        Gosub, ReloadCheck
     }
 }
 Return
@@ -80,7 +81,7 @@ Gui, First2:Destroy
 GoSub, SelectTheme
 WinWaitClose, Gui:5
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Theme
-GoSub, FirstRun
+Gosub, ReloadCheck
 Return
 
 HideoutSelect:
@@ -93,7 +94,7 @@ If FileExist(HideouttxtPath)
 {
     Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Hideout
 }
-Gosub, FirstRun
+Gosub, ReloadCheck
 Return
 
 MechanicSelect:
@@ -106,7 +107,7 @@ If FileExist(MechanicsiniPath)
 {
     Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Mechanic
 }
-Gosub, FirstRun
+Gosub, ReloadCheck
 Return
 
 PositionSelect: ;;;;;; add loading notification
@@ -116,7 +117,7 @@ Gui, First:Destroy
 Gui, First2:Destroy
 Gosub, Move
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Position
-Gosub, FirstRun
+Gosub, ReloadCheck
 Return
 
 AutoMechanicSelect:
@@ -129,7 +130,7 @@ Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, AutoMechanic
 WinWaitClose, Auto Enable/Disable (Beta)
 Gui, First:Destroy
 Gui, First2:Destroy
-Gosub, FirstRun
+Gosub, ReloadCheck
 Return
 
 HotkeySelect:
@@ -138,7 +139,7 @@ Gui, First:Destroy
 Gui, First2:Destroy
 Gosub, HotkeyUpdate
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Hotkey
-Gosub, FirstRun
+Gosub, ReloadCheck
 Return
 
 LaunchAssistSelect:
@@ -148,7 +149,7 @@ Gui, First2:Destroy
 Gosub, LaunchGui
 WinWaitClose, Launcher
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, LaunchAssist
-Gosub, FirstRun
+Gosub, ReloadCheck
 Return
 
 SoundSelect:
@@ -158,7 +159,7 @@ Gui, First2:Destroy
 Gosub, UpdateNotification
 WinWaitClose, Sounds
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Sound
-Gosub, FirstRun
+Gosub, ReloadCheck
 Return
 
 First2ButtonClose:
@@ -200,4 +201,17 @@ Return
 FirstWarningButtonGoBack:
 Gui, FirstWarning:Destroy
 Gosub, FirstRun
+Return
+
+ReloadCheck:
+Gosub, ReadItems
+CompletionCheck := ClientState + HideoutState + MechanicState
+If (CompletionCheck >= 2)
+{
+    Gosub, FirstRun
+}
+Else
+{
+    Reload
+}
 Return
