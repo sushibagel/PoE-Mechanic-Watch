@@ -96,6 +96,8 @@ GroupAdd, PoeWindow, First2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 
+Gosub, LaunchGlobals
+
 ThemeiniPath = Resources\Settings\Theme.ini
 
 If !FileExist(ThemeiniPath)
@@ -204,7 +206,11 @@ GroupAdd, FirstRunGroup, Move
 
     IfWinNotActive, ahk_Group FirstRunGroup
     {
-        Gosub, SetHideout
+        IniRead, FirstrunHideout, Resources\Data\FirstRun.ini, Checkboxes, Hideout
+        If (FirstrunHideout = 1)
+        {
+            Gosub, SetHideout
+        }
     }    
 }
 
