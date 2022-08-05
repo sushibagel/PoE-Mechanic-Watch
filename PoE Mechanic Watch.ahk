@@ -130,6 +130,19 @@ If !FileExist(HokeyiniPath)
 {
 	IniWrite, "#^+r", Resources/Settings/Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
     IniWrite, "#^q", Resources/Settings/Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
+    Hotkey, #^q, LaunchPoe
+}
+
+NotificationiniPath = Resources\Settings\notification.ini
+
+If !FileExist(NotificationiniPath)
+{
+	IniWrite, Resources\Sounds\reminder.wav, Resources\Settings\notification.ini, Sounds, Notification
+    IniWrite, Resources\Sounds\reminder.wav, Resources\Settings\notification.ini, Sounds, Influence
+    IniWrite, 0, Resources\Settings\notification.ini, Active, Notification
+    IniWrite, 0, Resources\Settings\notification.ini, Active, Influence
+    IniWrite, 100, Resources\Settings\notification.ini, Volume, Notification
+    IniWrite, 100, Resources\Settings\notification.ini, Volume, Influence
 }
 
 FirstruniniPath = Resources\Data\Firstrun.ini
@@ -153,18 +166,6 @@ If !FileExist(LaunchiniPath)
 {
     MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
     WinWait, ahk_Group PoeWindow
-}
-
-NotificationiniPath = Resources\Settings\notification.ini
-
-If !FileExist(NotificationiniPath)
-{
-	IniWrite, Resources\Sounds\reminder.wav, Resources\Settings\notification.ini, Sounds, Notification
-    IniWrite, Resources\Sounds\reminder.wav, Resources\Settings\notification.ini, Sounds, Influence
-    IniWrite, 0, Resources\Settings\notification.ini, Active, Notification
-    IniWrite, 0, Resources\Settings\notification.ini, Active, Influence
-    IniWrite, 100, Resources\Settings\notification.ini, Volume, Notification
-    IniWrite, 100, Resources\Settings\notification.ini, Volume, Influence
 }
 
 AutoiniPath = Resources\Settings\AutoMechanics.ini
