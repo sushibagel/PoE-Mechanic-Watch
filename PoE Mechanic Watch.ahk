@@ -146,6 +146,25 @@ If !FileExist(NotificationiniPath)
     IniWrite, 100, Resources\Settings\notification.ini, Volume, Influence
 }
 
+MechanicsiniPath = Resources\Settings\Mechanics.ini
+
+If !FileExist(MechanicsiniPath)
+{
+	IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Abyss
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Blight
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Breach
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Expedition
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Harvest
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Incursion
+    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Metamorph
+    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Ritual
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Generic
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Influence, Searing
+    IniWrite, 1, Resources\Settings\Mechanics.ini, Influence, Eater
+    IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
+    IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
+}
+
 FirstruniniPath = Resources\Data\Firstrun.ini
 If FileExist(FirstruniniPath)
 {
@@ -175,25 +194,6 @@ If !FileExist(AutoiniPath)
 	IniWrite, 0, Resources\Settings\AutoMechanics.ini, Checkboxes, Blight
     IniWrite, 0, Resources\Settings\AutoMechanics.ini, Checkboxes, Expedition
     IniWrite, 0, Resources\Settings\AutoMechanics.ini, Checkboxes, Incursion
-}
-
-MechanicsiniPath = Resources\Settings\Mechanics.ini
-
-If !FileExist(MechanicsiniPath)
-{
-	IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Abyss
-    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Blight
-    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Breach
-    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Expedition
-    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Harvest
-    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Incursion
-    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Metamorph
-    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Ritual
-    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Generic
-    IniWrite, 0, Resources\Settings\Mechanics.ini, Influence, Searing
-    IniWrite, 1, Resources\Settings\Mechanics.ini, Influence, Eater
-    IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
-    IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
 }
 
 HideouttxtPath = Resources\Settings\CurrentHideout.txt
