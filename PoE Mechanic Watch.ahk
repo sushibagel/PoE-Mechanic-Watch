@@ -155,7 +155,7 @@ If !FileExist(FirstruniniPath)
 If FileExist(FirstruniniPath)
 {
     Gosub, ReadItems
-    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0)
+    If (%ClientState% = ERROR) or (%HideoutState% = ERROR) or (%MechanicState% = ERROR) or (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0)
     {
         Gosub, FirstRun
     }
