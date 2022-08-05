@@ -33,7 +33,10 @@ iniWrite, %Blight%, Resources\Settings\AutoMechanics.ini, Checkboxes, Blight
 iniWrite, %Expedition%, Resources\Settings\AutoMechanics.ini, Checkboxes, Expedition
 iniWrite, %Incursion%, Resources\Settings\AutoMechanics.ini, Checkboxes, Incursion
 Gui, Destroy
-Gosub, Start
+IfWinNotExist, First2
+   {
+        Gosub, Start
+   }
 Return
 
 AutoButtonSelectMechanics:

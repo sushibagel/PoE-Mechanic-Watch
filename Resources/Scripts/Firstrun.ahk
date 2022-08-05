@@ -122,12 +122,13 @@ Return
 AutoMechanicSelect:
 Gui, Submit, NoHide
 Gui, First:Hide
-Gui, First2:Destroy
+Gui, First2:Hide
 Gosub, ReadAutoMechanics
 Gosub, SelectAuto
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, AutoMechanic
 WinWaitClose, Auto Enable/Disable (Beta)
 Gui, First:Destroy
+Gui, First2:Destroy
 Gosub, FirstRun
 Return
 
