@@ -156,11 +156,11 @@ If !FileExist(MechanicsiniPath)
     IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Expedition
     IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Harvest
     IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Incursion
-    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Metamorph
-    IniWrite, 1, Resources\Settings\Mechanics.ini, Checkboxes, Ritual
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Metamorph
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Ritual
     IniWrite, 0, Resources\Settings\Mechanics.ini, Checkboxes, Generic
     IniWrite, 0, Resources\Settings\Mechanics.ini, Influence, Searing
-    IniWrite, 1, Resources\Settings\Mechanics.ini, Influence, Eater
+    IniWrite, 0, Resources\Settings\Mechanics.ini, Influence, Eater
     IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
     IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
 }
@@ -213,6 +213,20 @@ GroupAdd, FirstRunGroup, Move
     }    
 }
 
+ActiveiniPath = Resources\Data\MechanicsActive.ini
+
+If !FileExist(ActiveiniPath)
+{
+    IniWrite, 0, %ActiveiniPath%, Active, Abyss
+    IniWrite, 0, %ActiveiniPath%, Active, Blight
+    IniWrite, 0, %ActiveiniPath%, Active, Breach
+    IniWrite, 0, %ActiveiniPath%, Active, Expedition
+    IniWrite, 0, %ActiveiniPath%, Active, Harvest
+    IniWrite, 0, %ActiveiniPath%, Active, Incursion
+    IniWrite, 0, %ActiveiniPath%, Active, Metamorph
+    IniWrite, 0, %ActiveiniPath%, Active, Ritual
+    IniWrite, 0, %ActiveiniPath%, Active, Generic
+}
 ;;;;;;;;;;;;;;;;;;;;;;;;; Setup ;;;;;;;;;;;;;;;;;;;;;;;;;
 Start:
 MechanicSearch = Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic|Eater|Searing
