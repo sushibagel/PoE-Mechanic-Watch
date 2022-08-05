@@ -11,9 +11,15 @@ IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
 HotkeyText1 = Reverse Map Count Hotkey
 HotkeyText2 = Launch Path of Exile
 Gui, Color, %Background%
+Gui, Font, s12 c%Font% Bold
+Gui, Add, Text, +Center w500, Click the boxes below and enter your desired key combination. 
+space = y+5
+Gui, Add, Text, %space% +Center w500,(Un)Check the box toggle the Windows key modifier. 
+Gui, Font, c%Font% s11 Normal
+space = y+1
+Gui, Add, GroupBox, w500 h10 xs %space%
 #ctrls = 2  ;How many Hotkey controls to add.
 Loop,% #ctrls {
- Gui, Font, c%Font% s11
  Hotkeytext = HotkeyText%A_Index%
  text := %Hotkeytext%
  Gui, Add, Text, xm, %text% #%A_Index%:
@@ -22,10 +28,10 @@ Loop,% #ctrls {
   Hotkey,% savedHK%A_Index%, Label%A_Index%                 ;Activate saved hotkeys if found.
  StringReplace, noMods, savedHK%A_Index%, ~                  ;Remove tilde (~) and Win (#) modifiers...
  StringReplace, noMods, noMods, #,,UseErrorLevel              ;They are incompatible with hotkey controls (cannot be shown).
- Gui, Add, Hotkey, x+5 vHK%A_Index% gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
- Gui, Add, CheckBox, x+5 vCB%A_Index% Checked%ErrorLevel%, Win  ;Add checkboxes to allow the Windows key (#) as a modifier...
+ Gui, Add, CheckBox, yp x300 +Left vCB%A_Index% Checked%ErrorLevel%, Win  ;Add checkboxes to allow the Windows key (#) as a modifier...
+ Gui, Add, Hotkey, yp x350 vHK%A_Index% gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
 }
-Gui, Show,,Dynamic Hotkeys
+Gui, Show, w550,Dynamic Hotkeys
 return
 GuiClose:
 ExitApp
