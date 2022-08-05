@@ -113,7 +113,6 @@ If !FileExist(ThemeiniPath)
     IniWrite, Dark, Resources\Settings\Theme.ini, Theme, Theme
 }
 
-
 Gosub, CheckTheme
 
 PositiontxtPath = Resources\Settings\overlayposition.txt
