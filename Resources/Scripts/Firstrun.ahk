@@ -110,12 +110,24 @@ If FileExist(MechanicsiniPath)
 Gosub, ReloadCheck
 Return
 
-PositionSelect: ;;;;;; add loading notification
+PositionSelect:
+Gui, First:Hide
+Gui, First2:Hide
+Gui, Loading:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+Gui, Loading:Color, %Background%
+Gui, Loading:Font, c%Font% s10
+Gui, Loading:Add, Text, w500 +Center, The Overlay repositioning tool is loading... Please wait...
+Gui, Loading: +AlwaysOnTop -Caption
+yload := yh + 200
+Gui, Loading:Show, NoActivate x%xh% y%yload% w550, Loading
 GoSub, Start
 Gui, Submit, NoHide
 Gui, First:Destroy
 Gui, First2:Destroy
 Gosub, Move
+WinWait, Move
+Gui, Loading:Destroy
+WinwaitClose, Move
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Position
 Gosub, ReloadCheck
 Return
