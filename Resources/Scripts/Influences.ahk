@@ -131,7 +131,7 @@ If MapTrack contains %MapName%
     {
 		IfWinNotActive, ahk_group PoeWindow
 		{
-			Sleep, 100
+			Sleep, 200
 			IfWinNotActive, ahk_group PoeWindow
 			{
 				Gui, Reminder:Destroy
@@ -149,7 +149,7 @@ If MapTrack contains %MapName%
         If MapTrack contains %MyHideout%
         {
 			Sleep 500
-            Reload
+            Return
 			Break
         }
     }
@@ -166,6 +166,7 @@ If (InfluenceTrack = 28)
 {
     IniWrite, 0, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
 }
+WinActivate, ahk_group PoeWindow
 Return
 
 ReminderButtonRevertCount:
