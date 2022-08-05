@@ -57,9 +57,9 @@ Loop, %ArrCount%
 }
 Gui, Launcher:Show,,Launcher
 WinGetPos, X, Y, w, h, Launcher
-If (h < 75)
+If (h < 85)
 {
-    h = 75
+    h = 85
 }
 Gui, Launcher:Destroy
 Gui, Launcher:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED

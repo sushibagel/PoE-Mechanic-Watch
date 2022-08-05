@@ -103,7 +103,6 @@ if HideoutSet !=
    HideoutSet :=
    IfWinNotExist, First2
    {
-      msgbox, test
       Run, %UpTwoLevels%PoE Mechanic Watch.ahk
       ExitApp
    }

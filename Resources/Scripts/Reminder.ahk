@@ -159,7 +159,7 @@ IniRead, InfluenceSoundActive, Resources/Settings/notification.ini, Active, Infl
 IniRead, NotificaitonVolume, Resources/Settings/notification.ini, Volume, Notification
 IniRead, InfluenceVolume, Resources/Settings/notification.ini, Volume, Influence
 Gui, Sounds:Font, c%Font% s10
-Gui, Sounds:Add, Checkbox, vNotification Checked%Notification%, Notification
+Gui, Sounds:Add, Checkbox, vNotification Checked%NotificationActive%, Notification
 
 If (ColorMode = "Dark")
 {
