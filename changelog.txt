@@ -3,6 +3,8 @@ Fixed an odd condition where reverting influence tracking count could result in 
 Fixed an issue that caused the directory "logs" containing "Client.txt" to be created when launching Path of Exile using the tray menu shortcut. 
 Clicking the influence icons will no longer allow the count to go beyond 28.
 Added a Hotkey option to launch Path of Exile
+Significantly reworked the Influence map tracking script to make it more effiecient, reliable and to prevent duplicate counting when re-entering a map. 
+Updated the maplist.txt to support the new version of tracking.
 
 Added an option to launch other applications/utilities along with Path of Exile. LaunchOptions.ahk was added to Resources/Scripts/ to as part of support for the utility.
 
