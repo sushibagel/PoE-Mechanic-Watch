@@ -51,6 +51,7 @@ New hideouts can be added to the Hideout menu by editing the "HideoutList.txt" a
 Credits:
 Thank you to Griding Gear Games the developers of Path of Exile
 Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://github.com/hi5/TF
+Thank you to reddit user "evilC_UK" for the sample code used to more efficiently read the log files. 
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater. 
 Thanks to user "jaco0646" for the code for the Hotkey Selector posted on the AutoHotKey forums. 
