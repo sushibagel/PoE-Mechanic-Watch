@@ -239,7 +239,17 @@ Loop
             }
         }
     }
+    lt := new LogTailer(LogPath, Func("HideoutOnNewLine"))
+    return
+    HideoutOnNewLine(line){
+        HideoutTrack := % line
+	    If InStr(HideoutTrack, MyHideout)
+        {
+           Gosub, InfluenceTrack
+        }
+    }
 }
+Gosub, InfluenceTrack
 Return
 
 CloseGui:
