@@ -45,3 +45,5 @@ The following files should no longer be included with updates, the script will n
         Theme.ini               located in      Resources/Settings
         LaunchPath.ini          located in      Resources/Data
         MechanicsActive.ini     located in      Resources/Data
+
+        To update simply copy all the files from the new release folder into your existing directy. Doing this should keep all user settings.

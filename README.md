@@ -37,7 +37,7 @@ If at any time the script freezes right click the icon in the System Tray and cl
 
 If clicking the "View Log" button isn't taking you to the correct path, this is likely due to because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
 
-To avoid the need to change all your settings on each update I recommend not copying over not copying the "Settings" folder from the update zip. 
+To update simply copy all the files from the new release folder into your existing directy. Doing this should keep all user settings.
 
 The Auto Enable/Disable feature is currently in Beta. For it to work it requires the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. I've tried to be as thorough as possible in adding dialogs but I may have missed some as there is some variance in the.
 
