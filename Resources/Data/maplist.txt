@@ -123,6 +123,7 @@ Tropical Island
 Underground River
 Underground Sea
 Vaal Pyramid
+Vaal Temple
 Vault
 Villa
 Volcano
@@ -130,3 +131,55 @@ Waste Pool
 Wasteland
 Waterways
 Wharf
+
+AncientCity
+HauntedMansion
+RelicChambers
+SpiderLair
+SulphurVents
+PrimordialBlocks
+ArachnidNest
+DefiledCathedral
+FloodedMine
+ForbiddenWoods
+ForkingRiver
+Springs
+UndergroundSea
+SpiderForest
+ColdRiver_
+AridLake
+FrozenCabins
+AcidLakes
+AshenWood
+BoneCrypt
+BrambleValley
+BurialChambers
+CitySquare
+CoralRuins
+CrimsonTemple
+CrimsonTownship
+CrystalOre
+CursedCrypt
+DarkForest
+DesertSpring
+DrySea
+Gorge
+GraveTrough
+InfestedValley
+IvoryTemple
+JungleValley
+LavaChamber
+LavaLake
+MineralPools
+MoonTemple
+MudGeyser
+OvergrownRuin
+OvergrownShrine
+PrimordialPool
+SunkenCity
+ToxicSewer
+TropicalIsland
+UndergroundRiver
+VaalPyramid
+VaalTemple
+WastePool
