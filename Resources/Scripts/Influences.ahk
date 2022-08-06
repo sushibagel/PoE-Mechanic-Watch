@@ -1,4 +1,4 @@
-#NoTrayIcon
+;#NoTrayIcon
 #SingleInstance force
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
@@ -166,7 +166,6 @@ OnNewLine(line){
 				If (CurrentInfluence != None)
 				{
 					IniRead, InfluenceTrack, %UpOneLevel%Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
-					;msgbox, %InfluenceTrack% %InfluenceActive%
 					OldTrack = %InfluenceTrack%
 					InfluenceTrack ++
 					ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
@@ -230,13 +229,6 @@ OnNewLine(line){
 							}
 						}
 					}
-					MapTrack  := TF_Tail(LogPath, 2)
-					If MapTrack contains %MyHideout%
-					{
-						Sleep 500
-						Return
-						Break
-					}	
 				}
 			}
 		}
@@ -280,6 +272,7 @@ If (InfluenceTrack = 14) or (InfluenceTrack = 28)
 	Gosub, NotificationSound
 	Return
 }
+Return
 
 SubtractOne:
 Gosub, InfluenceActive
@@ -309,16 +302,6 @@ If (SearingActive = 1)
 }
 Sleep, 100
 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-    Loop
-    {
-        MapTrack  := TF_Tail(LogPath, 3)
-        If MapTrack contains %MyHideout%
-        {
-			Sleep 500
-            Reload
-			Break
-        }
-    }
 Return
 
 InfluenceActive:
