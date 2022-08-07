@@ -27,6 +27,7 @@ Loop
     }
     FullSearch =
     MyDialogs = 
+    MyDialogsDisable =
     For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
         autocheck = %Mechanic%Auto

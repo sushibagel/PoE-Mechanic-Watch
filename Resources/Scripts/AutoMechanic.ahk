@@ -1,5 +1,4 @@
 SelectAuto:
-AutoMechanicSearch = Blight|Expedition|Incursion
 Gosub, ReadAutoMechanics
 Sleep, 100
 Gui, Auto:-Border
@@ -48,6 +47,7 @@ Run, Resources\Scripts\MechanicSelector.ahk
 Return
 
 ReadAutoMechanics:
+AutoMechanicSearch = Blight|Expedition|Incursion
 AutoMechanicsActive = 0
 Loop, 1
 For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
