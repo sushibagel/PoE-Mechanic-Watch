@@ -147,100 +147,108 @@ class LogTailer {
 OnNewLine(line){
     MapTrack := % line
 	If InStr(MapTrack, "Generating level") and If InStr(MapTrack, "with seed")
-		FirstSplit := StrSplit(MapTrack, A_Space)
-		AreaLevel = % FirstSplit[10]
-		SeedNumber = % FirstSplit[15]
-		If (AreaLevel >= 81)
-		{
-			SplitDelim = `"
-			GetMap = % FirstSplit[12]
-			SecondSplit := StrSplit(GetMap, SplitDelim)
-			GetMap = % SecondSplit[2]
-			MapName := StrSplit(GetMap, "MapWorlds")
-			MapName = % MapName[2]
-			FileRead, MapList, %UpOneLevel%Data\maplist.txt
-			If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
-			{
-				LastMap := MapName
-				LastSeed := SeedNumber
-				If (CurrentInfluence != None)
-				{
-					IniRead, InfluenceTrack, %UpOneLevel%Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
-					;msgbox, %InfluenceTrack% %InfluenceActive%
-					OldTrack = %InfluenceTrack%
-					InfluenceTrack ++
-					ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-					IniWrite, %InfluenceTrack%, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
-					Gui, Influence:Color, %Background%
-					Gui, Influence:Font, c%Font% s10
-					Gui, Influence:-Border
-					Gui, Influence:+AlwaysOnTop
-					Gui, Influence:Add, Text,,You just entered a new map, press %HK% to subtract 1 map
-					Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
-					WinSet, Style, -0xC00000, Influence
-					WinGetPos, Xi, Yi, Widthi, Heighti, Influence
-					Gui, Influence:Hide
-					If (widthset = "")
-					{
-						widthset := Width  + (Length/2) - (Widthi/2)
-					}
-					Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
-					SetTimer, CloseGui, -3000
+        {
+            FirstSplit := StrSplit(MapTrack, A_Space)
+            AreaLevel = % FirstSplit[10]
+            SeedNumber = % FirstSplit[15]
+		    If (AreaLevel >= 81)
+		    {
+                SplitDelim = `"
+                GetMap = % FirstSplit[12]
+                SecondSplit := StrSplit(GetMap, SplitDelim)
+                GetMap = % SecondSplit[2]
+                MapName := StrSplit(GetMap, "MapWorlds")
+                MapName = % MapName[2]
+                FileRead, MapList, %UpOneLevel%Data\maplist.txt
+			    If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
+			    {
+                    LastMap := MapName
+                    LastSeed := SeedNumber
+				    If (CurrentInfluence != None)
+				    {
+                        IniRead, InfluenceTrack, %UpOneLevel%Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
+                        OldTrack = %InfluenceTrack%
+                        InfluenceTrack ++
+                        ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+                        IniWrite, %InfluenceTrack%, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
+                        Gui, Influence:Color, %Background%
+                        Gui, Influence:Font, c%Font% s10
+                        Gui, Influence:-Border
+                        Gui, Influence:+AlwaysOnTop
+                        Gui, Influence:Add, Text,,You just entered a new map, press %HK% to subtract 1 map
+                        Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
+                        WinSet, Style, -0xC00000, Influence
+                        WinGetPos, Xi, Yi, Widthi, Heighti, Influence
+                        Gui, Influence:Hide
+					    If (widthset = "")
+					    {
+						    widthset := Width  + (Length/2) - (Widthi/2)
+					    }
+                        Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
+                        SetTimer, CloseGui, -3000
 
-					If (InfluenceTrack = 14)
-					{
-						If (InfluenceActive = "Searing")
-						{
-							ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
-						}
-						If (InfluenceActive = "Eater")
-						{
-							ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
-						}
-						Gosub, Reminder
-					}
-					If (InfluenceTrack = 28)
-					{
-						If (InfluenceActive = "Searing")
-						{
-							ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
-						}
-						If (InfluenceActive = "Eater")
-						{
-							ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
-						}
-						Gosub, Reminder
-					}
-				}
-				Loop
-				{
-					IfWinNotActive, ahk_group PoeWindow
-					{
-						Sleep, 200
-						IfWinNotActive, ahk_group PoeWindow
-						{
-							Gui, Reminder:Destroy
-							Loop
-							{
-								IfWinActive, ahk_group PoeWindow
-								{
-									Gosub, Reminder
-									Break
-								}
-							}
-						}
-					}
-					MapTrack  := TF_Tail(LogPath, 2)
-					If MapTrack contains %MyHideout%
-					{
-						Sleep 500
-						Return
-						Break
-					}	
-				}
-			}
-		}
-	}
+                        If (InfluenceTrack = 14)
+                        {
+                            If (InfluenceActive = "Searing")
+                            {
+                                ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
+                            }
+                            If (InfluenceActive = "Eater")
+                            {
+                                ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
+                            }
+                            Gosub, Reminder
+                        }
+                        If (InfluenceTrack = 28)
+                        {
+                            If (InfluenceActive = "Searing")
+                            {
+                                ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
+                            }
+                            If (InfluenceActive = "Eater")
+                            {
+                                ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
+                            }
+                            Gosub, Reminder
+                        }
+                    }
+			    }
+		    }
+        }
+}
+Gosub, InfluenceTrack
+Return
+
+
+ReminderLoop:
+Loop
+{
+    IfWinNotActive, ahk_group PoeWindow
+    {
+        Sleep, 200
+        IfWinNotActive, ahk_group PoeWindow
+        {
+            Gui, Reminder:Destroy
+            Loop
+            {
+                IfWinActive, ahk_group PoeWindow
+                {
+                    Gosub, Reminder
+                    Break
+                }
+            }
+        }
+    }
+    lt := new LogTailer(LogPath, Func("HideoutOnNewLine"))
+    return
+    HideoutOnNewLine(line){
+        HideoutTrack := % line
+	    If InStr(HideoutTrack, MyHideout)
+        {
+           Gosub, InfluenceTrack
+        }
+    }
+}
 Gosub, InfluenceTrack
 Return
 
@@ -278,8 +286,10 @@ If (InfluenceTrack = 14) or (InfluenceTrack = 28)
 	Gui, Reminder:Show, x%width1% y%height1%, Reminder
 	WinSet, Style, -0xC00000, Reminder
 	Gosub, NotificationSound
+    Gosub, ReminderLoop
 	Return
 }
+Return
 
 SubtractOne:
 Gosub, InfluenceActive
@@ -288,7 +298,7 @@ InfluenceTrack =
 If (EaterActive = 1)
 {
     IniRead, InfluenceTrack, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, Eater
-    OldTrack = %InfluenceTrack%
+    OldTrack := InfluenceTrack
     InfluenceTrack := InfluenceTrack - 1
 	If(InfluenceTrack = -1)
 	{
@@ -299,7 +309,7 @@ If (EaterActive = 1)
 If (SearingActive = 1)
 {
     IniRead, InfluenceTrack, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, Searing
-    OldTrack = %InfluenceTrack%
+    OldTrack := InfluenceTrack
     InfluenceTrack := InfluenceTrack - 1
 		If(InfluenceTrack = -1)
 	{
@@ -309,16 +319,7 @@ If (SearingActive = 1)
 }
 Sleep, 100
 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-    Loop
-    {
-        MapTrack  := TF_Tail(LogPath, 3)
-        If MapTrack contains %MyHideout%
-        {
-			Sleep 500
-            Reload
-			Break
-        }
-    }
+Gosub, InfluenceActive
 Return
 
 InfluenceActive:
