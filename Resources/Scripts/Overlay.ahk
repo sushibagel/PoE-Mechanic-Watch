@@ -43,6 +43,7 @@ mechanictest = 0
         }
     }
 Gui, 2:+AlwaysOnTop
+Gui, 2:+ToolWindow
 Gui, 2:Show, NoActivate x%width% y%height%, Overlay
 WinSet, Style, -0xC00000, Overlay
 WinSet, TransColor, 1e1e1e, Overlay
