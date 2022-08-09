@@ -247,6 +247,7 @@ Gosub, Monitor
 GetHideout:
 FileReadLine, hideoutcheck, Resources/Settings/CurrentHideout.txt, 1
 StringTrimLeft, MyHideout, hideoutcheck, 12 
+MyHideout = %MyHideout% ;Remove extra space that for some reason occurs. 
 Return
 
 Monitor: ;Monitor for Path of Exile window to be active. This will hide the overlay if the window is inactive and activate it when active. 
