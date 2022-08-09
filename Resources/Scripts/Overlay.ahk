@@ -53,8 +53,12 @@ Loop
         Break
     }
 }
-Gui, 2:+AlwaysOnTop +ToolWindow +Owner%PoeID%
+Gui, 2:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
 Gui, 2:Show, NoActivate x%width% y%height%, Overlay
 WinSet, Style, -0xC00000, Overlay
 WinSet, TransColor, 1e1e1e, Overlay
+If (WarningActive = "Yes")
+{
+    Gosub, Reminder
+}
 Return
