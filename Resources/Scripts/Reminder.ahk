@@ -48,9 +48,8 @@ if (MechanicsActive = 1)
     Gui, 1:Add, Text,,Did you forget to complete your %ReminderText%?
     Gui, 1:Font, s10
     Gui, 1:Color, %Background%
-    Gui, 1:-Border
-    Gui, 1:+AlwaysOnTop
-    Gui, 1:Show, x%width1% y%height1%, Reminder
+    Gui, 1:+AlwaysOnTop -Border +Owner2
+    Gui, 1:Show, NoActivate x%width1% y%height1%, Reminder
     WinGetPos,,, Width, Height, Reminder
     Gui, 1:Hide,
     WinSet, Style, -0xC00000, Reminder
