@@ -69,14 +69,12 @@ if (MechanicsActive = 1)
 	    SetWindowVol("ahk_exe Autohotkey.exe", CheckVolume)
         SoundPlay, %NotificationSound%
     }
-    Gosub, WindowMonitor
     Return
 
 GuiClose:
 ButtonYes!:
 Gui, 1:Submit
 WinActivate, ahk_group PoeWindow
-WarningActive = No
 Loop 
 {
     Hideout  := TF_Tail(LogPath, 3)
@@ -120,37 +118,6 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
 Gui, 2:Destroy
 GoSub, Monitor
 Return
-
-WindowMonitor:
-Loop
-{
-    IfWinNotActive, ahk_group PoeWindow
-    {
-        Sleep, 200
-        IfWinNotActive, ahk_group PoeWindow
-        {
-            Gui, 1:Destroy
-            Gui, 2:Destroy
-            Gosub, WindowMonitor2
-            Break
-        }
-        IfWinActive, ahk_group PoeWindow
-        {
-            Gosub, WindowMonitor
-            Break
-        }
-    }
-}
-
-WindowMonitor2:
-Loop
-{
-    IfWinActive, ahk_group PoeWindow
-    {
-        Gosub, Monitor
-        Break
-    }
-}
 
 UpdateNotification:
 IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
