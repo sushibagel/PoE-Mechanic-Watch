@@ -57,6 +57,7 @@ Global Font
 Global Hk2
 Global iniFile
 Global iniSection
+Global PoeID
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
 Global AbyssOn
