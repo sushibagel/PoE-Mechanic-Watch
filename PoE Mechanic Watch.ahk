@@ -254,16 +254,11 @@ Loop
 {
     IfWinActive, ahk_group PoeWindow
     {
+        
         Gosub, Overlay
+        If (AutoMechanicsActive >= 1)
         {
-            If (WarningActive = "Yes")
-            {
-                Gosub, Reminder
-            }
-            If (AutoMechanicsActive >= 1)
-            {
-                Gosub, LogMonitor
-            }
+            Gosub, LogMonitor
         }
     }
 
@@ -481,24 +476,33 @@ Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
 Return
 
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
+ToggleOn:
+Gui, 2:Destroy
+Gosub, Overlay
+Gosub, LogMonitor
+Return
+
+ToggleOff:
+Gui, 2:Destroy
+WarningActive = No
+Gosub, Overlay
+Return
+
 Abyss:
 GoSub, MechanicsActive
 {
 if (AbyssActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Abyss
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return
     }
 
 if (AbyssActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Abyss
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -508,18 +512,15 @@ GoSub, MechanicsActive
 if (BlightActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Blight
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return
     }
 
 if (BlightActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Blight
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -529,18 +530,15 @@ GoSub, MechanicsActive
 if (BreachActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Breach
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return
     }
 
 if (BreachActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Breach
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -550,18 +548,15 @@ GoSub, MechanicsActive
 if (ExpeditionActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Expedition
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return
     }
 
 if (ExpeditionActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Expedition
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -571,19 +566,16 @@ GoSub, MechanicsActive
 if (IncursionActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Incursion
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
+        Gosub, ToggleOn
         IncursionSleep = 0
-        return
+        Return
     }
 
 if (IncursionActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Incursion
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -593,18 +585,15 @@ GoSub, MechanicsActive
 if (MetamorphActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Metamorph
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return
     }
 
 if (MetamorphActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Metamorph
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -614,18 +603,15 @@ GoSub, MechanicsActive
 if (RitualActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Ritual
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return
     }
 
 if (RitualActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Ritual
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -635,18 +621,15 @@ GoSub, MechanicsActive
 if (HarvestActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Harvest
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return 
     }
 
 if (HarvestActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Harvest
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
@@ -656,18 +639,15 @@ GoSub, MechanicsActive
 if (GenericActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Generic
-        Gui, 2:Destroy
-        Gosub, Overlay
-        Gosub, LogMonitor
-        return
+        Gosub, ToggleOn
+        Return
     }
 
 if (GenericActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Generic
-        Gui, 2:Destroy
-        Gosub, Overlay
-        return
+        Gosub, ToggleOff
+        Return
     }
 }
 
