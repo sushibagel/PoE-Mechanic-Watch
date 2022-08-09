@@ -1,22 +1,21 @@
 StartLogging:
-Global Shores
-Shores := "Karui Shores"
-LogPath := "C:\Program Files (x86)\Steam\steamapps\common\Path of Exile\logs\Client.txt"
-;msgbox, %Logpath% %FullSearch%
+;msgbox, %FullSearch%
 lt := new CLogTailer(LogPath, Func("NewLine"))
-
+Return
 ; This function gets called each time there is a new line
 NewLine(text)
 {
-if text contains %FullSearch%,%Shore%
+;ToolTip, % text
+If text contains %FullSearch% ;This is intentially redundant for now. I may use it later for future improvements. 
 	{
-    	;MsgBox %text% -- was found
-        Hideout := text
-        ;msgbox, %hideout%
-        return
+		Hideout := text
+		If Hideout contains %FullSearch%
+		{
+			Gosub, LogItem
+			Return
+		}
 	}
 }
-Return
 
 class CLogTailer {
 	__New(logfile, callback){
