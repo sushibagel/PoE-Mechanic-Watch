@@ -8,15 +8,14 @@ Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
 Gui, First:Color, %Background%
 Gui, First:Font, c%Font% s12
 Gui, First:Add, Text, w550 +Center, Welcome to PoE Mechanic Watch
-Gui, First: +AlwaysOnTop -Caption
+Gui, First: -Caption
 Gui, First:Show, NoActivate x%xh% y%yh% w550, First
 WinSet, Style, -0xC00000, First
 WinGetPos, X, Y, w, h, First
 Gui, First:Hide
 xh := xh - (w/2)
 yh2 := yh + h
-Gui, First:Show, x%xh% y%yh% w550, First
-WinSet, Style, -0xC00000, First
+
 Gui, First2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
 Gui, First2:Color, %Secondary%
 Gui, First2:Font, cBlack s10
@@ -39,9 +38,13 @@ Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, Mod
 Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, Select applications/scripts/etc. to be launched alongside Path of Exile
 Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, Sound Settings
 Gui, First2:Add, Button, x490, Close
-Gui, First2: +AlwaysOnTop -Caption
+Gui, First2: -Caption +HwndFirst2
 Gui, First2:Show, x%xh% y%yh2% w550, First2
 WinSet, Style, -0xC00000, First2
+
+Gui, First: -Caption +OwnerFirst2 ;;;;;; Intentionally here so that First2 is shown so it can own First
+Gui, First:Show, x%xh% y%yh% w550, First
+WinSet, Style, -0xC00000, First
 WinWaitClose, First2
 Return
 
