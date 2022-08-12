@@ -133,13 +133,12 @@ NewLine(text)
                         InfluenceTrack ++
                         ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
                         IniWrite, %InfluenceTrack%, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
+                        IniRead, MapTransparency, %UpOneLevel%Settings\Transparency.ini, Transparency, Map, 255
                         Gui, Influence:Color, %Background%
                         Gui, Influence:Font, c%Font% s10
-                        Gui, Influence:-Border
-                        Gui, Influence:+AlwaysOnTop
+                        Gui, Influence:-Border +AlwaysOnTop
                         Gui, Influence:Add, Text,,You just entered a new map, press %HK% to subtract 1 map
                         Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
-                        WinSet, Style, -0xC00000, Influence
                         WinGetPos, Xi, Yi, Widthi, Heighti, Influence
                         Gui, Influence:Hide
 					    If (widthset = "")
@@ -147,6 +146,8 @@ NewLine(text)
 						    widthset := Width  + (Length/2) - (Widthi/2)
 					    }
                         Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
+                        WinSet, Style, -0xC00000, Influence
+                        WinSet, Transparent, %MapTransparency%, Influence
                         SetTimer, CloseGui, -3000
 
                         If (InfluenceTrack = 14)
@@ -233,6 +234,7 @@ Gosub, SubtractOne
 Return
 
 Reminder:
+IniRead, InfluenceTransparency, %UpOneLevel%Settings\Transparency.ini, Transparency, Map, 255
 If (InfluenceTrack = 14) or (InfluenceTrack = 28)
 {
 	Gui, Reminder:Font, c%Font% s12
@@ -247,6 +249,7 @@ If (InfluenceTrack = 14) or (InfluenceTrack = 28)
 	Gui, Reminder:Add, Button, x300 y40, Revert Count
 	Gui, Reminder:Show, x%width1% y%height1%, Reminder
 	WinSet, Style, -0xC00000, Reminder
+    WinSet, Transparent, %InfluenceTransparency%, Reminder
 	Gosub, NotificationSound
     Gosub, ReminderLoop
 	Return

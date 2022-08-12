@@ -22,7 +22,7 @@ Gui, First2:Font, cBlack s10
 Gui, First2:Add, Text,, Before using PoE Mechanic Watch click each item below to set your preferences.
 Gui, First2:Add, Text,, Items with a * are required
 Gui, First2:Add, Checkbox, vClientOpened gClientOpen Checked%ClientState%, * Open your Path of Exile Client
-Gui, First2:Add, Checkbox, vThemeSelect gThemeSelect Checked%ThemeState%, Select your Theme
+Gui, First2:Add, Checkbox, vThemeSelect gThemeSelect Checked%ThemeState%, %A_Space% Select your Theme
 HideouttxtPath = Resources\Settings\CurrentHideout.txt
 
 If FileExist(HideouttxtPath)
@@ -32,11 +32,12 @@ If FileExist(HideouttxtPath)
 
 Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
 Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
-Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, Reposition your overlay
-Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, Select Auto Mechanics
-Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, Modify Hotkeys (Highly recommended if you are using Influence tracking)
-Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, Select applications/scripts/etc. to be launched alongside Path of Exile
-Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, Sound Settings
+Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Reposition your overlay
+Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, %A_Space% Set the transparency of your overlays and notifications
+Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
+Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
+Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
+Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, %A_Space% Sound Settings
 Gui, First2:Add, Button, x490, Close
 Gui, First2: -Caption +HwndFirst2
 Gui, First2:Show, x%xh% y%yh2% w550, First2
@@ -132,6 +133,16 @@ WinWait, Move
 Gui, Loading:Destroy
 WinwaitClose, Move
 Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Position
+Gosub, ReloadCheck
+Return
+
+TransparencySelect:
+Gui, Submit, NoHide
+Gui, First:Destroy
+Gui, First2:Destroy
+GoSub, UpdateTransparency
+WinWaitClose, Transparency
+Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Transparency
 Gosub, ReloadCheck
 Return
 

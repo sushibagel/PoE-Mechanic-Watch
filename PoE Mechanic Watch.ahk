@@ -22,6 +22,7 @@ Menu, Tray, Add, Setup, :SetupMenu
 Menu, SetupMenu, Add, Set Hideout, SetHideout
 Menu, SetupMenu, Add, Change Theme, SelectTheme
 Menu, SetupMenu, Add, Move Overlay, Move
+Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
 Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add, Sound Settings, UpdateNotification
 Menu, SetupMenu, Add, Launch Assist, LaunchGui
@@ -240,6 +241,7 @@ Gosub, GetHideout
 GoSub, ReadMechanics
 Gosub, ReadAutoMechanics
 Gosub, LaunchGlobals
+Gosub, ReadTransparency
 Gosub, Monitor
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Sub Routines ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -688,3 +690,4 @@ Return
 #Include, Resources/Scripts/VolumeAdjust.ahk
 #Include, Resources/Scripts/Firstrun.ahk
 #Include, Resources/Scripts/LaunchOptions.ahk
+#Include, Resources/Scripts/Transparency.ahk

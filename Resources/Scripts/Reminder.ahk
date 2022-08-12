@@ -60,6 +60,8 @@ if (MechanicsActive = 1)
     Gui, 1:Add, Button, x%xpos% y40, Yes!
     Gui, 1:Add, Button,x%xpos2% y40, No
     Gui, 1:Show, x%nwidth% y%height1% h%gheight%, Reminder
+    WinSet, Transparent, %NotificationTransparency%, Reminder
+
     If (NotificationActive = 1)
     {
         IniRead, CheckVolume, Resources/Settings/notification.ini, Volume, Notification
