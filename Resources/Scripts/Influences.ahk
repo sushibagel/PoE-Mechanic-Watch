@@ -1,8 +1,5 @@
 #NoTrayIcon
 #SingleInstance force
-GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
-GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
-GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 DetectHiddenWindows, On
 Global LogPath
 Global SearingActive
@@ -182,7 +179,6 @@ NewLine(text)
 Gosub, InfluenceTrack
 Return
 
-
 ReminderLoop:
 Loop
 {
@@ -203,7 +199,6 @@ Loop
         }
     }
     lt := new LogTailer(LogPath, Func("HideoutOnNewLine"))
-    return
     HideoutOnNewLine(line){
         HideoutTrack := % line
 	    If InStr(HideoutTrack, MyHideout)
