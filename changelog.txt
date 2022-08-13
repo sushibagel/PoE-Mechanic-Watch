@@ -1,3 +1,5 @@
+Added "Start Me.ahk" moving forward please use this to start the application.  
+
 Completely revamped the way log files are read, making it faster and more efficient. This change allowed influence tracking to be rolled into the main script making it hopefully less problematic and much faster. With this change the script is now able to detect map level and Zone ID, so leaving and re-entering a map should no longer count twice and maps below tier 14 will no longer be counted. Due to this change tf.ahk was removed and is no longer necessary and tail.ahk was added. 
 
 Fixed an odd condition where reverting influence tracking count could result in a negative total.
