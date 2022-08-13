@@ -1,14 +1,16 @@
-Minor fixes
+Completely revamped the way log files are read, making it faster and more efficient. This change allowed influence tracking to be rolled into the main script making it hopefully less problematic and much faster. With this change the script is now able to detect map level and Zone ID, so leaving and re-entering a map should no longer count twice and maps below tier 14 will no longer be counted. Due to this change tf.ahk was removed and is no longer necessary and tail.ahk was added. 
+
 Fixed an odd condition where reverting influence tracking count could result in a negative total.
 Fixed an issue that caused the directory "logs" containing "Client.txt" to be created when launching Path of Exile using the tray menu shortcut. 
 Clicking the influence icons will no longer allow the count to go beyond 28.
 Added a Hotkey option to launch Path of Exile
-Significantly reworked the Influence map tracking script to make it more effiecient, reliable and to prevent duplicate counting when re-entering a map. 
 Updated the maplist.txt to support the new version of tracking.
 
 Added an option to launch other applications/utilities along with Path of Exile. LaunchOptions.ahk was added to Resources/Scripts/ to as part of support for the utility.
 
 Added a First Run/Setup utility. Firstrun.ahk was added to Resources/Scripts/ to as part of support for the utility. 
+
+VolumeAdjust.ahk was renamed to VA.ahk and setWindowVol.ahk was added. Both files will be automatically copied to your Documents/AutoHotKey/Lib folder, I tried to avoid this but it was necessary as the VolumeAdjust.ahk was interfering with other sources of volume control (ex. Keyboard Controls)  
 
 Added transparency control for the in-game overlay and several notificaitons.
         The following files were added to support transparency control:
