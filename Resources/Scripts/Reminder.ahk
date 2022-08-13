@@ -57,16 +57,16 @@ If (NotificationActive = 1)
 }
 Loop
 {
-    IfWinNotActive, Path of Exile
+    IfWinNotActive, ahk_Group PoeWindow
     {
         Sleep, 200
-        IfWinNotActive, Path of Exile
+        IfWinNotActive, ahk_Group PoeWindow
         {
             Gui, 1:Destroy
             Gui, 2:Destroy
             Loop
             {
-                IfWinActive, Path of Exile
+                IfWinActive, ahk_Group PoeWindow
                 {
                     Gosub, Overlay
                     Gosub, Reminder
