@@ -3,10 +3,9 @@ IniRead, NotificationSound, Resources/Settings/notification.ini, Sounds, Notific
 IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
 
 WarningActive = Yes
-height1 := (A_ScreenHeight / 2) - 100
-width1 := (A_ScreenWidth / 2)-180
+height9 := (A_ScreenHeight / 2) - 100
+width9 := (A_ScreenWidth / 2)-180
 Gui, 1:Destroy
-Gui, 1:Font, c%Font% s12
 
 ;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
 Gosub, MechanicsActive
@@ -44,23 +43,8 @@ if (MechanicsActive = 1)
     ReminderText := Active
 }
 
-    Sleep, 100
-    Gui, 1:Add, Text,,Did you forget to complete your %ReminderText%?
-    Gui, 1:Font, s10
-    Gui, 1:Color, %Background%
-    Gui, 1:+AlwaysOnTop -Border +Owner2
-    Gui, 1:Show, NoActivate x%width1% y%height1%, Reminder
-    WinGetPos,,, Width, Height, Reminder
-    Gui, 1:Hide,
-    WinSet, Style, -0xC00000, Reminder
-    xpos := (width/4)
-    xpos2 := xpos+80
-    gheight := height + 40
-    nwidth := width1 - xpos
-    Gui, 1:Add, Button, x%xpos% y40, Yes!
-    Gui, 1:Add, Button,x%xpos2% y40, No
-    Gui, 1:Show, x%nwidth% y%height1% h%gheight%, Reminder
-    WinSet, Transparent, %NotificationTransparency%, Reminder
+Sleep, 100
+Gosub, MechanicReminder
 
     If (NotificationActive = 1)
     {

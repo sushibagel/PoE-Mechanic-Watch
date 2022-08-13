@@ -387,6 +387,9 @@ Gosub, LogMonitor
 Return
 
 Reload:
+Gosub, ExitInfluences
+Sleep, 500
+Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
 Reload
 Return
 
@@ -678,6 +681,14 @@ IniWrite, %Searing%, Resources/Settings/Mechanics.ini, InfluenceTrack, Searing
 ControlSetText, %OldTrack%, %Searing%, Overlay
 Return
 
+CloseGui:
+Return
+
+NotificationSound:
+Return
+
+ReminderLoop:
+Return
 ;;;;;;;;;;;;;;;; Include Scripts ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 #Include, Resources/Scripts/tf.ahk
 #Include, Resources/Scripts/UpdateCheck.ahk
@@ -691,3 +702,6 @@ Return
 #Include, Resources/Scripts/Firstrun.ahk
 #Include, Resources/Scripts/LaunchOptions.ahk
 #Include, Resources/Scripts/Transparency.ahk
+#Include, Resources/Scripts/ReminderGui.ahk
+#IncludeAgain, Resources/Scripts/MapNotification.ahk
+#IncludeAgain, Resources/Scripts/EldritchReminder.ahk

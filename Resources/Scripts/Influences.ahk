@@ -24,6 +24,7 @@ Global LastMap
 Global LastSeed
 Global UpOneLevel
 Global widthset
+Global BreakLoop
 
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
@@ -130,22 +131,7 @@ NewLine(text)
                         InfluenceTrack ++
                         ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
                         IniWrite, %InfluenceTrack%, %UpOneLevel%Settings/Mechanics.ini, InfluenceTrack, %InfluenceActive%
-                        IniRead, MapTransparency, %UpOneLevel%Settings\Transparency.ini, Transparency, Map, 255
-                        Gui, Influence:Color, %Background%
-                        Gui, Influence:Font, c%Font% s10
-                        Gui, Influence:-Border +AlwaysOnTop
-                        Gui, Influence:Add, Text,,You just entered a new map, press %HK% to subtract 1 map
-                        Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
-                        WinGetPos, Xi, Yi, Widthi, Heighti, Influence
-                        Gui, Influence:Hide
-					    If (widthset = "")
-					    {
-						    widthset := Width  + (Length/2) - (Widthi/2)
-					    }
-                        Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
-                        WinSet, Style, -0xC00000, Influence
-                        WinSet, Transparent, %MapTransparency%, Influence
-                        SetTimer, CloseGui, -3000
+						Gosub, InfluenceMapNotification
 
                         If (InfluenceTrack = 14)
                         {
@@ -157,7 +143,7 @@ NewLine(text)
                             {
                                 ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
                             }
-                            Gosub, Reminder
+                            Gosub, EldritchReminder
                         }
                         If (InfluenceTrack = 28)
                         {
@@ -169,7 +155,7 @@ NewLine(text)
                             {
                                 ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
                             }
-                            Gosub, Reminder
+                            Gosub, EldritchReminder
                         }
                     }
 			    }
@@ -180,6 +166,15 @@ Gosub, InfluenceTrack
 Return
 
 ReminderLoop:
+lt := new CLogTailer(LogPath, Func("HideoutOnNewLine"))
+HideoutOnNewLine(text)
+{
+HideoutTrack := % text
+If InStr(HideoutTrack, MyHideout)
+    {
+        BreakLoop = 1
+    }
+}
 Loop
 {
     IfWinNotActive, ahk_group PoeWindow
@@ -192,20 +187,18 @@ Loop
             {
                 IfWinActive, ahk_group PoeWindow
                 {
-                    Gosub, Reminder
+                    Gosub, EldritchReminder
                     Break
                 }
             }
         }
     }
-    lt := new LogTailer(LogPath, Func("HideoutOnNewLine"))
-    HideoutOnNewLine(line){
-        HideoutTrack := % line
-	    If InStr(HideoutTrack, MyHideout)
-        {
-           Gosub, InfluenceTrack
-        }
+    If (BreakLoop = 1)
+    {
+        BreakLoop =
+        Break
     }
+
 }
 Gosub, InfluenceTrack
 Return
@@ -224,31 +217,9 @@ WinActivate, ahk_group PoeWindow
 Return
 
 ReminderButtonRevertCount:
+WinActivate, Path of Exile
 Gui, Reminder:Destroy
 Gosub, SubtractOne
-Return
-
-Reminder:
-IniRead, InfluenceTransparency, %UpOneLevel%Settings\Transparency.ini, Transparency, Map, 255
-If (InfluenceTrack = 14) or (InfluenceTrack = 28)
-{
-	Gui, Reminder:Font, c%Font% s12
-	Gui, Reminder:Add, Text,,%ReminderText%
-	height1 := (A_ScreenHeight / 2) - 100
-	width1 := (A_ScreenWidth / 2)-180
-	Gui, Reminder:Font, s10
-	Gui, Reminder:Color, %Background%
-	Gui, Reminder:-Border
-	Gui, Reminder:+AlwaysOnTop
-	Gui, Reminder:Add, Button, x150 y40, OK
-	Gui, Reminder:Add, Button, x300 y40, Revert Count
-	Gui, Reminder:Show, x%width1% y%height1%, Reminder
-	WinSet, Style, -0xC00000, Reminder
-    WinSet, Transparent, %InfluenceTransparency%, Reminder
-	Gosub, NotificationSound
-    Gosub, ReminderLoop
-	Return
-}
 Return
 
 SubtractOne:
@@ -355,7 +326,6 @@ IfInstring, POEpath, PathOfExile_x64EGS.exe
 If (LogPath = "logs\Client.txt")
 {
     IniRead, LogPath, %UpOneLevel%\Data\LaunchPath.ini, POE, Log
-    msgbox, help
 }
 
 
@@ -1397,3 +1367,6 @@ GetVolumeObject(Param = 0)
     ObjRelease(DAE)
     return ISAV
 }
+
+#IncludeAgain, %A_ScriptDir%\MapNotification.ahk
+#IncludeAgain, %A_ScriptDir%\EldritchReminder.ahk

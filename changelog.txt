@@ -10,7 +10,19 @@ Added an option to launch other applications/utilities along with Path of Exile.
 
 Added a First Run/Setup utility. Firstrun.ahk was added to Resources/Scripts/ to as part of support for the utility. 
 
-Added notificaiton voulume controls. 
+Added transparency control for the in-game overlay and several notificaitons.
+        The following files were added to support transparency control:
+                 Transparency.ahk       to      Resources/Scripts/
+                 EldritchReminder.ahk   to      Resources/Scripts/
+                 MapNotificaiton.ahk    to      Resources/Scripts/
+                 MapNotificaiton.ahk    to      Resources/Scripts/
+                 ReminderGui.ahk        to      Resources/Scripts/
+                 refresh white.png      to      Resources/Images/
+                 refresh.png            to      Resources/Images/
+                 stop white.png         to      Resources/Images/
+                 stop.png               to      Resources/Images/
+
+Added notificaiton volume controls. 
         The following files were added to support notificaiton volume controls:
              play white.png     to      Resources/Images/
              play.png           to      Resources/Images/

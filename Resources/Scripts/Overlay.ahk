@@ -46,13 +46,21 @@ Loop
     WinGet, PoeID, ID, Path of Exile
     If (PoeID = "")
     {
-        WinWait, Path of Exile
+        IfWinActive, Transparency
+        {
+            Break
+        }
+        Else
+        {
+                WinWait, Path of Exile
+        }
     }
     If (PoeID != "")
     {
         Break
     }
 }
+IniRead, OverlayTransparency, Resources\Settings\Transparency.ini, Transparency, Overlay, 255
 Gui, 2:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
 Gui, 2:Show, NoActivate x%width% y%height%, Overlay
 WinSet, Style, -0xC00000, Overlay
