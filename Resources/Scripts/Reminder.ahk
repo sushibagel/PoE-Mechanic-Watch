@@ -86,12 +86,8 @@ Return
 
 GuiClose:
 ButtonYes!:
-BreakLoop = 1
-Hideout =
 WinActivate, Path of Exile
 Gui, 1:Submit
-Gosub, Overlay
-Gosub, LogMonitor
 Return
 
 ButtonNo:
