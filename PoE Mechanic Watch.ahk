@@ -13,7 +13,7 @@ DetectHiddenWindows, On
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
-Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
+Menu, Tray, Add, Select Auto Enable\Disable (Beta), SelectAuto
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
 Menu, Tray, Add
@@ -27,7 +27,6 @@ Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add, Sound Settings, UpdateNotification
 Menu, SetupMenu, Add, Launch Assist, LaunchGui
 Menu, Tray, Add
-Menu, Tray, Add, Reload Influences, ReloadInfluences
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add
 Menu, Tray, Add, Check for Updates, UpdateCheck
@@ -35,8 +34,8 @@ Menu, Tray, Add, Exit, Exit
 Menu, AboutMenu, Add, Version, Version
 Menu, Tray, Add, About, :AboutMenu
 Menu, AboutMenu, Add, Changelog, Changelog
-Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
-Menu, Tray, Icon, Resources/Images/ritual.png
+Menu, AboutMenu, Add, Q&&A\Feedback, Feedback
+Menu, Tray, Icon, Resources\Images\ritual.png
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Global Variables ;;;;;;;;;;;;;;;;;;;;;
 Global MyHideout
@@ -128,16 +127,16 @@ PositiontxtPath = Resources\Settings\overlayposition.txt
 
 If !FileExist(PositiontxtPath)
 {
-    FileAppend, height=962 `n, Resources/Settings/overlayposition.txt
-    FileAppend, width=570, Resources/Settings/overlayposition.txt
+    FileAppend, height=962 `n, Resources\Settings\overlayposition.txt
+    FileAppend, width=570, Resources\Settings\overlayposition.txt
 }
 
 HokeyiniPath = Resources\Settings\Hotkeys.ini
 
 If !FileExist(HokeyiniPath)
 {
-	IniWrite, "#^+r", Resources/Settings/Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
-    IniWrite, "#^q", Resources/Settings/Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
+	IniWrite, "#^+r", Resources\Settings\Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
+    IniWrite, "#^q", Resources\Settings\Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
     Hotkey, #^q, LaunchPoe
 }
 
@@ -252,7 +251,7 @@ Gosub, Monitor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Sub Routines ;;;;;;;;;;;;;;;;;;;;;;;;
 
 GetHideout:
-FileReadLine, hideoutcheck, Resources/Settings/CurrentHideout.txt, 1
+FileReadLine, hideoutcheck, Resources\Settings\CurrentHideout.txt, 1
 StringTrimLeft, MyHideout, hideoutcheck, 12 
 MyHideout = %MyHideout% ;Remove extra space that for some reason occurs. 
 Return
@@ -260,27 +259,27 @@ Return
 Monitor: ;Monitor for Path of Exile window to be active. This will hide the overlay if the window is inactive and activate it when active. 
 Loop 
 {
-    IfWinActive, ahk_group PoeWindow
-    {
-        
-        Gosub, Overlay
-        If (AutoMechanicsActive >= 1)
-        {
-            Gosub, LogMonitor
-        }
-    }
-
     IfWinNotActive, ahk_group PoeWindow
     {
         Sleep, 200
         IfWinNotActive, ahk_group PoeWindow
         {
             Gui, 2:Destroy
+            Gui, 1:Destroy
         }
     }
     IfWinExist, First
     {
         Return
+    }
+    IfWinActive, ahk_group PoeWindow
+    {
+        Gosub, Overlay
+        Gosub, MechanicsActive
+        If (AutoMechanicsActive >= 1) or If (MechanicsActive >= 1)
+        {
+            Gosub, LogMonitor
+        }
     }
 }
 
@@ -294,31 +293,16 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
     If (%Mechanic% = 0)
     %Mechanic%On := 0
 }
-SetTitleMatchMode, 2
-FileRead, Influences, Resources/Data/Influences.txt
+FileRead, Influences, Resources\Data\Influences.txt
 Loop, 1
 For each, Influence in StrSplit(Influences, "|")
 {
-    IniRead, %Influence%, Resources/Settings/Mechanics.ini, Influence, %Influence%
+    IniRead, %Influence%, Resources\Settings\Mechanics.ini, Influence, %Influence%
     If (%Influence% = 1)
     %Influence%On := 1
     If (%Influence% = 0)
     %Influence%On := 0
 }
-IfWinNotExist, Influences.ahk
-{
-    Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
-}
-
-
-If (SearingOn = 0) and (EaterOn = 0)
-{
-    IfWinExist, Influences.ahk
-    {
-        WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
-    }
-}
-SetTitleMatchMode, 1
 Return
 
 MechanicsActive:
@@ -342,7 +326,7 @@ WinGet, POEpath, ProcessPath, Path of Exile
 
 If (POEPath != "")
 {
-    IniWrite, %POEpath%, Resources/Data/LaunchPath.ini, POE, exe
+    IniWrite, %POEpath%, Resources\Data\LaunchPath.ini, POE, exe
 }
 
 IfInstring, POEpath, PathOfExileSteam.exe
@@ -383,8 +367,8 @@ IfInstring, POEpath, PathOfExile_x64EGS.exe
 LogPath = %POEPathTrim%logs\Client.txt
 If (LogPath != "logs\Client.txt")
 {
-    IniWrite, %LogPath%, Resources/Data/LaunchPath.ini, POE, log
-    IniWrite, %POEPathTrim%, Resources/Data/LaunchPath.ini, POE, Directory
+    IniWrite, %LogPath%, Resources\Data\LaunchPath.ini, POE, log
+    IniWrite, %POEPathTrim%, Resources\Data\LaunchPath.ini, POE, Directory
 }
 Return
 
@@ -392,14 +376,10 @@ Gosub, LogMonitor
 Return
 
 Reload:
-Gosub, ExitInfluences
-Sleep, 500
-Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
 Reload
 Return
 
 Exit:
-Gosub, ExitInfluences
 ExitApp
 Return
 
@@ -413,19 +393,14 @@ Return
 
 SelectMechanics:
 RunWait, Resources\Scripts\MechanicSelector.ahk
-SetTitleMatchMode, 2
-WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
-SetTitleMatchMode, 1
-Sleep, 500
-Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
 GoSub, ReadMechanics
 Gui, 2:Destroy
 Gosub, Overlay
 Return
 
 LaunchPoe:
-IniRead, PoeLaunch, Resources/Data/LaunchPath.ini, POE, exe
-IniRead, PoeDir, Resources/Data/LaunchPath.ini, POE, Directory
+IniRead, PoeLaunch, Resources\Data\LaunchPath.ini, POE, exe
+IniRead, PoeDir, Resources\Data\LaunchPath.ini, POE, Directory
 SetWOrkingDir, %PoeDir%
 run, %PoeLaunch%
 SetWorkingDir, %A_ScriptDir%
@@ -433,45 +408,53 @@ Gosub, LaunchSupport
 Return
 
 HotkeyUpdate:
-IniWrite, 1, Resources/Settings/Hotkeys.ini, Reload, Influences
-Gosub, ReloadInfluences
-IniRead, Hotkey2, Resources/Settings/Hotkeys.ini, Hotkeys, 2
+IniWrite, 1, Resources\Settings\Hotkeys.ini, Reload, Influences
+IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
 If !(Hotkey2 = "")
 {
     Hotkey, %Hotkey2%, Off
 }
 Run, Resources\Scripts\hotkeyselect.ahk
 RunWait, Resources\Scripts\hotkeyselect.ahk
-Gosub, ReloadInfluences
 Gosub, HotkeyCheck
 Return
 
 HotkeyCheck:
-IniRead, Hotkey2, Resources/Settings/Hotkeys.ini, Hotkeys, 2
+IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
+IniRead, Hotkey1, Resources\Settings\Hotkeys.ini, Hotkeys, 1
 If !(Hotkey2 = "")
 {
     Hotkey, %Hotkey2%, LaunchPoe
 }
-Return
-
-ReloadInfluences:
-SetTitleMatchMode, 2
-WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
-SetTitleMatchMode, 1
-Run, %A_ScriptDir%\Resources\Scripts\Influences.ahk
-Return
-
-ExitInfluences:
-SetTitleMatchMode, 2
-WinClose, Resources\Scripts\Influences.ahk ahk_class AutoHotkey
-SetTitleMatchMode, 1
+Hk := Hotkey1
+If !(Hk = "")
+{
+	Hotkey, %HK%, SubtractOne
+}
+; Format HK variable into a more readable format for users. 
+If HK contains +
+{
+    StringReplace, HK, HK, + , Shift +%A_Space%,
+}
+If HK contains ^
+{
+    StringReplace, HK, HK, ^ , Control +%A_Space%,
+}
+If HK contains !
+{
+    StringReplace, HK, HK, ! , Alt +%A_Space%,
+}
+If HK contains #
+{
+    StringReplace, HK, HK, # , Win +%A_Space%,
+}
 Return
 
 CheckTheme:
-IniRead, ColorMode, Resources/Settings/Theme.ini, Theme, Theme
-IniRead, Font, Resources/Settings/Theme.ini, %ColorMode%, Font
-IniRead, Background, Resources/Settings/Theme.ini, %ColorMode%, Background
-IniRead, Secondary, Resources/Settings/Theme.ini, %ColorMode%, Secondary
+IniRead, ColorMode, Resources\Settings\Theme.ini, Theme, Theme
+IniRead, Font, Resources\Settings\Theme.ini, %ColorMode%, Font
+IniRead, Background, Resources\Settings\Theme.ini, %ColorMode%, Background
+IniRead, Secondary, Resources\Settings\Theme.ini, %ColorMode%, Secondary
 Return
 
 Version:
@@ -483,7 +466,7 @@ Run, Resources\Scripts\Changelog.ahk
 Return
 
 Feedback:
-Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
+Run, https:\\github.com\sushibagel\PoE-Mechanic-Watch\discussions
 Return
 
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
@@ -664,51 +647,43 @@ if (GenericActive = 1)
 }
 
 Eater:
-IniRead, Eater, Resources/Settings/Mechanics.ini, InfluenceTrack, Eater
+IniRead, Eater, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
 OldTrack := Eater
 Eater ++
 If(Eater = 29)
 {
     Eater = 0
 }
-IniWrite, %Eater%, Resources/Settings/Mechanics.ini, InfluenceTrack, Eater
+IniWrite, %Eater%, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
 ControlSetText, %OldTrack%, %Eater%, Overlay
 Return
 
 Searing:
-IniRead, Searing, Resources/Settings/Mechanics.ini, InfluenceTrack, Searing
+IniRead, Searing, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
 OldTrack := Searing
 Searing ++
 If(Searing = 29)
 {
     Searing = 0
 }
-IniWrite, %Searing%, Resources/Settings/Mechanics.ini, InfluenceTrack, Searing
+IniWrite, %Searing%, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
 ControlSetText, %OldTrack%, %Searing%, Overlay
 Return
 
-CloseGui:
-Return
-
-NotificationSound:
-Return
-
-ReminderLoop:
-Return
 ;;;;;;;;;;;;;;;; Include Scripts ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-#Include, Resources/Scripts/tf.ahk
-#Include, Resources/Scripts/UpdateCheck.ahk
-#Include, Resources/Scripts/Overlay.ahk
-#Include, Resources/Scripts/Reminder.ahk
-#Include, Resources/Scripts/Move.ahk
-#Include, Resources/Scripts/AutoMechanic.ahk
-#Include, Resources/Scripts/LogMonitor.ahk
-#Include, Resources/Scripts/SelectTheme.ahk
-#Include, Resources/Scripts/VolumeAdjust.ahk
-#Include, Resources/Scripts/Firstrun.ahk
-#Include, Resources/Scripts/LaunchOptions.ahk
-#Include, Resources/Scripts/Transparency.ahk
-#Include, Resources/Scripts/ReminderGui.ahk
-#Include, Resources/Scripts/Tail.ahk
-#IncludeAgain, Resources/Scripts/MapNotification.ahk
-#IncludeAgain, Resources/Scripts/EldritchReminder.ahk
+#Include, Resources\Scripts\UpdateCheck.ahk
+#Include, Resources\Scripts\Overlay.ahk
+#Include, Resources\Scripts\Reminder.ahk
+#Include, Resources\Scripts\Move.ahk
+#Include, Resources\Scripts\AutoMechanic.ahk
+#Include, Resources\Scripts\LogMonitor.ahk
+#Include, Resources\Scripts\SelectTheme.ahk
+#Include, Resources\Scripts\VolumeAdjust.ahk
+#Include, Resources\Scripts\Firstrun.ahk
+#Include, Resources\Scripts\LaunchOptions.ahk
+#Include, Resources\Scripts\Transparency.ahk
+#Include, Resources\Scripts\ReminderGui.ahk
+#Include, Resources\Scripts\Tail.ahk
+#Include, Resources\Scripts\Influences.ahk
+#IncludeAgain, Resources\Scripts\MapNotification.ahk
+#IncludeAgain, Resources\Scripts\EldritchReminder.ahk

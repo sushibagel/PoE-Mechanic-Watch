@@ -22,5 +22,4 @@ If (widthset = "")
 Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
 WinSet, Style, -0xC00000, Influence
 WinSet, Transparent, %MapTransparency%, Influence
-SetTimer, CloseGui, -3000
 Return

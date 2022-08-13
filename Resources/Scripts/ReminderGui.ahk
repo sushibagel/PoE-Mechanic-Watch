@@ -15,6 +15,6 @@ gheight := height + 40
 nwidth := width9 - xpos
 Gui, 1:Add, Button, x%xpos% y40, Yes!
 Gui, 1:Add, Button,x%xpos2% y40, No
-Gui, 1:Show, x%nwidth% y%height9% h%gheight%, Reminder
+Gui, 1:Show, x%nwidth% y%height9% h%gheight% NoActivate, Reminder
 WinSet, Transparent, %NotificationTransparency%, Reminder
 Return

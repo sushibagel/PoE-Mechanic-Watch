@@ -46,27 +46,57 @@ if (MechanicsActive = 1)
 Sleep, 100
 Gosub, MechanicReminder
 
-    If (NotificationActive = 1)
+If (NotificationActive = 1)
+{
+    IniRead, CheckVolume, Resources/Settings/notification.ini, Volume, Notification
+    SoundPlay, Resources/Sounds/blank.wav ;;;;; super hacky workaround but works....
+    SetWindowVol("ahk_exe Autohotkey.exe", 0)
+    CheckVolume = +%CheckVolume%
+    SetWindowVol("ahk_exe Autohotkey.exe", CheckVolume)
+    SoundPlay, %NotificationSound%
+}
+Loop
+{
+    IfWinNotActive, Path of Exile
     {
-        IniRead, CheckVolume, Resources/Settings/notification.ini, Volume, Notification
-	    SoundPlay, Resources/Sounds/blank.wav ;;;;; super hacky workaround but works....
-	    SetWindowVol("ahk_exe Autohotkey.exe", 0)
-	    CheckVolume = +%CheckVolume%
-	    SetWindowVol("ahk_exe Autohotkey.exe", CheckVolume)
-        SoundPlay, %NotificationSound%
+        Sleep, 200
+        IfWinNotActive, Path of Exile
+        {
+            Gui, 1:Destroy
+            Gui, 2:Destroy
+            Loop
+            {
+                IfWinActive, Path of Exile
+                {
+                    Gosub, Overlay
+                    Gosub, Reminder
+                    Break
+                }
+            }
+        }
     }
-    Return
+    If (BreakLoop = 1)
+    {
+        BreakLoop =
+        Break
+    }
+
+}
+Return
 
 GuiClose:
 ButtonYes!:
+BreakLoop = 1
+Hideout =
+WinActivate, Path of Exile
 Gui, 1:Submit
-WinActivate, ahk_group PoeWindow
 Gosub, Overlay
 Gosub, LogMonitor
 Return
 
 ButtonNo:
-Gui, 1:submit
+BreakLoop = 1
+Gui, 1:Submit
 WarningActive = No
 Loop, 1
 For each, Mechanic in StrSplit(MechanicSearch, "|")

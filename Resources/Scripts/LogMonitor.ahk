@@ -58,13 +58,20 @@ For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
         }
     }
 }
-
+Gosub, InfluenceTracking
 lt := new CLogTailer(LogPath, Func("SearchOnNewLine"))
 Logwait = 
 
 SearchOnNewLine(text)
 {
-FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
+If (MyDialogsDisable != "")
+{
+    FullSearch = %MyHideout%,%MyDialogs%,%MyDialogsDisable%
+}
+Else
+{
+    FullSearch = %MyHideout%
+}
 Hideout := % text
 If Hideout contains %FullSearch%
     {
@@ -74,8 +81,23 @@ If Hideout contains %FullSearch%
 }
 
 Loop
-If (LogWait = 1)
-Break
+{
+    IfWinNotActive, ahk_group PoeWindow
+    {
+        Sleep, 200
+        IfWinNotActive, ahk_group PoeWindow
+        {
+            Gui, 2:Destroy
+            Gosub, Monitor
+        }
+    }
+    If (LogWait = 1)
+    {
+        LogWait =
+        Break
+    }
+
+}
 
 SearchText:
 FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
