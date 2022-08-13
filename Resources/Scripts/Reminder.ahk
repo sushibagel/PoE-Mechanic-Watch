@@ -1,6 +1,6 @@
 Reminder:
-IniRead, NotificationSound, Resources/Settings/notification.ini, Sounds, Notification
-IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
+IniRead, NotificationSound, Resources\Settings\notification.ini, Sounds, Notification
+IniRead, NotificationSoundActive, Resources\Settings\notification.ini, Active, Notification
 
 WarningActive = Yes
 height9 := (A_ScreenHeight / 2) - 100
@@ -46,13 +46,16 @@ if (MechanicsActive = 1)
 Sleep, 100
 Gosub, MechanicReminder
 
-If (NotificationActive = 1)
+IniRead, NotificationSoundActive, Resources\Settings\notification.ini, Active, Notification
+If (NotificationSoundActive = 1)
 {
-    IniRead, CheckVolume, Resources/Settings/notification.ini, Volume, Notification
-    SoundPlay, Resources/Sounds/blank.wav ;;;;; super hacky workaround but works....
-    SetWindowVol("ahk_exe Autohotkey.exe", 0)
-    CheckVolume = +%CheckVolume%
-    SetWindowVol("ahk_exe Autohotkey.exe", CheckVolume)
+    IniRead, NotificationVolume, Resources\Settings\notification.ini, Volume, Notification
+    IniRead, NotificationSound, Resources\Settings\notification.ini, Sounds, Notification
+    SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+    SetTitleMatchMode, 2
+    WinGet, AhkExe, ProcessName, Reminder
+    SetTitleMatchMode, 1
+    SetWindowVol(AhkExe, NotificationVolume)
     SoundPlay, %NotificationSound%
 }
 Loop
@@ -104,10 +107,12 @@ GoSub, Monitor
 Return
 
 UpdateNotification:
-IniRead, NotificationActive, Resources/Settings/notification.ini, Active, Notification
-IniRead, InfluenceSoundActive, Resources/Settings/notification.ini, Active, Influence
-IniRead, NotificaitonVolume, Resources/Settings/notification.ini, Volume, Notification
-IniRead, InfluenceVolume, Resources/Settings/notification.ini, Volume, Influence
+IniRead, NotificationSoundActive, Resources\Settings\notification.ini, Active, Notification
+IniRead, InfluenceSoundActive, Resources\Settings\notification.ini, Active, Influence
+IniRead, NotificationVolume, Resources\Settings\notification.ini, Volume, Notification
+IniRead, InfluenceVolume, Resources\Settings\notification.ini, Volume, Influence
+IniRead, NotificationSound, Resources\Settings\notification.ini, Sounds, Notification
+IniRead, InfluenceSound, Resources\Settings\notification.ini, Sounds, Influence
 Gui, Sounds:Font, c%Font% s10
 Gui, Sounds:Add, Checkbox, vNotification Checked%NotificationActive%, Notification
 
@@ -122,16 +127,16 @@ If (ColorMode = "Light")
     PlayColor = play.png
 }
 
-Gui, Sounds:Add, Picture, gSoundsButtonChangeNotification x165 y5 w20 h20, Resources/Images/%IconColor%
-Gui, Sounds:Add, Picture, gtestnotication x195 y5 w20 h20, Resources/Images/%PlayColor%
+Gui, Sounds:Add, Picture, gSoundsButtonChangeNotification x165 y5 w20 h20, Resources\Images\%IconColor%
+Gui, Sounds:Add, Picture, gtestnotication x195 y5 w20 h20, Resources\Images\%PlayColor%
 Gui, Sounds:Font, cBlack
 Gui, Sounds:Color, Edit, %Secondary% -Caption -Border
 Gui, Sounds:Add, Edit, x220 y5 h20 w50 vNotiEdit
-Gui, Sounds:Add, UpDown, Range0-100, %NotificaitonVolume% x270 h20
+Gui, Sounds:Add, UpDown, Range0-100, %NotificationVolume% x270 h20
 Gui, Sounds:Font, c%Font%
 Gui, Sounds:Add, Checkbox, vInfluenceNotification Checked%InfluenceSoundActive% x10, Influence Notification
-Gui, Sounds:Add, Picture, gSoundsInfluenceNotification x165 y30 w20 h20, Resources/Images/%IconColor%
-Gui, Sounds:Add, Picture, gtestnoticationInfluence x195 y30 w20 h20, Resources/Images/%PlayColor%
+Gui, Sounds:Add, Picture, gSoundsInfluenceNotification x165 y30 w20 h20, Resources\Images\%IconColor%
+Gui, Sounds:Add, Picture, gtestnoticationInfluence x195 y30 w20 h20, Resources\Images\%PlayColor%
 Gui, Sounds:Font, cBlack
 Gui, Sounds:Color, Edit, %Secondary% -Caption -Border
 Gui, Sounds:Add, Edit, x220 y30 h20 w50 vNotiEditInfluence
@@ -149,49 +154,55 @@ Return
 SoundsGuiClose:
 SoundsButtonOk: 
 Gui, Submit, NoHide 
-IniWrite, %Notification%, Resources/Settings/notification.ini, Active, Notification
-IniWrite, %InfluenceNotification%, Resources/Settings/notification.ini, Active, Influence
+IniWrite, %Notification%, Resources\Settings\notification.ini, Active, Notification
+IniWrite, %InfluenceNotification%, Resources\Settings\notification.ini, Active, Influence
 Gui, Destroy
-IniWrite, %NotiEdit%, Resources/Settings/notification.ini, Volume, Notification
-IniWrite, %NotiEditInfluence%, Resources/Settings/notification.ini, Volume, Influence
+IniWrite, %NotiEdit%, Resources\Settings\notification.ini, Volume, Notification
+IniWrite, %NotiEditInfluence%, Resources\Settings\notification.ini, Volume, Influence
 Return
 
 SoundsButtonChangeNotification:
 Gui, Submit, NoHide
-IniWrite, %Notification%, Resources/Settings/notification.ini, Active, Notification
+IniWrite, %Notification%, Resources\Settings\notification.ini, Active, Notification
 FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
 If (NewSound != "")
 {
-    IniWrite, %NewSound%, Resources/Settings/notification.ini, Sounds, Notification
+    IniWrite, %NewSound%, Resources\Settings\notification.ini, Sounds, Notification
 }
 Return
 
 SoundsInfluenceNotification:
 Gui, Submit, NoHide
-IniWrite, %InfluenceNotification%, Resources/Settings/notification.ini, Active, Influence
+IniWrite, %InfluenceNotification%, Resources\Settings\notification.ini, Active, Influence
 FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
 If (NewSound != "")
 {
-    IniWrite, %NewSound%, Resources/Settings/notification.ini, Sounds, Influence
+    IniWrite, %NewSound%, Resources\Settings\notification.ini, Sounds, Influence
 }
 Return
 
 testnotication:
 Gui, Sounds:Submit, NoHide
-IniRead, TestSound, Resources/Settings/notification.ini, Sounds, Notification
-TestVolume = +%NotiEdit%
-SoundPlay, Resources/Sounds/blank.wav ;;;;; super hacky workaround but works....
-SetWindowVol("ahk_exe Autohotkey.exe", 0)
-SetWindowVol("ahk_exe Autohotkey.exe", TestVolume)
+IniRead, TestSound, Resources\Settings\notification.ini, Sounds, Notification
+TestVolume = %NotiEdit%
+SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+SetTitleMatchMode, 2
+WinGet, AhkExe, ProcessName, Sounds
+SetTitleMatchMode, 1
+SetWindowVol(AhkExe, 0)
+SetWindowVol(AhkExe, TestVolume)
 SoundPlay, %TestSound%
 Return
 
 testnoticationInfluence:
 Gui, Sounds:Submit, NoHide
-IniRead, TestSound, Resources/Settings/notification.ini, Sounds, Influence
-TestVolume = +%NotiEditInfluence%
-SoundPlay, Resources/Sounds/blank.wav ;;;;; super hacky workaround but works....
-SetWindowVol("ahk_exe Autohotkey.exe", 0)
-SetWindowVol("ahk_exe Autohotkey.exe", TestVolume)
+IniRead, TestSound, Resources\Settings\notification.ini, Sounds, Influence
+TestVolume = %NotiEditInfluence%
+SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+SetTitleMatchMode, 2
+WinGet, AhkExe, ProcessName, Sounds
+SetTitleMatchMode, 1
+SetWindowVol(AhkExe, 0)
+SetWindowVol(AhkExe, TestVolume)
 SoundPlay, %TestSound%
 Return

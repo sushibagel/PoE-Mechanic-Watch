@@ -231,13 +231,17 @@ Else
 Return
 
 NotificationSound:
+IniRead, InfluenceSoundActive, Resources\Settings\notification.ini, Active, Influence
 If (InfluenceSoundActive = 1)
 {
-	IniRead, CheckVolume, Resources\\Settings\notification.ini, Volume, Influence
-	SoundPlay, Resources\\Sounds\blank.wav ;;;;; super hacky workaround but works....
-	SetWindowVol("ahk_exe Autohotkey.exe", 0)
-	CheckVolume = +%CheckVolume%
-	SetWindowVol("ahk_exe Autohotkey.exe", CheckVolume)
-	SoundPlay, %InfluenceSound%
+    IniRead, InfluenceVolume, Resources\Settings\notification.ini, Volume, Influence
+    IniRead, InfluenceSound, Resources\Settings\notification.ini, Sounds, Influence
+	SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+    SetTitleMatchMode, 2
+    WinGet, AhkExe, ProcessName, Reminder
+    SetTitleMatchMode, 1
+    SetWindowVol(AhkExe, 0)
+    SetWindowVol(AhkExe, InfluenceVolume)
+    SoundPlay, %InfluenceSound% 
 }
 Return

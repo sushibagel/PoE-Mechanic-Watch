@@ -49,6 +49,7 @@ Global height
 Global width
 Global sleepmechanic
 Global NotificationSound
+Global NotificationSoundActive
 Global NotificationActive
 Global ColorMode
 Global Background
@@ -678,7 +679,7 @@ Return
 #Include, Resources\Scripts\AutoMechanic.ahk
 #Include, Resources\Scripts\LogMonitor.ahk
 #Include, Resources\Scripts\SelectTheme.ahk
-#Include, Resources\Scripts\VolumeAdjust.ahk
+;#Include, Resources\Scripts\VolumeAdjust.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
 #Include, Resources\Scripts\Transparency.ahk
