@@ -11,20 +11,20 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 
 You can reposition the overlay to your liking by right clicking the script icon in your System Tray and selecting "Move Overlay" once positioned to your liking click "Lock" and the the overlay position will be remembered. You can also change the overlay position by changing the coordinates in the "overlayposition.txt" and restarting the script.
 
-Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon. 
+Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon.  
 The Hotkey can be changed using the "Change Hotkey" tray menu option.
 
 Auto mechanic tracking for Blight, Expedition and Incursion can be enabled in a seperate menu. This feature requires the "Output Dialogue To Chat" setting turned on in the "UI" section of the settings in game. Incursion reminders are only disabled after the 3rd encounter. Please note this feature depends on NPC dialogs, due to dialogs being random it may not be 100% reliable. 
 
-Installation:
+Installation:  
 To run this script you MUST have AutoHotKey installed. https://www.autohotkey.com/
 
 The first time your run this script you MUST set your hideout type. This can be done in two ways: First by right clicking the script icon in the System Tray and selecting "Set Hideout" use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected. Alternatively, you can edit the "CurrentHideout.txt" file Note: this method is not preffered, any typos, or formatting errors can cause the script to not work correctly. 
 
-Download and unzip the program. Double-click "PoE Mechanic Watch.ahk" to run the program. 
+Download and unzip the program. Double-click "PoE Mechanic Watch.ahk" to run the program.  
 Please note, it must be run from within a folder containing all the assets and files that are contained in the zip. 
 
-Troubleshooting: 
+Troubleshooting:  
 Please make sure that your AutoHotKey is up-to-date. 
 
 Make sure you've set your hideout using the "Set Hideout" button on the System Tray menu. Any typos may result in failure for the script to display a reminder. 
@@ -48,7 +48,7 @@ For feedback, questions or suggestions please visit the <a href="https://github.
 Additional Notes: 
 New hideouts can be added to the Hideout menu by editing the "HideoutList.txt" and typing in the hideout name on a new line. 
 
-Credits:
+Credits:  
 Thank you to Griding Gear Games the developers of Path of Exile  
 Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://github.com/hi5/TF  
 Thank you to reddit user "evilC_UK" for the sample code used to more efficiently read the log files.   
