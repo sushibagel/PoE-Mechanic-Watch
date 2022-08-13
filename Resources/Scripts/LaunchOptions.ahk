@@ -80,8 +80,8 @@ Loop, %ArrCount%
 xh := xh - (w/2)
 yh2 := yh + h
 h := h - 30
-Gui, Launcher:Add, Button, x130 y%h%, Accept
-Gui, Launcher:Add, Button, y%h% x30, Select File
+Gui, Launcher:Add, Button, xn x50 Section, Accept
+Gui, Launcher:Add, Button, ys x170, Select File
 Gui, Launcher:Show, x%xh% y%yh%, Launcher
 Return
 

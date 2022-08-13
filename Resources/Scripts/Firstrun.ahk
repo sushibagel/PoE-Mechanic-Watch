@@ -212,7 +212,7 @@ Else
 Return
 
 ReadItems:
-ItemSearch = Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist
+ItemSearch = Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency
 Loop, 1
 For each, Item in StrSplit(ItemSearch, "|")
 {
