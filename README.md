@@ -48,7 +48,7 @@ For feedback, questions or suggestions please visit the <a href="https://github.
 Additional Notes: 
 New hideouts can be added to the Hideout menu by editing the "HideoutList.txt" and typing in the hideout name on a new line. 
 
-Credits:
+Credits:`r
 Thank you to Griding Gear Games the developers of Path of Exile
 Thank you to hi5 and the allowed use of the tf.ahk autohotkey library. https://github.com/hi5/TF
 Thank you to reddit user "evilC_UK" for the sample code used to more efficiently read the log files. 
@@ -60,6 +60,7 @@ The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speak
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>
 The reload button was found at <a href="https://www.flaticon.com/free-icons/refresh" title="refresh icons">Refresh icons created by Gregor Cresnar - Flaticon</a>
 The stop button was found at <a href="https://www.flaticon.com/free-icons/forbidden" title="forbidden icons">Forbidden icons created by Freepik - Flaticon</a>
+
 Donations: 
 There are no obligations for anyone to donate but if you wish to you can here: [PayPal](https://www.paypal.com/paypalme/Drew149).
 
