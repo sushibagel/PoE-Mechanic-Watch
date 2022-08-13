@@ -43,14 +43,14 @@ The Auto Enable/Disable feature is currently in Beta. For it to work it requires
 
 For the "Launch Path of Exile" tray menu command to work properly, the game must be launched at least once with this tool running first. 
 
-For feedback, questions or suggestions please visit the <a href="https://github.com/sushibagel/PoE-Mechanic-Watch/discussions"> title="Discussion Section" </a> of the Github. 
+For feedback, questions or suggestions please visit the <a href="https://github.com/sushibagel/PoE-Mechanic-Watch/discussions"> title="Discussion Section"> </a> of the Github. 
 
 Additional Notes: 
 New hideouts can be added to the Hideout menu by editing the "HideoutList.txt" and typing in the hideout name on a new line. 
 
 Credits:  
 Thank you to Griding Gear Games the developers of Path of Exile  
-Thank you to hi5 for the use of the tf.ahk autohotkey library. <a href="https://github.com/hi5/TF" >  
+Thank you to hi5 for the use of the tf.ahk autohotkey library. <a href="https://github.com/hi5/TF" > title="Github">Gihub</a>
 Thank you to reddit user "evilC_UK" for the sample code used to more efficiently read the log files.   
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/  
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater.  
