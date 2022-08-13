@@ -59,6 +59,9 @@ Global Hk2
 Global iniFile
 Global iniSection
 Global PoeID
+Global MyDialogsDisable
+Global MyDialogs
+Global Hideout
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
 Global AbyssOn
@@ -703,5 +706,6 @@ Return
 #Include, Resources/Scripts/LaunchOptions.ahk
 #Include, Resources/Scripts/Transparency.ahk
 #Include, Resources/Scripts/ReminderGui.ahk
+#Include, Resources/Scripts/Tail.ahk
 #IncludeAgain, Resources/Scripts/MapNotification.ahk
 #IncludeAgain, Resources/Scripts/EldritchReminder.ahk
