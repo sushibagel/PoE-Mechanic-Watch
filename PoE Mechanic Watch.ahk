@@ -62,6 +62,7 @@ Global PoeID
 Global MyDialogsDisable
 Global MyDialogs
 Global Hideout
+Global LogWait
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
 Global AbyssOn
@@ -88,6 +89,7 @@ Global IncursionAuto
 Global BlightSleep
 Global ExpeditionSleep
 Global IncursionSleep
+Global IncursionGo
 Global SearingOn
 Global EaterOn
 
@@ -576,7 +578,7 @@ if (IncursionActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Incursion
         Gosub, ToggleOn
-        IncursionSleep = 0
+        IncursionSleep = 1
         Return
     }
 
@@ -584,6 +586,7 @@ if (IncursionActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Incursion
         Gosub, ToggleOff
+        IncursionSleep = 0
         Return
     }
 }

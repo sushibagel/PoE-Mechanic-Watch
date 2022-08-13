@@ -61,34 +61,6 @@ GuiClose:
 ButtonYes!:
 Gui, 1:Submit
 WinActivate, ahk_group PoeWindow
-Loop 
-{
-    Hideout  := TF_Tail(LogPath, 3)
-    IfInString, Hideout, %MyHideout%
-    {
-        IfWinActive, ahk_group PoeWindow
-        {
-            Sleep, 100
-        }
-        IfWinNotActive, ahk_group PoeWindow
-        {
-            Gui, 2:Destroy
-            Loop
-            {
-                IfWinActive, ahk_group PoeWindow
-                {
-                    Gosub, Overlay
-                    Break
-                }
-            }
-
-        }
-    }
-    Else
-    {
-        Break
-    }
-}
 Gosub, Overlay
 Gosub, LogMonitor
 Return

@@ -1,7 +1,8 @@
 LogMonitor: ;Monitor the PoE client.txt
-Global IncursionGo
-Global LogWait
-IncursionGo = Master Explorer: Let,Master Explorer: It's time,Master Explorer: Time to
+
+ReadFile := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Data\Incursiondialogsdisable.txt"
+FileRead, Read1, %ReadFile%
+IncursionGo := StrReplace(Read1, "`r`n" , ",")
 
 Gosub, GetLogPath
 Gosub, ReadAutoMechanics
@@ -76,8 +77,6 @@ Loop
 If (LogWait = 1)
 Break
 
-
-;Hideout  := TF_Tail(LogPath, 2)
 SearchText:
 FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
 If Hideout contains %FullSearch% 
@@ -113,36 +112,18 @@ If Hideout contains %MyDialogs%
                 If (%activecheck% != 1) and (%sleepmechanic% != 1) and (%automechanic% = 1)
                 {
                     GoSub, %Mechanic%
+                    Gosub, LogMonitor
                 }
                 If Hideout contains %IncursionGo%
                 {
                     IncursionSleep ++
                     If (IncursionSleep = 3)
                     {
-                        Loop
-                        {
-                        Hideout  := TF_Tail(LogPath, 2)
-                        If Hideout not contains %IncursionGo%
-                        {
-                            Break
-                        }
-                        }
                         GoSub, Incursion
-                    }
-                    If (IncursionSleep <= 2)
-                    {
-                        Loop
-                        {
-                        Hideout  := TF_Tail(LogPath, 2)
-                        If Hideout not contains %IncursionGo%
-                        {
-                            Break
-                        }
-                        }
+                        Gosub, LogMonitor
                     }
                 }
             }
-            
         }
     }
 If Hideout contains %MyDialogsDisable%
