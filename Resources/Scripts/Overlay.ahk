@@ -31,7 +31,14 @@ mechanictest = 0
             }
             if (%mechanicactive% = 1)
             {
-                Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+                If (Mechanic = "Eater") or (Mechanic = "Searing")
+                {
+                     Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%.png
+                }
+                Else
+                {
+                    Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+                }
             }
             Else
             {
