@@ -13,7 +13,7 @@ DetectHiddenWindows, On
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
-Menu, Tray, Add, Select Auto Enable\Disable (Beta), SelectAuto
+Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
 Menu, Tray, Add
@@ -34,7 +34,7 @@ Menu, Tray, Add, Exit, Exit
 Menu, AboutMenu, Add, Version, Version
 Menu, Tray, Add, About, :AboutMenu
 Menu, AboutMenu, Add, Changelog, Changelog
-Menu, AboutMenu, Add, Q&&A\Feedback, Feedback
+Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
 Menu, Tray, Icon, Resources\Images\ritual.png
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Global Variables ;;;;;;;;;;;;;;;;;;;;;
@@ -138,7 +138,7 @@ If !FileExist(HokeyiniPath)
 {
 	IniWrite, "#^+r", Resources\Settings\Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
     IniWrite, "#^+q", Resources\Settings\Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
-    Hotkey, #^q, LaunchPoe
+    Hotkey, #^+q, LaunchPoe
 }
 
 NotificationiniPath = Resources\Settings\notification.ini
@@ -467,7 +467,7 @@ Run, Resources\Scripts\Changelog.ahk
 Return
 
 Feedback:
-Run, https:\\github.com\sushibagel\PoE-Mechanic-Watch\discussions
+Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
 Return
 
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
