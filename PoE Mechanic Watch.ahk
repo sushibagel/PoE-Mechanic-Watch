@@ -373,9 +373,6 @@ If (LogPath != "logs\Client.txt")
 }
 Return
 
-Gosub, LogMonitor
-Return
-
 Reload:
 Reload
 Return
