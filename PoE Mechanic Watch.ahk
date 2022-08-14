@@ -91,7 +91,7 @@ Global ExpeditionSleep
 Global IncursionSleep
 Global IncursionGo
 Global SearingOn
-Global EaterOn
+Global EaterOn 
 
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
