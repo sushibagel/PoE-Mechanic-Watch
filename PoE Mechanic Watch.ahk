@@ -137,8 +137,8 @@ HokeyiniPath = Resources\Settings\Hotkeys.ini
 
 If !FileExist(HokeyiniPath)
 {
-	IniWrite, "#^+r", Resources\Settings\Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
-    IniWrite, "#^+q", Resources\Settings\Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
+	IniWrite, #^+r, Resources\Settings\Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
+    IniWrite, #^+q, Resources\Settings\Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
     Hotkey, #^+q, LaunchPoe
 }
 
