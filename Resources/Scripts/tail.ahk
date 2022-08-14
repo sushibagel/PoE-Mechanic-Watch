@@ -1,21 +1,20 @@
-StartLogging:
-;msgbox, %FullSearch%
-lt := new CLogTailer(LogPath, Func("NewLine"))
-Return
+
+;lt := new CLogTailer(LogPath, Func("NewLine"))
+;Return
 ; This function gets called each time there is a new line
-NewLine(text)
-{
+;NewLine(text)
+;{
 ;ToolTip, % text
-If text contains %FullSearch% ;This is intentially redundant for now. I may use it later for future improvements. 
-	{
-		Hideout := text
-		If Hideout contains %FullSearch%
-		{
-			Gosub, LogItem
-			Return
-		}
-	}
-}
+;If text contains %FullSearch% ;This is intentially redundant for now. I may use it later for future improvements. 
+;	{
+;		Hideout := text
+;		If Hideout contains %FullSearch%
+;		{
+;			Gosub, LogItem
+;			Return
+;		}
+;	}
+;}
 
 class CLogTailer {
 	__New(logfile, callback){
