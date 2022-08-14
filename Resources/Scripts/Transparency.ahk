@@ -100,6 +100,7 @@ Return
 
 NotificationTest:
 Gui, 1:Destroy
+Gui, 2:Destroy
 Gui, Transparency:Submit, NoHide
 IniWrite, %NotificationEdit%, %TransparencyPath%, Transparency, Notification
 Gosub, Overlay
