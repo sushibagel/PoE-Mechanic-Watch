@@ -31,7 +31,6 @@ Winwait, Overlay
 WinGetPos,Width, Height, Length,, Overlay
 height := height - 50
 Length := Length - 10
-Return
 
 InfluenceTrack:
 Gosub, InfluenceActive

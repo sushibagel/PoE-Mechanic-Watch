@@ -100,6 +100,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, First2
+GroupAdd, PoeWindow, Transparency
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 
