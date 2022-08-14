@@ -64,5 +64,4 @@ setwidth:=newwidth + 15
 FileDelete, Resources/Settings/overlayposition.txt
 FileAppend, height=%setheight% `n, Resources/Settings/overlayposition.txt
 FileAppend, width=%setwidth%, Resources/Settings/overlayposition.txt
-Gosub, ReloadInfluences
 Return

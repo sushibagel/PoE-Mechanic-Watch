@@ -11,7 +11,7 @@ If (MapTransparency = "ERROR")
 Gui, Influence:Color, %Background%
 Gui, Influence:Font, c%Font% s10
 Gui, Influence:-Border +AlwaysOnTop
-Gui, Influence:Add, Text,,You just entered a new map, press %HK% to subtract 1 map
+Gui, Influence:Add, Text,,You just entered a new map, press %HK%  to subtract 1 map
 Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
 WinGetPos, Xi, Yi, Widthi, Heighti, Influence
 Gui, Influence:Hide
@@ -22,5 +22,4 @@ If (widthset = "")
 Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
 WinSet, Style, -0xC00000, Influence
 WinSet, Transparent, %MapTransparency%, Influence
-SetTimer, CloseGui, -3000
 Return

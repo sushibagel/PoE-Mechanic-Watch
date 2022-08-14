@@ -28,8 +28,6 @@ If (InfluenceTrack = 14) or (InfluenceTrack = 28)
 	Gui, Reminder:Show, NoActivate x%width1% y%height1%, Reminder
 	WinSet, Style, -0xC00000, Reminder
     WinSet, Transparent, %InfluenceTransparency%, Reminder
-	Gosub, NotificationSound
-    Gosub, ReminderLoop
 	Return
 }
 Return

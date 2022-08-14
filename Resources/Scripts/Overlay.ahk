@@ -61,6 +61,7 @@ Loop
     }
 }
 IniRead, OverlayTransparency, Resources\Settings\Transparency.ini, Transparency, Overlay, 255
+Gui, 2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
 Gui, 2:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
 Gui, 2:Show, NoActivate x%width% y%height%, Overlay
 WinSet, Style, -0xC00000, Overlay
