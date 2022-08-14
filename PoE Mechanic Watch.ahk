@@ -137,9 +137,8 @@ HokeyiniPath = Resources\Settings\Hotkeys.ini
 
 If !FileExist(HokeyiniPath)
 {
-	IniWrite, #^+r, Resources\Settings\Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
-    IniWrite, #^+q, Resources\Settings\Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
-    Hotkey, #^+q, LaunchPoe
+	IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 1 
+    IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 2 
 }
 
 NotificationiniPath = Resources\Settings\notification.ini
@@ -408,10 +407,15 @@ Return
 
 HotkeyUpdate:
 IniWrite, 1, Resources\Settings\Hotkeys.ini, Reload, Influences
+IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 1
+If !(Hotkey1 = "")
+{
+    Hotkey, %Hotkey1%, Off, UseErrorLevel
+}
 IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
 If !(Hotkey2 = "")
 {
-    Hotkey, %Hotkey2%, Off
+    Hotkey, %Hotkey2%, Off, UseErrorLevel
 }
 Run, Resources\Scripts\hotkeyselect.ahk
 RunWait, Resources\Scripts\hotkeyselect.ahk
