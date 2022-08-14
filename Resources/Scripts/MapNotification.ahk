@@ -1,4 +1,5 @@
 InfluenceMapNotification:
+Gosub, HotkeyCheck
 IniRead, MapTransparency, %UpOneLevel%Settings\Transparency.ini, Transparency, Map
 If (MapTransparency = "ERROR")
 {

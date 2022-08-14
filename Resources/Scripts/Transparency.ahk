@@ -54,7 +54,6 @@ For each, OverlayItem in StrSplit(OverlayList, "|")
 Gui, Transparency:-Caption -Border
 Gui, Transparency:Add, Button, xn x270 w80 h30, OK
 Gui, Transparency:Show, w375, Transparency
-WinWait, Path of Exile
 Return
 
 TransparencyGuiClose:
