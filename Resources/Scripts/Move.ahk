@@ -28,7 +28,14 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
         }
         if (%mechanicactive% = 1) 
         {
-            Gui, 3:Add, Picture, g%mechanic% x%mechanicx% y5 w50 h40 , Resources/Images/%mechanic%_selected.png
+            If (Mechanic = "Eater") or (Mechanic = "Searing")
+            {
+                    Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%.png
+            }
+            Else
+            {
+                Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+            }
         }
         Else
         {

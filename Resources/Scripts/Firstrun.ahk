@@ -33,7 +33,7 @@ If FileExist(HideouttxtPath)
 Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
 Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
 Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Reposition your overlay
-Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, %A_Space% Set the transparency of your overlays and notifications
+Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, * Set the transparency of your overlays and notifications
 Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
 Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
 Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
@@ -193,7 +193,7 @@ Gui, Submit, NoHide
 Gui, First:Destroy
 Gui, First2:Destroy
 Gosub, ReadItems
-If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0)
+If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0)
 {
     Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, FirstWarning:Color, %Background%
@@ -235,7 +235,7 @@ Return
 
 ReloadCheck:
 Gosub, ReadItems
-CompletionCheck := ClientState + HideoutState + MechanicState
+CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
 If (CompletionCheck >= 2)
 {
     Gosub, FirstRun

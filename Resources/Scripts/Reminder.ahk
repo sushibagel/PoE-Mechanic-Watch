@@ -43,6 +43,15 @@ if (MechanicsActive = 1)
     ReminderText := Active
 }
 
+If ReminderText contains Searing
+{
+    StringReplace, ReminderText, ReminderText,`, Searing,
+}
+If ReminderText contains Eater
+{
+    StringReplace, ReminderText, ReminderText,`, Eater,
+}
+
 Sleep, 100
 Gosub, MechanicReminder
 
@@ -114,7 +123,7 @@ IniRead, InfluenceVolume, Resources\Settings\notification.ini, Volume, Influence
 IniRead, NotificationSound, Resources\Settings\notification.ini, Sounds, Notification
 IniRead, InfluenceSound, Resources\Settings\notification.ini, Sounds, Influence
 Gui, Sounds:Font, c%Font% s10
-Gui, Sounds:Add, Checkbox, vNotification Checked%NotificationActive%, Notification
+Gui, Sounds:Add, Checkbox, vNotification Checked%NotificationSoundActive%, Notification
 
 If (ColorMode = "Dark")
 {
