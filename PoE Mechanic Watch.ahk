@@ -434,11 +434,13 @@ IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
 IniRead, Hotkey1, Resources\Settings\Hotkeys.ini, Hotkeys, 1
 If !(Hotkey2 = "")
 {
+    Hotkey, IfWinActive, ahk_group PoeWindow
     Hotkey, %Hotkey2%, LaunchPoe
 }
 Hk := Hotkey1
 If !(Hk = "")
 {
+    Hotkey, IfWinActive, ahk_group PoeWindow
 	Hotkey, %HK%, SubtractOne
 }
 ; Format HK variable into a more readable format for users. 
