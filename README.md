@@ -29,7 +29,7 @@ To run this script you MUST have AutoHotKey installed. https://www.autohotkey.co
 
 The first time your run this script you MUST set your hideout type. This can be done in two ways: First by right clicking the script icon in the System Tray and selecting "Set Hideout" use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected. Alternatively, you can edit the "CurrentHideout.txt" file Note: this method is not preffered, any typos, or formatting errors can cause the script to not work correctly. 
 
-Download and unzip the program. Double-click "PoE Mechanic Watch.ahk" to run the program.  
+Download and unzip the program. Double-click "Start Me.ahk" to run the program.  
 Please note, it must be run from within a folder containing all the assets and files that are contained in the zip. 
 
 Troubleshooting:  
