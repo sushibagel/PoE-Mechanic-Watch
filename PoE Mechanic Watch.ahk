@@ -290,7 +290,10 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
 {
     IniRead, %Mechanic%, Resources\Settings\Mechanics.ini, Checkboxes, %Mechanic%
     If (%Mechanic% = 1)
-    %Mechanic%On := 1
+    {
+        %Mechanic%On := 1
+        MechanicsOn ++
+    }
     If (%Mechanic% = 0)
     %Mechanic%On := 0
 }
@@ -300,7 +303,10 @@ For each, Influence in StrSplit(Influences, "|")
 {
     IniRead, %Influence%, Resources\Settings\Mechanics.ini, Influence, %Influence%
     If (%Influence% = 1)
-    %Influence%On := 1
+    {
+        %Influence%On := 1
+        MechanicsOn ++
+    }
     If (%Influence% = 0)
     %Influence%On := 0
 }
