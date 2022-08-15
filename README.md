@@ -33,6 +33,8 @@ Download and unzip the program. Double-click "Start Me.ahk" to run the program.
 Please note, it must be run from within a folder containing all the assets and files that are contained in the zip. 
 
 Troubleshooting:  
+If you are receiving the following error when starting the script: "Call to nonexistent function: Specifically: SetWindowVol(AhkExe, NotificationVolume) Line 67" this is likely because you launched the "PoE Mechanic Watch.ahk" file. Please try again using the "Start Me.ahk" instead. 
+
 Please make sure that your AutoHotKey is up-to-date. 
 
 Make sure you've set your hideout using the "Set Hideout" button on the System Tray menu. Any typos may result in failure for the script to display a reminder. 
