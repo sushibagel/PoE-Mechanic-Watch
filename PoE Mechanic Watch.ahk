@@ -267,6 +267,7 @@ Loop
         {
             Gui, 2:Destroy
             Gui, 1:Destroy
+            Gui, Reminder:Destroy
         }
     }
     IfWinExist, First
