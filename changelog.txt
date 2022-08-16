@@ -1,6 +1,8 @@
 v1.3.3
 Minor fixes
 
+Each mechanic now has an assignable hotkey. Note: Mouse buttons are not supported with the hotkey selection tool, but can be added by editing the Hotkeys.ini and typing in the desired hotkey (Ex. XButton1 Back Button, XButton2 Forward Button)
+
 Added a Tool Launcher. The Tool Launcher can be called using a user selectable Hotkey combination or from the Tray Menu and allows the user to input websites or select applications that can be individually launched. 
         The following file added for support of the Tool Launcher
         - ToolLauncher.ahk                to              Resources/Scripts

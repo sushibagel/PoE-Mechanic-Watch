@@ -138,9 +138,10 @@ HokeyiniPath = Resources\Settings\Hotkeys.ini
 
 If !FileExist(HokeyiniPath)
 {
-	IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 1 
-    IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 2 
-    IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 3 
+    Loop, 12
+    {
+        IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, %A_Index% 
+    }
 }
 
 NotificationiniPath = Resources\Settings\notification.ini
@@ -431,22 +432,113 @@ If !(Hotkey3 = "")
 {
     Hotkey, %Hotkey3%, Off, UseErrorLevel
 }
+IniRead, Hotkey4, Resources\Settings\Hotkeys.ini, Hotkeys, 4
+If !(Hotkey4 = "")
+{
+    Hotkey, %Hotkey4%, Off, UseErrorLevel
+}
+IniRead, Hotkey5, Resources\Settings\Hotkeys.ini, Hotkeys, 5
+If !(Hotkey5 = "")
+{
+    Hotkey, %Hotkey5%, Off, UseErrorLevel
+}
+IniRead, Hotkey6, Resources\Settings\Hotkeys.ini, Hotkeys, 6
+If !(Hotkey6 = "")
+{
+    Hotkey, %Hotkey6%, Off, UseErrorLevel
+}
+IniRead, Hotkey7, Resources\Settings\Hotkeys.ini, Hotkeys, 7
+If !(Hotkey7 = "")
+{
+    Hotkey, %Hotkey7%, Off, UseErrorLevel
+}
+IniRead, Hotkey8, Resources\Settings\Hotkeys.ini, Hotkeys, 8
+If !(Hotkey8 = "")
+{
+    Hotkey, %Hotkey8%, Off, UseErrorLevel
+}
+IniRead, Hotkey9, Resources\Settings\Hotkeys.ini, Hotkeys, 9
+If !(Hotkey9 = "")
+{
+    Hotkey, %Hotkey9%, Off, UseErrorLevel
+}
+IniRead, Hotkey10, Resources\Settings\Hotkeys.ini, Hotkeys, 10
+If !(Hotkey10 = "")
+{
+    Hotkey, %Hotkey10%, Off, UseErrorLevel
+}
+IniRead, Hotkey11, Resources\Settings\Hotkeys.ini, Hotkeys, 11
+If !(Hotkey11 = "")
+{
+    Hotkey, %Hotkey11%, Off, UseErrorLevel
+}
+IniRead, Hotkey12, Resources\Settings\Hotkeys.ini, Hotkeys, 12
+If !(Hotkey12 = "")
+{
+    Hotkey, %Hotkey12%, Off, UseErrorLevel
+}
 Run, Resources\Scripts\hotkeyselect.ahk
 RunWait, Resources\Scripts\hotkeyselect.ahk
 Reload
 Return
 
 HotkeyCheck:
-IniRead, Hotkey1, Resources\Settings\Hotkeys.ini, Hotkeys, 1
-IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
-IniRead, Hotkey3, Resources\Settings\Hotkeys.ini, Hotkeys, 3
+Loop, 12
+{
+    IniRead, Hotkey%A_Index%, Resources\Settings\Hotkeys.ini, Hotkeys, %A_Index%
+}
 If !(Hotkey2 = "")
 {
-    Hotkey, %Hotkey2%, LaunchPoe
+    Hotkey, ~%Hotkey2%, LaunchPoe
 }
 If !(Hotkey3 = "")
 {
-    Hotkey, %Hotkey3%, ToolLauncher
+    Hotkey, ~%Hotkey3%, ToolLauncher
+}
+If !(Hotkey4 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey4%, Abyss, T2
+}
+If !(Hotkey5 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey5%, Blight, T2
+}
+If !(Hotkey6 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey6%, Breach, T2
+}
+If !(Hotkey7 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey7%, Expedition, T2
+}
+If !(Hotkey8 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey8%, Harvest, T2
+}
+If !(Hotkey9 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey9%, Incursion, T2
+}
+If !(Hotkey10 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey10%, Metamorph, T2
+}
+If !(Hotkey11 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey11%, Ritual, T2
+}
+If !(Hotkey12 = "")
+{
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey12%, Generic, T2
 }
 Hk := Hotkey1
 If !(Hk = "")
@@ -505,6 +597,7 @@ Return
 
 ToggleOff:
 Gui, 2:Destroy
+LogWait = 1
 WarningActive = No
 Gosub, Overlay
 Return
