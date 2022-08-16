@@ -1,65 +1,10 @@
-Added "Start Me.ahk" moving forward please use this to start the application.  
+v1.3.3
+Minor fixes
 
-Completely revamped the way log files are read, making it faster and more efficient. This change allowed influence tracking to be rolled into the main script making it hopefully less problematic and much faster. With this change the script is now able to detect map level and Zone ID, so leaving and re-entering a map should no longer count twice and maps below tier 14 will no longer be counted. Due to this change tf.ahk was removed and is no longer necessary and tail.ahk was added. 
+Added a Tool Launcher. The Tool Launcher can be called using a user selectable Hotkey combination or from the Tray Menu and allows the user to input websites or select applications that can be individually launched. 
+        The following file added for support of the Tool Launcher
+        - ToolLauncher.ahk                to              Resources/Scripts
 
-Fixed an odd condition where reverting influence tracking count could result in a negative total.
-Fixed an issue that caused the directory "logs" containing "Client.txt" to be created when launching Path of Exile using the tray menu shortcut. 
-Clicking the influence icons will no longer allow the count to go beyond 28.
-Added a Hotkey option to launch Path of Exile
-Updated the maplist.txt to support the new version of tracking and maps that were are being added back for the 3.19 patch. 
-
-Added an option to launch other applications/utilities along with Path of Exile. LaunchOptions.ahk was added to Resources/Scripts/ to as part of support for the utility.
-
-Added a First Run/Setup utility. Firstrun.ahk was added to Resources/Scripts/ to as part of support for the utility. 
-
-VolumeAdjust.ahk was renamed to VA.ahk and setWindowVol.ahk was added. Both files will be automatically copied to your Documents/AutoHotKey/Lib folder, I tried to avoid this but it was necessary as the VolumeAdjust.ahk was interfering with other sources of volume control (ex. Keyboard Controls)  
-
-Added transparency control for the in-game overlay and several notificaitons.
-        The following files were added to support transparency control:
-                 Transparency.ahk       to      Resources/Scripts/
-                 EldritchReminder.ahk   to      Resources/Scripts/
-                 MapNotificaiton.ahk    to      Resources/Scripts/
-                 MapNotificaiton.ahk    to      Resources/Scripts/
-                 ReminderGui.ahk        to      Resources/Scripts/
-                 refresh white.png      to      Resources/Images/
-                 refresh.png            to      Resources/Images/
-                 stop white.png         to      Resources/Images/
-                 stop.png               to      Resources/Images/
-
-Added notificaiton volume controls. 
-        The following files were added to support notificaiton volume controls:
-             play white.png     to      Resources/Images/
-             play.png           to      Resources/Images/
-             VolumeAdjust.ahk   to      Resources/Scripts/
-             blank.wav          to      Resources/Sounds/   
-
-Reworked the Tray Menu. 
-        Added an "About" tray menu submenu with the following options:
-        Version
-        Changelog
-        Q&A/Feedback
-
-        Added a "Setup" tray menu submenu. The following menu items have been moved into the Setup submenu. 
-        Setup Menu
-        Set Hideout
-        Change Theme
-        Change Hotkey
-        Sound Settings
-        Launch Assist
-
-        The following files were added for support of the new tray menu items:
-        Version.ahk 
-        Changelog.ahk
-
-The following files should no longer be included with updates, the script will now instead check for the files and create them if they are missing: (This is to avoid overwriting user preferences)
-        AutoMechanics.ini       located in      Resources/Settings
-        CurrentHideout.txt      located in      Resources/Settings
-        Hotkeys.ini             located in      Resources/Settings
-        Mechanics.ini           located in      Resources/Settings
-        notification.ini        located in      Resources/Settings
-        overlayposition.txt     located in      Resources/Settings
-        Theme.ini               located in      Resources/Settings
-        LaunchPath.ini          located in      Resources/Data
-        MechanicsActive.ini     located in      Resources/Data
-
-        To update simply copy all the files from the new release folder into your existing directy. Doing this should keep all user settings.
+Made the Changelog Viewer a scrollable window. (Credit: just me on the AHK Forums. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)
+        The following was added for support of the Scrollable window
+        - Class_ScrollGUI.ahk           to              Resources/Scripts
