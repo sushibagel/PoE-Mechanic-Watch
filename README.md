@@ -94,7 +94,7 @@ Set Transparency - Launches the tool to set your transparency options for variou
 
 - For the "Launch Path of Exile" tray menu command to work properly, the game must be launched at least once with this tool running first. 
 
-#Hideout Notes: 
+# Hideout Notes:  
 The first time your run this script you will be required to set your hideout in the first run "Setup" menu. If at any time you switch your hideout you can change it by using the "Set Hideout" tool in the "Setup" submenu of the tray icon menu. Use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected.
 
 For feedback, questions or suggestions please visit the <a href="https://github.com/sushibagel/PoE-Mechanic-Watch/discussions" title="Discussion Section">Discussion Section of the Github</a>  
@@ -115,15 +115,15 @@ The stop button was found at <a href="https://www.flaticon.com/free-icons/forbid
 Donations:  
 There are no obligations for anyone to donate but if you wish to you can here: [PayPal](https://www.paypal.com/paypalme/Drew149).
 
-![Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay.jpg?raw=true)
-
-![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay%20Active.jpg?raw=true)
+## Screenshots:
+#### Move Overlay Tool: 
 
 ![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Move%20Overlay.jpg?raw=true)
 
+#### Theme Selector: 
+
 ![Theme Selector](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Theme%20Selector.png?raw=true)
 
-![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
+#### See Auto-Mechanic Tracking in action (Click Image Below): 
 
-See Auto-Mechanic Tracking in action (Click Image Below)
 [![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)
