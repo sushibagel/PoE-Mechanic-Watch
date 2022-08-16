@@ -26,7 +26,6 @@ InfluenceTracking:
 IniRead, InfluenceSound, Resources\Settings\notification.ini, Sounds, Influence
 IniRead, InfluenceSoundActive, Resources\Settingsnotification.ini, Active, Influence
 IniRead, ColorMode, Resources\Settings\Theme.ini, Theme, Theme
-Return
 
 Winwait, Overlay
 WinGetPos,Width, Height, Length,, Overlay

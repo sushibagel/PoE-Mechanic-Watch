@@ -183,3 +183,15 @@ UndergroundRiver
 VaalPyramid
 VaalTemple
 WastePool
+
+ArachnidTomb
+Belfry
+CastleRuins
+Crater
+Excavation
+Pen
+Phantasmagoria
+Pier
+Shrine
+Racecourse_
+Tribunal

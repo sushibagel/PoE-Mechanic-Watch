@@ -13,7 +13,7 @@ DetectHiddenWindows, On
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
-Menu, Tray, Add, Select Auto Enable\Disable (Beta), SelectAuto
+Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
 Menu, Tray, Add
@@ -34,7 +34,7 @@ Menu, Tray, Add, Exit, Exit
 Menu, AboutMenu, Add, Version, Version
 Menu, Tray, Add, About, :AboutMenu
 Menu, AboutMenu, Add, Changelog, Changelog
-Menu, AboutMenu, Add, Q&&A\Feedback, Feedback
+Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
 Menu, Tray, Icon, Resources\Images\ritual.png
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Global Variables ;;;;;;;;;;;;;;;;;;;;;
@@ -91,7 +91,7 @@ Global ExpeditionSleep
 Global IncursionSleep
 Global IncursionGo
 Global SearingOn
-Global EaterOn
+Global EaterOn 
 
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
@@ -100,6 +100,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, First2
+GroupAdd, PoeWindow, Transparency
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 
@@ -136,9 +137,8 @@ HokeyiniPath = Resources\Settings\Hotkeys.ini
 
 If !FileExist(HokeyiniPath)
 {
-	IniWrite, "#^+r", Resources\Settings\Hotkeys.ini, Hotkeys, 1 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
-    IniWrite, "#^+q", Resources\Settings\Hotkeys.ini, Hotkeys, 2 ;Defaults to an intentionally obscure combo to avoid clashing with other peoples hotkeys. Needed a default to avoid errors. 
-    Hotkey, #^q, LaunchPoe
+	IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 1 
+    IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 2 
 }
 
 NotificationiniPath = Resources\Settings\notification.ini
@@ -267,6 +267,7 @@ Loop
         {
             Gui, 2:Destroy
             Gui, 1:Destroy
+            Gui, Reminder:Destroy
         }
     }
     IfWinExist, First
@@ -290,7 +291,10 @@ For each, Mechanic in StrSplit(MechanicSearch, "|")
 {
     IniRead, %Mechanic%, Resources\Settings\Mechanics.ini, Checkboxes, %Mechanic%
     If (%Mechanic% = 1)
-    %Mechanic%On := 1
+    {
+        %Mechanic%On := 1
+        MechanicsOn ++
+    }
     If (%Mechanic% = 0)
     %Mechanic%On := 0
 }
@@ -300,7 +304,10 @@ For each, Influence in StrSplit(Influences, "|")
 {
     IniRead, %Influence%, Resources\Settings\Mechanics.ini, Influence, %Influence%
     If (%Influence% = 1)
-    %Influence%On := 1
+    {
+        %Influence%On := 1
+        MechanicsOn ++
+    }
     If (%Influence% = 0)
     %Influence%On := 0
 }
@@ -373,9 +380,6 @@ If (LogPath != "logs\Client.txt")
 }
 Return
 
-Gosub, LogMonitor
-Return
-
 Reload:
 Reload
 Return
@@ -410,10 +414,15 @@ Return
 
 HotkeyUpdate:
 IniWrite, 1, Resources\Settings\Hotkeys.ini, Reload, Influences
+IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 1
+If !(Hotkey1 = "")
+{
+    Hotkey, %Hotkey1%, Off, UseErrorLevel
+}
 IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
 If !(Hotkey2 = "")
 {
-    Hotkey, %Hotkey2%, Off
+    Hotkey, %Hotkey2%, Off, UseErrorLevel
 }
 Run, Resources\Scripts\hotkeyselect.ahk
 RunWait, Resources\Scripts\hotkeyselect.ahk
@@ -430,6 +439,7 @@ If !(Hotkey2 = "")
 Hk := Hotkey1
 If !(Hk = "")
 {
+    Hotkey, IfWinActive, ahk_group PoeWindow
 	Hotkey, %HK%, SubtractOne
 }
 ; Format HK variable into a more readable format for users. 
@@ -467,7 +477,7 @@ Run, Resources\Scripts\Changelog.ahk
 Return
 
 Feedback:
-Run, https:\\github.com\sushibagel\PoE-Mechanic-Watch\discussions
+Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
 Return
 
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
