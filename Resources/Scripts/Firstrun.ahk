@@ -1,7 +1,7 @@
 FirstRun:
 Gosub, ReadItems
 Gosub, GetHideout
-yh := (A_ScreenHeight/2) -150
+yh := (A_ScreenHeight/2) -250
 xh := A_ScreenWidth/2
 
 Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
@@ -36,8 +36,9 @@ Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState
 Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, * Set the transparency of your overlays and notifications
 Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
 Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
-Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
 Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, %A_Space% Sound Settings
+Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
+Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
 Gui, First2:Add, Button, x490, Close
 Gui, First2: -Caption +HwndFirst2
 Gui, First2:Show, x%xh% y%yh2% w550, First2
@@ -188,6 +189,15 @@ Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Sound
 Gosub, ReloadCheck
 Return
 
+ToolLauncherSelect:
+Gui, Submit, NoHide
+Gui, First:Destroy
+Gui, First2:Destroy
+Runwait, Resources\Scripts\ToolLauncher.ahk
+Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, ToolLauncher
+Gosub, ReloadCheck
+Return
+
 First2ButtonClose:
 Gui, Submit, NoHide
 Gui, First:Destroy
@@ -212,7 +222,7 @@ Else
 Return
 
 ReadItems:
-ItemSearch = Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency
+ItemSearch = Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher
 Loop, 1
 For each, Item in StrSplit(ItemSearch, "|")
 {
