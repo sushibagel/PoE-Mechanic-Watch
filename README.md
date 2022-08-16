@@ -5,7 +5,9 @@ This program is a AutoHotKey Script. AutoHotKey can be downloaded for free here:
 
 The purpose of this program is for use with Path Of Exile to assist in tracking and reminding the user of completing in game mechanics.   
 
-#### The following game mechanics are current supported:  
+This program works by setting an overlay in Path of Exile, when one of the overlay icons are pressed the script then begins continuously reading your Client.txt log file looking for a line stating that you have entered your hideout. Once the text is found in your log file a notification is triggered reminding you to complete the mechanic that you have turned on monitoring for, Clicking "Yes!" will close the notificaiton and begin reading your logs again, clicking "No" will turn off the reminder script resetting the overlay. Clicking the overlay icon a second time will also turn the reminder script off and reset the overlay. 
+
+#### The following game mechanics are currently supported:  
 - Abyss  
 - Blight  
 - Breach  
@@ -18,18 +20,14 @@ The purpose of this program is for use with Path Of Exile to assist in tracking 
 - A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.  
 
 #### Auto Mechanic Tracking:
-For Blight, Expedition and Incursion Auto Mechanic Tracking can be enabled in a seperate menu. This feature **requires** the **"Output Dialogue To Chat"** setting turned on in the "UI" section of the settings in game. Incursion reminders are only disabled after the 3rd encounter. Please note this feature depends on NPC dialogs, due to dialogs being random it may not be 100% reliable.  
+For Blight, Expedition and Incursion Auto Mechanic Tracking can be enabled in a seperate menu. This feature ***requires*** the ***"Output Dialogue To Chat"*** setting turned on in the "UI" section of the settings in game. Incursion reminders are only disabled after the 3rd encounter. Please note this feature depends on NPC dialogs, due to dialogs being random it may not be 100% reliable.  
 
 Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon. The Hotkey can be changed using the "Change Hotkey" tray menu option.  
 
-I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey or the writer of the tf.ahk library. I am in no ways responsible if this script bricks your computer, causes errors or results in a ban in Path of Exile. 
-
-This program works by setting an overlay in Path of Exile, when one of the overlay icons are pressed the script then begins continuously reading your Client.txt log file looking for a line stating that you have entered your hideout. Once the text is found in your log file a notification is triggered reminding you to complete the mechanic that you have turned on monitoring for, Clicking "Yes!" will close the notificaiton and begin reading your logs again, clicking "No" will turn off the reminder script resetting the overlay. Clicking the overlay icon a second time will also turn the reminder script off and reset the overlay. 
-
 ## Installation:  
-To run this script you **MUST** have AutoHotKey installed. https://www.autohotkey.com/
+To run this script you ***MUST*** have AutoHotKey installed. https://www.autohotkey.com/
 
-Download and unzip the program. Double-click **"Start Me.ahk"** to run the program.  
+Download and unzip the program. Double-click ***"Start Me.ahk"*** to run the program.  
 Please note, it must be run from within a folder containing all the assets and files that are contained in the zip. 
 
 ## Usage: 
@@ -52,35 +50,34 @@ If you enter your hideout with tracking active on any mechanics you will be gree
 If at any time you wish to change any settings this can be done by right clicking the Tray Menu Icon and choosing the desired menu item. 
 
 ![Tray Menu Icon](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu%20Icon.jpg?raw=true)
+
 ![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
 
 #### Tray Menu Item Descriptions:  
-- Select Mechanics - Allows you to select which mechanics will appear for tracking in your Overlay.  
+- Select Mechanics - Allows you to select which mechanics will appear for tracking in your Overlay  
 - Select Auto Enable/Disable - Allows you to select which mechanics will have auto enable/disable active. Please see the important information above about this feature. [Go to Auto Mechanic Information](#auto-mechanic-tracking)  
-- Launch Path of Exile - This will launch your Path of Exile client along with anything you've setup to launch alongside it with the "Launch Assist" tool.  
-- View Path of Exile Log - Takes you to your Client.txt Log File.  
-- Setup - Takes you to the "Setup" sub menu. 
+- Launch Path of Exile - This will launch your Path of Exile client along with anything you've setup to launch alongside it with the "Launch Assist" tool  
+- View Path of Exile Log - Takes you to your Client.txt Log File  
+- Setup - Takes you to the "Setup" sub menu   
 - Reload - Reloads PoE Mechanic Tracking  
 - Check for Updates - Manually check for updates. For more information on updating please see the Troubleshooting secton. [Go to Troubleshooting section](#troubleshooting)  
-- Setup Menu - Display the "Setup Menu" that is shown the first time you run the tool. 
-- Set Hideout - Launches the Hideout selection tool. Please see the [hideout notes](#hideout-notes) below.  
-- Change Theme - Displays the Theme Selector Tool  
+- Setup Menu - Display the "Setup Menu" that is shown the first time you run the tool   
+- Set Hideout - Launches the Hideout selection tool. Please see the [hideout notes](#hideout-notes) below    
+- Change Theme - Displays the Theme Selector Tool   
 - Move Overlay - Allow you to reposition your overlay   
-Set Transparency - Launches the tool to set your transparency options for various overlays and notifications. 
-- Change Hotkey - Allows you to set your hotkey combination for removing a counted map from the influenced map counter and the Path of Exile launch tool.  
-- Sound Settings - Allows you to test/set your notification sounds and volume.  
-- Launch Assist - The launch assist tool allows you to select files/applications that you would like launched alongside you Path of Exile client when using your defined hotkey or the "Launch Path of Exile" tray menu item.  
+- Set Transparency - Launches the tool to set your transparency options for various overlays and notifications   
+- Change Hotkey - Allows you to set your hotkey combination for removing a counted map from the influenced map counter and the Path of Exile launch tool    
+- Sound Settings - Allows you to test/set your notification sounds and volume    
+- Launch Assist - The launch assist tool allows you to select files/applications that you would like launched alongside you Path of Exile client when using your defined hotkey or the "Launch Path of Exile" tray menu item    
 
 ## Troubleshooting:  
 - If you are receiving the following error when starting the script: "Call to nonexistent function: Specifically: SetWindowVol(AhkExe, NotificationVolume) Line 67" this is likely because you launched the "PoE Mechanic Watch.ahk" file. Please try again using the "Start Me.ahk" instead. 
 
 - Please make sure that your AutoHotKey is up-to-date. 
 
-- Make sure you've set your hideout using the "Set Hideout" button on the System Tray menu. Any typos may result in failure for the script to display a reminder. 
-
 - If notifications aren't being displayed when entering your hideout double check that you have the correct Hideout set. For more information on setting your hideout please view the [hideout notes](#hideout-notes) below. 
 
-- You may need to delete your "Client.txt" file and restart your game. The reason for this is that is your "Client.txt" it can cause problems with reading the file. 
+- If you've reset your hideout and are still not getting notifications you may need to delete your "Client.txt" file and restart your game. The reason for this is that if your "Client.txt" is too long it can cause problems with reading the file. 
 
 - Make sure that you are running the script from within a folder containing all of the original assets of the program. 
 
@@ -88,11 +85,12 @@ Set Transparency - Launches the tool to set your transparency options for variou
 
 - If clicking the "View Log" button isn't taking you to the correct path, this is likely due to because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
 
-- When using press "Enter" or select "OK" when you notified of an update. "PoE Mechanic Watch Update.zip" will download to your PoE Mechanic Watch folder, simply unzip and copy all the files from the new release folder into your existing directy. Doing this should keep all user settings.
-
 - The Auto Enable/Disable feature is currently in Beta. For it to work it requires the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. I've tried to be as thorough as possible in adding dialogs but I may have missed some as there is some variance in the.
 
 - For the "Launch Path of Exile" tray menu command to work properly, the game must be launched at least once with this tool running first. 
+
+##### Updating:
+When using the "Update" tool press "Enter" or select "OK" when you notified of an update. "PoE Mechanic Watch Update.zip" will download to your PoE Mechanic Watch folder, simply unzip and copy all the files from the new release folder into your existing directy. Doing this should keep all user settings.
 
 #### Hideout Notes:  
 The first time your run this script you will be required to set your hideout in the first run "Setup" menu. If at any time you switch your hideout you can change it by using the "Set Hideout" tool in the "Setup" submenu of the tray icon menu. Use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected.
@@ -111,6 +109,8 @@ The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speak
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>  
 The reload button was found at <a href="https://www.flaticon.com/free-icons/refresh" title="refresh icons">Refresh icons created by Gregor Cresnar - Flaticon</a>  
 The stop button was found at <a href="https://www.flaticon.com/free-icons/forbidden" title="forbidden icons">Forbidden icons created by Freepik - Flaticon</a>  
+
+I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey. I am in no ways responsible if this script bricks your computer, causes errors or results in a ban in Path of Exile. 
 
 Donations:  
 There are no obligations for anyone to donate but if you wish to you can here: [PayPal](https://www.paypal.com/paypalme/Drew149).
