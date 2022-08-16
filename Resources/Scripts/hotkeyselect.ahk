@@ -8,17 +8,22 @@ StringTrimRight, UpOneLevel, A_ScriptDir, 7
 IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
 IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
 IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
+
+;Setup text for individual HotKey descriptions
 HotkeyText1 = Reverse Map Count Hotkey
 HotkeyText2 = Launch Path of Exile
+HotkeyText3 = Open Tool Launcher
+
 Gui, Color, %Background%
 Gui, Font, s12 c%Font% Bold
 Gui, Add, Text, +Center w500, Click the boxes below and enter your desired key combination. 
 space = y+5
-Gui, Add, Text, %space% +Center w500,(Un)Check the box toggle the Windows key modifier. 
+Gui, Add, Text, %space% +Center w500,(Un)Check the box to toggle the Windows key modifier. 
 Gui, Font, c%Font% s11 Normal
 space = y+1
 Gui, Add, GroupBox, w500 h10 xs %space%
-#ctrls = 2  ;How many Hotkey controls to add.
+
+#ctrls = 3  ;How many Hotkey controls to add.
 Loop,% #ctrls {
  Hotkeytext = HotkeyText%A_Index%
  text := %Hotkeytext%

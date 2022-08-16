@@ -26,6 +26,7 @@ Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
 Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add, Sound Settings, UpdateNotification
 Menu, SetupMenu, Add, Launch Assist, LaunchGui
+Menu, SetupMenu, Add, Tool Launcher, ToolLauncher
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add
@@ -139,6 +140,7 @@ If !FileExist(HokeyiniPath)
 {
 	IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 1 
     IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 2 
+    IniWrite, %blank%, Resources\Settings\Hotkeys.ini, Hotkeys, 3 
 }
 
 NotificationiniPath = Resources\Settings\notification.ini
@@ -424,17 +426,27 @@ If !(Hotkey2 = "")
 {
     Hotkey, %Hotkey2%, Off, UseErrorLevel
 }
+IniRead, Hotkey3, Resources\Settings\Hotkeys.ini, Hotkeys, 3
+If !(Hotkey3 = "")
+{
+    Hotkey, %Hotkey3%, Off, UseErrorLevel
+}
 Run, Resources\Scripts\hotkeyselect.ahk
 RunWait, Resources\Scripts\hotkeyselect.ahk
-Gosub, HotkeyCheck
+Reload
 Return
 
 HotkeyCheck:
-IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
 IniRead, Hotkey1, Resources\Settings\Hotkeys.ini, Hotkeys, 1
+IniRead, Hotkey2, Resources\Settings\Hotkeys.ini, Hotkeys, 2
+IniRead, Hotkey3, Resources\Settings\Hotkeys.ini, Hotkeys, 3
 If !(Hotkey2 = "")
 {
     Hotkey, %Hotkey2%, LaunchPoe
+}
+If !(Hotkey3 = "")
+{
+    Hotkey, %Hotkey3%, ToolLauncher
 }
 Hk := Hotkey1
 If !(Hk = "")
@@ -478,6 +490,10 @@ Return
 
 Feedback:
 Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
+Return
+
+ToolLauncher:
+Run, Resources\Scripts\ToolLauncher.ahk
 Return
 
 ;;;;;;;;;;;;;;;;;Subroutines for each mechanic ;;;;;;;;;;;;;;;;;;
@@ -689,7 +705,6 @@ Return
 #Include, Resources\Scripts\AutoMechanic.ahk
 #Include, Resources\Scripts\LogMonitor.ahk
 #Include, Resources\Scripts\SelectTheme.ahk
-;#Include, Resources\Scripts\VolumeAdjust.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
 #Include, Resources\Scripts\Transparency.ahk
