@@ -5,7 +5,7 @@ This program is a AutoHotKey Script. AutoHotKey can be downloaded for free here:
 
 The purpose of this program is for use with Path Of Exile to assist in tracking and reminding the user of completing in game mechanics.   
 
-###### The following game mechanics are current supported:  
+#### The following game mechanics are current supported:  
 - Abyss  
 - Blight  
 - Breach  
@@ -17,7 +17,7 @@ The purpose of this program is for use with Path Of Exile to assist in tracking 
 - Searing Exarch/Eater of Worlds (Map Count Tracking)
 - A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.  
 
-# Auto Mechanic Tracking:
+#### Auto Mechanic Tracking:
 For Blight, Expedition and Incursion Auto Mechanic Tracking can be enabled in a seperate menu. This feature **requires** the **"Output Dialogue To Chat"** setting turned on in the "UI" section of the settings in game. Incursion reminders are only disabled after the 3rd encounter. Please note this feature depends on NPC dialogs, due to dialogs being random it may not be 100% reliable.  
 
 Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon. The Hotkey can be changed using the "Change Hotkey" tray menu option.  
@@ -32,7 +32,7 @@ To run this script you **MUST** have AutoHotKey installed. https://www.autohotke
 Download and unzip the program. Double-click **"Start Me.ahk"** to run the program.  
 Please note, it must be run from within a folder containing all the assets and files that are contained in the zip. 
 
-#### Usage: 
+## Usage: 
 The first time you use this tool you will be greeting with a setup screen. This will walk you through initial setup.  
 
 ![Startup Tool](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Startup%20Tool.jpg?raw=true) 
@@ -54,7 +54,7 @@ If at any time you wish to change any settings this can be done by right clickin
 ![Tray Menu Icon](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu%20Icon.jpg?raw=true)
 ![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
 
-## Tray Menu Item Descriptions:  
+#### Tray Menu Item Descriptions:  
 - Select Mechanics - Allows you to select which mechanics will appear for tracking in your Overlay.  
 - Select Auto Enable/Disable - Allows you to select which mechanics will have auto enable/disable active. Please see the important information above about this feature. [Go to Auto Mechanic Information](#auto-mechanic-tracking)  
 - Launch Path of Exile - This will launch your Path of Exile client along with anything you've setup to launch alongside it with the "Launch Assist" tool.  
