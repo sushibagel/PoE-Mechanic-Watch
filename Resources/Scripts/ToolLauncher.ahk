@@ -16,7 +16,8 @@ IniRead, Secondary, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Secondary
 
 ToolLaunchGui: ;Adds checkbox items to gui
 yh := (A_ScreenHeight/2) -150
-xh := A_ScreenWidth/2
+wh := A_ScreenWidth/2
+xh := (A_ScreenWidth/2)
 ArrCount = 0
 FileRead, LaunchKeys, %iniFile%
 Loop, Parse, LaunchKeys, `n`r
@@ -48,7 +49,7 @@ Loop, %ArrCount%
         Gui, ToolLauncher:Add, Checkbox, v%A_Index% Checked1 ys, % keyLaunchKeys
     }
 }
-Gui, ToolLauncher:Show,,ToolLauncher
+Gui, ToolLauncher:Show, w%wh%,ToolLauncher
 WinGetPos, X, Y, w, h, ToolLauncher
 If (h < 85)
 {
@@ -57,8 +58,8 @@ If (h < 85)
 Gui, ToolLauncher:Destroy
 Gui, ToolLauncher:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
 Gui, ToolLauncher:Font, c%Font% s12
-Gui, ToolLauncher:Add, Text, +Center w%w%, Uncheck items to delete from launcher
-Gui, ToolLauncher:Add, GroupBox, w%w% h10 xn x10
+Gui, ToolLauncher:Add, Text, +Center w%wh%, Uncheck items to delete from launcher
+Gui, ToolLauncher:Add, GroupBox, w%wh% h10 xn
 Space = y+2
 Gui, ToolLauncher: -Caption
 Gui, ToolLauncher:Font, c%Font% s11
@@ -77,7 +78,7 @@ Loop, %ArrCount%
 xh := xh - (w/2)
 yh2 := yh + h
 h := h - 30
-Gui, ToolLauncher:Add, GroupBox, w%w% h10 xn x10
+Gui, ToolLauncher:Add, GroupBox, w%w% h10 xn
 Gui, ToolLauncher:Add, Text, xn x10 Section, Add New Tool
 Gui, ToolLauncher:Font, c%Font% s9
 Gui, ToolLauncher:Add, Text, ys, (This can be a local program or website)
@@ -96,7 +97,7 @@ Gui, ToolLauncher:Add, Button, xn x20 Section, Close
 Gui, ToolLauncher:Color, Edit, %Secondary%
 Gui, ToolLauncher:Font, cBlack
 Gui, ToolLauncher:Color, %Background%
-Gui, ToolLauncher:Show, x%xh% y%yh%, ToolLauncher
+Gui, ToolLauncher:Show, x%xh% y%yh% w%wh%, ToolLauncher
 WinWaitClose, ToolLauncher
 Return
 
@@ -127,7 +128,7 @@ Return
 ToolLauncherButtonSubmit:
 Gui, ToolLauncher:Submit, NoHide
 EnvGet,SysDrive,SystemDrive
-If ToolAddress contains %SysDrive%,www. ;Error check the input box
+If ToolAddress contains %SysDrive%,www.,https:// ;Error check the input box
 {
     NewTool := StrSplit(ArrCount, ".", "0")
     NewTool := NewTool[1]
