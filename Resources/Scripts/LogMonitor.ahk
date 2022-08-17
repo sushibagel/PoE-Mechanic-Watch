@@ -147,7 +147,7 @@ If Hideout contains %MyDialogs%
                     }
                     IncursionCode := Code
                     IncursionSleep ++
-                    If (IncursionSleep = 3)
+                    If (IncursionSleep = 4)
                     {
                         GoSub, Incursion
                         Gosub, LogMonitor
