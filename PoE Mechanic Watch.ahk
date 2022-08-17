@@ -136,6 +136,19 @@ If !FileExist(PositiontxtPath)
 }
 
 HokeyiniPath = Resources\Settings\Hotkeys.ini
+If FileExist(HokeyiniPath)
+{
+    FileRead, HotkeyCurrent, %HokeyiniPath%
+    If !InStr(HotkeyCurrent, "12=")
+    {
+        AddKeys = 2
+        Loop, 10
+        {
+            AddKeys ++
+            FileAppend, `n%AddKeys%=, %HokeyiniPath%
+        }
+    }
+}
 
 If !FileExist(HokeyiniPath)
 {
