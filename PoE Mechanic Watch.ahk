@@ -91,6 +91,7 @@ Global BlightSleep
 Global ExpeditionSleep
 Global IncursionSleep
 Global IncursionGo
+Global IncursionCode
 Global SearingOn
 Global EaterOn 
 
@@ -498,47 +499,47 @@ If !(Hotkey3 = "")
 If !(Hotkey4 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey4%, Abyss, T2
+    Hotkey, %Hotkey4%, Abyss, T5
 }
 If !(Hotkey5 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey5%, Blight, T2
+    Hotkey, %Hotkey5%, Blight, T5
 }
 If !(Hotkey6 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey6%, Breach, T2
+    Hotkey, %Hotkey6%, Breach, T5
 }
 If !(Hotkey7 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey7%, Expedition, T2
+    Hotkey, %Hotkey7%, Expedition, T5
 }
 If !(Hotkey8 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey8%, Harvest, T2
+    Hotkey, %Hotkey8%, Harvest, T5
 }
 If !(Hotkey9 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey9%, Incursion, T2
+    Hotkey, %Hotkey9%, Incursion, T5
 }
 If !(Hotkey10 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey10%, Metamorph, T2
+    Hotkey, %Hotkey10%, Metamorph, T5
 }
 If !(Hotkey11 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey11%, Ritual, T2
+    Hotkey, %Hotkey11%, Ritual, T5
 }
 If !(Hotkey12 = "")
 {
     Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey12%, Generic, T2
+    Hotkey, %Hotkey12%, Generic, T5
 }
 Hk := Hotkey1
 If !(Hk = "")
@@ -592,14 +593,12 @@ Return
 ToggleOn:
 Gui, 2:Destroy
 Gosub, Overlay
-Exit
 Return
 
 ToggleOff:
 Gui, 2:Destroy
 WarningActive = No
 Gosub, Overlay
-Exit
 Return
 
 Abyss:
@@ -680,16 +679,16 @@ GoSub, MechanicsActive
 if (IncursionActive = 0)
     {
         iniWrite, 1, Resources\Data\MechanicsActive.ini, Active, Incursion
-        Gosub, ToggleOn
         IncursionSleep = 1
+        Gosub, ToggleOn        
         Return
     }
 
 if (IncursionActive = 1)
     {
         iniWrite, 0, Resources\Data\MechanicsActive.ini, Active, Incursion
-        Gosub, ToggleOff
         IncursionSleep = 0
+        Gosub, ToggleOff
         Return
     }
 }
