@@ -39,7 +39,7 @@ Loop,% #ctrls {
  Gui, Add, Text, xm x50, %text% ;#%A_Index%:
  IniRead, savedHK%A_Index%, %UpOneLevel%Settings/Hotkeys.ini, Hotkeys, %A_Index%, %A_Space%
  If savedHK%A_Index%                                       ;Check for saved hotkeys in INI file.
-  Hotkey,% savedHK%A_Index%, Label%A_Index%                 ;Activate saved hotkeys if found.
+  Hotkey,% savedHK%A_Index%, Label%A_Index%, UseErrorLevel               ;Activate saved hotkeys if found.
  StringReplace, noMods, savedHK%A_Index%, ~                  ;Remove tilde (~) and Win (#) modifiers...
  StringReplace, noMods, noMods, #,,UseErrorLevel              ;They are incompatible with hotkey controls (cannot be shown).
  Gui, Add, CheckBox, yp x250 +Left vCB%A_Index% Checked%ErrorLevel%, Win  ;Add checkboxes to allow the Windows key (#) as a modifier...

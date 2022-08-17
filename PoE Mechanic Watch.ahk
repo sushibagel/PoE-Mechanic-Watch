@@ -592,14 +592,14 @@ Return
 ToggleOn:
 Gui, 2:Destroy
 Gosub, Overlay
-Gosub, LogMonitor
+Exit
 Return
 
 ToggleOff:
 Gui, 2:Destroy
-LogWait = 1
 WarningActive = No
 Gosub, Overlay
+Exit
 Return
 
 Abyss:
