@@ -10,3 +10,4 @@ Resources/Data/LaunchPath.ini
 Resources/Settings/notification.ini
 Resources/Settings/Transparency.ini
 Resources/Data/ToolLauncher.ini
+Resources/Scripts/MapReader.ahk
