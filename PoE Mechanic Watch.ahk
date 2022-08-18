@@ -141,11 +141,19 @@ If FileExist(HokeyiniPath)
     FileRead, HotkeyCurrent, %HokeyiniPath%
     If !InStr(HotkeyCurrent, "12=")
     {
-        AddKeys = 2
-        Loop, 10
+        Loop, 12
         {
-            AddKeys ++
-            FileAppend, `n%AddKeys%=, %HokeyiniPath%
+            IniRead, Hotkey%A_Index%, %HokeyiniPath%, Hotkeys, %A_Index%
+        }
+        FileDelete, %HokeyiniPath%
+        Loop, 12
+        {
+            HotkeyNum := Hotkey%A_Index%
+            If (HotkeyNum = "Error")
+            {
+                HotkeyNum =
+            }
+            IniWrite, %HotkeyNum%, %HokeyiniPath%, Hotkeys, %A_Index%
         }
     }
 }
