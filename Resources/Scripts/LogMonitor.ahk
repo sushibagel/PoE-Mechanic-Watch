@@ -114,6 +114,7 @@ If Hideout contains %FullSearch%
         {
             GoSub, Reminder
             WinwaitClose, Reminder
+            Return
         }
         Else
         {
@@ -138,8 +139,15 @@ If Hideout contains %MyDialogs%
                 }
                 If Hideout contains %IncursionGo%
                 {
+                    GetLogCode := StrSplit(Hideout, A_Space)
+                    Code = % GetLogCode[3]
+                    If (Code = IncursionCode) and (Code != "")
+                    {
+                        Break
+                    }
+                    IncursionCode := Code
                     IncursionSleep ++
-                    If (IncursionSleep = 3)
+                    If (IncursionSleep = 4)
                     {
                         GoSub, Incursion
                         Gosub, LogMonitor

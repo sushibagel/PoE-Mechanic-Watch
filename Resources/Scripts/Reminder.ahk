@@ -100,6 +100,7 @@ GuiClose:
 ButtonYes!:
 WinActivate, Path of Exile
 Gui, 1:Submit
+Gosub, LogMonitor
 Return
 
 ButtonNo:
