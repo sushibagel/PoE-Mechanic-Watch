@@ -103,7 +103,6 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, First2
 GroupAdd, PoeWindow, Transparency
-GroupAdd, PoeWindow, ahk_exe Code.exe
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 
