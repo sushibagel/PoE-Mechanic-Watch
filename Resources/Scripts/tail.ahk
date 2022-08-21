@@ -1,26 +1,41 @@
-
-;lt := new CLogTailer(LogPath, Func("NewLine"))
-;Return
 ; This function gets called each time there is a new line
-;NewLine(text)
-;{
-;ToolTip, % text
-;If text contains %FullSearch% ;This is intentially redundant for now. I may use it later for future improvements. 
-;	{
-;		Hideout := text
-;		If Hideout contains %FullSearch%
-;		{
-;			Gosub, LogItem
-;			Return
-;		}
-;	}
-;}
+Loop
+{
+LogTail(text)
+	{
+		NewLine = % text
+		FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
+		if NewLine contains %MyHideout%
+		{
+			BreakLoop = 1
+			SetTimer, BreakLoopClear, 500
+			Gosub, HideoutEntered
+			Exit
+		}
+		if NewLine contains %MyDialogs%
+		{
+			Gosub, SearchText
+			Exit
+		}
+		If InStr(NewLine, "Generating level") and If InStr(NewLine, "with seed")
+		{
+			Gosub, InfluenceTrack
+			Exit
+		}
+	}
+}
+Return
+
+BreakLoopClear:
+SetTimer, BreakLoopClear, Off
+BreakLoop =
+Return
 
 class CLogTailer {
 	__New(logfile, callback){
 		this.file := FileOpen(logfile, "r-d")
 		if (!IsObject(this.file)){
-            MsgBox % "Unable to load file " logfile "`n check if the file path is correct"
+            MsgBox % "Unable to load file: " logfile "`nmake sure your Path of Exile client is open and reload the script."
         }
 		this.callback := callback
 		; Move seek to end of file

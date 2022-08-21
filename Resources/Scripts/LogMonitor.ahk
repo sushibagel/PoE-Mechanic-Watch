@@ -58,71 +58,28 @@ For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
         }
     }
 }
+msgbox, 1
 Gosub, InfluenceTracking
-lt := new CLogTailer(LogPath, Func("SearchOnNewLine"))
-Logwait = 
+Return 
 
-SearchOnNewLine(text)
+HideoutEntered:
+If (sleepmechanic != "")
 {
-If (MyDialogsDisable != "")
+    %sleepmechanic% = 0
+}
+GoSub, MechanicsActive
+If (MechanicsActive >= 1)
 {
-    FullSearch = %MyHideout%,%MyDialogs%,%MyDialogsDisable%
+    GoSub, Reminder
+    WinwaitClose, Reminder
+    Return
 }
-Else
-{
-    FullSearch = %MyHideout%
-}
-Hideout := % text
-If Hideout contains %FullSearch%
-    {
-        Logwait = 1
-        Return, Stop
-    }
-}
-
-Loop
-{
-    IfWinNotActive, ahk_group PoeWindow
-    {
-        Sleep, 200
-        IfWinNotActive, ahk_group PoeWindow
-        {
-            Gui, 2:Destroy
-            Gosub, Monitor
-        }
-    }
-    If (LogWait = 1)
-    {
-        LogWait =
-        Break
-    }
-
-}
+Return
 
 SearchText:
 FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
-If Hideout contains %FullSearch% 
-{
-    If Hideout contains %MyHideout%
-    {
-        If (sleepmechanic != "")
-        {
-            %sleepmechanic% = 0
-        }
-        GoSub, MechanicsActive
-        If (MechanicsActive >= 1)
-        {
-            GoSub, Reminder
-            WinwaitClose, Reminder
-            Return
-        }
-        Else
-        {
-            Gosub, LogMonitor
-        }
-    }
 Gosub, MechanicsActive
-If Hideout contains %MyDialogs%
+If NewLine contains %MyDialogs%
     {
         For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
         Loop, Read, Resources/Data/%Mechanic%dialogs.txt
@@ -130,16 +87,16 @@ If Hideout contains %MyDialogs%
             activecheck = %Mechanic%Active
             sleepmechanic = %Mechanic%Sleep
             automechanic = %Mechanic%Auto
-            If Hideout contains %A_LoopReadLine%
+            If NewLine contains %A_LoopReadLine%
             {
                 If (%activecheck% != 1) and (%sleepmechanic% != 1) and (%automechanic% = 1)
                 {
                     GoSub, %Mechanic%
-                    Gosub, LogMonitor
+                    Break
                 }
-                If Hideout contains %IncursionGo%
+                If NewLine contains %IncursionGo%
                 {
-                    GetLogCode := StrSplit(Hideout, A_Space)
+                    GetLogCode := StrSplit(NewLine, A_Space)
                     Code = % GetLogCode[3]
                     If (Code = IncursionCode) and (Code != "")
                     {
@@ -150,32 +107,32 @@ If Hideout contains %MyDialogs%
                     If (IncursionSleep = 4)
                     {
                         GoSub, Incursion
-                        Gosub, LogMonitor
+                        Break
                     }
                 }
             }
         }
     }
-If Hideout contains %MyDialogsDisable%
+If NewLine contains %MyDialogsDisable%
+{
+    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
+    Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
     {
-        For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-        Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
+        If NewLine contains %A_LoopReadLine%
         {
-            If Hideout contains %A_LoopReadLine%
+        activecheck = %Mechanic%Active
+        sleepmechanic = %Mechanic%Sleep
+        automechanic = %Mechanic%Auto
+            If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%Mechanic% != Incursion)
             {
-            activecheck = %Mechanic%Active
-            sleepmechanic = %Mechanic%Sleep
-            automechanic = %Mechanic%Auto
-                If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%Mechanic% != Incursion)
-                {
-                    %sleepmechanic% = 1
-                    GoSub, %Mechanic%
-                    Break 
-                }  
-            }
+                %sleepmechanic% = 1
+                GoSub, %Mechanic%
+                Break 
+            }  
         }
     }
 }
+
 IfWinActive, First2
 {
     Return

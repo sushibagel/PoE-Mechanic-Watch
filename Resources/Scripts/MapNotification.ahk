@@ -1,5 +1,9 @@
 InfluenceMapNotification:
 Gosub, HotkeyCheck
+Winwait, Overlay
+WinGetPos,Width, Height, Length,, Overlay
+height := height - 50
+Length := Length - 10
 IniRead, MapTransparency, %UpOneLevel%Settings\Transparency.ini, Transparency, Map
 If (MapTransparency = "ERROR")
 {

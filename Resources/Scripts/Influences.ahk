@@ -31,92 +31,74 @@ Winwait, Overlay
 WinGetPos,Width, Height, Length,, Overlay
 height := height - 50
 Length := Length - 10
-
-InfluenceTrack:
-Gosub, InfluenceActive
-
-FileRead, MapList, Resources\Data\maplist.txt
-lt := new CLogTailer(LogPath, Func("NewLine"))
 Return
 
-; This function gets called each time there is a new line
-NewLine(text)
-{
-    MapTrack := % text
-	If InStr(MapTrack, "Generating level") and If InStr(MapTrack, "with seed")
-        {
-            FirstSplit := StrSplit(MapTrack, A_Space)
-            AreaLevel = % FirstSplit[10]
-            SeedNumber = % FirstSplit[15]
-		    If (AreaLevel >= 81)
-		    {
-                SplitDelim = `"
-                GetMap = % FirstSplit[12]
-                SecondSplit := StrSplit(GetMap, SplitDelim)
-                GetMap = % SecondSplit[2]
-                MapName := StrSplit(GetMap, "MapWorlds")
-                MapName = % MapName[2]
-                FileRead, MapList, Resources\Data\maplist.txt
-			    If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
-			    {
-                    LastMap := MapName
-                    LastSeed := SeedNumber
-				    If (CurrentInfluence != None)
-				    {
-                        IniRead, InfluenceTrack, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
-                        OldTrack = %InfluenceTrack%
-                        InfluenceTrack ++
-                        ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-                        IniWrite, %InfluenceTrack%, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
-						Gosub, InfluenceMapNotification
-                        SetTimer, CloseGui, -3000
+InfluenceTrack:
+MapTrack := NewLine
+Gosub, InfluenceActive
 
-                        If (InfluenceTrack = 14)
-                        {
-                            If (InfluenceActive = "Searing")
-                            {
-                                ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
-                            }
-                            If (InfluenceActive = "Eater")
-                            {
-                                ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
-                            }
-                            Gosub, EldritchReminder
-                            Gosub, NotificationSound
-                            Gosub, InfluenceReminderLoop
-                        }
-                        If (InfluenceTrack = 28)
-                        {
-                            If (InfluenceActive = "Searing")
-                            {
-                                ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
-                            }
-                            If (InfluenceActive = "Eater")
-                            {
-                                ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
-                            }
-                            Gosub, EldritchReminder
-                            Gosub, NotificationSound
-                            Gosub, InfluenceReminderLoop
-                        }
-                    }
-			    }
-		    }
+FileRead, MapList, Resources\Data\maplist.txtFirstSplit := StrSplit(MapTrack, A_Space)
+
+FirstSplit := StrSplit(MapTrack, A_Space)
+AreaLevel = % FirstSplit[10]
+SeedNumber = % FirstSplit[15]
+If (AreaLevel >= 81)
+{
+    SplitDelim = `"
+    GetMap = % FirstSplit[12]
+    SecondSplit := StrSplit(GetMap, SplitDelim)
+    GetMap = % SecondSplit[2]
+    MapName := StrSplit(GetMap, "MapWorlds")
+    MapName = % MapName[2]
+    FileRead, MapList, Resources\Data\maplist.txt
+    If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
+    {
+        LastMap := MapName
+        LastSeed := SeedNumber
+        If (CurrentInfluence != None)
+        {
+            IniRead, InfluenceTrack, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
+            OldTrack = %InfluenceTrack%
+            InfluenceTrack ++
+            ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+            IniWrite, %InfluenceTrack%, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
+            Gosub, InfluenceMapNotification
+            SetTimer, CloseGui, -3000
+
+            If (InfluenceTrack = 14)
+            {
+                If (InfluenceActive = "Searing")
+                {
+                    ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
+                }
+                If (InfluenceActive = "Eater")
+                {
+                    ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
+                }
+                Gosub, EldritchReminder
+                Gosub, NotificationSound
+                Gosub, InfluenceReminderLoop
+            }
+            If (InfluenceTrack = 28)
+            {
+                If (InfluenceActive = "Searing")
+                {
+                    ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
+                }
+                If (InfluenceActive = "Eater")
+                {
+                    ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
+                }
+                Gosub, EldritchReminder
+                Gosub, NotificationSound
+                Gosub, InfluenceReminderLoop
+            }
         }
+    }
 }
-Gosub, InfluenceTrack
 Return
 
 InfluenceReminderLoop:
-lt := new CLogTailer(LogPath, Func("HideoutOnNewLine"))
-HideoutOnNewLine(text)
-{
-HideoutTrack := % text
-If InStr(HideoutTrack, MyHideout)
-    {
-        BreakLoop = 1
-    }
-}
 Loop
 {
     IfWinNotActive, Path of Exile
@@ -144,7 +126,6 @@ Loop
     }
 
 }
-Gosub, InfluenceTrack
 Return
 
 CloseGui:
@@ -194,7 +175,6 @@ If (SearingActive = 1)
 }
 Sleep, 100
 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-Gosub, InfluenceActive
 Return
 
 InfluenceActive:

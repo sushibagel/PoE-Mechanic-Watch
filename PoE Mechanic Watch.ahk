@@ -62,7 +62,7 @@ Global iniSection
 Global PoeID
 Global MyDialogsDisable
 Global MyDialogs
-Global Hideout
+Global NewLine
 Global LogWait
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
@@ -103,6 +103,7 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, First2
 GroupAdd, PoeWindow, Transparency
+GroupAdd, PoeWindow, ahk_exe Code.exe
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 
@@ -272,8 +273,9 @@ GoSub, ReadMechanics
 Gosub, ReadAutoMechanics
 Gosub, LaunchGlobals
 Gosub, ReadTransparency
+lt := new CLogTailer(LogPath, Func("LogTail"))
 Gosub, Monitor
-
+Return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Sub Routines ;;;;;;;;;;;;;;;;;;;;;;;;
 
 GetHideout:
@@ -293,6 +295,7 @@ Loop
             Gui, 2:Destroy
             Gui, 1:Destroy
             Gui, Reminder:Destroy
+            Exit
         }
     }
     IfWinExist, First
@@ -303,10 +306,7 @@ Loop
     {
         Gosub, Overlay
         Gosub, MechanicsActive
-        If (AutoMechanicsActive >= 1) or If (MechanicsActive >= 1)
-        {
-            Gosub, LogMonitor
-        }
+        Exit
     }
 }
 
@@ -402,6 +402,10 @@ If (LogPath != "logs\Client.txt")
 {
     IniWrite, %LogPath%, Resources\Data\LaunchPath.ini, POE, log
     IniWrite, %POEPathTrim%, Resources\Data\LaunchPath.ini, POE, Directory
+}
+If (LogPath = "logs\Client.txt")
+{
+    IniRead, LogPath, Resources\Data\LaunchPath.ini, POE, log
 }
 Return
 
