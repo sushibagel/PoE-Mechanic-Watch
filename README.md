@@ -104,8 +104,8 @@ Thank you to reddit user "evilC_UK" and cjsmiles999 on the AHK forums for the sa
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/  
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater.  
 Thanks to user "jaco0646" for the code for the Hotkey Selector posted on the AutoHotKey forums.  
-Thanks to user "masonjar13" on the AutoHotKey forums for the Volume Adjust "VA" library used in the volume control settings.  
-Thank you to user "just me" on the AutoHotKey Forums. for the Class_ScrollGUI.ahk script. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)
+Thanks to user "masonjar13" on the AutoHotKey forums for the Volume Adjust "VA" library used in the volume control settings.   
+Thank you to user "just me" on the AutoHotKey Forums. for the Class_ScrollGUI.ahk script. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)  
 The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>  
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>  
 The reload button was found at <a href="https://www.flaticon.com/free-icons/refresh" title="refresh icons">Refresh icons created by Gregor Cresnar - Flaticon</a>  

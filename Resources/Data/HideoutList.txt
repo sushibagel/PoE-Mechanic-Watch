@@ -11,6 +11,7 @@ Cartographer's
 Celestial
 Celestial Nebula
 Champion's
+Coastal
 Coral
 Corrupted
 Crucible
@@ -37,6 +38,7 @@ Luxurious
 Morbid
 Nocturnal
 Overgrown
+Polaric
 Primeval
 Ravenous
 Ritualist's
@@ -51,3 +53,6 @@ Thaumaturgical
 Towering
 Undercity
 Unearthed
+Urban Sprawl
+Void
+Vast Plains
