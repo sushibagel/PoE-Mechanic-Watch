@@ -19,6 +19,9 @@
 class CLogTailer {
 	__New(logfile, callback){
 		this.file := FileOpen(logfile, "r-d")
+		if (!IsObject(this.file)){
+            MsgBox % "Unable to load file " logfile "`n check if the file path is correct"
+        }
 		this.callback := callback
 		; Move seek to end of file
 		this.file.Seek(0, 2)
