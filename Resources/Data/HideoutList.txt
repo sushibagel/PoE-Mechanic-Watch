@@ -11,6 +11,7 @@ Cartographer's
 Celestial
 Celestial Nebula
 Champion's
+Coastal
 Coral
 Corrupted
 Crucible
@@ -52,3 +53,6 @@ Thaumaturgical
 Towering
 Undercity
 Unearthed
+Urban Sprawl
+Void
+Vast Plains
