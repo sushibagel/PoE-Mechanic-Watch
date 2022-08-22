@@ -12,7 +12,7 @@ LogTail(text)
 			Gosub, HideoutEntered
 			Exit
 		}
-		if NewLine contains %MyDialogs%
+		if NewLine contains %MyDialogs%,%MyDialogsDisable%
 		{
 			Gosub, SearchText
 			Exit

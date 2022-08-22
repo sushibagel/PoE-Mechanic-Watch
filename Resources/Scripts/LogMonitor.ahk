@@ -58,7 +58,6 @@ For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
         }
     }
 }
-msgbox, 1
 Gosub, InfluenceTracking
 Return 
 
@@ -77,8 +76,8 @@ If (MechanicsActive >= 1)
 Return
 
 SearchText:
-FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
 Gosub, MechanicsActive
+Gosub, LogMonitor
 If NewLine contains %MyDialogs%
     {
         For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
@@ -120,10 +119,10 @@ If NewLine contains %MyDialogsDisable%
     {
         If NewLine contains %A_LoopReadLine%
         {
-        activecheck = %Mechanic%Active
-        sleepmechanic = %Mechanic%Sleep
-        automechanic = %Mechanic%Auto
-            If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%Mechanic% != Incursion)
+            activecheck = %Mechanic%Active
+            sleepmechanic = %Mechanic%Sleep
+            automechanic = %Mechanic%Auto
+            If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
             {
                 %sleepmechanic% = 1
                 GoSub, %Mechanic%

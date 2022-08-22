@@ -103,6 +103,7 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, First2
 GroupAdd, PoeWindow, Transparency
+GroupAdd, PoeWindow, ahk_exe code.exe
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 
@@ -294,7 +295,6 @@ Loop
             Gui, 2:Destroy
             Gui, 1:Destroy
             Gui, Reminder:Destroy
-            Exit
         }
     }
     IfWinExist, First
@@ -305,7 +305,6 @@ Loop
     {
         Gosub, Overlay
         Gosub, MechanicsActive
-        Exit
     }
 }
 
