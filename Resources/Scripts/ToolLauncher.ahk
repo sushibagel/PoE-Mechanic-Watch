@@ -1,25 +1,12 @@
-#SingleInstance force
-#NoEnv
-Global UpOneLevel
-
-StringTrimRight, UpOneLevel, A_ScriptDir, 7
-
-ToolLaunchGlobals:
-iniFile = %UpOneLevel%Data\ToolLauncher.ini
-iniSection := "UserTools"
-iniSectionName := "ToolName"
-ArrCount = 0
-IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
-IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
-IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
-IniRead, Secondary, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Secondary
+Global ToolAddress
 
 ToolLaunchGui: ;Adds checkbox items to gui
+LaunchIni := LaunchOptionsIni()
 yh := (A_ScreenHeight/2) -150
 wh := A_ScreenWidth/2
 xh := (A_ScreenWidth/2)
 ArrCount = 0
-FileRead, LaunchKeys, %iniFile%
+FileRead, LaunchKeys, %LaunchIni%
 Loop, Parse, LaunchKeys, `n`r
 {
     if(Not Instr(A_LoopField, "="))
@@ -40,8 +27,8 @@ ArrCount := ArrCount/2
 Loop, %ArrCount%
 {
     keyname := key%A_Index%
-    IniRead, keyLaunchKeys, %iniFile%, %iniSection%, %keyname%
-    IniRead, keyLaunchName, %iniFile%, %iniSectionName%, %keyname%
+    IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %keyname%
+    IniRead, keyLaunchName, %LaunchIni%, Tool Name, %keyname%
     if !(KeyLaunchKeys = "ERROR")
     {
         Gui, ToolLauncher:Add, Button, xn x10 Section v%A_Index%Launch, Launch
@@ -66,8 +53,8 @@ Gui, ToolLauncher:Font, c%Font% s11
 Loop, %ArrCount%
 {
     keyname := key%A_Index%
-    IniRead, keyLaunchKeys, %iniFile%, %iniSection%, %keyname%
-    IniRead, keyLaunchName, %iniFile%, %iniSectionName%, %keyname%
+    IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %keyname%
+    IniRead, keyLaunchName, %LaunchIni%, Tool Name, %keyname%
     if !(KeyLaunchKeys = "ERROR")
     {
         Gui, ToolLauncher:Add, Button, xn x10 Section v%A_Index%Launch, Launch
@@ -89,6 +76,7 @@ Gui, ToolLauncher:Add, Edit, ys vToolName
 Gui, ToolLauncher:Font, c%Font%
 Gui, ToolLauncher:Add, Text, ys , Tool Address/Location:
 Gui, ToolLauncher:Font, cBlack
+ToolAddress = %ToolAddress%
 Gui, ToolLauncher:Add, Edit, w150 ys vToolAddress, %ToolAddress%
 Gui, ToolLauncher:Font, c%Font%
 Gui, ToolLauncher:Add, Button, ys, Select File
@@ -101,82 +89,94 @@ Gui, ToolLauncher:Show, x%xh% y%yh% w%wh%, ToolLauncher
 WinWaitClose, ToolLauncher
 Return
 
-ToolLauncherButtonClose:
-Gui, Submit, NoHide
-Gui, ToolLauncher:Destroy
-NewKey = 0
-Loop, %ArrCount%
+ToolLauncherButtonClose()
 {
-    keyname := key%A_Index%
-    IniRead, keyLaunchKeys, %iniFile%, %iniSection%, %keyname%
-    IniRead, keyLaunchName, %iniFile%, %iniSectionName%, %keyname%
-    if !(KeyLaunchKeys = "ERROR")
+    LaunchIni := LaunchOptionsIni()
+    Gui, Submit, NoHide
+    Gui, ToolLauncher:Destroy
+    NewKey = 0
+    Loop, %ArrCount%
     {
-        IniDelete, %iniFile%, %iniSection%, %keyname%
-        IniDelete, %iniFile%, %iniSectionName%, %keyname%
-        If (%A_Index% = 1)
+        keyname := key%A_Index%
+        IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %keyname%
+        IniRead, keyLaunchName, %LaunchIni%, Tool Name, %keyname%
+        if !(KeyLaunchKeys = "ERROR")
         {
-            NewKey ++
-            IniWrite, % keyLaunchKeys, %iniFile%, %iniSection%, %NewKey%
-            IniWrite, % keyLaunchName, %iniFile%, %iniSectionName%, %NewKey%
+            IniDelete, %LaunchIni%, User Tools, %keyname%
+            IniDelete, %LaunchIni%, Tool Name, %keyname%
+            If (%A_Index% = 1)
+            {
+                NewKey ++
+                IniWrite, % keyLaunchKeys, %LaunchIni%, User Tools, %NewKey%
+                IniWrite, % keyLaunchName, %LaunchIni%, Tool Name, %NewKey%
+            }
         }
     }
+    Return
 }
-ExitApp
-Return
 
-ToolLauncherButtonSubmit:
-Gui, ToolLauncher:Submit, NoHide
-EnvGet,SysDrive,SystemDrive
-If ToolAddress contains %SysDrive%,www.,https:// ;Error check the input box
+ToolLauncherButtonSubmit()
 {
-    NewTool := StrSplit(ArrCount, ".", "0")
-    NewTool := NewTool[1]
-    NewTool ++
-    IniWrite, %ToolAddress%, %iniFile%, %iniSection%, %NewTool%
-    IniWrite, %ToolName%, %iniFile%, %iniSectionName%, %NewTool%
-    Gui, ToolLauncher:Destroy
-    ToolAddress =
-    Gosub, ToolLaunchGui
-}
-Else
-{
-  yh := (A_ScreenHeight/2) -150
-    xh := (A_ScreenWidth/2) - 225
-    Gui, ToolLauncher:Destroy
-    Gui, ToolLauncherWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, ToolLauncherWarning:Color, %Background%
-    Gui, ToolLauncherWarning:Font, c%Font% s11
-    Gui, ToolLauncherWarning:Add, Text, w530 +Center, You must use a valid drive path or web address (containing "www.").
-    Gui, ToolLauncherWarning:Add, Button, y50 x50, OKAY
-    Gui, ToolLauncherWarning: +AlwaysOnTop -Caption
-    Gui, ToolLauncherWarning:Show, NoActivate x%xh% y%yh% w550, ToolLauncherWarning
-    WinWaitClose, ToolLauncherWarning
-    Gosub, ToolLaunchGui
-}
-Return
-
-ToolLauncherWarningButtonOkay:
-Gui, ToolLauncherWarning:Destroy
-Return
-
-ToolLauncherButtonSelectFile:
-Gui, Submit, NoHide
-Gui, ToolLauncher:Destroy
-FileSelectFile, ToolAddress, 1, %A_ScriptDir%, Please select any new file you would like to add to your launch options. 
-Gosub, ToolLaunchGui
-Return
-
-ToolLauncherButtonLaunch:
-Gui, ToolLauncher:Submit, NoHide
-Loop, %ArrCount%
-{
-    launch := % A_Index "Launch"
-    If (A_GuiControl = launch)
+    LaunchIni := LaunchOptionsIni()
+    Gui, ToolLauncher:Submit, NoHide
+    EnvGet,SysDrive,SystemDrive
+    If ToolAddress contains %SysDrive%,www.,https:// ;Error check the input box
     {
-        IniRead, LaunchAddress, %iniFile%, %iniSection%, %A_Index%
-        Run, %LaunchAddress%
+        NewTool := StrSplit(ArrCount, ".", "0")
+        NewTool := NewTool[1]
+        NewTool ++
+        IniWrite, %ToolAddress%, %LaunchIni%, User Tools, %NewTool%
+        IniWrite, %ToolName%, %LaunchIni%, Tool Name, %NewTool%
         Gui, ToolLauncher:Destroy
+        ToolAddress =
+        Gosub, ToolLaunchGui
     }
+    Else
+    {
+    yh := (A_ScreenHeight/2) -150
+        xh := (A_ScreenWidth/2) - 225
+        Gui, ToolLauncher:Destroy
+        Gui, ToolLauncherWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+        Gui, ToolLauncherWarning:Color, %Background%
+        Gui, ToolLauncherWarning:Font, c%Font% s11
+        Gui, ToolLauncherWarning:Add, Text, w530 +Center, You must use a valid drive path or web address (containing "www.").
+        Gui, ToolLauncherWarning:Add, Button, y50 x50, OKAY
+        Gui, ToolLauncherWarning: +AlwaysOnTop -Caption
+        Gui, ToolLauncherWarning:Show, NoActivate x%xh% y%yh% w550, ToolLauncherWarning
+        WinWaitClose, ToolLauncherWarning
+        Gosub, ToolLaunchGui
+    }
+    Return
 }
-Return
+
+ToolLauncherWarningButtonOkay()
+{
+    Gui, ToolLauncherWarning:Destroy
+    Return
+}
+
+ToolLauncherButtonSelectFile()
+{
+    Gui, Submit, NoHide
+    Gui, ToolLauncher:Destroy
+    FileSelectFile, ToolAddress, 1, %A_ScriptDir%, Please select any new file you would like to add to your launch options. 
+    Gosub, ToolLaunchGui
+    Return
+}
+
+ToolLauncherButtonLaunch()
+{
+    LaunchIni := LaunchOptionsIni()
+    Gui, ToolLauncher:Submit, NoHide
+    Loop, %ArrCount%
+    {
+        launch := % A_Index "Launch"
+        If (A_GuiControl = launch)
+        {
+            IniRead, LaunchAddress, %LaunchIni%, User Tools, %A_Index%
+            Run, %LaunchAddress%
+            Gui, ToolLauncher:Destroy
+        }
+    }
+    Return
+}
