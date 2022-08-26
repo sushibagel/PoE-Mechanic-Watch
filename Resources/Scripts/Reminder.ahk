@@ -1,8 +1,9 @@
 Reminder:
+
+
 IniRead, NotificationSound, Resources\Settings\notification.ini, Sounds, Notification
 IniRead, NotificationSoundActive, Resources\Settings\notification.ini, Active, Notification
 
-WarningActive = Yes
 height9 := (A_ScreenHeight / 2) - 100
 width9 := (A_ScreenWidth / 2)-180
 Gui, 1:Destroy
@@ -71,42 +72,48 @@ Loop
 {
     IfWinNotActive, ahk_Group PoeWindow
     {
-        Sleep, 200
+        Sleep, 400
         IfWinNotActive, ahk_Group PoeWindow
         {
             Gui, 1:Destroy
             Gui, 2:Destroy
             Loop
             {
-                IfWinActive, ahk_Group PoeWindow
+                If (EndLoop = 1)
+                {
+                    EndLoop =
+                    NewLine =
+                    Exit
+                }
+                IfWinActive, ahk_Group PoeWindow and (EndLoop != 1)
                 {
                     Gosub, Overlay
                     Gosub, Reminder
+                    NewLine =
                     Break
                 }
             }
         }
     }
-    If (BreakLoop = 1)
+    If (EndLoop = 1)
     {
-        BreakLoop =
-        Break
+        EndLoop = 
+        NewLine =
+        Exit
     }
-
 }
-Return
+Exit
 
 GuiClose:
 ButtonYes!:
 WinActivate, Path of Exile
 Gui, 1:Submit
-Gosub, LogMonitor
+lt := new CLogTailer(LogPath, Func("LogTail"))
 Return
 
 ButtonNo:
 BreakLoop = 1
 Gui, 1:Submit
-WarningActive = No
 Loop, 1
 For each, Mechanic in StrSplit(MechanicSearch, "|")
 {
