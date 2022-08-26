@@ -21,7 +21,7 @@ Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
 Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add, Sound Settings, UpdateNotification
 Menu, SetupMenu, Add, Launch Assist, LaunchGui
-Menu, SetupMenu, Add, Tool Launcher, ToolLauncher
+Menu, SetupMenu, Add, Tool Launcher, ToolLaunchGui
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add
@@ -97,7 +97,7 @@ IniPath(MyKey){
         case "FirstRun":        MyValue := "Resources\Data\Firstrun.ini"                ;Section Key - Completion
         case "Hideout":         MyValue := "Resources\Settings\Hideout.ini"             ;Section Key - Hideout
         case "Hotkey":          MyValue := "Resources\Settings\Hotkeys.ini"             ;Section Key - Hotkeys
-        case "LaunchOptions":   MyValue := "Resources\Data\LaunchPath.ini"              ;Section Key - POE, LaunchOptions, ToolLauncher
+        case "LaunchOptions":   MyValue := "Resources\Data\LaunchPath.ini"              ;Section Key - POE, Launch Options, User Tools, Tool Name
         case "Mechanics":       MyValue := "Resources\Settings\Mechanics.ini"           ;Section Key - Mechanics, Mechanics Active, Auto Mechanics, Influence, Influence Track
         case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
         case "Overlay":         MyValue := "Resources\Settings\OverlayPosition.ini"     ;Section Key - Overlay
@@ -474,14 +474,16 @@ HotkeySelect()
     Return
 }
 
-LaunchAssistSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-LaunchGui()
-WinWaitClose, Launcher
-FirstRunWrite("LaunchAssist")
-Return
+LaunchAssistSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    Gosub, LaunchGui
+    WinWaitClose, Launcher
+    FirstRunWrite("LaunchAssist")
+    Return
+}
 
 SoundSelect()
 {
@@ -494,13 +496,16 @@ SoundSelect()
     Return
 }
 
-ToolLauncherSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-ToolLauncher()
-FirstRunWrite("ToolLauncher")
-Return
+ToolLauncherSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    Gosub, ToolLaunchGui
+    WinWaitClose, ToolLauncher
+    FirstRunWrite("ToolLauncher")
+    Return
+}
 
 FirstRunWrite(WriteItem)
 {
@@ -510,41 +515,48 @@ FirstRunWrite(WriteItem)
     Return
 }
 
-First2ButtonClose:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-CheckFirstRun()
-If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0)
+First2ButtonClose()
 {
-    Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, FirstWarning:Color, %Background%
-    Gui, FirstWarning:Font, c%Font% s10
-    Gui, FirstWarning:Add, Text, w530 +Center, You haven't gone through all the required setup processes, PoE Mechanic Watch may not function correctly until you do. 
-    Gui, FirstWarning:Add, Button, y50 x50, I'll do it later
-    Gui, FirstWarning:Add, Button, y50 x450, Go Back
-    Gui, FirstWarning: +AlwaysOnTop -Caption
-    Gui, FirstWarning:Show, NoActivate x%xh% y%yh% w550, FirstWarning
-    WinWaitClose, FirstWarning
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    CheckFirstRun()
+    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0)
+    {
+        Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+        Gui, FirstWarning:Color, %Background%
+        Gui, FirstWarning:Font, c%Font% s10
+        Gui, FirstWarning:Add, Text, w530 +Center, You haven't gone through all the required setup processes, PoE Mechanic Watch may not function correctly until you do. 
+        Gui, FirstWarning:Add, Button, y50 x50, I'll do it later
+        Gui, FirstWarning:Add, Button, y50 x450, Go Back
+        Gui, FirstWarning: +AlwaysOnTop -Caption
+        Gui, FirstWarning:Show, NoActivate x%xh% y%yh% w550, FirstWarning
+        WinWaitClose, FirstWarning
+    }
+    Else
+    {
+        Reload
+    }
+    Return
 }
-Else
-{
-    Reload
-}
-Return
 
-FirstReminderButtonOK:
-Gui, FirstReminder:Destroy
-Return
+FirstReminderButtonOK()
+{
+    Gui, FirstReminder:Destroy
+    Return
+}
 
 FirstWarningButtonI'lldoitlater:
 ExitApp
 Return
 
-FirstWarningButtonGoBack:
-Gui, FirstWarning:Destroy
-FirstRun()
-Return
+
+FirstWarningButtonGoBack()
+{
+    Gui, FirstWarning:Destroy
+    FirstRun()
+    Return
+}
 
 ReloadFirstRun()
 {
@@ -980,17 +992,7 @@ OverlayMove()
     Return
 }
 
-ToolLauncher()
-{
-    Return
-}
-
 HideoutUpdate()
-{
-    Return
-}
-
-LaunchGui()
 {
     Return
 }
@@ -1046,3 +1048,5 @@ Feedback()
 }
 
 #Include, Resources\Scripts\NotificationSounds.ahk
+#Include, Resources\Scripts\LaunchOptions.ahk
+#Include, Resources\Scripts\ToolLauncher.ahk
