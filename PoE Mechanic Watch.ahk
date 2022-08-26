@@ -44,7 +44,6 @@ Global LogPath
 Global MechanicSearch
 Global AutoMechanicSearch
 Global AutoMechanicsActive
-Global WarningActive
 Global MechanicsActive
 Global height
 Global width
@@ -64,6 +63,8 @@ Global MyDialogsDisable
 Global MyDialogs
 Global NewLine
 Global LogWait
+Global BreakLoop
+Global EndLoop
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Globals ;;;;;;;;;;;;;;;;;;;;;
 Global AbyssOn
@@ -103,6 +104,7 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, First2
 GroupAdd, PoeWindow, Transparency
+GroupAdd, PoeWindow, ahk_exe Awakened PoE Trade.exe
 GroupAdd, PoeWindow, ahk_exe code.exe
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
@@ -273,7 +275,7 @@ GoSub, ReadMechanics
 Gosub, ReadAutoMechanics
 Gosub, LaunchGlobals
 Gosub, ReadTransparency
-lt := new CLogTailer(LogPath, Func("LogTail"))
+Gosub, LogMonitor
 Gosub, Monitor
 Return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Sub Routines ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -285,6 +287,19 @@ MyHideout = %MyHideout% ;Remove extra space that for some reason occurs.
 Return
 
 Monitor: ;Monitor for Path of Exile window to be active. This will hide the overlay if the window is inactive and activate it when active. 
+IfWinActive, ahk_group PoeWindow
+{
+    lt := new CLogTailer(LogPath, Func("LogTail"))
+    Gosub, Overlay
+    Gosub, MechanicsActive
+}
+Else
+{
+    WinWaitActive, ahk_group PoeWindow
+    Gosub, Overlay
+    Gosub, MechanicsActive
+}
+
 Loop 
 {
     IfWinNotActive, ahk_group PoeWindow
@@ -295,16 +310,14 @@ Loop
             Gui, 2:Destroy
             Gui, 1:Destroy
             Gui, Reminder:Destroy
+            WinWaitActive, ahk_group PoeWindow
+            lt := new CLogTailer(LogPath, Func("LogTail"))
+            Gosub, Overlay
         }
-    }
-    IfWinExist, First
-    {
-        Return
-    }
-    IfWinActive, ahk_group PoeWindow
-    {
-        Gosub, Overlay
-        Gosub, MechanicsActive
+        IfWinExist, First
+        {
+            Return
+        }
     }
 }
 
@@ -620,7 +633,6 @@ Return
 
 ToggleOff:
 Gui, 2:Destroy
-WarningActive = No
 Gosub, Overlay
 Return
 

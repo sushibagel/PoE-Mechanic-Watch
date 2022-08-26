@@ -20,83 +20,82 @@ Global ReminderText
 Global LastMap
 Global LastSeed
 Global widthset
-Global BreakLoop
 
 InfluenceTracking:
 IniRead, InfluenceSound, Resources\Settings\notification.ini, Sounds, Influence
 IniRead, InfluenceSoundActive, Resources\Settingsnotification.ini, Active, Influence
 IniRead, ColorMode, Resources\Settings\Theme.ini, Theme, Theme
-
-Winwait, Overlay
-WinGetPos,Width, Height, Length,, Overlay
-height := height - 50
-Length := Length - 10
 Return
 
-InfluenceTrack:
-MapTrack := NewLine
-Gosub, InfluenceActive
-
-FileRead, MapList, Resources\Data\maplist.txtFirstSplit := StrSplit(MapTrack, A_Space)
-
-FirstSplit := StrSplit(MapTrack, A_Space)
-AreaLevel = % FirstSplit[10]
-SeedNumber = % FirstSplit[15]
-If (AreaLevel >= 81)
+InfluenceTrack()
 {
-    SplitDelim = `"
-    GetMap = % FirstSplit[12]
-    SecondSplit := StrSplit(GetMap, SplitDelim)
-    GetMap = % SecondSplit[2]
-    MapName := StrSplit(GetMap, "MapWorlds")
-    MapName = % MapName[2]
-    FileRead, MapList, Resources\Data\maplist.txt
-    If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
-    {
-        LastMap := MapName
-        LastSeed := SeedNumber
-        If (CurrentInfluence != None)
-        {
-            IniRead, InfluenceTrack, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
-            OldTrack = %InfluenceTrack%
-            InfluenceTrack ++
-            ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-            IniWrite, %InfluenceTrack%, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
-            Gosub, InfluenceMapNotification
-            SetTimer, CloseGui, -3000
+    MapTrack := NewLine
+    Gosub, InfluenceActive
+    FileRead, MapList, Resources\Data\maplist.txtFirstSplit := StrSplit(MapTrack, A_Space)
 
-            If (InfluenceTrack = 14)
+    FirstSplit := StrSplit(MapTrack, A_Space)
+    AreaLevel = % FirstSplit[10]
+    SeedNumber = % FirstSplit[15]
+    If (AreaLevel >= 81)
+    {
+        SplitDelim = `"
+        GetMap = % FirstSplit[12]
+        SecondSplit := StrSplit(GetMap, SplitDelim)
+        GetMap = % SecondSplit[2]
+        MapName := StrSplit(GetMap, "MapWorlds")
+        MapName = % MapName[2]
+        FileRead, MapList, Resources\Data\maplist.txt
+        If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
+        {
+            LastMap := MapName
+            LastSeed := SeedNumber
+            If (CurrentInfluence != None)
             {
-                If (InfluenceActive = "Searing")
+                IniRead, InfluenceTrack, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
+                OldTrack = %InfluenceTrack%
+                InfluenceTrack ++
+                If (InfluenceTrack >= 29)
                 {
-                    ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
+                    InfluenceTrack = 1
                 }
-                If (InfluenceActive = "Eater")
+                ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+                IniWrite, %InfluenceTrack%, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
+                Gosub, InfluenceMapNotification
+                SetTimer, CloseGui, -3000
+
+                If (InfluenceTrack = 14)
                 {
-                    ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
+                    If (InfluenceActive = "Searing")
+                    {
+                        ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
+                    }
+                    If (InfluenceActive = "Eater")
+                    {
+                        ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
+                    }
+                    Gosub, EldritchReminder
+                    Gosub, NotificationSound
+                    Gosub, InfluenceReminderLoop
                 }
-                Gosub, EldritchReminder
-                Gosub, NotificationSound
-                Gosub, InfluenceReminderLoop
-            }
-            If (InfluenceTrack = 28)
-            {
-                If (InfluenceActive = "Searing")
+                If (InfluenceTrack = 28)
                 {
-                    ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
+                    If (InfluenceActive = "Searing")
+                    {
+                        ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
+                    }
+                    If (InfluenceActive = "Eater")
+                    {
+                        ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
+                    }
+                    Gosub, EldritchReminder
+                    Gosub, NotificationSound
+                    Gosub, InfluenceReminderLoop
                 }
-                If (InfluenceActive = "Eater")
-                {
-                    ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
-                }
-                Gosub, EldritchReminder
-                Gosub, NotificationSound
-                Gosub, InfluenceReminderLoop
             }
         }
     }
+    Exit
 }
-Return
 
 InfluenceReminderLoop:
 Loop

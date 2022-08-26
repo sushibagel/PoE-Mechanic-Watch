@@ -1,30 +1,10 @@
 LogMonitor: ;Monitor the PoE client.txt
 
-ReadFile := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Data\Incursiondialogsdisable.txt"
-FileRead, Read1, %ReadFile%
+ReadFile = Resources\Data\Incursiondialogsdisable.txt
 IncursionGo := StrReplace(Read1, "`r`n" , ",")
 
 Gosub, GetLogPath
 Gosub, ReadAutoMechanics
-
-IfWinNotActive, ahk_group PoeWindow
-{
-    Sleep, 100
-    IfWinNotActive, ahk_group PoeWindow
-    {
-        Gui, 1:Destroy
-        Gui, 2:Destroy
-        Loop
-        {
-            IfWinActive, ahk_group PoeWindow
-            {
-                Gosub, Overlay
-                Gosub, LogMonitor
-                Break
-            }
-        }
-    }
-}
 
 FullSearch =
 MyDialogs = 
@@ -61,19 +41,21 @@ For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
 Gosub, InfluenceTracking
 Return 
 
-HideoutEntered:
-If (sleepmechanic != "")
+HideoutEntered()
 {
-    %sleepmechanic% = 0
+    If (sleepmechanic != "")
+    {
+        %sleepmechanic% = 0
+    }
+    GoSub, MechanicsActive
+    If (MechanicsActive >= 1)
+    {
+        GoSub, Reminder
+        WinwaitClose, Reminder
+        Exit
+    }
+    Exit
 }
-GoSub, MechanicsActive
-If (MechanicsActive >= 1)
-{
-    GoSub, Reminder
-    WinwaitClose, Reminder
-    Return
-}
-Return
 
 SearchText:
 Gosub, MechanicsActive

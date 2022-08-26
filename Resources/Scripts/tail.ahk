@@ -7,19 +7,25 @@ LogTail(text)
 		FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
 		if NewLine contains %MyHideout%
 		{
+			MsgBox, %MyHideout%
 			BreakLoop = 1
 			SetTimer, BreakLoopClear, 500
-			Gosub, HideoutEntered
+			NewLine =
+			HideoutEntered()
 			Exit
 		}
 		if NewLine contains %MyDialogs%,%MyDialogsDisable%
 		{
+			NewLine =
 			Gosub, SearchText
-			Exit
+			Return
 		}
 		If InStr(NewLine, "Generating level") and If InStr(NewLine, "with seed")
 		{
-			Gosub, InfluenceTrack
+			EndLoop = 1
+			SetTimer, EndLoopClear, 1000
+			NewLine =
+			InfluenceTrack()
 			Exit
 		}
 	}
@@ -29,7 +35,12 @@ Return
 BreakLoopClear:
 SetTimer, BreakLoopClear, Off
 BreakLoop =
-Return
+Exit
+
+EndLoopClear:
+SetTimer, EndLoopClear, Off
+EndLoop =
+Exit
 
 class CLogTailer {
 	__New(logfile, callback){
