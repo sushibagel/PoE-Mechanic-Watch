@@ -1,13 +1,6 @@
 Global LaunchIni
 Global ArrCount
 
-LaunchOptionsIni()
-{
-    MyKey := "LaunchOptions"
-    IniFile := IniPath(MyKey)
-    Return, % IniFile
-}
-
 LaunchSupport() ;read ini file and launch each item
 {
     LaunchIni := LaunchOptionsIni()

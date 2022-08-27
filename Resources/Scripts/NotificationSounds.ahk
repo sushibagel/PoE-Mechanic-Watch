@@ -47,13 +47,6 @@ NotificationTypes()
     Return, "Notification|Influence"
 }
 
-NotificationIni()
-{
-    MyKey := "Notification"
-    IniFile := IniPath(MyKey)
-    Return, % IniFile
-}
-
 SoundsButtonOk()
 {
     Notifications := NotificationTypes()

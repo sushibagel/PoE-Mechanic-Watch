@@ -65,21 +65,6 @@ Global ThemeState
 Global ToolLauncherState
 Global TransparencyState
 
-Global Abyss
-Global Blight
-Global Breach
-Global Expedition
-Global Harvest
-Global Incursion
-Global Metamorph
-Global Ritual
-Global Generic
-Global Eater
-Global Searing
-Global BlightAuto
-Global ExpeditionAuto 
-Global IncursionAuto
-
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
@@ -88,30 +73,6 @@ GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, ahk_class AutoHotkeyGUI
 GroupAdd, PoeWindow, ahk_exe Awakened PoE Trade.exe
 GroupAdd, PoeWindow, ahk_exe code.exe
-
-;;;;;;;;;;;;;;;;;;;;;;;;; Ini Files and Sections ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-IniPath(MyKey){
-    switch MyKey
-    {
-        case "FirstRun":        MyValue := "Resources\Data\Firstrun.ini"                ;Section Key - Completion
-        case "Hideout":         MyValue := "Resources\Settings\Hideout.ini"             ;Section Key - Hideout
-        case "Hotkey":          MyValue := "Resources\Settings\Hotkeys.ini"             ;Section Key - Hotkeys
-        case "LaunchOptions":   MyValue := "Resources\Data\LaunchPath.ini"              ;Section Key - POE, Launch Options, User Tools, Tool Name
-        case "Mechanics":       MyValue := "Resources\Settings\Mechanics.ini"           ;Section Key - Mechanics, Mechanics Active, Auto Mechanics, Influence, Influence Track
-        case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
-        case "Overlay":         MyValue := "Resources\Settings\OverlayPosition.ini"     ;Section Key - Overlay
-        case "Theme":           MyValue := "Resources\Settings\Theme.ini"               ;Section Key - Dark, Light, Theme
-        case "Transparency":    MyValue := "Resources\Settings\Transparency.ini"        ;Section Key - Transparency    
-    }
-    Return MyValue
-}
-
-;;;;;; Example on how to use the Ini paths above
-;MyKey := "Notificationini"
-;IniFile := IniPath(MyKey)
-;IniRead, CurrentTheme, % IniFile, Theme, Theme
-;Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 ThemeIni := ThemeIni()
@@ -131,8 +92,7 @@ If !FileExist(ThemeIni) ;Check for "Theme" ini
 }
 
 CheckTheme()
-MyKey := "Overlay"
-OverlayIni := IniPath(MyKey)
+OverlayIni := OverlayIni()
 If !FileExist(OverlayIni) ;Check for "Overlay" ini
 {
     IniWrite, 962, %OverlayIni%, Overlay Position, Height
@@ -149,8 +109,7 @@ If !FileExist(HotkeyIni)
     }
 }
 
-MyKey := "Notification"
-NotificationIni := IniPath(MyKey)
+NotificationIni := NotificationIni()
 If !FileExist(NotificationIni) ;Check for "Notification" ini
 {
     ReminderWav := "Resources\Sounds\reminder.wav"
@@ -162,8 +121,7 @@ If !FileExist(NotificationIni) ;Check for "Notification" ini
     IniWrite, 100, %NotificationIni%, Volume, Influence
 }
 
-MyKey := "Mechanics"
-MechanicsIni := IniPath(MyKey)
+MechanicsIni := MechanicsIni()
 If !FileExist(MechanicsIni) ;Check for "Mechanics" ini
 {
     Mechanics := Mechanics()
@@ -200,16 +158,15 @@ If !FileExist(FirstRunIni)
     FirstRun()
 }
 
-MyKey := "LaunchOptions"
-IniFile := IniPath(MyKey)
-If !FileExist(IniFile) ;Check for "Launch options" ini
+LaunchOptionIni := LaunchOptionsIni()
+If !FileExist(LaunchOptionIni) ;Check for "Launch options" ini
 {
     MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
     WinWait, ahk_Group PoeWindow
 }
 
-HideoutIni()
-If !FileExist(IniFile) ;Check for "Hideout" ini
+HideoutIni := HideoutIni()
+If !FileExist(HideoutIni) ;Check for "Hideout" ini
 {
 GroupAdd, FirstRunGroup, First2
 GroupAdd, FirstRunGroup, Move
@@ -227,10 +184,6 @@ GroupAdd, FirstRunGroup, Move
 Return
 
 ;;;;;;;;;;;;;;;;;;;;;;Variable Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Mechanics() ;List of Mechanics
-{
-    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic"
-}
 
 Influences() ;List of Influences
 {
@@ -242,41 +195,7 @@ AutoMechanics()
     Return, "Blight|Expedition|Incursion"
 }
 
-MechanicsIni()
-{
-    MyKey := "Mechanics"
-    IniFile := IniPath(MyKey) 
-    Return, % IniFile
-}
-
-HideoutIni()
-{
-    MyKey := "Hideout"
-    IniFile := IniPath(MyKey)
-    Return, % IniFile
-}
-
-TransparencyIni()
-{
-    MyKey := "Transparency"
-    IniFile := IniPath(MyKey)
-    Return, % IniFile
-}
-
-HotkeyIni()
-{
-    MyKey := "Hotkey"
-    IniFile := IniPath(MyKey)
-    Return, % IniFile
-}
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; First Run Section ;;;;;;;;;;;;;;;;;
-FirstRunIni()
-{
-    MyKey := "FirstRun"
-    IniFile := IniPath(MyKey)
-    Return, % IniFile
-}
 
 CheckFirstRun() ;Check to see if all First Run Items are complete
 {
@@ -682,13 +601,6 @@ CheckTheme()
     Return
 }
 
-ThemeIni()
-{
-    MyKey := "Theme"
-    IniFile := IniPath(MyKey)
-    Return, % IniFile
-}
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Hideout ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SetHideout()
 {
@@ -708,73 +620,6 @@ GetHideout()
 HotkeyUpdate()
 {
     RunWait, Resources\Scripts\hotkeyselect.ahk
-    Return
-}
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Mechanic Selector ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-SelectMechanics()
-{
-    MechanicSearch := Mechanics()
-    Gui, Mechanic:Font, c%Font% s10
-    MechanicsIni := MechanicsIni()
-    For each, Mechanic in StrSplit(MechanicSearch, "|")
-    {
-        IniRead, %Mechanic%State, %MechanicsIni%, Mechanics, %Mechanic%
-        autochecked := % mechanic "State"
-        autochecked := % %autochecked%
-        Gui, Mechanic:Add, Checkbox, v%Mechanic% Checked%autochecked%, %Mechanic%
-    }
-    Gui, Mechanic:-Border -Caption
-    Gui, Mechanic:Color, %Background%
-    Gui, Mechanic:Font, s1 %Secondary%
-    Gui, Mechanic:Add, Text
-    Gui, Mechanic:Add, Text, w200 0x10
-    Gui, Mechanic:Font, Bold s11
-    Gui, Mechanic:Add, Text,,Select One
-    Gui, Mechanic:Font, s1 c%Font%
-    Gui, Mechanic:Font, Normal s10
-    Influences := Influences()
-    For each, Influence in StrSplit(Influences, "|")
-    {
-        IniRead, %Influence%State, %MechanicsIni%, Influence, %Influence%
-        autochecked = %Influence%State
-        autochecked := % %autochecked%
-        Gui, Mechanic:Add, Checkbox, v%Influence% Checked%autochecked%, %Influence%
-    }
-    Gui, Mechanic:Add, Button, x100 y295 w80 h20, OK
-    Gui Mechanic:Show,,Mechanic
-    Return
-}
-
-MechanicGuiClose()
-{
-    Start()
-    Return
-}
-
-MechanicButtonOk()
-{
-    Gui, Submit, NoHide 
-    If (Searing = 1) and (Eater = 1)
-    {
-        Msgbox, Warning, you can only have one Influence active at a time. 
-        Gui, Mechanic:Destroy
-        SelectMechanics()
-    }
-    MechanicSearch := Mechanics()
-    Influences := Influences()
-    MechanicsIni := MechanicsIni()
-    For each, Mechanic in StrSplit(MechanicSearch, "|")
-    {
-        IniWrite, % %Mechanic%, %MechanicsIni%, Mechanics, %Mechanic%
-    }
-    For each, Influence in StrSplit(Influences, "|")
-    {
-        IniWrite, % %Influence%, %MechanicsIni%, Influence, %Influence%
-    }
-    Gui, Mechanic:Destroy
-    Start()
     Return
 }
 
@@ -921,70 +766,7 @@ MapStop()
 }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Auto Mechanic Selector ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-SelectAuto()
-{
-    ReadAutoMechanics()
-    Sleep, 100
-    Gui, Auto:-Border -Caption
-    Gui, Auto:Color, %Background%
-    Gui, Auto:Font, c%Font% s10
-    AutoMechanicSearch := AutoMechanics()
-    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-    {
-        autochecked := % mechanic "Auto"
-        autochecked := % %autochecked%
-        Gui, Auto:Add, Checkbox, v%Mechanic% Checked%autochecked%, %Mechanic%
-    }
-    Gui, Auto:Font, s10
-    Gui, Auto:Add, Text, +Wrap w180, Note: to use Auto Mechanics the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel. 
-    Gui, Auto:Add, Button, x10 y210 w80 h40, Select Mechanics
-    Gui, Auto:Add, Button, x105 y210 w80 h40, OK
-    Gui, Auto:Show, W200, Auto Enable/Disable (Beta)
-    Return
-}
 
-AutoButtonOk()
-{
-    Gui, Submit, NoHide 
-    AutoMechanicSearch := AutoMechanics()
-    MechanicsIni := MechanicsIni()
-    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-    {
-        mechanicvalue := % %Mechanic%
-        IniWrite, %mechanicvalue%, %MechanicsIni%, Auto Mechanics, %Mechanic%
-    }
-    Gui, Auto:Destroy
-    Return
-} 
-
-AutoButtonSelectMechanics()
-{
-    AutoButtonOk()
-    SelectMechanics()
-    WinwaitClose, Mechanic
-    SelectAuto()
-}
-
-ReadAutoMechanics()
-{
-    AutoMechanicSearch := AutoMechanics()
-    MechanicsIni := MechanicsIni()
-    AutoMechanicsActive = 0
-    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-    {
-        IniRead, %Mechanic%, %MechanicsIni%, Auto Mechanics, %Mechanic%
-        If (%Mechanic% = 1)
-        {
-            %Mechanic%Auto := 1
-            AutoMechanicsActive ++
-        }
-        Else
-        {
-            %Mechanic%Auto := 0
-        }
-    }
-    Return
-}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 OverlayMove()
@@ -1047,6 +829,20 @@ Feedback()
     Return
 }
 
-#Include, Resources\Scripts\NotificationSounds.ahk
+MechanicsActive()
+{
+    Return
+}
+
+InfluenceActive()
+{
+    Return
+}
+
+#Include, Resources\Scripts\AutoMechanic.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
+#Include, Resources\Scripts\Mechanics.ahk
+#Include, Resources\Scripts\NotificationSounds.ahk
+#Include, Resources\Scripts\Overlay.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
+#Include, Resources\Scripts\Ini.ahk
