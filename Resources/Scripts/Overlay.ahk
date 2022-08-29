@@ -79,10 +79,19 @@ WindowMonitor()
             If !WinActive("ahk_group PoEWindow")
             {
                 Gui, Overlay:Destroy
+                If WinActive("Reminder")
+                {
+                    ReminderGui = Active
+                }
                 Loop
                 If WinActive("ahk_group PoEWindow")
                 {
                     Overlay()
+                    If (ReminderGui = "Active")
+                    {
+                        ReminderGui =
+                        EldritchReminder()
+                    }
                 }
             } 
             Else

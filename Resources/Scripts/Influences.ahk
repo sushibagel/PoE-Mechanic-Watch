@@ -59,46 +59,11 @@ InfluenceTrack()
                     ReminderText = This is your %InfluenceTrack% map. Don't forget to kill the boss for your %InvitationType% Invitation
                     NotificationPrep(Influence)
                     EldritchReminder()
-                    InfluenceReminderLoop()
                 }
             }
         }
     }
 }
-
-;;;;;; Should this be worked into the Window Monitor? 
-InfluenceReminderLoop()
-{
-
-}
-Loop
-{
-    IfWinNotActive, Path of Exile
-    {
-        Sleep, 200
-        IfWinNotActive, Path of Exile
-        {
-            Gui, Reminder:Destroy
-            Gui, 2:Destroy
-            Loop
-            {
-                IfWinActive, Path of Exile
-                {
-                    Overlay()
-                    EldritchReminder()
-                    Break
-                }
-            }
-        }
-    }
-    If (BreakLoop = 1)
-    {
-        BreakLoop =
-        Break
-    }
-
-}
-Return
 
 CloseGui()
 {

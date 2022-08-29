@@ -1,119 +1,139 @@
-FirstRun:
-Gosub, ReadItems
-Gosub, GetHideout
-yh := (A_ScreenHeight/2) -250
-xh := A_ScreenWidth/2
-
-Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-Gui, First:Color, %Background%
-Gui, First:Font, c%Font% s12
-Gui, First:Add, Text, w550 +Center, Welcome to PoE Mechanic Watch
-Gui, First: -Caption
-Gui, First:Show, NoActivate x%xh% y%yh% w550, First
-WinSet, Style, -0xC00000, First
-WinGetPos, X, Y, w, h, First
-Gui, First:Hide
-xh := xh - (w/2)
-yh2 := yh + h
-
-Gui, First2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-Gui, First2:Color, %Secondary%
-Gui, First2:Font, cBlack s10
-Gui, First2:Add, Text,, Before using PoE Mechanic Watch click each item below to set your preferences.
-Gui, First2:Add, Text,, Items with a * are required
-Gui, First2:Add, Checkbox, vClientOpened gClientOpen Checked%ClientState%, * Open your Path of Exile Client
-Gui, First2:Add, Checkbox, vThemeSelect gThemeSelect Checked%ThemeState%, %A_Space% Select your Theme
-HideouttxtPath = Resources\Settings\CurrentHideout.txt
-
-If FileExist(HideouttxtPath)
+CheckFirstRun() ;Check to see if all First Run Items are complete
 {
-    HideoutSetup = Current Hideout: %MyHideout%
+    Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher"
+    Global Item
+    Global each
+    FirstRunIni := FirstRunIni()
+    For each, Item in StrSplit(ItemSearch, "|")
+    {
+        iniRead, %Item%State, %FirstRunIni%, Completion, %Item%
+    }
+    Return
 }
 
-Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
-Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
-Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Reposition your overlay
-Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, * Set the transparency of your overlays and notifications
-Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
-Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
-Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, %A_Space% Sound Settings
-Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
-Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
-Gui, First2:Add, Button, x490, Close
-Gui, First2: -Caption +HwndFirst2
-Gui, First2:Show, x%xh% y%yh2% w550, First2
-WinSet, Style, -0xC00000, First2
-
-Gui, First: -Caption +OwnerFirst2 ;;;;;; Intentionally here so that First2 is shown so it can own First
-Gui, First:Show, x%xh% y%yh% w550, First
-WinSet, Style, -0xC00000, First
-WinWaitClose, First2
-Return
-
-ClientOpen:
-Gui, Submit, NoHide
-if !(%ClientOpened% = 0)
+FirstRun()
 {
+    CheckFirstRun()
+    GetHideout()
+    Global yh := (A_ScreenHeight/2) -250
+    Global xh := A_ScreenWidth/2
+    
+    Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+    Gui, First:Color, %Background%
+    Gui, First:Font, c%Font% s12
+    Gui, First:Add, Text, w550 +Center, Welcome to PoE Mechanic Watch
+    Gui, First: -Caption
+    Gui, First:Show, NoActivate x%xh% y%yh% w550, First
+    WinSet, Style, -0xC00000, First
+    WinGetPos, X, Y, w, h, First
+    Gui, First:Hide
+    Global xh := xh - (w/2)
+    global yh2 := yh + h
+
+    Gui, First2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+    Gui, First2:Color, %Secondary%
+    Gui, First2:Font, cBlack s10
+    Gui, First2:Add, Text,, Before using PoE Mechanic Watch click each item below to set your preferences.
+    Gui, First2:Add, Text,, Items with a * are required
+    Gui, First2:Add, Checkbox, vClientOpened gClientOpen Checked%ClientState%, * Open your Path of Exile Client
+    Gui, First2:Add, Checkbox, vThemeSelect gThemeSelect Checked%ThemeState%, %A_Space% Select your Theme
+    IniFile := HideoutIni()
+    If FileExist(IniFile)
+    {
+        HideoutSetup = Current Hideout: %MyHideout%
+    }
+    Else
+    {
+        HideoutSetup = 
+    }
+
+    Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
+    Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
+    Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Reposition your overlay
+    Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, * Set the transparency of your overlays and notifications
+    Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
+    Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
+    Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, %A_Space% Sound Settings
+    Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
+    Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
+    Gui, First2:Add, Button, x490, Close
+    Gui, First2: -Caption +HwndFirst2
+    Gui, First2:Show, x%xh% y%yh2% w550, First2
+    WinSet, Style, -0xC00000, First2
+
+    Gui, First: -Caption +OwnerFirst2 ;;;;;; Intentionally here so that First2 is shown so it can own First
+    Gui, First:Show, x%xh% y%yh% w550, First
+    WinSet, Style, -0xC00000, First
+    WinWaitClose, First2
+    Return
+}
+
+ClientOpen()
+{
+    Gui, Submit, NoHide
+    if !(ClientOpened = 0)
+    {
+        Gui, First:Destroy
+        Gui, First2:Destroy
+        FirstRunIni := FirstRunIni()
+        IfWinNotExist, ahk_group PoeWindow
+        {
+            Gui, FirstReminder:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+            Gui, FirstReminder:Color, %Background%
+            Gui, FirstReminder:Font, c%Font% s10
+            Gui, FirstReminder:Add, Text, w500 +Center, You must open Path of Exile to continue. This is required so the Client.txt path can be obtained. (This is only necessary for the first run)
+            Gui, FirstReminder:Add, Button, x490, OK
+            Gui, FirstReminder: +AlwaysOnTop -Caption
+            Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
+            Iniwrite, 0, %FirstRunIni%, Completion, Client
+            WinWaitClose, FirstReminder
+            CheckFirstRun()
+            ReloadFirstRun()
+        }
+        IfWinExist, ahk_group PoeWindow
+        {
+            Iniwrite, 1, %FirstRunIni%, Completion, Client
+            GetLogPath()
+            ReloadFirstRun()
+        }
+    }
+    Return
+}
+
+ThemeSelect()
+{
+    Gui, Submit, NoHide
     Gui, First:Destroy
     Gui, First2:Destroy
-    IfWinNotExist, ahk_group PoeWindow
-    {
-        Gui, FirstReminder:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-        Gui, FirstReminder:Color, %Background%
-        Gui, FirstReminder:Font, c%Font% s10
-        Gui, FirstReminder:Add, Text, w500 +Center, You must open Path of Exile to continue. This is required so the Client.txt path can be obtained. (This is only necessary for the first run)
-        Gui, FirstReminder:Add, Button, x490, OK
-        Gui, FirstReminder: +AlwaysOnTop -Caption
-        Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
-        Iniwrite, 0, Resources\Data\FirstRun.ini, Checkboxes, Client
-        WinWaitClose, FirstReminder
-        Gosub, ReadItems
-        Gosub, ReloadCheck
-    }
-    IfWinExist, ahk_group PoeWindow
-    {
-        Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Client
-        GoSub, GetLogPath
-        Gosub, ReloadCheck
-    }
+    SelectTheme()
+    WinWaitClose, Gui:Theme
+    FirstRunWrite("Theme")
+    Return
 }
-Return
 
-ThemeSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-GoSub, SelectTheme
-WinWaitClose, Gui:5
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Theme
-Gosub, ReloadCheck
-Return
-
-HideoutSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Hide
-RunWait, Resources\Scripts\HideoutUpdate.ahk
-Gui, First2:Destroy
-If FileExist(HideouttxtPath)
+HideoutSelect()
 {
-    Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Hideout
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Hide
+    SetHideout()
+    Gui, First2:Destroy
+    FirstRunWrite("Hideout")
+    ReloadFirstRun()
+    Return
 }
-Gosub, ReloadCheck
-Return
 
-MechanicSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Gosub, SelectMechanics
-MechanicsiniPath = Resources\Settings\Mechanics.ini
-If FileExist(MechanicsiniPath)
+MechanicSelect()
 {
-    Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Mechanic
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    SelectMechanics()
+    WinWaitClose, Mechanic
+    FirstRunWrite("Mechanic")
+    ReloadFirstRun()
+    Return
 }
-Gosub, ReloadCheck
-Return
 
 PositionSelect:
 Gui, First:Hide
@@ -125,133 +145,150 @@ Gui, Loading:Add, Text, w500 +Center, The Overlay repositioning tool is loading.
 Gui, Loading: +AlwaysOnTop -Caption
 yload := yh + 200
 Gui, Loading:Show, NoActivate x%xh% y%yload% w550, Loading
-GoSub, Start
+Start()
 Gui, Submit, NoHide
 Gui, First:Destroy
 Gui, First2:Destroy
-Gosub, Move
+OverlayMove()
 WinWait, Move
 Gui, Loading:Destroy
 WinwaitClose, Move
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Position
-Gosub, ReloadCheck
+FirstRunWrite("Position")
 Return
 
-TransparencySelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-GoSub, UpdateTransparency
-WinWaitClose, Transparency
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Transparency
-Gosub, ReloadCheck
-Return
-
-AutoMechanicSelect:
-Gui, Submit, NoHide
-Gui, First:Hide
-Gui, First2:Hide
-Gosub, ReadAutoMechanics
-Gosub, SelectAuto
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, AutoMechanic
-WinWaitClose, Auto Enable/Disable (Beta)
-Gui, First:Destroy
-Gui, First2:Destroy
-Gosub, ReloadCheck
-Return
-
-HotkeySelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Gosub, HotkeyUpdate
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Hotkey
-Gosub, ReloadCheck
-Return
-
-LaunchAssistSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Gosub, LaunchGui
-WinWaitClose, Launcher
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, LaunchAssist
-Gosub, ReloadCheck
-Return
-
-SoundSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Gosub, UpdateNotification
-WinWaitClose, Sounds
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, Sound
-Gosub, ReloadCheck
-Return
-
-ToolLauncherSelect:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Runwait, Resources\Scripts\ToolLauncher.ahk
-Iniwrite, 1, Resources\Data\FirstRun.ini, Checkboxes, ToolLauncher
-Gosub, ReloadCheck
-Return
-
-First2ButtonClose:
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Gosub, ReadItems
-If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0)
+TransparencySelect()
 {
-    Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, FirstWarning:Color, %Background%
-    Gui, FirstWarning:Font, c%Font% s10
-    Gui, FirstWarning:Add, Text, w530 +Center, You haven't gone through all the required setup processes, PoE Mechanic Watch may not function correctly until you do. 
-    Gui, FirstWarning:Add, Button, y50 x50, I'll do it later
-    Gui, FirstWarning:Add, Button, y50 x450, Go Back
-    Gui, FirstWarning: +AlwaysOnTop -Caption
-    Gui, FirstWarning:Show, NoActivate x%xh% y%yh% w550, FirstWarning
-    WinWaitClose, FirstWarning
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    UpdateTransparency()
+    WinWaitClose, Transparency
+    FirstRunWrite("Transparency")
+    ReloadFirstRun()
+    Return
 }
-Else
-{
-    Reload
-}
-Return
 
-ReadItems:
-ItemSearch = Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher
-Loop, 1
-For each, Item in StrSplit(ItemSearch, "|")
+AutoMechanicSelect()
 {
-    iniRead, %Item%State, Resources\Data\FirstRun.ini, Checkboxes, %Item%
+    Gui, Submit, NoHide
+    Gui, First:Hide
+    Gui, First2:Hide
+    ReadAutoMechanics()
+    SelectAuto()
+    FirstRunWrite("AutoMechanic")
+    WinWaitClose, Auto Enable/Disable (Beta)
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    ReloadFirstRun()
+    Return
 }
-Return
 
-FirstReminderButtonOK:
-Gui, FirstReminder:Destroy
-Return
+
+HotkeySelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    HotkeyUpdate()
+    FirstRunWrite("Hotkey")
+    Return
+}
+
+LaunchAssistSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    Gosub, LaunchGui
+    WinWaitClose, Launcher
+    FirstRunWrite("LaunchAssist")
+    Return
+}
+
+SoundSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    UpdateNotification()
+    WinWaitClose, Sounds
+    FirstRunWrite("Sound")
+    Return
+}
+
+ToolLauncherSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    Gosub, ToolLaunchGui
+    WinWaitClose, ToolLauncher
+    FirstRunWrite("ToolLauncher")
+    Return
+}
+
+FirstRunWrite(WriteItem)
+{
+    FirstRunIni := FirstRunIni()
+    Iniwrite, 1, %FirstRunIni%, Completion, % WriteItem
+    ReloadFirstRun()
+    Return
+}
+
+First2ButtonClose()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    CheckFirstRun()
+    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0)
+    {
+        Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+        Gui, FirstWarning:Color, %Background%
+        Gui, FirstWarning:Font, c%Font% s10
+        Gui, FirstWarning:Add, Text, w530 +Center, You haven't gone through all the required setup processes, PoE Mechanic Watch may not function correctly until you do. 
+        Gui, FirstWarning:Add, Button, y50 x50, I'll do it later
+        Gui, FirstWarning:Add, Button, y50 x450, Go Back
+        Gui, FirstWarning: +AlwaysOnTop -Caption
+        Gui, FirstWarning:Show, NoActivate x%xh% y%yh% w550, FirstWarning
+        WinWaitClose, FirstWarning
+    }
+    Else
+    {
+        Reload
+    }
+    Return
+}
+
+FirstReminderButtonOK()
+{
+    Gui, FirstReminder:Destroy
+    Return
+}
 
 FirstWarningButtonI'lldoitlater:
 ExitApp
 Return
 
-FirstWarningButtonGoBack:
-Gui, FirstWarning:Destroy
-Gosub, FirstRun
-Return
 
-ReloadCheck:
-Gosub, ReadItems
-CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
-If (CompletionCheck >= 2)
+FirstWarningButtonGoBack()
 {
-    Gosub, FirstRun
+    Gui, FirstWarning:Destroy
+    FirstRun()
+    Return
 }
-Else
+
+ReloadFirstRun()
 {
-    Reload
+    CheckFirstRun()
+    Global CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
+    If (CompletionCheck >= 2)
+    {
+        FirstRun()
+    }
+    Else
+    {
+        Reload
+    }
+    Return
 }
-Return
