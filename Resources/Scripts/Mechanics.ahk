@@ -9,6 +9,15 @@ Global Ritual
 Global Generic
 Global Eater
 Global Searing
+Global AbyssActive
+Global BlightActive
+Global BreachActive
+Global ExpeditionActive
+Global HarvestActive
+Global IncursionActive
+Global MetamorphActive
+Global RitualActive
+Global GenericActive
 Global MechanicSearch
 Global AbyssOn
 Global BlightOn
@@ -19,6 +28,7 @@ Global IncursionOn
 Global MetamorphOn
 Global RitualOn
 Global GenericOn
+
 
 Mechanics() ;List of Mechanics
 {
@@ -104,6 +114,26 @@ ReadMechanics()
         If (%Mechanic% = 0)
         {
             %Mechanic%On := 0
+        }
+    }
+    Return
+}
+
+MechanicsActive()
+{
+    MechanicsActive := 0
+    MechanicsIni := MechanicsIni()
+    MechanicSearch := Mechanics()
+    For each, Mechanic in StrSplit(MechanicSearch, "|")
+    {
+        IniRead, %Mechanic%, %MechanicsIni%, Mechanic Active, %Mechanic%
+        If (%Mechanic% = 1)
+        {
+            %Mechanic%Active := 1
+        }
+        If (%Mechanic% = 0)
+        {
+            %Mechanic%Active := 0
         }
     }
     Return

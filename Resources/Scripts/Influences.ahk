@@ -1,57 +1,26 @@
-Global LogPath
-Global SearingActive
-Global EaterActive
-Global InfluenceTrack
-Global Influences
-Global InfluenceActive
-Global width
-Global height
-Global Length
-Global HK
-Global NotMaps
-Global MyHideout
-Global Background
-Global Font
-Global Secondary
-Global CurrentInfluence
-Global InfluenceSound
-Global InfluenceSoundActive
-Global ReminderText
-Global LastMap
-Global LastSeed
-Global widthset
-
-InfluenceTracking:
-IniRead, InfluenceSound, Resources\Settings\notification.ini, Sounds, Influence
-IniRead, InfluenceSoundActive, Resources\Settingsnotification.ini, Active, Influence
-IniRead, ColorMode, Resources\Settings\Theme.ini, Theme, Theme
-Return
-
 InfluenceTrack()
 {
     MapTrack := NewLine
-    Gosub, InfluenceActive
-    FileRead, MapList, Resources\Data\maplist.txtFirstSplit := StrSplit(MapTrack, A_Space)
-
-    FirstSplit := StrSplit(MapTrack, A_Space)
-    AreaLevel = % FirstSplit[10]
-    SeedNumber = % FirstSplit[15]
-    If (AreaLevel >= 81)
+    InfluenceActive()
+    If (InfluenceActive != None)
     {
-        SplitDelim = `"
-        GetMap = % FirstSplit[12]
-        SecondSplit := StrSplit(GetMap, SplitDelim)
-        GetMap = % SecondSplit[2]
-        MapName := StrSplit(GetMap, "MapWorlds")
-        MapName = % MapName[2]
-        FileRead, MapList, Resources\Data\maplist.txt
-        If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
+        FileRead, MapList, Resources\Data\maplist.txt 
+        FirstSplit := StrSplit(MapTrack, A_Space)
+        AreaLevel = % FirstSplit[10]
+        SeedNumber = % FirstSplit[15]
+        If (AreaLevel >= 81)
         {
-            LastMap := MapName
-            LastSeed := SeedNumber
-            If (CurrentInfluence != None)
+            SplitDelim = `"
+            GetMap = % FirstSplit[12]
+            SecondSplit := StrSplit(GetMap, SplitDelim)
+            GetMap = % SecondSplit[2]
+            MapName := StrSplit(GetMap, "MapWorlds")
+            MapName = % MapName[2]
+            FileRead, MapList, Resources\Data\maplist.txt
+            If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
             {
-                IniRead, InfluenceTrack, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
+                LastMap := MapName
+                LastSeed := SeedNumber
                 OldTrack = %InfluenceTrack%
                 InfluenceTrack ++
                 If (InfluenceTrack >= 29)
@@ -59,45 +28,49 @@ InfluenceTrack()
                     InfluenceTrack = 1
                 }
                 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-                IniWrite, %InfluenceTrack%, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
-                Gosub, InfluenceMapNotification
+                MechanicsIni := MechanicsIni()
+                IniWrite, %InfluenceTrack%, %MechanicsIni%, InfluenceTrack, %InfluenceActive%
+                InfluenceMapNotification()
                 SetTimer, CloseGui, -3000
-
-                If (InfluenceTrack = 14)
+                If (InfluenceTrack = 14) or (InfluenceTrack = 28)
                 {
-                    If (InfluenceActive = "Searing")
+                    If (InfluenceTrack = 14)
                     {
-                        ReminderText = This is your 14th map. Don't forget to kill the boss for your Polaric Invitation
+                        If (InfluenceActive = "Searing")
+                        {
+                            InvitationType = Polaric
+                        }
+                        If (InfluenceActive = "Eater")
+                        {
+                            InvitationType = Writhing
+                        }
                     }
-                    If (InfluenceActive = "Eater")
+                    If (InfluenceTrack = 28) 
                     {
-                        ReminderText = This is your 14th map. Don't forget to kill the boss for your Writhing Invitation
-                    }
-                    Gosub, EldritchReminder
-                    Gosub, NotificationSound
-                    Gosub, InfluenceReminderLoop
-                }
-                If (InfluenceTrack = 28)
-                {
-                    If (InfluenceActive = "Searing")
-                    {
-                        ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
-                    }
-                    If (InfluenceActive = "Eater")
-                    {
-                        ReminderText = This is your 28th map. Don't forget to kill the boss for your Screaming Invitation
-                    }
-                    Gosub, EldritchReminder
-                    Gosub, NotificationSound
-                    Gosub, InfluenceReminderLoop
+                        If (InfluenceActive = "Searing")
+                        {
+                            InvitationType = Incandescent
+                        }
+                        If (InfluenceActive = "Eater")
+                        {
+                            InvitationType = Screaming
+                        }
+                    }   
+                    ReminderText = This is your %InfluenceTrack% map. Don't forget to kill the boss for your %InvitationType% Invitation
+                    NotificationPrep(Influence)
+                    EldritchReminder()
+                    InfluenceReminderLoop()
                 }
             }
         }
     }
-    Exit
 }
 
-InfluenceReminderLoop:
+;;;;;; Should this be worked into the Window Monitor? 
+InfluenceReminderLoop()
+{
+
+}
 Loop
 {
     IfWinNotActive, Path of Exile
@@ -111,8 +84,8 @@ Loop
             {
                 IfWinActive, Path of Exile
                 {
-                    Gosub, Overlay
-                    Gosub, EldritchReminder
+                    Overlay()
+                    EldritchReminder()
                     Break
                 }
             }
@@ -127,99 +100,121 @@ Loop
 }
 Return
 
-CloseGui:
-Gui, Influence:Destroy
-Return
-
-ReminderButtonOK:
-WinActivate, Path of Exile
-Gui, Reminder:Destroy
-If (InfluenceTrack = 28)
+CloseGui()
 {
-    IniWrite, 0, Resources\Settings\Mechanics.ini, InfluenceTrack, %InfluenceActive%
+    Gui, Influence:Destroy
+    Return
 }
-Return
+
+ReminderButtonOK()
+{
+    WinActivate, Path of Exile
+    Gui, Reminder:Destroy
+    MechanicsIni := MechanicsIni()
+    If (InfluenceTrack = 28)
+    {
+        IniWrite, 0, %MechanicsIni%, InfluenceTrack, %InfluenceActive%
+    }
+    Return
+}
+
 
 ReminderButtonRevertCount:
-WinActivate, Path of Exile
-Gui, Reminder:Destroy
-Gosub, SubtractOne
-Return
-
-SubtractOne:
-Gosub, InfluenceActive
-InfluenceActive = 
-InfluenceTrack = 
-If (EaterActive = 1)
 {
-    IniRead, InfluenceTrack, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
-    OldTrack := InfluenceTrack
-    InfluenceTrack := InfluenceTrack - 1
-	If(InfluenceTrack = -1)
-	{
-		InfluenceTrack = 27
-	}
-    IniWrite, %InfluenceTrack%, Resources\Settings\Mechanics.ini, InfluenceTrack, Eater
-}
-If (SearingActive = 1)
-{
-    IniRead, InfluenceTrack, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
-    OldTrack := InfluenceTrack
-    InfluenceTrack := InfluenceTrack - 1
-		If(InfluenceTrack = -1)
-	{
-		InfluenceTrack = 27
-	}
-    IniWrite, %InfluenceTrack%, Resources\Settings\Mechanics.ini, InfluenceTrack, Searing
-}
-Sleep, 100
-ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-Return
-
-InfluenceActive:
-FileRead, Influences, Resources\Data\Influences.txt
-For each, Influence in StrSplit(Influences, "|")
-{
-    IniRead, %Influence%, Resources\Settings\Mechanics.ini, Influence, %Influence%
-    If (%Influence% = 1)
-    %Influence%Active := 1
-    InfluenceActive = %Influence%
-    If (%Influence% = 0)
-    %Influence%Active := 0
+    WinActivate, Path of Exile
+    Gui, Reminder:Destroy
+    SubtractOne()
+    Return
 }
 
-If (SearingActive = 1)
+SubtractOne()
 {
-    InfluenceActive = Searing
+    InfluenceActive()
+    InfluenceActive = 
+    InfluenceTrack = 
+    MechanicsIni := MechanicsIni()
+    If (EaterActive = 1)
+    {
+        IniRead, InfluenceTrack, %MechanicsIni%, InfluenceTrack, Eater
+        OldTrack := InfluenceTrack
+        InfluenceTrack := InfluenceTrack - 1
+        If(InfluenceTrack = -1)
+        {
+            InfluenceTrack = 27
+        }
+        IniWrite, %InfluenceTrack%, %MechanicsIni%, InfluenceTrack, Eater
+    }
+    If (SearingActive = 1)
+    {
+        IniRead, InfluenceTrack, %MechanicsIni%, InfluenceTrack, Searing
+        OldTrack := InfluenceTrack
+        InfluenceTrack := InfluenceTrack - 1
+            If(InfluenceTrack = -1)
+        {
+            InfluenceTrack = 27
+        }
+        IniWrite, %InfluenceTrack%, %MechanicsIni%, InfluenceTrack, Searing
+    }
+    Sleep, 100
+    ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+    Return
 }
 
-If (EaterActive = 1)
+InfluenceActive()
 {
-    InfluenceActive = Eater
+    MechanicsIni := MechanicsIni()
+    Influenced := Influences()
+    For each, Influence in StrSplit(Influences, "|")
+    {
+        IniRead, %Influence%, %MechanicsIni%, Influence, %Influence%
+        If (%Influence% = 1)
+        %Influence%Active := 1
+        InfluenceActive = %Influence%
+        If (%Influence% = 0)
+        %Influence%Active := 0
+    }
+
+    If (SearingActive = 1)
+    {
+        InfluenceActive = Searing
+    }
+    If (EaterActive = 1)
+    {
+        InfluenceActive = Eater
+    }
+    If (EaterActive = 0) and (SearingActive = 0)
+    {
+        InfluenceActive = None
+    }
+    Return
 }
 
-If (EaterActive = 0) and (SearingActive = 0)
+Influences() ;List of Influences
 {
-	CurrentInfluence = None
+    Return, "Eater|Searing"
 }
-Else
-{
-	CurrentInfluence = %InfluenceActive%
-}
-Return
 
-NotificationSound:
-IniRead, InfluenceSoundActive, Resources\Settings\notification.ini, Active, Influence
-If (InfluenceSoundActive = 1)
+InfluenceMapNotification() ;Map tracking notification
 {
-    IniRead, InfluenceVolume, Resources\Settings\notification.ini, Volume, Influence
-    IniRead, InfluenceSound, Resources\Settings\notification.ini, Sounds, Influence
-	SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
-    SetTitleMatchMode, 2
-    WinGet, AhkExe, ProcessName, Reminder
-    SetTitleMatchMode, 1
-    SetWindowVol(AhkExe, 0)
-    SetWindowVol(AhkExe, InfluenceVolume)
-    SoundPlay, %InfluenceSound% 
+    NotificationPrep(Map)
+    HotkeyCheck()
+    Winwait, Overlay
+    WinGetPos,Width, Height, Length,, Overlay
+    height := height - 50
+    Length := Length - 10
+    Gui, Influence:Color, %Background%
+    Gui, Influence:Font, c%Font% s10
+    Gui, Influence:-Border +AlwaysOnTop
+    Gui, Influence:Add, Text,,You just entered a new map, press %HK%  to subtract 1 map
+    Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
+    WinGetPos, Xi, Yi, Widthi, Heighti, Influence
+    Gui, Influence:Hide
+    If (widthset = "")
+    {
+        widthset := Width  + (Length/2) - (Widthi/2)
+    }
+    Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
+    WinSet, Style, -0xC00000, Influence
+    WinSet, Transparent, %MapTransparency%, Influence
+    Return
 }
-Return

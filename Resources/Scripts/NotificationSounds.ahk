@@ -2,6 +2,9 @@ Global Notification
 Global Influence
 Global NotificationActive
 Global InfluenceActive
+Global SoundActive
+Global NotificationSound
+Global NotificationVolume
 
 UpdateNotification()
 {
@@ -117,4 +120,33 @@ TestSound()
     SetWindowVol(AhkExe, TestVolume)
     SoundPlay, %TestSound%
     Return
+}
+
+CheckSounds(Notification)
+{
+    NotificationIni := NotificationIni()
+    IniRead, Sound, %NotificationIni%, Sounds, %Notification%
+    Return, %Sound%
+}
+
+CheckVolume(Volume)
+{
+    NotificationIni := NotificationIni()
+    IniRead, Volume, %NotificationIni%, Volume, %Volume%
+    Return, %Volume%
+}
+
+CheckSoundActive(Active)
+{
+    NotificationIni := NotificationIni()
+    IniRead, Active, %NotificationIni%, Active, %Active%
+    Return, %Active% 
+}
+
+NotificationPrep(NotificationType)
+{
+    ColorMode := CheckTheme()
+    SoundActive := CheckSoundActive(NotificationType)
+    NotificationVolume := CheckVolume(NotificationType)
+    NotificationSound := CheckSounds(NotificationType)
 }

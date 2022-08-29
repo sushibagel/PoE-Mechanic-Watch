@@ -1,5 +1,3 @@
-
-#Q::
 Overlay()
 {
     OverlayIni := OverlayIni()
@@ -19,29 +17,29 @@ Overlay()
             If (Mechanic = "Eater") or (Mechanic = "Searing")
             {
                 IniRead, InfluenceCount, Resources/Settings/Mechanics.ini, InfluenceTrack, %Mechanic%
-                Gui, 2:Font, cWhite s12
+                Gui, Overlay:Font, cWhite s12
                 x2 := mechanicx +17
-                Gui, 2:Add, Text, x%x2% y45 w50 h50, %InfluenceCount%
+                Gui, Overlay:Add, Text, x%x2% y45 w50 h50, %InfluenceCount%
             }
             if (%mechanicactive% = 1)
             {
                 If (Mechanic = "Eater") or (Mechanic = "Searing")
                 {
-                    Gui, 2:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
+                    Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
                 }
                 Else
                 {
-                    Gui, 2:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+                    Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
                 }
             }
             Else
             {
-                Gui, 2:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
+                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
             }
             mechanictest ++
         }
     }
-    Gui, 2:Color, 1e1e1e
+    Gui, Overlay:Color, 1e1e1e
     Loop
     {
         WinGet, PoeID, ID, Path of Exile
@@ -62,11 +60,80 @@ Overlay()
         }
     }
     IniRead, OverlayTransparency, Resources\Settings\Transparency.ini, Transparency, Overlay, 255
-    Gui, 2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, 2:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
-    Gui, 2:Show, NoActivate x%width% y%height%, Overlay
+    Gui, Overlay:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+    Gui, Overlay:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
+    Gui, Overlay:Show, NoActivate x%width% y%height%, Overlay
     WinSet, Style, -0xC00000, Overlay
     WinSet, TransColor, 1e1e1e %OverlayTransparency%, Overlay
+    WindowMonitor()
     Return
 }
 
+WindowMonitor()
+{
+    Loop 
+    {
+        If !WinActive("ahk_group PoEWindow")
+        {
+            Sleep, 200
+            If !WinActive("ahk_group PoEWindow")
+            {
+                Gui, Overlay:Destroy
+                Loop
+                If WinActive("ahk_group PoEWindow")
+                {
+                    Overlay()
+                }
+            } 
+            Else
+            {
+                WindowMonitor()
+            }  
+        }
+    }
+}
+
+Abyss()
+{
+    Return
+}
+Blight()
+{
+    Return
+}
+Breach()
+{
+    Return
+}
+Expedition()
+{
+    Return
+}
+Harvest()
+{
+    Return
+}
+Incursion()
+{
+    Return
+}
+Metamorph()
+{
+    Return
+}
+Ritual()
+{
+    Return
+}
+Generic()
+{
+    Return
+}
+Eater()
+{
+    Return
+}
+Searing()
+{
+    Return
+}

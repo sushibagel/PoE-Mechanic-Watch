@@ -185,11 +185,6 @@ Return
 
 ;;;;;;;;;;;;;;;;;;;;;;Variable Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Influences() ;List of Influences
-{
-    Return, "Eater|Searing"
-}
-
 AutoMechanics()
 {
     Return, "Blight|Expedition|Incursion"
@@ -598,7 +593,7 @@ CheckTheme()
     {
         IniRead, %Item%, %ThemeIni%, %ColorMode%, %Item%
     }
-    Return
+    Return, %ColorMode%
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Hideout ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -829,20 +824,21 @@ Feedback()
     Return
 }
 
-MechanicsActive()
+InfluenceMapNotification()
 {
     Return
 }
 
-InfluenceActive()
+EldritchReminder()
 {
     Return
 }
 
 #Include, Resources\Scripts\AutoMechanic.ahk
+#Include, Resources\Scripts\Ini.ahk
+#Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
 #Include, Resources\Scripts\Mechanics.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
-#Include, Resources\Scripts\Ini.ahk
