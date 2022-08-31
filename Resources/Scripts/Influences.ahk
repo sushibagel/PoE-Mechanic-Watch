@@ -1,3 +1,7 @@
+Global Influences  
+Global SearingActive  
+Global EaterActive
+
 InfluenceTrack()
 {
     MapTrack := NewLine
@@ -128,7 +132,7 @@ SubtractOne()
 InfluenceActive()
 {
     MechanicsIni := MechanicsIni()
-    Influenced := Influences()
+    Influences := Influences()
     For each, Influence in StrSplit(Influences, "|")
     {
         IniRead, %Influence%, %MechanicsIni%, Influence, %Influence%

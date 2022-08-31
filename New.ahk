@@ -313,33 +313,56 @@ GetHideout()
     Return
 }
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Hotkey Selector ;;;;;;;;;;;;;;;;;;;;;
-
-HotkeyUpdate()
-{
-    RunWait, Resources\Scripts\hotkeyselect.ahk
-    Return
-}
-
 ;;;;;;;;; Misc ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LaunchPoe()
 {
-    LaunchOptionIni := LaunchOptionIni
-    IniRead, PoeLaunch, %LaunchOptionIni%, POE, exe
-    IniRead, PoeDir, %LaunchOptionIni%, POE, Directory
+    LaunchOptionsIni := LaunchOptionsIni()
+    IniRead, PoeLaunch, %LaunchOptionsIni%, POE, exe
+    IniRead, PoeDir, %LaunchOptionsIni%, POE, Directory
     SetWOrkingDir, %PoeDir%
     run, %PoeLaunch%
     SetWorkingDir, %A_ScriptDir%
     LaunchSupport()
 Return
 }
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-OverlayMove()
+
+ViewLog()
 {
+    LaunchOptionsIni := LaunchOptionsIni()
+    IniRead, LogPath, %LaunchOptionsIni%, POE, Directory
+    run, %LogPath%\logs
     Return
 }
 
-HideoutUpdate()
+Changelog()
+{
+    Run, Resources\Scripts\Changelog.ahk
+    Return
+}
+
+Feedback()
+{
+    Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
+    Return
+}
+
+Version()
+{
+    Run, Resources\Scripts\Version.ahk
+    Return
+}
+
+Reload()
+{
+    Reload
+}
+
+Exit()
+{
+    ExitApp
+}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+OverlayMove()
 {
     Return
 }
@@ -349,58 +372,26 @@ Start()
     Return
 }
 
-ViewLog()
-{
-    Return
-}
-
-Move()
-{
-    Return
-}
-
-Reload()
-{
-    Reload
-}
-
-UpdateCheck()
-{
-    Return
-}
-
-Exit()
-{
-    ExitApp
-}
-
-Version()
-{
-    Return
-}
-
-Changelog()
-{
-    Return
-}
-
-Feedback()
-{
-    Return
-}
-
 EldritchReminder()
+{
+    Return
+}
+
+MechanicReminder()
 {
     Return
 }
 
 #Include, Resources\Scripts\AutoMechanic.ahk
 #Include, Resources\Scripts\Firstrun.ahk
+#Include, Resources\Scripts\HotkeySelect.ahk
 #Include, Resources\Scripts\Ini.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
 #Include, Resources\Scripts\Mechanics.ahk
+#Include, Resources\Scripts\Move.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
 #Include, Resources\Scripts\Transparency.ahk
+#Include, Resources\Scripts\UpdateCheck.ahk

@@ -1,74 +1,79 @@
-Move:
-FileReadLine, heightVar, Resources/Settings/overlayposition.txt, 1
-StringTrimLeft, height, heightVar, 7
-FileReadLine, widthVar, Resources/Settings/overlayposition.txt, 2
-StringTrimLeft, width, widthVar, 6
-heightoff := height - 30
-widthoff := width - 5
-
-GoSub, ReadMechanics
-GoSub, MechanicsActive
-mechanictest = 0
-Gui, 3:Color, %Background%
-Gui, 3:Font, c%Font% s11
-Loop, 1
-For each, Mechanic in StrSplit(MechanicSearch, "|")
+Move()
 {
-    mechanicon = %Mechanic%On
-    mechanicactive = %Mechanic%Active
-    if (%mechanicon% = 1)
+    OverlayIni := OverlayIni()
+    IniRead, Height, %OverlayIni%, Overlay Position, Height
+    IniRead, Width, %OverlayIni%, Overlay Position, Width
+    heightoff := Height - 30
+    widthoff := Width - 5
+
+    ReadMechanics()
+    MechanicsActive()
+    InfluenceActive()
+    mechanictest = 0
+    For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        if (mechanictest = 0)
-        {
-            mechanicx=5
-        }
-        else
-        {
-            mechanicx := (mechanictest*55)+5
-        }
-        if (%mechanicactive% = 1) 
+        mechanicon = %Mechanic%On
+        mechanicactive = %Mechanic%Active
+        If (%mechanicon% = 1)
         {
             If (Mechanic = "Eater") or (Mechanic = "Searing")
             {
-                    Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%.png
+                IniRead, InfluenceCount, Resources/Settings/Mechanics.ini, InfluenceTrack, %Mechanic%
+                Gui, Move:Font, cWhite s12
+                x2 := mechanicx +17
+                Gui, Move:Add, Text, x%x2% y45 w50 h50, %InfluenceCount%
+            }
+            if (%mechanicactive% = 1)
+            {
+                If (Mechanic = "Eater") or (Mechanic = "Searing")
+                {
+                    Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
+                }
+                Else
+                {
+                    Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+                }
             }
             Else
             {
-                Gui, 2:Add, Picture, g%Mechanic% x%mechanicx% y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+                Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
             }
+            mechanictest ++
         }
-        Else
-        {
-            Gui, 3:Add, Picture, g%mechanic% x%mechanicx% y5 w50 h40 , Resources/Images/%mechanic%.png
-        }
-        mechanictest ++
     }
-}
 
-    Gui, 3:Add, Button, gLock x20 y50, &Lock
+    Gui, Move:Add, Button, gLock x20 y50, &Lock
     If (mechanicx < 200)
     {
         mechanicx = 190
     }
-    Gui, 3:Add, Text, +Wrap w%mechanicx% y53 x70,Drag around and press "Lock" to reposition overlay.
-    Gui, 3:+AlwaysOnTop
-    GuiWidth := ((AbyssOn + BlightOn + BreachOn + ExpeditionOn + HarvestOn + IncursionOn + MetamorphOn + RitualOn + GenericOn + SearingOn + EaterOn)*55)+15
-    If (GuiWidth < 250)
-    {
-        GuiWidth := 250
-    }
-    Gui, 3:Show, x%widthoff% y%heightoff% w%GuiWidth%, Move
-Return
+    Gui, Move:Color, %Background%
+    Gui, Move:Font, c%Font% s11
+    Gui, Move:Add, Text, y53 x70,Drag around and press "Lock" to reposition overlay.
+    Gui, Move:+AlwaysOnTop
+
+    Gui, Move:Show, x%widthoff% y%heightoff% w800, Move
+    Return
+}
 
 Lock:
 DetectHiddenWindows, On
 WinGetPos,newwidth, newheight
-Gui, 3:Submit
-Gui, 3:Destroy
+Gui, Move:Submit
+Gui, Move:Destroy
 setheight:=newheight + 5
 setwidth:=newwidth + 15
 
 FileDelete, Resources/Settings/overlayposition.txt
 FileAppend, height=%setheight% `n, Resources/Settings/overlayposition.txt
 FileAppend, width=%setwidth%, Resources/Settings/overlayposition.txt
+Return
+
+MoveGuiClose()
+{
+    Gui, Move:Destroy
+}
+
+#3::
+Overlay()
 Return
