@@ -29,7 +29,6 @@ Global MetamorphOn
 Global RitualOn
 Global GenericOn
 
-
 Mechanics() ;List of Mechanics
 {
     Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic"

@@ -149,7 +149,7 @@ Start()
 Gui, Submit, NoHide
 Gui, First:Destroy
 Gui, First2:Destroy
-OverlayMove()
+Move()
 WinWait, Move
 Gui, Loading:Destroy
 WinwaitClose, Move
