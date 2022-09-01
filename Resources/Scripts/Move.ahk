@@ -16,23 +16,9 @@ Move()
         mechanicactive = %Mechanic%Active
         If (%mechanicon% = 1)
         {
-            If (Mechanic = "Eater") or (Mechanic = "Searing")
-            {
-                IniRead, InfluenceCount, Resources/Settings/Mechanics.ini, InfluenceTrack, %Mechanic%
-                Gui, Move:Font, cWhite s12
-                x2 := mechanicx +17
-                Gui, Move:Add, Text, x%x2% y45 w50 h50, %InfluenceCount%
-            }
             if (%mechanicactive% = 1)
             {
-                If (Mechanic = "Eater") or (Mechanic = "Searing")
-                {
-                    Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
-                }
-                Else
-                {
-                    Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
-                }
+                Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
             }
             Else
             {
@@ -41,18 +27,22 @@ Move()
             mechanictest ++
         }
     }
-
-    Gui, Move:Add, Button, gLock x20 y50, &Lock
-    If (mechanicx < 200)
+    If (InfluenceActive != "None")
     {
-        mechanicx = 190
+        MechanicsIni := MechanicsIni()
+        IniRead, InfluenceCount, %MechanicsIni%, Influence Track, %InfluenceActive%
+        Gui, Move:Add, Picture, g%InfluenceActive% yn y5 w45 h40 Section, Resources/Images/%InfluenceActive%.png
+        Gui, Move:Font, cWhite s12
+        Gui, Move:Add, Text, yp+41 x+-27, %InfluenceCount%
+        Gui, Move:Font, c%Font% s10
+        Gui, Move:Add, Button, gLock yn y12, &Lock
     }
     Gui, Move:Color, %Background%
-    Gui, Move:Font, c%Font% s11
-    Gui, Move:Add, Text, y53 x70,Drag around and press "Lock" to reposition overlay.
+    Gui, Move:Font, cWhite s12
+    Gui, Move:Add, Text, xn x10,Drag around and press "Lock" to reposition overlay.
     Gui, Move:+AlwaysOnTop
 
-    Gui, Move:Show, x%widthoff% y%heightoff% w800, Move
+    Gui, Move:Show, x%widthoff% y%heightoff% , Move
     Return
 }
 

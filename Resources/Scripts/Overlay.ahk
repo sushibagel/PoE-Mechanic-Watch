@@ -14,23 +14,9 @@ Overlay()
         mechanicactive = %Mechanic%Active
         If (%mechanicon% = 1)
         {
-            If (Mechanic = "Eater") or (Mechanic = "Searing")
-            {
-                IniRead, InfluenceCount, Resources/Settings/Mechanics.ini, InfluenceTrack, %Mechanic%
-                Gui, Overlay:Font, cWhite s12
-                x2 := mechanicx +17
-                Gui, Overlay:Add, Text, x%x2% y45 w50 h50, %InfluenceCount%
-            }
             if (%mechanicactive% = 1)
             {
-                If (Mechanic = "Eater") or (Mechanic = "Searing")
-                {
-                    Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
-                }
-                Else
-                {
-                    Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
-                }
+                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
             }
             Else
             {
@@ -38,6 +24,14 @@ Overlay()
             }
             mechanictest ++
         }
+    }
+    If (InfluenceActive != "None")
+    {
+        MechanicsIni := MechanicsIni()
+        IniRead, InfluenceCount, %MechanicsIni%, Influence Track, %InfluenceActive%
+        Gui, Overlay:Add, Picture, g%InfluenceActive% yn y5 w45 h40 Section, Resources/Images/%InfluenceActive%.png
+        Gui, Overlay:Font, cWhite s12
+        Gui, Overlay:Add, Text, yp+41 x+-27, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
     Loop
