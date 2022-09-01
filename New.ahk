@@ -178,13 +178,22 @@ GroupAdd, FirstRunGroup, Move
         {
             SetHideout()
         }
-    }    
+    }  
+    Return  
 }
 
+;;;;;;;;;;;;;;;; End Setup ;;;;;;;;;;;;;;;
+
+UpdateCheck()
+Start()
 Return
 
-;;;;;;;;;;;;;;;;;;;;;;Variable Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+Start()
+{
+    CheckTheme()
+    HotkeyCheck()
+    WindowMonitor()
+}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Settings Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
@@ -358,11 +367,6 @@ Exit()
     ExitApp
 }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-Start()
-{
-    Return
-}
 
 EldritchReminder()
 {
