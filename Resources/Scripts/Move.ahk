@@ -46,18 +46,19 @@ Move()
     Return
 }
 
-Lock:
-DetectHiddenWindows, On
-WinGetPos,newwidth, newheight
-Gui, Move:Submit
-Gui, Move:Destroy
-setheight:=newheight + 5
-setwidth:=newwidth + 15
-
-FileDelete, Resources/Settings/overlayposition.txt
-FileAppend, height=%setheight% `n, Resources/Settings/overlayposition.txt
-FileAppend, width=%setwidth%, Resources/Settings/overlayposition.txt
-Return
+Lock()
+{
+    DetectHiddenWindows, On
+    WinGetPos,newwidth, newheight
+    Gui, Move:Submit
+    Gui, Move:Destroy
+    setheight:=newheight + 5
+    setwidth:=newwidth + 15
+    OverlayIni := OverlayIni()
+    IniWrite, %setheight%, %OverlayIni%, Overlay Position, Height
+    IniWrite, %setwidth%, %OverlayIni%, Overlay Position, Width
+    Return
+}
 
 MoveGuiClose()
 {
