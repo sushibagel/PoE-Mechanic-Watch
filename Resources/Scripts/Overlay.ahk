@@ -96,40 +96,71 @@ WindowMonitor()
     }
 }
 
+MechanicToggle(ToggleMechanic)
+{
+    MechanicsActive()
+    ActiveCheck := ToggleMechanic "Active"
+    MechanicsIni := MechanicsIni()
+    If (%ActiveCheck% = 0)
+    {
+        Gui, Overlay:Destroy
+        IniWrite, 1, %MechanicsIni%, Mechanic Active, %ToggleMechanic%
+        Gui, Overlay:Destroy
+        Overlay()
+        Return
+    }
+    If (%ActiveCheck% = 1)
+    {
+        IniWrite, 0, %MechanicsIni%, Mechanic Active, %ToggleMechanic%
+        Gui, Overlay:Destroy
+        Overlay()
+        Return
+    }
+}
+
 Abyss()
 {
+    MechanicToggle("Abyss")
     Return
 }
 Blight()
 {
+    MechanicToggle("Blight")
     Return
 }
 Breach()
 {
+    MechanicToggle("Breach")
     Return
 }
 Expedition()
 {
+    MechanicToggle("Expedition")
     Return
 }
 Harvest()
 {
+    MechanicToggle("Harvest")
     Return
 }
 Incursion()
 {
+    MechanicToggle("Incursion")
     Return
 }
 Metamorph()
 {
+    MechanicToggle("Metamorph")
     Return
 }
 Ritual()
 {
+    MechanicToggle("Ritual")
     Return
 }
 Generic()
 {
+    MechanicToggle("Generic")
     Return
 }
 Eater()
