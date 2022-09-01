@@ -46,7 +46,6 @@ HotkeyUpdate()
   return
 }
 
-
 Label()
 {
   If %A_GuiControl% in +,^,!,+^,+!,^!,+^!    ;If the hotkey contains only modifiers, return to wait for a key.
@@ -86,7 +85,6 @@ SetHK(num,INI,GUI)
   TrayTip, Map Hotkey Changed, % !INI ? GUI " ON":!GUI ? INI " OFF":GUI " ON`n" INI " OFF"
 }
 
-
 HotkeyGuiClose()
 {
   Gui, Hotkey:Destroy
@@ -99,7 +97,7 @@ HotkeyCheck()
   HotkeyIni := HotkeyIni()
   Loop, 12
   {
-    IniRead, Hotkey%A_Index%, %HokeyIni%, Hotkeys, %A_Index%
+    IniRead, Hotkey%A_Index%, %HotkeyIni%, Hotkeys, %A_Index%
   }
   If !(Hotkey1 = "")
   {
