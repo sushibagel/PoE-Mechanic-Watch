@@ -135,26 +135,29 @@ MechanicSelect()
     Return
 }
 
-PositionSelect:
-Gui, First:Hide
-Gui, First2:Hide
-Gui, Loading:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-Gui, Loading:Color, %Background%
-Gui, Loading:Font, c%Font% s10
-Gui, Loading:Add, Text, w500 +Center, The Overlay repositioning tool is loading... Please wait...
-Gui, Loading: +AlwaysOnTop -Caption
-yload := yh + 200
-Gui, Loading:Show, NoActivate x%xh% y%yload% w550, Loading
-Start()
-Gui, Submit, NoHide
-Gui, First:Destroy
-Gui, First2:Destroy
-Move()
-WinWait, Move
-Gui, Loading:Destroy
-WinwaitClose, Move
-FirstRunWrite("Position")
-Return
+PositionSelect()
+{
+    Gui, First:Hide
+    Gui, First2:Hide
+    Gui, Loading:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+    Gui, Loading:Color, %Background%
+    Gui, Loading:Font, c%Font% s10
+    Gui, Loading:Add, Text, w500 +Center, The Overlay repositioning tool is loading... Please wait...
+    Gui, Loading: +AlwaysOnTop -Caption
+    yload := yh + 200
+    Gui, Loading:Show, NoActivate x%xh% y%yload% w550, Loading
+    Start()
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    Move()
+    WinWait, Move
+    Gui, Loading:Destroy
+    WinwaitClose, Move
+    FirstRunWrite("Position")
+    Return
+}
+
 
 TransparencySelect()
 {
