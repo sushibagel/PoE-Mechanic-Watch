@@ -66,3 +66,8 @@ ReadAutoMechanics()
     }
     Return
 }
+
+AutoMechanics()
+{
+    Return, "Blight|Expedition|Incursion"
+}

@@ -185,10 +185,6 @@ Return
 
 ;;;;;;;;;;;;;;;;;;;;;;Variable Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-AutoMechanics()
-{
-    Return, "Blight|Expedition|Incursion"
-}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Settings Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
