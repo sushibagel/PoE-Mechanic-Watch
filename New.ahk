@@ -70,7 +70,8 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-GroupAdd, PoeWindow, ahk_class AutoHotkeyGUI
+GroupAdd, PoeWindow, Reminder
+GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, ahk_exe Awakened PoE Trade.exe
 GroupAdd, PoeWindow, ahk_exe code.exe
 
