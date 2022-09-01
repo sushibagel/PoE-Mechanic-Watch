@@ -4,6 +4,8 @@ ReadFile = Resources\Data\Incursiondialogsdisable.txt
 IncursionGo := StrReplace(Read1, "`r`n" , ",")
 
 Gosub, GetLogPath
+Gosub, GetHideout
+GoSub, ReadMechanics
 Gosub, ReadAutoMechanics
 
 FullSearch =
