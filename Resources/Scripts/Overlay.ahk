@@ -90,8 +90,15 @@ WindowMonitor()
             } 
             Else
             {
-                WindowMonitor()
+                Overlay()
             }  
+        }
+        Else
+        Global IndexTrack
+        If !WinActive("Overlay") and (IndexTrack = "")
+        {
+            IndexTrack ++
+            msgbox, %IndexTrack%
         }
     }
 }
