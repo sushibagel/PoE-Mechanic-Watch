@@ -97,8 +97,7 @@ WindowMonitor()
         }
         Else
         Global IndexTrack
-        If (IndexTrack = "")
-        ;If !WinActive("Overlay") and (IndexTrack = "")
+        If !WinActive("Overlay") and (IndexTrack = "")
         {
             Global IndexTrack ++
             Overlay()
