@@ -1,12 +1,14 @@
 Global Influences  
 Global SearingActive  
 Global EaterActive
+Global InfluenceTrack
+Global ReminderText
 
 InfluenceTrack()
 {
     MapTrack := NewLine
     InfluenceActive()
-    If (InfluenceActive != None)
+    If (InfluenceActive != "None")
     {
         FileRead, MapList, Resources\Data\maplist.txt 
         FirstSplit := StrSplit(MapTrack, A_Space)

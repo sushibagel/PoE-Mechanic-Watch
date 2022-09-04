@@ -1,7 +1,8 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
-#Warn,,OutputDebug
+#Warn
+
 CoordMode, Screen
 DetectHiddenWindows, On
 
@@ -45,6 +46,9 @@ Global SoundSelect
 Global LaunchAssistSelect
 Global ToolLauncherSelect
 
+Global CLogTailer
+Global LogPath
+
 Global ColorMode
 Global Background
 Global Font
@@ -64,6 +68,31 @@ Global SoundState
 Global ThemeState
 Global ToolLauncherState
 Global TransparencyState
+Global each
+Global Mechanic
+Global xh
+Global yh
+Global h
+Global w
+Global X
+Global Y
+Global sleepmechanic
+Global Hotkey1
+Global Height
+Global Length
+Global Width
+Global #ctrls
+Global keyLaunchKeys
+Global keyname
+Global data0
+Global data1
+Global BreakLoop
+Global EndLoop
+Global ActiveCheck
+Global Item
+Global Space
+Global LaunchKeys
+Global keyLaunchName
 
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
@@ -185,6 +214,8 @@ GroupAdd, FirstRunGroup, Move
 
 ;;;;;;;;;;;;;;;; End Setup ;;;;;;;;;;;;;;;
 
+IndexTrack =
+
 UpdateCheck()
 Start()
 Return
@@ -193,6 +224,7 @@ Start()
 {
     CheckTheme()
     HotkeyCheck()
+    LogMonitor()
     WindowMonitor()
 }
 
@@ -379,16 +411,28 @@ MechanicReminder()
     Return
 }
 
+SearchText()
+{
+    Return
+}
+
+Reminder()
+{
+    Return
+}
+
 #Include, Resources\Scripts\AutoMechanic.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk
 #Include, Resources\Scripts\Ini.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
+#Include, Resources\Scripts\LogMonitor.ahk
 #Include, Resources\Scripts\Mechanics.ahk
 #Include, Resources\Scripts\Move.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
+#Include, Resources\Scripts\Tail.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
 #Include, Resources\Scripts\Transparency.ahk
 #Include, Resources\Scripts\UpdateCheck.ahk

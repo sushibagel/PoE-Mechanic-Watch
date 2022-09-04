@@ -36,7 +36,8 @@ Overlay()
     Gui, Overlay:Color, 1e1e1e
     Loop
     {
-        WinGet, PoeID, ID, Path of Exile
+        WinGet, PoeID, ID, ahk_exe code.exe
+        ;WinGet, PoeID, ID, Path of Exile
         If (PoeID = "")
         {
             IfWinActive, Transparency
@@ -45,7 +46,8 @@ Overlay()
             }
             Else
             {
-                    WinWait, Path of Exile
+                WinWait, ahk_exe code.exe
+                ;WinWait, Path of Exile
             }
         }
         If (PoeID != "")
@@ -95,10 +97,11 @@ WindowMonitor()
         }
         Else
         Global IndexTrack
-        If !WinActive("Overlay") and (IndexTrack = "")
+        If (IndexTrack = "")
+        ;If !WinActive("Overlay") and (IndexTrack = "")
         {
-            IndexTrack ++
-            msgbox, %IndexTrack%
+            Global IndexTrack ++
+            Overlay()
         }
     }
 }

@@ -1,47 +1,54 @@
-LogMonitor: ;Monitor the PoE client.txt
+Global IncursionGo
+Global MyDialogs
+Global MyDialogsDisable
+Global FullSearch
 
-ReadFile = Resources\Data\Incursiondialogsdisable.txt
-IncursionGo := StrReplace(Read1, "`r`n" , ",")
-
-Gosub, GetLogPath
-Gosub, GetHideout
-GoSub, ReadMechanics
-Gosub, ReadAutoMechanics
-
-FullSearch =
-MyDialogs = 
-MyDialogsDisable =
-For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
+LogMonitor() ;Monitor the PoE client.txt
 {
-    autocheck = %Mechanic%Auto
-    if (%autocheck% = 1)
+    ReadFile = Resources\Data\Incursiondialogsdisable.txt
+    IncursionGo := StrReplace(ReadFile, "`r`n" , ",")
+
+    GetLogPath()
+    GetHideout()
+    ReadMechanics()
+    ReadAutoMechanics()
+    InfluenceActive()
+
+    FullSearch =
+    MyDialogs = 
+    MyDialogsDisable =
+    AutoMechanicSearch := AutoMechanics()
+    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
-        Loop, Read, Resources/Data/%Mechanic%dialogs.txt
+        autocheck = %Mechanic%Auto
+        if (%autocheck% = 1)
         {
-            if (MyDialogs = "")
+            Loop, Read, Resources/Data/%Mechanic%dialogs.txt
             {
-                MyDialogs = %A_LoopReadLine%
+                if (MyDialogs = "")
+                {
+                    MyDialogs = %A_LoopReadLine%
+                }
+                Else
+                {
+                    MyDialogs = %MyDialogs%,%A_LoopReadLine%
+                }
             }
-            Else
+            Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
             {
-                MyDialogs = %MyDialogs%,%A_LoopReadLine%
-            }
-        }
-        Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
-        {
-            if (MyDialogsDisable = "")
-            {
-                MyDialogsDisable = %A_LoopReadLine%
-            }
-            Else
-            {
-                MyDialogsDisable = %MyDialogsDisable%,%A_LoopReadLine%
+                if (MyDialogsDisable = "")
+                {
+                    MyDialogsDisable = %A_LoopReadLine%
+                }
+                Else
+                {
+                    MyDialogsDisable = %MyDialogsDisable%,%A_LoopReadLine%
+                }
             }
         }
     }
+    lt := new CLogTailer(LogPath, Func("LogTail"))
 }
-Gosub, InfluenceTracking
-Return 
 
 HideoutEntered()
 {
@@ -49,10 +56,10 @@ HideoutEntered()
     {
         %sleepmechanic% = 0
     }
-    GoSub, MechanicsActive
+    MechanicsActive()
     If (MechanicsActive >= 1)
     {
-        GoSub, Reminder
+        Reminder()
         WinwaitClose, Reminder
         Exit
     }
@@ -60,8 +67,8 @@ HideoutEntered()
 }
 
 SearchText:
-Gosub, MechanicsActive
-Gosub, LogMonitor
+MechanicsActive()
+LogMonitor()
 If NewLine contains %MyDialogs%
     {
         For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
@@ -74,7 +81,7 @@ If NewLine contains %MyDialogs%
             {
                 If (%activecheck% != 1) and (%sleepmechanic% != 1) and (%automechanic% = 1)
                 {
-                    GoSub, %Mechanic%
+                    %Mechanic%()
                     Break
                 }
                 If NewLine contains %IncursionGo%
@@ -89,7 +96,7 @@ If NewLine contains %MyDialogs%
                     IncursionSleep ++
                     If (IncursionSleep = 4)
                     {
-                        GoSub, Incursion
+                        Incursion()
                         Break
                     }
                 }
@@ -109,7 +116,7 @@ If NewLine contains %MyDialogsDisable%
             If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
             {
                 %sleepmechanic% = 1
-                GoSub, %Mechanic%
+                %Mechanic%()
                 Break 
             }  
         }
