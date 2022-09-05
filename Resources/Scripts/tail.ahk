@@ -7,7 +7,6 @@ LogTail(text)
 		FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
 		if NewLine contains %MyHideout%
 		{
-			MsgBox, %MyHideout%
 			BreakLoop = 1
 			NewLine =
 			HideoutEntered()
