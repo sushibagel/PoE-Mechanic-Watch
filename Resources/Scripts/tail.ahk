@@ -1,28 +1,25 @@
-Global NewLine
+Global CLogTailer
 
 ; This function gets called each time there is a new line
 LogTail(text)
 	{
 		NewLine = % text
 		FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
-		if NewLine contains %MyHideout%
+		If NewLine contains %MyHideout%
 		{
 			BreakLoop = 1
-			NewLine =
 			HideoutEntered()
 			Exit
 		}
-		if NewLine contains %MyDialogs%,%MyDialogsDisable%
+		If NewLine contains %MyDialogs%,%MyDialogsDisable%
 		{
-			NewLine =
-			SearchText()
-			Return
+			SearchText(NewLine)
+			Exit
 		}
-		If InStr(NewLine, "Generating level") and If InStr(NewLine, "with seed")
+		If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
 		{
 			EndLoop = 1
-			NewLine =
-			InfluenceTrack()
+			InfluenceTrack(NewLine)
 			Exit
 		}
 	}

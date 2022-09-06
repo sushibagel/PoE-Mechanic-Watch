@@ -66,65 +66,67 @@ HideoutEntered()
     Exit
 }
 
-SearchText:
-MechanicsActive()
-LogMonitor()
-If NewLine contains %MyDialogs%
-    {
-        For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-        Loop, Read, Resources/Data/%Mechanic%dialogs.txt
+SearchText(NewLine)
+{
+    MechanicsActive()
+    LogMonitor()
+    If NewLine contains %MyDialogs%
         {
-            activecheck = %Mechanic%Active
-            sleepmechanic = %Mechanic%Sleep
-            automechanic = %Mechanic%Auto
-            If NewLine contains %A_LoopReadLine%
+            For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
+            Loop, Read, Resources/Data/%Mechanic%dialogs.txt
             {
-                If (%activecheck% != 1) and (%sleepmechanic% != 1) and (%automechanic% = 1)
+                activecheck = %Mechanic%Active
+                sleepmechanic = %Mechanic%Sleep
+                automechanic = %Mechanic%Auto
+                If NewLine contains %A_LoopReadLine%
                 {
-                    %Mechanic%()
-                    Break
-                }
-                If NewLine contains %IncursionGo%
-                {
-                    GetLogCode := StrSplit(NewLine, A_Space)
-                    Code = % GetLogCode[3]
-                    If (Code = IncursionCode) and (Code != "")
+                    If (%activecheck% != 1) and (%sleepmechanic% != 1) and (%automechanic% = 1)
                     {
+                        %Mechanic%()
                         Break
                     }
-                    IncursionCode := Code
-                    IncursionSleep ++
-                    If (IncursionSleep = 4)
+                    If NewLine contains %IncursionGo%
                     {
-                        Incursion()
-                        Break
+                        GetLogCode := StrSplit(NewLine, A_Space)
+                        Code = % GetLogCode[3]
+                        If (Code = IncursionCode) and (Code != "")
+                        {
+                            Break
+                        }
+                        IncursionCode := Code
+                        IncursionSleep ++
+                        If (IncursionSleep = 4)
+                        {
+                            Incursion()
+                            Break
+                        }
                     }
                 }
             }
         }
-    }
-If NewLine contains %MyDialogsDisable%
-{
-    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-    Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
+    If NewLine contains %MyDialogsDisable%
     {
-        If NewLine contains %A_LoopReadLine%
+        For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
+        Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
         {
-            activecheck = %Mechanic%Active
-            sleepmechanic = %Mechanic%Sleep
-            automechanic = %Mechanic%Auto
-            If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
+            If NewLine contains %A_LoopReadLine%
             {
-                %sleepmechanic% = 1
-                %Mechanic%()
-                Break 
-            }  
+                activecheck = %Mechanic%Active
+                sleepmechanic = %Mechanic%Sleep
+                automechanic = %Mechanic%Auto
+                If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
+                {
+                    %sleepmechanic% = 1
+                    %Mechanic%()
+                    Break 
+                }  
+            }
         }
     }
-}
 
-IfWinActive, First2
-{
+    IfWinActive, First2
+    {
+        Return
+    }
     Return
 }
-Return

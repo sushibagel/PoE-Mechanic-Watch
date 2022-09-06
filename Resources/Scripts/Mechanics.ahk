@@ -38,10 +38,10 @@ SelectMechanics()
 {
     MechanicSearch := Mechanics()
     Gui, Mechanic:Font, c%Font% s10
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        IniRead, %Mechanic%State, %MechanicsIni%, Mechanics, %Mechanic%
+        IniRead, %Mechanic%State, %MechanicsPath%, Mechanics, %Mechanic%
         autochecked := % mechanic "State"
         autochecked := % %autochecked%
         Gui, Mechanic:Add, Checkbox, v%Mechanic% Checked%autochecked%, %Mechanic%
@@ -58,7 +58,7 @@ SelectMechanics()
     Influences := Influences()
     For each, Influence in StrSplit(Influences, "|")
     {
-        IniRead, %Influence%State, %MechanicsIni%, Influence, %Influence%
+        IniRead, %Influence%State, %MechanicsPath%, Influence, %Influence%
         autochecked = %Influence%State
         autochecked := % %autochecked%
         Gui, Mechanic:Add, Checkbox, v%Influence% Checked%autochecked%, %Influence%
@@ -85,14 +85,14 @@ MechanicButtonOk()
     }
     MechanicSearch := Mechanics()
     Influences := Influences()
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        IniWrite, % %Mechanic%, %MechanicsIni%, Mechanics, %Mechanic%
+        IniWrite, % %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
     }
     For each, Influence in StrSplit(Influences, "|")
     {
-        IniWrite, % %Influence%, %MechanicsIni%, Influence, %Influence%
+        IniWrite, % %Influence%, %MechanicsPath%, Influence, %Influence%
     }
     Gui, Mechanic:Destroy
     Start()
@@ -101,11 +101,11 @@ MechanicButtonOk()
 
 ReadMechanics()
 {
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     MechanicSearch := Mechanics()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        IniRead, %Mechanic%, %MechanicsIni%, Mechanics, %Mechanic%
+        IniRead, %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
         If (%Mechanic% = 1)
         {
             %Mechanic%On := 1
@@ -121,11 +121,11 @@ ReadMechanics()
 MechanicsActive()
 {
     MechanicsActive := 0
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     MechanicSearch := Mechanics()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        IniRead, %Mechanic%, %MechanicsIni%, Mechanic Active, %Mechanic%
+        IniRead, %Mechanic%, %MechanicsPath%, Mechanic Active, %Mechanic%
         If (%Mechanic% = 1)
         {
             %Mechanic%Active := 1

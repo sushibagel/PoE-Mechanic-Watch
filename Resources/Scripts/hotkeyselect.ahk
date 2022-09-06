@@ -75,12 +75,12 @@ Label()
 
 SetHK(num,INI,GUI) 
 {
-  HotkeyIni := HotkeyIni()
+  HotkeyPath := HotkeyIni()
   If INI
     Hotkey, %INI%, Label%num%, Off, UseErrorLevel
   If GUI
     Hotkey, %GUI%, Label%num%, On, UseErrorLevel
-  IniWrite,% GUI ? GUI:null, %HotkeyIni%, Hotkeys, %num%
+  IniWrite,% GUI ? GUI:null, %HotkeyPath%, Hotkeys, %num%
   savedHK%num%  := HK%num%
   TrayTip, Map Hotkey Changed, % !INI ? GUI " ON":!GUI ? INI " OFF":GUI " ON`n" INI " OFF"
 }
@@ -94,10 +94,10 @@ HotkeyGuiClose()
 
 HotkeyCheck()
 {
-  HotkeyIni := HotkeyIni()
+  HotkeyPath := HotkeyIni()
   Loop, 12
   {
-    IniRead, Hotkey%A_Index%, %HotkeyIni%, Hotkeys, %A_Index%
+    IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
   }
   If !(Hotkey1 = "")
   {
@@ -163,10 +163,10 @@ HotkeyCheck()
 
   SetHotkeys()
   {
-    HotkeyIni := HotkeyIni()
+    HotkeyPath := HotkeyIni()
     Loop, 12
     {
-      IniRead, Hotkey%A_Index%, %HotkeyIni%, Hotkeys, %A_Index%
+      IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
       HotkeyOffCheck := "Hotkey"A_Index
       If (%HotkeyOffCheck% = "") Or (%HotkeyOffCheck% = "Error")
       {

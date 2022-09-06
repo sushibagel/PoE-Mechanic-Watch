@@ -1,8 +1,8 @@
 Overlay()
 {
-    OverlayIni := OverlayIni()
-    IniRead, Height, %OverlayIni%, Overlay Position, Height
-    IniRead, Width, %OverlayIni%, Overlay Position, Width
+    OverlayPath := OverlayIni()
+    IniRead, Height, %OverlayPath%, Overlay Position, Height
+    IniRead, Width, %OverlayPath%, Overlay Position, Width
     ReadMechanics()
     MechanicsActive()
     InfluenceActive()
@@ -27,8 +27,8 @@ Overlay()
     }
     If (InfluenceActive != "None")
     {
-        MechanicsIni := MechanicsIni()
-        IniRead, InfluenceCount, %MechanicsIni%, Influence Track, %InfluenceActive%
+        MechanicsPath := MechanicsIni()
+        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
         Gui, Overlay:Add, Picture, g%InfluenceActive% yn y5 w45 h40 Section, Resources/Images/%InfluenceActive%.png
         Gui, Overlay:Font, cWhite s12
         Gui, Overlay:Add, Text, yp+41 x+-27, %InfluenceCount%
@@ -109,18 +109,18 @@ MechanicToggle(ToggleMechanic)
 {
     MechanicsActive()
     ActiveCheck := ToggleMechanic "Active"
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     If (%ActiveCheck% = 0)
     {
         Gui, Overlay:Destroy
-        IniWrite, 1, %MechanicsIni%, Mechanic Active, %ToggleMechanic%
+        IniWrite, 1, %MechanicsPath%, Mechanic Active, %ToggleMechanic%
         Gui, Overlay:Destroy
         Overlay()
         Return
     }
     If (%ActiveCheck% = 1)
     {
-        IniWrite, 0, %MechanicsIni%, Mechanic Active, %ToggleMechanic%
+        IniWrite, 0, %MechanicsPath%, Mechanic Active, %ToggleMechanic%
         Gui, Overlay:Destroy
         Overlay()
         Return

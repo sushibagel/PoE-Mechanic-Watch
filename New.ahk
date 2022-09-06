@@ -35,39 +35,17 @@ Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
 Menu, Tray, Icon, Resources\Images\ritual.png
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Global Variables ;;;;;;;;;;;;;;;;;;;;;
-Global ThemeSelect
-Global HideoutSelect
-Global MechanicSelect
-Global PositionSelect
-Global TransparencySelect
-Global AutoMechanicSelect
-Global HotkeySelect
-Global SoundSelect
-Global LaunchAssistSelect
-Global ToolLauncherSelect
-
-Global CLogTailer
 Global LogPath
 
 Global ColorMode
 Global Background
 Global Font
 Global Secondary
+
 Global ClientOpened
 Global MyHideout
 Global Mechanics
 
-Global AutoMechanicState
-Global ClientState
-Global HideoutState
-Global HotkeyState
-Global LaunchAssistState
-Global MechanicState
-Global PositionState
-Global SoundState
-Global ThemeState
-Global ToolLauncherState
-Global TransparencyState
 Global each
 Global Mechanic
 Global xh
@@ -308,8 +286,8 @@ SelectTheme()
 ThemeButtonDarkMode()
 {    
     Gui, Theme:Destroy
-    ThemeIni := ThemeIni()
-    IniWrite, Dark, %ThemeIni%, Theme, Theme
+    ThemeFile := ThemeIni()
+    IniWrite, Dark, %ThemeFile%, Theme, Theme
     CheckTheme()
     Return
 }
@@ -317,8 +295,8 @@ ThemeButtonDarkMode()
 ThemeButtonLightMode()
 {
     Gui, Theme:Destroy
-    ThemeIni := ThemeIni()
-    IniWrite, Light, %ThemeIni%, Theme, Theme
+    ThemeFile := ThemeIni()
+    IniWrite, Light, %ThemeFile%, Theme, Theme
     CheckTheme()
     Return
 }
@@ -326,13 +304,13 @@ ThemeButtonLightMode()
 CheckTheme()
 {
     Global ThemeItems := "Font|Background|Secondary"
-    ThemeIni := ThemeIni()
-    IniRead, ColorMode, %ThemeIni%, Theme, Theme
+    ThemeFile := ThemeIni()
+    IniRead, ColorMode, %ThemeFile%, Theme, Theme
     Global Item
     Global each
     For each, Item in StrSplit(ThemeItems, "|")
     {
-        IniRead, %Item%, %ThemeIni%, %ColorMode%, %Item%
+        IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
     }
     Return, %ColorMode%
 }
@@ -407,11 +385,6 @@ EldritchReminder()
 }
 
 MechanicReminder()
-{
-    Return
-}
-
-SearchText()
 {
     Return
 }

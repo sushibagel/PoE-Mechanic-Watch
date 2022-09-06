@@ -4,7 +4,7 @@ Global EaterActive
 Global InfluenceTrack
 Global ReminderText
 
-InfluenceTrack()
+InfluenceTrack(NewLine)
 {
     MapTrack := NewLine
     InfluenceActive()
@@ -34,8 +34,8 @@ InfluenceTrack()
                     InfluenceTrack = 1
                 }
                 ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
-                MechanicsIni := MechanicsIni()
-                IniWrite, %InfluenceTrack%, %MechanicsIni%, InfluenceTrack, %InfluenceActive%
+                MechanicsPath := MechanicsIni()
+                IniWrite, %InfluenceTrack%, %MechanicsPath%, InfluenceTrack, %InfluenceActive%
                 InfluenceMapNotification()
                 SetTimer, CloseGui, -3000
                 If (InfluenceTrack = 14) or (InfluenceTrack = 28)
@@ -81,10 +81,10 @@ ReminderButtonOK()
 {
     WinActivate, Path of Exile
     Gui, Reminder:Destroy
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     If (InfluenceTrack = 28)
     {
-        IniWrite, 0, %MechanicsIni%, InfluenceTrack, %InfluenceActive%
+        IniWrite, 0, %MechanicsPath%, InfluenceTrack, %InfluenceActive%
     }
     Return
 }
@@ -103,28 +103,28 @@ SubtractOne()
     InfluenceActive()
     InfluenceActive = 
     InfluenceTrack = 
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     If (EaterActive = 1)
     {
-        IniRead, InfluenceTrack, %MechanicsIni%, InfluenceTrack, Eater
+        IniRead, InfluenceTrack, %MechanicsPath%, InfluenceTrack, Eater
         OldTrack := InfluenceTrack
         InfluenceTrack := InfluenceTrack - 1
         If(InfluenceTrack = -1)
         {
             InfluenceTrack = 27
         }
-        IniWrite, %InfluenceTrack%, %MechanicsIni%, InfluenceTrack, Eater
+        IniWrite, %InfluenceTrack%, %MechanicsPath%, InfluenceTrack, Eater
     }
     If (SearingActive = 1)
     {
-        IniRead, InfluenceTrack, %MechanicsIni%, InfluenceTrack, Searing
+        IniRead, InfluenceTrack, %MechanicsPath%, InfluenceTrack, Searing
         OldTrack := InfluenceTrack
         InfluenceTrack := InfluenceTrack - 1
             If(InfluenceTrack = -1)
         {
             InfluenceTrack = 27
         }
-        IniWrite, %InfluenceTrack%, %MechanicsIni%, InfluenceTrack, Searing
+        IniWrite, %InfluenceTrack%, %MechanicsPath%, InfluenceTrack, Searing
     }
     Sleep, 100
     ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
@@ -133,11 +133,11 @@ SubtractOne()
 
 InfluenceActive()
 {
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     Influences := Influences()
     For each, Influence in StrSplit(Influences, "|")
     {
-        IniRead, %Influence%, %MechanicsIni%, Influence, %Influence%
+        IniRead, %Influence%, %MechanicsPath%, Influence, %Influence%
         If (%Influence% = 1)
         %Influence%Active := 1
         InfluenceActive = %Influence%

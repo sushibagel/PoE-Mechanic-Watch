@@ -1,11 +1,3 @@
-Global MechanicsIni
-Global FirstRunIni
-Global NotificationIni
-Global ThemeIni
-Global HotkeyIni
-Global OverlayIni
-Global TransparencyIni
-
 IniPath(MyKey){
     switch MyKey
     {

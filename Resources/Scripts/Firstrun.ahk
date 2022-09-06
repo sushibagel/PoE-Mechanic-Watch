@@ -1,12 +1,34 @@
+Global AutoMechanicState
+Global ClientState
+Global HideoutState
+Global HotkeyState
+Global LaunchAssistState
+Global MechanicState
+Global PositionState
+Global SoundState
+Global ThemeState
+Global ToolLauncherState
+Global TransparencyState
+Global ThemeSelect
+Global HideoutSelect
+Global MechanicSelect
+Global PositionSelect
+Global TransparencySelect
+Global AutoMechanicSelect
+Global HotkeySelect
+Global SoundSelect
+Global LaunchAssistSelect
+Global ToolLauncherSelect
+
 CheckFirstRun() ;Check to see if all First Run Items are complete
 {
     Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher"
     Global Item
     Global each
-    FirstRunIni := FirstRunIni()
+    FirstRunPath := FirstRunIni()
     For each, Item in StrSplit(ItemSearch, "|")
     {
-        iniRead, %Item%State, %FirstRunIni%, Completion, %Item%
+        iniRead, %Item%State, %FirstRunPath%, Completion, %Item%
     }
     Return
 }
@@ -75,7 +97,7 @@ ClientOpen()
     {
         Gui, First:Destroy
         Gui, First2:Destroy
-        FirstRunIni := FirstRunIni()
+        FirstRunPath := FirstRunIni()
         IfWinNotExist, ahk_group PoeWindow
         {
             Gui, FirstReminder:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
@@ -85,14 +107,14 @@ ClientOpen()
             Gui, FirstReminder:Add, Button, x490, OK
             Gui, FirstReminder: +AlwaysOnTop -Caption
             Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
-            Iniwrite, 0, %FirstRunIni%, Completion, Client
+            Iniwrite, 0, %FirstRunPath%, Completion, Client
             WinWaitClose, FirstReminder
             CheckFirstRun()
             ReloadFirstRun()
         }
         IfWinExist, ahk_group PoeWindow
         {
-            Iniwrite, 1, %FirstRunIni%, Completion, Client
+            Iniwrite, 1, %FirstRunPath%, Completion, Client
             GetLogPath()
             ReloadFirstRun()
         }
@@ -232,8 +254,8 @@ ToolLauncherSelect()
 
 FirstRunWrite(WriteItem)
 {
-    FirstRunIni := FirstRunIni()
-    Iniwrite, 1, %FirstRunIni%, Completion, % WriteItem
+    FirstRunPath := FirstRunIni()
+    Iniwrite, 1, %FirstRunPath%, Completion, % WriteItem
     ReloadFirstRun()
     Return
 }

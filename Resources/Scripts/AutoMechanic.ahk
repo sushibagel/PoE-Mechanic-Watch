@@ -29,11 +29,11 @@ AutoButtonOk()
 {
     Gui, Submit, NoHide 
     AutoMechanicSearch := AutoMechanics()
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
         mechanicvalue := % %Mechanic%
-        IniWrite, %mechanicvalue%, %MechanicsIni%, Auto Mechanics, %Mechanic%
+        IniWrite, %mechanicvalue%, %MechanicsPath%, Auto Mechanics, %Mechanic%
     }
     Gui, Auto:Destroy
     Return
@@ -50,11 +50,11 @@ AutoButtonSelectMechanics()
 ReadAutoMechanics()
 {
     AutoMechanicSearch := AutoMechanics()
-    MechanicsIni := MechanicsIni()
+    MechanicsPath := MechanicsIni()
     AutoMechanicsActive = 0
     For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
-        IniRead, %Mechanic%, %MechanicsIni%, Auto Mechanics, %Mechanic%
+        IniRead, %Mechanic%, %MechanicsPath%, Auto Mechanics, %Mechanic%
         If (%Mechanic% = 1)
         {
             %Mechanic%Auto := 1

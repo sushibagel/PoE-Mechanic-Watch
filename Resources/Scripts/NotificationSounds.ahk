@@ -10,7 +10,7 @@ UpdateNotification()
 {
     CheckTheme()
     Notifications := NotificationTypes()
-    NotificationIni := NotificationIni()
+    NotificationPath := NotificationIni()
     If (ColorMode = "Dark")
     {
         IconColor = volume white.png
@@ -24,9 +24,9 @@ UpdateNotification()
     For each, Item in StrSplit(Notifications, "|")
     {
         Gui, Sounds:Font, c%Font% s10
-        IniRead, %Item%Active, %NotificationIni%, Active, %Item%
-        IniRead, %Item%Volume, %NotificationIni%, Volume, %Item%
-        IniRead, %Item%Sound, %NotificationIni%, Sounds, %Item%
+        IniRead, %Item%Active, %NotificationPath%, Active, %Item%
+        IniRead, %Item%Volume, %NotificationPath%, Volume, %Item%
+        IniRead, %Item%Sound, %NotificationPath%, Sounds, %Item%
         ItemActive := % %Item%Active
         ItemVolume := %Item%Volume
         Gui, Sounds:Add, Checkbox, v%Item% Checked%ItemActive% xn x10, %Item%
@@ -53,13 +53,13 @@ NotificationTypes()
 SoundsButtonOk()
 {
     Notifications := NotificationTypes()
-    NotificationIni := NotificationIni()
+    NotificationPath := NotificationIni()
     Gui, Submit, NoHide 
     For each, Item in StrSplit(Notifications, "|")
     {
         ItemActive := %Item%
-        IniWrite, %ItemActive%, %NotificationIni%, Active, %Item%
-        IniWrite, %NotificationEdit%, %NotificationIni%, Volume, %Item%
+        IniWrite, %ItemActive%, %NotificationPath%, Active, %Item%
+        IniWrite, %NotificationEdit%, %NotificationPath%, Volume, %Item%
     }
     Gui, Destroy
     Return
@@ -68,12 +68,12 @@ SoundsButtonOk()
 SoundsButtonChangeNotification()
 {
     Gui, Submit, NoHide
-    NotificationIni := NotificationIni()
-    IniWrite, %Notification%, %NotificationIni%, Active, Notification
+    NotificationPath := NotificationIni()
+    IniWrite, %Notification%, %NotificationPath%, Active, Notification
     FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
     If (NewSound != "")
     {
-        IniWrite, %NewSound%, %NotificationIni%, Sounds, Notification
+        IniWrite, %NewSound%, %NotificationPath%, Sounds, Notification
     }
     Return
 }
@@ -81,12 +81,12 @@ SoundsButtonChangeNotification()
 SoundsButtonChangeInfluence()
 {
     Gui, Submit, NoHide
-    NotificationIni := NotificationIni()
-    IniWrite, %Influence%, %NotificationIni%, Active, Influence
+    NotificationPath := NotificationIni()
+    IniWrite, %Influence%, %NotificationPath%, Active, Influence
     FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
     If (NewSound != "")
     {
-        IniWrite, %NewSound%, %NotificationIni%, Sounds, Influence
+        IniWrite, %NewSound%, %NotificationPath%, Sounds, Influence
     }
     Return
 }
@@ -94,8 +94,8 @@ SoundsButtonChangeInfluence()
 testNotification()
 {
     Gui, Sounds:Submit, NoHide
-    NotificationIni := NotificationIni()
-    IniRead, TestSound, %NotificationIni%, Sounds, Notification
+    NotificationPath := NotificationIni()
+    IniRead, TestSound, %NotificationPath%, Sounds, Notification
     TestVolume = %NotiEdit%
     TestSound()
 }
@@ -103,8 +103,8 @@ testNotification()
 testInfluence()
 {
     Gui, Sounds:Submit, NoHide
-    NotificationIni := NotificationIni()
-    IniRead, TestSound, %NotificationIni%, Sounds, Influence
+    NotificationPath := NotificationIni()
+    IniRead, TestSound, %NotificationPath%, Sounds, Influence
     TestVolume = %NotiEditInfluence%
     TestSound()
     Return
@@ -124,22 +124,22 @@ TestSound()
 
 CheckSounds(Notification)
 {
-    NotificationIni := NotificationIni()
-    IniRead, Sound, %NotificationIni%, Sounds, %Notification%
+    NotificationPath := NotificationIni()
+    IniRead, Sound, %NotificationPath%, Sounds, %Notification%
     Return, %Sound%
 }
 
 CheckVolume(Volume)
 {
-    NotificationIni := NotificationIni()
-    IniRead, Volume, %NotificationIni%, Volume, %Volume%
+    NotificationPath := NotificationIni()
+    IniRead, Volume, %NotificationPath%, Volume, %Volume%
     Return, %Volume%
 }
 
 CheckSoundActive(Active)
 {
-    NotificationIni := NotificationIni()
-    IniRead, Active, %NotificationIni%, Active, %Active%
+    NotificationPath := NotificationIni()
+    IniRead, Active, %NotificationPath%, Active, %Active%
     Return, %Active% 
 }
 

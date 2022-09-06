@@ -1,8 +1,8 @@
 Move()
 {
-    OverlayIni := OverlayIni()
-    IniRead, Height, %OverlayIni%, Overlay Position, Height
-    IniRead, Width, %OverlayIni%, Overlay Position, Width
+    OverlayPath := OverlayIni()
+    IniRead, Height, %OverlayPath%, Overlay Position, Height
+    IniRead, Width, %OverlayPath%, Overlay Position, Width
     heightoff := Height - 30
     widthoff := Width - 5
 
@@ -29,8 +29,8 @@ Move()
     }
     If (InfluenceActive != "None")
     {
-        MechanicsIni := MechanicsIni()
-        IniRead, InfluenceCount, %MechanicsIni%, Influence Track, %InfluenceActive%
+        MechanicsPath := MechanicsIni()
+        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
         Gui, Move:Add, Picture, g%InfluenceActive% yn y5 w45 h40 Section, Resources/Images/%InfluenceActive%.png
         Gui, Move:Font, cWhite s12
         Gui, Move:Add, Text, yp+41 x+-27, %InfluenceCount%
@@ -54,9 +54,9 @@ Lock()
     Gui, Move:Destroy
     setheight:=newheight + 5
     setwidth:=newwidth + 15
-    OverlayIni := OverlayIni()
-    IniWrite, %setheight%, %OverlayIni%, Overlay Position, Height
-    IniWrite, %setwidth%, %OverlayIni%, Overlay Position, Width
+    OverlayPath := OverlayIni()
+    IniWrite, %setheight%, %OverlayPath%, Overlay Position, Height
+    IniWrite, %setwidth%, %OverlayPath%, Overlay Position, Width
     Return
 }
 

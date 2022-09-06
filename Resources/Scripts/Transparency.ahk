@@ -7,7 +7,7 @@ Global PlayColor
 UpdateTransparency()
 {
     CheckTheme()
-    TransparencyIni := TransparencyIni()
+    TransparencyFile := TransparencyIni()
     OverlayList := GetOverlayItems()
     Space = y+5
     Gui, Transparency:Font, c%Font% s11
@@ -32,7 +32,7 @@ UpdateTransparency()
     For each, OverlayItem in StrSplit(OverlayList, "|")
     {
         Space := 40 + (A_Index * 10)
-        IniRead, %OverlayItem%Value, %TransparencyIni%, Transparency, %OverlayItem%, 255
+        IniRead, %OverlayItem%Value, %TransparencyFile%, Transparency, %OverlayItem%, 255
         Gui, Transparency:Font, c%Font% s12
         ItemText = %OverlayItem%
         If (OverlayItem = "Map")
@@ -66,11 +66,11 @@ TransparencyButtonOk()
 {
     Gui, Transparency:Submit, NoHide 
     OverlayList := GetOverlayItems()
-    TransparencyIni := TransparencyIni()
+    TransparencyFile := TransparencyIni()
     For each, OverlayItem in StrSplit(OverlayList, "|")
     {
         Edit := %OverlayItem%Edit
-        IniWrite, %Edit%, %TransparencyIni%, Transparency, %OverlayItem%
+        IniWrite, %Edit%, %TransparencyFile%, Transparency, %OverlayItem%
     }
     Gui, Influence:Destroy
     Gui, Reminder:Destroy
@@ -90,10 +90,10 @@ GetOverlayItems()
 ReadTransparency()
 {
     OverlayList := GetOverlayItems()
-    TransparencyIni := TransparencyIni()
+    TransparencyFile := TransparencyIni()
     For each, OverlayItem in StrSplit(OverlayList, "|")
     {
-        IniRead, %OverlayItem%Transparency, %TransparencyIni%, Transparency, %OverlayItem%, 255
+        IniRead, %OverlayItem%Transparency, %TransparencyFile%, Transparency, %OverlayItem%, 255
     }
     Return
 }
