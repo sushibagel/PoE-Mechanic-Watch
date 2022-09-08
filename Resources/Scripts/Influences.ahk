@@ -1,8 +1,7 @@
-Global Influences  
 Global SearingActive  
 Global EaterActive
-Global InfluenceTrack
 Global ReminderText
+Global Influence
 
 InfluenceTrack(NewLine)
 {
@@ -23,24 +22,28 @@ InfluenceTrack(NewLine)
             MapName := StrSplit(GetMap, "MapWorlds")
             MapName = % MapName[2]
             FileRead, MapList, Resources\Data\maplist.txt
-            If InStr(MapList, MapName) and ((MapName != LastMap) or (Seednumber != LastSeed))
+            VariablePath := VariableIni()
+            IniRead, LastMap, %VariablePath%, Map, Last Map
+            IniRead, LastSeed, %VariablePath%, Map, Last Seed
+            If InStr(MapList, MapName) and (MapName != "") and ((MapName != LastMap) or (SeedNumber != LastSeed))
             {
-                LastMap := MapName
-                LastSeed := SeedNumber
-                OldTrack = %InfluenceTrack%
-                InfluenceTrack ++
-                If (InfluenceTrack >= 29)
+                IniWrite, %MapName%, %VariablePath%, Map, Last Map
+                IniWrite, %SeedNumber%, %VariablePath%, Map, Last Seed
+                InfluenceCount := InfluenceCount()
+                OldTrack = %InfluenceCount%
+                InfluenceCount ++
+                If (InfluenceCount >= 29)
                 {
-                    InfluenceTrack = 1
+                    InfluenceCount = 1
                 }
-                ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+                ControlSetText, %OldTrack%, %InfluenceCount%, Overlay
                 MechanicsPath := MechanicsIni()
-                IniWrite, %InfluenceTrack%, %MechanicsPath%, InfluenceTrack, %InfluenceActive%
+                IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, %InfluenceActive%
                 InfluenceMapNotification()
                 SetTimer, CloseGui, -3000
-                If (InfluenceTrack = 14) or (InfluenceTrack = 28)
+                If (InfluenceCount = 14) or (InfluenceCount = 28)
                 {
-                    If (InfluenceTrack = 14)
+                    If (InfluenceCount = 14)
                     {
                         If (InfluenceActive = "Searing")
                         {
@@ -51,7 +54,7 @@ InfluenceTrack(NewLine)
                             InvitationType = Writhing
                         }
                     }
-                    If (InfluenceTrack = 28) 
+                    If (InfluenceCount = 28) 
                     {
                         If (InfluenceActive = "Searing")
                         {
@@ -62,7 +65,7 @@ InfluenceTrack(NewLine)
                             InvitationType = Screaming
                         }
                     }   
-                    ReminderText = This is your %InfluenceTrack% map. Don't forget to kill the boss for your %InvitationType% Invitation
+                    ReminderText = This is your %InfluenceCount% map. Don't forget to kill the boss for your %InvitationType% Invitation
                     NotificationPrep(Influence)
                     EldritchReminder()
                 }
@@ -82,7 +85,7 @@ ReminderButtonOK()
     WinActivate, Path of Exile
     Gui, Reminder:Destroy
     MechanicsPath := MechanicsIni()
-    If (InfluenceTrack = 28)
+    If (InfluenceCount = 28)
     {
         IniWrite, 0, %MechanicsPath%, InfluenceTrack, %InfluenceActive%
     }
@@ -102,40 +105,41 @@ SubtractOne()
 {
     InfluenceActive()
     InfluenceActive = 
-    InfluenceTrack = 
+    InfluenceCount = 
     MechanicsPath := MechanicsIni()
+    InfluenceCount := InfluenceCount()
     If (EaterActive = 1)
     {
-        IniRead, InfluenceTrack, %MechanicsPath%, InfluenceTrack, Eater
-        OldTrack := InfluenceTrack
-        InfluenceTrack := InfluenceTrack - 1
-        If(InfluenceTrack = -1)
+        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, Eater
+        OldTrack := InfluenceCount
+        InfluenceCount := InfluenceCount - 1
+        If(InfluenceCount = -1)
         {
-            InfluenceTrack = 27
+            InfluenceCount = 27
         }
-        IniWrite, %InfluenceTrack%, %MechanicsPath%, InfluenceTrack, Eater
+        IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Eater
     }
     If (SearingActive = 1)
     {
-        IniRead, InfluenceTrack, %MechanicsPath%, InfluenceTrack, Searing
-        OldTrack := InfluenceTrack
-        InfluenceTrack := InfluenceTrack - 1
-            If(InfluenceTrack = -1)
+        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, Searing
+        OldTrack := InfluenceCount
+        InfluenceCount := InfluenceCount - 1
+            If(InfluenceCount = -1)
         {
-            InfluenceTrack = 27
+            InfluenceCount = 27
         }
-        IniWrite, %InfluenceTrack%, %MechanicsPath%, InfluenceTrack, Searing
+        IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Searing
     }
     Sleep, 100
-    ControlSetText, %OldTrack%, %InfluenceTrack%, Overlay
+    ControlSetText, %OldTrack%, %InfluenceCount%, Overlay
     Return
 }
 
 InfluenceActive()
 {
     MechanicsPath := MechanicsIni()
-    Influences := Influences()
-    For each, Influence in StrSplit(Influences, "|")
+    InfluencesTypes := Influences()
+    For each, Influence in StrSplit(InfluencesTypes, "|")
     {
         IniRead, %Influence%, %MechanicsPath%, Influence, %Influence%
         If (%Influence% = 1)
@@ -160,6 +164,13 @@ InfluenceActive()
     Return
 }
 
+InfluenceCount()
+{
+    MechanicsPath := MechanicsIni()
+    IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
+    Return, %InfluenceCount%
+}
+
 Influences() ;List of Influences
 {
     Return, "Eater|Searing"
@@ -167,8 +178,9 @@ Influences() ;List of Influences
 
 InfluenceMapNotification() ;Map tracking notification
 {
-    NotificationPrep(Map)
+    NotificationPrep("Map")
     HotkeyCheck()
+    InfluenceHotkey := InfluenceHotkey()
     Winwait, Overlay
     WinGetPos,Width, Height, Length,, Overlay
     height := height - 50
@@ -176,15 +188,13 @@ InfluenceMapNotification() ;Map tracking notification
     Gui, Influence:Color, %Background%
     Gui, Influence:Font, c%Font% s10
     Gui, Influence:-Border +AlwaysOnTop
-    Gui, Influence:Add, Text,,You just entered a new map, press %HK%  to subtract 1 map
+    Gui, Influence:Add, Text,,You just entered a new map, press %InfluenceHotkey%  to subtract 1 map
     Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
     WinGetPos, Xi, Yi, Widthi, Heighti, Influence
     Gui, Influence:Hide
-    If (widthset = "")
-    {
-        widthset := Width  + (Length/2) - (Widthi/2)
-    }
+    widthset := Width  + (Length/2) - (Widthi/2)
     Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
+    MapTransparency := TransparencyCheck("Map")
     WinSet, Style, -0xC00000, Influence
     WinSet, Transparent, %MapTransparency%, Influence
     Return
