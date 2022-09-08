@@ -1,5 +1,3 @@
-Global Hk
-
 HotkeyUpdate()
 {
   Global
@@ -101,7 +99,6 @@ HotkeyCheck()
   }
   If !(Hotkey1 = "")
   {
-    Hk := Hotkey1
     Hotkey, IfWinActive, ahk_group PoeWindow
     Hotkey, ~%Hotkey1%, SubtractOne
   }
@@ -174,4 +171,11 @@ HotkeyCheck()
       }
     }
     Return
+  }
+
+  InfluenceHotkey()
+  {
+    HotkeyPath := HotkeyIni()
+    IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 1, Not Set
+    Return, % InfluenceHotkey
   }

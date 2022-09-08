@@ -190,6 +190,13 @@ GroupAdd, FirstRunGroup, Move
     Return  
 }
 
+VariableIni := VariableIni()
+If !FileExist(VariableIni) ;Check for "Variable" ini
+{
+    IniWrite, None, %VariableIni%, Map, Last Map
+    IniWrite, None, %VariableIni%, Map, Last Seed
+}
+
 ;;;;;;;;;;;;;;;; End Setup ;;;;;;;;;;;;;;;
 
 IndexTrack =

@@ -28,6 +28,7 @@ Global IncursionOn
 Global MetamorphOn
 Global RitualOn
 Global GenericOn
+Global MechanicsActive
 
 Mechanics() ;List of Mechanics
 {
@@ -55,8 +56,8 @@ SelectMechanics()
     Gui, Mechanic:Add, Text,,Select One
     Gui, Mechanic:Font, s1 c%Font%
     Gui, Mechanic:Font, Normal s10
-    Influences := Influences()
-    For each, Influence in StrSplit(Influences, "|")
+    InfluencesTypes := Influences()
+    For each, Influence in StrSplit(InfluencesTypes, "|")
     {
         IniRead, %Influence%State, %MechanicsPath%, Influence, %Influence%
         autochecked = %Influence%State
@@ -84,13 +85,13 @@ MechanicButtonOk()
         SelectMechanics()
     }
     MechanicSearch := Mechanics()
-    Influences := Influences()
+    InfluencesTypes := Influences()
     MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
         IniWrite, % %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
     }
-    For each, Influence in StrSplit(Influences, "|")
+    For each, Influence in StrSplit(InfluencesTypes, "|")
     {
         IniWrite, % %Influence%, %MechanicsPath%, Influence, %Influence%
     }
@@ -129,6 +130,7 @@ MechanicsActive()
         If (%Mechanic% = 1)
         {
             %Mechanic%Active := 1
+            MechanicsActive ++
         }
         If (%Mechanic% = 0)
         {

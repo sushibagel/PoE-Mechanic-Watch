@@ -9,7 +9,8 @@ IniPath(MyKey){
         case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
         case "Overlay":         MyValue := "Resources\Settings\OverlayPosition.ini"     ;Section Key - Overlay
         case "Theme":           MyValue := "Resources\Settings\Theme.ini"               ;Section Key - Dark, Light, Theme
-        case "Transparency":    MyValue := "Resources\Settings\Transparency.ini"        ;Section Key - Transparency    
+        case "Transparency":    MyValue := "Resources\Settings\Transparency.ini"        ;Section Key - Transparency
+        case "Variable":    MyValue := "Resources\Data\Variable.ini"        ;Section Key - Map       
     }
     Return MyValue
 }
@@ -75,6 +76,13 @@ ThemeIni()
 TransparencyIni()
 {
     MyKey := "Transparency"
+    IniFile := IniPath(MyKey)
+    Return, % IniFile
+}
+
+VariableIni()
+{
+    MyKey := "Variable"
     IniFile := IniPath(MyKey)
     Return, % IniFile
 }

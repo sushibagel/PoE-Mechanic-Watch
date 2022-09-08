@@ -1,73 +1,64 @@
-Reminder:
-
-
-IniRead, NotificationSound, Resources\Settings\notification.ini, Sounds, Notification
-IniRead, NotificationSoundActive, Resources\Settings\notification.ini, Active, Notification
-
-height9 := (A_ScreenHeight / 2) - 100
-width9 := (A_ScreenWidth / 2)-180
-Gui, 1:Destroy
-
-;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
-Gosub, MechanicsActive
-Active = 
-
-Loop, 1
-For each, Mechanic in StrSplit(MechanicSearch, "|")
+Reminder()
 {
-    mechanicactive = %Mechanic%Active
-    If (%mechanicactive% = 1)
+    height9 := (A_ScreenHeight / 2) - 100
+    width9 := (A_ScreenWidth / 2)-180
+    Gui, Reminder:Destroy
+    ;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
+    MechanicsActive()
+    Active = 
+    MechanicSearch := Mechanics()
+    For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        Active = %Active% %Mechanic%
-        MechanicsActive ++
+        mechanicactive = %Mechanic%Active
+        If (%mechanicactive% = 1)
+        {
+            Active = %Active% %Mechanic%
+            MechanicsActive ++
+        }
+    }
+    If (MechanicsActive >= 3)
+    {
+        TMech := MechanicsActive - 2
+        ReminderText1 := StrReplace(Active, A_Space,",",, TMech)
+        Active1 := StrReplace(ReminderText1, A_Space, "and",, 1)
+        ReminderText2 := StrReplace(Active1, ",", ","A_Space)
+        Active2 := StrReplace(ReminderText2, "and", A_Space "and"A_Space)
+        
+        ReminderText := Active2
+    }
+
+    If (MechanicsActive = 2)
+    {
+        ReminderText := StrReplace(Active, A_Space, A_Space "and" A_Space,, 1)
+    }
+
+    If (MechanicsActive = 1)
+    {
+        ReminderText := Active
+    }
+
+    If ReminderText contains Searing
+    {
+        StringReplace, ReminderText, ReminderText,`, Searing,
+    }
+    If ReminderText contains Eater
+    {
+        StringReplace, ReminderText, ReminderText,`, Eater,
+    }
+    MechanicReminder()
+    NotificationPrep(Notification)
+    If (NotificationSoundActive = 1)
+    {
+        SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+        SetTitleMatchMode, 2
+        WinGet, AhkExe, ProcessName, Reminder
+        SetTitleMatchMode, 1
+        SetWindowVol(AhkExe, NotificationVolume)
+        SoundPlay, %NotificationSound%
     }
 }
 
-if (MechanicsActive >= 3)
-{
-    TMech := MechanicsActive - 2
-    ReminderText1 := StrReplace(Active, A_Space,",",, TMech)
-    Active1 := StrReplace(ReminderText1, A_Space, "and",, 1)
-    ReminderText2 := StrReplace(Active1, ",", ","A_Space)
-    Active2 := StrReplace(ReminderText2, "and", A_Space "and"A_Space)
-    
-    ReminderText := Active2
-}
 
-if (MechanicsActive = 2)
-{
-    ReminderText := StrReplace(Active, A_Space, A_Space "and" A_Space,, 1)
-}
-
-if (MechanicsActive = 1)
-{
-    ReminderText := Active
-}
-
-If ReminderText contains Searing
-{
-    StringReplace, ReminderText, ReminderText,`, Searing,
-}
-If ReminderText contains Eater
-{
-    StringReplace, ReminderText, ReminderText,`, Eater,
-}
-
-Sleep, 100
-Gosub, MechanicReminder
-
-IniRead, NotificationSoundActive, Resources\Settings\notification.ini, Active, Notification
-If (NotificationSoundActive = 1)
-{
-    IniRead, NotificationVolume, Resources\Settings\notification.ini, Volume, Notification
-    IniRead, NotificationSound, Resources\Settings\notification.ini, Sounds, Notification
-    SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
-    SetTitleMatchMode, 2
-    WinGet, AhkExe, ProcessName, Reminder
-    SetTitleMatchMode, 1
-    SetWindowVol(AhkExe, NotificationVolume)
-    SoundPlay, %NotificationSound%
-}
 Loop
 {
     IfWinNotActive, ahk_Group PoeWindow
@@ -75,7 +66,7 @@ Loop
         Sleep, 400
         IfWinNotActive, ahk_Group PoeWindow
         {
-            Gui, 1:Destroy
+            Gui, Reminder:Destroy
             Gui, 2:Destroy
             Loop
             {
@@ -107,13 +98,13 @@ Exit
 GuiClose:
 ButtonYes!:
 WinActivate, Path of Exile
-Gui, 1:Submit
+Gui, Reminder:Submit
 lt := new CLogTailer(LogPath, Func("LogTail"))
 Return
 
 ButtonNo:
 BreakLoop = 1
-Gui, 1:Submit
+Gui, Reminder:Submit
 Loop, 1
 For each, Mechanic in StrSplit(MechanicSearch, "|")
 {

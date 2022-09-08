@@ -1,5 +1,3 @@
-Global Notification
-Global Influence
 Global NotificationActive
 Global InfluenceActive
 Global SoundActive

@@ -1,7 +1,6 @@
 Global BlightAuto
 Global ExpeditionAuto 
 Global IncursionAuto
-Global AutoMechanicSearch
 
 SelectAuto()
 {

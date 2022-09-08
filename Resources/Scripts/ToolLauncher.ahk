@@ -91,24 +91,24 @@ Return
 
 ToolLauncherButtonClose()
 {
-    LaunchIni := LaunchOptionsIni()
+    LaunchPath := LaunchOptionsIni()
     Gui, Submit, NoHide
     Gui, ToolLauncher:Destroy
     NewKey = 0
     Loop, %ArrCount%
     {
         keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %keyname%
-        IniRead, keyLaunchName, %LaunchIni%, Tool Name, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, User Tools, %keyname%
+        IniRead, keyLaunchName, %LaunchPath%, Tool Name, %keyname%
         if !(KeyLaunchKeys = "ERROR")
         {
-            IniDelete, %LaunchIni%, User Tools, %keyname%
-            IniDelete, %LaunchIni%, Tool Name, %keyname%
+            IniDelete, %LaunchPath%, User Tools, %keyname%
+            IniDelete, %LaunchPath%, Tool Name, %keyname%
             If (%A_Index% = 1)
             {
                 NewKey ++
-                IniWrite, % keyLaunchKeys, %LaunchIni%, User Tools, %NewKey%
-                IniWrite, % keyLaunchName, %LaunchIni%, Tool Name, %NewKey%
+                IniWrite, % keyLaunchKeys, %LaunchPath%, User Tools, %NewKey%
+                IniWrite, % keyLaunchName, %LaunchPath%, Tool Name, %NewKey%
             }
         }
     }
@@ -117,7 +117,7 @@ ToolLauncherButtonClose()
 
 ToolLauncherButtonSubmit()
 {
-    LaunchIni := LaunchOptionsIni()
+    LaunchPath := LaunchOptionsIni()
     Gui, ToolLauncher:Submit, NoHide
     EnvGet,SysDrive,SystemDrive
     If ToolAddress contains %SysDrive%,www.,https:// ;Error check the input box
@@ -125,8 +125,8 @@ ToolLauncherButtonSubmit()
         NewTool := StrSplit(ArrCount, ".", "0")
         NewTool := NewTool[1]
         NewTool ++
-        IniWrite, %ToolAddress%, %LaunchIni%, User Tools, %NewTool%
-        IniWrite, %ToolName%, %LaunchIni%, Tool Name, %NewTool%
+        IniWrite, %ToolAddress%, %LaunchPath%, User Tools, %NewTool%
+        IniWrite, %ToolName%, %LaunchPath%, Tool Name, %NewTool%
         Gui, ToolLauncher:Destroy
         ToolAddress =
         Gosub, ToolLaunchGui
@@ -166,14 +166,14 @@ ToolLauncherButtonSelectFile()
 
 ToolLauncherButtonLaunch()
 {
-    LaunchIni := LaunchOptionsIni()
+    LaunchPath := LaunchOptionsIni()
     Gui, ToolLauncher:Submit, NoHide
     Loop, %ArrCount%
     {
         launch := % A_Index "Launch"
         If (A_GuiControl = launch)
         {
-            IniRead, LaunchAddress, %LaunchIni%, User Tools, %A_Index%
+            IniRead, LaunchAddress, %LaunchPath%, User Tools, %A_Index%
             Run, %LaunchAddress%
             Gui, ToolLauncher:Destroy
         }

@@ -52,10 +52,6 @@ LogMonitor() ;Monitor the PoE client.txt
 
 HideoutEntered()
 {
-    If (sleepmechanic != "")
-    {
-        %sleepmechanic% = 0
-    }
     MechanicsActive()
     If (MechanicsActive >= 1)
     {
@@ -76,11 +72,10 @@ SearchText(NewLine)
             Loop, Read, Resources/Data/%Mechanic%dialogs.txt
             {
                 activecheck = %Mechanic%Active
-                sleepmechanic = %Mechanic%Sleep
                 automechanic = %Mechanic%Auto
                 If NewLine contains %A_LoopReadLine%
                 {
-                    If (%activecheck% != 1) and (%sleepmechanic% != 1) and (%automechanic% = 1)
+                    If (%activecheck% != 1) and (%automechanic% = 1)
                     {
                         %Mechanic%()
                         Break
@@ -112,11 +107,9 @@ SearchText(NewLine)
             If NewLine contains %A_LoopReadLine%
             {
                 activecheck = %Mechanic%Active
-                sleepmechanic = %Mechanic%Sleep
                 automechanic = %Mechanic%Auto
-                If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
+                If (%activecheck% = 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
                 {
-                    %sleepmechanic% = 1
                     %Mechanic%()
                     Break 
                 }  

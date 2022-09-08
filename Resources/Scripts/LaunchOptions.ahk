@@ -1,11 +1,10 @@
-Global LaunchIni
 Global ArrCount
 
 LaunchSupport() ;read ini file and launch each item
 {
-    LaunchIni := LaunchOptionsIni()
+    LaunchPath := LaunchOptionsIni()
     ArrCount = 0
-    FileRead, LaunchKeys, %LaunchIni%
+    FileRead, LaunchKeys, %LaunchPath%
     Loop, Parse, LaunchKeys, `n`r
     {
         if(Not Instr(A_LoopField, "="))
@@ -18,7 +17,7 @@ LaunchSupport() ;read ini file and launch each item
     Loop, %ArrCount%
     {
         keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %keyname%
         if !(KeyLaunchKeys = "ERROR")
         {
             run, % keyLaunchKeys
@@ -91,19 +90,19 @@ LauncherButtonAccept()
 {
     Gui, Submit, NoHide
     Gui, Launcher:Destroy
-    LaunchIni := LaunchOptionsIni()
+    LaunchPath := LaunchOptionsIni()
     NewKey = 0
     Loop, %ArrCount%
     {
         keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %keyname%
         if !(KeyLaunchKeys = "ERROR")
         {
-            IniDelete, %LaunchIni%, Launch Options, %keyname%
+            IniDelete, %LaunchPath%, Launch Options, %keyname%
             If (%A_Index% = 1)
             {
                 NewKey ++
-                IniWrite, % keyLaunchKeys, %LaunchIni%, Launch Options, %NewKey%
+                IniWrite, % keyLaunchKeys, %LaunchPath%, Launch Options, %NewKey%
             }
         }
     }
@@ -115,7 +114,7 @@ LauncherButtonSelectFile()
     Gui, Submit, NoHide
     Gui, Launcher:Destroy
     FileSelectFile, LaunchOptions, 1, %A_ScriptDir%, Please select any new file you would like to add to your launch options. 
-    FileRead, LaunchKeys, %LaunchIni%
+    FileRead, LaunchKeys, %LaunchPath%
     ArrCount = 0
     KeyCount = 0
     Loop, Parse, LaunchKeys, `n`r
@@ -130,14 +129,14 @@ LauncherButtonSelectFile()
     Loop, %ArrCount%
     {
         keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %keyname%
         if !(KeyLaunchKeys = "ERROR")
         {
             KeyCount++
         }
     }
     KeyCount++
-    IniWrite, %LaunchOptions%, %LaunchIni%, Launch Options, %KeyCount%
+    IniWrite, %LaunchOptions%, %LaunchPath%, Launch Options, %KeyCount%
     Gosub, LaunchGui
     Return
 }
