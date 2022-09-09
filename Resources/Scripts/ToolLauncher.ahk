@@ -133,7 +133,7 @@ ToolLauncherButtonSubmit()
     }
     Else
     {
-    yh := (A_ScreenHeight/2) -150
+        yh := (A_ScreenHeight/2) -150
         xh := (A_ScreenWidth/2) - 225
         Gui, ToolLauncher:Destroy
         Gui, ToolLauncherWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED

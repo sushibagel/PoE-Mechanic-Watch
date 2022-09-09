@@ -47,7 +47,6 @@ Global MyHideout
 Global Mechanics
 
 Global each
-Global Mechanic
 Global xh
 Global yh
 Global h
@@ -59,7 +58,6 @@ Global Hotkey1
 Global Height
 Global Length
 Global Width
-Global #ctrls
 Global keyLaunchKeys
 Global keyname
 Global data0
@@ -79,8 +77,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, Overlay
-GroupAdd, PoeWindow, ahk_exe Awakened PoE Trade.exe
-GroupAdd, PoeWindow, ahk_exe code.exe
+GroupAdd, PoeWindow, ahk_exe code.exe           
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 ThemeIni := ThemeIni()
@@ -391,16 +388,6 @@ EldritchReminder()
     Return
 }
 
-MechanicReminder()
-{
-    Return
-}
-
-Reminder()
-{
-    Return
-}
-
 #Include, Resources\Scripts\AutoMechanic.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk
@@ -412,6 +399,8 @@ Reminder()
 #Include, Resources\Scripts\Move.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
+#Include, Resources\Scripts\Reminder.ahk
+#Include, Resources\Scripts\ReminderGui.ahk
 #Include, Resources\Scripts\Tail.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
 #Include, Resources\Scripts\Transparency.ahk

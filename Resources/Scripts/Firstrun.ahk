@@ -49,8 +49,8 @@ FirstRun()
     WinSet, Style, -0xC00000, First
     WinGetPos, X, Y, w, h, First
     Gui, First:Hide
-    Global xh := xh - (w/2)
-    global yh2 := yh + h
+    xh := xh - (w/2)
+    yh1 := yh + h
 
     Gui, First2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, First2:Color, %Secondary%
@@ -80,7 +80,7 @@ FirstRun()
     Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
     Gui, First2:Add, Button, x490, Close
     Gui, First2: -Caption +HwndFirst2
-    Gui, First2:Show, x%xh% y%yh2% w550, First2
+    Gui, First2:Show, x%xh% y%yh1% w550, First2
     WinSet, Style, -0xC00000, First2
 
     Gui, First: -Caption +OwnerFirst2 ;;;;;; Intentionally here so that First2 is shown so it can own First
@@ -106,6 +106,8 @@ ClientOpen()
             Gui, FirstReminder:Add, Text, w500 +Center, You must open Path of Exile to continue. This is required so the Client.txt path can be obtained. (This is only necessary for the first run)
             Gui, FirstReminder:Add, Button, x490, OK
             Gui, FirstReminder: +AlwaysOnTop -Caption
+            yh := (A_ScreenHeight/2) -250
+            xh := A_ScreenWidth/2
             Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
             Iniwrite, 0, %FirstRunPath%, Completion, Client
             WinWaitClose, FirstReminder

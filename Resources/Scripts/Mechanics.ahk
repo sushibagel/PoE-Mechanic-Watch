@@ -29,6 +29,7 @@ Global MetamorphOn
 Global RitualOn
 Global GenericOn
 Global MechanicsActive
+Global Mechanic
 
 Mechanics() ;List of Mechanics
 {

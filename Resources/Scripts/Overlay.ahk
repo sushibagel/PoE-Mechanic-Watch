@@ -31,7 +31,7 @@ Overlay()
         IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
         Gui, Overlay:Add, Picture, g%InfluenceActive% yn y5 w45 h40 Section, Resources/Images/%InfluenceActive%.png
         Gui, Overlay:Font, cWhite s12
-        Gui, Overlay:Add, Text, yp+41 x+-27, %InfluenceCount%
+        Gui, Overlay:Add, Text, yp+41 x+-29, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
     Loop

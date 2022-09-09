@@ -1,4 +1,5 @@
 Global CLogTailer
+Global NewLine
 
 ; This function gets called each time there is a new line
 LogTail(text)

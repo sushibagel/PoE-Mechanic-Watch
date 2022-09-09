@@ -1,23 +1,25 @@
 MechanicReminder()
 {
-    TransparencyPath := TransparencyIni()
-    IniRead, NotificationTransparency, %TransparencyPath%, Transparency, Notification
+    NotificationHeight := (A_ScreenHeight / 2) - 100
+    NotificationWidth := (A_ScreenWidth / 2)-180
+    TransparencyFile := TransparencyIni()
+    IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Notification
     Gui, Reminder:Font, c%Font% s12
     Gui, Reminder:Add, Text,,Did you forget to complete your %ReminderText%?
     Gui, Reminder:Font, s10
     Gui, Reminder:Color, %Background%
-    Gui, Reminder:+AlwaysOnTop -Border +Owner2
-    Gui, Reminder:Show, NoActivate x%width9% y%height9%, Reminder
+    Gui, Reminder:+AlwaysOnTop -Border +OwnerOverlay
+    Gui, Reminder:Show, NoActivate x%NotificationWidth% y%NotificationHeight%, Reminder
     WinGetPos,,, Width, Height, Reminder
     Gui, Reminder:Hide,
     WinSet, Style, -0xC00000, Reminder
     xpos := (width/4)
     xpos2 := xpos+80
     gheight := height + 40
-    nwidth := width9 - xpos
-    Gui, Reminder:Add, Button, x%xpos% y40, Yes!
+    nwidth := NotificationWidth - xpos
+    Gui, Reminder:Add, Button, x%xpos% y40, Yes
     Gui, Reminder:Add, Button,x%xpos2% y40, No
-    Gui, Reminder:Show, x%nwidth% y%height9% h%gheight% NoActivate, Reminder
+    Gui, Reminder:Show, x%nwidth% y%NotificationHeight% h%gheight% NoActivate, Reminder
     WinSet, Transparent, %NotificationTransparency%, Reminder
     Return
 }
