@@ -76,6 +76,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExile.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, Reminder
+GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, ahk_exe code.exe           
 
@@ -383,12 +384,8 @@ Exit()
 }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-EldritchReminder()
-{
-    Return
-}
-
 #Include, Resources\Scripts\AutoMechanic.ahk
+#Include, Resources\Scripts\EldritchReminder.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk
 #Include, Resources\Scripts\Ini.ahk

@@ -1,16 +1,19 @@
+Global Width2
+Global Height2
+Global InfluenceCount
+Global InfluenceTransparency
+Global InfluenceReminderActive
+
 EldritchReminder()
 {
-	IniRead, InfluenceTransparency, %UpOneLevel%Settings\Transparency.ini, Transparency, Influence
-	If (InfluenceTransparency = "ERROR")
-	{
-		IniRead, InfluenceTransparency, Resources\Settings\Transparency.ini, Transparency, Influence
-	}
+	SetTimer, EldritchReminder, Off
+	TransparencyFile := TransparencyIni()
+    IniRead, InfluenceTransparency, %TransparencyFile%, Transparency, Influence
 	If (InfluenceTransparency = "ERROR")
 	{
 		InfluenceTransparency = 255
 	}
-
-	If (InfluenceTrack = 14) or (InfluenceTrack = 28)
+	If (InfluenceCount = 14) or (InfluenceCount = 28)
 	{
 		Gui, InfluenceReminder:Font, c%Font% s12
 		Gui, InfluenceReminder:Add, Text,,%ReminderText%
@@ -23,12 +26,13 @@ EldritchReminder()
 		}
 		Gui, InfluenceReminder:Font, s10
 		Gui, InfluenceReminder:Color, %Background%
-		Gui, InfluenceReminder:-Border +AlwaysOnTop
+		Gui, InfluenceReminder:+AlwaysOnTop -Border
 		Gui, InfluenceReminder:Add, Button, x150 y40, OK
 		Gui, InfluenceReminder:Add, Button, x300 y40, Revert Count
-		Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, Reminder
+		Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, InfluenceReminder
 		WinSet, Style, -0xC00000, InfluenceReminder
 		WinSet, Transparent, %InfluenceTransparency%, InfluenceReminder
+		InfluenceReminderActive := 1
 		Return
 	}
 	Return

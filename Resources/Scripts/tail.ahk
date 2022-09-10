@@ -8,7 +8,7 @@ LogTail(text)
 		FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
 		If NewLine contains %MyHideout%
 		{
-			BreakLoop = 1
+			InfluenceReminderActive := 0
 			HideoutEntered()
 			Exit
 		}
@@ -19,7 +19,6 @@ LogTail(text)
 		}
 		If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
 		{
-			EndLoop = 1
 			InfluenceTrack(NewLine)
 			Exit
 		}

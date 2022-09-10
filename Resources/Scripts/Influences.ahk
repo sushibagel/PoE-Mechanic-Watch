@@ -68,11 +68,26 @@ InfluenceTrack(NewLine)
                         }
                     }   
                     ReminderText = This is your %InfluenceCount% map. Don't forget to kill the boss for your %InvitationType% Invitation
-                    NotificationPrep(Influence)
                     EldritchReminder()
+                    InfluenceNotificationSound()
                 }
             }
         }
+    }
+}
+
+InfluenceNotificationSound()
+{
+    SetTimer, InfluenceNotificationSound, Off
+    NotificationPrep("Influence")
+    If (SoundActive = 1)
+    {
+        SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+        SetTitleMatchMode, 2
+        WinGet, AhkExe, ProcessName, Reminder
+        SetTitleMatchMode, 1
+        SetWindowVol(AhkExe, NotificationVolume)
+        SoundPlay, %NotificationSound%
     }
 }
 
@@ -82,8 +97,9 @@ CloseGui()
     Return
 }
 
-ReminderButtonOK()
+InfluenceReminderButtonOK()
 {
+    InfluenceReminderActive := 0
     WinActivate, Path of Exile
     Gui, InfluenceReminder:Destroy
     MechanicsPath := MechanicsIni()
@@ -95,8 +111,9 @@ ReminderButtonOK()
 }
 
 
-ReminderButtonRevertCount:
+InfluenceReminderButtonRevertCount:
 {
+    InfluenceReminderActive := 0
     WinActivate, Path of Exile
     Gui, InfluenceReminder:Destroy
     SubtractOne()

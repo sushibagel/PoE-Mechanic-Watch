@@ -1,3 +1,5 @@
+Global ReminderActive
+
 Reminder()
 {
     Gui, Reminder:Destroy

@@ -179,5 +179,23 @@ HotkeyCheck()
   {
     HotkeyPath := HotkeyIni()
     IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 1, Not Set
+
+    If InfluenceHotkey contains +
+    {
+        StringReplace, InfluenceHotkey, InfluenceHotkey, + , Shift +%A_Space%,
+    }
+    If InfluenceHotkey contains ^
+    {
+        StringReplace, InfluenceHotkey, InfluenceHotkey, ^ , Control +%A_Space%,
+    }
+    If InfluenceHotkey contains !
+    {
+        StringReplace, InfluenceHotkey, InfluenceHotkey, ! , Alt +%A_Space%,
+    }
+    If InfluenceHotkey contains #
+    {
+        StringReplace, InfluenceHotkey, InfluenceHotkey, # , Win +%A_Space%,
+    }
+
     Return, % InfluenceHotkey
   }

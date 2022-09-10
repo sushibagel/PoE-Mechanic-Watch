@@ -1,5 +1,6 @@
 Overlay()
 {
+    SetTimer, Overlay, Off
     OverlayPath := OverlayIni()
     IniRead, Height, %OverlayPath%, Overlay Position, Height
     IniRead, Width, %OverlayPath%, Overlay Position, Width
@@ -75,22 +76,25 @@ WindowMonitor()
             If !WinActive("ahk_group PoEWindow")
             {
                 Gui, Overlay:Destroy
+                Gui, InfluenceReminder:Destroy
                 Loop
                 If WinActive("ahk_group PoEWindow")
                 {
                     If (ReminderActive = 1)
                     {
-                        msgbox, test
                         ReminderActive := 0
                         SetTimer, Reminder, 500
                     }
-                    Overlay()
                     If (InfluenceReminderActive = 1)
                     {
-                        ReminderGui =
-                        EldritchReminder()
+                        SetTimer, EldritchReminder, 500
+                        SetTimer, InfluenceNotificationSound, 500
+                        InfluenceReminderActive := 0
                     }
+                    SetTimer, Overlay, 100
+                    Exit
                 }
+                Break
             } 
             Else
             {
