@@ -54,13 +54,13 @@ Reminder()
         SetWindowVol(AhkExe, NotificationVolume)
         SoundPlay, %NotificationSound%
     }
+    WindowMonitor()
 }
 
 ReminderButtonYes()
 {
     WinActivate, Path of Exile
     Gui, Reminder:Submit
-    lt := new CLogTailer(LogPath, Func("LogTail"))
     Return
 }
 
@@ -68,11 +68,10 @@ ReminderButtonNo()
 {
     BreakLoop = 1
     Gui, Reminder:Submit
-    Loop, 1
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
         IniWrite, 0, Resources\Data\MechanicsActive.ini, Mechanic Active, %Mechanic%
     }
-    Gui, 2:Destroy
+    Gui, Reminder:Destroy
     Return
 }

@@ -1,7 +1,7 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
-#Warn
+;#Warn
 
 CoordMode, Screen
 DetectHiddenWindows, On

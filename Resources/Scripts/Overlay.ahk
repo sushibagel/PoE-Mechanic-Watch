@@ -75,15 +75,17 @@ WindowMonitor()
             If !WinActive("ahk_group PoEWindow")
             {
                 Gui, Overlay:Destroy
-                If WinActive("Reminder")
-                {
-                    ReminderGui = Active
-                }
                 Loop
                 If WinActive("ahk_group PoEWindow")
                 {
+                    If (ReminderActive = 1)
+                    {
+                        msgbox, test
+                        ReminderActive := 0
+                        SetTimer, Reminder, 500
+                    }
                     Overlay()
-                    If (ReminderGui = "Active")
+                    If (InfluenceReminderActive = 1)
                     {
                         ReminderGui =
                         EldritchReminder()
@@ -122,6 +124,7 @@ MechanicToggle(ToggleMechanic)
     {
         IniWrite, 0, %MechanicsPath%, Mechanic Active, %ToggleMechanic%
         Gui, Overlay:Destroy
+        ReminderActive := 0
         Overlay()
         Return
     }

@@ -1,3 +1,5 @@
+Global ReminderActive
+
 MechanicReminder()
 {
     NotificationHeight := (A_ScreenHeight / 2) - 100
@@ -21,5 +23,6 @@ MechanicReminder()
     Gui, Reminder:Add, Button,x%xpos2% y40, No
     Gui, Reminder:Show, x%nwidth% y%NotificationHeight% h%gheight% NoActivate, Reminder
     WinSet, Transparent, %NotificationTransparency%, Reminder
+    ReminderActive := 1
     Return
 }
