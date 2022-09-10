@@ -12,8 +12,8 @@ EldritchReminder()
 
 	If (InfluenceTrack = 14) or (InfluenceTrack = 28)
 	{
-		Gui, Reminder:Font, c%Font% s12
-		Gui, Reminder:Add, Text,,%ReminderText%
+		Gui, InfluenceReminder:Font, c%Font% s12
+		Gui, InfluenceReminder:Add, Text,,%ReminderText%
 		height1 := (A_ScreenHeight / 2) - 100
 		width1 := (A_ScreenWidth / 2)-180
 		If (height2 != "")
@@ -21,14 +21,14 @@ EldritchReminder()
 			height1 := height2
 			width1 := width2
 		}
-		Gui, Reminder:Font, s10
-		Gui, Reminder:Color, %Background%
-		Gui, Reminder:-Border +AlwaysOnTop
-		Gui, Reminder:Add, Button, x150 y40, OK
-		Gui, Reminder:Add, Button, x300 y40, Revert Count
-		Gui, Reminder:Show, NoActivate x%width1% y%height1%, Reminder
-		WinSet, Style, -0xC00000, Reminder
-		WinSet, Transparent, %InfluenceTransparency%, Reminder
+		Gui, InfluenceReminder:Font, s10
+		Gui, InfluenceReminder:Color, %Background%
+		Gui, InfluenceReminder:-Border +AlwaysOnTop
+		Gui, InfluenceReminder:Add, Button, x150 y40, OK
+		Gui, InfluenceReminder:Add, Button, x300 y40, Revert Count
+		Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, Reminder
+		WinSet, Style, -0xC00000, InfluenceReminder
+		WinSet, Transparent, %InfluenceTransparency%, InfluenceReminder
 		Return
 	}
 	Return

@@ -2,10 +2,12 @@ Global SearingActive
 Global EaterActive
 Global ReminderText
 Global Influence
+Global InfluenceReminderActive
 
 InfluenceTrack(NewLine)
 {
     MapTrack := NewLine
+    ReminderAcitve := 0
     InfluenceActive()
     If (InfluenceActive != "None")
     {
@@ -83,7 +85,7 @@ CloseGui()
 ReminderButtonOK()
 {
     WinActivate, Path of Exile
-    Gui, Reminder:Destroy
+    Gui, InfluenceReminder:Destroy
     MechanicsPath := MechanicsIni()
     If (InfluenceCount = 28)
     {
@@ -96,7 +98,7 @@ ReminderButtonOK()
 ReminderButtonRevertCount:
 {
     WinActivate, Path of Exile
-    Gui, Reminder:Destroy
+    Gui, InfluenceReminder:Destroy
     SubtractOne()
     Return
 }
