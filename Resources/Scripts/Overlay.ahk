@@ -76,6 +76,7 @@ WindowMonitor()
             If !WinActive("ahk_group PoEWindow")
             {
                 Gui, Overlay:Destroy
+                Gui, Reminder:Destroy
                 Gui, InfluenceReminder:Destroy
                 Loop
                 If WinActive("ahk_group PoEWindow")

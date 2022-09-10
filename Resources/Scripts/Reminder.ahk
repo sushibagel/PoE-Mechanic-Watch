@@ -68,12 +68,16 @@ ReminderButtonYes()
 
 ReminderButtonNo()
 {
-    BreakLoop = 1
     Gui, Reminder:Submit
+    ReminderActive := 0
+    MechanicIniPath := MechanicsIni()
+    MechanicSearch := Mechanics()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        IniWrite, 0, Resources\Data\MechanicsActive.ini, Mechanic Active, %Mechanic%
+        IniWrite, 0, %MechanicIniPath%, Mechanic Active, %Mechanic%
     }
     Gui, Reminder:Destroy
+    Gui, Overlay:Destroy
+    Overlay()
     Return
 }

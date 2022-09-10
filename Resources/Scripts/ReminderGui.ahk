@@ -10,7 +10,7 @@ MechanicReminder()
     Gui, Reminder:Add, Text,,Did you forget to complete your %ReminderText%?
     Gui, Reminder:Font, s10
     Gui, Reminder:Color, %Background%
-    Gui, Reminder:+AlwaysOnTop -Border +OwnerOverlay
+    Gui, Reminder:+AlwaysOnTop -Border
     Gui, Reminder:Show, NoActivate x%NotificationWidth% y%NotificationHeight%, Reminder
     WinGetPos,,, Width, Height, Reminder
     Gui, Reminder:Hide,
