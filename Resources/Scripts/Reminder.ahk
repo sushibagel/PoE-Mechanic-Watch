@@ -78,6 +78,6 @@ ReminderButtonNo()
     }
     Gui, Reminder:Destroy
     Gui, Overlay:Destroy
-    Overlay()
+    SetTimer, Overlay, 100
     Return
 }

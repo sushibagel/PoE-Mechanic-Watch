@@ -37,8 +37,7 @@ Overlay()
     Gui, Overlay:Color, 1e1e1e
     Loop
     {
-        WinGet, PoeID, ID, ahk_exe code.exe
-        ;WinGet, PoeID, ID, Path of Exile
+        WinGet, PoeID, ID, Path of Exile
         If (PoeID = "")
         {
             IfWinActive, Transparency
@@ -47,8 +46,7 @@ Overlay()
             }
             Else
             {
-                WinWait, ahk_exe code.exe
-                ;WinWait, Path of Exile
+                WinWait, Path of Exile
             }
         }
         If (PoeID != "")
