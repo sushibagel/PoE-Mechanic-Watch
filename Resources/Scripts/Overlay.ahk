@@ -1,6 +1,6 @@
 Overlay()
 {
-    SetTimer, Overlay, Off
+    SetTimer, Overlay, Delete
     OverlayPath := OverlayIni()
     IniRead, Height, %OverlayPath%, Overlay Position, Height
     IniRead, Width, %OverlayPath%, Overlay Position, Width
@@ -54,12 +54,14 @@ Overlay()
             Break
         }
     }
-    IniRead, OverlayTransparency, Resources\Settings\Transparency.ini, Transparency, Overlay, 255
+    TransparencyPath := TransparencyIni()
+    IniRead, OverlayTransparency, %TransparencyPath%, Transparency, Overlay, 255
     Gui, Overlay:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Overlay:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
     Gui, Overlay:Show, NoActivate x%width% y%height%, Overlay
     WinSet, Style, -0xC00000, Overlay
     WinSet, TransColor, 1e1e1e %OverlayTransparency%, Overlay
+    lt := new CLogTailer(LogPath, Func("LogTail"))
     WindowMonitor()
     Return
 }
@@ -90,6 +92,7 @@ WindowMonitor()
                         SetTimer, InfluenceNotificationSound, 500
                         InfluenceReminderActive := 0
                     }
+                    SetTimer, LogMonitor, 100
                     SetTimer, Overlay, 100
                     Exit
                 }
@@ -180,9 +183,29 @@ Generic()
 }
 Eater()
 {
+    MechanicsFilePath := MechanicsIni()
+    IniRead, Eater, %MechanicsFilePath%, Influence Track, Eater
+    OldTrack := Eater
+    Eater ++
+    If(Eater = 29)
+    {
+        Eater = 0
+    }
+    IniWrite, %Eater%, %MechanicsFilePath%, Influence Track, Eater
+    ControlSetText, %OldTrack%, %Eater%, Overlay
     Return
 }
 Searing()
 {
+    MechanicsFilePath := MechanicsIni()
+    IniRead, Searing, %MechanicsFilePath%, Influence Track, Searing
+    OldTrack := Searing
+    Searing ++
+    If(Searing = 29)
+    {
+        Searing = 0
+    }
+    IniWrite, %Searing%, %MechanicsFilePath%, Influence Track, Searing
+    ControlSetText, %OldTrack%, %Searing%, Overlay
     Return
 }

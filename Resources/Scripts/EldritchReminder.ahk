@@ -6,7 +6,7 @@ Global InfluenceReminderActive
 
 EldritchReminder()
 {
-	SetTimer, EldritchReminder, Off
+	SetTimer, EldritchReminder, Delete
 	TransparencyFile := TransparencyIni()
     IniRead, InfluenceTransparency, %TransparencyFile%, Transparency, Influence
 	If (InfluenceTransparency = "ERROR")

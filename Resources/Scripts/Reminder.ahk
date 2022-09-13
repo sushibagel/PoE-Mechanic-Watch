@@ -3,6 +3,7 @@ Global ReminderActive
 Reminder()
 {
     Gui, Reminder:Destroy
+    SetTimer, Reminder, Delete
     ;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
     MechanicsActive()
     Active = 
@@ -63,6 +64,7 @@ ReminderButtonYes()
 {
     WinActivate, Path of Exile
     Gui, Reminder:Submit
+    SetTimer, LogMonitor, 100
     Return
 }
 
@@ -78,6 +80,6 @@ ReminderButtonNo()
     }
     Gui, Reminder:Destroy
     Gui, Overlay:Destroy
-    SetTimer, Overlay, 100
+    SetTimer, Overlay, 500
     Return
 }

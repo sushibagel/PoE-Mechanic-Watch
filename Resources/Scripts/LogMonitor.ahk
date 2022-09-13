@@ -2,9 +2,12 @@ Global IncursionGo
 Global MyDialogs
 Global MyDialogsDisable
 Global FullSearch
+Global IncursionCode
+Global IncursionSleep
 
 LogMonitor() ;Monitor the PoE client.txt
 {
+    SetTimer, LogMonitor, Delete
     ReadFile = Resources\Data\Incursiondialogsdisable.txt
     IncursionGo := StrReplace(ReadFile, "`r`n" , ",")
 
@@ -47,7 +50,7 @@ LogMonitor() ;Monitor the PoE client.txt
             }
         }
     }
-    lt := new CLogTailer(LogPath, Func("LogTail"))
+    ;lt := new CLogTailer(LogPath, Func("LogTail"))
 }
 
 HideoutEntered()

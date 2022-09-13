@@ -78,7 +78,7 @@ InfluenceTrack(NewLine)
 
 InfluenceNotificationSound()
 {
-    SetTimer, InfluenceNotificationSound, Off
+    SetTimer, InfluenceNotificationSound, Delete
     NotificationPrep("Influence")
     If (SoundActive = 1)
     {

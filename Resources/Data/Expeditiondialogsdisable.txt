@@ -5,6 +5,7 @@ Add some spice
 Gwennen: For the Kalguur
 Gwennen: Gambling with our lives!
 Gwennen: Ready!
+Gwennen: There could be anything in that treasure
 Dannig: Are you sure about that one? Seems risky.
 Dannig: Ha
 Dannig: That's it then
@@ -30,3 +31,4 @@ go after the treasure
 Rog: Seems risky
 Rog: You sure about that placement?
 Rog: Monsters lie in wait there
+Rog: I wonder what you'll unearth
