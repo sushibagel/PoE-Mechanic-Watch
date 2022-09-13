@@ -75,9 +75,9 @@ WindowMonitor()
             Sleep, 200
             If !WinActive("ahk_group PoEWindow")
             {
-                Gui, Overlay:Destroy
                 Gui, Reminder:Destroy
                 Gui, InfluenceReminder:Destroy
+                Gui, Overlay:Destroy
                 Loop
                 If WinActive("ahk_group PoEWindow")
                 {
@@ -120,7 +120,6 @@ MechanicToggle(ToggleMechanic)
     MechanicsPath := MechanicsIni()
     If (%ActiveCheck% = 0)
     {
-        Gui, Overlay:Destroy
         IniWrite, 1, %MechanicsPath%, Mechanic Active, %ToggleMechanic%
         Gui, Overlay:Destroy
         Overlay()

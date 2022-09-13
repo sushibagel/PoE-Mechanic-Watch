@@ -62,7 +62,6 @@ Reminder()
 
 ReminderButtonYes()
 {
-    WinActivate, Path of Exile
     Gui, Reminder:Submit
     SetTimer, LogMonitor, 100
     Return
