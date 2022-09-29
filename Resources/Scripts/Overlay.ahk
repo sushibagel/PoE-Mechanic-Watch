@@ -17,11 +17,11 @@ Overlay()
         {
             if (%mechanicactive% = 1)
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w-1 h40, Resources/Images/%Mechanic%_selected.png
             }
             Else
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
+                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w-1 h40, Resources/Images/%Mechanic%.png
             }
             mechanictest ++
         }
@@ -84,16 +84,16 @@ WindowMonitor()
                     If (ReminderActive = 1)
                     {
                         ReminderActive := 0
-                        SetTimer, Reminder, 500
+                        ; SetTimer, Reminder, 500
                     }
                     If (InfluenceReminderActive = 1)
                     {
-                        SetTimer, EldritchReminder, 500
-                        SetTimer, InfluenceNotificationSound, 500
+                        ; SetTimer, EldritchReminder, 500
+                        ; SetTimer, InfluenceNotificationSound, 500
                         InfluenceReminderActive := 0
                     }
-                    SetTimer, LogMonitor, 100
-                    SetTimer, Overlay, 100
+                    ; SetTimer, LogMonitor, 100
+                    ; SetTimer, Overlay, 100
                     Exit
                 }
                 Break

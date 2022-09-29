@@ -1,5 +1,16 @@
+#SingleInstance, force
+#Persistent
+#NoEnv
+;#Warn
+
 Global CLogTailer
 Global NewLine
+
+LogMonitor()
+msgbox, %MyHideout%
+
+lt := new CLogTailer(LogPath, Func("LogTail"))
+Exit
 
 ; This function gets called each time there is a new line
 LogTail(text)
@@ -9,17 +20,18 @@ LogTail(text)
 		If NewLine contains %MyHideout%
 		{
 			InfluenceReminderActive := 0
-			HideoutEntered()
+			msgbox, Hideout Entered!
+			; HideoutEntered()
 			Exit
 		}
 		If NewLine contains %MyDialogs%,%MyDialogsDisable%
 		{
-			SearchText(NewLine)
+			; SearchText(NewLine)
 			Exit
 		}
 		If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
 		{
-			InfluenceTrack(NewLine)
+			; InfluenceTrack(NewLine)
 			Exit
 		}
 	}
@@ -38,7 +50,6 @@ class CLogTailer
 		fn := this.WatchLog.Bind(this)
 		SetTimer, % fn, 100
 	}
-	
 	WatchLog()
 	{
 		Loop {
@@ -55,3 +66,12 @@ class CLogTailer
 		} until (p == l)
 	}
 }
+
+#IncludeAgain, LogMonitor.ahk
+#IncludeAgain, Ini.ahk
+#IncludeAgain, Mechanics.ahk
+#IncludeAgain, AutoMechanic.ahk
+#IncludeAgain, Influences.ahk
+#IncludeAgain, NotificationSounds.ahk
+#IncludeAgain, HotkeySelect.ahk
+#IncludeAgain, Transparency.ahk

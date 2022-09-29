@@ -119,7 +119,7 @@ OverlayTest()
     Gui, Overlay:Destroy
     Gui, Transparency:Submit, NoHide
     NotificationPrep(Overlay)
-    Overlay()
+    ; Overlay()
     Return
 }
 
@@ -136,12 +136,12 @@ NotificationTest:
     Gui, Overlay:Destroy
     Gui, Transparency:Submit, NoHide
     IniWrite, %NotificationEdit%, %TransparencyPath%, Transparency, Notification
-    Overlay()
+    ; Overlay()
     Gui, Overlay:Hide
     height9 := (A_ScreenHeight / 2) + 200
     width9 := (A_ScreenWidth / 2)-100
     ReminderText = Ritual and Metamorph
-    MechanicReminder()
+    ; MechanicReminder()
     Return
 }
 
@@ -163,7 +163,7 @@ InfluenceTest:
     WinGetPos, X, Y, Length, Height, Transparency
     height2 := Height + Y + 100
     width2 := (Length/2) + X - 300
-    EldritchReminder()
+    ; EldritchReminder()
     ;Set influence count and active influence back just in case
     Influences := Influences()
     For each, Influence in StrSplit(Influences, "|")

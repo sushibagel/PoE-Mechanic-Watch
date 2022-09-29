@@ -56,8 +56,7 @@ Reminder()
         SetTitleMatchMode, 1
         SetWindowVol(AhkExe, NotificationVolume)
         SoundPlay, %NotificationSound%
-    }
-    WindowMonitor()
+}
 }
 
 ReminderButtonYes()

@@ -72,7 +72,7 @@ SelectMechanics()
 
 MechanicGuiClose()
 {
-    Start()
+    ; Start()
     Return
 }
 
@@ -97,7 +97,7 @@ MechanicButtonOk()
         IniWrite, % %Influence%, %MechanicsPath%, Influence, %Influence%
     }
     Gui, Mechanic:Destroy
-    Start()
+    ; Start()
     Return
 }
 

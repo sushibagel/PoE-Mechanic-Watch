@@ -68,7 +68,7 @@ InfluenceTrack(NewLine)
                         }
                     }   
                     ReminderText = This is your %InfluenceCount% map. Don't forget to kill the boss for your %InvitationType% Invitation
-                    EldritchReminder()
+                    ; EldritchReminder()
                     InfluenceNotificationSound()
                 }
             }

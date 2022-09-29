@@ -4,6 +4,7 @@ Global MyDialogsDisable
 Global FullSearch
 Global IncursionCode
 Global IncursionSleep
+Global MyHideout
 
 LogMonitor() ;Monitor the PoE client.txt
 {
@@ -11,8 +12,8 @@ LogMonitor() ;Monitor the PoE client.txt
     ReadFile = Resources\Data\Incursiondialogsdisable.txt
     IncursionGo := StrReplace(ReadFile, "`r`n" , ",")
 
-    GetLogPath()
-    GetHideout()
+    LogPath := GetLogPath()
+    MyHideout := GetHideout()
     ReadMechanics()
     ReadAutoMechanics()
     InfluenceActive()
@@ -50,7 +51,7 @@ LogMonitor() ;Monitor the PoE client.txt
             }
         }
     }
-    ;lt := new CLogTailer(LogPath, Func("LogTail"))
+    Return
 }
 
 HideoutEntered()
@@ -58,7 +59,7 @@ HideoutEntered()
     MechanicsActive()
     If (MechanicsActive >= 1)
     {
-        Reminder()
+        ; Reminder()
         WinwaitClose, Reminder
         Exit
     }
@@ -95,7 +96,7 @@ SearchText(NewLine)
                         IncursionSleep ++
                         If (IncursionSleep = 4)
                         {
-                            Incursion()
+                            ; Incursion()
                             Break
                         }
                     }
@@ -125,4 +126,31 @@ SearchText(NewLine)
         Return
     }
     Return
+}
+
+GetLogPath()
+{
+    IniRead, LogPath, Resources\Data\LaunchPath.ini, POE, log
+    Return, %LogPath%
+}
+
+GetHideout()
+{
+    IniFile := HideoutIni()
+    IniRead, MyHideout, %IniFile%, Current Hideout, MyHideout
+    Return, %MyHideout%
+}
+
+CheckTheme()
+{
+    Global ThemeItems := "Font|Background|Secondary"
+    ThemeFile := ThemeIni()
+    IniRead, ColorMode, %ThemeFile%, Theme, Theme
+    Global Item
+    Global each
+    For each, Item in StrSplit(ThemeItems, "|")
+    {
+        IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
+    }
+    Return, %ColorMode%
 }

@@ -3,6 +3,7 @@
 #NoEnv
 ;#Warn
 
+OnExit("Exit")
 CoordMode, Screen
 DetectHiddenWindows, On
 
@@ -207,7 +208,7 @@ Start()
 {
     CheckTheme()
     HotkeyCheck()
-    LogMonitor()
+    Run, Resources\Scripts\Tail.ahk
     WindowMonitor()
 }
 
@@ -375,30 +376,46 @@ Version()
 
 Reload()
 {
+    AdditionalScripts("Reload")
     Reload
+    Return
 }
 
 Exit()
 {
+    AdditionalScripts("Exit")
     ExitApp
 }
+
+AdditionalScripts(Action)
+{
+   ScriptsActions := "\Resources\Scripts\Tail.ahk"
+   For each, script in StrSplit(ScriptsActions, "|")
+   {
+        If(Action = "Exit")
+        {
+            WinClose, %A_ScriptDir%%script% ahk_class AutoHotkey
+        }
+        If(Action = "Reload")
+        {
+            Run, %A_ScriptDir%%script%
+        }
+   }
+   Return
+}
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #Include, Resources\Scripts\AutoMechanic.ahk
-#Include, Resources\Scripts\EldritchReminder.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk
 #Include, Resources\Scripts\Ini.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
-#Include, Resources\Scripts\LogMonitor.ahk
 #Include, Resources\Scripts\Mechanics.ahk
 #Include, Resources\Scripts\Move.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
-#Include, Resources\Scripts\Reminder.ahk
-#Include, Resources\Scripts\ReminderGui.ahk
-#Include, Resources\Scripts\Tail.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
 #Include, Resources\Scripts\Transparency.ahk
 #Include, Resources\Scripts\UpdateCheck.ahk
