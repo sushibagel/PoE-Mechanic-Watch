@@ -209,6 +209,7 @@ Start()
     CheckTheme()
     HotkeyCheck()
     Run, Resources\Scripts\Tail.ahk
+    Run, Resources\Scripts\NotificationMonitor.ahk
     WindowMonitor()
 }
 
@@ -389,7 +390,7 @@ Exit()
 
 AdditionalScripts(Action)
 {
-   ScriptsActions := "\Resources\Scripts\Tail.ahk"
+   ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\NotificationMonitor.ahk"
    For each, script in StrSplit(ScriptsActions, "|")
    {
         If(Action = "Exit")

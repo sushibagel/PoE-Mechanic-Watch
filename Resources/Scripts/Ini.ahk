@@ -5,6 +5,7 @@ IniPath(MyKey){
         case "Hideout":         MyValue := "Resources\Settings\Hideout.ini"             ;Section Key - Hideout
         case "Hotkey":          MyValue := "Resources\Settings\Hotkeys.ini"             ;Section Key - Hotkeys
         case "LaunchOptions":   MyValue := "Resources\Data\LaunchPath.ini"              ;Section Key - POE, Launch Options, User Tools, Tool Name
+        case "LogMonitor":      MyValue := "Resources\Data\LogMonitor.ini"
         case "Mechanics":       MyValue := "Resources\Settings\Mechanics.ini"           ;Section Key - Mechanics, Mechanics Active, Auto Mechanics, Influence, Influence Track
         case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
         case "Overlay":         MyValue := "Resources\Settings\OverlayPosition.ini"     ;Section Key - Overlay
@@ -44,6 +45,14 @@ HotkeyIni()
 LaunchOptionsIni()
 {
     MyKey := "LaunchOptions"
+    IniFile := IniPath(MyKey)
+    IniFile := CheckDir(IniFile)
+    Return, % IniFile
+}
+
+LogMonitorIni()
+{
+    MyKey := "LogMonitor"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
     Return, % IniFile

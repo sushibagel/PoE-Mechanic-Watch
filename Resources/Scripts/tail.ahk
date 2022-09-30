@@ -7,7 +7,8 @@ Global CLogTailer
 Global NewLine
 
 LogMonitor()
-msgbox, %MyHideout%
+
+LogPath := GetLogPath()
 
 lt := new CLogTailer(LogPath, Func("LogTail"))
 Exit
@@ -20,7 +21,8 @@ LogTail(text)
 		If NewLine contains %MyHideout%
 		{
 			InfluenceReminderActive := 0
-			msgbox, Hideout Entered!
+			LogMonitorIni := LogMonitorIni()
+			IniWrite, Hideout, %LogMonitorIni%, Log Monitor, Log Event
 			; HideoutEntered()
 			Exit
 		}
@@ -67,11 +69,11 @@ class CLogTailer
 	}
 }
 
-#IncludeAgain, LogMonitor.ahk
-#IncludeAgain, Ini.ahk
-#IncludeAgain, Mechanics.ahk
-#IncludeAgain, AutoMechanic.ahk
-#IncludeAgain, Influences.ahk
-#IncludeAgain, NotificationSounds.ahk
-#IncludeAgain, HotkeySelect.ahk
-#IncludeAgain, Transparency.ahk
+#IncludeAgain, Resources/Scripts/LogMonitor.ahk
+#IncludeAgain, Resources/Scripts/Ini.ahk
+#IncludeAgain, Resources/Scripts/Mechanics.ahk
+#IncludeAgain, Resources/Scripts/AutoMechanic.ahk
+#IncludeAgain, Resources/Scripts/Influences.ahk
+#IncludeAgain, Resources/Scripts/NotificationSounds.ahk
+#IncludeAgain, Resources/Scripts/HotkeySelect.ahk
+#IncludeAgain, Resources/Scripts/Transparency.ahk

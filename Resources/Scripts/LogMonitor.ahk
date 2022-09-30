@@ -12,7 +12,6 @@ LogMonitor() ;Monitor the PoE client.txt
     ReadFile = Resources\Data\Incursiondialogsdisable.txt
     IncursionGo := StrReplace(ReadFile, "`r`n" , ",")
 
-    LogPath := GetLogPath()
     MyHideout := GetHideout()
     ReadMechanics()
     ReadAutoMechanics()
@@ -130,7 +129,8 @@ SearchText(NewLine)
 
 GetLogPath()
 {
-    IniRead, LogPath, Resources\Data\LaunchPath.ini, POE, log
+    LaunchIni := LaunchOptionsIni()
+    IniRead, LogPath, %LaunchIni%, POE, log
     Return, %LogPath%
 }
 
