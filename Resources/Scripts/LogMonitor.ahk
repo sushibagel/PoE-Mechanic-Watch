@@ -65,16 +65,6 @@ HideoutEntered()
     Exit
 }
 
-+i::
-{
-    ControlSetText, Control, NewText [, WinTitle, WinText, ExcludeTitle, ExcludeText]
-    ControlSetText, Resources\Images\blight.png, Resources\Images\blight_selected.png, ,Resources\Images\blight.pngs
-
-    Overlay
-ahk_class AutoHotkeyGUI
-    return
-}
-
 SearchText(NewLine)
 {
     MechanicsActive()
@@ -89,11 +79,16 @@ SearchText(NewLine)
                 If NewLine contains %A_LoopReadLine%
                 {
                     If (%activecheck% != 1) and (%automechanic% = 1)
-                    {
-                        ; change overlay image
-                        ; edit the ini file to active the mechanic. 
-                        ControlSetText, Control, NewText [, WinTitle, WinText, ExcludeTitle, ExcludeText]
-                        %Mechanic%()
+                    { ; This now activates the mechanic in the mechanics.ini and sends a message to the overlay script to refresh the overlay. 
+                        IniPath := MechanicsIni()
+                        IniWrite, 1, %IniPath%, Mechanic Active, %Mechanic%
+                        Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+                        Prev_TitleMatchMode := A_TitleMatchMode
+                        SetTitleMatchMode 2
+                        DetectHiddenWindows On
+                        PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                        DetectHiddenWindows, %Prev_DetectHiddenWindows%
+                        SetTitleMatchMode, %A_TitleMatchMode%
                         Break
                     }
                     If NewLine contains %IncursionGo%
@@ -108,7 +103,15 @@ SearchText(NewLine)
                         IncursionSleep ++
                         If (IncursionSleep = 4)
                         {
-                            ; Incursion()
+                            IniPath := MechanicsIni()
+                            IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
+                            Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+                            Prev_TitleMatchMode := A_TitleMatchMode
+                            SetTitleMatchMode 2
+                            DetectHiddenWindows On
+                            PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                            DetectHiddenWindows, %Prev_DetectHiddenWindows%
+                            SetTitleMatchMode, %A_TitleMatchMode%
                             Break
                         }
                     }
@@ -126,7 +129,15 @@ SearchText(NewLine)
                 automechanic = %Mechanic%Auto
                 If (%activecheck% = 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
                 {
-                    %Mechanic%()
+                    IniPath := MechanicsIni()
+                    IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
+                    Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+                    Prev_TitleMatchMode := A_TitleMatchMode
+                    SetTitleMatchMode 2
+                    DetectHiddenWindows On
+                    PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                    DetectHiddenWindows, %Prev_DetectHiddenWindows%
+                    SetTitleMatchMode, %A_TitleMatchMode%
                     Break 
                 }  
             }

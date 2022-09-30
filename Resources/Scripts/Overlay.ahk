@@ -1,6 +1,13 @@
 Overlay()
 {
-    SetTimer, Overlay, Delete
+    RefreshOverlay()
+    Run, Resources\Scripts\WindowMonitor.ahk
+    Return
+}
+
+RefreshOverlay()
+{
+    Gui, Overlay:Destroy
     OverlayPath := OverlayIni()
     IniRead, Height, %OverlayPath%, Overlay Position, Height
     IniRead, Width, %OverlayPath%, Overlay Position, Width
@@ -61,56 +68,7 @@ Overlay()
     Gui, Overlay:Show, NoActivate x%width% y%height%, Overlay
     WinSet, Style, -0xC00000, Overlay
     WinSet, TransColor, 1e1e1e %OverlayTransparency%, Overlay
-    lt := new CLogTailer(LogPath, Func("LogTail"))
-    WindowMonitor()
     Return
-}
-
-WindowMonitor()
-{
-    Loop 
-    {
-        If !WinActive("ahk_group PoEWindow")
-        {
-            Sleep, 200
-            If !WinActive("ahk_group PoEWindow")
-            {
-                Gui, Reminder:Destroy
-                Gui, InfluenceReminder:Destroy
-                Gui, Overlay:Destroy
-                Loop
-                If WinActive("ahk_group PoEWindow")
-                {
-                    If (ReminderActive = 1)
-                    {
-                        ReminderActive := 0
-                        ; SetTimer, Reminder, 500
-                    }
-                    If (InfluenceReminderActive = 1)
-                    {
-                        ; SetTimer, EldritchReminder, 500
-                        ; SetTimer, InfluenceNotificationSound, 500
-                        InfluenceReminderActive := 0
-                    }
-                    ; SetTimer, LogMonitor, 100
-                    ; SetTimer, Overlay, 100
-                    Exit
-                }
-                Break
-            } 
-            Else
-            {
-                Overlay()
-            }  
-        }
-        Else
-        Global IndexTrack
-        If !WinActive("Overlay") and (IndexTrack = "")
-        {
-            Global IndexTrack ++
-            Overlay()
-        }
-    }
 }
 
 MechanicToggle(ToggleMechanic)

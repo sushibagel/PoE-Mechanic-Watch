@@ -7,6 +7,8 @@ OnExit("Exit")
 CoordMode, Screen
 DetectHiddenWindows, On
 
+OnMessage(0x01111, "RefreshOverlay")
+
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
@@ -210,8 +212,9 @@ Start()
     HotkeyCheck()
     Run, Resources\Scripts\Tail.ahk
     Run, Resources\Scripts\NotificationMonitor.ahk
-    WindowMonitor()
+    Overlay()
 }
+Return
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Settings Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
@@ -390,7 +393,7 @@ Exit()
 
 AdditionalScripts(Action)
 {
-   ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\NotificationMonitor.ahk"
+   ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\NotificationMonitor.ahk|\Resources\Scripts\WindowMonitor.ahk"
    For each, script in StrSplit(ScriptsActions, "|")
    {
         If(Action = "Exit")
