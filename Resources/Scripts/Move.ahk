@@ -3,6 +3,7 @@ Move()
     OverlayPath := OverlayIni()
     IniRead, Height, %OverlayPath%, Overlay Position, Height
     IniRead, Width, %OverlayPath%, Overlay Position, Width
+    IniRead, IconHeight, %OverlayPath%, Icon Size, Height
     heightoff := Height - 30
     widthoff := Width - 5
 
@@ -18,11 +19,11 @@ Move()
         {
             if (%mechanicactive% = 1)
             {
-                Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%_selected.png
+                Gui, Move:Add, Picture, g%Mechanic% yn y5 w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
             }
             Else
             {
-                Gui, Move:Add, Picture, g%Mechanic% yn y5 w50 h40, Resources/Images/%Mechanic%.png
+                Gui, Move:Add, Picture, g%Mechanic% yn y5 w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
             }
             mechanictest ++
         }
@@ -31,7 +32,7 @@ Move()
     {
         MechanicsPath := MechanicsIni()
         IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
-        Gui, Move:Add, Picture, g%InfluenceActive% yn y5 w45 h40 Section, Resources/Images/%InfluenceActive%.png
+        Gui, Move:Add, Picture, g%InfluenceActive% yn y5 w-1 h%IconHeight% Section, Resources/Images/%InfluenceActive%.png
         Gui, Move:Font, cWhite s12
         Gui, Move:Add, Text, yp+41 x+-27, %InfluenceCount%
         Gui, Move:Font, c%Font% s10
