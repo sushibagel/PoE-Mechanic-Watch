@@ -1,12 +1,14 @@
 Global ReminderActive
+Global ReminderText
 
 Reminder()
 {
+    msgbox, %ColorMode% %Background%
     Gui, Reminder:Destroy
-    SetTimer, Reminder, Delete
     ;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
     MechanicsActive()
     Active = 
+    MechanicsActive := 0
     MechanicSearch := Mechanics()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
@@ -62,7 +64,6 @@ Reminder()
 ReminderButtonYes()
 {
     Gui, Reminder:Submit
-    SetTimer, LogMonitor, 100
     Return
 }
 
@@ -78,6 +79,5 @@ ReminderButtonNo()
     }
     Gui, Reminder:Destroy
     Gui, Overlay:Destroy
-    SetTimer, Overlay, 500
     Return
 }

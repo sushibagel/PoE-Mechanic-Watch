@@ -2,6 +2,7 @@ Global ReminderActive
 
 MechanicReminder()
 {
+    CheckTheme()
     NotificationHeight := (A_ScreenHeight / 2) - 100
     NotificationWidth := (A_ScreenWidth / 2)-180
     TransparencyFile := TransparencyIni()

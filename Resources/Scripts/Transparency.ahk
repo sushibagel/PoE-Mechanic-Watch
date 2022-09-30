@@ -165,7 +165,7 @@ InfluenceTest:
     width2 := (Length/2) + X - 300
     ; EldritchReminder()
     ;Set influence count and active influence back just in case
-    Influences := Influences()
+    ; Influences := Influences()
     For each, Influence in StrSplit(Influences, "|")
     MechanicsIni := MechanicsIni()
     IniRead, %Influence%, %MechanicsIni%, Influence, %Influence%
@@ -200,7 +200,7 @@ MapTest:
     Hk := Hotkey1
     WinGetPos, Width, Height, Length, , Transparency
     Height := Height + 350
-    InfluenceMapNotification()
+    ; InfluenceMapNotification()
     Return
 }
 

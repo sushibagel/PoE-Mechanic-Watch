@@ -57,7 +57,7 @@ SelectMechanics()
     Gui, Mechanic:Add, Text,,Select One
     Gui, Mechanic:Font, s1 c%Font%
     Gui, Mechanic:Font, Normal s10
-    InfluencesTypes := Influences()
+    ; InfluencesTypes := Influences()
     For each, Influence in StrSplit(InfluencesTypes, "|")
     {
         IniRead, %Influence%State, %MechanicsPath%, Influence, %Influence%
@@ -86,7 +86,7 @@ MechanicButtonOk()
         SelectMechanics()
     }
     MechanicSearch := Mechanics()
-    InfluencesTypes := Influences()
+    ; InfluencesTypes := Influences()
     MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {

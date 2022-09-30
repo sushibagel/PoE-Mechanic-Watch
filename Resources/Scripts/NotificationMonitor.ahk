@@ -3,6 +3,11 @@
 #NoEnv
 ;#Warn
 
+Global ColorMode
+Global Background
+Global Font
+Global Secondary
+
 Loop
 {
     LogMonitorIni := LogMonitorIni()
@@ -10,8 +15,29 @@ Loop
     If (LogEvent = "Hideout")
     {
         IniWrite, InHideout, %LogMonitorIni%, Log Monitor, Log Event
-        Msgbox, Hideout Entered!
+        MechanicsActive()
+        If (MechanicsActive >= 1)
+        {
+            Reminder()
+        }
     }
 }
 
+CheckTheme()
+{
+    ThemeItems := "Font|Background|Secondary"
+    ThemeFile := ThemeIni()
+    IniRead, ColorMode, %ThemeFile%, Theme, Theme
+    For each, Item in StrSplit(ThemeItems, "|")
+    {
+        IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
+    }
+    Return, %ColorMode%
+}
+
 #IncludeAgain, Resources/Scripts/Ini.ahk
+#IncludeAgain, Resources/Scripts/Mechanics.ahk
+#IncludeAgain, Resources/Scripts/Reminder.ahk
+#IncludeAgain, Resources/Scripts/ReminderGui.ahk
+#IncludeAgain, Resources/Scripts/NotificationSounds.ahk
+#IncludeAgain, Resources/Scripts/Transparency.ahk
