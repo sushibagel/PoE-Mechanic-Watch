@@ -81,6 +81,7 @@ GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Overlay
+GroupAdd, PoeWindow, Move
 GroupAdd, PoeWindow, ahk_exe code.exe           
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
