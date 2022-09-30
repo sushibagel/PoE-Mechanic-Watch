@@ -11,7 +11,16 @@ RefreshOverlay()
     OverlayPath := OverlayIni()
     IniRead, Height, %OverlayPath%, Overlay Position, Height
     IniRead, Width, %OverlayPath%, Overlay Position, Width
+    IniRead, OverlayOrientation, %OverlayPath%, Overlay Position, Orientation
     IniRead, IconHeight, %OverlayPath%, Icon Size, Height
+    If (OverlayOrientation = "Horizontal")
+    {
+        OverlayOrientation := "yn"
+    }
+    If (OverlayOrientation = "Vertical")
+    {
+        OverlayOrientation := "xn"
+    }
     ReadMechanics()
     MechanicsActive()
     InfluenceActive()
@@ -25,11 +34,11 @@ RefreshOverlay()
         {
             if (%mechanicactive% = 1)
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
+                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% y5 w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
             }
             Else
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% yn y5 w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
+                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
             }
             mechanictest ++
         }
@@ -38,7 +47,7 @@ RefreshOverlay()
     {
         MechanicsPath := MechanicsIni()
         IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
-        Gui, Overlay:Add, Picture, g%InfluenceActive% yn y5 w-1 h%IconHeight% Section, Resources/Images/%InfluenceActive%.png
+        Gui, Overlay:Add, Picture, g%InfluenceActive% %OverlayOrientation% w-1 h%IconHeight% Section, Resources/Images/%InfluenceActive%.png
         Gui, Overlay:Font, cWhite s12
         Gui, Overlay:Add, Text, yp+41 x+-29, %InfluenceCount%
     }

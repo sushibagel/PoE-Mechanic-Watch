@@ -106,6 +106,7 @@ If !FileExist(OverlayIni) ;Check for "Overlay" ini
 {
     IniWrite, 962, %OverlayIni%, Overlay Position, Height
     IniWrite, 570, %OverlayIni%, Overlay Position, Width
+    IniWrite, Horizontal, %OverlayIni%, Overlay Position, Orientation
     IniWrite, 50, %OverlayIni%, Icon Size, Height
 }
 
