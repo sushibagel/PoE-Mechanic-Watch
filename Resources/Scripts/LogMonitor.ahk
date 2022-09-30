@@ -65,6 +65,16 @@ HideoutEntered()
     Exit
 }
 
++i::
+{
+    ControlSetText, Control, NewText [, WinTitle, WinText, ExcludeTitle, ExcludeText]
+    ControlSetText, Resources\Images\blight.png, Resources\Images\blight_selected.png, ,Resources\Images\blight.pngs
+
+    Overlay
+ahk_class AutoHotkeyGUI
+    return
+}
+
 SearchText(NewLine)
 {
     MechanicsActive()
@@ -80,6 +90,9 @@ SearchText(NewLine)
                 {
                     If (%activecheck% != 1) and (%automechanic% = 1)
                     {
+                        ; change overlay image
+                        ; edit the ini file to active the mechanic. 
+                        ControlSetText, Control, NewText [, WinTitle, WinText, ExcludeTitle, ExcludeText]
                         %Mechanic%()
                         Break
                     }

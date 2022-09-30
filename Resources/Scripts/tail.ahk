@@ -28,7 +28,7 @@ LogTail(text)
 		}
 		If NewLine contains %MyDialogs%,%MyDialogsDisable%
 		{
-			; SearchText(NewLine)
+			SearchText(NewLine)
 			Exit
 		}
 		If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
