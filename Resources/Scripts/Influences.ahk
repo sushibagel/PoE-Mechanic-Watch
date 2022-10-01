@@ -7,7 +7,9 @@ Global InfluenceReminderActive
 InfluenceTrack(NewLine)
 {
     MapTrack := NewLine
-    ReminderAcitve := 0
+    PostSetup()
+    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
+    PostRestore()
     InfluenceActive()
     If (InfluenceActive != "None")
     {
@@ -217,4 +219,18 @@ InfluenceMapNotification() ;Map tracking notification
     WinSet, Style, -0xC00000, Influence
     WinSet, Transparent, %MapTransparency%, Influence
     Return
+}
+
+PostSetup()
+{
+    Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+    Prev_TitleMatchMode := A_TitleMatchMode
+    SetTitleMatchMode 2
+    DetectHiddenWindows On
+}
+
+PostRestore()
+{
+    DetectHiddenWindows, %Prev_DetectHiddenWindows%
+    SetTitleMatchMode, %A_TitleMatchMode%
 }

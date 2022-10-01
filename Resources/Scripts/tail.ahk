@@ -7,6 +7,9 @@
 Global CLogTailer
 Global NewLine
 
+OnMessage(0x01113, "ReminderDestroy")
+OnMessage(0x01112, "Reminder")
+
 LogMonitor()
 
 LogPath := GetLogPath()
@@ -21,9 +24,11 @@ LogTail(text)
 		FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
 		If NewLine contains %MyHideout%
 		{
-			InfluenceReminderActive := 0
-			LogMonitorIni := LogMonitorIni()
-			IniWrite, Hideout, %LogMonitorIni%, Log Monitor, Log Event
+			MechanicsActive()
+			If (MechanicsActive >= 1)
+			{
+				Reminder()
+			}
 			Exit
 		}
 		If NewLine contains %MyDialogs%,%MyDialogsDisable%
@@ -33,7 +38,7 @@ LogTail(text)
 		}
 		If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
 		{
-			; InfluenceTrack(NewLine)
+			InfluenceTrack(NewLine)
 			Exit
 		}
 	}
@@ -69,11 +74,13 @@ class CLogTailer
 	}
 }
 
-#IncludeAgain, Resources/Scripts/LogMonitor.ahk
-#IncludeAgain, Resources/Scripts/Ini.ahk
-#IncludeAgain, Resources/Scripts/Mechanics.ahk
 #IncludeAgain, Resources/Scripts/AutoMechanic.ahk
-#IncludeAgain, Resources/Scripts/Influences.ahk
-#IncludeAgain, Resources/Scripts/NotificationSounds.ahk
 #IncludeAgain, Resources/Scripts/HotkeySelect.ahk
+#IncludeAgain, Resources/Scripts/Influences.ahk
+#IncludeAgain, Resources/Scripts/Ini.ahk
+#IncludeAgain, Resources/Scripts/LogMonitor.ahk
+#IncludeAgain, Resources/Scripts/Mechanics.ahk
+#IncludeAgain, Resources/Scripts/NotificationSounds.ahk
+#IncludeAgain, Resources/Scripts/Reminder.ahk
+#IncludeAgain, Resources/Scripts/ReminderGui.ahk
 #IncludeAgain, Resources/Scripts/Transparency.ahk

@@ -22,8 +22,9 @@ MechanicReminder()
     nwidth := NotificationWidth - xpos
     Gui, Reminder:Add, Button, x%xpos% y40, Yes
     Gui, Reminder:Add, Button,x%xpos2% y40, No
+    Gui, Reminder:+AlwaysOnTop -Border
     Gui, Reminder:Show, x%nwidth% y%NotificationHeight% h%gheight% NoActivate, Reminder
+    WinSet, Style, -0xC00000, Reminder
     WinSet, Transparent, %NotificationTransparency%, Reminder
-    ReminderActive := 1
     Return
 }

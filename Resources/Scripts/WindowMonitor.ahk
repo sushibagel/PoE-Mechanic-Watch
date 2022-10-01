@@ -15,6 +15,8 @@ GroupAdd, PoeWindow, ahk_exe code.exe
 
 Global ReminderActive
 
+OnMessage(0x01118, "DeactivateReminder")
+
 Loop 
 {
     If !WinActive("ahk_group PoEWindow")
@@ -28,21 +30,18 @@ Loop
             {
                 PostSetup()
                 ReminderActive := 1
-                PostMessage, 0x01113,,,, NotificationMonitor.ahk - AutoHotkey
+                PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ; destroy reminder gui
             }
             Loop
             If WinActive("ahk_group PoEWindow")
             {
-                Prev_DetectHiddenWindows := A_DetectHiddenWIndows
-                Prev_TitleMatchMode := A_TitleMatchMode
-                SetTitleMatchMode 2
-                DetectHiddenWindows On
+                PostSetup()
                 PostMessage, 0x01111,,,, New.ahk - AutoHotkey
                 PostRestore()
                 If (ReminderActive = 1)
                 {
                     ReminderActive := 0
-                    PostMessage, 0x01112,,,, NotificationMonitor.ahk - AutoHotkey
+                    PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
                 }
                 ; If (InfluenceReminderActive = 1)
                 ; {
@@ -70,4 +69,9 @@ PostRestore()
 {
     DetectHiddenWindows, %Prev_DetectHiddenWindows%
     SetTitleMatchMode, %A_TitleMatchMode%
+}
+
+DeactivateReminder()
+{
+    ReminderActive := 0
 }

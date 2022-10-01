@@ -1,5 +1,7 @@
-Global ReminderActive
 Global ReminderText
+Global Font
+Global Background
+Global Secondary
 
 Reminder()
 {
@@ -47,6 +49,7 @@ Reminder()
     {
         StringReplace, ReminderText, ReminderText,`, Eater,
     }
+    CheckTheme()
     MechanicReminder()
     NotificationPrep("Notification")
     If (SoundActive = 1)
@@ -69,7 +72,6 @@ ReminderButtonYes()
 ReminderButtonNo()
 {
     Gui, Reminder:Submit
-    ReminderActive := 0
     MechanicIniPath := MechanicsIni()
     MechanicSearch := Mechanics()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
@@ -77,7 +79,10 @@ ReminderButtonNo()
         IniWrite, 0, %MechanicIniPath%, Mechanic Active, %Mechanic%
     }
     Gui, Reminder:Destroy
-    Gui, Overlay:Destroy
+    PostSetup()
+    PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
+    PostRestore()
     Return
 }
 
