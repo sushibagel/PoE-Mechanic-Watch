@@ -71,7 +71,7 @@ FirstRun()
 
     Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
     Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
-    Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Reposition your overlay
+    Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Setup your overlay
     Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, * Set the transparency of your overlays and notifications
     Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
     Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
@@ -161,20 +161,10 @@ MechanicSelect()
 
 PositionSelect()
 {
-    Gui, First:Hide
-    Gui, First2:Hide
-    Gui, Loading:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, Loading:Color, %Background%
-    Gui, Loading:Font, c%Font% s10
-    Gui, Loading:Add, Text, w500 +Center, The Overlay repositioning tool is loading... Please wait...
-    Gui, Loading: +AlwaysOnTop -Caption
-    yload := yh + 200
-    Gui, Loading:Show, NoActivate x%xh% y%yload% w550, Loading
-    Start()
     Gui, Submit, NoHide
     Gui, First:Destroy
     Gui, First2:Destroy
-    Move()
+    OverlaySetup()
     WinWait, Move
     Gui, Loading:Destroy
     WinwaitClose, Move
