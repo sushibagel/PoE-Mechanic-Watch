@@ -44,7 +44,9 @@ Move()
         IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
         Gui, Move:Add, Picture, g%InfluenceActive% %OverlayOrientation% w-1 h%IconHeight% Section, Resources/Images/%InfluenceActive%.png
         Gui, Move:Font, cWhite s12
-        Gui, Move:Add, Text, yp+41 x+-27, %InfluenceCount%
+        Gui, Overlay:Font, cWhite s12
+        TrackOffset := IconHeight/2 - 6 ;6 is half of font size, I will probably make font size editable so this will need a variable/formula
+        Gui, Move:Add, Text, xs+%TrackOffset%, %InfluenceCount%
         Gui, Move:Font, c%Font% s10
     }
     Gui, Move:Color, %Background%
@@ -62,8 +64,8 @@ Lock()
     WinGetPos,newwidth, newheight
     Gui, Move:Submit
     Gui, Move:Destroy
-    setheight:=newheight + 5
-    setwidth:=newwidth - 10
+    setheight:=newheight + 40
+    setwidth:=newwidth + 45
     OverlayPath := OverlayIni()
     IniWrite, %setheight%, %OverlayPath%, Overlay Position, Height
     IniWrite, %setwidth%, %OverlayPath%, Overlay Position, Width

@@ -49,7 +49,8 @@ RefreshOverlay()
         IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
         Gui, Overlay:Add, Picture, g%InfluenceActive% %OverlayOrientation% w-1 h%IconHeight% Section, Resources/Images/%InfluenceActive%.png
         Gui, Overlay:Font, cWhite s12
-        Gui, Overlay:Add, Text, yp+41 x+-29, %InfluenceCount%
+        TrackOffset := IconHeight/2 - 6 ;6 is half of font size, I will probably make font size editable so this will need a variable/formula
+        Gui, Overlay:Add, Text, xs+%TrackOffset%, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
     ; Loop
