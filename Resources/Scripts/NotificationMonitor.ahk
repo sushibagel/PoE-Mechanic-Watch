@@ -8,6 +8,9 @@ Global Background
 Global Font
 Global Secondary
 
+OnMessage(0x01112, "Reminder")
+OnMessage(0x01113, "ReminderDestroy")
+
 Loop
 {
     LogMonitorIni := LogMonitorIni()

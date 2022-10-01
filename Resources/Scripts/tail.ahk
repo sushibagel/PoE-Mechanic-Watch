@@ -23,7 +23,6 @@ LogTail(text)
 			InfluenceReminderActive := 0
 			LogMonitorIni := LogMonitorIni()
 			IniWrite, Hideout, %LogMonitorIni%, Log Monitor, Log Event
-			; HideoutEntered()
 			Exit
 		}
 		If NewLine contains %MyDialogs%,%MyDialogsDisable%

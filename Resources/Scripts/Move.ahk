@@ -13,8 +13,8 @@ Move()
     {
         OverlayOrientation := "xn"
     }
-    heightoff := Height - 30
-    widthoff := Width - 42
+    heightoff := Height - 25
+    widthoff := Width - 55
 
     ReadMechanics()
     MechanicsActive()
