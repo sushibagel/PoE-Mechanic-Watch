@@ -20,6 +20,7 @@ Menu, SetupMenu, Add, Setup Menu, FirstRun
 Menu, Tray, Add, Setup, :SetupMenu
 Menu, SetupMenu, Add, Set Hideout, SetHideout
 Menu, SetupMenu, Add, Change Theme, SelectTheme
+Menu, SetupMenu, Add, Overlay Settings, OverlaySetup
 Menu, SetupMenu, Add, Move Overlay, Move
 Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
 Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
@@ -108,7 +109,8 @@ If !FileExist(OverlayIni) ;Check for "Overlay" ini
     IniWrite, 962, %OverlayIni%, Overlay Position, Height
     IniWrite, 570, %OverlayIni%, Overlay Position, Width
     IniWrite, Horizontal, %OverlayIni%, Overlay Position, Orientation
-    IniWrite, 50, %OverlayIni%, Icon Size, Height
+    IniWrite, 50, %OverlayIni%, Size, Height
+    IniWrite, 12, %OverlayIni%, Size, Font
 }
 
 HotkeyIni := HotkeyIni()
@@ -422,6 +424,7 @@ AdditionalScripts(Action)
 #Include, Resources\Scripts\Mechanics.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
+#Include, Resources\Scripts\OverlaySetup.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
 #Include, Resources\Scripts\Transparency.ahk
 #Include, Resources\Scripts\UpdateCheck.ahk

@@ -14,7 +14,8 @@ RefreshOverlay()
     IniRead, Height, %OverlayPath%, Overlay Position, Height
     IniRead, Width, %OverlayPath%, Overlay Position, Width
     IniRead, OverlayOrientation, %OverlayPath%, Overlay Position, Orientation
-    IniRead, IconHeight, %OverlayPath%, Icon Size, Height
+    IniRead, IconHeight, %OverlayPath%, Size, Height
+    IniRead, OverlayFont, %OverlayPath%, Size, Font
     If (OverlayOrientation = "Horizontal")
     {
         OverlayOrientation := "yn"
@@ -50,8 +51,8 @@ RefreshOverlay()
         MechanicsPath := MechanicsIni()
         IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
         Gui, Overlay:Add, Picture, g%InfluenceActive% %OverlayOrientation% w-1 h%IconHeight% Section, Resources/Images/%InfluenceActive%.png
-        Gui, Overlay:Font, cWhite s12
-        TrackOffset := IconHeight/2 - 6 ;6 is half of font size, I will probably make font size editable so this will need a variable/formula
+        Gui, Overlay:Font, cWhite s%OverlayFont%
+        TrackOffset := IconHeight/2 - OverlayFont/2 ;6 is half of font size, I will probably make font size editable so this will need a variable/formula
         Gui, Overlay:Add, Text, xs+%TrackOffset%, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
