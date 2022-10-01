@@ -37,7 +37,7 @@ RefreshOverlay()
         {
             if (%mechanicactive% = 1)
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% y5 w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
+                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
             }
             Else
             {
