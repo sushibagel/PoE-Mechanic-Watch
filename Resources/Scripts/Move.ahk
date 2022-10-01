@@ -13,8 +13,8 @@ Move()
     {
         OverlayOrientation := "xn"
     }
-    heightoff := Height - 30
-    widthoff := Width - 42
+    heightoff := Height - 25
+    widthoff := Width - 55
 
     ReadMechanics()
     MechanicsActive()
@@ -62,8 +62,8 @@ Lock()
     WinGetPos,newwidth, newheight
     Gui, Move:Submit
     Gui, Move:Destroy
-    setheight:=newheight + 5
-    setwidth:=newwidth - 10
+    setheight:=newheight + 45
+    setwidth:=newwidth + 60
     OverlayPath := OverlayIni()
     IniWrite, %setheight%, %OverlayPath%, Overlay Position, Height
     IniWrite, %setwidth%, %OverlayPath%, Overlay Position, Width

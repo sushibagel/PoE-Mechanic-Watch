@@ -3,7 +3,6 @@ Global ReminderText
 
 Reminder()
 {
-    msgbox, %ColorMode% %Background%
     Gui, Reminder:Destroy
     ;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
     MechanicsActive()
@@ -80,4 +79,9 @@ ReminderButtonNo()
     Gui, Reminder:Destroy
     Gui, Overlay:Destroy
     Return
+}
+
+ReminderDestroy()
+{
+    Gui, Reminder:Destroy
 }
