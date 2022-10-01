@@ -24,17 +24,12 @@ Loop
             Gui, InfluenceReminder:Destroy
             Gui, Overlay:Destroy
             WinClose, Overlay
-            If WinExist(Reminder)
+            If WinExist("Reminder")
             {
-                WinClose, Reminder
-                Prev_DetectHiddenWindows := A_DetectHiddenWIndows
-                Prev_TitleMatchMode := A_TitleMatchMode
-                SetTitleMatchMode 2
-                DetectHiddenWindows On
+                PostSetup()
                 ReminderActive := 1
                 PostMessage, 0x01113,,,, NotificationMonitor.ahk - AutoHotkey
             }
-            WinClose, Reminder
             Loop
             If WinActive("ahk_group PoEWindow")
             {
@@ -43,6 +38,7 @@ Loop
                 SetTitleMatchMode 2
                 DetectHiddenWindows On
                 PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                PostRestore()
                 If (ReminderActive = 1)
                 {
                     ReminderActive := 0
@@ -60,4 +56,18 @@ Loop
             }
         } 
     }
+}
+
+PostSetup()
+{
+    Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+    Prev_TitleMatchMode := A_TitleMatchMode
+    SetTitleMatchMode 2
+    DetectHiddenWindows On
+}
+
+PostRestore()
+{
+    DetectHiddenWindows, %Prev_DetectHiddenWindows%
+    SetTitleMatchMode, %A_TitleMatchMode%
 }
