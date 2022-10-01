@@ -1,3 +1,5 @@
+Global MoveActive
+
 Overlay()
 {
     RefreshOverlay()
@@ -72,13 +74,25 @@ RefreshOverlay()
     ;         Break
     ;     }
     ; }
+    ShowTitle := "-0xC00000"
+    Activate := "NoActivate"
+    If (MoveActive = 1)
+    {
+        Gui, Overlay:Add, Button, gLock xn x5, Lock
+        Tooltip, Drag the overlay around and press "Lock" to store it's location.
+        ShowTitle := ""
+        Activate := ""
+    }
     TransparencyPath := TransparencyIni()
     IniRead, OverlayTransparency, %TransparencyPath%, Transparency, Overlay, 255
     Gui, Overlay:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Overlay:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
-    Gui, Overlay:Show, NoActivate x%width% y%height%, Overlay
-    WinSet, Style, -0xC00000, Overlay
-    WinSet, TransColor, 1e1e1e %OverlayTransparency%, Overlay
+    Gui, Overlay:Show, %Activate% x%width% y%height%, Overlay
+    WinSet, Style, %ShowTitle%, Overlay
+    If (MoveActive != 1)
+    {
+        WinSet, TransColor, 1e1e1e %OverlayTransparency%, Overlay
+    }
     Return
 }
 
@@ -176,4 +190,24 @@ Searing()
     IniWrite, %Searing%, %MechanicsFilePath%, Influence Track, Searing
     ControlSetText, %OldTrack%, %Searing%, Overlay
     Return
+}
+
+Lock:
+{
+    Gui, Overlay:Submit, NoHide
+    WinGetPos, newwidth, newheight,,,Overlay
+    newheight := newheight + 25
+    Tooltip
+    MoveActive := 0
+    OverlayPath := OverlayIni()
+    IniWrite, %newheight%, %OverlayPath%, Overlay Position, Height
+    IniWrite, %newwidth%, %OverlayPath%, Overlay Position, Width
+    RefreshOverlay()
+    Return
+}
+
+Move()
+{
+    MoveActive := 1
+    RefreshOverlay()
 }

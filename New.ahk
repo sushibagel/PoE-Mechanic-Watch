@@ -420,7 +420,6 @@ AdditionalScripts(Action)
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
 #Include, Resources\Scripts\Mechanics.ahk
-#Include, Resources\Scripts\Move.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk

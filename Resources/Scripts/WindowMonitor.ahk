@@ -22,8 +22,7 @@ Loop
         If !WinActive("ahk_group PoEWindow")
         {
             Gui, InfluenceReminder:Destroy
-            Gui, Overlay:Destroy
-            WinClose, Overlay
+            WinClose, Overlay,,,Visual Studio Code
             If WinExist("Reminder")
             {
                 PostSetup()
