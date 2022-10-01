@@ -6,7 +6,6 @@ Global InfluenceReminderActive
 
 EldritchReminder()
 {
-	SetTimer, EldritchReminder, Delete
 	TransparencyFile := TransparencyIni()
     IniRead, InfluenceTransparency, %TransparencyFile%, Transparency, Influence
 	If (InfluenceTransparency = "ERROR")
@@ -32,8 +31,16 @@ EldritchReminder()
 		Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, InfluenceReminder
 		WinSet, Style, -0xC00000, InfluenceReminder
 		WinSet, Transparent, %InfluenceTransparency%, InfluenceReminder
-		InfluenceReminderActive := 1
+		InfluenceNotificationSound()
+		PostSetup()
+		PostMessage, 0x01192,,,, WindowMonitor.ahk - AutoHotkey ; Active alt tab reminder for influences 
+		PostRestore()
 		Return
 	}
 	Return
+}
+
+EldritchReminderDestroy()
+{
+	Gui, InfluenceReminder:Destroy
 }

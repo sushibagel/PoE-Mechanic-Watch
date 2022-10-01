@@ -70,8 +70,7 @@ InfluenceTrack(NewLine)
                         }
                     }   
                     ReminderText = This is your %InfluenceCount% map. Don't forget to kill the boss for your %InvitationType% Invitation
-                    ; EldritchReminder()
-                    InfluenceNotificationSound()
+                    EldritchReminder()
                 }
             }
         }
@@ -101,7 +100,6 @@ CloseGui()
 
 InfluenceReminderButtonOK()
 {
-    InfluenceReminderActive := 0
     WinActivate, Path of Exile
     Gui, InfluenceReminder:Destroy
     MechanicsPath := MechanicsIni()

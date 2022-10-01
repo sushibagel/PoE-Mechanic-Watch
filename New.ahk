@@ -415,6 +415,7 @@ AdditionalScripts(Action)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #Include, Resources\Scripts\AutoMechanic.ahk
+#Include, Resources\Scripts\EldritchReminder.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk
 #Include, Resources\Scripts\Ini.ahk

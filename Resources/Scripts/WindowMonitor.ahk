@@ -3,6 +3,7 @@
 #NoEnv
 #NoTrayIcon
 ;#Warn
+SetTitleMatchMode, 3
 
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
@@ -14,8 +15,11 @@ GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, ahk_exe code.exe  
 
 Global ReminderActive
+Global InfluenceReminderActive
 
 OnMessage(0x01118, "DeactivateReminder")
+OnMessage(0x01192, "ActivateInfluenceReminder")
+OnMessage(0x01155, "DeactivateInfluenceReminder")
 
 Loop 
 {
@@ -26,11 +30,21 @@ Loop
         {
             Gui, InfluenceReminder:Destroy
             WinClose, Overlay,,,Visual Studio Code
+            SetTitleMatchMode, 3
             If WinExist("Reminder")
             {
                 PostSetup()
                 ReminderActive := 1
-                PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ; destroy reminder gui
+                PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ; destroy reminder 
+                PostRestore()
+            }
+            SetTitleMatchMode, 3
+            If WinExist("InfluenceReminder")
+            {
+                PostSetup()
+                InfluenceReminderActive := 1
+                PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ; destroy reminder 
+                PostRestore()
             }
             Loop
             If WinActive("ahk_group PoEWindow")
@@ -43,12 +57,11 @@ Loop
                     ReminderActive := 0
                     PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
                 }
-                ; If (InfluenceReminderActive = 1)
-                ; {
-                ;     ; SetTimer, EldritchReminder, 500
-                ;     ; SetTimer, InfluenceNotificationSound, 500
-                ;     InfluenceReminderActive := 0
-                ; }
+                If (InfluenceReminderActive = 1)
+                {
+                    ReminderActive := 0
+                    PostMessage, 0x01123,,,, Tail.ahk - AutoHotkey ;Activate Influence reminder again
+                }
                 DetectHiddenWindows, %Prev_DetectHiddenWindows%
                 SetTitleMatchMode, %A_TitleMatchMode%
                 Break
@@ -74,4 +87,14 @@ PostRestore()
 DeactivateReminder()
 {
     ReminderActive := 0
+}
+
+DeactivateInfluenceReminder()
+{
+    InfluenceReminderActive := 0
+}
+
+ActivateInfluenceReminder()
+{
+    InfluenceReminderActive := 1
 }

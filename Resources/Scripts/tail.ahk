@@ -9,6 +9,8 @@ Global NewLine
 
 OnMessage(0x01113, "ReminderDestroy")
 OnMessage(0x01112, "Reminder")
+OnMessage(0x01122, "EldritchReminderDestroy")
+OnMessage(0x01123, "EldritchReminder")
 
 LogMonitor()
 
@@ -19,29 +21,32 @@ Exit
 
 ; This function gets called each time there is a new line
 LogTail(text)
+{
+	NewLine = % text
+	FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
+	If NewLine contains %MyHideout%
 	{
-		NewLine = % text
-		FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
-		If NewLine contains %MyHideout%
+		PostSetup()
+		PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 
+		PostRestore()
+		MechanicsActive()
+		If (MechanicsActive >= 1)
 		{
-			MechanicsActive()
-			If (MechanicsActive >= 1)
-			{
-				Reminder()
-			}
-			Exit
+			Reminder()
 		}
-		If NewLine contains %MyDialogs%,%MyDialogsDisable%
-		{
-			SearchText(NewLine)
-			Exit
-		}
-		If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
-		{
-			InfluenceTrack(NewLine)
-			Exit
-		}
+		Exit
 	}
+	If NewLine contains %MyDialogs%,%MyDialogsDisable%
+	{
+		SearchText(NewLine)
+		Exit
+	}
+	If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
+	{
+		InfluenceTrack(NewLine)
+		Exit
+	}
+}
 
 class CLogTailer 
 {
@@ -75,6 +80,7 @@ class CLogTailer
 }
 
 #IncludeAgain, Resources/Scripts/AutoMechanic.ahk
+#IncludeAgain, Resources/Scripts/EldritchReminder.ahk
 #IncludeAgain, Resources/Scripts/HotkeySelect.ahk
 #IncludeAgain, Resources/Scripts/Influences.ahk
 #IncludeAgain, Resources/Scripts/Ini.ahk
