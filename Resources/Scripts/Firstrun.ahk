@@ -5,6 +5,7 @@ Global HotkeyState
 Global LaunchAssistState
 Global MechanicState
 Global PositionState
+Global MapPositionState
 Global SoundState
 Global ThemeState
 Global ToolLauncherState
@@ -13,6 +14,7 @@ Global ThemeSelect
 Global HideoutSelect
 Global MechanicSelect
 Global PositionSelect
+Global MapPositionSelect
 Global TransparencySelect
 Global AutoMechanicSelect
 Global HotkeySelect
@@ -22,7 +24,7 @@ Global ToolLauncherSelect
 
 CheckFirstRun() ;Check to see if all First Run Items are complete
 {
-    Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher"
+    Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher"
     Global Item
     Global each
     FirstRunPath := FirstRunIni()
@@ -72,6 +74,7 @@ FirstRun()
     Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
     Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
     Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Setup your overlay
+    Gui, First2:Add, Checkbox, vMapPositionSelect gMapPositionSelect Checked%MapPositionState%, %A_Space% Select the position of the Map Notifications
     Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, * Set the transparency of your overlays and notifications
     Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
     Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
@@ -171,6 +174,17 @@ PositionSelect()
     Return
 }
 
+MapPositionSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    Gui, First2:Destroy
+    MoveMap()
+    WinWait, Influence
+    WinwaitClose, Influence
+    FirstRunWrite("MapPosition")
+    Return
+}
 
 TransparencySelect()
 {
