@@ -4,6 +4,7 @@ Global OrientationChoice
 
 OverlaySetup()
 {
+    Gui, OverlaySetup:Destroy
     CheckTheme()
     OverlayPath := OverlayIni()
     IniRead, OverlayOrientation, %OverlayPath%, Overlay Position, Orientation
