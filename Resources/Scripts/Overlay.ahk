@@ -84,7 +84,7 @@ RefreshOverlay()
         {
             LockPosition := "yn y5"
         }
-        Gui, Overlay:Add, Button, gLock %LockPosition%, Lock
+        Gui, Overlay:Add, Button, %LockPosition%, Lock
         Tooltip, Drag the overlay around and press "Lock" to store it's location.
         ShowTitle := ""
         Activate := ""
@@ -198,7 +198,7 @@ Searing()
     Return
 }
 
-Lock:
+OverlayButtonLock()
 {
     Gui, Overlay:Submit, NoHide
     WinGetPos, newwidth, newheight,,,Overlay
