@@ -165,9 +165,8 @@ PositionSelect()
     Gui, First:Destroy
     Gui, First2:Destroy
     OverlaySetup()
-    WinWait, Move
-    Gui, Loading:Destroy
-    WinwaitClose, Move
+    WinWait, OverlaySetup
+    WinwaitClose, OverlaySetup
     FirstRunWrite("Position")
     Return
 }
@@ -188,14 +187,11 @@ TransparencySelect()
 AutoMechanicSelect()
 {
     Gui, Submit, NoHide
-    Gui, First:Hide
-    Gui, First2:Hide
-    ReadAutoMechanics()
-    SelectAuto()
-    FirstRunWrite("AutoMechanic")
-    WinWaitClose, Auto Enable/Disable (Beta)
     Gui, First:Destroy
     Gui, First2:Destroy
+    SelectAuto()
+    Winwaitclose, Auto Enable/Disable (Beta)
+    FirstRunWrite("AutoMechanic")
     ReloadFirstRun()
     Return
 }
@@ -207,6 +203,7 @@ HotkeySelect()
     Gui, First:Destroy
     Gui, First2:Destroy
     HotkeyUpdate()
+    Winwaitclose, Dynamic Hotkeys
     FirstRunWrite("Hotkey")
     Return
 }

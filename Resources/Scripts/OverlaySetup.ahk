@@ -10,7 +10,6 @@ OverlaySetup()
     DDSelect := 2
     If(OverlayOrientation = "Horizontal")
     {
-        msgbox, test
         DDSelect := 1
     }
     Gui, OverlaySetup:Font, c%Font% s11

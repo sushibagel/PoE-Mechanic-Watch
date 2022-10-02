@@ -3,6 +3,7 @@ Global InfluenceActive
 Global SoundActive
 Global NotificationSound
 Global NotificationVolume
+Global Notification
 
 UpdateNotification()
 {

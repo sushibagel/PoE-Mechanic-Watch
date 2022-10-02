@@ -30,6 +30,7 @@ Global RitualOn
 Global GenericOn
 Global MechanicsActive
 Global Mechanic
+Global None
 
 Mechanics() ;List of Mechanics
 {
@@ -57,22 +58,22 @@ SelectMechanics()
     Gui, Mechanic:Add, Text,,Select One
     Gui, Mechanic:Font, s1 c%Font%
     Gui, Mechanic:Font, Normal s10
-    ; InfluencesTypes := Influences()
+    InfluencesTypes := Influences()
     For each, Influence in StrSplit(InfluencesTypes, "|")
     {
         IniRead, %Influence%State, %MechanicsPath%, Influence, %Influence%
         autochecked = %Influence%State
         autochecked := % %autochecked%
-        Gui, Mechanic:Add, Checkbox, v%Influence% Checked%autochecked%, %Influence%
+        Gui, Mechanic:Add, Radio, v%Influence% Checked%autochecked%, %Influence%
     }
-    Gui, Mechanic:Add, Button, x100 y295 w80 h20, OK
+    Gui, Mechanic:Add, Radio, vNone, None
+    Gui, Mechanic:Add, Button, xp x100 w80 h20, OK
     Gui Mechanic:Show,,Mechanic
     Return
 }
 
 MechanicGuiClose()
 {
-    ; Start()
     Return
 }
 
@@ -86,7 +87,7 @@ MechanicButtonOk()
         SelectMechanics()
     }
     MechanicSearch := Mechanics()
-    ; InfluencesTypes := Influences()
+    InfluencesTypes := Influences()
     MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
@@ -97,7 +98,9 @@ MechanicButtonOk()
         IniWrite, % %Influence%, %MechanicsPath%, Influence, %Influence%
     }
     Gui, Mechanic:Destroy
-    ; Start()
+    PostSetup()
+    PostMessage, 0x01111,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 
+    PostRestore()
     Return
 }
 
