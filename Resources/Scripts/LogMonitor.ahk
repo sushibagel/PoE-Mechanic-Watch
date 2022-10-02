@@ -8,8 +8,7 @@ Global MyHideout
 
 LogMonitor() ;Monitor the PoE client.txt
 {
-    SetTimer, LogMonitor, Delete
-    ReadFile = Resources\Data\Incursiondialogsdisable.txt
+    FileRead, ReadFile, Resources\Data\Incursiondialogsdisable.txt
     IncursionGo := StrReplace(ReadFile, "`r`n" , ",")
 
     MyHideout := GetHideout()
@@ -53,18 +52,6 @@ LogMonitor() ;Monitor the PoE client.txt
     Return
 }
 
-HideoutEntered()
-{
-    MechanicsActive()
-    If (MechanicsActive >= 1)
-    {
-        ; Reminder()
-        WinwaitClose, Reminder
-        Exit
-    }
-    Exit
-}
-
 SearchText(NewLine)
 {
     MechanicsActive()
@@ -101,7 +88,8 @@ SearchText(NewLine)
                         }
                         IncursionCode := Code
                         IncursionSleep ++
-                        If (IncursionSleep = 4)
+                        msgbox, %IncursionSleep%
+                        If (IncursionSleep = 3)
                         {
                             IniPath := MechanicsIni()
                             IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
@@ -127,7 +115,7 @@ SearchText(NewLine)
             {
                 activecheck = %Mechanic%Active
                 automechanic = %Mechanic%Auto
-                If (%activecheck% = 1) and (%automechanic% = 1) and !InStr(Mechanic, Incursion)
+                If (%activecheck% = 1) and (%automechanic% = 1) and !InStr(Mechanic, "Incursion")
                 {
                     IniPath := MechanicsIni()
                     IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
