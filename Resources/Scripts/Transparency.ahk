@@ -116,10 +116,11 @@ OverlayTest()
         Gui, TransparencyWarning:Show, NoActivate x%xh% y%yh% w550, TransparencyWarning
         WinWaitClose, TransparencyWarning
     }
-    Gui, Overlay:Destroy
     Gui, Transparency:Submit, NoHide
+    TransparencyFile := TransparencyIni()
+    IniWrite, %OverlayEdit%, %TransparencyFile%, Transparency, Overlay
     NotificationPrep(Overlay)
-    ; Overlay()
+    RefreshOverlay()
     Return
 }
 

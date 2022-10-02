@@ -28,6 +28,7 @@ Global IncursionOn
 Global MetamorphOn
 Global RitualOn
 Global GenericOn
+Global mechanicsOn
 Global MechanicsActive
 Global Mechanic
 Global None
@@ -108,12 +109,14 @@ ReadMechanics()
 {
     MechanicsPath := MechanicsIni()
     MechanicSearch := Mechanics()
+    MechanicsOn := ""
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
         IniRead, %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
         If (%Mechanic% = 1)
         {
             %Mechanic%On := 1
+            MechanicsOn ++
         }
         If (%Mechanic% = 0)
         {
