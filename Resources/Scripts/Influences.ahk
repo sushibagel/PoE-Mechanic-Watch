@@ -40,7 +40,7 @@ InfluenceTrack(NewLine)
                 {
                     InfluenceCount = 1
                 }
-                ControlSetText, %OldTrack%, %InfluenceCount%, Overlay
+                RefreshOverlay()
                 MechanicsPath := MechanicsIni()
                 IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, %InfluenceActive%
                 InfluenceMapNotification()
@@ -150,7 +150,7 @@ SubtractOne()
         IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Searing
     }
     Sleep, 100
-    ControlSetText, %OldTrack%, %InfluenceCount%, Overlay
+    RefreshOverlay()
     Return
 }
 

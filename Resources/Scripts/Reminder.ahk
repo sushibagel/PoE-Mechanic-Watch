@@ -79,8 +79,8 @@ ReminderButtonNo()
         IniWrite, 0, %MechanicIniPath%, Mechanic Active, %Mechanic%
     }
     Gui, Reminder:Destroy
+    RefreshOverlay()
     PostSetup()
-    PostMessage, 0x01111,,,, New.ahk - AutoHotkey
     PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
     PostRestore()
     Return

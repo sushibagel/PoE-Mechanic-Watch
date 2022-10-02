@@ -79,6 +79,12 @@ class CLogTailer
 	}
 }
 
+RefreshOverlay()
+{
+	PostSetup()
+    PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+	PostRestore()
+}
 #IncludeAgain, Resources/Scripts/AutoMechanic.ahk
 #IncludeAgain, Resources/Scripts/EldritchReminder.ahk
 #IncludeAgain, Resources/Scripts/HotkeySelect.ahk
