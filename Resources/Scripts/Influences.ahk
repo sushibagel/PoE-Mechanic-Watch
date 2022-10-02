@@ -3,6 +3,7 @@ Global EaterActive
 Global ReminderText
 Global Influence
 Global InfluenceReminderActive
+Global MapMove
 
 InfluenceTrack(NewLine)
 {
@@ -79,7 +80,6 @@ InfluenceTrack(NewLine)
 
 InfluenceNotificationSound()
 {
-    SetTimer, InfluenceNotificationSound, Delete
     NotificationPrep("Influence")
     If (SoundActive = 1)
     {
@@ -200,23 +200,51 @@ InfluenceMapNotification() ;Map tracking notification
     NotificationPrep("Map")
     HotkeyCheck()
     InfluenceHotkey := InfluenceHotkey()
-    Winwait, Overlay
-    WinGetPos,Width, Height, Length,, Overlay
-    height := height - 50
-    Length := Length - 10
+    NotificationIni := NotificationIni()
+    IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
+    IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
     Gui, Influence:Color, %Background%
     Gui, Influence:Font, c%Font% s10
-    Gui, Influence:-Border +AlwaysOnTop
     Gui, Influence:Add, Text,,You just entered a new map, press %InfluenceHotkey%  to subtract 1 map
-    Gui, Influence:Show, NoActivate x-1000 y%height%, Influence
-    WinGetPos, Xi, Yi, Widthi, Heighti, Influence
-    Gui, Influence:Hide
-    widthset := Width  + (Length/2) - (Widthi/2)
-    Gui, Influence:Show, NoActivate x%widthset% y%height%, Influence
+    ShowTitle := "-0xC00000"
+    ShowBorder := "-Border"
+    If (MapMove = 1)
+    {
+        Gui, Influence:Add, Button, yn y5, Lock
+        Tooltip, Drag the overlay around and press "Lock" to store it's location.
+        ShowTitle := ""
+        ShowBorder := ""
+        MapMove := 0
+    }
+    Gui, Influence: %ShowBorder% +AlwaysOnTop
+    Gui, Influence:Show, NoActivate x%Horizontal% y%Vertical%, Influence
     MapTransparency := TransparencyCheck("Map")
-    WinSet, Style, -0xC00000, Influence
+    WinSet, Style,  %ShowTitle%, Influence
     WinSet, Transparent, %MapTransparency%, Influence
     Return
+}
+
+InfluenceButtonLock()
+{
+    WinGetPos, newwidth, newheight,,, Influence
+    newheight := newheight + 30
+    ToolTip
+    Gui, Influence:Destroy
+    NotificationIni := NotificationIni()
+    IniWrite, %newheight%, %NotificationIni%, Map Notification Position, Vertical
+    IniWrite, %newwidth%, %NotificationIni%, Map Notification Position, Horizontal
+    Return
+}
+
+MoveMap()
+{
+    MapMove := 1
+    InfluenceMapNotification()
+}
+
+MapNotificationDestroy()
+{
+    Gui, Influence:Destroy
 }
 
 PostSetup()
