@@ -27,6 +27,7 @@ Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Overlay Settings, OverlaySetup
 Menu, SetupMenu, Add, Move Overlay, Move
+Menu, SetupMenu, Add, Move Map Notification, MoveMap
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
 Menu, SetupMenu, Add, Sound Settings, UpdateNotification
