@@ -52,7 +52,7 @@ RefreshOverlay()
         IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
         Gui, Overlay:Add, Picture, g%InfluenceActive% %OverlayOrientation% w-1 h%IconHeight% Section, Resources/Images/%InfluenceActive%.png
         Gui, Overlay:Font, cWhite s%OverlayFont%
-        TrackOffset := IconHeight/2 - OverlayFont/2 ;6 is half of font size, I will probably make font size editable so this will need a variable/formula
+        TrackOffset := IconHeight/2 - OverlayFont/2 - 1
         Gui, Overlay:Add, Text, xs+%TrackOffset%, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
@@ -79,7 +79,12 @@ RefreshOverlay()
     Activate := "NoActivate"
     If (MoveActive = 1)
     {
-        Gui, Overlay:Add, Button, gLock xn x5, Lock
+        LockPosition := "xn x5"
+        If (OverlayOrientation = "yn")
+        {
+            LockPosition := "yn y5"
+        }
+        Gui, Overlay:Add, Button, gLock %LockPosition%, Lock
         Tooltip, Drag the overlay around and press "Lock" to store it's location.
         ShowTitle := ""
         Activate := ""
