@@ -110,7 +110,7 @@ OverlayTest()
         Gui, TransparencyWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
         Gui, TransparencyWarning:Color, %Background%
         Gui, TransparencyWarning:Font, c%Font% s11
-        Gui, TransparencyWarning:Add, Text, w530 +Center, You don't currently have any mechanics any mechanic tracking on. You must have at least 1 mechanic on to test this overlay.
+        Gui, TransparencyWarning:Add, Text, w530 +Center, You don't currently have any mechanic tracking on. You must have at least 1 mechanic on to test this overlay.
         Gui, TransparencyWarning:Add, Button, y50 x50, OKAY
         Gui, TransparencyWarning: +AlwaysOnTop -Caption
         Gui, TransparencyWarning:Show, NoActivate x%xh% y%yh% w550, TransparencyWarning
