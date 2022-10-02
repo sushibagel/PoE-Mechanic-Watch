@@ -6,6 +6,7 @@ Global PlayColor
 
 UpdateTransparency()
 {
+    Gui, Transparency:Destroy
     CheckTheme()
     TransparencyFile := TransparencyIni()
     OverlayList := GetOverlayItems()
@@ -73,9 +74,15 @@ TransparencyButtonOk()
         IniWrite, %Edit%, %TransparencyFile%, Transparency, %OverlayItem%
     }
     Gui, Influence:Destroy
-    Gui, Reminder:Destroy
+    PostSetup()
+    PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey
+    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
+    PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey
+    PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
+    PostRestore()
+    Gui, Influence:Destroy
     Gui, 1:Destroy
-    Gui, Overlay:Destroy
+    RefreshOverlay()
     Gui, Transparency:Destroy
     ReadTransparency()
     Return
@@ -131,25 +138,30 @@ OverlayStop()
     Return
 }
 
-NotificationTest:
+NotificationTest()
 {
     Gui, 1:Destroy
     Gui, Overlay:Destroy
     Gui, Transparency:Submit, NoHide
+    TransparencyPath := TransparencyIni()
     IniWrite, %NotificationEdit%, %TransparencyPath%, Transparency, Notification
-    ; Overlay()
+    RefreshOverlay()
     Gui, Overlay:Hide
     height9 := (A_ScreenHeight / 2) + 200
     width9 := (A_ScreenWidth / 2)-100
     ReminderText = Ritual and Metamorph
-    ; MechanicReminder()
+    PostSetup()
+    PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey
+    PostRestore()
     Return
 }
 
 NotificationStop:
 {
-    Gui, 1:Destroy
-    Gui, Overlay:Destroy
+    PostSetup()
+    PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey
+    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
+    PostRestore()
     Return
 }
 
@@ -159,34 +171,18 @@ InfluenceTest:
     Gui, Transparency:Submit, NoHide
     TransparencyIni := TransparencyIni()
     IniWrite, %InfluenceEdit%, %TransparencyIni%, Transparency, Influence
-    InfluenceTrack = 28
-    ReminderText = This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation
-    WinGetPos, X, Y, Length, Height, Transparency
-    height2 := Height + Y + 100
-    width2 := (Length/2) + X - 300
-    ; EldritchReminder()
-    ;Set influence count and active influence back just in case
-    ; Influences := Influences()
-    For each, Influence in StrSplit(Influences, "|")
-    MechanicsIni := MechanicsIni()
-    IniRead, %Influence%, %MechanicsIni%, Influence, %Influence%
-    If (SearingActive = 1)
-    {
-        InfluenceActive = Searing
-    }
-    If (EaterActive = 1)
-    {
-        InfluenceActive = Eater
-    }
-    IniRead, InfluenceTrack, %MechanicsIni%, InfluenceTrack, %InfluenceActive%
-    height2 =
-    width2 =
+    PostSetup()
+    PostMessage, 0x01123,,,, Tail.ahk - AutoHotkey
+    PostRestore()
     Return
 }
 
 InfluenceStop()
 {
-    Gui, Reminder:Destroy
+    PostSetup()
+    PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey
+    PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
+    PostRestore()
     Return
 }
 

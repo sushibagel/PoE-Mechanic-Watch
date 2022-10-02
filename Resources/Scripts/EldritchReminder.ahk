@@ -6,11 +6,18 @@ Global InfluenceReminderActive
 
 EldritchReminder()
 {
+	Gui, InfluenceReminder:Destroy
+	CheckTheme()
 	TransparencyFile := TransparencyIni()
     IniRead, InfluenceTransparency, %TransparencyFile%, Transparency, Influence
 	If (InfluenceTransparency = "ERROR")
 	{
 		InfluenceTransparency = 255
+	}
+	If WinExist("Transparency")
+	{
+		ReminderText := "This is your 28th map. Don't forget to kill the boss for your Incandescent Invitation"
+		InfluenceCount := 14
 	}
 	If (InfluenceCount = 14) or (InfluenceCount = 28)
 	{
@@ -22,6 +29,10 @@ EldritchReminder()
 		{
 			height1 := height2
 			width1 := width2
+		}
+		If WinExist("Transparency")
+		{
+			height1 := 750
 		}
 		Gui, InfluenceReminder:Font, s10
 		Gui, InfluenceReminder:Color, %Background%
