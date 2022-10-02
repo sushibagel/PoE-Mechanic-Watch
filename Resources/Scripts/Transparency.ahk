@@ -200,7 +200,7 @@ MapTest:
     Hk := Hotkey1
     WinGetPos, Width, Height, Length, , Transparency
     Height := Height + 350
-    ; InfluenceMapNotification()
+    InfluenceMapNotification()
     Return
 }
 
