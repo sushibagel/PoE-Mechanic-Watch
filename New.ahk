@@ -13,20 +13,28 @@ OnMessage(0x01111, "RefreshOverlay")
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
 Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
+Menu, Tray, Add
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
 Menu, Tray, Add
 Menu, SetupMenu, Add, Setup Menu, FirstRun
+Menu, SetupMenu, Add
 Menu, Tray, Add, Setup, :SetupMenu
 Menu, SetupMenu, Add, Set Hideout, SetHideout
+Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Change Theme, SelectTheme
+Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
+Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Overlay Settings, OverlaySetup
 Menu, SetupMenu, Add, Move Overlay, Move
+Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
-Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add, Sound Settings, UpdateNotification
+Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Launch Assist, LaunchGui
 Menu, SetupMenu, Add, Tool Launcher, ToolLaunchGui
+Menu, Tray, Default, Setup
+Menu, SetupMenu, Default, Setup Menu
 Menu, Tray, Add
 Menu, Tray, Add, Reload, Reload
 Menu, Tray, Add
@@ -133,6 +141,8 @@ If !FileExist(NotificationIni) ;Check for "Notification" ini
     IniWrite, 0, %NotificationIni%, Active, Influence
     IniWrite, 100, %NotificationIni%, Volume, Notification
     IniWrite, 100, %NotificationIni%, Volume, Influence
+    IniWrite, 839, %NotificationIni%, Map Notification Position, Vertical
+    IniWrite, 677, %NotificationIni%, Map Notification Position, Horizontal
 }
 
 MechanicsIni := MechanicsIni()
