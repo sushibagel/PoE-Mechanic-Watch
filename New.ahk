@@ -170,6 +170,16 @@ If !FileExist(MechanicsIni) ;Check for "Mechanics" ini
     }
 }
 
+TransparencyIni := TransparencyIni()
+If !FileExist(TransparencyIni)
+{
+    TransparencyItems := "Overlay|Notification|Influence|Map"
+    For each, Item in StrSplit(TransparencyItems "|")
+    {
+        IniWrite, 255, %TransparencyIni%, Transparency, %Item%
+    }
+}
+
 FirstRunIni := FirstRunIni()
 If FileExist(FirstRunIni) ;Check for "FirstRun" ini
 {
