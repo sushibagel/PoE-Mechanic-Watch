@@ -88,7 +88,6 @@ SearchText(NewLine)
                         }
                         IncursionCode := Code
                         IncursionSleep ++
-                        msgbox, %IncursionSleep%
                         If (IncursionSleep = 3)
                         {
                             IniPath := MechanicsIni()
@@ -97,7 +96,8 @@ SearchText(NewLine)
                             Prev_TitleMatchMode := A_TitleMatchMode
                             SetTitleMatchMode 2
                             DetectHiddenWindows On
-                            PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                            PostMessage, 0x01111,,,, New.ahk - AutoHotkey ;refresh overlay
+                            PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate reminder overlay
                             DetectHiddenWindows, %Prev_DetectHiddenWindows%
                             SetTitleMatchMode, %A_TitleMatchMode%
                             Break
@@ -165,4 +165,9 @@ CheckTheme()
         IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
     }
     Return, %ColorMode%
+}
+
+SleepReset()
+{
+    IncursionSleep := 0
 }
