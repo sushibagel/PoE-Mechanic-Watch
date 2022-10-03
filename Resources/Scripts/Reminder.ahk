@@ -81,6 +81,7 @@ ReminderButtonNo()
     }
     Gui, Reminder:Destroy
     OnMessage(0x01111, "RefreshOverlay")
+    RefreshOverlay()
     PostSetup()
     PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
     PostRestore()
