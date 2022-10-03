@@ -4,6 +4,7 @@ Global Breach
 Global Expedition
 Global Harvest
 Global Incursion
+Global Legion
 Global Metamorph
 Global Ritual
 Global Generic
@@ -15,6 +16,7 @@ Global BreachActive
 Global ExpeditionActive
 Global HarvestActive
 Global IncursionActive
+Global LegionActive
 Global MetamorphActive
 Global RitualActive
 Global GenericActive
@@ -25,6 +27,7 @@ Global BreachOn
 Global ExpeditionOn
 Global HarvestOn
 Global IncursionOn
+Global LegionOn
 Global MetamorphOn
 Global RitualOn
 Global GenericOn
@@ -35,7 +38,7 @@ Global None
 
 Mechanics() ;List of Mechanics
 {
-    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Metamorph|Ritual|Generic"
+    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Metamorph|Ritual|Generic"
 }
 
 SelectMechanics()
