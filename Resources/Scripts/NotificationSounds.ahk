@@ -4,6 +4,8 @@ Global SoundActive
 Global NotificationSound
 Global NotificationVolume
 Global Notification
+Global TestVolume
+Global TestSound
 
 UpdateNotification()
 {
@@ -51,15 +53,7 @@ NotificationTypes()
 
 SoundsButtonOk()
 {
-    Notifications := NotificationTypes()
-    NotificationPath := NotificationIni()
-    Gui, Submit, NoHide 
-    For each, Item in StrSplit(Notifications, "|")
-    {
-        ItemActive := %Item%
-        IniWrite, %ItemActive%, %NotificationPath%, Active, %Item%
-        IniWrite, %NotificationEdit%, %NotificationPath%, Volume, %Item%
-    }
+    NotificationWrite()
     Gui, Destroy
     Return
 } 
@@ -93,18 +87,23 @@ SoundsButtonChangeInfluence()
 testNotification()
 {
     Gui, Sounds:Submit, NoHide
+    NotificationWrite()
+    NotificationPrep(Notification)
     NotificationPath := NotificationIni()
     IniRead, TestSound, %NotificationPath%, Sounds, Notification
-    TestVolume = %NotiEdit%
+    IniRead, TestVolume, %NotificationPath%, Volume, Notification
     TestSound()
+    Return
 }
 
 testInfluence()
 {
     Gui, Sounds:Submit, NoHide
+    NotificationWrite()
+    NotificationPrep(Notification)
     NotificationPath := NotificationIni()
     IniRead, TestSound, %NotificationPath%, Sounds, Influence
-    TestVolume = %NotiEditInfluence%
+    IniRead, TestVolume, %NotificationPath%, Volume, Influence
     TestSound()
     Return
 }
@@ -148,4 +147,17 @@ NotificationPrep(NotificationType)
     SoundActive := CheckSoundActive(NotificationType)
     NotificationVolume := CheckVolume(NotificationType)
     NotificationSound := CheckSounds(NotificationType)
+}
+
+NotificationWrite()
+{
+    Notifications := NotificationTypes()
+    NotificationPath := NotificationIni()
+    Gui, Submit, NoHide 
+    For each, Item in StrSplit(Notifications, "|")
+    {
+        ItemActive := %Item%
+        IniWrite, %ItemActive%, %NotificationPath%, Active, %Item%
+        IniWrite, %NotificationEdit%, %NotificationPath%, Volume, %Item%
+    }
 }
