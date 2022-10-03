@@ -89,6 +89,9 @@ HotkeyGuiClose()
 {
   Gui, Hotkey:Destroy
   SetHotKeys()
+  PostSetup()
+  PostMessage, 0x01786,,,, New.ahk - AutoHotkey ;Run script start function
+  PostRestore()
   Return
 }
 

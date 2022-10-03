@@ -8,6 +8,7 @@ CoordMode, Screen
 DetectHiddenWindows, On
 
 OnMessage(0x01111, "RefreshOverlay")
+OnMessage(0x01786, "Start")
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
