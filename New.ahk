@@ -9,6 +9,7 @@ DetectHiddenWindows, On
 
 OnMessage(0x01111, "RefreshOverlay")
 OnMessage(0x01786, "Start")
+OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
@@ -93,7 +94,7 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, Move
-GroupAdd, PoeWindow, ahk_exe code.exe           
+GroupAdd, PoeWindow, Awakened PoE Trade       
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 ThemeIni := ThemeIni()
@@ -424,6 +425,73 @@ AdditionalScripts(Action)
    Return
 }
 
+HotkeyCheck()
+{
+  HotkeyPath := HotkeyIni()
+  Loop, 12
+  {
+    IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
+  }
+  If !(Hotkey1 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, ~%Hotkey1%, SubtractOne
+  }
+  If !(Hotkey2 = "")
+  {
+    Hotkey, ~%Hotkey2%, LaunchPoe
+  }
+  If !(Hotkey3 = "")
+  {
+    Hotkey, ~%Hotkey3%, ToolLauncher
+  }
+  If !(Hotkey4 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey4%, Abyss, T5
+  }
+  If !(Hotkey5 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey5%, Blight, T5
+  }
+  If !(Hotkey6 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey6%, Breach, T5
+  }
+  If !(Hotkey7 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey7%, Expedition, T5
+  }
+  If !(Hotkey8 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey8%, Harvest, T5
+  }
+  If !(Hotkey9 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey9%, Incursion, T5
+  }
+  If !(Hotkey10 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey10%, Metamorph, T5
+  }
+  If !(Hotkey11 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey11%, Ritual, T5
+  }
+  If !(Hotkey12 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, %Hotkey12%, Generic, T5
+  }
+  Return
+}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #Include, Resources\Scripts\AutoMechanic.ahk
@@ -440,3 +508,5 @@ AdditionalScripts(Action)
 #Include, Resources\Scripts\ToolLauncher.ahk
 #Include, Resources\Scripts\Transparency.ahk
 #Include, Resources\Scripts\UpdateCheck.ahk
+
+;New Mechanic setup list. Add the following Global Variables (Mechanic Name, MechanicActive, MechanicOn - to Mechanics.ahk) Add mechanic name to Mechanic()(Function) in Mechanics.ahk

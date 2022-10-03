@@ -95,75 +95,7 @@ HotkeyGuiClose()
   Return
 }
 
-HotkeyCheck()
-{
-  HotkeyPath := HotkeyIni()
-  Loop, 12
-  {
-    IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
-  }
-  If !(Hotkey1 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, ~%Hotkey1%, SubtractOne
-  }
-  If !(Hotkey2 = "")
-  {
-    Hotkey, ~%Hotkey2%, LaunchPoe
-  }
-  If !(Hotkey3 = "")
-  {
-    Hotkey, ~%Hotkey3%, ToolLauncher
-  }
-  If !(Hotkey4 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey4%, Abyss, T5
-  }
-  If !(Hotkey5 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey5%, Blight, T5
-  }
-  If !(Hotkey6 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey6%, Breach, T5
-  }
-  If !(Hotkey7 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey7%, Expedition, T5
-  }
-  If !(Hotkey8 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey8%, Harvest, T5
-  }
-  If !(Hotkey9 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey9%, Incursion, T5
-  }
-  If !(Hotkey10 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey10%, Metamorph, T5
-  }
-  If !(Hotkey11 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey11%, Ritual, T5
-  }
-  If !(Hotkey12 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey12%, Generic, T5
-  }
-  Return
-}
-
-  SetHotkeys()
+SetHotkeys()
   {
     HotkeyPath := HotkeyIni()
     Loop, 12
