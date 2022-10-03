@@ -170,20 +170,20 @@ If !FileExist(MechanicsIni) ;Check for "Mechanics" ini
     }
 }
 
-; FirstRunIni := FirstRunIni()
-; If FileExist(FirstRunIni) ;Check for "FirstRun" ini
-; {
-;     CheckFirstRun()
-;     If (ClientState = "ERROR") or (HideoutState = "ERROR") or (MechanicState = "ERROR") or (TransparencyState = "Error") or (ClientState = 0) or (HideoutState = 0) or (MechanicState = 0) or (TransparencyState = 0) or (ClientState = "") or (HideoutState = "") or (MechanicState = "") or (TransparencyState = "")
-;     {
-;         FirstRun()
-;     }
-; }
+FirstRunIni := FirstRunIni()
+If FileExist(FirstRunIni) ;Check for "FirstRun" ini
+{
+    CheckFirstRun()
+    If (ClientState = "ERROR") or (HideoutState = "ERROR") or (MechanicState = "ERROR") or (TransparencyState = "Error") or (ClientState = 0) or (HideoutState = 0) or (MechanicState = 0) or (TransparencyState = 0) or (ClientState = "") or (HideoutState = "") or (MechanicState = "") or (TransparencyState = "")
+    {
+        FirstRun()
+    }
+}
 
-; If !FileExist(FirstRunIni)
-; {
-;     FirstRun()
-; }
+If !FileExist(FirstRunIni)
+{
+    FirstRun()
+}
 
 LaunchOptionIni := LaunchOptionsIni()
 If !FileExist(LaunchOptionIni) ;Check for "Launch options" ini
