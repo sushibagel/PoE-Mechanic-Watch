@@ -66,6 +66,7 @@ Reminder()
 ReminderButtonYes()
 {
     Gui, Reminder:Submit
+    OnMessage(0x01111, "RefreshOverlay")
     Return
 }
 
@@ -79,7 +80,7 @@ ReminderButtonNo()
         IniWrite, 0, %MechanicIniPath%, Mechanic Active, %Mechanic%
     }
     Gui, Reminder:Destroy
-    RefreshOverlay()
+    OnMessage(0x01111, "RefreshOverlay")
     PostSetup()
     PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
     PostRestore()

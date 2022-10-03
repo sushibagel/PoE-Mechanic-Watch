@@ -198,7 +198,9 @@ Influences() ;List of Influences
 InfluenceMapNotification() ;Map tracking notification
 {
     NotificationPrep("Map")
-    HotkeyCheck()
+    PostSetup()
+    PostMessage, 0x01741,,,, New.ahk - AutoHotkey ;Hotkey check
+    PostRestore()
     InfluenceHotkey := InfluenceHotkey()
     NotificationIni := NotificationIni()
     IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical

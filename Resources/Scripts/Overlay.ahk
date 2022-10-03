@@ -151,7 +151,15 @@ Harvest()
 }
 Incursion()
 {
+    PostSetup()
+    PostMessage, 0x01187,,,, Tail.ahk - AutoHotkey ;Reset the IncursionSleep variable
+    PostRestore()
     MechanicToggle("Incursion")
+    Return
+}
+Legion()
+{
+    MechanicToggle("Legion")
     Return
 }
 Metamorph()
