@@ -1,20 +1,11 @@
 Global ToolAddress
 
-ToolLaunchGui: ;Adds checkbox items to gui
+ToolLaunchGui:
 LaunchIni := LaunchOptionsIni()
 yh := (A_ScreenHeight/2) -150
 wh := A_ScreenWidth/2
 xh := (A_ScreenWidth/2)
-ArrCount = 0
-FileRead, LaunchKeys, %LaunchIni%
-Loop, Parse, LaunchKeys, `n`r
-{
-    if(Not Instr(A_LoopField, "="))
-    Continue
-    ArrCount++
-    StringSplit, data, A_LoopField, =
-    key%ArrCount% := data1
-}
+ArrCount := CountTools()
 Gui, ToolLauncher:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
 Gui, ToolLauncher:Color, %Background%
 Gui, ToolLauncher:Font, c%Font% s12
@@ -23,7 +14,6 @@ Gui, ToolLauncher:Add, GroupBox, h10 xn x10
 Space = y+2
 Gui, ToolLauncher: -Caption
 Gui, ToolLauncher:Font, c%Font% s11
-ArrCount := ArrCount/2
 Loop, %ArrCount%
 {
     keyname := key%A_Index%
@@ -50,6 +40,9 @@ Gui, ToolLauncher:Add, GroupBox, w%wh% h10 xn
 Space = y+2
 Gui, ToolLauncher: -Caption
 Gui, ToolLauncher:Font, c%Font% s11
+
+
+
 Loop, %ArrCount%
 {
     keyname := key%A_Index%
@@ -88,6 +81,7 @@ Gui, ToolLauncher:Color, %Background%
 Gui, ToolLauncher:Show, x%xh% y%yh% w%wh%, ToolLauncher
 WinWaitClose, ToolLauncher
 Return
+
 
 ToolLauncherButtonClose()
 {
@@ -179,4 +173,13 @@ ToolLauncherButtonLaunch()
         }
     }
     Return
+}
+
+CountTools()
+{
+    ArrCount := 0
+    LaunchIni := LaunchOptionsIni()
+    IniRead, SectionCount, %LaunchIni%, User Tools
+    TotalTools := StrSplit(SectionCount, "`n")
+    Return % TotalTools.MaxIndex()
 }
