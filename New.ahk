@@ -174,7 +174,7 @@ TransparencyIni := TransparencyIni()
 If !FileExist(TransparencyIni)
 {
     TransparencyItems := "Overlay|Notification|Influence|Map"
-    For each, Item in StrSplit(TransparencyItems "|")
+    For each, Item in StrSplit(TransparencyItems, "|")
     {
         IniWrite, 255, %TransparencyIni%, Transparency, %Item%
     }
