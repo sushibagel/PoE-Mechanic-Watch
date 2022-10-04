@@ -156,6 +156,7 @@ MechanicSelect()
     Gui, First:Destroy
     Gui, First2:Destroy
     SelectMechanics()
+    WinWait, Mechanic
     WinWaitClose, Mechanic
     FirstRunWrite("Mechanic")
     ReloadFirstRun()
