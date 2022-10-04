@@ -1,4 +1,5 @@
 Global ToolAddress
+Global ToolName
 
 ToolLaunchGui:
 LaunchIni := LaunchOptionsIni()
@@ -16,9 +17,8 @@ Gui, ToolLauncher: -Caption
 Gui, ToolLauncher:Font, c%Font% s11
 Loop, %ArrCount%
 {
-    keyname := key%A_Index%
-    IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %keyname%
-    IniRead, keyLaunchName, %LaunchIni%, Tool Name, %keyname%
+    IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %A_Index%
+    IniRead, keyLaunchName, %LaunchIni%, Tool Name, %A_Index%
     if !(KeyLaunchKeys = "ERROR")
     {
         Gui, ToolLauncher:Add, Button, xn x10 Section v%A_Index%Launch, Launch
@@ -40,14 +40,10 @@ Gui, ToolLauncher:Add, GroupBox, w%wh% h10 xn
 Space = y+2
 Gui, ToolLauncher: -Caption
 Gui, ToolLauncher:Font, c%Font% s11
-
-
-
 Loop, %ArrCount%
 {
-    keyname := key%A_Index%
-    IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %keyname%
-    IniRead, keyLaunchName, %LaunchIni%, Tool Name, %keyname%
+    IniRead, keyLaunchKeys, %LaunchIni%, User Tools, %A_Index%
+    IniRead, keyLaunchName, %LaunchIni%, Tool Name, %A_Index%
     if !(KeyLaunchKeys = "ERROR")
     {
         Gui, ToolLauncher:Add, Button, xn x10 Section v%A_Index%Launch, Launch
@@ -89,15 +85,15 @@ ToolLauncherButtonClose()
     Gui, Submit, NoHide
     Gui, ToolLauncher:Destroy
     NewKey = 0
+    ArrCount := CountTools()
     Loop, %ArrCount%
     {
-        keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchPath%, User Tools, %keyname%
-        IniRead, keyLaunchName, %LaunchPath%, Tool Name, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, User Tools, %A_Index%
+        IniRead, keyLaunchName, %LaunchPath%, Tool Name, %A_Index%
         if !(KeyLaunchKeys = "ERROR")
         {
-            IniDelete, %LaunchPath%, User Tools, %keyname%
-            IniDelete, %LaunchPath%, Tool Name, %keyname%
+            IniDelete, %LaunchPath%, User Tools, %A_Index%
+            IniDelete, %LaunchPath%, Tool Name, %A_Index%
             If (%A_Index% = 1)
             {
                 NewKey ++
