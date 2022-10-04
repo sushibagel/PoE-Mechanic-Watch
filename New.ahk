@@ -457,7 +457,7 @@ HotkeyCheck()
   }
   If !(Hotkey3 = "")
   {
-    Hotkey, ~%Hotkey3%, ToolLauncher
+    Hotkey, ~%Hotkey3%, ToolLaunchGui
   }
   If !(Hotkey4 = "")
   {
