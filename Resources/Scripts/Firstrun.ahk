@@ -310,14 +310,14 @@ FirstWarningButtonGoBack()
 ReloadFirstRun()
 {
     CheckFirstRun()
-    Global CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
-    If (CompletionCheck >= 2)
-    {
+    ; Global CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
+    ; If (CompletionCheck >= 2)
+    ; {
         FirstRun()
-    }
-    Else
-    {
-        Reload
-    }
+    ; }
+    ; Else
+    ; {
+    ;     Reload
+    ; }
     Return
 }
