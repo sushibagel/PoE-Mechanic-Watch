@@ -206,6 +206,12 @@ AutoMechanicSelect()
     Gui, First2:Destroy
     SelectAuto()
     Winwaitclose, Auto Enable/Disable (Beta)
+    If WinExist("Mechanic")
+    {
+        WinWaitClose, Mechanic
+        WinWait, Auto Enable/Disable (Beta)
+        Winwaitclose, Auto Enable/Disable (Beta)
+    }
     FirstRunWrite("AutoMechanic")
     ReloadFirstRun()
     Return
