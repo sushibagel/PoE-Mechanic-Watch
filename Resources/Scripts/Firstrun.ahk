@@ -323,7 +323,7 @@ ReloadFirstRun()
     }
     Else
     {
-        Reload
+        Reload()
     }
     Return
 }
