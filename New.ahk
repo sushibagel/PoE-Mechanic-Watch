@@ -236,6 +236,8 @@ Return
 
 Start()
 {
+    WinWait, ahk_Group PoeWindow
+    GetLogPath()
     CheckTheme()
     HotkeyCheck()
     Run, Resources\Scripts\Tail.ahk
@@ -288,6 +290,8 @@ GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
     {
         IniWrite, %LogPath%, Resources\Data\LaunchPath.ini, POE, log
         IniWrite, %POEPathTrim%, Resources\Data\LaunchPath.ini, POE, Directory
+        IniWrite, %POEpath%, Resources\Data\LaunchPath.ini, POE, EXE
+        
     }
     If (LogPath = "logs\Client.txt")
     {
@@ -370,10 +374,10 @@ GetHideout()
 LaunchPoe()
 {
     LaunchOptionsIni := LaunchOptionsIni()
-    IniRead, PoeLaunch, %LaunchOptionsIni%, POE, exe
+    IniRead, PoeLaunch, %LaunchOptionsIni%, POE, EXE
     IniRead, PoeDir, %LaunchOptionsIni%, POE, Directory
     SetWOrkingDir, %PoeDir%
-    run, %PoeLaunch%
+    Run, %PoeLaunch%
     SetWorkingDir, %A_ScriptDir%
     LaunchSupport()
 Return
