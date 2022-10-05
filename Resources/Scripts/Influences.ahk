@@ -207,7 +207,7 @@ InfluenceMapNotification() ;Map tracking notification
     IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
     Gui, Influence:Color, %Background%
     Gui, Influence:Font, c%Font% s10
-    Gui, Influence:Add, Text,,You just entered a new map, press %InfluenceHotkey%  to subtract 1 map
+    Gui, Influence:Add, Text,,You just entered a new map press %InfluenceHotkey%  to subtract 1 map
     ShowTitle := "-0xC00000"
     ShowBorder := "-Border"
     If (MapMove = 1)
