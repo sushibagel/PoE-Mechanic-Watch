@@ -115,7 +115,6 @@ SetHotkeys()
     HotkeyPath := HotkeyIni()
     IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 1
 
-msgbox, %InfluenceHotkey%
     If InfluenceHotkey contains +
     {
         StringReplace, InfluenceHotkey, InfluenceHotkey, + , Shift +%A_Space%,
