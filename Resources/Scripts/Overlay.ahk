@@ -88,6 +88,7 @@ RefreshOverlay()
         Tooltip, Drag the overlay around and press "Lock" to store it's location.
         ShowTitle := ""
         Activate := ""
+        Gui, Overlay:Color, %Background%
     }
     TransparencyPath := TransparencyIni()
     IniRead, OverlayTransparency, %TransparencyPath%, Transparency, Overlay, 255
