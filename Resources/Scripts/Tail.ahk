@@ -85,6 +85,11 @@ RefreshOverlay()
     PostMessage, 0x01111,,,, New.ahk - AutoHotkey
 	PostRestore()
 }
+
+FirstRun()
+{
+	
+}
 #IncludeAgain, Resources/Scripts/AutoMechanic.ahk
 #IncludeAgain, Resources/Scripts/EldritchReminder.ahk
 #IncludeAgain, Resources/Scripts/HotkeySelect.ahk

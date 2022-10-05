@@ -37,11 +37,12 @@ CheckFirstRun() ;Check to see if all First Run Items are complete
 
 FirstRun()
 {
+    FirstRunPath := FirstRunIni()
+    IniWrite, 1, %FirstRunPath%, Active, Active
     CheckFirstRun()
     GetHideout()
     Global yh := (A_ScreenHeight/2) -250
     Global xh := A_ScreenWidth/2
-    
     Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, First:Color, %Background%
     Gui, First:Font, c%Font% s12
@@ -155,7 +156,6 @@ MechanicSelect()
     Gui, First:Destroy
     Gui, First2:Destroy
     SelectMechanics()
-    WinWait, Mechanic
     WinWaitClose, Mechanic
     FirstRunWrite("Mechanic")
     Return
@@ -203,11 +203,10 @@ AutoMechanicSelect()
     Gui, First2:Destroy
     SelectAuto()
     Winwaitclose, Auto Enable/Disable (Beta)
+    Sleep, 100
     If WinExist("Mechanic")
     {
-        WinWaitClose, Mechanic
-        WinWait, Auto Enable/Disable (Beta)
-        Winwaitclose, Auto Enable/Disable (Beta)
+        Return
     }
     FirstRunWrite("AutoMechanic")
     Return
@@ -268,6 +267,8 @@ FirstRunWrite(WriteItem)
 
 First2ButtonClose()
 {
+    FirstRunPath := FirstRunIni()
+    IniWrite, 0, %FirstRunPath%, Active, Active
     Gui, Submit, NoHide
     Gui, First:Destroy
     Gui, First2:Destroy
@@ -315,12 +316,10 @@ ReloadFirstRun()
     Global CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
     If (CompletionCheck >= 2)
     {
-        Tooltip, > 2
         FirstRun()
     }
     Else
     {
-        Tooltip, <1
         Reload()
     }
     Return

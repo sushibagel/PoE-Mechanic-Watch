@@ -35,13 +35,14 @@ Global mechanicsOn
 Global MechanicsActive
 Global Mechanic
 Global None
+Global AutoRun
 
 Mechanics() ;List of Mechanics
 {
     Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Metamorph|Ritual|Generic"
 }
 
-SelectMechanics()
+SelectMechanics(RunAuto := False)
 {
     MechanicSearch := Mechanics()
     Gui, Mechanic:Font, c%Font% s10
@@ -73,6 +74,10 @@ SelectMechanics()
     Gui, Mechanic:Add, Radio, vNone, None
     Gui, Mechanic:Add, Button, xp x100 w80 h20, OK
     Gui Mechanic:Show,,Mechanic
+    If (RunAuto = 1)
+    {
+        AutoRun := 1
+    }
     Return
 }
 
@@ -105,6 +110,19 @@ MechanicButtonOk()
     PostSetup()
     PostMessage, 0x01111,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 
     PostRestore()
+    If (AutoRun = 1)
+    {
+        SelectAuto()
+        Exit
+    }
+    FirstRunPath := FirstRunIni()
+    IniRead, Active, %FirstRunPath%, Active, Active
+    If (Active = 1)
+    {
+        FirstRunPath := FirstRunIni()
+        Iniwrite, 1, %FirstRunPath%, Completion, Mechanic
+        FirstRun()
+    }
     Return
 }
 

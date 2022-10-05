@@ -27,6 +27,20 @@ SelectAuto()
 
 AutoButtonOk()
 {
+    AutoWrite()
+    FirstRunPath := FirstRunIni()
+    IniRead, Active, %FirstRunPath%, Active, Active
+    If (Active = 1)
+    {
+        FirstRunPath := FirstRunIni()
+        Iniwrite, 1, %FirstRunPath%, Completion, AutoMechanic
+        FirstRun()
+    }
+    Return
+}
+
+AutoWrite()
+{
     Gui, Submit, NoHide 
     AutoMechanicSearch := AutoMechanics()
     MechanicsPath := MechanicsIni()
@@ -36,15 +50,12 @@ AutoButtonOk()
         IniWrite, %mechanicvalue%, %MechanicsPath%, Auto Mechanics, %Mechanic%
     }
     Gui, Auto:Destroy
-    Return
-} 
+}
 
 AutoButtonSelectMechanics()
 {
-    AutoButtonOk()
-    SelectMechanics()
-    WinwaitClose, Mechanic
-    SelectAuto()
+    AutoWrite()
+    SelectMechanics(True)
 }
 
 ReadAutoMechanics()

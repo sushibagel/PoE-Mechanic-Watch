@@ -13,6 +13,8 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, Awakened PoE Trade 
+GroupAdd, PoeWindow, Influence
+GroupAdd, PoeWindow, Transparency 
 
 Global ReminderActive
 Global InfluenceReminderActive
