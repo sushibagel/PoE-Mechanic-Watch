@@ -3,21 +3,10 @@ Global ArrCount
 LaunchSupport() ;read ini file and launch each item
 {
     LaunchPath := LaunchOptionsIni()
-    ArrCount = 0
-    FileRead, LaunchKeys, %LaunchPath%
-    Loop, Parse, LaunchKeys, `n`r
-    {
-        if(Not Instr(A_LoopField, "="))
-        Continue
-        ArrCount++
-        StringSplit, data, A_LoopField, =
-        key%ArrCount% := data1
-    }
-
+    ArrCount := CountLauncher()
     Loop, %ArrCount%
     {
-        keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %A_Index%
         if !(KeyLaunchKeys = "ERROR")
         {
             run, % keyLaunchKeys
@@ -26,20 +15,11 @@ LaunchSupport() ;read ini file and launch each item
     Return
 }
 
-LaunchGui: ;Adds checkbox items to gui
+LaunchGui: 
 LaunchIni := LaunchOptionsIni()
 yh := (A_ScreenHeight/2) -150
 xh := A_ScreenWidth/2
-ArrCount = 0
-FileRead, LaunchKeys, %LaunchIni%
-Loop, Parse, LaunchKeys, `n`r
-{
-    if(Not Instr(A_LoopField, "="))
-    Continue
-    ArrCount++
-    StringSplit, data, A_LoopField, =
-    key%ArrCount% := data1
-}
+ArrCount := CountLauncher()
 Gui, Launcher:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
 Gui, Launcher:Color, %Background%
 Gui, Launcher:Font, c%Font% s12
@@ -48,8 +28,7 @@ Gui, Launcher: -Caption
 Gui, Launcher:Font, c%Font% s10
 Loop, %ArrCount%
 {
-    keyname := key%A_Index%
-    IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %keyname%
+    IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %A_Index%
     if !(KeyLaunchKeys = "ERROR")
     {
         Gui, Launcher:Add, Checkbox, v%A_Index% Checked1, % keyLaunchKeys
@@ -70,8 +49,7 @@ Gui, Launcher: -Caption
 Gui, Launcher:Font, c%Font% s10
 Loop, %ArrCount%
 {
-    keyname := key%A_Index%
-    IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %keyname%
+    IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %A_Index%
     if !(KeyLaunchKeys = "ERROR")
     {
         Gui, Launcher:Add, Checkbox, v%A_Index% Checked1, % keyLaunchKeys
@@ -94,11 +72,10 @@ LauncherButtonAccept()
     NewKey = 0
     Loop, %ArrCount%
     {
-        keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %A_Index%
         if !(KeyLaunchKeys = "ERROR")
         {
-            IniDelete, %LaunchPath%, Launch Options, %keyname%
+            IniDelete, %LaunchPath%, Launch Options, %A_Index%
             If (%A_Index% = 1)
             {
                 NewKey ++
@@ -114,22 +91,12 @@ LauncherButtonSelectFile()
     Gui, Submit, NoHide
     Gui, Launcher:Destroy
     FileSelectFile, LaunchOptions, 1, %A_ScriptDir%, Please select any new file you would like to add to your launch options. 
-    FileRead, LaunchKeys, %LaunchPath%
-    ArrCount = 0
     KeyCount = 0
-    Loop, Parse, LaunchKeys, `n`r
-    {
-        if(Not Instr(A_LoopField, "="))
-        Continue
-        ArrCount++
-        StringSplit, data, A_LoopField, =
-        key%ArrCount% := data1
-    }
-
+    ArrCount := CountLauncher()
+    LaunchPath := LaunchOptionsIni()
     Loop, %ArrCount%
     {
-        keyname := key%A_Index%
-        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %keyname%
+        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %A_Index%
         if !(KeyLaunchKeys = "ERROR")
         {
             KeyCount++
@@ -139,4 +106,13 @@ LauncherButtonSelectFile()
     IniWrite, %LaunchOptions%, %LaunchPath%, Launch Options, %KeyCount%
     Gosub, LaunchGui
     Return
+}
+
+CountLauncher()
+{
+    ArrCount := 0
+    LaunchIni := LaunchOptionsIni()
+    IniRead, SectionCount, %LaunchIni%, Launch Options
+    TotalTools := StrSplit(SectionCount, "`n")
+    Return % TotalTools.MaxIndex()
 }

@@ -12,7 +12,6 @@ GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Overlay
-GroupAdd, PoeWindow, ahk_exe code.exe  
 GroupAdd, PoeWindow, Awakened PoE Trade 
 
 Global ReminderActive
