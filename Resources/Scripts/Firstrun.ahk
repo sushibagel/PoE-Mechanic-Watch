@@ -146,7 +146,6 @@ HideoutSelect()
     SetHideout()
     Gui, First2:Destroy
     FirstRunWrite("Hideout")
-    ReloadFirstRun()
     Return
 }
 
@@ -159,7 +158,6 @@ MechanicSelect()
     WinWait, Mechanic
     WinWaitClose, Mechanic
     FirstRunWrite("Mechanic")
-    ReloadFirstRun()
     Return
 }
 
@@ -195,7 +193,6 @@ TransparencySelect()
     UpdateTransparency()
     WinWaitClose, Transparency
     FirstRunWrite("Transparency")
-    ReloadFirstRun()
     Return
 }
 
@@ -213,7 +210,6 @@ AutoMechanicSelect()
         Winwaitclose, Auto Enable/Disable (Beta)
     }
     FirstRunWrite("AutoMechanic")
-    ReloadFirstRun()
     Return
 }
 
@@ -315,14 +311,16 @@ FirstWarningButtonGoBack()
 
 ReloadFirstRun()
 {
-    CheckFirstRun()
+    CheckFirstRun() 
     Global CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
     If (CompletionCheck >= 2)
     {
+        Tooltip, > 2
         FirstRun()
     }
     Else
     {
+        Tooltip, <1
         Reload()
     }
     Return
