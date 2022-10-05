@@ -49,7 +49,6 @@ Reminder()
     {
         StringReplace, ReminderText, ReminderText,`, Eater,
     }
-    CheckTheme()
     MechanicReminder()
     NotificationPrep("Notification")
     If (SoundActive = 1)
