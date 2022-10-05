@@ -81,7 +81,7 @@ TransparencyButtonOk()
     PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
     PostRestore()
     Gui, Influence:Destroy
-    Gui, 1:Destroy
+    Gui, Reminder:Destroy
     RefreshOverlay()
     Gui, Transparency:Destroy
     ReadTransparency()
@@ -140,7 +140,7 @@ OverlayStop()
 
 NotificationTest()
 {
-    Gui, 1:Destroy
+    Gui, Reminder:Destroy
     Gui, Overlay:Destroy
     Gui, Transparency:Submit, NoHide
     TransparencyPath := TransparencyIni()
