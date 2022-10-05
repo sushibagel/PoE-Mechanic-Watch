@@ -113,8 +113,9 @@ SetHotkeys()
   InfluenceHotkey()
   {
     HotkeyPath := HotkeyIni()
-    IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 1, Not Set
+    IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 1
 
+msgbox, %InfluenceHotkey%
     If InfluenceHotkey contains +
     {
         StringReplace, InfluenceHotkey, InfluenceHotkey, + , Shift +%A_Space%,
@@ -130,6 +131,10 @@ SetHotkeys()
     If InfluenceHotkey contains #
     {
         StringReplace, InfluenceHotkey, InfluenceHotkey, # , Win +%A_Space%,
+    }
+    If (InfluenceHotkey = "")
+    {
+      InfluenceHotkey := "HOTKEY NOT SET"
     }
 
     Return, % InfluenceHotkey
