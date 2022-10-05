@@ -37,6 +37,12 @@ CheckFirstRun() ;Check to see if all First Run Items are complete
 
 FirstRun()
 {
+    PostSetup()
+    If !WinExist("Tail.ahk")
+    {
+        Run, Resources\Scripts\Tail.ahk
+    }
+    PostRestore()
     FirstRunPath := FirstRunIni()
     IniWrite, 1, %FirstRunPath%, Active, Active
     CheckFirstRun()

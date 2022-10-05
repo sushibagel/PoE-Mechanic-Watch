@@ -151,7 +151,7 @@ NotificationTest()
     width9 := (A_ScreenWidth / 2)-100
     ReminderText = Ritual and Metamorph
     PostSetup()
-    PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey
+    PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate Reminder
     PostRestore()
     Return
 }
