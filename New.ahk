@@ -94,7 +94,9 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, Move
-GroupAdd, PoeWindow, Awakened PoE Trade       
+GroupAdd, PoeWindow, Awakened PoE Trade   
+GroupAdd, PoeWindow, Influence  
+GroupAdd, PoeWindow, Transparency   
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 ThemeIni := ThemeIni()
