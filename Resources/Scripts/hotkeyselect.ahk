@@ -89,6 +89,15 @@ HotkeyGuiClose()
 {
   Gui, Hotkey:Destroy
   SetHotKeys()
+  FirstRunPath := FirstRunIni()
+    IniRead, Active, %FirstRunPath%, Active, Active
+    If (Active = 1)
+    {
+        FirstRunPath := FirstRunIni()
+        Iniwrite, 1, %FirstRunPath%, Completion, Mechanic
+        FirstRun()
+        Exit
+    }
   PostSetup()
   PostMessage, 0x01786,,,, New.ahk - AutoHotkey ;Run script start function
   PostRestore()
