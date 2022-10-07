@@ -115,9 +115,7 @@ ClientOpen()
         Gui, First:Destroy
         Gui, First2:Destroy
         FirstRunPath := FirstRunIni()
-        LaunchPathIni := LaunchOptionsIni()
-        IniRead, exe, %LaunchPathIni%, POE, EXE
-        If !WinExist("ahk_group PoECheck") or If !InStr(exe, ".exe")
+        If !WinExist("ahk_group PoECheck")
         {
             Gui, FirstReminder:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
             Gui, FirstReminder:Color, %Background%
