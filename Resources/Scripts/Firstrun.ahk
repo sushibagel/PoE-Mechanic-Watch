@@ -30,7 +30,7 @@ CheckFirstRun() ;Check to see if all First Run Items are complete
     FirstRunPath := FirstRunIni()
     For each, Item in StrSplit(ItemSearch, "|")
     {
-        iniRead, %Item%State, %FirstRunPath%, Completion, %Item%
+        IniRead, %Item%State, %FirstRunPath%, Completion, %Item%
     }
     Return
 }
@@ -105,14 +105,24 @@ FirstRun()
 ClientOpen()
 {
     Gui, Submit, NoHide
-    if !(ClientOpened = 0)
+    If (ClientOpened = 1)
     {
         Gui, First:Destroy
         Gui, First2:Destroy
         FirstRunPath := FirstRunIni()
         LaunchPathIni := LaunchOptionsIni()
         IniRead, exe, %LaunchPathIni%, POE, EXE
-        If !WinExist("ahk_group PoeWindow") or If InStr(exe, ".exe")
+
+    If WinExist("ahk_group PoeWindow")
+    {
+        msgbox, exist
+    }
+
+
+
+
+
+        If !WinExist("ahk_group PoeWindow") or If !InStr(exe, ".exe")
         {
             Gui, FirstReminder:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
             Gui, FirstReminder:Color, %Background%
@@ -283,7 +293,7 @@ First2ButtonClose()
     Gui, First:Destroy
     Gui, First2:Destroy
     CheckFirstRun()
-    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0)
+    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0) or (%ClientState% = ERROR) or (%HideoutState% = ERROR) or (%MechanicState% = ERROR) or (%TransparencyState% = ERROR)
     {
         Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
         Gui, FirstWarning:Color, %Background%
