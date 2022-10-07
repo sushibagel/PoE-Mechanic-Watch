@@ -94,7 +94,7 @@ HotkeyGuiClose()
     If (Active = 1)
     {
         FirstRunPath := FirstRunIni()
-        Iniwrite, 1, %FirstRunPath%, Completion, Mechanic
+        Iniwrite, 1, %FirstRunPath%, Completion, Hotkey
         FirstRun()
         Exit
     }
