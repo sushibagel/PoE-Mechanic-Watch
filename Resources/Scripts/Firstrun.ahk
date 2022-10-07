@@ -319,7 +319,7 @@ FirstReminderButtonOK()
 }
 
 FirstWarningButtonI'lldoitlater:
-ExitApp
+Exit()
 Return
 
 
