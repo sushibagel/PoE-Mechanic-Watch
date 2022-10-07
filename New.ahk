@@ -238,6 +238,7 @@ Return
 
 Start()
 {
+    HotkeyCheck()
     WinWait, ahk_Group PoeWindow
     GetLogPath()
     CheckTheme()
@@ -448,11 +449,6 @@ HotkeyCheck()
   {
     IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
   }
-  If !(Hotkey1 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, ~%Hotkey1%, SubtractOne
-  }
   If !(Hotkey2 = "")
   {
     Hotkey, ~%Hotkey2%, LaunchPoe
@@ -460,6 +456,11 @@ HotkeyCheck()
   If !(Hotkey3 = "")
   {
     Hotkey, ~%Hotkey3%, ToolLaunchGui
+  }
+  If !(Hotkey1 = "")
+  {
+    Hotkey, IfWinActive, ahk_group PoeWindow
+    Hotkey, ~%Hotkey1%, SubtractOne
   }
   If !(Hotkey4 = "")
   {
