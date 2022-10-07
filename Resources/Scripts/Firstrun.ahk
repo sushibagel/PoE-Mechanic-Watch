@@ -38,7 +38,9 @@ CheckFirstRun() ;Check to see if all First Run Items are complete
 FirstRun()
 {
     PostSetup()
-    If !WinExist("Tail.ahk")
+    LaunchPathIni := LaunchOptionsIni()
+    IniRead, exe, %LaunchPathIni%, POE, EXE
+    If !WinExist("Tail.ahk") and If InStr(exe, ".exe")
     {
         Run, Resources\Scripts\Tail.ahk
     }
