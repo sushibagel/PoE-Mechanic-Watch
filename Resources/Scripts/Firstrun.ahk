@@ -281,7 +281,7 @@ First2ButtonClose()
     Gui, First:Destroy
     Gui, First2:Destroy
     CheckFirstRun()
-    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0) or (%ClientState% = ERROR) or (%HideoutState% = ERROR) or (%MechanicState% = ERROR) or (%TransparencyState% = ERROR)
+    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0) or (%ClientState% = "ERROR") or (%HideoutState% = "ERROR") or (%MechanicState% = "ERROR") or (%TransparencyState% = "ERROR")
     {
         Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
         Gui, FirstWarning:Color, %Background%
