@@ -65,7 +65,9 @@ Reminder()
 ReminderButtonYes()
 {
     Gui, Reminder:Submit
+    PostSetup()
     OnMessage(0x01111, "RefreshOverlay")
+    PostRestore()
     Return
 }
 
