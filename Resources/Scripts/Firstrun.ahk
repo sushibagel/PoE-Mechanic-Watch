@@ -22,6 +22,11 @@ Global SoundSelect
 Global LaunchAssistSelect
 Global ToolLauncherSelect
 
+GroupAdd, PoECheck, ahk_exe PathOfExileSteam.exe
+GroupAdd, PoECheck, ahk_exe PathOfExile.exe 
+GroupAdd, PoECheck, ahk_exe PathOfExileEGS.exe
+GroupAdd, PoECheck, ahk_class POEWindowClass
+
 CheckFirstRun() ;Check to see if all First Run Items are complete
 {
     Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher"
@@ -112,17 +117,7 @@ ClientOpen()
         FirstRunPath := FirstRunIni()
         LaunchPathIni := LaunchOptionsIni()
         IniRead, exe, %LaunchPathIni%, POE, EXE
-
-    If WinExist("ahk_group PoeWindow")
-    {
-        msgbox, exist
-    }
-
-
-
-
-
-        If !WinExist("ahk_group PoeWindow") or If !InStr(exe, ".exe")
+        If !WinExist("ahk_group PoECheck") or If !InStr(exe, ".exe")
         {
             Gui, FirstReminder:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
             Gui, FirstReminder:Color, %Background%
