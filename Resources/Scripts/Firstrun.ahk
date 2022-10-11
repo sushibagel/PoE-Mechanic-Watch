@@ -124,13 +124,13 @@ ClientOpen()
             Iniwrite, 0, %FirstRunPath%, Completion, Client
             WinWaitClose, FirstReminder
             CheckFirstRun()
-            ReloadFirstRun()
+            Reload()
         }
         Else
         {
             Iniwrite, 1, %FirstRunPath%, Completion, Client
             GetLogPath()
-            ReloadFirstRun()
+            Reload()
         }
     }
     Return
@@ -269,7 +269,7 @@ FirstRunWrite(WriteItem)
 {
     FirstRunPath := FirstRunIni()
     Iniwrite, 1, %FirstRunPath%, Completion, % WriteItem
-    ReloadFirstRun()
+    Reload()
     Return
 }
 
@@ -316,20 +316,5 @@ FirstWarningButtonGoBack()
 {
     Gui, FirstWarning:Destroy
     FirstRun()
-    Return
-}
-
-ReloadFirstRun()
-{
-    CheckFirstRun() 
-    Global CompletionCheck := ClientState + HideoutState + MechanicState + TransparencyState
-    If (CompletionCheck >= 2)
-    {
-        FirstRun()
-    }
-    Else
-    {
-        Reload()
-    }
     Return
 }

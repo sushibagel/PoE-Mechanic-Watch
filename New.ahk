@@ -197,6 +197,12 @@ If !FileExist(FirstRunIni)
     FirstRun()
 }
 
+IniRead, FirstRunActive, %FirstRunIni%, Active, Active
+If (FirstRunActive = 1)
+{
+    FirstRun()
+}
+
 LaunchOptionIni := LaunchOptionsIni()
 If !FileExist(LaunchOptionIni) ;Check for "Launch options" ini
 {
