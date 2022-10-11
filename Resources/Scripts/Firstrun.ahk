@@ -280,6 +280,7 @@ First2ButtonClose()
     Gui, Submit, NoHide
     Gui, First:Destroy
     Gui, First2:Destroy
+    Gui, Transparency:Destroy
     CheckFirstRun()
     If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0) or (%ClientState% = "ERROR") or (%HideoutState% = "ERROR") or (%MechanicState% = "ERROR") or (%TransparencyState% = "ERROR")
     {
