@@ -74,15 +74,15 @@ TransparencyButtonOk()
         IniWrite, %Edit%, %TransparencyFile%, Transparency, %OverlayItem%
     }
     Gui, Influence:Destroy
+    Gui, Transparency:Destroy
+    Gui, Influence:Destroy
+    Gui, Reminder:Destroy
     PostSetup()
     PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey
     PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
     PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey
     PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
     PostRestore()
-    Gui, Transparency:Destroy
-    Gui, Influence:Destroy
-    Gui, Reminder:Destroy
     RefreshOverlay()
     ReadTransparency()
     Return

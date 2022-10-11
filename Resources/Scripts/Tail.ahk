@@ -11,7 +11,6 @@ OnMessage(0x01113, "ReminderDestroy")
 OnMessage(0x01112, "Reminder")
 OnMessage(0x01122, "EldritchReminderDestroy")
 OnMessage(0x01123, "EldritchReminder")
-OnMessage(0x01187, "SleepReset") ;reset IncursionSleep Variable
 LogMonitor()
 
 LogPath := GetLogPath()
