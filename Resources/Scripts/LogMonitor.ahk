@@ -80,17 +80,22 @@ SearchText(NewLine)
                     }
                     If NewLine contains %IncursionGo%
                     {
+                        VariablePath := VariableIni()
+                        IniRead, IncursionCode, %VariablePath%, Incursion, Log Code
+                        IniRead, IncursionSleep, %VariablePath%, Incursion, Sleep Count
                         GetLogCode := StrSplit(NewLine, A_Space)
                         Code = % GetLogCode[3]
                         If (Code = IncursionCode) and (Code != "")
                         {
                             Break
                         }
-                        IncursionCode := Code
+                        IniWrite, %Code%, %VariablePath%, Incursion, Log Code
                         IncursionSleep ++
+                        IniWrite, %IncursionSleep%, %VariablePath%, Incursion, Sleep Count
                         If (IncursionSleep = 3)
                         {
                             IniPath := MechanicsIni()
+                            IniWrite, 0, %VariablePath%, Incursion, Sleep Count
                             IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
                             Prev_DetectHiddenWindows := A_DetectHiddenWIndows
                             Prev_TitleMatchMode := A_TitleMatchMode
@@ -165,9 +170,4 @@ CheckTheme()
         IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
     }
     Return, %ColorMode%
-}
-
-SleepReset()
-{
-    IncursionSleep := 0
 }

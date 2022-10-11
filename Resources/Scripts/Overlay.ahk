@@ -152,9 +152,8 @@ Harvest()
 }
 Incursion()
 {
-    PostSetup()
-    PostMessage, 0x01187,,,, Tail.ahk - AutoHotkey ;Reset the IncursionSleep variable
-    PostRestore()
+    VariablePath := VariableIni()
+    IniWrite, 0, %VariablePath%, Incursion, Sleep Count
     MechanicToggle("Incursion")
     Return
 }
