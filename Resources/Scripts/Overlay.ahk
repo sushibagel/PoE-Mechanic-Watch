@@ -189,7 +189,7 @@ Eater()
         Eater = 0
     }
     IniWrite, %Eater%, %MechanicsFilePath%, Influence Track, Eater
-    ControlSetText, %OldTrack%, %Eater%, Overlay
+    RefreshOverlay()
     Return
 }
 Searing()
@@ -203,7 +203,7 @@ Searing()
         Searing = 0
     }
     IniWrite, %Searing%, %MechanicsFilePath%, Influence Track, Searing
-    ControlSetText, %OldTrack%, %Searing%, Overlay
+    RefreshOverlay()
     Return
 }
 
