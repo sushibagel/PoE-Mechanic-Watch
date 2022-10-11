@@ -81,8 +81,8 @@ SearchText(NewLine)
                     If NewLine contains %IncursionGo%
                     {
                         VariablePath := VariableIni()
-                        IniRead, IncursionCode, %VariablePath%, Incursion, Log Code
-                        IniRead, IncursionSleep, %VariablePath%, Incursion, Sleep Count
+                        IniRead, IncursionCode, %VariablePath%, Incursion, Log Code, 0
+                        IniRead, IncursionSleep, %VariablePath%, Incursion, Sleep Count, 0
                         GetLogCode := StrSplit(NewLine, A_Space)
                         Code = % GetLogCode[3]
                         If (Code = IncursionCode) and (Code != "")
