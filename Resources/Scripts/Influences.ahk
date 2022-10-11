@@ -217,6 +217,10 @@ InfluenceMapNotification() ;Map tracking notification
         ShowTitle := ""
         ShowBorder := ""
         MapMove := 0
+        PostSetup()
+        PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
+        PostRestore()
+        RefreshOverlay()
     }
     Gui, Influence: %ShowBorder% +AlwaysOnTop
     Gui, Influence:Show, NoActivate x%Horizontal% y%Vertical%, Influence
