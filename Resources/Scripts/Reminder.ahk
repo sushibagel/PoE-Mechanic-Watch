@@ -27,7 +27,6 @@ Reminder()
         Active1 := StrReplace(ReminderText1, A_Space, "and",, 1)
         ReminderText2 := StrReplace(Active1, ",", ","A_Space)
         Active2 := StrReplace(ReminderText2, "and", A_Space "and"A_Space)
-        
         ReminderText := Active2
     }
 
