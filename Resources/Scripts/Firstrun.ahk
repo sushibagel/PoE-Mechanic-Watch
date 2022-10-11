@@ -186,6 +186,10 @@ MapPositionSelect()
     Gui, Submit, NoHide
     Gui, First:Destroy
     Gui, First2:Destroy
+    PostSetup()
+    PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
+    PostRestore()
+    RefreshOverlay()
     MoveMap()
     WinWait, Influence
     WinwaitClose, Influence
