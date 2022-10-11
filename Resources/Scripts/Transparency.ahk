@@ -80,10 +80,10 @@ TransparencyButtonOk()
     PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey
     PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
     PostRestore()
+    Gui, Transparency:Destroy
     Gui, Influence:Destroy
     Gui, Reminder:Destroy
     RefreshOverlay()
-    Gui, Transparency:Destroy
     ReadTransparency()
     Return
 }
