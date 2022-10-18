@@ -49,11 +49,12 @@ Loop
                 PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ; destroy reminder 
                 PostRestore()
             }
+            SetTitleMatchMode, 2
             Loop
             If WinActive("ahk_group PoEWindow")
             {
                 PostSetup()
-                PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
                 PostRestore()
                 If (ReminderActive = 1)
                 {
@@ -69,6 +70,7 @@ Loop
                 SetTitleMatchMode, %A_TitleMatchMode%
                 Break
             }
+            SetTitleMatchMode, 2
         } 
     }
 }

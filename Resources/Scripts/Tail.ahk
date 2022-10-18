@@ -81,7 +81,7 @@ class CLogTailer
 RefreshOverlay()
 {
 	PostSetup()
-    PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+    PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
 	PostRestore()
 }
 
