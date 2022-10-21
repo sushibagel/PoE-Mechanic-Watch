@@ -199,7 +199,7 @@ InfluenceMapNotification() ;Map tracking notification
 {
     NotificationPrep("Map")
     PostSetup()
-    PostMessage, 0x01741,,,, New.ahk - AutoHotkey ;Hotkey check
+    PostMessage, 0x01741,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Hotkey check
     PostRestore()
     InfluenceHotkey := InfluenceHotkey()
     NotificationIni := NotificationIni()

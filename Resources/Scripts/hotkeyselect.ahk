@@ -99,7 +99,7 @@ HotkeyGuiClose()
         Exit
     }
   PostSetup()
-  PostMessage, 0x01786,,,, New.ahk - AutoHotkey ;Run script start function
+  PostMessage, 0x01786,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Run script start function
   PostRestore()
   Return
 }

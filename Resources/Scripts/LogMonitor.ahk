@@ -73,7 +73,7 @@ SearchText(NewLine)
                         Prev_TitleMatchMode := A_TitleMatchMode
                         SetTitleMatchMode 2
                         DetectHiddenWindows On
-                        PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                        PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
                         DetectHiddenWindows, %Prev_DetectHiddenWindows%
                         SetTitleMatchMode, %A_TitleMatchMode%
                         Break
@@ -101,7 +101,7 @@ SearchText(NewLine)
                             Prev_TitleMatchMode := A_TitleMatchMode
                             SetTitleMatchMode 2
                             DetectHiddenWindows On
-                            PostMessage, 0x01111,,,, New.ahk - AutoHotkey ;refresh overlay
+                            PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ;refresh overlay
                             PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate reminder overlay
                             DetectHiddenWindows, %Prev_DetectHiddenWindows%
                             SetTitleMatchMode, %A_TitleMatchMode%
@@ -128,7 +128,7 @@ SearchText(NewLine)
                     Prev_TitleMatchMode := A_TitleMatchMode
                     SetTitleMatchMode 2
                     DetectHiddenWindows On
-                    PostMessage, 0x01111,,,, New.ahk - AutoHotkey
+                    PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
                     DetectHiddenWindows, %Prev_DetectHiddenWindows%
                     SetTitleMatchMode, %A_TitleMatchMode%
                     Break 
