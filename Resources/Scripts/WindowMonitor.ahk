@@ -54,7 +54,7 @@ Loop
             If WinActive("ahk_group PoEWindow")
             {
                 PostSetup()
-                PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
+                PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
                 PostRestore()
                 If (ReminderActive = 1)
                 {
@@ -68,6 +68,11 @@ Loop
                 }
                 DetectHiddenWindows, %Prev_DetectHiddenWindows%
                 SetTitleMatchMode, %A_TitleMatchMode%
+                Sleep, 100
+                If !WinExist("Overlay")
+                {
+                    PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
+                }
                 Break
             }
             SetTitleMatchMode, 2
