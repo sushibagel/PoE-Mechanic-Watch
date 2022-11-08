@@ -1,7 +1,7 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 ;#Warn
 
 Global CLogTailer

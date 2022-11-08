@@ -1,11 +1,11 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 ;#Warn
 SetTitleMatchMode, 3
 
-GroupAdd, PoeWindow, ahk_exe Code.exe
+; GroupAdd, PoeWindow, ahk_exe Code.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
