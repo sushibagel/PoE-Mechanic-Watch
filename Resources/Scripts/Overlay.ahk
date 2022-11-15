@@ -120,6 +120,9 @@ MechanicToggle(ToggleMechanic)
         IniWrite, 0, %MechanicsPath%, Mechanic Active, %ToggleMechanic%
         Gui, Overlay:Destroy
         ReminderActive := 0
+        PostSetup()
+        PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
+        PostRestore()
         Overlay()
         Return
     }
