@@ -14,5 +14,6 @@ If !FileExist(WV)
 {
     FileCopy, Resources\Scripts\setWindowVol.ahk, %AHKLIB%
 }
+
 Run, PoE Mechanic Watch.ahk
-Return
+ExitApp
