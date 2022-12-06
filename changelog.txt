@@ -1,4 +1,4 @@
-v1.3.3
+v2
 DUE TO THE NUMBER OF CHANGES IN THIS RELEASE ITS HIGHTLY RECOMMENDED THAT YOU DELETE YOUR PRIOR INSTALLATION. UPDATING BY MERGING/OVERWRITING PRIOR FILES MAY CAUSE ERRORS. 
 
 Completely overhauled the script to improve stability and performance. 
@@ -9,6 +9,6 @@ Added the ability to change the size of overlay icons and text.
 Added the ability to select the position of the map notifications for influence tracking. 
 Updated the maps list. 
 Updated hideouts list. 
-Added several dialogs. 
+Added several dialogs for auto mechanic tracking. 
 
-Note: I'm aware of a bug where the overlay sometimes doesn't reactivate when in the client, I haven't been able to fully resolve this yet but have found it can be remedied by alt tabbing out and back in or by simply activating the Windows menu by hitting the Windows button. []
+Note: I'm aware of a bug where the overlay sometimes doesn't reactivate when in the client, I haven't been able to fully resolve this yet but have found it can be remedied by alt tabbing out and back in or by simply activating the Windows menu by hitting the Windows button.
