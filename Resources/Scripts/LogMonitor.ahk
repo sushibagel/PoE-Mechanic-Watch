@@ -1,183 +1,173 @@
-LogMonitor: ;Monitor the PoE client.txt
+Global IncursionGo
+Global MyDialogs
+Global MyDialogsDisable
+Global FullSearch
+Global IncursionCode
+Global IncursionSleep
+Global MyHideout
 
-ReadFile := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Data\Incursiondialogsdisable.txt"
-FileRead, Read1, %ReadFile%
-IncursionGo := StrReplace(Read1, "`r`n" , ",")
-
-Gosub, GetLogPath
-Gosub, ReadAutoMechanics
-
-IfWinNotActive, ahk_group PoeWindow
+LogMonitor() ;Monitor the PoE client.txt
 {
-    Sleep, 100
-    IfWinNotActive, ahk_group PoeWindow
+    FileRead, ReadFile, Resources\Data\Incursiondialogsdisable.txt
+    IncursionGo := StrReplace(ReadFile, "`r`n" , ",")
+
+    MyHideout := GetHideout()
+    ReadMechanics()
+    ReadAutoMechanics()
+    InfluenceActive()
+
+    FullSearch =
+    MyDialogs = 
+    MyDialogsDisable =
+    AutoMechanicSearch := AutoMechanics()
+    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
-        Gui, 1:Destroy
-        Gui, 2:Destroy
-        Loop
+        autocheck = %Mechanic%Auto
+        if (%autocheck% = 1)
         {
-            IfWinActive, ahk_group PoeWindow
+            Loop, Read, Resources/Data/%Mechanic%dialogs.txt
             {
-                Gosub, Overlay
-                Gosub, LogMonitor
-                Break
-            }
-        }
-    }
-}
-
-FullSearch =
-MyDialogs = 
-MyDialogsDisable =
-For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-{
-    autocheck = %Mechanic%Auto
-    if (%autocheck% = 1)
-    {
-        Loop, Read, Resources/Data/%Mechanic%dialogs.txt
-        {
-            if (MyDialogs = "")
-            {
-                MyDialogs = %A_LoopReadLine%
-            }
-            Else
-            {
-                MyDialogs = %MyDialogs%,%A_LoopReadLine%
-            }
-        }
-        Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
-        {
-            if (MyDialogsDisable = "")
-            {
-                MyDialogsDisable = %A_LoopReadLine%
-            }
-            Else
-            {
-                MyDialogsDisable = %MyDialogsDisable%,%A_LoopReadLine%
-            }
-        }
-    }
-}
-Gosub, InfluenceTracking
-lt := new CLogTailer(LogPath, Func("SearchOnNewLine"))
-Logwait = 
-
-SearchOnNewLine(text)
-{
-If (MyDialogsDisable != "")
-{
-    FullSearch = %MyHideout%,%MyDialogs%,%MyDialogsDisable%
-}
-Else
-{
-    FullSearch = %MyHideout%
-}
-Hideout := % text
-If Hideout contains %FullSearch%
-    {
-        Logwait = 1
-        Return, Stop
-    }
-}
-
-Loop
-{
-    IfWinNotActive, ahk_group PoeWindow
-    {
-        Sleep, 200
-        IfWinNotActive, ahk_group PoeWindow
-        {
-            Gui, 2:Destroy
-            Gosub, Monitor
-        }
-    }
-    If (LogWait = 1)
-    {
-        LogWait =
-        Break
-    }
-
-}
-
-SearchText:
-FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
-If Hideout contains %FullSearch% 
-{
-    If Hideout contains %MyHideout%
-    {
-        If (sleepmechanic != "")
-        {
-            %sleepmechanic% = 0
-        }
-        GoSub, MechanicsActive
-        If (MechanicsActive >= 1)
-        {
-            GoSub, Reminder
-            WinwaitClose, Reminder
-            Return
-        }
-        Else
-        {
-            Gosub, LogMonitor
-        }
-    }
-Gosub, MechanicsActive
-If Hideout contains %MyDialogs%
-    {
-        For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-        Loop, Read, Resources/Data/%Mechanic%dialogs.txt
-        {
-            activecheck = %Mechanic%Active
-            sleepmechanic = %Mechanic%Sleep
-            automechanic = %Mechanic%Auto
-            If Hideout contains %A_LoopReadLine%
-            {
-                If (%activecheck% != 1) and (%sleepmechanic% != 1) and (%automechanic% = 1)
+                if (MyDialogs = "")
                 {
-                    GoSub, %Mechanic%
-                    Gosub, LogMonitor
+                    MyDialogs = %A_LoopReadLine%
                 }
-                If Hideout contains %IncursionGo%
+                Else
                 {
-                    GetLogCode := StrSplit(Hideout, A_Space)
-                    Code = % GetLogCode[3]
-                    If (Code = IncursionCode) and (Code != "")
-                    {
+                    MyDialogs = %MyDialogs%,%A_LoopReadLine%
+                }
+            }
+            Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
+            {
+                if (MyDialogsDisable = "")
+                {
+                    MyDialogsDisable = %A_LoopReadLine%
+                }
+                Else
+                {
+                    MyDialogsDisable = %MyDialogsDisable%,%A_LoopReadLine%
+                }
+            }
+        }
+    }
+    Return
+}
+
+SearchText(NewLine)
+{
+    MechanicsActive()
+    LogMonitor()
+    If NewLine contains %MyDialogs%
+        {
+            For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
+            Loop, Read, Resources/Data/%Mechanic%dialogs.txt
+            {
+                activecheck = %Mechanic%Active
+                automechanic = %Mechanic%Auto
+                If NewLine contains %A_LoopReadLine%
+                {
+                    If (%activecheck% != 1) and (%automechanic% = 1)
+                    { ; This now activates the mechanic in the mechanics.ini and sends a message to the overlay script to refresh the overlay. 
+                        IniPath := MechanicsIni()
+                        IniWrite, 1, %IniPath%, Mechanic Active, %Mechanic%
+                        Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+                        Prev_TitleMatchMode := A_TitleMatchMode
+                        SetTitleMatchMode 2
+                        DetectHiddenWindows On
+                        PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
+                        DetectHiddenWindows, %Prev_DetectHiddenWindows%
+                        SetTitleMatchMode, %A_TitleMatchMode%
                         Break
                     }
-                    IncursionCode := Code
-                    IncursionSleep ++
-                    If (IncursionSleep = 4)
+                    If NewLine contains %IncursionGo%
                     {
-                        GoSub, Incursion
-                        Gosub, LogMonitor
+                        VariablePath := VariableIni()
+                        IniRead, IncursionCode, %VariablePath%, Incursion, Log Code, 0
+                        IniRead, IncursionSleep, %VariablePath%, Incursion, Sleep Count, 0
+                        GetLogCode := StrSplit(NewLine, A_Space)
+                        Code = % GetLogCode[3]
+                        If (Code = IncursionCode) and (Code != "")
+                        {
+                            Break
+                        }
+                        IniWrite, %Code%, %VariablePath%, Incursion, Log Code
+                        IncursionSleep ++
+                        IniWrite, %IncursionSleep%, %VariablePath%, Incursion, Sleep Count
+                        If (IncursionSleep = 3)
+                        {
+                            IniPath := MechanicsIni()
+                            IniWrite, 0, %VariablePath%, Incursion, Sleep Count
+                            IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
+                            Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+                            Prev_TitleMatchMode := A_TitleMatchMode
+                            SetTitleMatchMode 2
+                            DetectHiddenWindows On
+                            PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ;refresh overlay
+                            PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate reminder overlay
+                            DetectHiddenWindows, %Prev_DetectHiddenWindows%
+                            SetTitleMatchMode, %A_TitleMatchMode%
+                            Break
+                        }
                     }
                 }
             }
         }
-    }
-If Hideout contains %MyDialogsDisable%
+    If NewLine contains %MyDialogsDisable%
     {
         For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
         Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
         {
-            If Hideout contains %A_LoopReadLine%
+            If NewLine contains %A_LoopReadLine%
             {
-            activecheck = %Mechanic%Active
-            sleepmechanic = %Mechanic%Sleep
-            automechanic = %Mechanic%Auto
-                If (%activecheck% = 1) and (%sleepmechanic% != 1) and (%Mechanic% != Incursion)
+                activecheck = %Mechanic%Active
+                automechanic = %Mechanic%Auto
+                If (%activecheck% = 1) and (%automechanic% = 1) and !InStr(Mechanic, "Incursion")
                 {
-                    %sleepmechanic% = 1
-                    GoSub, %Mechanic%
+                    IniPath := MechanicsIni()
+                    IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
+                    Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+                    Prev_TitleMatchMode := A_TitleMatchMode
+                    SetTitleMatchMode 2
+                    DetectHiddenWindows On
+                    PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
+                    DetectHiddenWindows, %Prev_DetectHiddenWindows%
+                    SetTitleMatchMode, %A_TitleMatchMode%
                     Break 
                 }  
             }
         }
     }
-}
-IfWinActive, First2
-{
+
+    IfWinActive, First2
+    {
+        Return
+    }
     Return
 }
-Return
+
+GetLogPath()
+{
+    LaunchIni := LaunchOptionsIni()
+    IniRead, LogPath, %LaunchIni%, POE, log
+    Return, %LogPath%
+}
+
+GetHideout()
+{
+    IniFile := HideoutIni()
+    IniRead, MyHideout, %IniFile%, Current Hideout, MyHideout
+    Return, %MyHideout%
+}
+
+CheckTheme()
+{
+    Global ThemeItems := "Font|Background|Secondary"
+    ThemeFile := ThemeIni()
+    IniRead, ColorMode, %ThemeFile%, Theme, Theme
+    Global Item
+    Global each
+    For each, Item in StrSplit(ThemeItems, "|")
+    {
+        IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
+    }
+    Return, %ColorMode%
+}

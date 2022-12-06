@@ -20,9 +20,8 @@ Gui, Add, Edit, w130 vSearchTerm gSearch -Caption -Border
 Gui, Color, Edit, %Secondary%
 Gui, Add, ListView, grid r15 w130 vLV gSubmit +AltSubmit, Hideout Name
 Gui, +AlwaysOnTop
-Gui, -Border
+Gui, -Border -Caption
 Gui, Color, %Background%
-Gui, -Caption
 Gui, Add, Button, gCancel, &Cancel
 
 Loop, Read, %UpOneLevel%Data\HideoutList.txt
@@ -32,7 +31,6 @@ Loop, Read, %UpOneLevel%Data\HideoutList.txt
 }
 TotalItems := LVArray.Length()
 LV_ModifyCol()
-;Gui, Add, StatusBar, , % "   " . TotalItems . " of " . TotalItems . " Items"
 Gui, Show, , ListView
 Return
 
@@ -95,11 +93,7 @@ Return
 WriteFile:
 if HideoutSet !=
 {
-   If FileExist("Resources\Settings\CurrentHideout.txt")
-   {
-      FileDelete, Resources\Settings\CurrentHideout.txt
-   }
-   FileAppend, MyHideout = %HideoutSet% `n, Resources\Settings\CurrentHideout.txt
+   IniWrite, %HideoutSet%, %UpOneLevel%Settings\Hideout.ini, Current Hideout, MyHideout
    HideoutSet :=
    IfWinNotExist, First2
    {
