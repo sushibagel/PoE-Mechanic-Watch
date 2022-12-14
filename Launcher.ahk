@@ -17,7 +17,7 @@ If !FileExist(WV)
 }
 If !FileExist(OW)
 {
-    FileCopy, Resources\Scripts\setWindowVol.ahk, %AHKLIB%
+    FileCopy, Resources\Scripts\OnWin.ahk, %AHKLIB%
 }
 
 Run, PoE Mechanic Watch.ahk
