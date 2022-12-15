@@ -5,15 +5,8 @@
 ;#Warn
 SetTitleMatchMode, 3
 
-; GroupAdd, PoeWindow, ahk_exe Code.exe
-GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
-GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
-GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
-GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
-GroupAdd, PoeWindow, Overlay
-GroupAdd, PoeWindow, Awakened PoE Trade 
 GroupAdd, PoeWindow, Influence
 GroupAdd, PoeWindow, Transparency 
 
@@ -91,6 +84,11 @@ Start()
 
 Kill()
 {
+    If WinExist("ahk_group PoeWindow")
+    {
+        Start()
+        Return
+    }
     Gui, InfluenceReminder:Destroy
     WinClose, Overlay
     SetTitleMatchMode, 3
@@ -117,7 +115,7 @@ CheckActive()
 {
     Loop
     {
-        OnWin("Show", "Path of Exile", Func("Start"))
+        OnWin("Active", "Path of Exile", Func("Start"))
         Break
     }
 }
