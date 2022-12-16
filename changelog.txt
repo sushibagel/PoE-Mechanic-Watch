@@ -1,14 +1,9 @@
-v2
-DUE TO THE NUMBER OF CHANGES IN THIS RELEASE ITS HIGHTLY RECOMMENDED THAT YOU DELETE YOUR PRIOR INSTALLATION. UPDATING BY MERGING/OVERWRITING PRIOR FILES MAY CAUSE ERRORS. 
+v2.1
 
-Completely overhauled the script to improve stability and performance. 
+Note: For everything to function correctly after this update please make sure to ise the "Launcher.ahk" to start the application. 
 
-Added support for Legion. 
-Added a new vertical layout. 
-Added the ability to change the size of overlay icons and text. 
-Added the ability to select the position of the map notifications for influence tracking. 
-Updated the maps list. 
-Updated hideouts list. 
-Added several dialogs for auto mechanic tracking. 
+Improved the reliability and speed of the the auto hide feature for the overlay. 
+- Added the OnWin Library
+- Added the ability for the Launcher.ahk to check for the OnWim library.
 
-Note: I'm aware of a bug where the overlay sometimes doesn't reactivate when in the client, I haven't been able to fully resolve this yet but have found it can be remedied by alt tabbing out and back in or by simply activating the Windows menu by hitting the Windows button.
+Fixed a bug in the updater that was causing update prompts despite being up-to-date.
