@@ -14,6 +14,7 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 - Expedition  
 - Harvest  
 - Incursion  
+- Legion
 - Metamorph  
 - Ritual  
 - Searing Exarch/Eater of Worlds (Map Count Tracking)
@@ -27,7 +28,7 @@ Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics wil
 ## Installation:  
 To run this script you ***MUST*** have AutoHotKey installed. https://www.autohotkey.com/
 
-Download and unzip the program. Double-click ***"Start Me.ahk"*** to run the program.  
+Download and unzip the program. Double-click ***"Launcher.ahk"*** to run the program.  
 Please note, it must be run from within a folder containing all the assets and files that are contained in the zip. 
 
 ## Usage: 
@@ -71,7 +72,7 @@ If at any time you wish to change any settings this can be done by right clickin
 - Launch Assist - The launch assist tool allows you to select files/applications that you would like launched alongside you Path of Exile client when using your defined hotkey or the "Launch Path of Exile" tray menu item    
 
 ## Troubleshooting:  
-- If you are receiving the following error when starting the script: "Call to nonexistent function: Specifically: SetWindowVol(AhkExe, NotificationVolume) Line 67" this is likely because you launched the "PoE Mechanic Watch.ahk" file. Please try again using the "Start Me.ahk" instead. 
+- If you are receiving the following error when starting the script: "Call to nonexistent function: Specifically: SetWindowVol(AhkExe, NotificationVolume) Line 67" this is likely because you launched the "PoE Mechanic Watch.ahk" file. Please try again using the "Launcher.ahk" instead. 
 
 - Please make sure that your AutoHotKey is up-to-date. 
 
@@ -83,7 +84,7 @@ If at any time you wish to change any settings this can be done by right clickin
 
 - If at any time the script freezes right click the icon in the System Tray and click "Reload". This will restart the script and in many cases resolve any problems. 
 
-- If clicking the "View Log" button isn't taking you to the correct path, this is likely due to because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
+- If clicking the "View Log" button isn't taking you to the correct path, this is likely because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
 
 - The Auto Enable/Disable feature is currently in Beta. For it to work it requires the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. I've tried to be as thorough as possible in adding dialogs but I may have missed some as there is some variance in the.
 
@@ -105,7 +106,8 @@ Thank you to the developers of AutoHotKey. https://www.autohotkey.com/
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater.  
 Thanks to user "jaco0646" for the code for the Hotkey Selector posted on the AutoHotKey forums.  
 Thanks to user "masonjar13" on the AutoHotKey forums for the Volume Adjust "VA" library used in the volume control settings.   
-Thank you to user "just me" on the AutoHotKey Forums. for the Class_ScrollGUI.ahk script. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)  
+Thank you to user "just me" on the AutoHotKey forums for the Class_ScrollGUI.ahk script. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)  
+Thank you to user "Coco" on the AutoHotKey forums for sharing the OnWin.ahk library. https://www.autohotkey.com/boards/viewtopic.php?t=6463
 The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>  
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>  
 The reload button was found at <a href="https://www.flaticon.com/free-icons/refresh" title="refresh icons">Refresh icons created by Gregor Cresnar - Flaticon</a>  
