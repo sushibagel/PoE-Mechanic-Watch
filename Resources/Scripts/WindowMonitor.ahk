@@ -84,7 +84,7 @@ Start()
 
 Kill()
 {
-    If WinExist("ahk_group PoeWindow")
+    If WinExist("ahk_group PoeWindow") or OnWin("Active", "Overlay", Func("Start"))
     {
         Start()
         Return
