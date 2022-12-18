@@ -103,6 +103,20 @@ RefreshOverlay()
     Return
 }
 
+OverlayGuiClose()
+{
+    Tooltip
+    MoveActive := 0
+    RefreshOverlay()
+    Return  
+}
+
+OverlayKill()
+{
+    Gui, Overlay:Destroy
+    Return
+}
+
 MechanicToggle(ToggleMechanic)
 {
     MechanicsActive()
