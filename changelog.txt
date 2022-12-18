@@ -1,9 +1,6 @@
-v2.1
+v2.2
 
-Note: For everything to function correctly after this update please make sure to ise the "Launcher.ahk" to start the application. 
+Note: For everything to function correctly after this update please make sure to Use the "Launcher.ahk" to start the application. 
 
-Improved the reliability and speed of the the auto hide feature for the overlay. 
-- Added the OnWin Library
-- Added the ability for the Launcher.ahk to check for the OnWim library.
-
-Fixed a bug in the updater that was causing update prompts despite being up-to-date.
+Fixed an issue with the Overlay Movement Tool. 
+Add support for overlay movement close button
