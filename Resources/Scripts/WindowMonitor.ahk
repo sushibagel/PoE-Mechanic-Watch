@@ -74,23 +74,16 @@ Start()
     {
         PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
     }
-    SetTitleMatchMode, 2
-    Loop
-    {
-        OnWin("NotActive", "Path of Exile", Func("Kill"))
-        Break
-    }
+    OnWin("NotActive", "Path of Exile", Func("Kill"))
 }
 
 Kill()
 {
-    If WinExist("ahk_group PoeWindow") or OnWin("Active", "Overlay", Func("Start"))
-    {
-        Start()
-        Return
-    }
     Gui, InfluenceReminder:Destroy
-    WinClose, Overlay
+    PostSetup()
+    PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
+    PostRestore()  
+    OnWin("Active", "Path of Exile", Func("Start"))
     SetTitleMatchMode, 3
     If WinExist("Reminder")
     {
@@ -108,14 +101,9 @@ Kill()
         PostRestore()
     }
     SetTitleMatchMode, 2
-    CheckActive()
-}
-
-CheckActive()
-{
-    Loop
+    If WinExist("ahk_group PoeWindow") ;or OnWin("Active", "Overlay", Func("Start"))
     {
-        OnWin("Active", "Path of Exile", Func("Start"))
-        Break
+        Start()
+        Return
     }
 }
