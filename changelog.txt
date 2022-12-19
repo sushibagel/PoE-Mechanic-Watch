@@ -1,6 +1,6 @@
-v2.2
+v2.3
 
 Note: For everything to function correctly after this update please make sure to Use the "Launcher.ahk" to start the application. 
 
-Fixed an issue with the Overlay Movement Tool. 
-Add support for overlay movement close button
+Fix reminders not dismissing. 
+Expedition dialog update. 
