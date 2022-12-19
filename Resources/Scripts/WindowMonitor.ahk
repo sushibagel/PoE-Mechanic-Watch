@@ -9,6 +9,7 @@ GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Influence
 GroupAdd, PoeWindow, Transparency 
+GroupAdd, PoeWindow, Path of Exile 
 
 Global ReminderActive
 Global InfluenceReminderActive
@@ -74,36 +75,51 @@ Start()
     {
         PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
     }
+    Monitor()
+    Return
+}
+
+Monitor()
+{
+    tooltip
     OnWin("NotActive", "Path of Exile", Func("Kill"))
 }
 
 Kill()
 {
-    Gui, InfluenceReminder:Destroy
-    PostSetup()
-    PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
-    PostRestore()  
-    OnWin("Active", "Path of Exile", Func("Start"))
-    SetTitleMatchMode, 3
-    If WinExist("Reminder")
+    Sleep, 100
+    If WinActive("ahk_group PoeWindow")
     {
-        PostSetup()
-        ReminderActive := 1
-        PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ; destroy reminder 
-        PostRestore()
+        Monitor()
+        Exit
     }
-    SetTitleMatchMode, 3
-    If WinExist("InfluenceReminder")
+    Else
     {
+        Gui, InfluenceReminder:Destroy
         PostSetup()
-        InfluenceReminderActive := 1
-        PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ; destroy reminder 
-        PostRestore()
-    }
-    SetTitleMatchMode, 2
-    If WinExist("ahk_group PoeWindow") ;or OnWin("Active", "Overlay", Func("Start"))
-    {
-        Start()
-        Return
+        PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
+        PostRestore()  
+        SetTitleMatchMode, 3
+        If WinExist("Reminder")
+        {
+            PostSetup()
+            ReminderActive := 1
+            PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ; destroy reminder 
+            PostRestore()
+        }
+        SetTitleMatchMode, 3
+        If WinExist("InfluenceReminder")
+        {
+            PostSetup()
+            InfluenceReminderActive := 1
+            PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ; destroy reminder 
+            PostRestore()
+        }
+        SetTitleMatchMode, 2
+        Loop
+        {
+            OnWin("Active", "Path of Exile", Func("Start"))
+            Break
+        }
     }
 }
