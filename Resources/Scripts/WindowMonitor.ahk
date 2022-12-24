@@ -2,6 +2,7 @@
 #Persistent
 #NoEnv
 #NoTrayIcon
+Global MechanicsActive
 ;#Warn
 SetTitleMatchMode, 3
 
@@ -10,6 +11,8 @@ GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Influence
 GroupAdd, PoeWindow, Transparency 
 GroupAdd, PoeWindow, Path of Exile 
+GroupAdd, PoeWindow, Overlay
+; GroupAdd, PoeWindow, Awakened PoE Trade
 
 Global ReminderActive
 Global InfluenceReminderActive
@@ -58,11 +61,17 @@ Start()
     PostSetup()
     PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
     PostRestore()
-    If (ReminderActive = 1)
-    {
-        ReminderActive := 0
-        PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
-    }
+    
+    MechanicsActive()
+    If (MechanicsActive >= 1)
+        {
+            PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
+        }
+    ; If (ReminderActive = 1)
+    ; {
+    ;     ReminderActive := 0
+    ;     PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
+    ; }
     If (InfluenceReminderActive = 1)
     {
         ReminderActive := 0
@@ -81,7 +90,7 @@ Start()
 
 Monitor()
 {
-    tooltip
+    tooltip ;intentional
     OnWin("NotActive", "Path of Exile", Func("Kill"))
 }
 
@@ -122,4 +131,30 @@ Kill()
             Break
         }
     }
+}
+
+MechanicsActive()
+{
+    MechanicsActive := 0
+    MechanicsPath := "Resources\Settings\Mechanics.ini"
+    MechanicSearch := Mechanics()
+    For each, Mechanic in StrSplit(MechanicSearch, "|")
+    {
+        IniRead, %Mechanic%, %MechanicsPath%, Mechanic Active, %Mechanic%
+        If (%Mechanic% = 1)
+        {
+            %Mechanic%Active := 1
+            MechanicsActive ++
+        }
+        If (%Mechanic% = 0)
+        {
+            %Mechanic%Active := 0
+        }
+    }
+    Return
+}
+
+Mechanics() ;List of Mechanics
+{
+    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Metamorph|Ritual|Generic"
 }
