@@ -4,6 +4,7 @@ IniPath(MyKey){
         case "FirstRun":        MyValue := "Resources\Data\Firstrun.ini"                ;Section Key - Completion
         case "Hideout":         MyValue := "Resources\Settings\Hideout.ini"             ;Section Key - Hideout
         case "Hotkey":          MyValue := "Resources\Settings\Hotkeys.ini"             ;Section Key - Hotkeys
+        case "Location":        MyValue := "Resources\Settings\StorageLocation.ini"     ;Section Key - Settings Location
         case "LaunchOptions":   MyValue := "Resources\Data\LaunchPath.ini"              ;Section Key - POE, Launch Options, User Tools, Tool Name
         case "Mechanics":       MyValue := "Resources\Settings\Mechanics.ini"           ;Section Key - Mechanics, Mechanics Active, Auto Mechanics, Influence, Influence Track
         case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
@@ -22,6 +23,8 @@ FirstRunIni()
     MyKey := "FirstRun"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -30,6 +33,8 @@ HideoutIni()
     MyKey := "Hideout"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -38,6 +43,8 @@ HotkeyIni()
     MyKey := "Hotkey"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -46,6 +53,8 @@ LaunchOptionsIni()
     MyKey := "LaunchOptions"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -54,6 +63,8 @@ MechanicsIni()
     MyKey := "Mechanics"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile) 
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -62,12 +73,24 @@ NotificationIni()
     MyKey := "Notification"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
 OverlayIni()
 {
     MyKey := "Overlay"
+    IniFile := IniPath(MyKey)
+    IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
+    Return, % IniFile
+}
+
+StorageIni()
+{
+    MyKey := "Location"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
     Return, % IniFile
@@ -78,6 +101,8 @@ ThemeIni()
     MyKey := "Theme"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -86,6 +111,8 @@ TransparencyIni()
     MyKey := "Transparency"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -94,6 +121,8 @@ VariableIni()
     MyKey := "Variable"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
+    CurrentDir := AppendDir(IniDir)
+    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -108,5 +137,20 @@ CheckDir(IniFile)
     Else
     {
         Return, %IniFile%
+    }
+}
+
+AppendDir(IniDir)
+{
+    LocationIni := StorageIni()
+    IniRead, CurrentLocation, %LocationIni%, Settings Location, Location
+    If InStr(CurrentLocation, "A_ScriptDir")
+    {
+        CurrentLocation := ""
+    }
+    Else
+    {
+        CurrentLocation := CurrentLocation "\"
+        Return, %CurrentLocation%
     }
 }

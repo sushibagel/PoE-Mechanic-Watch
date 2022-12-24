@@ -37,6 +37,8 @@ Menu, SetupMenu, Add, Sound Settings, UpdateNotification
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Launch Assist, LaunchGui
 Menu, SetupMenu, Add, Tool Launcher, ToolLaunchGui
+Menu, SetupMenu, Add
+Menu, SetupMenu, Add, Choose Settings File Location, iniChoose
 Menu, Tray, Default, Setup
 Menu, SetupMenu, Default, Setup Menu
 Menu, Tray, Add
@@ -523,6 +525,7 @@ HotkeyCheck()
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk
 #Include, Resources\Scripts\Ini.ahk
+#Include, Resources\Scripts\iniChoose.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
 #Include, Resources\Scripts\Mechanics.ahk
