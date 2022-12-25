@@ -23,8 +23,6 @@ FirstRunIni()
     MyKey := "FirstRun"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -33,8 +31,6 @@ HideoutIni()
     MyKey := "Hideout"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -43,8 +39,6 @@ HotkeyIni()
     MyKey := "Hotkey"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -53,8 +47,6 @@ LaunchOptionsIni()
     MyKey := "LaunchOptions"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -63,8 +55,6 @@ MechanicsIni()
     MyKey := "Mechanics"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile) 
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -73,8 +63,6 @@ NotificationIni()
     MyKey := "Notification"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -83,8 +71,6 @@ OverlayIni()
     MyKey := "Overlay"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -99,8 +85,6 @@ ThemeIni()
     MyKey := "Theme"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -109,8 +93,6 @@ TransparencyIni()
     MyKey := "Transparency"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -119,8 +101,6 @@ VariableIni()
     MyKey := "Variable"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    CurrentDir := AppendDir(IniDir)
-    IniFile := CurrentDir IniFile
     Return, % IniFile
 }
 
@@ -139,19 +119,4 @@ CheckDir(IniFile)
         IniFile := CurrentLocation "\" IniFile
     }
     Return, %IniFile%
-}
-
-AppendDir(IniDir)
-{
-    ; LocationIni := StorageIni()
-    ; IniRead, CurrentLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
-    ; If InStr(CurrentLocation, "A_ScriptDir")
-    ; {
-    ;     CurrentLocation := ""
-    ; }
-    ; Else
-    ; {
-    ;     CurrentLocation := CurrentLocation "\"
-    ;     Return, %CurrentLocation%
-    ; }
 }
