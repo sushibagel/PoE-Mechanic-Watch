@@ -2,7 +2,6 @@
 #Persistent
 #NoEnv
 #NoTrayIcon
-;#Warn
 
 Global CLogTailer
 Global NewLine

@@ -4,6 +4,7 @@ IniPath(MyKey){
         case "FirstRun":        MyValue := "Resources\Data\Firstrun.ini"                ;Section Key - Completion
         case "Hideout":         MyValue := "Resources\Settings\Hideout.ini"             ;Section Key - Hideout
         case "Hotkey":          MyValue := "Resources\Settings\Hotkeys.ini"             ;Section Key - Hotkeys
+        case "Location":        MyValue := "Resources\Settings\StorageLocation.ini"     ;Section Key - Settings Location
         case "LaunchOptions":   MyValue := "Resources\Data\LaunchPath.ini"              ;Section Key - POE, Launch Options, User Tools, Tool Name
         case "Mechanics":       MyValue := "Resources\Settings\Mechanics.ini"           ;Section Key - Mechanics, Mechanics Active, Auto Mechanics, Influence, Influence Track
         case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
@@ -73,6 +74,12 @@ OverlayIni()
     Return, % IniFile
 }
 
+StorageIni()
+{
+    IniFile := "Resources\Settings\StorageLocation.ini"
+    Return, % IniFile
+}
+
 ThemeIni()
 {
     MyKey := "Theme"
@@ -103,10 +110,13 @@ CheckDir(IniFile)
     {   
         Ini := StrSplit(A_ScriptDir, "Resources\Scripts")
         IniFile := Ini[1] IniFile
-        Return, %IniFile%
     }
-    Else
+    IniRead, CurrentLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
+    If !InStr(CurrentLocation, "A_ScriptDir")
     {
-        Return, %IniFile%
+        IniFile := StrSplit(IniFile, "Resources")
+        IniFile := "Resources" IniFile[2] 
+        IniFile := CurrentLocation "\" IniFile
     }
+    Return, %IniFile%
 }

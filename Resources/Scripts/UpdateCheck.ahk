@@ -9,7 +9,9 @@ UpdateCheck()
 	whr.WaitForResponse() 
 	CurrentVersion1 := whr.ResponseText
 	CurrentVersion := SubStr(CurrentVersion1, 1, 6)
-	If (InstalledVersion=CurrentVersion)
+	CurrentVersion := Trim(CurrentVersion,"`n `t") ; Trim and clean text
+	InstalledVersion := Trim(CurrentVersion,"`n `t") ; Trim and clean text
+	If (InstalledVersion == CurrentVersion)
 	{
 		TrayTip, Up-To-Date, PoE Mechanic Watch Is Up-To-Date,
 		Sleep, 2000

@@ -1,4 +1,5 @@
 Acid Caverns
+Academy
 Alleyways
 Ancient City
 Arachnid Nest
@@ -23,6 +24,7 @@ Canyon
 Carcass
 Cells
 Cemetery
+Channel
 Chateau
 City Square
 Cold River
@@ -31,6 +33,7 @@ Colosseum
 Conservatory
 Coral Ruins
 Core
+Courthouse
 Courtyard
 Crimson Temple
 Crimson Township
@@ -58,6 +61,7 @@ Gardens
 Ghetto
 Glacier
 Grave Trough
+Graveyard
 Grotto
 Haunted Mansion
 Iceberg
@@ -104,6 +108,7 @@ Reef
 Relic Chambers
 Residence
 Sepulchre
+Shipyard
 Shore
 Siege
 Silo
