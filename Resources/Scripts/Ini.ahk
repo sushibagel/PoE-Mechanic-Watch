@@ -90,9 +90,7 @@ OverlayIni()
 
 StorageIni()
 {
-    MyKey := "Location"
-    IniFile := IniPath(MyKey)
-    IniFile := CheckDir(IniFile)
+    IniFile := "Resources\Settings\StorageLocation.ini"
     Return, % IniFile
 }
 
