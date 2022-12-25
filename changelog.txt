@@ -1,12 +1,6 @@
-v1.3.3
-Minor fixes
+v2.3
 
-Each mechanic now has an assignable hotkey. Note: Mouse buttons are not supported with the hotkey selection tool, but can be added by editing the Hotkeys.ini and typing in the desired hotkey (Ex. XButton1 Back Button, XButton2 Forward Button)
+Note: For everything to function correctly after this update please make sure to Use the "Launcher.ahk" to start the application. 
 
-Added a Tool Launcher. The Tool Launcher can be called using a user selectable Hotkey combination or from the Tray Menu and allows the user to input websites or select applications that can be individually launched. 
-        The following file added for support of the Tool Launcher
-        - ToolLauncher.ahk                to              Resources/Scripts
-
-Made the Changelog Viewer a scrollable window. (Credit: just me on the AHK Forums. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)
-        The following was added for support of the Scrollable window
-        - Class_ScrollGUI.ahk           to              Resources/Scripts
+Fix reminders not dismissing. 
+Expedition dialog update. 

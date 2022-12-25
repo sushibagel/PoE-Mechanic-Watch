@@ -13,9 +13,12 @@ Resources/Settings/OverlayPosition.ini
 Resources/Settings/Transparency.ini
 Resources/Data/ToolLauncher.ini
 Resources/Scripts/MapReader.ahk
+Resources/Settings/OverlayPosition.ini
 Resources/Data/Variable.ini
+Resources/Settings/Hideout.ini
 Resources/Data/LogMonitor.ini
 Resources/Scripts/IconTest.jpg
 Resources/Scripts/IconTest.png
 Resources/Scripts/test.ini
 Resources/Scripts/ImageSearch.ahk
+Resources/Settings/StorageLocation.ini

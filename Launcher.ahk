@@ -1,4 +1,5 @@
 AHKLIB = %A_MyDocuments%\AutoHotKey\Lib
+OW = %AHKLIB%\OnWin.ahk
 VA = %AHKLIB%\VA.ahk
 WV= %AHKLIB%\setWindowVol.ahk
 
@@ -13,6 +14,10 @@ If !FileExist(VA)
 If !FileExist(WV)
 {
     FileCopy, Resources\Scripts\setWindowVol.ahk, %AHKLIB%
+}
+If !FileExist(OW)
+{
+    FileCopy, Resources\Scripts\OnWin.ahk, %AHKLIB%
 }
 
 Run, PoE Mechanic Watch.ahk
