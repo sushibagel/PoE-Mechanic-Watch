@@ -1,8 +1,7 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
-#NoTrayIcon
-;#Warn
+; #NoTrayIcon
 
 Global CLogTailer
 Global NewLine

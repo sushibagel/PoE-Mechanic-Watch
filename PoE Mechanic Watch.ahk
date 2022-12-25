@@ -102,6 +102,16 @@ GroupAdd, PoeWindow, Influence
 GroupAdd, PoeWindow, Transparency   
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
+LocationIni := StorageIni()
+If !FileExist(LocationIni) ;Check for "Theme" ini
+{
+    If !FileExist("Resources\Settings")
+    {
+        FileCreateDir, Resources\Settings
+    }
+    IniWrite, A_ScriptDir, %LocationIni%, Settings Location, Location
+}
+
 ThemeIni := ThemeIni()
 If !FileExist(ThemeIni) ;Check for "Theme" ini
 {
@@ -194,7 +204,6 @@ If FileExist(FirstRunIni) ;Check for "FirstRun" ini
         FirstRun()
     }
 }
-
 If !FileExist(FirstRunIni)
 {
     FirstRun()
@@ -296,18 +305,18 @@ GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
     {
         StringTrimRight, POEPathTrim, POEpath, 21 
     }
-
+    
+    LaunchIni := LaunchOptionsIni()
     LogPath = %POEPathTrim%logs\Client.txt
     If (LogPath != "logs\Client.txt")
     {
-        IniWrite, %LogPath%, Resources\Data\LaunchPath.ini, POE, log
-        IniWrite, %POEPathTrim%, Resources\Data\LaunchPath.ini, POE, Directory
-        IniWrite, %POEpath%, Resources\Data\LaunchPath.ini, POE, EXE
-        
+        IniWrite, %LogPath%, %LaunchIni%, POE, log
+        IniWrite, %POEPathTrim%, %LaunchIni%, POE, Directory
+        IniWrite, %POEpath%, %LaunchIni%, POE, EXE
     }
     If (LogPath = "logs\Client.txt")
     {
-        IniRead, LogPath, Resources\Data\LaunchPath.ini, POE, log
+        IniRead, LogPath, %LaunchIni%, POE, log
     }
     Return
 }

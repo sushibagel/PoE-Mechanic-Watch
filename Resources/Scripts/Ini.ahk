@@ -132,25 +132,28 @@ CheckDir(IniFile)
     {   
         Ini := StrSplit(A_ScriptDir, "Resources\Scripts")
         IniFile := Ini[1] IniFile
-        Return, %IniFile%
     }
-    Else
+    IniRead, CurrentLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
+    If !InStr(CurrentLocation, "A_ScriptDir")
     {
-        Return, %IniFile%
+        IniFile := StrSplit(IniFile, "Resources")
+        IniFile := "Resources" IniFile[2] 
+        IniFile := CurrentLocation "\" IniFile
     }
+    Return, %IniFile%
 }
 
 AppendDir(IniDir)
 {
-    LocationIni := StorageIni()
-    IniRead, CurrentLocation, %LocationIni%, Settings Location, Location
-    If InStr(CurrentLocation, "A_ScriptDir")
-    {
-        CurrentLocation := ""
-    }
-    Else
-    {
-        CurrentLocation := CurrentLocation "\"
-        Return, %CurrentLocation%
-    }
+    ; LocationIni := StorageIni()
+    ; IniRead, CurrentLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
+    ; If InStr(CurrentLocation, "A_ScriptDir")
+    ; {
+    ;     CurrentLocation := ""
+    ; }
+    ; Else
+    ; {
+    ;     CurrentLocation := CurrentLocation "\"
+    ;     Return, %CurrentLocation%
+    ; }
 }

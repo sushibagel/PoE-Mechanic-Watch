@@ -68,11 +68,12 @@ iniChooseButtonSelectLocation()
     IniWrite, %NewLocation%, %LocationIni%, Settings Location, Location
     CopyFolder := CurrentLocation "\Resources\Settings\*.ini"
     NewSettings := NewLocation "\Resources\Settings"
+    CopyData := CurrentLocation "\Resources\Data\*.ini"
     NewData := NewLocation "\Resources\Data"
     FileCreateDir, %NewSettings%
     FileCreateDir, %NewData%
     FileCopy, %CopyFolder%, %NewSettings%\*.ini
-    FileCopy, %CopyFolder%, %NewData%\*.ini
+    FileCopy, %CopyData%, %NewData%\*.ini
     iniChoose()
     Return
 }
