@@ -10,6 +10,7 @@ Global Ritual
 Global Generic
 Global Eater
 Global Searing
+Global Maven
 Global AbyssActive
 Global BlightActive
 Global BreachActive

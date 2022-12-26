@@ -221,6 +221,17 @@ Searing()
     Return
 }
 
+Maven()
+{
+    MechanicsFilePath := MechanicsIni()
+    IniRead, Maven, %MechanicsFilePath%, Influence Track, Maven
+    OldTrack := Maven
+    Maven ++
+    IniWrite, %Maven%, %MechanicsFilePath%, Influence Track, Maven
+    RefreshOverlay()
+    Return
+}
+
 OverlayButtonLock()
 {
     Gui, Overlay:Submit, NoHide

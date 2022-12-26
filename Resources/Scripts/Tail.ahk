@@ -44,6 +44,16 @@ LogTail(text)
 		InfluenceTrack(NewLine)
 		Exit
 	}
+	If InStr(NewLine, "The Maven:")
+	{
+		MavenTrack()
+		Exit
+	}
+	If Instr(NewLine, "You have entered The Maven's Crucible.")
+	{
+		ResetMaven()
+		Exit
+	}
 }
 
 class CLogTailer 
@@ -94,6 +104,7 @@ FirstRun()
 #IncludeAgain, Resources/Scripts/Influences.ahk
 #IncludeAgain, Resources/Scripts/Ini.ahk
 #IncludeAgain, Resources/Scripts/LogMonitor.ahk
+#IncludeAgain, Resources/Scripts/Maven.ahk
 #IncludeAgain, Resources/Scripts/Mechanics.ahk
 #IncludeAgain, Resources/Scripts/NotificationSounds.ahk
 #IncludeAgain, Resources/Scripts/Reminder.ahk

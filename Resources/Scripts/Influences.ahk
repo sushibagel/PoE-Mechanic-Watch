@@ -1,5 +1,6 @@
 Global SearingActive  
 Global EaterActive
+Global MavenActive
 Global ReminderText
 Global Influence
 Global InfluenceReminderActive
@@ -34,6 +35,11 @@ InfluenceTrack(NewLine)
             {
                 IniWrite, %MapName%, %VariablePath%, Map, Last Map
                 IniWrite, %SeedNumber%, %VariablePath%, Map, Last Seed
+                If (InfluenceActive = "Maven")
+                {
+                    IniWrite, Yes, %VariablePath%, Map, Maven Map
+                    Exit
+                }
                 InfluenceCount := InfluenceCount()
                 OldTrack = %InfluenceCount%
                 InfluenceCount ++
@@ -149,6 +155,17 @@ SubtractOne()
         }
         IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Searing
     }
+    If (MavenActive = 1)
+    {
+        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, Maven
+        OldTrack := InfluenceCount
+        InfluenceCount := InfluenceCount - 1
+        If(InfluenceCount = -1)
+        {
+            InfluenceCount = 10
+        }
+        IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Maven
+    }
     Sleep, 100
     RefreshOverlay()
     Return
@@ -176,7 +193,11 @@ InfluenceActive()
     {
         InfluenceActive = Eater
     }
-    If (EaterActive = 0) and (SearingActive = 0)
+    If (MavenActive = 1)
+    {
+        InfluenceActive = Maven
+    }
+    If (EaterActive = 0) and (SearingActive = 0) and (MavenActive = 0)
     {
         InfluenceActive = None
     }
@@ -192,7 +213,7 @@ InfluenceCount()
 
 Influences() ;List of Influences
 {
-    Return, "Eater|Searing"
+    Return, "Eater|Searing|Maven"
 }
 
 InfluenceMapNotification() ;Map tracking notification
