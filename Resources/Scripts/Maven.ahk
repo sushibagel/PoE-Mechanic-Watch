@@ -12,15 +12,13 @@ MavenTrack()
             MavenCount ++
             IniWrite, %MavenCount%, %MechanicsPath%, Influence Track, Maven
             RefreshOverlay()
-            IniWrite, No, %VariablePath%, Map, MavenMap
             Loop, 10
             {
                 IniRead, MavenMap%A_Index%, %MechanicsPath%, Maven Map, Maven Map %A_Index%
                 MapCheck := "MavenMap"A_Index
-                If (%MapCheck% = "")
+                If (%MapCheck% = "") or (%MapCheck% = "ERROR")
                 {
                     MavenMapNumber := A_Index
-                    MavenMapNumber++
                     Break
                 }
             }
@@ -37,7 +35,8 @@ ResetMaven()
     Return
 }
 
-ViewMaven()
+; ViewMaven()
+g::
 {
     MechanicsIni := MechanicsIni()
     IniRead, FormedCompletion, %MechanicsIni%, The Formed
