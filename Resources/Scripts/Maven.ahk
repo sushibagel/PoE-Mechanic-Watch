@@ -24,8 +24,10 @@ MavenTrack()
                     Break
                 }
             }
+            MechanicsPath := MechanicsIni()
             IniWrite, %CurrentMap%, %MechanicsPath%, Maven Map, Maven Map %MavenMapNumber%
         }
+        IniWrite, No, %VariablePath%, Map, Maven Map
     }
 }
 
@@ -110,6 +112,6 @@ iniChooseButtonSelectLocation()
     FileCreateDir, %NewData%
     FileCopy, %CopyFolder%, %NewSettings%\*.ini
     FileCopy, %CopyData%, %NewData%\*.ini
-    iniChoose()
+    ; iniChoose()
     Return
 }
