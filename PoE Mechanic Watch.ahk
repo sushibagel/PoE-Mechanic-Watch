@@ -16,6 +16,7 @@ OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
 Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
+Menu, Tray, Add, View Maven Witnessing Status, ViewMaven
 Menu, Tray, Add
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
@@ -537,6 +538,7 @@ HotkeyCheck()
 #Include, Resources\Scripts\iniChoose.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
+#Include, Resources\Scripts\Maven.ahk
 #Include, Resources\Scripts\Mechanics.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
