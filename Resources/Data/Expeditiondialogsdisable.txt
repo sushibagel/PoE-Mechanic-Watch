@@ -38,3 +38,4 @@ go after the treasure
 Rog: Seems risky
 Rog: You sure about that placement?
 Rog: Monsters lie in wait there
+Rog: Ready
