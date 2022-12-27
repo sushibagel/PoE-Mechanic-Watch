@@ -75,7 +75,7 @@ ViewMaven()
 {
     MechanicsIni := MechanicsIni()
     yh := (A_ScreenHeight/2) -150
-    wh := A_ScreenWidth/2
+    wh := (A_ScreenWidth/2)+50
     xh := (A_ScreenWidth/2)
     ewh := wh - (wh/3.5)
     Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
@@ -115,7 +115,6 @@ ViewMaven()
 ; Map Bosses
     Loop, 10
     {
-        IniRead, OutputVar, Filename, Section, Key [, Default]
         IniRead, MapCompletion, %MechanicsIni%, Maven Map, Maven Map %A_Index%
         If (MapCompletion != "ERROR") and (MapCompletion != "")
         {
@@ -247,6 +246,15 @@ ViewMaven()
     ControlText2 := StrReplace(ControlText2, "'s", "s")
     Checked := ""
     If (FearedCompletion[8] = 1)
+    {
+        Checked := "Checked1"
+    }
+    Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
+    ControlText := FearedCompletion[9]
+    ControlText2 := StrReplace(ControlText, A_Space)
+    ControlText2 := StrReplace(ControlText2, "'s", "s")
+    Checked := ""
+    If (FearedCompletion[10] = 1)
     {
         Checked := "Checked1"
     }
@@ -404,5 +412,79 @@ MavenButtonClose()
 {
     Gui, Submit, NoHide
     Gui, Maven:Destroy
+    Loop, 10
+    {
+        MapCheck := "Maven" A_Index
+        If (%MapCheck% = 0)
+        {
+            RemoveMap(A_Index)
+        }
+    }
+    MechanicsIni := MechanicsIni()
+    Witnesses := Witnesses()
+    For each, Witness in StrSplit(Witnesses, "|")
+    {
+        Bosses := %Witness%()
+        For each, Boss in StrSplit(Bosses, "|")
+        {
+            BossName := StrReplace(Boss, A_Space)
+            BossName := StrReplace(BossName, ",")
+            BossName := StrReplace(BossName, "'s", "s")
+            BossName := StrReplace(BossName, "-")
+            BossName := %BossName%
+            IniWrite, %BossName%, %MechanicsIni%, The %Witness%, %Boss%
+        }
+    }
     Return
+}
+
+RemoveMap(RemoveMap)
+{
+    MechanicsIni := MechanicsIni()
+    IniDelete, %MechanicsIni%, Maven Map, Maven Map %RemoveMap%
+    IniRead, MapCompletion, %MechanicsIni%, Maven Map
+    ReplaceMap := StrSplit(MapCompletion, "`n")
+    Loop, 10
+    {
+        IniDelete, %MechanicsIni%, Maven Map, Maven Map %A_Index%
+        WriteMap := ReplaceMap[A_Index]
+        WriteMap := StrSplit(WriteMap, "=")
+        WriteMap := WriteMap[2]
+        IniWrite, %WriteMap%, %MechanicsIni%, Maven Map, Maven Map %A_Index%
+    }
+}
+
+Formed() 
+{
+    Return, "Lair of the Hydra|Maze of the Minotaur|Forge of the Phoenix|Pit of the Chimera"
+}
+
+Forgotten()
+{
+    Return, "Rewritten Distant Memory|Augmented Distant Memory|Altered Distant Memory|Twisted Distant Memory"
+}
+
+Feared()
+{
+    Return, "Cortex|Chayula's Domain|The Alluring Abyss|The Shaper's Realm|Absence of Value and Meaning"
+}
+
+Twisted()
+{
+    Return, "The Purifier|The Constrictor|The Enslaver|The Eradicator"
+}
+
+Hidden()
+{
+    Return, "Uul-Netol's Domain|Xoph's Domain|Tul's Domain|Esh's Domain"
+}
+
+Elderslayers()
+{
+    Return, "Baran, The Crusader|Veritania, The Redeemer|Al-Hezmin, The Hunter|Drox, The Warlord"
+}
+
+Witnesses()
+{
+    Return, "Formed|Forgotten|Feared|Twisted|Hidden|Elderslayers"
 }
