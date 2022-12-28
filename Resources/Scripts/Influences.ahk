@@ -123,7 +123,6 @@ InfluenceReminderButtonOK()
     Return
 }
 
-
 InfluenceReminderButtonRevertCount:
 {
     InfluenceReminderActive := 0
