@@ -38,8 +38,16 @@ If FileExist(Location)
         {
             IniWrite, %A_Space%, %Location%, Hotkeys, %A_Index%
         }
+        SetTimer, Exit, 5000
+        msgbox, This update may have broken any hotkeys you previously had set. Please check and update them. 
     }
 }
 
 Run, PoE Mechanic Watch.ahk
 ExitApp
+
+Exit()
+{
+    Run, PoE Mechanic Watch.ahk
+    ExitApp
+}
