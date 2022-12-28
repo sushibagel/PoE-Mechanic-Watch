@@ -9,7 +9,7 @@ HotkeyUpdate()
   ;Setup text for individual HotKey descriptions
   HotkeyText1 := "Reverse Map Count Hotkey"
   HotkeyText2 := "Choose Mechanics"
-  HotkeyText3 := "Maven Witnessing Status"
+  HotkeyText3 := "Maven Invitation Status"
   HotkeyText4 := "Launch Path of Exile"
   HotkeyText5 := "Open Tool Launcher"
   HotkeyText6 := "Abyss"
