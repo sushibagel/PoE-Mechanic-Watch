@@ -463,70 +463,97 @@ AdditionalScripts(Action)
 
 HotkeyCheck()
 {
-  HotkeyPath := HotkeyIni()
-  Loop, 12
-  {
-    IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
-  }
-  If !(Hotkey2 = "")
-  {
-    Hotkey, ~%Hotkey2%, LaunchPoe
-  }
-  If !(Hotkey3 = "")
-  {
-    Hotkey, ~%Hotkey3%, ToolLaunchGui
-  }
-  If !(Hotkey1 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, ~%Hotkey1%, SubtractOne
-  }
-  If !(Hotkey4 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey4%, Abyss, T5
-  }
-  If !(Hotkey5 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey5%, Blight, T5
-  }
-  If !(Hotkey6 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey6%, Breach, T5
-  }
-  If !(Hotkey7 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey7%, Expedition, T5
-  }
-  If !(Hotkey8 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey8%, Harvest, T5
-  }
-  If !(Hotkey9 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey9%, Incursion, T5
-  }
-  If !(Hotkey10 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey10%, Metamorph, T5
-  }
-  If !(Hotkey11 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey11%, Ritual, T5
-  }
-  If !(Hotkey12 = "")
-  {
-    Hotkey, IfWinActive, ahk_group PoeWindow
-    Hotkey, %Hotkey12%, Generic, T5
-  }
-  Return
+    HotkeyPath := HotkeyIni()
+    Loop, 15
+    {
+        IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
+        
+        If !(Hotkey2 = "")
+        {
+            Hotkey, ~%Hotkey2%, SelectMechanics
+        }
+        
+        If !(Hotkey3 = "")
+        {
+            Hotkey, ~%Hotkey3%, ViewMaven
+        }
+       
+        If !(Hotkey4 = "")
+        {
+            Hotkey, ~%Hotkey4%, LaunchPoe
+        }
+       
+        If !(Hotkey5 = "")
+        {
+            Hotkey, ~%Hotkey5%, ToolLaunchGui
+        }
+        
+        If !(Hotkey1 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, ~%Hotkey1%, SubtractOne
+        }
+        
+        If !(Hotkey6 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey6%, Abyss, T5
+        }
+        
+        If !(Hotkey7 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey7%, Blight, T5
+        }
+        
+        If !(Hotkey8 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey8%, Breach, T5
+        }
+        
+        If !(Hotkey9 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey9%, Expedition, T5
+        }
+        
+        If !(Hotkey10 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey10%, Harvest, T5
+        }
+        
+        If !(Hotkey11 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey11%, Incursion, T5
+        }
+        
+        If !(Hotkey12 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey12%, Legion, T5
+        }
+        
+        If !(Hotkey13 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey13%, Metamorph, T5
+        }
+
+        If !(Hotkey14 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey14%, Ritual, T5
+        }
+        
+        If !(Hotkey14 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey15%, Generic, T5
+        }
+    }
 }
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
