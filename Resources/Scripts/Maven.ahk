@@ -67,7 +67,12 @@ MavenTrack()
 
 ResetMaven()
 {
+    MechanicsPath := MechanicsIni()
     IniWrite, 0, %MechanicsPath%, Influence Track, Maven
+    Loop, 10
+    {
+        IniDelete, %MechanicsPath%, Maven Map, Maven Map %A_Index%
+    }
     Return
 }
 
@@ -315,7 +320,7 @@ ViewMaven()
     HiddenCompletion := StrSplit(HiddenCompletion, ["=", "`n"])
     ControlText := HiddenCompletion[1]
     ControlText2 := StrReplace(ControlText, A_Space)
-    ControlText2 := StrReplace(ControlText2, -)
+    ControlText2 := StrReplace(ControlText2, "-")
     ControlText2 := StrReplace(ControlText2, "'s", "s")
     Checked := ""
     If (HiddenCompletion[2] = 1)
@@ -381,7 +386,7 @@ ViewMaven()
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
     ControlText := ElderslayersCompletion[5]
     ControlText2 := StrReplace(ControlText, A_Space)
-    ControlText2 := StrReplace(ControlText2, -)
+    ControlText2 := StrReplace(ControlText2, "-")
     ControlText2 := StrReplace(ControlText2, ",")
     ControlText2 := StrReplace(ControlText2, "'s", "s")
     Checked := ""
@@ -454,6 +459,27 @@ RemoveMap(RemoveMap)
     }
 }
 
+MavenMatch(NewLine)
+{
+    MavenFile := MavenTxt()
+    IniRead, MavenSearch, %MavenFile%, Voice Lines
+    MavenSearch := StrSplit(MavenSearch, ["=", "`n"])
+    Loop, 33
+    {
+        MySearch := MavenSearch[A_Index]
+        If NewLine contains %MySearch%
+        {
+            IniRead, MavenData, %MavenFile%, Voice LInes, %MySearch%
+            MavenData := StrSplit(MavenData, "|")
+            MavenBoss := MavenData[1]
+            MavenSection := MavenData[2]
+            MechanicsIni := MechanicsIni()
+            IniWrite, 1, %MechanicsIni%, %MavenSection%, %MavenBoss%
+            Break
+        }
+    }
+}
+
 Formed() 
 {
     Return, "Lair of the Hydra|Maze of the Minotaur|Forge of the Phoenix|Pit of the Chimera"
@@ -487,4 +513,9 @@ Elderslayers()
 Witnesses()
 {
     Return, "Formed|Forgotten|Feared|Twisted|Hidden|Elderslayers"
+}
+
+MavenTxt()
+{
+    Return, "Resources/Data/Maven.txt"
 }

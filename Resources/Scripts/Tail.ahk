@@ -54,6 +54,11 @@ LogTail(text)
 		ResetMaven()
 		Exit
 	}
+	If NewLine contains %MavenSearch%
+	{
+		MavenMatch(Newline)
+		Exit
+	}
 }
 
 class CLogTailer 
