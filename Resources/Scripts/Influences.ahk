@@ -104,6 +104,13 @@ CloseGui()
     Return
 }
 
+InfluenceGuiClose()
+{
+    Tooltip
+    MapMove := 0
+    Return  
+}
+
 InfluenceReminderButtonOK()
 {
     WinActivate, Path of Exile
