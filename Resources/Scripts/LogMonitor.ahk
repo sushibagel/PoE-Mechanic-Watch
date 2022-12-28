@@ -53,7 +53,8 @@ LogMonitor() ;Monitor the PoE client.txt
     MavenFile := MavenTxt()
     IniRead, MavenSearch, %MavenFile%, Voice Lines
     MavenSearch := StrSplit(MavenSearch, ["=", "`n"])
-    MavenSearch := MavenSearch[1]"," MavenSearch[3]"," MavenSearch[5]"," MavenSearch[7]"," MavenSearch[9]"," MavenSearch[11]"," MavenSearch[13]"," MavenSearch[15]"," MavenSearch[17]"," MavenSearch[19]"," MavenSearch[21]"," MavenSearch[23]"," MavenSearch[25]"," MavenSearch[27]"," MavenSearch[29]"," MavenSearch[31]"," MavenSearch[33]
+    MavenSearch := MavenSearch[1]"," MavenSearch[3]"," MavenSearch[5]"," MavenSearch[7]"," MavenSearch[9]"," MavenSearch[11]"," MavenSearch[13]"," MavenSearch[15]"," MavenSearch[17]"," MavenSearch[19]"," MavenSearch[21]"," MavenSearch[23]"," MavenSearch[25]"," MavenSearch[27]"," MavenSearch[29]"," MavenSearch[31]"," MavenSearch[33]"," MavenSearch[35],"," MavenSearch[37]"," MavenSearch[39],"," MavenSearch[41]
+
     Return
 }
 
