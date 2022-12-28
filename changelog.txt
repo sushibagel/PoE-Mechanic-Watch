@@ -1,6 +1,11 @@
-v2.3
+v2.4
 
 Note: For everything to function correctly after this update please make sure to Use the "Launcher.ahk" to start the application. 
 
-Fix reminders not dismissing. 
-Expedition dialog update. 
+-Added an option to store settings files outside of the script folder. To allow for syncing across systems with Dropbox.
+-Added support for Maven Invitation Tracking. See README for more information on Maven Invitation tracking. 
+-Added Hotkey options for the following:
+    -Mechanic Choice Gui
+    -Maven Invitation Gui
+    -Legion
+-Added severeal more Excursion dialogs. 

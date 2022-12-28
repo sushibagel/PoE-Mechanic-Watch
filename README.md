@@ -25,6 +25,11 @@ For Blight, Expedition and Incursion Auto Mechanic Tracking can be enabled in a 
 
 Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon. The Hotkey can be changed using the "Change Hotkey" tray menu option.  
 
+##### Maven Tracking:
+Maven Invitation Tracking for map bosses is done automatically. Maps will only be tracked if the map are meets the level requirement criteria (81+) and a Maven voiceline is detected. 
+
+For non-map boss invitation tracking (The Formed, The Feared, The Twisted, The Hidden, The Elderslayer), auto tracking will not work for The Twisted (Elder Guardians) as there are no voicelines to detect and the zone can't be destiguished from the map zone. You can instead check/uncheck boxes for them. The checkboxes can be manually managed for all Invitations, unchecking a map will remove it from the list and reduce the total on the overlay. 
+
 ## Installation:  
 To run this script you ***MUST*** have AutoHotKey installed. https://www.autohotkey.com/
 
