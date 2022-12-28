@@ -4,7 +4,7 @@ Gwennen: I'm never against treasure
 Add some spice
 Gwennen: For the Kalguur
 Gwennen: Gambling with our lives
-Gwennen: Ready!
+Gwennen: Ready
 Gwennen: There could be anything in that treasure
 Gwennen: Not a chance
 Gwennen: I always love a good risk
@@ -28,6 +28,7 @@ Tujen: Risky choice
 Tujen: That should make things interesting
 Tujen: All placed
 Tujen: Scratchin
+Tujen: Ready
 Tujen: Ha
 Tujen: Itching for me to lose another limb
 Rog: I wonder what you'll unearth
