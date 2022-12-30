@@ -101,7 +101,7 @@ ViewMaven()
     Gui, Maven:Font, c%Font% s13 Bold
     Gui, Maven:Add, Text, +Center w%wh%, Maven Completion Status
     Gui, Maven:Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
     Gui, Maven:Add, Text, +Center w%wh%, Note: You can check/uncheck items to change the completion status. 
     Gui, Maven:Font, c%Font% s12
     Gui, Maven:Add, GroupBox, w%wh% h10 xn
@@ -111,11 +111,12 @@ ViewMaven()
     xh := xh - (w/2)
     yh2 := yh + h
     h := h - 30
+    fw := xh*.039
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, xs x10 Section, Map Bosses
     Gui, Maven:Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
 
 ; Map Bosses
     Loop, 10
@@ -134,7 +135,7 @@ ViewMaven()
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Formed
     Gui, Maven: Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
     IniRead, FormedCompletion, %MechanicsIni%, The Formed
     FormedCompletion := StrSplit(FormedCompletion, ["=", "`n"])
     ControlText := FormedCompletion[1]
@@ -175,7 +176,7 @@ ViewMaven()
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Forgotten
     Gui, Maven: Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
     IniRead, ForgottenCompletion, %MechanicsIni%, The Forgotten
     ForgottenCompletion := StrSplit(ForgottenCompletion, ["=", "`n"])
     ControlText := ForgottenCompletion[1]
@@ -216,7 +217,7 @@ ViewMaven()
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Feared
     Gui, Maven: Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
     IniRead, FearedCompletion, %MechanicsIni%, The Feared
     FearedCompletion := StrSplit(FearedCompletion, ["=", "`n"])
     ControlText := FearedCompletion[1]
@@ -270,7 +271,7 @@ ViewMaven()
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Twisted
     Gui, Maven: Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
     IniRead, TwistedCompletion, %MechanicsIni%, The Twisted
     TwistedCompletion := StrSplit(TwistedCompletion, ["=", "`n"])
     ControlText := TwistedCompletion[1]
@@ -315,7 +316,7 @@ ViewMaven()
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Hidden
     Gui, Maven: Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
     IniRead, HiddenCompletion, %MechanicsIni%, The Hidden
     HiddenCompletion := StrSplit(HiddenCompletion, ["=", "`n"])
     ControlText := HiddenCompletion[1]
@@ -361,7 +362,7 @@ ViewMaven()
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Elderslayers
     Gui, Maven: Font
-    Gui, Maven:Font, c%Font% s9
+    Gui, Maven:Font, c%Font% s%fw%
     IniRead, ElderslayersCompletion, %MechanicsIni%, The Elderslayers
     ElderslayersCompletion := StrSplit(ElderslayersCompletion, ["=", "`n"])
     ControlText := ElderslayersCompletion[1]
