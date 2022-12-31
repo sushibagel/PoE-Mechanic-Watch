@@ -4,6 +4,7 @@ AHKLIB = %A_MyDocuments%\AutoHotKey\Lib
 OW = %AHKLIB%\OnWin.ahk
 VA = %AHKLIB%\VA.ahk
 WV= %AHKLIB%\setWindowVol.ahk
+DP= %AHKLIB%\dpi.ahk
 INI= Resources\Settings\StorageLocation.ini
 
 If !FileExist(AHKLIB)
@@ -21,6 +22,10 @@ If !FileExist(WV)
 If !FileExist(OW)
 {
     FileCopy, Resources\Scripts\OnWin.ahk, %AHKLIB%
+}
+If !FileExist(DP)
+{
+    FileCopy, Resources\Scripts\dpi.ahk, %AHKLIB%
 }
 
 If FileExist(INI)
