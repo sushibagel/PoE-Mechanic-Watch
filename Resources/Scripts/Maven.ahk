@@ -37,6 +37,7 @@ Global yh
 Global wh 
 Global xh
 Global ewh
+Global GuiWidth
 
 MavenTrack()
 {
@@ -83,33 +84,16 @@ ResetMaven()
 ViewMaven()
 {
     yh := (A_ScreenHeight/2) -150
-    wh := (A_ScreenWidth/2)+50
-    xh := -5000
+    wh := 0
+    xh := 0
     ewh := wh - (wh/3.5)
     MavenGui()
     WinGetPos, X, Y, w, h, Maven
     Gui, Maven:Destroy
     xh := (A_ScreenWidth/2) - (w/2)
-
+    wh := w - 250
+    GuiWidth := "w"w-250
     MavenGui()
-    ; xh := xh - (w/2)
-    ; yh2 := yh + h
-    ; h := h - 30
-
-    ; Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    ; Gui, Maven:Color, %Background%
-    ; Gui, Maven:Font, c%Font% s12
-    ; Gui, Maven:Add, GroupBox, h10 xn x10
-    ; Space = y+2
-    ; Gui, Maven: -Caption
-    ; Gui, Maven:Font, c%Font% s11
-    ; Gui, Maven:Show, w%wh%,Maven
-    ; WinGetPos, X, Y, w, h, Maven
-    ; If (h < 85)
-    ; {
-    ;     h = 85
-    ; }
-    ; Gui, Maven:Destroy
 }
 
 MavenGui()
@@ -424,7 +408,7 @@ MavenGui()
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
-    Gui, Maven:Show, x%xh% y%yh%, Maven
+    Gui, Maven:Show, x%xh% y%yh% %GuiWidth%, Maven
     Return
 }
 
