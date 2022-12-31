@@ -21,8 +21,10 @@ MechanicReminder()
     WinGetPos,xpos,, Width, Height, Reminder
     xpos := xpos/2
     bx := Width/2
+    bx := Round(96/A_ScreenDPI*bx)
     adjust := Round(96/A_ScreenDPI*125)
     bx2 := Width/2-adjust
+    bx2 := Round(96/A_ScreenDPI*bx2)
     Gui, Reminder:Hide
     WinSet, Style, -0xC00000, Reminder
     gheight := height + 40
