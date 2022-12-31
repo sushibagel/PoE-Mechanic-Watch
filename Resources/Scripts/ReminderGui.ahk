@@ -5,7 +5,6 @@ MechanicReminder()
     Gui, Reminder:Destroy
     CheckTheme()
     NotificationHeight := (A_ScreenHeight / 2) - 100
-    NotificationWidth := (A_ScreenWidth / 2)-180
     TransparencyFile := TransparencyIni()
     IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Notification
     Gui, Reminder:Font, c%Font% s12
@@ -17,22 +16,23 @@ MechanicReminder()
     Gui, Reminder:Font, s10
     Gui, Reminder:Color, %Background%
     Gui, Reminder:+AlwaysOnTop -Border
-    Gui, Reminder:Show, NoActivate x%NotificationWidth% y%NotificationHeight%, Reminder
-    WinGetPos,,, Width, Height, Reminder
-    Gui, Reminder:Hide,
+    Gui, Reminder:Show, NoActivate y%NotificationHeight%, Reminder
+    DetectHiddenWindows, On
+    WinGetPos,xpos,, Width, Height, Reminder
+    xpos := xpos/2
+    bx := Width/2
+    bx2 := Width/2-125
+    Gui, Reminder:Hide
     WinSet, Style, -0xC00000, Reminder
-    xpos := 50
-    xpos2 := Width - 165
     gheight := height + 40
-    nwidth := NotificationWidth - xpos
     If WinExist("Transparency")
     {
         NotificationHeight := 750
     }
-    Gui, Reminder:Add, Button, x%xpos% y40, Yes
-    Gui, Reminder:Add, Button,x%xpos2% y40, No
+    Gui, Reminder:Add, Button, xn x%bx2% Section w50, Yes
+    Gui, Reminder:Add, Button, x%bx% ys w50, No
     Gui, Reminder:+AlwaysOnTop -Border
-    Gui, Reminder:Show, x%nwidth% y%NotificationHeight% h%gheight% NoActivate, Reminder
+    Gui, Reminder:Show, y%NotificationHeight% h%gheight% NoActivate, Reminder
     WinSet, Style, -0xC00000, Reminder
     WinSet, Transparent, %NotificationTransparency%, Reminder
     Return
