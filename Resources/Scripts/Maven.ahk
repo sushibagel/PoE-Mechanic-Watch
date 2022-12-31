@@ -33,11 +33,6 @@ Global BaranTheCrusader
 Global VeritaniaTheRedeemer
 Global AlHezminTheHunter
 Global DroxTheWarlord
-Global yh
-Global wh 
-Global xh
-Global ewh
-Global GuiWidth
 
 MavenTrack()
 {
@@ -83,36 +78,19 @@ ResetMaven()
 
 ViewMaven()
 {
-    yh := (A_ScreenHeight/2) -150
-    wh := 0
-    xh := 0
-    ewh := wh - (wh/3.5)
-    MavenGui()
-    WinGetPos, X, Y, w, h, Maven
-    Gui, Maven:Destroy
-    xh := (A_ScreenWidth/2) - (w/2)
-    wh := w - 250
-    GuiWidth := "w"w-250
-    MavenGui()
-}
-
-MavenGui()
-{
     MechanicsIni := MechanicsIni()
     Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Maven:Font, c%Font% s13 Bold
-    Gui, Maven:Add, Text, +Center w%wh%, Maven Completion Status
+    Gui, Maven:Add, Text, +Center w810, Maven Completion Status
     Gui, Maven:Font
     Gui, Maven:Font, c%Font% s%fw%
-    Gui, Maven:Add, Text, +Center w%wh%, Note: You can check/uncheck items to change the completion status. 
-    Gui, Maven:Font, c%Font% s12
-    Gui, Maven:Add, GroupBox, w%wh% h10 xn
+    Gui, Maven:Add, Text, +Center w810, Note: You can check/uncheck items to change the completion status. 
+    Gui, Maven:Font, c%Font% s1
+    Gui, Maven:Add, GroupBox, % dpi("x0 w810 h1") 
     Space = y+2
     Gui, Maven: -Caption
-    Gui, Maven:Font, c%Font% s11
     fw := 9
-    Gui, Maven:Font, c%Font% s11
-    Gui, Maven:Font, Bold Underline
+    Gui, Maven:Font, c%Font% s11 Bold Underline
     Gui, Maven:Add, Text, xs x10 Section, Map Bosses
     Gui, Maven:Font
     Gui, Maven:Font, c%Font% s%fw%
@@ -408,7 +386,7 @@ MavenGui()
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
-    Gui, Maven:Show, x%xh% y%yh% %GuiWidth%, Maven
+    Gui, Maven:Show, % dpi("w810" "h300"), Maven
     Return
 }
 
