@@ -81,12 +81,12 @@ ViewMaven()
     MechanicsIni := MechanicsIni()
     Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Maven:Font, c%Font% s13 Bold
-    Gui, Maven:Add, Text, % dpi("w850 +Center"), Maven Completion Status
+    Gui, Maven:Add, Text, % dpi("w900 +Center"), Maven Completion Status
     Gui, Maven:Font
     Gui, Maven:Font, c%Font% s%fw%
-    Gui, Maven:Add, Text, % dpi("w850 +Center"), Note: You can check/uncheck items to change the completion status. 
+    Gui, Maven:Add, Text, % dpi("w900 +Center"), Note: You can check/uncheck items to change the completion status. 
     Gui, Maven:Font, c%Font% s1
-    Gui, Maven:Add, GroupBox, % dpi("x0 w850 h1") 
+    Gui, Maven:Add, GroupBox, % dpi("x0 w900 h1") 
     Space = y+2
     Gui, Maven: -Caption
     fw := 9
@@ -386,7 +386,7 @@ ViewMaven()
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
-    Gui, Maven:Show, % dpi("w850 h350"), Maven
+    Gui, Maven:Show, % dpi("w900"), Maven
     Return
 }
 
