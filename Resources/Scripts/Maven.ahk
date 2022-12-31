@@ -33,6 +33,10 @@ Global BaranTheCrusader
 Global VeritaniaTheRedeemer
 Global AlHezminTheHunter
 Global DroxTheWarlord
+Global yh
+Global wh 
+Global xh
+Global ewh
 
 MavenTrack()
 {
@@ -78,25 +82,39 @@ ResetMaven()
 
 ViewMaven()
 {
-    MechanicsIni := MechanicsIni()
     yh := (A_ScreenHeight/2) -150
     wh := (A_ScreenWidth/2)+50
-    xh := (A_ScreenWidth/2)
+    xh := 0
     ewh := wh - (wh/3.5)
-    Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, Maven:Color, %Background%
-    Gui, Maven:Font, c%Font% s12
-    Gui, Maven:Add, GroupBox, h10 xn x10
-    Space = y+2
-    Gui, Maven: -Caption
-    Gui, Maven:Font, c%Font% s11
-    Gui, Maven:Show, w%wh%,Maven
+    MavenGui()
     WinGetPos, X, Y, w, h, Maven
-    If (h < 85)
-    {
-        h = 85
-    }
     Gui, Maven:Destroy
+    xh := (A_ScreenWidth/2) - (w/2)
+
+    MavenGui()
+    ; xh := xh - (w/2)
+    ; yh2 := yh + h
+    ; h := h - 30
+
+    ; Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+    ; Gui, Maven:Color, %Background%
+    ; Gui, Maven:Font, c%Font% s12
+    ; Gui, Maven:Add, GroupBox, h10 xn x10
+    ; Space = y+2
+    ; Gui, Maven: -Caption
+    ; Gui, Maven:Font, c%Font% s11
+    ; Gui, Maven:Show, w%wh%,Maven
+    ; WinGetPos, X, Y, w, h, Maven
+    ; If (h < 85)
+    ; {
+    ;     h = 85
+    ; }
+    ; Gui, Maven:Destroy
+}
+
+MavenGui()
+{
+    MechanicsIni := MechanicsIni()
     Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Maven:Font, c%Font% s13 Bold
     Gui, Maven:Add, Text, +Center w%wh%, Maven Completion Status
@@ -108,10 +126,7 @@ ViewMaven()
     Space = y+2
     Gui, Maven: -Caption
     Gui, Maven:Font, c%Font% s11
-    xh := xh - (w/2)
-    yh2 := yh + h
-    h := h - 30
-    fw := xh*.039
+    fw := 9
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, xs x10 Section, Map Bosses
@@ -409,8 +424,7 @@ ViewMaven()
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
-    Gui, Maven:Show, x%xh% y%yh% w%wh%, Maven
-    WinWaitClose, Maven
+    Gui, Maven:Show, y%yh% w%wh%, Maven
     Return
 }
 
