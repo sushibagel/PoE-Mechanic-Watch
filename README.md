@@ -112,7 +112,6 @@ Thanks to user "mshall" on the AutoHotKey forums for the base code for the updat
 Thanks to user "jaco0646" for the code for the Hotkey Selector posted on the AutoHotKey forums.  
 Thanks to user "masonjar13" on the AutoHotKey forums for the Volume Adjust "VA" library used in the volume control settings.   
 Thank you to user "just me" on the AutoHotKey forums for the Class_ScrollGUI.ahk script. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)  
-Thank you to user "ahk7" on the AutoHotKey formums for the DPI library. https://www.autohotkey.com/boards/viewtopic.php?t=37913
 Thank you to user "Coco" on the AutoHotKey forums for sharing the OnWin.ahk library. https://www.autohotkey.com/boards/viewtopic.php?t=6463
 The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>  
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>  

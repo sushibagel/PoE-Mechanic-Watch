@@ -9,4 +9,3 @@ Note: For everything to function correctly after this update please make sure to
     -Maven Invitation Gui
     -Legion
 -Added severeal more Excursion dialogs. 
--Added support for the DPI Library by ahk7 on the AutoHotKey forums. https://www.autohotkey.com/boards/viewtopic.php?t=37913
