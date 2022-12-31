@@ -36,6 +36,7 @@ Global DroxTheWarlord
 
 MavenTrack()
 {
+    Gui, Maven:Destroy
     VariablePath := VariableIni()
     IniRead, MavenMapActive, %VariablePath%, Map, Maven Map
     IniRead, CurrentMap, %VariablePath%, Map, Last Map
@@ -81,15 +82,15 @@ ViewMaven()
     MechanicsIni := MechanicsIni()
     Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Maven:Font, c%Font% s13 Bold
-    Gui, Maven:Add, Text, % dpi("w900 +Center"), Maven Completion Status
+    Gui, Maven:Add, Text, % dpi("w810 +Center"), Maven Completion Status
     Gui, Maven:Font
     Gui, Maven:Font, c%Font% s%fw%
-    Gui, Maven:Add, Text, % dpi("w900 +Center"), Note: You can check/uncheck items to change the completion status. 
+    Gui, Maven:Add, Text, % dpi("w810 +Center"), Note: You can check/uncheck items to change the completion status. 
     Gui, Maven:Font, c%Font% s1
-    Gui, Maven:Add, GroupBox, % dpi("x0 w900 h1") 
+    Gui, Maven:Add, GroupBox, % dpi("x0 w810 h1") 
     Space = y+2
     Gui, Maven: -Caption
-    fw := 9
+    fw := Round(96/A_ScreenDPI*10)
     Gui, Maven:Font, c%Font% s11 Bold Underline
     Gui, Maven:Add, Text, xs x10 Section, Map Bosses
     Gui, Maven:Font
@@ -193,7 +194,7 @@ ViewMaven()
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Feared
-    Gui, Maven: Font
+    Gui, Maven:Font
     Gui, Maven:Font, c%Font% s%fw%
     IniRead, FearedCompletion, %MechanicsIni%, The Feared
     FearedCompletion := StrSplit(FearedCompletion, ["=", "`n"])
@@ -386,7 +387,7 @@ ViewMaven()
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
-    Gui, Maven:Show, % dpi("w900"), Maven
+    Gui, Maven:Show, % dpi("w810"), Maven
     Return
 }
 
