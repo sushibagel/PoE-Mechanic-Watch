@@ -21,8 +21,8 @@ MechanicReminder()
     WinGetPos,,, Width, Height, Reminder
     Gui, Reminder:Hide,
     WinSet, Style, -0xC00000, Reminder
-    xpos := (width/4)
-    xpos2 := xpos+80
+    xpos := 50
+    xpos2 := Width - 165
     gheight := height + 40
     nwidth := NotificationWidth - xpos
     If WinExist("Transparency")
