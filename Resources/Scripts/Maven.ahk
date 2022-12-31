@@ -84,7 +84,7 @@ ViewMaven()
 {
     yh := (A_ScreenHeight/2) -150
     wh := (A_ScreenWidth/2)+50
-    xh := 0
+    xh := -5000
     ewh := wh - (wh/3.5)
     MavenGui()
     WinGetPos, X, Y, w, h, Maven
@@ -424,7 +424,7 @@ MavenGui()
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
-    Gui, Maven:Show, y%yh% w%wh%, Maven
+    Gui, Maven:Show, x%xh% y%yh%, Maven
     Return
 }
 
