@@ -1,6 +1,7 @@
 Global CBScreenCapHotkey
 Global ScreenCapHotkey
 Global DeathWatchActive
+Global CharacterName
 
 DeathReviewSetup()
 Exit
@@ -49,12 +50,14 @@ DeathReviewSetup()
       Gui, Death:Add, Hotkey, xs w80 vScreenCapHotkey gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
     }
   
+  IniRead, CharacterName, %MiscIni%, On Death, Character Name
   Gui, Death:Font, c%Font% s11 Bold Underline
   Gui, Death:Add, Text, ys Section w200 Center, Character Name
   Gui, Death:Font
   Gui, Death:Font, c%Font% s8
   Gui, Death:Add, Text, xs w200 Center, (Not Required)
-  Gui, Death:Add, Edit, w200
+  Gui, Death:Font, cBlack s8
+  Gui, Death:Add, Edit, Center w200 vCharacterName, %CharacterName%
 
   Gui, Death:Font, c%Font% s1
   Gui, Death:Add, GroupBox, w%Width% +Center x0 h1
