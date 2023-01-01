@@ -7,6 +7,7 @@ IniPath(MyKey){
         case "Location":        MyValue := "Resources\Settings\StorageLocation.ini"     ;Section Key - Settings Location
         case "LaunchOptions":   MyValue := "Resources\Data\LaunchPath.ini"              ;Section Key - POE, Launch Options, User Tools, Tool Name
         case "Mechanics":       MyValue := "Resources\Settings\Mechanics.ini"           ;Section Key - Mechanics, Mechanics Active, Auto Mechanics, Influence, Influence Track
+        case "Misc":            MyValue := "Resources\Settings\Misc.ini"                ;Section Key - On Death
         case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
         case "Overlay":         MyValue := "Resources\Settings\OverlayPosition.ini"     ;Section Key - Overlay
         case "Theme":           MyValue := "Resources\Settings\Theme.ini"               ;Section Key - Dark, Light, Theme
@@ -55,6 +56,14 @@ MechanicsIni()
     MyKey := "Mechanics"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile) 
+    Return, % IniFile
+}
+
+MiscIni()
+{
+    MyKey := "Misc"
+    IniFile := IniPath(MyKey)
+    IniFile := CheckDir(IniFile)
     Return, % IniFile
 }
 
