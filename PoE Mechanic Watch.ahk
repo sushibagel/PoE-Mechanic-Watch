@@ -567,6 +567,7 @@ HotkeyCheck()
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
 #Include, Resources\Scripts\Maven.ahk
+#Include, Resources\Scripts\MavenReminder.ahk
 #Include, Resources\Scripts\Mechanics.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
