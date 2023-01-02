@@ -2,6 +2,7 @@ Global CBScreenCapHotkey
 Global ScreenCapHotkey
 Global DeathWatchActive
 Global CharacterName
+Global CB1
 
 DeathReviewSetup()
 Exit
@@ -42,11 +43,11 @@ DeathReviewSetup()
     {
       MiscIni := MiscIni()
       IniRead, ScreenCapHotkey, %MiscIni%, On Death, Screen Record, %A_Space%
-       If %ScreenCapHotkey%                                   ;Check for saved hotkeys in INI file.
+      If %ScreenCapHotkey%                                   ;Check for saved hotkeys in INI file.
       Hotkey, %ScreenCapHotkey%, DeathCapture, UseErrorLevel               ;Activate saved hotkeys if found.
       StringReplace, noMods, ScreenCapHotkey, ~                  ;Remove tilde (~) and Win (#) modifiers...
       StringReplace, noMods, noMods, #,,UseErrorLevel              ;They are incompatible with hotkey controls (cannot be shown).
-      Gui, Death:Add, CheckBox, xs vCBScreenCapHotkey Checked%ErrorLevel%, Win Key  ;Add checkboxes to allow the Windows key (#) as a modifier...
+      Gui, Death:Add, CheckBox, xs vCB1 Checked%ErrorLevel%, Win Key  ;Add checkboxes to allow the Windows key (#) as a modifier...
       Gui, Death:Add, Hotkey, xs w80 vScreenCapHotkey gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
     }
   
