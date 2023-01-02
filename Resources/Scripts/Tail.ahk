@@ -110,6 +110,7 @@ FirstRun()
 #IncludeAgain, Resources/Scripts/Ini.ahk
 #IncludeAgain, Resources/Scripts/LogMonitor.ahk
 #IncludeAgain, Resources/Scripts/Maven.ahk
+#IncludeAgain, Resources/Scripts/MavenReminder.ahk
 #IncludeAgain, Resources/Scripts/Mechanics.ahk
 #IncludeAgain, Resources/Scripts/NotificationSounds.ahk
 #IncludeAgain, Resources/Scripts/Reminder.ahk
