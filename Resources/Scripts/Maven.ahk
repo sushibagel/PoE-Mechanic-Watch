@@ -33,6 +33,49 @@ Global BaranTheCrusader
 Global VeritaniaTheRedeemer
 Global AlHezminTheHunter
 Global DroxTheWarlord
+Global MavenReminderText
+Global UncheckMaps
+Global LastState1
+Global LastState2
+Global LastState3
+Global LastState4
+Global LastState5
+Global LastState6
+Global LastState7
+Global LastState8
+Global LastState9
+Global LastState10
+Global UncheckFormed
+Global LastStateLairoftheHydra
+Global LastStateMazeoftheMinotaur
+Global LastStateForgeofthePhoenix
+Global LastStatePitoftheChimera
+Global UncheckForgotten
+Global LastStateRewrittenDistantMemory
+Global LastStateAugmentedDistantMemory
+Global LastStateAlteredDistantMemory
+Global LastStateTwistedDistantMemory
+Global UncheckFeared
+Global LastStateCortex
+Global LastStateChayulasDomain
+Global LastStateTheAlluringAbyss
+Global LastStateTheShapersRealm
+Global LastStateAbsenceofValueandMeaning
+Global UncheckTwisted
+Global LastStateThePurifier
+Global LastStateTheConstrictor
+Global LastStateTheEnslaver
+Global LastStateTheEradicator
+Global UncheckHidden
+Global LastStateUulNetolsDomain
+Global LastStateXophsDomain
+Global LastStateTulsDomain
+Global LastStateEshsDomain
+Global UncheckElderslayer
+Global LastStateBaranTheCrusader
+Global LastStateVeritaniaTheRedeemer
+Global LastStateAlHezminTheHunter
+Global LastStateDroxTheWarlord
 
 MavenTrack()
 {
@@ -68,13 +111,8 @@ MavenTrack()
 
 ResetMaven()
 {
-    MechanicsPath := MechanicsIni()
-    IniWrite, 0, %MechanicsPath%, Influence Track, Maven
-    Loop, 10
-    {
-        IniDelete, %MechanicsPath%, Maven Map, Maven Map %A_Index%
-    }
-    Return
+    MavenReminderText := "You have just entered a Maven's Crucible click ""Yes"" to view/reset tracking."
+    MavenReminder()
 }
 
 ViewMaven()
@@ -109,7 +147,8 @@ ViewMaven()
             Gui, Maven:Add, CheckBox, Checked1 vMaven%A_Index%, %MapReadable%
         }
     }
-
+    Gui, Maven:Add, CheckBox, Checked0 gUncheckMaps vUncheckMaps, Remove All
+                
     ; The Formed
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
@@ -150,6 +189,7 @@ ViewMaven()
         Checked := "Checked1"
     }
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
+    Gui, Maven:Add, CheckBox, Checked0 gUncheckFormed vUncheckFormed, Remove All
 
 ; The Forgotten
     Gui, Maven:Font, c%Font% s11
@@ -191,6 +231,7 @@ ViewMaven()
         Checked := "Checked1"
     }
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
+    Gui, Maven:Add, CheckBox, Checked0 gUncheckForgotten vUncheckForgotten, Remove All
 
     ; The Feared
     Gui, Maven:Font, c%Font% s11
@@ -245,6 +286,7 @@ ViewMaven()
         Checked := "Checked1"
     }
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
+    Gui, Maven:Add, CheckBox, Checked0 gUncheckFeared vUncheckFeared, Remove All
 
 ; The Twisted
     Gui, Maven:Font, c%Font% s11
@@ -290,6 +332,7 @@ ViewMaven()
         Checked := "Checked1"
     }
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
+    Gui, Maven:Add, CheckBox, Checked0 gUncheckTwisted vUncheckTwisted, Remove All
 
 ; The Hidden
     Gui, Maven:Font, c%Font% s11
@@ -336,6 +379,7 @@ ViewMaven()
         Checked := "Checked1"
     }
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
+    Gui, Maven:Add, CheckBox, Checked0 gUncheckHidden vUncheckHidden, Remove All
 
 ; The Elderslayers
     Gui, Maven:Font, c%Font% s11
@@ -386,6 +430,8 @@ ViewMaven()
         Checked := "Checked1"
     }
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
+    Gui, Maven:Add, CheckBox, Checked0 gUncheckElderslayer vUncheckElderslayer, Remove All
+
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
@@ -498,4 +544,168 @@ Witnesses()
 MavenTxt()
 {
     Return, "Resources/Data/Maven.txt"
+}
+
+UncheckMaps()
+{
+    Gui, Maven:Submit, NoHide
+    If (UncheckMaps = 1)
+    {
+        Loop, 10
+        {
+            SaveState := "Maven" A_Index
+            LastState%A_Index% := %SaveState%
+            GuiControl, , Maven%A_Index%, 0
+        }
+    }
+    If (UncheckMaps = 0)
+    {
+        Loop, 10
+        {
+            PriorState := "LastState" A_Index
+            PriorState := %PriorState%
+            GuiControl, , Maven%A_Index%, %PriorState%
+        }
+    }
+}
+
+UncheckFormed()
+{
+    Gui, Maven:Submit, NoHide
+    If (UncheckFormed = 1)
+    {
+        LastStateLairoftheHydra := LairoftheHydra
+        LastStateMazeoftheMinotaur := MazeoftheMinotaur
+        LastStateForgeofthePhoenix := ForgeofthePhoenix
+        LastStatePitoftheChimera := PitoftheChimera
+        GuiControl, , LairoftheHydra, 0
+        GuiControl, , MazeoftheMinotaur, 0
+        GuiControl, , ForgeofthePhoenix, 0
+        GuiControl, , PitoftheChimera, 0
+    }
+    If (UncheckFormed = 0)
+    {
+        GuiControl, , LairoftheHydra, %LastStateLairoftheHydra%
+        GuiControl, , MazeoftheMinotaur, %LastStateMazeoftheMinotaur%
+        GuiControl, , ForgeofthePhoenix, %LastStateForgeofthePhoenix%
+        GuiControl, , PitoftheChimera, %LastStatePitoftheChimera%
+    }
+}
+
+UncheckForgotten()
+{
+    Gui, Maven:Submit, NoHide
+    If (UncheckForgotten = 1)
+    {
+        LastStateRewrittenDistantMemory := RewrittenDistantMemory
+        LastStateAugmentedDistantMemory := AugmentedDistantMemory
+        LastStateAlteredDistantMemory := AlteredDistantMemory
+        LastStateTwistedDistantMemory := TwistedDistantMemory
+        GuiControl, , RewrittenDistantMemory, 0
+        GuiControl, , AugmentedDistantMemory, 0
+        GuiControl, , AlteredDistantMemory, 0
+        GuiControl, , TwistedDistantMemory, 0
+    }
+    If (UncheckForgotten = 0)
+    {
+        GuiControl, , RewrittenDistantMemory, %LastStateRewrittenDistantMemory%
+        GuiControl, , AugmentedDistantMemory, %LastStateAugmentedDistantMemory%
+        GuiControl, , AlteredDistantMemory, %LastStateAlteredDistantMemory%
+        GuiControl, , TwistedDistantMemory, %LastStateTwistedDistantMemory%
+    }
+}
+
+UncheckFeared()
+{
+    Gui, Maven:Submit, NoHide
+    If (UncheckFeared = 1)
+    {
+        LastStateCortex := Cortex
+        LastStateChayulasDomain := ChayulasDomain
+        LastStateTheAlluringAbyss := TheAlluringAbyss
+        LastStateTheShapersRealm := TheShapersRealm
+        LastStateAbsenceofValueandMeaning := AbsenceofValueandMeaning
+        GuiControl, , Cortex, 0
+        GuiControl, , ChayulasDomain, 0
+        GuiControl, , TheAlluringAbyss, 0
+        GuiControl, , TheShapersRealm, 0
+        GuiControl, , AbsenceofValueandMeaning, 0
+    }
+    If (UncheckFeared = 0)
+    {
+        GuiControl, , Cortex, %LastStateCortex%
+        GuiControl, , ChayulasDomain, %LastStateChayulasDomain%
+        GuiControl, , TheAlluringAbyss, %LastStateTheAlluringAbyss%
+        GuiControl, , TheShapersRealm, %LastStateTheShapersRealm%
+        GuiControl, , AbsenceofValueandMeaning, %LastStateAbsenceofValueandMeaning%
+    }
+}
+
+UncheckTwisted()
+{
+    Gui, Maven:Submit, NoHide
+    If (UncheckTwisted = 1)
+    {
+        LastStateThePurifier := ThePurifier
+        LastStateTheConstrictor := TheConstrictor
+        LastStateTheEnslaver := TheEnslaver
+        LastStateTheEradicator := TheEradicator
+        GuiControl, , ThePurifier, 0
+        GuiControl, , TheConstrictor, 0
+        GuiControl, , TheEnslaver, 0
+        GuiControl, , TheEradicator, 0
+    }
+    If (UncheckTwisted = 0)
+    {
+        GuiControl, , ThePurifier, %LastStateThePurifier%
+        GuiControl, , TheConstrictor, %LastStateTheConstrictor%
+        GuiControl, , TheEnslaver, %LastStateTheEnslaver%
+        GuiControl, , TheEradicator, %LastStateTheEradicator%
+    }
+}
+
+UncheckHidden()
+{
+    Gui, Maven:Submit, NoHide
+    If (UncheckHidden = 1)
+    {
+        LastStateUulNetolsDomain := UulNetolsDomain
+        LastStateXophsDomain := XophsDomain
+        LastStateTulsDomain := TulsDomain
+        LastStateEshsDomain := EshsDomain
+        GuiControl, , UulNetolsDomain, 0
+        GuiControl, , XophsDomain, 0
+        GuiControl, , TulsDomain, 0
+        GuiControl, , EshsDomain, 0
+    }
+    If (UncheckHidden = 0)
+    {
+        GuiControl, , UulNetolsDomain, %LastStateUulNetolsDomain%
+        GuiControl, , XophsDomain, %LastStateXophsDomain%
+        GuiControl, , TulsDomain, %LastStateTulsDomain%
+        GuiControl, , EshsDomain, %LastStateEshsDomain%
+    }
+}
+
+UncheckElderslayer()
+{
+    Gui, Maven:Submit, NoHide
+    If (UncheckElderslayer = 1)
+    {
+        LastStateBaranTheCrusader := BaranTheCrusader
+        LastStateVeritaniaTheRedeemer := VeritaniaTheRedeemer
+        LastStateAlHezminTheHunter := AlHezminTheHunter
+        LastStateDroxTheWarlord := DroxTheWarlord
+        GuiControl, , BaranTheCrusader, 0
+        GuiControl, , VeritaniaTheRedeemer, 0
+        GuiControl, , AlHezminTheHunter, 0
+        GuiControl, , DroxTheWarlord, 0
+    }
+    If (UncheckElderslayer = 0)
+    {
+        GuiControl, , BaranTheCrusader, %LastStateBaranTheCrusader%
+        GuiControl, , VeritaniaTheRedeemer, %LastStateVeritaniaTheRedeemer%
+        GuiControl, , AlHezminTheHunter, %LastStateAlHezminTheHunter%
+        GuiControl, , DroxTheWarlord, %LastStateDroxTheWarlord%
+    }
 }
