@@ -1,4 +1,5 @@
 Global MavenReminderActive
+Global MavenReminderType
 
 MavenReminder()
 {
@@ -19,11 +20,20 @@ MavenReminder()
     bx := Round(96/A_ScreenDPI*bx)
     bx2 := bx - 100
     bx := bx + 50
+    bx3 := bx*2-Round(96/A_ScreenDPI*225)
     Gui, MavenReminder:Hide
     WinSet, Style, -0xC00000, Maven Reminder
     gheight := height + 40
-    Gui, MavenReminder:Add, Button, xn x%bx2% Section w50, Yes
-    Gui, MavenReminder:Add, Button, x%bx% ys w50, No
+    If !(MavenReminderType = "Map")
+    {
+        Gui, MavenReminder:Add, Button, xn x%bx2% Section w50, Yes
+        Gui, MavenReminder:Add, Button, x%bx% ys w50, No
+    }
+    Else
+    {
+        Gui, MavenReminder:Add, Button, x%bx3% y+20 Section w50, Okay
+    }
+
     Gui, MavenReminder:+AlwaysOnTop -Border
     Gui, MavenReminder:Show, y%NotificationHeight% h%gheight% NoActivate, Reminder
     WinSet, Style, -0xC00000, Reminder
@@ -40,4 +50,9 @@ MavenReminderButtonYes()
 {
     Gui, MavenReminder:Destroy
     ViewMaven()
+}
+
+MavenReminderButtonOkay()
+{
+    Gui, MavenReminder:Destroy
 }

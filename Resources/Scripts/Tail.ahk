@@ -32,6 +32,17 @@ LogTail(text)
 		{
 			Reminder()
 		}
+		MechanicsIni := MechanicsIni()
+		IniRead, OutputVar, Filename, Section, Key [, Default]
+		IniRead, MavenMap, %MechanicsIni%, Maven Map, Maven Map 10, 0
+		{
+			If !(MavenMap = 0) and !(MavenMap = "")
+			{
+				MavenReminderText := "You've completed 10 Maven Witnessed maps. Don't forget to complete an invitation." 
+				MavenReminderType := "Map"
+				MavenReminder()
+			}
+		}
 		Exit
 	}
 	If NewLine contains %MyDialogs%,%MyDialogsDisable%
