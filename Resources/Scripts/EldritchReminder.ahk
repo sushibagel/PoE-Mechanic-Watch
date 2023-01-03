@@ -1,7 +1,7 @@
 Global Width2
 Global Height2
 Global InfluenceCount
-Global InfluenceTransparency
+Global NotificationTransparency
 Global InfluenceReminderActive
 
 EldritchReminder()
@@ -9,10 +9,10 @@ EldritchReminder()
 	Gui, InfluenceReminder:Destroy
 	CheckTheme()
 	TransparencyFile := TransparencyIni()
-    IniRead, InfluenceTransparency, %TransparencyFile%, Transparency, Influence
-	If (InfluenceTransparency = "ERROR")
+    IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Notification
+	If (NotificationTransparency = "ERROR")
 	{
-		InfluenceTransparency = 255
+		NotificationTransparency = 255
 	}
 	If WinExist("Transparency")
 	{
@@ -41,7 +41,7 @@ EldritchReminder()
 		Gui, InfluenceReminder:Add, Button, x300 y40, Revert Count
 		Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, InfluenceReminder
 		WinSet, Style, -0xC00000, InfluenceReminder
-		WinSet, Transparent, %InfluenceTransparency%, InfluenceReminder
+		WinSet, Transparent, %NotificationTransparency%, InfluenceReminder
 		InfluenceNotificationSound()
 		PostSetup()
 		PostMessage, 0x01192,,,, WindowMonitor.ahk - AutoHotkey ; Active alt tab reminder for influences 
