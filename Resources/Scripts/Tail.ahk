@@ -33,7 +33,6 @@ LogTail(text)
 			Reminder()
 		}
 		MechanicsIni := MechanicsIni()
-		IniRead, OutputVar, Filename, Section, Key [, Default]
 		IniRead, MavenMap, %MechanicsIni%, Maven Map, Maven Map 10, 0
 		{
 			If !(MavenMap = 0) and !(MavenMap = "")
@@ -42,6 +41,90 @@ LogTail(text)
 				MavenReminderType := "Map"
 				MavenReminder()
 			}
+		}
+		FormedMechanics := Formed()
+		FormedComplete := 0
+		For each, Item in StrSplit(FormedMechanics, "|")
+		{
+			Iniread, FormedItem, %MechanicsIni%, The Formed, %Item%
+			If (FormedItem = 1)
+			FormedComplete ++
+		}
+		If (FormedComplete = 4)
+		{
+			MavenReminderText := "You've completed the witnessing for The Formed Invitation. Don't forget to complete an invitation." 
+			MavenReminderType := "The Formed"
+			MavenReminder()
+		}
+		ForgottenMechanics := Forgotten()
+		ForgottenComplete := 0
+		For each, Item in StrSplit(ForgottenMechanics, "|")
+		{
+			Iniread, ForgottenItem, %MechanicsIni%, The Forgotten, %Item%
+			If (ForgottenItem = 1)
+			ForgottenComplete ++
+		}
+		If (ForgottenComplete = 4)
+		{
+			MavenReminderText := "You've completed the witnessing for The Forgotten Invitation. Don't forget to complete an invitation." 
+			MavenReminderType := "The Forgotten"
+			MavenReminder()
+		}
+		FearedMechanics := Feared()
+		FearedComplete := 0
+		For each, Item in StrSplit(FearedMechanics, "|")
+		{
+			Iniread, FearedItem, %MechanicsIni%, The Feared, %Item%
+			If (FearedItem = 1)
+			FearedComplete ++
+		}
+		If (FearedComplete = 5)
+		{
+			MavenReminderText := "You've completed the witnessing for The Feared Invitation. Don't forget to complete an invitation." 
+			MavenReminderType := "The Feared"
+			MavenReminder()
+		}
+		TwistedMechanics := Twisted()
+		TwistedComplete := 0
+		For each, Item in StrSplit(TwistedMechanics, "|")
+		{
+			Iniread, TwistedItem, %MechanicsIni%, The Twisted, %Item%
+			If (TwistedItem = 1)
+			TwistedComplete ++
+		}
+		If (TwistedComplete = 4)
+		{
+			MavenReminderText := "You've completed the witnessing for The Twisted Invitation. Don't forget to complete an invitation." 
+			MavenReminderType := "The Twisted"
+			MavenReminder()
+		}
+		HiddenMechanics := Hidden()
+		HiddenComplete := 0
+		For each, Item in StrSplit(HiddenMechanics, "|")
+		{
+			Iniread, HiddenItem, %MechanicsIni%, The Hidden, %Item%
+			If (HiddenItem = 1)
+			HiddenComplete ++
+		}
+		If (HiddenComplete = 4)
+		{
+			MavenReminderText := "You've completed the witnessing for The Hidden Invitation. Don't forget to complete an invitation." 
+			MavenReminderType := "The Hidden"
+			MavenReminder()
+		}
+		ElderslayersMechanics := Elderslayers()
+		ElderslayersComplete := 0
+		For each, Item in StrSplit(ElderslayersMechanics, "|")
+		{
+			Iniread, ElderslayersItem, %MechanicsIni%, The Elderslayers, %Item%
+			If (ElderslayersItem = 1)
+			ElderslayersComplete ++
+		}
+		If (ElderslayersComplete = 4)
+		{
+			MavenReminderText := "You've completed the witnessing for The Elderslayers Invitation. Don't forget to complete an invitation." 
+			MavenReminderType := "The Elderslayers"
+			MavenReminder()
 		}
 		Exit
 	}
