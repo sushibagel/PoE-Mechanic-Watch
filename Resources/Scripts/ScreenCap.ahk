@@ -70,7 +70,7 @@ DeathReviewSetup()
   Gui, Death:Font, c%Font% s10
   Gui, Death:Add, Button, x20 w50, Close
   Gui, Death:Show, w%Width%, Death Review Settings
-  return
+  Return
 }
 
 DeathButtonClose()
