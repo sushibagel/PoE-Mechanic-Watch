@@ -34,6 +34,7 @@ NotificationSetup()
     Width := A_ScreenWidth*.42
     Width := Round(96/A_ScreenDPI*Width)
     Box:= Width - Round(96/A_ScreenDPI*12)
+    BoxHeight := Round(96/A_ScreenDPI*210)
     TW := Width - 20
     fw := Round(96/A_ScreenDPI*12)
     fw1 := Round(96/A_ScreenDPI*15)
@@ -158,7 +159,7 @@ NotificationSetup()
 ; Maven Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
-    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h170
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxheight%
     Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Maven Notification
     Gui, NotificationSettings:Font
