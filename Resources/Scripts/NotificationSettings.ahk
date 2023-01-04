@@ -6,12 +6,13 @@ NotificationSetup()
 {
     Gui, NotificationSettings:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, NotificationSettings:Font, c%Font% s13 Bold
-    Width := A_ScreenWidth*.29
+    Width := A_ScreenWidth*.5
     Width := Round(96/A_ScreenDPI*Width)
     TW := Width - 20
     fw := Round(96/A_ScreenDPI*12)
     fw1 := Round(96/A_ScreenDPI*15)
     fw2 := Round(96/A_ScreenDPI*11)
+
     Gui, NotificationSettings:Add, Text, w%Width% +Center, Notification Settings
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font% s1
@@ -22,11 +23,19 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
     Gui, NotificationSettings:Add, Text, xs x25 Section, Notification Type
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Font, cBlack s%fw% Bold
-    Gui, NotificationSettings:Add, Text, xs x25, 
-    Gui, NotificationSettings:Add, Text, xs x25, Mechanic Notification
-    Gui, NotificationSettings:Add, Text, xs x25, Influence Notification
+    Gui, NotificationSettings:Font, cBlack s1
+    Gui, NotificationSettings:Add, Text, xs y-2 x25, 
+      Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Add, GroupBox, Section w%Width% +Center x0 h30
+        Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    Gui, NotificationSettings:Add, Text, xs+25  ys+10, Overlay
+
+        Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, xs x25, Map Notification
+    Gui, NotificationSettings:Add, Text, xs x25, Mechanic Notification
+
+    Gui, NotificationSettings:Add, Text, xs x25, Influence Notification
+
     Gui, NotificationSettings:Add, Text, xs x25, Maven Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, cBlack s%fw2%
@@ -37,7 +46,8 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, xs x25, The Hidden Notification
     Gui, NotificationSettings:Add, Text, xs x25, The Elderslayers Notification
 
-    
+    Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
+    Gui, NotificationSettings:Add, Text, ys Section, Enabled   
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
     Gui, NotificationSettings:Add, Text, ys Section, Sound Settings
     Gui, NotificationSettings:Font
@@ -62,9 +72,6 @@ NotificationSetup()
   Gui, NotificationSettings:Add, Text, ys Section w200 Center, Transparency Settings
   Gui, NotificationSettings:Font
   Gui, NotificationSettings:Font, c%Font% s8
-  Gui, NotificationSettings:Add, Text, xs w200 Center, (Not Required)
-  Gui, NotificationSettings:Font, cBlack s8
-;   Gui, NotificationSettings:Add, Edit, Center w200 vCharacterName, %CharacterName%
 
   Gui, NotificationSettings:Font, c%Font% s1
   Gui, NotificationSettings:Add, GroupBox, w%Width% +Center x0 h1
@@ -81,4 +88,11 @@ NotificationSetup()
 
 NotificationSettingsButtonClose(){
     Gui, NotificationSettings:Destroy
+}
+
+
+; Volume Part
+NotificationTypes()
+{
+    Return, "Notification|Influence"
 }
