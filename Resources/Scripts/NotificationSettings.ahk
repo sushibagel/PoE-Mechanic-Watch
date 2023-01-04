@@ -50,7 +50,7 @@ NotificationSetup()
     Edit2 := Round(96/A_ScreenDPI*695)
     Offset := Round(96/A_ScreenDPI*0)
     ActiveOffset := Round(96/A_ScreenDPI*315)
-
+    TextOffset := Round(96/A_ScreenDPI*14)
 
     Gui, NotificationSettings:Add, Text, w%Width% +Center, Notification Settings
     Gui, NotificationSettings:Font
@@ -63,7 +63,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
     Gui, NotificationSettings:Add, Text, xs x25 Section, Notification Type
     Gui, NotificationSettings:Add, Text, x+50 ys, Enabled
-    Gui, NotificationSettings:Add, Text, x+20 ys, Sound Settings
+    Gui, NotificationSettings:Add, Text, x+28 ys, Sound Settings
     Gui, NotificationSettings:Add, Text, x+40 ys, Transparency Settings
 
     ; Sub Headings
@@ -85,7 +85,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Overlay
+    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Overlay
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
     ; Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check2% Checked1
@@ -106,7 +106,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Map Notification
+    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Map Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
@@ -126,7 +126,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Mechanic Notification
+    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Mechanic Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
@@ -146,7 +146,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Influence Notification
+    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Influence Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
@@ -166,7 +166,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxheight%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Maven Notification
+    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Maven Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
