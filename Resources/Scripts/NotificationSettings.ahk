@@ -1,10 +1,7 @@
 #SingleInstance force
-Global Secondary := "White"
-Global Background := "White"
-Global Font := "Black"
-Global IconColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\volume.png"
-Global PlayColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\play.png"
-Global StopColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\stop.png"
+Global IconColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\volume white.png"
+Global PlayColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\play white.png"
+Global StopColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\stop white.png"
 Global Edit
 Global Edit2
 Global Edit3
@@ -16,6 +13,9 @@ Global Edit8
 Global Edit9
 Global Edit10
 Global SoundButtonChange
+Global Font := "White"
+Global Background := "4e4f53"
+Global Secondary := "a6a6a6"
 Test()
 {
     Exit
@@ -33,7 +33,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s13 Bold
     Width := A_ScreenWidth*.42
     Width := Round(96/A_ScreenDPI*Width)
-    BoxH := Round(96/A_ScreenDPI*35)
+    BoxH := Round(96/A_ScreenDPI*43)
     Box:= Width - Round(96/A_ScreenDPI*12)
     BoxHeight := Round(96/A_ScreenDPI*210)
     TW := Width - 20
@@ -82,7 +82,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
-    Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Overlay
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
@@ -95,6 +95,7 @@ NotificationSetup()
     ; Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
+    Gui, NotificationSettings:Font, cBlack 
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 v%Item%Edit2
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
 
@@ -102,14 +103,14 @@ NotificationSetup()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
-    Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Map Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange%Item% ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Font, cWhite
+    Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit3
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
@@ -122,14 +123,14 @@ NotificationSetup()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
-    Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Mechanic Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange%Item% ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Font, cWhite
+    Gui, NotificationSettings:Font, cBlacke
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit5
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
@@ -142,14 +143,14 @@ NotificationSetup()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
-    Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Influence Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange%Item% ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Font, cWhite
+    Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit7
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
@@ -162,14 +163,14 @@ NotificationSetup()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxheight%
-    Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Maven Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange%Item% ys-1 x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Font, cWhite
+    Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit9
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
@@ -180,7 +181,7 @@ NotificationSetup()
 
     ; Invitation Stuff
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Font, cBlack s%fw2%
+    Gui, NotificationSettings:Font, c%Font% s%fw2%
     Gui, NotificationSettings:Add, Text, Section xs x25, The Formed Notification
     Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
     Gui, NotificationSettings:Add, Text, Section xs x25, The Forgotten Notification
@@ -200,6 +201,7 @@ NotificationSetup()
   
   Gui, NotificationSettings:Font, c%Font% s10
   Gui, NotificationSettings:Add, Button, x20 w50, Close
+  Gui, NotificationSettings:Color, %Background%
   Gui, NotificationSettings:Show, W%Width%, Notification Settings
   Return
 }
