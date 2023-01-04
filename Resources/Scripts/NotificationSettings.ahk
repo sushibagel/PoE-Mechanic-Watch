@@ -1,4 +1,19 @@
-Font := "Black"
+#SingleInstance force
+Global Secondary := "White"
+Global Background := "White"
+Global Font := "Black"
+Global IconColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\volume.png"
+Global PlayColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\play.png"
+Global Edit
+Global SoundButtonChange
+Test()
+{
+    Exit
+}
+SoundsButtonChange()
+{
+    Exit
+}
 NotificationSetup()
 Exit
 
@@ -12,6 +27,10 @@ NotificationSetup()
     fw := Round(96/A_ScreenDPI*12)
     fw1 := Round(96/A_ScreenDPI*15)
     fw2 := Round(96/A_ScreenDPI*11)
+    fw3 := Round(96/A_ScreenDPI*355)
+    SpeakerButton := Round(96/A_ScreenDPI*400)
+    PlayButton := Round(96/A_ScreenDPI*440)
+    Edit := Round(96/A_ScreenDPI*470)
 
     Gui, NotificationSettings:Add, Text, w%Width% +Center, Notification Settings
     Gui, NotificationSettings:Font
@@ -20,17 +39,42 @@ NotificationSetup()
     Space = y+2
     Gui, NotificationSettings: -Caption
     
+    ; Headings 
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
     Gui, NotificationSettings:Add, Text, xs x25 Section, Notification Type
-    Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Font, cBlack s1
-    Gui, NotificationSettings:Add, Text, xs y-2 x25, 
-      Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Add, GroupBox, Section w%Width% +Center x0 h30
-        Gui, NotificationSettings:Font, cBlack s%fw% Bold
-    Gui, NotificationSettings:Add, Text, xs+25  ys+10, Overlay
+    Gui, NotificationSettings:Add, Text, x+50 ys, Enabled
+    Gui, NotificationSettings:Add, Text, x+20 ys, Sound Settings
+    Gui, NotificationSettings:Add, Text, x+80 ys, Transparency Settings
 
-        Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    ; Sub Headings
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Font, c%Font% s%fw2%
+    Gui, NotificationSettings:Add, Text, xs+252 Section, Active
+    Gui, NotificationSettings:Add, Text, x+5 ys, Sound
+    Gui, NotificationSettings:Add, Text, x+5 ys, Test
+    Gui, NotificationSettings:Add, Text, x+10 ys, Volume
+
+    ; Overlay Section
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Add, Text, xs y-2 x25, 
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Font, c%Font%
+    Gui, NotificationSettings:Add, GroupBox, w%Width% +Center x5 h30
+    Gui, NotificationSettings:Font, cBlack s%fw% Bold
+    Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Overlay
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Add, Checkbox, ys+1 x%fw3% Checked1
+    Gui, NotificationSettings:Add, Picture, gSoundsButtonChange%Item% ys-1 x%SpeakerButton% w15 h15, %IconColor%
+    Gui, NotificationSettings:Add, Picture, gtest%Item% ys-1 x%PlayButton% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Font, cWhite
+    Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
+    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit% h20 w50 v%Item%Edit
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
+
+
+
+
+    Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, xs x25, Map Notification
     Gui, NotificationSettings:Add, Text, xs x25, Mechanic Notification
 
@@ -47,9 +91,9 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, xs x25, The Elderslayers Notification
 
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
-    Gui, NotificationSettings:Add, Text, ys Section, Enabled   
+ 
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
-    Gui, NotificationSettings:Add, Text, ys Section, Sound Settings
+
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font% s%fw%
     Gui, NotificationSettings:Font, c%Font%
@@ -69,7 +113,7 @@ NotificationSetup()
   
   IniRead, CharacterName, %MiscIni%, On Death, Character Name
   Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
-  Gui, NotificationSettings:Add, Text, ys Section w200 Center, Transparency Settings
+
   Gui, NotificationSettings:Font
   Gui, NotificationSettings:Font, c%Font% s8
 
