@@ -95,7 +95,7 @@ NotificationSetup()
     ; Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit2% h20 w50 v%Item%Edit2
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 v%Item%Edit2
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
 
 ; Map Notification Section
@@ -111,11 +111,11 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cWhite
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit% h20 w50 v%Item%Edit3
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit3
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit2% h20 w50 v%Item%Edit4
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 v%Item%Edit4
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
 
 ; Mechanic Notification Section
@@ -131,11 +131,11 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cWhite
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit% h20 w50 v%Item%Edit5
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit5
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit2% h20 w50 v%Item%Edit6
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 v%Item%Edit6
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20 
 
 ; Influence Notification Section
@@ -151,11 +151,11 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cWhite
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit% h20 w50 v%Item%Edit7
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit7
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit2% h20 w50 v%Item%Edit8
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 v%Item%Edit8
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20 
 
 ; Maven Notification Section
@@ -171,11 +171,11 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cWhite
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit% h20 w50 v%Item%Edit9
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Item%Edit9
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit2% h20 w50 v%Item%Edit10
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 v%Item%Edit10
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20 
 
     ; Invitation Stuff
