@@ -100,7 +100,7 @@ NotificationSetup()
 ; Map Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
-    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h30
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Map Notification
     Gui, NotificationSettings:Font
@@ -120,7 +120,7 @@ NotificationSetup()
 ; Mechanic Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
-    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h30
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Mechanic Notification
     Gui, NotificationSettings:Font
@@ -140,7 +140,7 @@ NotificationSetup()
 ; Influence Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
-    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h30
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Influence Notification
     Gui, NotificationSettings:Font
