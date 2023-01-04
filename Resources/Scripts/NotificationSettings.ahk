@@ -48,6 +48,7 @@ NotificationSetup()
     PlayButton2 := Round(96/A_ScreenDPI*590)
     StopButton := Round(96/A_ScreenDPI*645)
     Edit2 := Round(96/A_ScreenDPI*695)
+    Offset := Round(96/A_ScreenDPI*1)
 
     Gui, NotificationSettings:Add, Text, w%Width% +Center, Notification Settings
     Gui, NotificationSettings:Font
@@ -84,7 +85,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Overlay
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1 Disabled
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
     ; Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check2% Checked1
     ; Gui, NotificationSettings:Add, Picture, gSoundsButtonChange%Item% ys-1 x%SpeakerButton% w15 h15, %IconColor%
     ; Gui, NotificationSettings:Add, Picture, gtest%Item% ys-1 x%PlayButton% w15 h15, %PlayColor%
@@ -92,8 +93,8 @@ NotificationSetup()
     ; Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     ; Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit% h20 w50 v%Item%Edit
     ; Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
-    Gui, NotificationSettings:Add, Picture, gtest%Item% ys-1 x%PlayButton2% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Add, Picture, gtest%Item% ys-1 x%StopButton% w15 h15, %StopColor%
+    Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
     Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit2% h20 w50 v%Item%Edit2
     Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
 
