@@ -49,6 +49,8 @@ NotificationSetup()
     StopButton := Round(96/A_ScreenDPI*645)
     Edit2 := Round(96/A_ScreenDPI*695)
     Offset := Round(96/A_ScreenDPI*0)
+    ActiveOffset := Round(96/A_ScreenDPI*315)
+
 
     Gui, NotificationSettings:Add, Text, w%Width% +Center, Notification Settings
     Gui, NotificationSettings:Font
@@ -67,7 +69,7 @@ NotificationSetup()
     ; Sub Headings
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font% s%fw2%
-    Gui, NotificationSettings:Add, Text, xs+252 Section, Active
+    Gui, NotificationSettings:Add, Text, xs+%ActiveOffset% Section, Active
     Gui, NotificationSettings:Add, Text, x+5 ys, Sound
     Gui, NotificationSettings:Add, Text, x+5 ys, Test
     Gui, NotificationSettings:Add, Text, x+10 ys, Volume
