@@ -33,6 +33,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s13 Bold
     Width := A_ScreenWidth*.42
     Width := Round(96/A_ScreenDPI*Width)
+    BoxH := Round(96/A_ScreenDPI*35)
     Box:= Width - Round(96/A_ScreenDPI*12)
     BoxHeight := Round(96/A_ScreenDPI*210)
     TW := Width - 20
@@ -79,7 +80,7 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, xs y-2 x25, 
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
-    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h30
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, cBlack s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+10 x25 Section, Overlay
     Gui, NotificationSettings:Font
