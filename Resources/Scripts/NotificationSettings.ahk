@@ -18,9 +18,6 @@ Global MechanicTran
 Global InfluenceTran
 Global MavenTran
 Global SoundButtonChange
-Global Font := "White"
-Global Background := "4e4f53"
-Global Secondary := "a6a6a6"
 Test()
 {
     Exit
@@ -34,6 +31,7 @@ Exit
 
 NotificationSetup()
 {
+    Gui, NotificationSettings:Destroy
     If (ColorMode = "Dark")
     {
         IconColor = Resources/Images/volume white.png
@@ -49,6 +47,7 @@ NotificationSetup()
         StopColor = Resources/Images/stop.png
     }
     TransparencyFile := TransparencyIni()
+    NotificationIni := NotificationIni()
     Gui, NotificationSettings:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, NotificationSettings:Font, c%Font% s13 Bold
     Width := A_ScreenWidth*.42
@@ -133,13 +132,15 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Map Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
+    IniRead, Value, %NotificationIni%, Active, Map, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vEdit3
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
+    IniRead, Value, %NotificationIni%, Volume, Map, 100
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Edit3%
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Map, 255
@@ -154,13 +155,15 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Mechanic Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
+    IniRead, Value, %NotificationIni%, Active, Notification, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlacke
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
+    IniRead, Value, %NotificationIni%, Volume, Notification, 100
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vEdit5
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Notification, 255
@@ -175,13 +178,15 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Influence Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
+    IniRead, Value, %NotificationIni%, Active, Influence, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vEdit7
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
+    IniRead, Value, %NotificationIni%, Volume, Notification, 100
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Influence, 255
@@ -196,13 +201,15 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Maven Notification
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked1
+    IniRead, Value, %NotificationIni%, Active, Maven, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
     Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-1 x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vEdit9
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
+    IniRead, Value, %NotificationIni%, Volume, Maven, 100
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Maven, 255
