@@ -64,8 +64,9 @@ NotificationSetup()
     ; Headings 
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
     Gui, NotificationSettings:Add, Text, xs x25 Section, Notification Type
-    Gui, NotificationSettings:Add, Text, x+50 ys, Enabled
-    XOff := Round(96/A_ScreenDPI*20)
+    XOff := Round(96/A_ScreenDPI*50)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Enabled
+    XOff := Round(96/A_ScreenDPI*30)
     Gui, NotificationSettings:Add, Text, x+%XOff% ys, Sound Settings
     XOff := Round(96/A_ScreenDPI*45)
     Gui, NotificationSettings:Add, Text, x+%XOff% ys, Transparency Settings
@@ -74,13 +75,18 @@ NotificationSetup()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font% s%fw2%
     Gui, NotificationSettings:Add, Text, xs+%ActiveOffset% Section, Active
-    Gui, NotificationSettings:Add, Text, x+5 ys, Sound
-    Gui, NotificationSettings:Add, Text, x+5 ys, Test
-    Gui, NotificationSettings:Add, Text, x+10 ys, Volume
-    Gui, NotificationSettings:Add, Text, x+50 ys, Test
-    Gui, NotificationSettings:Add, Text, x+20 ys, Close
-    Gui, NotificationSettings:Add, Text, x+20 ys Section, Opacity
-    Gui, NotificationSettings:Add, Text, xs-1 ys+15 Section, (0 to 100)
+    XOff := Round(96/A_ScreenDPI*5)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Sound
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Test
+    XOff := Round(96/A_ScreenDPI*10)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Volume
+    XOff := Round(96/A_ScreenDPI*50)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Test
+    XOff := Round(96/A_ScreenDPI*20)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Close
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys Section, Opacity
+    XOff := Round(96/A_ScreenDPI*15)
+    Gui, NotificationSettings:Add, Text, xs-1 ys+%XOff% Section, (0 to 100)
 
     ; Overlay Section
     Gui, NotificationSettings:Font
