@@ -15,8 +15,8 @@ MavenReminder()
     Gui, MavenReminder:+AlwaysOnTop -Border
     MechanicsIni := MechanicsIni()
     DisabledReminder := ""
-    IniRead, DisabledReminder, %MechanicsIni%, Disable Reminder, %MavenReminderType%
-    If !(DisabledReminder = "Yes")
+    IniRead, DisabledReminder, %MechanicsIni%, Active, %MavenReminderType%
+    If !(DisabledReminder = 0)
     {
         Gui, MavenReminder:Show, NoActivate y%NotificationHeight%, Maven Reminder
     }
@@ -48,7 +48,7 @@ MavenReminder()
             Gui, MavenReminder:Add, Button, x%bx3% y+20 Section w50, Okay
         }
     }
-    If !(DisabledReminder = "Yes")
+    If !(DisabledReminder = 0)
     {
         Gui, MavenReminder:+AlwaysOnTop -Border
         Gui, MavenReminder:Show, y%NotificationHeight% h%gheight% NoActivate, Reminder
@@ -78,9 +78,9 @@ MavenReminderButtonOkay()
 
 MavenReminderButtonStopReminding()
 {
-    MechanicsIni := MechanicsIni()
+    NotificationIni := NotificationIni()
     Gui, MavenReminder:Destroy
-    IniWrite, Yes, %MechanicsIni%, Disable Reminder, %MavenReminderType%
+    IniWrite, 1, %NotificationIni%, Active, %MavenReminderType%
 }
 
 MavenNotificationSound()
