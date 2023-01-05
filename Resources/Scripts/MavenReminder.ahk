@@ -80,7 +80,7 @@ MavenReminderButtonStopReminding()
 {
     NotificationIni := NotificationIni()
     Gui, MavenReminder:Destroy
-    IniWrite, 1, %NotificationIni%, Active, %MavenReminderType%
+    IniWrite, 0, %NotificationIni%, Active, %MavenReminderType%
 }
 
 MavenNotificationSound()
