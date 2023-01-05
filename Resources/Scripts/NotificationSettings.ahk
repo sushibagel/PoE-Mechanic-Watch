@@ -18,6 +18,13 @@ Global MechanicTran
 Global InfluenceTran
 Global MavenTran
 Global SoundButtonChange
+Global FormedCheck
+Global ForgottenCheck
+Global FearedCheck
+Global TwistedCheck
+Global HiddenCheck
+Global ElderslayersCheck
+
 Test()
 {
     Exit
@@ -217,20 +224,26 @@ NotificationSetup()
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
 
     ; Invitation Stuff
+    Invitations := Witnesses()
+    NotificaitonIni := NotificationIni()
+    For each, Invitation in StrSplit(Invitations, "|")
+    {
+        IniRead, %Invitation%Current, %NotificationIni%, Active, The %Invitation%
+    }
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font% s%fw2%
     Gui, NotificationSettings:Add, Text, Section xs yp+%MavenInvitations%, The Formed Notification
-    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
+    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%FormedCurrent% vFormedCheck
     Gui, NotificationSettings:Add, Text, Section xs x25, The Forgotten Notification
-    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
+    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%ForgottenCurrent% vForgottenCheck
     Gui, NotificationSettings:Add, Text, Section xs x25, The Feared Notification
-    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
+    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%FearedCurrent% vFearedCheck
     Gui, NotificationSettings:Add, Text, Section xs x25, The Twisted Notification
-    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
+    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%TwistedCurrent% vTwistedCheck
     Gui, NotificationSettings:Add, Text, Section xs x25, The Hidden Notification
-    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
+    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%HiddenCurrent% vHiddenCheck
     Gui, NotificationSettings:Add, Text, Section xs x25, The Elderslayers Notification
-    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
+    Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%ElderslayersCurrent% vElderslayersCheck
 
 
     Gui, NotificationSettings:Font, c%Font% s1
@@ -244,5 +257,14 @@ NotificationSetup()
 }
 
 NotificationSettingsButtonClose(){
+    Gui, NotificationSettings:Submit
     Gui, NotificationSettings:Destroy
+    Invitations := Witnesses()
+    NotificaitonIni := NotificationIni()
+    For each, Invitation in StrSplit(Invitations, "|")
+    {
+        Value := Invitation "Check"
+        Value := %Value%
+        IniWrite, %Value%, %NotificaitonIni%, Active, The %Invitation%    
+    }
 }
