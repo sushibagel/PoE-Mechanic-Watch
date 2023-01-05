@@ -52,7 +52,7 @@ NotificationSetup()
     EditOffset := Round(96/A_ScreenDPI*1)
     ActiveOffset := Round(96/A_ScreenDPI*315)
     TextOffset := Round(96/A_ScreenDPI*14)
-    MavenInvitations := Round(96/A_ScreenDPI*400)
+    MavenInvitations := Round(96/A_ScreenDPI*25)
 
     Gui, NotificationSettings:Add, Text, w%Width% +Center, Notification Settings
     Gui, NotificationSettings:Font
@@ -65,8 +65,10 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
     Gui, NotificationSettings:Add, Text, xs x25 Section, Notification Type
     Gui, NotificationSettings:Add, Text, x+50 ys, Enabled
-    Gui, NotificationSettings:Add, Text, x+28 ys, Sound Settings
-    Gui, NotificationSettings:Add, Text, x+40 ys, Transparency Settings
+    XOff := Round(96/A_ScreenDPI*20)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Sound Settings
+    XOff := Round(96/A_ScreenDPI*45)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Transparency Settings
 
     ; Sub Headings
     Gui, NotificationSettings:Font
@@ -90,13 +92,6 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Overlay
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
-    ; Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check2% Checked1
-    ; Gui, NotificationSettings:Add, Picture, gSoundsButtonChange%Item% ys-1 x%SpeakerButton% w15 h15, %IconColor%
-    ; Gui, NotificationSettings:Add, Picture, gtest%Item% ys-1 x%PlayButton% w15 h15, %PlayColor%
-    ; Gui, NotificationSettings:Font, cWhite
-    ; Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    ; Gui, NotificationSettings:Add, Edit, Center ys-2 x%Edit% h20 w50 v%Item%Edit
-    ; Gui, NotificationSettings:Add, UpDown, Range0-100, %ItemVolume% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest%Item% ys-%Offset% x%StopButton% w15 h15, %StopColor%
     Gui, NotificationSettings:Font, cBlack 
@@ -186,7 +181,7 @@ NotificationSetup()
     ; Invitation Stuff
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font% s%fw2%
-    Gui, NotificationSettings:Add, Text, Section xs x25 y%MavenInvitations%, The Formed Notification
+    Gui, NotificationSettings:Add, Text, Section xs yp+%MavenInvitations%, The Formed Notification
     Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
     Gui, NotificationSettings:Add, Text, Section xs x25, The Forgotten Notification
     Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
@@ -200,13 +195,13 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked1
 
 
-  Gui, NotificationSettings:Font, c%Font% s1
-  Gui, NotificationSettings:Add, GroupBox, w%Width% +Center x0 h1
-  
-  Gui, NotificationSettings:Font, c%Font% s10
-  Gui, NotificationSettings:Add, Button, x20 w50, Close
-  Gui, NotificationSettings:Color, %Background%
-  Gui, NotificationSettings:Show, W%Width%, Notification Settings
+    Gui, NotificationSettings:Font, c%Font% s1
+    Gui, NotificationSettings:Add, GroupBox, w%Width% +Center x0 h1
+
+    Gui, NotificationSettings:Font, c%Font% s10
+    Gui, NotificationSettings:Add, Button, x20 w50, Close
+    Gui, NotificationSettings:Color, %Background%
+    Gui, NotificationSettings:Show, W%Width%, Notification Settings
   Return
 }
 
