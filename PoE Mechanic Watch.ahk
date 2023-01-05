@@ -472,7 +472,7 @@ HotkeyCheck()
         
         If !(Hotkey2 = "")
         {
-            Hotkey, ~%Hotkey2%, SelectMechanics
+            Hotkey, ~%Hotkey2%, ToggleInfluence
         }
         
         If !(Hotkey3 = "")

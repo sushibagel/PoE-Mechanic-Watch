@@ -100,7 +100,7 @@ InfluenceNotificationSound()
 
 CloseGui()
 {
-    Gui, Influence:Destroy
+    Gui, Quick:Destroy
     Return
 }
 
@@ -229,31 +229,8 @@ InfluenceMapNotification() ;Map tracking notification
     PostMessage, 0x01741,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Hotkey check
     PostRestore()
     InfluenceHotkey := InfluenceHotkey()
-    NotificationIni := NotificationIni()
-    IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
-    IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
-    Gui, Influence:Color, %Background%
-    Gui, Influence:Font, c%Font% s10
-    Gui, Influence:Add, Text,,You just entered a new map press %InfluenceHotkey%  to subtract 1 map
-    ShowTitle := "-0xC00000"
-    ShowBorder := "-Border"
-    If (MapMove = 1)
-    {
-        Gui, Influence:Add, Button, yn y5, Lock
-        Tooltip, Drag the overlay around and press "Lock" to store it's location.
-        ShowTitle := ""
-        ShowBorder := ""
-        MapMove := 0
-        PostSetup()
-        PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
-        PostRestore()
-        RefreshOverlay()
-    }
-    Gui, Influence: %ShowBorder% +AlwaysOnTop
-    Gui, Influence:Show, NoActivate x%Horizontal% y%Vertical%, Influence
-    MapTransparency := TransparencyCheck("Map")
-    WinSet, Style,  %ShowTitle%, Influence
-    WinSet, Transparent, %MapTransparency%, Influence
+    Notification := "You just entered a new map press" A_Space InfluenceHotkey A_Space "to subtract 1 map"
+    QuickNotify(Notification)
     Return
 }
 
@@ -277,7 +254,7 @@ MoveMap()
 
 MapNotificationDestroy()
 {
-    Gui, Influence:Destroy
+    Gui, Quick:Destroy
 }
 
 PostSetup()
@@ -292,4 +269,82 @@ PostRestore()
 {
     DetectHiddenWindows, %Prev_DetectHiddenWindows%
     SetTitleMatchMode, %A_TitleMatchMode%
+}
+
+ToggleInfluence()
+{
+    MechanicsIni := MechanicsIni()
+    Influences := Influences()
+    For each, Influence in StrSplit(Influences, "|")
+    {
+        IniRead, CheckInfluence, %MechanicsIni%, Influence, %Influence%
+        If (CheckInfluence = 1)
+        {
+            If (Influence = "Eater")
+            {
+                IniWrite, 0, %MechanicsIni%, Influence, Eater
+                IniWrite, 1, %MechanicsIni%, Influence, Searing
+                NewInfluence := "Searing Exarch"
+                Break
+            }
+            If (Influence = "Searing")
+            {
+                IniWrite, 0, %MechanicsIni%, Influence, Searing
+                IniWrite, 1, %MechanicsIni%, Influence, Maven
+                NewInfluence := "Maven"
+                Break
+            }
+            If (Influence = "Maven")
+            {
+                IniWrite, 0, %MechanicsIni%, Influence, Maven
+                IniWrite, 1, %MechanicsIni%, Influence, Eater
+                NewInfluence := "Eater of Worlds"
+                Break
+            }
+        }
+    }
+    Notification := "Switching influence tracking to" A_Space NewInfluence  
+    QuickNotify(Notification)
+    RefreshOverlay()
+    SetTimer, CloseGui, -3000
+}
+
+QuickNotify(Notification)
+{
+    Gui, Quick:Destroy
+    NotificationIni := NotificationIni()
+    IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
+    IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
+    Gui, Quick:Color, %Background%
+    Gui, Quick:Font, c%Font% s10
+    ShowTitle := "-0xC00000"
+    ShowBorder := "-Border"
+    If (MapMove = 1)
+    {
+        InfluenceHotkey := InfluenceHotkey()
+        Notification := "You just entered a new map press" A_Space InfluenceHotkey A_Space "to subtract 1 map"
+    }
+    Gui, Quick:Add, Text,,%Notification%
+    If (MapMove = 1)
+    {
+        Gui, Quick:Add, Button, yn y5, Lock
+        Tooltip, Drag the overlay around and press "Lock" to store it's location.
+        ShowTitle := ""
+        ShowBorder := ""
+        MapMove := 0
+        PostSetup()
+        PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
+        PostRestore()
+        RefreshOverlay()
+    }
+    If InStr(Notification, "Switching Influence")
+    {
+       Horizontal := Horizontal + Round(96/A_ScreenDPI*110)
+    }
+    Gui, Quick: %ShowBorder% +AlwaysOnTop
+    Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
+    MapTransparency := TransparencyCheck("Map")
+    WinSet, Style,  %ShowTitle%, Quick Notify
+    WinSet, Transparent, %MapTransparency%, Quick Notify
+    Return
 }
