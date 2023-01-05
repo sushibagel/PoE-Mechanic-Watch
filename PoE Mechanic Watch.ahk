@@ -33,6 +33,7 @@ Menu, SetupMenu, Add, Overlay Settings, OverlaySetup
 Menu, SetupMenu, Add, Move Overlay, Move
 Menu, SetupMenu, Add, Move Map Notification, MoveMap
 Menu, SetupMenu, Add
+Menu, SetupMenu, Add, Notification Settings, NotificationSetup
 Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
 Menu, SetupMenu, Add, Sound Settings, UpdateNotification
 Menu, SetupMenu, Add
@@ -569,6 +570,7 @@ HotkeyCheck()
 #Include, Resources\Scripts\Maven.ahk
 #Include, Resources\Scripts\MavenReminder.ahk
 #Include, Resources\Scripts\Mechanics.ahk
+#Include, Resources\Scripts\NotificationSettings.ahk
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
 #Include, Resources\Scripts\OverlaySetup.ahk
