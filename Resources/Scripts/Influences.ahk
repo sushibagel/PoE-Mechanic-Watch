@@ -343,7 +343,7 @@ QuickNotify(Notification)
     }
     Gui, Quick: %ShowBorder% +AlwaysOnTop
     Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
-    MapTransparency := TransparencyCheck("Map")
+    MapTransparency := TransparencyCheck("Quick")
     WinSet, Style,  %ShowTitle%, Quick Notify
     WinSet, Transparent, %MapTransparency%, Quick Notify
     Return
