@@ -1,7 +1,3 @@
-#SingleInstance force
-Global IconColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\volume white.png"
-Global PlayColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\play white.png"
-Global StopColor := "C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\stop white.png"
 Global Edit
 Global Edit2
 Global Edit3
@@ -61,7 +57,7 @@ NotificationSetup()
     NotificationIni := NotificationIni()
     Gui, NotificationSettings:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, NotificationSettings:Font, c%Font% s13 Bold
-    Width := A_ScreenWidth*.42
+    Width := A_ScreenWidth*.53
     Width := Round(96/A_ScreenDPI*Width)
     BoxH := Round(96/A_ScreenDPI*43)
     Box:= Width - Round(96/A_ScreenDPI*12)
@@ -100,6 +96,8 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, x+%XOff% ys, Sound Settings
     XOff := Round(96/A_ScreenDPI*45)
     Gui, NotificationSettings:Add, Text, x+%XOff% ys, Transparency Settings
+    XOff := Round(96/A_ScreenDPI*33)
+    Gui, NotificationSettings:Add, Text, x+%XOff% ys, Additional Settings
 
     ; Sub Headings
     Gui, NotificationSettings:Font
@@ -133,7 +131,10 @@ NotificationSetup()
     Gui, NotificationSettings:Font, cBlack 
     IniRead, Value, %TransparencyFile%, Transparency, Overlay, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%EditOffset% x%Edit2% h20 w50 vOverlayTran
-    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20  
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
+    XOff := Round(96/A_ScreenDPI*815) 
+    Gui, NotificationSettings:Add, Button, gOverlaySettings ys+%Offset% x%XOff% w50, Layout
+    Gui, NotificationSettings:Add, Button, gMove ys+%Offset% w50, Move
 
 ; Quick Notification Section
     NotificaitonIni := NotificationIni()
@@ -160,6 +161,8 @@ NotificationSetup()
     IniRead, Value, %TransparencyFile%, Transparency, Quick, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vQuickTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20  
+    XOff := Round(96/A_ScreenDPI*855) 
+    Gui, NotificationSettings:Add, Button, gMoveMap ys+%Offset% x%XOff% w50, Move
 
 ; Mechanic Notification Section
     Gui, NotificationSettings:Font
@@ -346,4 +349,12 @@ TestSound(Notification)
     SetWindowVol(AhkExe, 0)
     SetWindowVol(AhkExe, TestVolume)
     SoundPlay, %TestSound%
+}
+
+OverlaySettings()
+{
+    NotificationSettingsButtonClose()
+    OverlaySetup()
+    WinWaitClose, OverlaySetup
+    NotificationSetup()
 }
