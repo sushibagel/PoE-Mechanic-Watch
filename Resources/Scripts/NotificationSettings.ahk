@@ -12,8 +12,12 @@ Global Edit7
 Global Edit8
 Global Edit9
 Global Edit10
+Global OverlayTran
+Global QuickActive
+Global QuickSoundActive
+Global QuickVolume
 Global NotificationTran
-Global MapTran
+Global QuickTran
 Global MechanicTran
 Global InfluenceTran
 Global MavenTran
@@ -124,34 +128,37 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Overlay
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
+    Gui, NotificationSettings:Add, Picture, gOverlayTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Add, Picture, gOverlayStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     Gui, NotificationSettings:Font, cBlack 
     IniRead, Value, %TransparencyFile%, Transparency, Overlay, 255
-    Gui, NotificationSettings:Add, Edit, Center ys-%EditOffset% x%Edit2% h20 w50 vNotificationTran
+    Gui, NotificationSettings:Add, Edit, Center ys-%EditOffset% x%Edit2% h20 w50 vOverlayTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20  
 
-; Map Notification Section
+; Quick Notification Section
+    NotificaitonIni := NotificationIni()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Map Notification
+    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Quick Notification
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    IniRead, Value, %NotificationIni%, Active, Map, 0
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
-    Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
+    IniRead, QuickActive, %NotificationIni%, Active, Quick, 1
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked%QuickActive% vQuickActive
+    IniRead, Value, %NotificationIni%, Sound Active, Quick, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value% vQuickSoundActive
+    IniRead, QuickSound, %NotificationIni%, Sounds, Quick
+    Gui, NotificationSettings:Add, Picture, ys-%Offset% x%SpeakerButton% w15 h15 gSoundButtonQuick, %IconColor%
+    Gui, NotificationSettings:Add, Picture, gTestQuickSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    IniRead, Value, %NotificationIni%, Volume, Map, 100
-    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 v%Edit3%
+    IniRead, Value, %NotificationIni%, Volume, Quick, 100
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vQuickVolume
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    IniRead, Value, %TransparencyFile%, Transparency, Map, 255
-    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vMapTran
+    IniRead, Value, %TransparencyFile%, Transparency, Quick, 255
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vQuickTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20  
 
 ; Mechanic Notification Section
@@ -225,7 +232,6 @@ NotificationSetup()
 
     ; Invitation Stuff
     Invitations := Witnesses()
-    NotificaitonIni := NotificationIni()
     For each, Invitation in StrSplit(Invitations, "|")
     {
         IniRead, %Invitation%Current, %NotificationIni%, Active, The %Invitation%
@@ -267,4 +273,77 @@ NotificationSettingsButtonClose(){
         Value := %Value%
         IniWrite, %Value%, %NotificaitonIni%, Active, The %Invitation%    
     }
+    IniWrite, %QuickActive%, %NotificaitonIni%, Active, Quick
+    IniWrite, %QuickSoundActive%, %NotificaitonIni%, Sound Active, Quick
+}
+
+OverlayTest()
+{
+    ReadMechanics()
+    If (MechanicsOn = 0) or (MechanicsOn = "")
+    {
+        yh := (A_ScreenHeight/2) -150
+        xh := (A_ScreenWidth/2) - 225
+        Gui, NotificationSettings:Destroy
+        Gui, TransparencyWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+        Gui, TransparencyWarning:Color, %Background%
+        Gui, TransparencyWarning:Font, c%Font% s11
+        Gui, TransparencyWarning:Add, Text, w530 +Center, You don't currently have any mechanic tracking on. You must have at least 1 mechanic on to test this overlay.
+        Gui, TransparencyWarning:Add, Button, y50 x50, OKAY
+        Gui, TransparencyWarning: +AlwaysOnTop -Caption
+        Gui, TransparencyWarning:Show, NoActivate x%xh% y%yh% w550, TransparencyWarning
+        WinWaitClose, TransparencyWarning
+    }
+    Gui, NotificationSettings:Submit, NoHide
+    TransparencyFile := TransparencyIni()
+    IniWrite, %OverlayTran%, %TransparencyFile%, Transparency, Overlay
+    NotificationPrep(Overlay)
+    RefreshOverlay()
+    Return
+}
+
+;;;;; Overlay Controls
+OverlayStop()
+{
+    Gui, Overlay:Destroy
+    Return
+} 
+
+; Quick Notificaiton Controls
+SoundButtonQuick()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    NotificationIni := NotificationIni()
+    IniWrite, %QuickSoundActive%, %NotificationIni%, Active, Quick
+    FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
+    If (NewSound != "")
+    {
+        IniWrite, %NewSound%, %NotificationIni%, Sounds, Quick
+    }
+    Return
+}
+
+TestQuickSound()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    
+    IniRead, TestSound, %NotificationPath%, Sounds, Notification
+    IniRead, TestVolume, %NotificationPath%, Volume, Notification
+    TestSound("Quick")
+    Return
+}
+
+TestSound(Notification)
+{
+    NotificationPath := NotificationIni()
+    TestVolume := Notification "Volume"
+    TestVolume := %TestVolume%
+    IniRead, TestSound, %NotificationPath%, Sounds, %Notification%, Resources\Sounds\reminder.wav
+    SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+    SetTitleMatchMode, 2
+    WinGet, AhkExe, ProcessName, NotificationSettings
+    SetTitleMatchMode, 1
+    SetWindowVol(AhkExe, 0)
+    SetWindowVol(AhkExe, TestVolume)
+    SoundPlay, %TestSound%
 }
