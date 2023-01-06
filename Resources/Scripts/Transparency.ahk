@@ -188,6 +188,6 @@ TransparencyWarningButtonOKAY:
 TransparencyCheck(NotificationTransparency)
 {
    TransparencyIniPath := TransparencyIni()
-   IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%
+   IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%, 255
    Return, %NotificationTransparency%
 }
