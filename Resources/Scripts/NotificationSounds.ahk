@@ -46,11 +46,6 @@ UpdateNotification()
     Return
 }
 
-NotificationTypes()
-{
-    Return, "Notification|Influence"
-}
-
 SoundsButtonOk()
 {
     NotificationWrite()
@@ -92,7 +87,7 @@ testNotification()
     NotificationPath := NotificationIni()
     IniRead, TestSound, %NotificationPath%, Sounds, Notification
     IniRead, TestVolume, %NotificationPath%, Volume, Notification
-    TestSound()
+    ; TestSound()
     Return
 }
 
@@ -104,21 +99,21 @@ testInfluence()
     NotificationPath := NotificationIni()
     IniRead, TestSound, %NotificationPath%, Sounds, Influence
     IniRead, TestVolume, %NotificationPath%, Volume, Influence
-    TestSound()
+    ; TestSound()
     Return
 }
 
-TestSound()
-{
-    SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
-    SetTitleMatchMode, 2
-    WinGet, AhkExe, ProcessName, Sounds
-    SetTitleMatchMode, 1
-    SetWindowVol(AhkExe, 0)
-    SetWindowVol(AhkExe, TestVolume)
-    SoundPlay, %TestSound%
-    Return
-}
+; TestSound()
+; {
+;     SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+;     SetTitleMatchMode, 2
+;     WinGet, AhkExe, ProcessName, Sounds
+;     SetTitleMatchMode, 1
+;     SetWindowVol(AhkExe, 0)
+;     SetWindowVol(AhkExe, TestVolume)
+;     SoundPlay, %TestSound%
+;     Return
+; }
 
 CheckSounds(Notification)
 {
@@ -160,4 +155,9 @@ NotificationWrite()
         IniWrite, %ItemActive%, %NotificationPath%, Active, %Item%
         IniWrite, %NotificationEdit%, %NotificationPath%, Volume, %Item%
     }
+}
+
+NotificationTypes()
+{
+
 }
