@@ -234,12 +234,12 @@ InfluenceMapNotification() ;Map tracking notification
     Return
 }
 
-InfluenceButtonLock()
+QuickButtonLock()
 {
-    WinGetPos, newwidth, newheight,,, Influence
+    WinGetPos, newwidth, newheight,,, Quick Notify
     newheight := newheight + 30
     ToolTip
-    Gui, Influence:Destroy
+    Gui, Quick:Destroy
     NotificationIni := NotificationIni()
     IniWrite, %newheight%, %NotificationIni%, Map Notification Position, Vertical
     IniWrite, %newwidth%, %NotificationIni%, Map Notification Position, Horizontal
@@ -332,19 +332,18 @@ QuickNotify(Notification)
         ShowTitle := ""
         ShowBorder := ""
         MapMove := 0
-        PostSetup()
-        PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
-        PostRestore()
-        RefreshOverlay()
+        ; PostSetup()
+        ; PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
+        ; PostRestore()
+        ; RefreshOverlay()
     }
     If InStr(Notification, "Switching Influence")
     {
        Horizontal := Horizontal + Round(96/A_ScreenDPI*110)
     }
-    Gui, Quick: %ShowBorder% +AlwaysOnTop
+    Gui, Quick: +AlwaysOnTop %ShowBorder%
     Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
     MapTransparency := TransparencyCheck("Quick")
     WinSet, Style,  %ShowTitle%, Quick Notify
     WinSet, Transparent, %MapTransparency%, Quick Notify
-    Return
 }
