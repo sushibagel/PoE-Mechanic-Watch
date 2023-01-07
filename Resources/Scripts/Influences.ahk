@@ -101,10 +101,11 @@ InfluenceNotificationSound()
 CloseGui()
 {
     Gui, Quick:Destroy
+    Tooltip
     Return
 }
 
-InfluenceGuiClose()
+QuickGuiClose()
 {
     Tooltip
     MapMove := 0
