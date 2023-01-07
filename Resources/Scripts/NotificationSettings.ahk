@@ -12,12 +12,16 @@ Global OverlayTran
 Global QuickActive
 Global QuickSoundActive
 Global QuickVolume
+Global QuickTran
 Global NotificationTran
 Global NotificationActive
 Global NotificationSoundActive
 Global NotificationVolume
-Global QuickTran
+Global InfluenceActive
+Global InfluenceSoundActive
 Global InfluenceTran
+Global InfluenceVolume
+
 Global MavenTran
 Global SoundButtonChange
 Global FormedCheck
@@ -176,7 +180,7 @@ NotificationSetup()
     IniRead, Value, %NotificationIni%, Active, Notification, 1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked%Value% vNotificationActive
     IniRead, Value, %NotificationIni%, Sound Active, Notification, 0
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%  vNotificationSoundActive
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value% vNotificationSoundActive
     Gui, NotificationSettings:Add, Picture, gSoundsButtonNotification ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gTestNotificationSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
@@ -197,18 +201,19 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Influence Notification
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    IniRead, Value, %NotificationIni%, Active, Influence, 0
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
-    Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
+    IniRead, Value, %NotificationIni%, Active, Influence, 1
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked%Value% vInfluenceActive
+    IniRead, Value, %NotificationIni%, Sound Active, Influence, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value% vInfluenceSoundActive
+    Gui, NotificationSettings:Add, Picture, gSoundsButtonInfluence ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
+    Gui, NotificationSettings:Add, Picture, gTestInfluenceSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vEdit7
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vInfluenceVolume
     IniRead, Value, %NotificationIni%, Volume, Notification, 100
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
+    Gui, NotificationSettings:Add, Picture, gInfluenceTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Add, Picture, gInfluenceStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Influence, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vInfluenceTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
@@ -274,6 +279,7 @@ NotificationSettingsButtonClose(){
     Gui, Quick:Destroy
     PostSetup()
     PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ;Destroy Reminder
+    PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ;Destroy Eldritch Reminder
     PostRestore()
     Gui, Reminder:Destroy
     Invitations := Witnesses()
@@ -284,13 +290,19 @@ NotificationSettingsButtonClose(){
         Value := %Value%
         IniWrite, %Value%, %NotificaitonIni%, Active, The %Invitation%    
     }
-    IniWrite, %QuickActive%, %NotificaitonIni%, Active, Quick
-    IniWrite, %QuickSoundActive%, %NotificaitonIni%, Sound Active, Quick
-    IniWrite, %QuickVolume%, %NotificaitonIni%, Volume, Quick
-
-    IniWrite, %NotificationActive%, %NotificaitonIni%, Active, Notification
-    IniWrite, %NotificationSoundActive%, %NotificaitonIni%, Sound Active, Notification
-    IniWrite, %NotificationVolume%, %NotificaitonIni%, Volume, Notification
+    Categories := "Quick|Notification|Influence|Maven"
+    For each, Item in StrSplit(Categories, "|")
+    {
+        Active := Item "Active"
+        Active := %Active%
+        Sound := Item "SoundActive"
+        Sound := %Sound%
+        Volume := Item "Volume"
+        Volume := %Volume%
+        IniWrite, %Active%, %NotificaitonIni%, Active, %Item%
+        IniWrite, %Sound%, %NotificaitonIni%, Sound Active, %Item%
+        IniWrite, %Volume%, %NotificaitonIni%, Volume, %Item%
+    }
 }
 
 OverlayTest()
@@ -397,7 +409,7 @@ SoundsButtonNotification()
 {
     Gui, NotificationSettings:Submit, NoHide
     NotificationIni := NotificationIni()
-    IniWrite, %QuickSoundActive%, %NotificationIni%, Active, Notification
+    IniWrite, %NotificationSoundActive%, %NotificationIni%, Active, Notification
     FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
     If (NewSound != "")
     {
@@ -437,6 +449,50 @@ NotificationStop:
     PostSetup()
     PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey
     PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
+    PostRestore()
+    Return
+}
+
+; Influence Notification Settings
+SoundsButtonInfluence()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    NotificationIni := NotificationIni()
+    IniWrite, %InfluenceSoundActive%, %NotificationIni%, Active, Influence
+    FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
+    If (NewSound != "")
+    {
+        IniWrite, %NewSound%, %NotificationIni%, Sounds, Influence
+    }
+    Return
+}
+
+TestInfluenceSound()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    IniRead, TestSound, %NotificationPath%, Sounds, Influence
+    IniRead, TestVolume, %NotificationPath%, Volume, Influence
+    TestSound("Influence")
+    Return
+}
+
+InfluenceTest()
+{
+    Gui, Reminder:Destroy
+    Gui, NotificationSettings:Submit, NoHide
+    TransparencyIni := TransparencyIni()
+    IniWrite, %InfluenceTran%, %TransparencyIni%, Transparency, Influence
+    PostSetup()
+    PostMessage, 0x01123,,,, Tail.ahk - AutoHotkey
+    PostRestore()
+    Return
+}
+
+InfluenceStop:
+{
+    PostSetup()
+    PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ;Destroy Eldritch Reminder
+    PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
     PostRestore()
     Return
 }

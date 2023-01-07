@@ -108,26 +108,6 @@ ReadTransparency()
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Labels for each Overlay ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-InfluenceTest:
-{
-    Gui, Reminder:Destroy
-    Gui, Transparency:Submit, NoHide
-    TransparencyIni := TransparencyIni()
-    IniWrite, %InfluenceEdit%, %TransparencyIni%, Transparency, Influence
-    PostSetup()
-    PostMessage, 0x01123,,,, Tail.ahk - AutoHotkey
-    PostRestore()
-    Return
-}
-
-InfluenceStop()
-{
-    PostSetup()
-    PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey
-    PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
-    PostRestore()
-    Return
-}
 
 
 
