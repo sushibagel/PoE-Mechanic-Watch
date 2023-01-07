@@ -5,9 +5,6 @@ Global CharacterName
 Global CB1
 
 DeathReviewSetup()
-Exit
-
-DeathReviewSetup()
 {
     Gui, Death:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Death:Font, c%Font% s13 Bold
@@ -18,7 +15,7 @@ DeathReviewSetup()
     Gui, Death:Add, Text, w%Width% +Center, Death Review Settings
     Gui, Death:Font
     Gui, Death:Font, c%Font% s10
-    Gui, Death:Add, Text, Wrap w%TW%, Note: For on death review you must enable screen recording in your GPU software (NVIDIA ShadowPlay or AMD ReLive) and setup the hotkey below. A character name is not required but will prevent saving recordings when another player in your group dies. If you use the "Delete Recording" function I highly recommend setting a dedicated folder for saving the your videos, I AM NOT RESPONSIBLE IF YOUR HOMEWORK OR IMPORTANT FILES GET DELETED. 
+    Gui, Death:Add, Text, Wrap w%TW%, Note: For on death review you must enable screen recording in your GPU software (NVIDIA ShadowPlay or AMD ReLive) and setup the hotkey below. A character name is not required but will prevent saving recordings when another player in your group dies, the name put in the Character Name box just needs to contain  part of your character's name this will allow you to reduce accidental triggers while not having to change the setting for every character (Example: if you put in ChrisWilson: ChrisWilson123, ChrisWilsonRules, ImChrisWilson will all work). If you use the "Delete Recording" function I highly recommend setting a dedicated folder for saving the your videos, I AM NOT RESPONSIBLE IF YOUR HOMEWORK OR IMPORTANT FILES GET DELETED. 
     Gui, Death:Font, c%Font% s1
     Gui, Death:Add, GroupBox, w%Width% +Center x0 h1
     Space = y+2
@@ -94,9 +91,18 @@ OnDeath(Newline)
   IniRead, OnDeathActive, %MiscIni%, On Death, Active
   IniRead, DeathHotkey, %MiscIni%, On Death, Screen Record
   IniRead, CharacterName, %MiscIni%, On Death, Character Name, %A_Space%
-  If Instr(NewLine, %CharacterName%) and (OnDeathActive = 1)
+  If Instr(NewLine, CharacterName) and (OnDeathActive = 1)
   {
-    msgbox, test
+    Loop, 24
+    {
+      FKey := "f" A_Index
+      If InStr(DeathHotkey, FKey)
+      {
+        DeathHotkey := StrReplace(DeathHotkey, FKey, "{" FKey "}")
+        msgbox, %DeathHotkey%
+        Break
+      }
+    }
     SendLevel, 1
     Send, !{f10}
   }
