@@ -1,7 +1,7 @@
 Global OverlayEdit
 Global NotificationEdit
 Global InfluenceEdit
-Global MapEdit
+Global QuickEdit
 Global PlayColor
 
 UpdateTransparency()
@@ -36,9 +36,9 @@ UpdateTransparency()
         IniRead, %OverlayItem%Value, %TransparencyFile%, Transparency, %OverlayItem%, 255
         Gui, Transparency:Font, c%Font% s12
         ItemText = %OverlayItem%
-        If (OverlayItem = "Map")
+        If (OverlayItem = "Quick")
         {
-            ItemText = Map Notification
+            ItemText = Quick Notification
         }
         If (OverlayItem = "Notification")
         {
@@ -90,7 +90,7 @@ TransparencyButtonOk()
 
 GetOverlayItems()
 {
-    Return, "Overlay|Notification|Influence|Map"
+    Return, "Overlay|Notification|Influence|Quick"
 }
 
 
@@ -107,33 +107,6 @@ ReadTransparency()
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Labels for each Overlay ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-NotificationTest()
-{
-    Gui, Reminder:Destroy
-    Gui, Overlay:Destroy
-    Gui, Transparency:Submit, NoHide
-    TransparencyPath := TransparencyIni()
-    IniWrite, %NotificationEdit%, %TransparencyPath%, Transparency, Notification
-    RefreshOverlay()
-    Gui, Overlay:Hide
-    height9 := (A_ScreenHeight / 2) + 200
-    width9 := (A_ScreenWidth / 2)-100
-    ReminderText = Ritual and Metamorph
-    PostSetup()
-    PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate Reminder
-    PostRestore()
-    Return
-}
-
-NotificationStop:
-{
-    PostSetup()
-    PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey
-    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
-    PostRestore()
-    Return
-}
 
 InfluenceTest:
 {
@@ -156,27 +129,7 @@ InfluenceStop()
     Return
 }
 
-MapTest:
-{
-    Gui, Influence:Destroy
-    Gui, Transparency:Submit, NoHide
-    TransparencyIni := TransparencyIni()
-    IniWrite, %MapEdit%, %TransparencyIni%, Transparency, Map
-    HotkeyIni := HotkeyIni()
-    IniRead, Hotkey1, %HotkeyIni%, Hotkeys, 1
-    Hk := Hotkey1
-    WinGetPos, Width, Height, Length, , Transparency
-    Height := Height + 350
-    InfluenceMapNotification()
-    Return
-}
 
-
-MapStop:
-{
-    Gui, Influence:Destroy
-    Return
-}
 
 TransparencyWarningButtonOKAY:
 {

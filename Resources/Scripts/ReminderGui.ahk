@@ -8,7 +8,7 @@ MechanicReminder()
     TransparencyFile := TransparencyIni()
     IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Notification
     Gui, Reminder:Font, c%Font% s12
-    If WinExist("Transparency")
+    If WinExist("Notification Settings")
     {
         ReminderText := "Blight"
     }
@@ -26,9 +26,9 @@ MechanicReminder()
     Gui, Reminder:Hide
     WinSet, Style, -0xC00000, Reminder
     gheight := height + 40
-    If WinExist("Transparency")
+    If WinExist("Notification Settings")
     {
-        NotificationHeight := 750
+        NotificationHeight := 850
     }
     Gui, Reminder:Add, Button, xn x%bx2% Section w50, Yes
     Gui, Reminder:Add, Button, x%bx% ys w50, No

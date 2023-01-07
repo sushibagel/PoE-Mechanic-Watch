@@ -13,8 +13,10 @@ Global QuickActive
 Global QuickSoundActive
 Global QuickVolume
 Global NotificationTran
+Global NotificationActive
+Global NotificationSoundActive
+Global NotificationVolume
 Global QuickTran
-Global MechanicTran
 Global InfluenceTran
 Global MavenTran
 Global SoundButtonChange
@@ -156,8 +158,8 @@ NotificationSetup()
     IniRead, Value, %NotificationIni%, Volume, Quick, 100
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vQuickVolume
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
+    Gui, NotificationSettings:Add, Picture, gQuickTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Add, Picture, gQuickStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Quick, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vQuickTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20  
@@ -171,20 +173,21 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Mechanic Notification
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    IniRead, Value, %NotificationIni%, Active, Notification, 0
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
-    Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Font, cBlacke
+    IniRead, Value, %NotificationIni%, Active, Notification, 1
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked%Value% vNotificationActive
+    IniRead, Value, %NotificationIni%, Sound Active, Notification, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%  vNotificationSoundActive
+    Gui, NotificationSettings:Add, Picture, gSoundsButtonNotification ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
+    Gui, NotificationSettings:Add, Picture, gTestNotificationSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     IniRead, Value, %NotificationIni%, Volume, Notification, 100
-    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vEdit5
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vNotificationVolume
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
+    Gui, NotificationSettings:Add, Picture, gNotificationTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor% 
+    Gui, NotificationSettings:Add, Picture, gNotificationStop ys-%Offset% x%StopButton% w15 h15, %StopColor% 
     IniRead, Value, %TransparencyFile%, Transparency, Notification, 255
-    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vMechanicTran
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vNotificationTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
 
 ; Influence Notification Section
@@ -268,6 +271,11 @@ NotificationSetup()
 NotificationSettingsButtonClose(){
     Gui, NotificationSettings:Submit
     Gui, NotificationSettings:Destroy
+    Gui, Quick:Destroy
+    PostSetup()
+    PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ;Destroy Reminder
+    PostRestore()
+    Gui, Reminder:Destroy
     Invitations := Witnesses()
     NotificaitonIni := NotificationIni()
     For each, Invitation in StrSplit(Invitations, "|")
@@ -278,6 +286,11 @@ NotificationSettingsButtonClose(){
     }
     IniWrite, %QuickActive%, %NotificaitonIni%, Active, Quick
     IniWrite, %QuickSoundActive%, %NotificaitonIni%, Sound Active, Quick
+    IniWrite, %QuickVolume%, %NotificaitonIni%, Volume, Quick
+
+    IniWrite, %NotificationActive%, %NotificaitonIni%, Active, Notification
+    IniWrite, %NotificationSoundActive%, %NotificaitonIni%, Sound Active, Notification
+    IniWrite, %NotificationVolume%, %NotificaitonIni%, Volume, Notification
 }
 
 OverlayTest()
@@ -329,9 +342,8 @@ SoundButtonQuick()
 TestQuickSound()
 {
     Gui, NotificationSettings:Submit, NoHide
-    
-    IniRead, TestSound, %NotificationPath%, Sounds, Notification
-    IniRead, TestVolume, %NotificationPath%, Volume, Notification
+    IniRead, TestSound, %NotificationPath%, Sounds, Quick
+    IniRead, TestVolume, %NotificationPath%, Volume, Quick
     TestSound("Quick")
     Return
 }
@@ -357,4 +369,74 @@ OverlaySettings()
     OverlaySetup()
     WinWaitClose, OverlaySetup
     NotificationSetup()
+}
+
+QuickTest()
+{
+    Gui, Quick:Destroy
+    Gui, NotificationSettings:Submit, NoHide
+    TransparencyIni := TransparencyIni()
+    IniWrite, %QuickTran%, %TransparencyIni%, Transparency, Quick
+    HotkeyIni := HotkeyIni()
+    IniRead, Hotkey1, %HotkeyIni%, Hotkeys, 1
+    Hk := Hotkey1
+    WinGetPos, Width, Height, Length, , Notification Settings
+    Height := Height + 350
+    InfluenceMapNotification()
+    Return
+}
+
+QuickStop()
+{
+    Gui, Quick:Destroy
+    Return
+}
+
+; Mechanic Notification Settings
+SoundsButtonNotification()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    NotificationIni := NotificationIni()
+    IniWrite, %QuickSoundActive%, %NotificationIni%, Active, Notification
+    FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
+    If (NewSound != "")
+    {
+        IniWrite, %NewSound%, %NotificationIni%, Sounds, Notification
+    }
+    Return
+}
+
+TestNotificationSound()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    IniRead, TestSound, %NotificationPath%, Sounds, Notification
+    IniRead, TestVolume, %NotificationPath%, Volume, Notification
+    TestSound("Notification")
+    Return
+}
+
+NotificationTest()
+{
+    Gui, Reminder:Destroy
+    Gui, Overlay:Destroy
+    Gui, NotificationSettings:Submit, NoHide
+    TransparencyPath := TransparencyIni()
+    IniWrite, %NotificationTran%, %TransparencyPath%, Transparency, Notification
+    RefreshOverlay()
+    Gui, Overlay:Hide
+    height9 := (A_ScreenHeight / 2) + 200
+    width9 := (A_ScreenWidth / 2)-100
+    PostSetup()
+    PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate Reminder
+    PostRestore()
+    Return
+}
+
+NotificationStop:
+{
+    PostSetup()
+    PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey
+    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
+    PostRestore()
+    Return
 }
