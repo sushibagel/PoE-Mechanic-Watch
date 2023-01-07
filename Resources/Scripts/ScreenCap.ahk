@@ -1,7 +1,9 @@
 Global CBScreenCapHotkey
 Global ScreenCapHotkey
 Global DeathWatchActive
+Global DeathPrompt 
 Global CharacterName
+Global StorageLocation
 Global CB1
 
 DeathReviewSetup()
@@ -26,8 +28,14 @@ DeathReviewSetup()
     Gui, Death:Font
     Gui, Death:Font, c%Font% s%fw%
     MiscIni := MiscIni()
-    IniRead, DeathActive, %MiscIni%, On Death, Active, %A_Space%
+    IniRead, DeathActive, %MiscIni%, On Death, Active, 0
     Gui, Death:Add, Checkbox, xs+15 +Center VDeathWatchActive Checked%DeathActive%
+    Gui, Death:Font, c%Font% s11 Bold Underline
+    Gui, Death:Add, Text, xs, Prompt
+    Gui, Death:Font
+    Gui, Death:Font, c%Font% s%fw%
+    IniRead, DeathPrompt, %MiscIni%, On Death, Prompt, 0
+    Gui, Death:Add, Checkbox, xs+15 +Center VDeathPrompt Checked%DeathPrompt%
     
     Gui, Death:Font, c%Font% s11 Bold Underline
     Gui, Death:Add, Text, ys Section, Hotkey
@@ -56,6 +64,16 @@ DeathReviewSetup()
   Gui, Death:Add, Text, xs w200 Center, (Not Required)
   Gui, Death:Font, cBlack s8
   Gui, Death:Add, Edit, Center w200 vCharacterName, %CharacterName%
+  StorageLocationWidth := Width - 150
+  Gui, Death:Font, c%Font% s11 Bold Underline
+  Location := Round(96/A_ScreenDPI*80)
+  Location := Width/2 - Location 
+  Gui, Death:Add, Text, x%Location%, Storage Location
+  Gui, Death:Font
+  Gui, Death:Font, cBlack s8
+  IniRead, StorageLocation, %MiscIni%, On Death, Storage Location
+  Gui, Death:Add, Edit, x25 Section Center w%StorageLocationWidth% vStorageLocation, %StorageLocation%
+  Gui, Death:Add, Button, ys w80, Change
 
   Gui, Death:Font, c%Font% s1
   Gui, Death:Add, GroupBox, w%Width% +Center x0 h1
@@ -78,6 +96,8 @@ DeathButtonClose()
   IniWrite, %ScreenCapHotkey%, %MiscIni%, On Death, Screen Record
   IniWrite, %DeathWatchActive%, %MiscIni%, On Death, Active
   IniWrite, %CharacterName%, %MiscIni%, On Death, Character Name
+  IniWrite, %DeathPrompt%, %MiscIni%, On Death, Prompt
+  IniWrite, %StorageLocation%, %MiscIni%, On Death, Storage Location
 }
 
 GuiClose()
@@ -91,18 +111,165 @@ OnDeath(Newline)
   IniRead, OnDeathActive, %MiscIni%, On Death, Active
   IniRead, DeathHotkey, %MiscIni%, On Death, Screen Record
   IniRead, CharacterName, %MiscIni%, On Death, Character Name, %A_Space%
-  If Instr(NewLine, CharacterName) and (OnDeathActive = 1)
+  IniRead, StorageLocation, %MiscIni%, On Death, Storage Location
+  IniRead, Prompt, %MiscIni%, On Death, Prompt, 0
+  IniRead, Delay, %MiscIni%, On Death, Delay, 0
+  Sleep, %Delay%
+  If InStr(Newline, CharacterName) and (OnDeathActive = 1)
   {
     Loop, 24
     {
       FKey := "f" A_Index
-      If InStr(DeathHotkey, FKey)
+      If InStr(DeathHotkey, FKey) and !InStr(DeathHotkey, 0)
       {
-        DeathHotkey := StrReplace(DeathHotkey, FKey, "{" FKey "}")
-        Break
+        DeathHotkey1 := StrReplace(DeathHotkey, FKey, "{" FKey "}" )
       }
     }
+    If !(DeathHotkey1 = "")
+    {
+      DeathHokey := Deathhokey1
+    }
     SendLevel, 1
-    Send, !{f10}
+    Send, !{f10} ;%DeathHotkey%
+    If (Prompt = 1)
+    {
+      OnDeathPrompt()
+    }
   }
+}
+
+DeathButtonChange()
+{
+  DeathButtonClose()
+  FileSelectFolder, NewFolder,, 2, Select the folder where your recordings are stored. 
+  MiscIni := MiscIni()
+  IniWrite, %NewFolder%, %MiscIni%, On Death, Storage Location
+  DeathReviewSetup()
+}
+
+OnDeathPrompt()
+{
+  Sleep, 3000
+  Gui, Recap:Destroy
+  CheckTheme()
+  NotificationHeight := (A_ScreenHeight / 2) - 100
+  TransparencyFile := TransparencyIni()
+  IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Recap, 255
+  Gui, Recap:Font, c%Font% s12
+  Gui, Recap:Add, Text,,You just died! Would you like to see what happened? 
+  Gui, Recap:Font, s10
+  Gui, Recap:Color, %Background%
+  Gui, Recap:+AlwaysOnTop -Border
+  Gui, Recap:Show, NoActivate y%NotificationHeight%, Death Recap
+  DetectHiddenWindows, On
+  WinGetPos,xpos,, Width, Height, Death Recap
+  bx := Width/2
+  bx := Round(96/A_ScreenDPI*bx)
+  bx2 := bx - 150
+  bx3 := bx + 50
+  bx := bx-50
+  Gui, Recap:Hide
+  WinSet, Style, -0xC00000, Recap
+  gheight := height + 40
+  If WinExist("Notification Settings")
+  {
+      NotificationHeight := 850
+  }
+  Gui, Recap:Add, Text, xn Section, %A_Space%
+  Gui, Recap:Add, Button, xn x%bx2% Section w50, Yes
+  Gui, Recap:Add, Button, x%bx% ys w50, No
+  Gui, Recap:Add, Button, x%bx3% ys, Delete and Close
+  Gui, Recap:+AlwaysOnTop -Border
+  Gui, Recap:Show, y%NotificationHeight% h%gheight% NoActivate, Death Recap
+  WinSet, Style, -0xC00000, Death Recap
+  WinSet, Transparent, %NotificationTransparency%, Death Recap
+  Return
+}
+
+RecapButtonYes()
+{
+  Gui, Recap:Destroy
+  FullPath := GetLastFile()
+  Run,  %FullPath%
+  WinWaitActive, Path of Exile
+  PromptDelete()
+}
+
+RecapButtonNo()
+{
+  Gui, Recap:Destroy
+}
+
+RecapButtonDeleteandClose()
+{
+  Gui, Recap:Destroy
+  FullPath := GetLastFile()
+  FileDelete, %FullPath%
+}
+
+GetLastFile()
+{
+  MiscIni := MiscIni()
+  IniRead, StorageLocation, %MiscIni%, On Death, Storage Location
+
+   Loop, %StorageLocation%\*
+  {
+    FileGetTime, Time, %A_LoopFileFullPath%, C
+    If (Time > Time_Orig)
+    {
+          Time_Orig := Time
+          File := A_LoopFileName
+    }
+  }
+  FullPath=%StorageLocation%\%File%
+  Return, %FullPath%
+}
+
+PromptDelete()
+{
+  Gui, PromptDelete:Destroy
+  CheckTheme()
+  NotificationHeight := (A_ScreenHeight / 2) - 100
+  TransparencyFile := TransparencyIni()
+  IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Recap, 255
+  Gui, PromptDelete:Font, c%Font% s12
+  Gui, PromptDelete:Add, Text,, Welcome back! Do you want to delete that video?
+  Gui, PromptDelete:Font, s10
+  Gui, PromptDelete:Color, %Background%
+  Gui, PromptDelete:+AlwaysOnTop -Border
+  Gui, PromptDelete:Show, NoActivate y%NotificationHeight%, Prompt Delete
+  DetectHiddenWindows, On
+  WinGetPos,xpos,, Width, Height, Prompt Delete
+  bx := Width/2
+  bx := Round(96/A_ScreenDPI*bx)
+    bx2 := bx - 100
+    bx := bx + 50
+  Gui, PromptDelete:Hide
+  WinSet, Style, -0xC00000, Prompt Delete
+  gheight := height + 40
+  If WinExist("Notification Settings")
+  {
+      NotificationHeight := 850
+  }
+  Gui, PromptDelete:Font, s5
+  Gui, PromptDelete:Add, Text, xn Section, %A_Space%
+  Gui, PromptDelete:Font, s10
+  Gui, PromptDelete:Add, Button, xn x%bx2% Section w50, Yes
+  Gui, PromptDelete:Add, Button, x%bx% ys w50 Section, No
+  Gui, PromptDelete:+AlwaysOnTop -Border
+  Gui, PromptDelete:Show, y%NotificationHeight% h%gheight% NoActivate, Prompt Delete
+  WinSet, Style, -0xC00000, Prompt Delete
+  WinSet, Transparent, %NotificationTransparency%, Prompt Delete
+}
+
+PromptDeleteButtonNo()
+{
+  Gui, PromptDelete:Destroy
+}
+
+PromptDeleteButtonYes()
+{
+  Gui, PromptDelete:Destroy
+  FullPath := GetLastFile()
+  FileDelete, %FullPath%
 }
