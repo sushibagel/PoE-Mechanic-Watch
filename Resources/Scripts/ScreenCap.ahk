@@ -99,7 +99,6 @@ OnDeath(Newline)
       If InStr(DeathHotkey, FKey)
       {
         DeathHotkey := StrReplace(DeathHotkey, FKey, "{" FKey "}")
-        msgbox, %DeathHotkey%
         Break
       }
     }
