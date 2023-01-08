@@ -250,6 +250,7 @@ QuickButtonLock()
 MoveMap()
 {
     MapMove := 1
+    RefreshOverlay()
     InfluenceMapNotification()
 }
 
