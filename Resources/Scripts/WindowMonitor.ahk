@@ -13,6 +13,7 @@ GroupAdd, PoeWindow, Transparency
 GroupAdd, PoeWindow, Path of Exile 
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, Quick Notify
+GroupAdd, PoeWindow, ahk_exe PoE Instant Messenger.exe
 ; GroupAdd, PoeWindow, Awakened PoE Trade
 
 Global ReminderActive
@@ -97,7 +98,7 @@ Monitor()
 
 Kill()
 {
-    Sleep, 100
+    Sleep, 200
     If WinActive("ahk_group PoeWindow")
     {
         If !WinActive("Overlay")
