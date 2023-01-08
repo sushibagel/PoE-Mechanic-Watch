@@ -118,7 +118,7 @@ testInfluence()
 CheckSounds(Notification)
 {
     NotificationPath := NotificationIni()
-    IniRead, Sound, %NotificationPath%, Sounds, %Notification%
+    IniRead, Sound, %NotificationPath%, Sounds, %Notification%, Resources\Sounds\reminder.wav
     Return, %Sound%
 }
 
