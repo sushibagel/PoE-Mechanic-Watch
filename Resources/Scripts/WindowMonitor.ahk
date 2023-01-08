@@ -99,10 +99,7 @@ Kill()
     Sleep, 200
     If WinActive("ahk_group PoeWindow")
     {
-        If !WinActive("Overlay")
-        {
-            Monitor()
-        }
+        Monitor()
         Exit
     }
     Else
