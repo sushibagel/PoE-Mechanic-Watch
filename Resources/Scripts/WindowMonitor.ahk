@@ -61,6 +61,7 @@ ActivateInfluenceReminder()
 ;Script start. This is the main running portion. 
 Start()
 {
+    WaitKill :=0
     PostSetup()
     PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
     PostRestore()
