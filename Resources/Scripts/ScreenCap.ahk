@@ -173,7 +173,7 @@ OnDeathPrompt()
   bx := bx-50
   Gui, Recap:Hide
   WinSet, Style, -0xC00000, Recap
-  gheight := height + 40
+  gheight := height + Round(96/A_ScreenDPI*40)
   If WinExist("Notification Settings")
   {
       NotificationHeight := 850
