@@ -263,7 +263,6 @@ Start()
     WinWait, ahk_Group PoeWindow
     GetLogPath()
     CheckTheme()
-    HotkeyCheck()
     Run, Resources\Scripts\Tail.ahk
     Overlay()
 }
