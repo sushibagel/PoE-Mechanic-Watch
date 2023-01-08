@@ -64,16 +64,14 @@ Start()
     PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
     PostRestore()
     
-    MechanicsActive := MechanicsActive()
-    If (MechanicsActive >= 1)
-        {
-            PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
-        }
-    ; If (ReminderActive = 1)
-    ; {
-    ;     ReminderActive := 0
-    ;     PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
-    ; }
+    NotificationIni := NotificationIni()
+    IniRead, Activecheck, %NotificationIni%, Notification Active, Mechanic Notification Active
+    If (ActiveCheck = 1)
+    {
+        PostSetup()
+        PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
+        PostRestore()
+    }
     If (InfluenceReminderActive = 1)
     {
         ReminderActive := 0
@@ -138,28 +136,9 @@ Kill()
     }
 }
 
-MechanicsActive()
-{
-    MechanicsActive := 0
-    MechanicsPath := "Resources\Settings\Mechanics.ini"
-    MechanicSearch := Mechanics()
-    For each, Mechanic in StrSplit(MechanicSearch, "|")
-    {
-        IniRead, %Mechanic%, %MechanicsPath%, Mechanic Active, %Mechanic%
-        If (%Mechanic% = 1)
-        {
-            %Mechanic%Active := 1
-            MechanicsActive ++
-        }
-        If (%Mechanic% = 0)
-        {
-            %Mechanic%Active := 0
-        }
-    }
-    Return
-}
-
 Mechanics() ;List of Mechanics
 {
     Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Metamorph|Ritual|Generic"
 }
+
+#IncludeAgain, Resources\Scripts\Ini.ahk

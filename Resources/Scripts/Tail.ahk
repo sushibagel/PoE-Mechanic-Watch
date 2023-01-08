@@ -31,6 +31,8 @@ LogTail(text)
 		If (MechanicsActive >= 1)
 		{
 			Reminder()
+			NotificationIni := NotificationIni()
+			IniWrite, 1, %NotificationIni%, Notification Active, Mechanic Notification Active
 		}
 		MechanicsIni := MechanicsIni()
 		IniRead, MavenMap, %MechanicsIni%, Maven Map, Maven Map 10, 0

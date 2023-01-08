@@ -135,6 +135,12 @@ MechanicToggle(ToggleMechanic)
         PostSetup()
         PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
         PostRestore()
+        MechanicsActive()
+        If (MechanicsActive = 0)
+        {
+            NotificationIni := NotificationIni()
+            IniWrite, 0, %NotificationIni%, Notification Active, Mechanic Notification Active
+        }
         RefreshOverlay()
         Return
     }
