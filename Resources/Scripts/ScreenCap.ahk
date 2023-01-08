@@ -149,7 +149,10 @@ DeathButtonChange()
 
 OnDeathPrompt()
 {
-  Sleep, 3000
+  If WinActive!("Notification Settings")
+  {
+    Sleep, 3000
+  }
   Gui, Recap:Destroy
   CheckTheme()
   NotificationHeight := (A_ScreenHeight / 2) - 100
@@ -183,6 +186,18 @@ OnDeathPrompt()
   Gui, Recap:Show, y%NotificationHeight% h%gheight% NoActivate, Death Recap
   WinSet, Style, -0xC00000, Death Recap
   WinSet, Transparent, %NotificationTransparency%, Death Recap
+  NotificationPrep("Recap")
+  NotificationIni := NotificationIni()
+  IniRead, SoundActive, %NotificationIni%, Sound Active, Recap
+  If (SoundActive = 1)
+  {
+      SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+      SetTitleMatchMode, 2
+      WinGet, AhkExe, ProcessName, Reminder
+      SetTitleMatchMode, 1
+      SetWindowVol(AhkExe, NotificationVolume)
+      SoundPlay, %NotificationSound%
+  }
   Return
 }
 
