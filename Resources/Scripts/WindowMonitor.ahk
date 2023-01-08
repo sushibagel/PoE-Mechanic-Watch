@@ -63,7 +63,7 @@ Start()
     PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
     PostRestore()
     
-    MechanicsActive()
+    MechanicsActive := MechanicsActive()
     If (MechanicsActive >= 1)
         {
             PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
@@ -100,7 +100,10 @@ Kill()
     Sleep, 100
     If WinActive("ahk_group PoeWindow")
     {
-        Monitor()
+        If !WinActive("Overlay")
+        {
+            Monitor()
+        }
         Exit
     }
     Else
