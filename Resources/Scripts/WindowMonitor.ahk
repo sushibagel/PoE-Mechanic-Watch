@@ -3,6 +3,7 @@
 #NoEnv
 #NoTrayIcon
 Global MechanicsActive
+Global WaitKill
 ;#Warn
 SetTitleMatchMode, 3
 
@@ -22,7 +23,7 @@ Global InfluenceReminderActive
 OnMessage(0x01118, "DeactivateReminder")
 OnMessage(0x01192, "ActivateInfluenceReminder")
 OnMessage(0x01155, "DeactivateInfluenceReminder")
-
+Waitkill := 0
 Start()
 Return
 
@@ -90,13 +91,23 @@ Start()
 
 Monitor()
 {
-    tooltip ;intentional
-    OnWin("NotActive", "Path of Exile", Func("Kill"))
+    If !(Waitkill = 1)
+    {
+        tooltip ;intentional
+        OnWin("NotActive", "Path of Exile", Func("Kill"))
+        Waitkill := 1
+        SetTimer, KillTimer, 2000
+    }
+}
+
+KillTimer()
+{
+    WaitKill :=0
 }
 
 Kill()
 {
-    Sleep, 200
+    Sleep, 300
     If WinActive("ahk_group PoeWindow")
     {
         Monitor()
