@@ -21,6 +21,10 @@ Global InfluenceActive
 Global InfluenceSoundActive
 Global InfluenceTran
 Global InfluenceVolume
+Global RecapActive
+Global RecapSoundActive
+Global RecapTran
+Global RecapVolume
 
 Global MavenTran
 Global SoundButtonChange
@@ -175,6 +179,31 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
+    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Death Recap
+    Gui, NotificationSettings:Font
+    MiscIni := MiscIni()
+    IniRead, Value, %MiscIni%, On Death, Active, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked%Value% vRecapActive
+    IniRead, Value, %NotificationIni%, Sound Active, Recap, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value% vRecapSoundActive
+    Gui, NotificationSettings:Add, Picture, gSoundsButtonRecap ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
+    Gui, NotificationSettings:Add, Picture, gTestRecapSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Font, cBlack
+    Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
+    IniRead, Value, %NotificationIni%, Volume, Recap, 100
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vRecapVolume
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
+    Gui, NotificationSettings:Add, Picture, gRecapTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor% 
+    Gui, NotificationSettings:Add, Picture, gRecapStop ys-%Offset% x%StopButton% w15 h15, %StopColor% 
+    IniRead, Value, %TransparencyFile%, Transparency, Recap, 255
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vRecapTran
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
+
+; Mechanic Notification Section
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Font, c%Font%
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
+    Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Mechanic Notification
     Gui, NotificationSettings:Font
     IniRead, Value, %NotificationIni%, Active, Notification, 1
@@ -269,7 +298,7 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s10
     Gui, NotificationSettings:Add, Button, x20 w50, Close
     Gui, NotificationSettings:Color, %Background%
-    Gui, NotificationSettings:Show, W%Width%, Notification Settings
+    Gui, NotificationSettings:Show, y150 W%Width%, Notification Settings
   Return
 }
 
@@ -277,6 +306,7 @@ NotificationSettingsButtonClose(){
     Gui, NotificationSettings:Submit
     Gui, NotificationSettings:Destroy
     Gui, Quick:Destroy
+    RecapButtonNo()
     PostSetup()
     PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ;Destroy Reminder
     PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ;Destroy Eldritch Reminder
@@ -284,6 +314,7 @@ NotificationSettingsButtonClose(){
     Gui, Reminder:Destroy
     Invitations := Witnesses()
     NotificaitonIni := NotificationIni()
+    TransparencyIni := TransparencyIni()
     For each, Invitation in StrSplit(Invitations, "|")
     {
         Value := Invitation "Check"
@@ -299,10 +330,18 @@ NotificationSettingsButtonClose(){
         Sound := %Sound%
         Volume := Item "Volume"
         Volume := %Volume%
+        Tran := Item "Tran"
+        Tran := %Tran%
         IniWrite, %Active%, %NotificaitonIni%, Active, %Item%
         IniWrite, %Sound%, %NotificaitonIni%, Sound Active, %Item%
         IniWrite, %Volume%, %NotificaitonIni%, Volume, %Item%
+        IniWrite, %Tran%, %TransparencyIni%, Transparency, %Item%
     }
+    MiscIni := MiscIni()
+    IniWrite, %RecapActive%, %MiscIni%, On Death, Active
+    IniWrite, %RecapSoundActive%, %NotificaitonIni%, Sound Active, Recap
+    IniWrite, %RecapVolume%, %NotificaitonIni%, Volume, Recap
+    IniWrite, %RecapTran%, %TransparencyIni%, Transparency, Recap
 }
 
 OverlayTest()
@@ -444,7 +483,7 @@ NotificationTest()
     Return
 }
 
-NotificationStop:
+NotificationStop()
 {
     PostSetup()
     PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey
@@ -488,11 +527,50 @@ InfluenceTest()
     Return
 }
 
-InfluenceStop:
+InfluenceStop()
 {
     PostSetup()
     PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ;Destroy Eldritch Reminder
     PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey
     PostRestore()
     Return
+}
+
+; Recap Notification Settings
+SoundsButtonRecap()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    NotificationIni := NotificationIni()
+    IniWrite, %RecapSoundActive%, %NotificationIni%, Active, Recap
+    FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
+    If (NewSound != "")
+    {
+        IniWrite, %NewSound%, %NotificationIni%, Sounds, Recap
+    }
+    Return
+}
+
+TestRecapSound()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    IniRead, TestSound, %NotificationPath%, Sounds, Recap
+    IniRead, TestVolume, %NotificationPath%, Volume, Recap
+    TestSound("Recap")
+    Return
+}
+
+RecapTest()
+{
+    Gui, Reminder:Destroy
+    Gui, Overlay:Destroy
+    Gui, NotificationSettings:Submit, NoHide
+    TransparencyPath := TransparencyIni()
+    IniWrite, %RecapTran%, %TransparencyPath%, Transparency, Recap
+    OnDeathPrompt()
+    Return
+}
+
+RecapStop()
+{
+    RecapButtonNo()
 }
