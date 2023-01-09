@@ -261,7 +261,7 @@ PromptDelete()
     bx := bx + 50
   Gui, PromptDelete:Hide
   WinSet, Style, -0xC00000, Prompt Delete
-  gheight := height + 40
+  gheight := height + (96/A_ScreenDPI*55)
   If WinExist("Notification Settings")
   {
       NotificationHeight := 850
