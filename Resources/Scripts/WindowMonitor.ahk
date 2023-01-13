@@ -4,8 +4,7 @@
 #NoTrayIcon
 Global MechanicsActive
 Global WaitKill
-;#Warn
-SetTitleMatchMode, 3
+SetTitleMatchMode, 2
 
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
@@ -13,21 +12,19 @@ GroupAdd, PoeWindow, Influence
 GroupAdd, PoeWindow, Transparency 
 GroupAdd, PoeWindow, Path of Exile 
 GroupAdd, PoeWindow, Overlay
+GroupAdd, PoeWindow, Overlay Setup
 GroupAdd, PoeWindow, Quick Notify
-GroupAdd, PoeWindow, ahk_exe PoE Instant Messenger.exe
-; GroupAdd, PoeWindow, Awakened PoE Trade
+GroupAdd, PoeWindow, Notification Settings
+GroupAdd, PoeWindow, Awakened PoE Trade
+GroupAdd, PoeWindow, ahk_exe Code.exe
 
-Global ReminderActive
-Global InfluenceReminderActive
+; OnMessage(0x01192, "ActivateInfluenceReminder")
+; OnMessage(0x01155, "DeactivateInfluenceReminder")
+; Waitkill := 0
+; Start()
+; Return
 
-OnMessage(0x01118, "DeactivateReminder")
-OnMessage(0x01192, "ActivateInfluenceReminder")
-OnMessage(0x01155, "DeactivateInfluenceReminder")
-Waitkill := 0
-Start()
-Return
-
-;Post Functions
+; ;Post Functions
 PostSetup()
 {
     Prev_DetectHiddenWindows := A_DetectHiddenWIndows
@@ -42,111 +39,51 @@ PostRestore()
     SetTitleMatchMode, %A_TitleMatchMode%
 }
 
-;Variable functions
-DeactivateReminder()
-{
-    ReminderActive := 0
-}
+SetTitleMatchMode 2
+DetectHiddenWindows On
+Start()
 
-DeactivateInfluenceReminder()
-{
-    InfluenceReminderActive := 0
-}
-
-ActivateInfluenceReminder()
-{
-    InfluenceReminderActive := 1
-}
-
-;Script start. This is the main running portion. 
 Start()
 {
+    WinWaitActive, ahk_group PoeWindow
     PostSetup()
-    PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
+    PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate Overlay
+    Reminders := Reminders()
+    For each, Item in StrSplit(Reminders, "|")
+    {
+       If WinExist(Item)
+       {
+            WinShow, %Item%
+       }
+    }
     PostRestore()
-    
-    NotificationIni := NotificationIni()
-    IniRead, Activecheck, %NotificationIni%, Notification Active, Mechanic Notification Active
-    If (ActiveCheck = 1)
-    {
-        PostSetup()
-        PostMessage, 0x01112,,,, Tail.ahk - AutoHotkey ;Activate reminder again
-        PostRestore()
-    }
-    If (InfluenceReminderActive = 1)
-    {
-        ReminderActive := 0
-        PostMessage, 0x01123,,,, Tail.ahk - AutoHotkey ;Activate Influence reminder again
-    }
-    DetectHiddenWindows, %Prev_DetectHiddenWindows%
-    SetTitleMatchMode, %A_TitleMatchMode%
-    Sleep, 100
-    If !WinExist("Overlay")
-    {
-        PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate reminder
-    }
-    Monitor()
-    Return
+    WaitActive()
+    Exit
 }
 
-Monitor()
+WaitActive()
 {
-    If !(Waitkill = 1)
+    WinWaitNotActive, ahk_group PoeWindow
     {
-        tooltip ;intentional
-        OnWin("NotActive", "Path of Exile", Func("Kill"))
-        Waitkill := 1
-        SetTimer, KillTimer, 2000
-    }
-}
-
-KillTimer()
-{
-    WaitKill :=0
-}
-
-Kill()
-{
-    Sleep, 300
-    If WinActive("ahk_group PoeWindow")
-    {
-        Monitor()
-        Exit
-    }
-    Else
-    {
-        Gui, InfluenceReminder:Destroy
+        Sleep, 200
+        If WinActive("ahk_group PoeWindow")
+        {
+            Start()
+        }
         PostSetup()
         PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
+            Reminders := Reminders()
+        For each, Item in StrSplit(Reminders, "|")
+        If WinExist(Item)
+        {
+            WinHide, %Item%
+        }
         PostRestore()  
-        SetTitleMatchMode, 3
-        If WinExist("Reminder")
-        {
-            PostSetup()
-            ReminderActive := 1
-            PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ; destroy reminder 
-            PostRestore()
-        }
-        SetTitleMatchMode, 3
-        If WinExist("InfluenceReminder")
-        {
-            PostSetup()
-            InfluenceReminderActive := 1
-            PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ; destroy reminder 
-            PostRestore()
-        }
-        SetTitleMatchMode, 2
-        Loop
-        {
-            OnWin("Active", "Path of Exile", Func("Start"))
-            Break
-        }
+        Start()
     }
 }
 
-Mechanics() ;List of Mechanics
+Reminders()
 {
-    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Metamorph|Ritual|Generic"
+    Return, "InfluenceReminder|Reminder|Death Recap|Prompt Delete"
 }
-
-#IncludeAgain, Resources\Scripts\Ini.ahk
