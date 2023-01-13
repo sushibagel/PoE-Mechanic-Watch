@@ -73,7 +73,8 @@ WaitActive()
         }
         PostSetup()
         PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
-            Reminders := Reminders()
+        Reminders := Reminders()
+        SetTitleMatchMode 3
         For each, Item in StrSplit(Reminders, "|")
         If WinExist(Item)
         {
