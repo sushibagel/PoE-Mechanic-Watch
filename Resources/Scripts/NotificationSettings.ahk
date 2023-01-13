@@ -1,13 +1,3 @@
-Global Edit
-Global Edit2
-Global Edit3
-Global Edit4
-Global Edit5
-Global Edit6
-Global Edit7
-Global Edit8
-Global Edit9
-Global Edit10
 Global OverlayTran
 Global QuickActive
 Global QuickSoundActive
@@ -25,7 +15,9 @@ Global RecapActive
 Global RecapSoundActive
 Global RecapTran
 Global RecapVolume
-
+Global MavenActive
+Global MavenSoundActive
+Global MavenVolume
 Global MavenTran
 Global SoundButtonChange
 Global FormedCheck
@@ -254,18 +246,19 @@ NotificationSetup()
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
     Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Maven Notification
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1
-    IniRead, Value, %NotificationIni%, Active, Maven, 0
-    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check2% Checked%Value%
-    Gui, NotificationSettings:Add, Picture, gSoundsButtonChange ys-1 x%SpeakerButton% w15 h15, %IconColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
+    IniRead, Value, %NotificationIni%, Active, Maven, 1
+    Gui, NotificationSettings:Add,Checkbox, ys+%Offset% x%Check1% Checked%Value% vMavenActive
+    IniRead, Value, %NotificationIni%, Sound Active, Maven, 0
+    Gui, NotificationSettings:Add,Checkbox, ys+%Offset% x%Check2% Checked%Value% vMavenSoundActive
+    Gui, NotificationSettings:Add, Picture, gSoundsButtonMaven ys-1 x%SpeakerButton% w15 h15, %IconColor%
+    Gui, NotificationSettings:Add, Picture, gTestMavenSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
-    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vEdit9
+    Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vMavenVolume
     IniRead, Value, %NotificationIni%, Volume, Maven, 100
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
-    Gui, NotificationSettings:Add, Picture, gtest ys-%Offset% x%StopButton% w15 h15, %StopColor%
+    Gui, NotificationSettings:Add, Picture, gMavenTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Add, Picture, gMavenStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Maven, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vMavenTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
@@ -305,6 +298,7 @@ NotificationSetup()
 NotificationSettingsButtonClose(){
     Gui, NotificationSettings:Submit
     Gui, NotificationSettings:Destroy
+    Gui, MavenReminder:Destroy
     Gui, Quick:Destroy
     RecapButtonNo()
     PostSetup()
@@ -573,4 +567,43 @@ RecapTest()
 RecapStop()
 {
     RecapButtonNo()
+}
+
+; Maven Notification Settings
+SoundsButtonMaven()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    NotificationIni := NotificationIni()
+    IniWrite, %MavenSoundActive%, %NotificationIni%, Active, Maven
+    FileSelectFile, NewSound, 1, %A_ScriptDir%\Resources\Sounds, Please select the new sound file you would like, Audio (*.wav; *.mp2; *.mp3)
+    If (NewSound != "")
+    {
+        IniWrite, %NewSound%, %NotificationIni%, Sounds, Maven
+    }
+    Return
+}
+
+TestMavenSound()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    IniRead, TestSound, %NotificationPath%, Sounds, Maven
+    IniRead, TestVolume, %NotificationPath%, Volume, Maven
+    TestSound("Maven")
+    Return
+}
+
+MavenTest()
+{
+    Gui, Reminder:Destroy
+    Gui, NotificationSettings:Submit, NoHide
+    TransparencyIni := TransparencyIni()
+    IniWrite, %MavenTran%, %TransparencyIni%, Transparency, Maven
+    MavenReminder()
+    Return
+}
+
+MavenStop()
+{
+    MavenReminderButtonNo()
+    Return
 }
