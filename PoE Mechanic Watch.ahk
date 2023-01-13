@@ -34,8 +34,6 @@ Menu, SetupMenu, Add, Move Overlay, Move
 Menu, SetupMenu, Add, Move Map Notification, MoveMap
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Notification Settings, NotificationSetup
-Menu, SetupMenu, Add, Set Transparency, UpdateTransparency
-Menu, SetupMenu, Add, Sound Settings, UpdateNotification
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Launch Assist, LaunchGui
 Menu, SetupMenu, Add, Tool Launcher, ToolLaunchGui
@@ -202,7 +200,7 @@ FirstRunIni := FirstRunIni()
 If FileExist(FirstRunIni) ;Check for "FirstRun" ini
 {
     CheckFirstRun()
-    If (ClientState = "ERROR") or (HideoutState = "ERROR") or (MechanicState = "ERROR") or (TransparencyState = "Error") or (ClientState = 0) or (HideoutState = 0) or (MechanicState = 0) or (TransparencyState = 0) or (ClientState = "") or (HideoutState = "") or (MechanicState = "") or (TransparencyState = "")
+    If (ClientState = "ERROR") or (HideoutState = "ERROR") or (MechanicState = "ERROR") or (ClientState = 0) or (HideoutState = 0) or (MechanicState = 0) or (ClientState = "") or (HideoutState = "") or (MechanicState = "")
     {
         FirstRun()
     }
@@ -556,6 +554,14 @@ HotkeyCheck()
         }
     }
 }
+
+TransparencyCheck(NotificationTransparency)
+{
+   TransparencyIniPath := TransparencyIni()
+   IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%, 255
+   Return, %NotificationTransparency%
+}
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #Include, Resources\Scripts\AutoMechanic.ahk
@@ -575,7 +581,6 @@ HotkeyCheck()
 #Include, Resources\Scripts\OverlaySetup.ahk
 #Include, Resources\Scripts\ScreenCap.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
-#Include, Resources\Scripts\Transparency.ahk
 #Include, Resources\Scripts\UpdateCheck.ahk
 
 ;New Mechanic setup list. Add the following Global Variables (Mechanic Name, MechanicActive, MechanicOn - to Mechanics.ahk) Add mechanic name to Mechanic()(Function) in Mechanics.ahk
