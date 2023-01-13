@@ -342,8 +342,7 @@ QuickNotify(Notification)
     }
     Gui, Quick: +AlwaysOnTop %ShowBorder%
     Notificationpath := NotificationIni()
-    IniRead, OutputVar, Filename, Section, Key [, Default]
-    IniRead, Active, %NotificationPath%, Active, Quick
+    IniRead, Active, %NotificationPath%, Active, Quick, 1
     If (Active = 1)
     {
         Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
