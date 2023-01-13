@@ -56,27 +56,31 @@ RefreshOverlay()
         Gui, Overlay:Add, Text, xs+%TrackOffset%, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
-    ; Loop
-    ; {
-    ;     WinGet, PoeID, ID, Path of Exile
-    ;     If (PoeID = "")
-    ;     {
-    ;         IfWinActive, Transparency
-    ;         {
-    ;             Break
-    ;         }
-    ;         Else
-    ;         {
-    ;             WinWait, Path of Exile
-    ;         }
-    ;     }
-    ;     If (PoeID != "")
-    ;     {
-    ;         Break
-    ;     }
-    ; }
+;     Loop
+;     {
+;         WinGet, PoeID, ID, Path of Exile
+;         If (PoeID = "")
+;         {WinWaitNotActive, ahk_exe code.exe
+; {
+;     reload
+; }
+;             IfWinActive, Transparency
+;             {
+;                 Break
+;             }
+;             Else
+;             {
+;                 WinWait, Path of Exile
+;             }
+;         }
+;         If (PoeID != "")
+;         {
+;             Break
+;         }
+;     }
     ShowTitle := "-0xC00000"
     Activate := "NoActivate"
+    OverlayTitle := "Overlay"
     If (MoveActive = 1)
     {
         LockPosition := "xn x5"
@@ -89,12 +93,13 @@ RefreshOverlay()
         ShowTitle := ""
         Activate := ""
         Gui, Overlay:Color, %Background%
+        OverlayTitle := "Overlay Setup"
     }
     TransparencyPath := TransparencyIni()
     IniRead, OverlayTransparency, %TransparencyPath%, Transparency, Overlay, 255
     Gui, Overlay:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, Overlay:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
-    Gui, Overlay:Show, %Activate% x%width% y%height%, Overlay
+    Gui, Overlay:+AlwaysOnTop +ToolWindow +HwndOverlayHwnd
+    Gui, Overlay:Show, %Activate% x%width% y%height%, %OverlayTitle%
     WinSet, Style, %ShowTitle%, Overlay
     If (MoveActive != 1)
     {
