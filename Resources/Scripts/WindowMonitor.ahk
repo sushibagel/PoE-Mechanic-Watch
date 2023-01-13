@@ -49,6 +49,7 @@ Start()
     PostSetup()
     PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ; activate Overlay
     Reminders := Reminders()
+    SetTitleMatchMode 3
     For each, Item in StrSplit(Reminders, "|")
     {
        If WinExist(Item)
