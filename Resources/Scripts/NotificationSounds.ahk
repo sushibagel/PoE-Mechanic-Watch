@@ -132,7 +132,7 @@ CheckVolume(Volume)
 CheckSoundActive(Active)
 {
     NotificationPath := NotificationIni()
-    IniRead, Active, %NotificationPath%, Active, %Active%
+    IniRead, Active, %NotificationPath%, Sound Active, %Active%
     Return, %Active% 
 }
 
