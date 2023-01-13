@@ -335,18 +335,30 @@ QuickNotify(Notification)
         ShowTitle := ""
         ShowBorder := ""
         MapMove := 0
-        ; PostSetup()
-        ; PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
-        ; PostRestore()
-        ; RefreshOverlay()
     }
     If InStr(Notification, "Switching Influence")
     {
        Horizontal := Horizontal + Round(96/A_ScreenDPI*110)
     }
     Gui, Quick: +AlwaysOnTop %ShowBorder%
-    Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
-    MapTransparency := TransparencyCheck("Quick")
-    WinSet, Style,  %ShowTitle%, Quick Notify
-    WinSet, Transparent, %MapTransparency%, Quick Notify
+    Notificationpath := NotificationIni()
+    IniRead, OutputVar, Filename, Section, Key [, Default]
+    IniRead, Active, %NotificationPath%, Active, Quick
+    If (Active = 1)
+    {
+        Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
+        MapTransparency := TransparencyCheck("Quick")
+        WinSet, Style,  %ShowTitle%, Quick Notify
+        WinSet, Transparent, %MapTransparency%, Quick Notify
+    }
+    NotificationPrep("Quick")
+    If (SoundActive = 1)
+    {
+        SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+        SetTitleMatchMode, 2
+        WinGet, AhkExe, ProcessName, Quick
+        SetTitleMatchMode, 1
+        SetWindowVol(AhkExe, NotificationVolume)
+        SoundPlay, %NotificationSound%
+    }
 }
