@@ -163,7 +163,12 @@ OnDeathPrompt()
   Gui, Recap:Font, s10
   Gui, Recap:Color, %Background%
   Gui, Recap:+AlwaysOnTop -Border
-  Gui, Recap:Show, NoActivate y%NotificationHeight%, Death Recap
+  NotificationIni := NotificationIni()
+  IniRead, NotificationActive, %NotificationIni%, Active, Recap, 1
+  If (NotificationActive = 1)
+  {
+    Gui, Recap:Show, NoActivate y%NotificationHeight%, Death Recap
+  }
   DetectHiddenWindows, On
   WinGetPos,xpos,, Width, Height, Death Recap
   bx := Width/2
@@ -183,11 +188,13 @@ OnDeathPrompt()
   Gui, Recap:Add, Button, x%bx% ys w50, No
   Gui, Recap:Add, Button, x%bx3% ys, Delete and Close
   Gui, Recap:+AlwaysOnTop -Border
-  Gui, Recap:Show, y%NotificationHeight% h%gheight% NoActivate, Death Recap
-  WinSet, Style, -0xC00000, Death Recap
-  WinSet, Transparent, %NotificationTransparency%, Death Recap
+  If (NotificationActive = 1)
+  {
+    Gui, Recap:Show, y%NotificationHeight% h%gheight% NoActivate, Death Recap
+    WinSet, Style, -0xC00000, Death Recap
+    WinSet, Transparent, %NotificationTransparency%, Death Recap
+  }
   NotificationPrep("Recap")
-  NotificationIni := NotificationIni()
   IniRead, SoundActive, %NotificationIni%, Sound Active, Recap
   If (SoundActive = 1)
   {
