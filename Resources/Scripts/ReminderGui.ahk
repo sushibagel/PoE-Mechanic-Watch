@@ -26,15 +26,25 @@ MechanicReminder()
     Gui, Reminder:Hide
     WinSet, Style, -0xC00000, Reminder
     gheight := height + 40
+    NotificationIni := NotificationIni()
+    IniRead, NotificationActive, %NotificationIni%, Active, Notification, 1
     If WinExist("Notification Settings")
     {
         NotificationHeight := 850
+        NotificationActive := 1
     }
     Gui, Reminder:Add, Button, xn x%bx2% Section w50, Yes
     Gui, Reminder:Add, Button, x%bx% ys w50, No
     Gui, Reminder:+AlwaysOnTop -Border
-    Gui, Reminder:Show, y%NotificationHeight% h%gheight% NoActivate, Reminder
-    WinSet, Style, -0xC00000, Reminder
-    WinSet, Transparent, %NotificationTransparency%, Reminder
-    Return
+    If (NotificationActive = 1)
+    {
+        Gui, Reminder:Show, y%NotificationHeight% h%gheight% NoActivate, Reminder
+        WinSet, Style, -0xC00000, Reminder
+        WinSet, Transparent, %NotificationTransparency%, Reminder
+    }
+    If (NotificationActive = 0)
+    {
+        Gui, Reminder:Destroy
+        Return
+    }
 }
