@@ -47,7 +47,6 @@ EldritchReminder()
 			Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, InfluenceReminder
 			WinSet, Style, -0xC00000, InfluenceReminder
 			WinSet, Transparent, %NotificationTransparency%, InfluenceReminder
-			InfluenceNotificationSound()
 			Return
 		}
 		Else
