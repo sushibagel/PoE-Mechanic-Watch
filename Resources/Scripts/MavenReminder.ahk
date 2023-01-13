@@ -9,6 +9,10 @@ MavenReminder()
     TransparencyFile := TransparencyIni()
     IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Notification
     Gui, MavenReminder:Font, c%Font% s12
+    If WinExist("Notification Settings")
+    {
+        MavenReminderText := "You have just entered a Maven's Crucible click ""Yes"" to view/reset tracking."
+    }
     Gui, MavenReminder:Add, Text,,%MavenReminderText%
     Gui, MavenReminder:Font, s10
     Gui, MavenReminder:Color, %Background%
@@ -50,9 +54,13 @@ MavenReminder()
     }
     If !(DisabledReminder = 0)
     {
+        If WinExist("Notification Settings")
+        {
+            NotificationHeight := 850
+        }
         Gui, MavenReminder:+AlwaysOnTop -Border
-        Gui, MavenReminder:Show, y%NotificationHeight% h%gheight% NoActivate, Reminder
-        WinSet, Style, -0xC00000, Reminder
+        Gui, MavenReminder:Show, y%NotificationHeight% h%gheight% NoActivate, Maven Reminder
+        WinSet, Style, -0xC00000, Maven Reminder
         WinSet, Transparent, %NotificationTransparency%, Reminder
         MavenNotificationSound()
         WinWaitClose, Reminder
