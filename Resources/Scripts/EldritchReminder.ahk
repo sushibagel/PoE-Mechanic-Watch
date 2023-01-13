@@ -25,6 +25,8 @@ EldritchReminder()
 		Gui, InfluenceReminder:Add, Text,,%ReminderText%
 		height1 := (A_ScreenHeight / 2) - 100
 		width1 := (A_ScreenWidth / 2)-180
+		NotificationIni := NotificationIni()
+		IniRead, NotificationActive, %NotificationIni%, Active, Influence, 1
 		If (height2 != "")
 		{
 			height1 := height2
@@ -33,20 +35,25 @@ EldritchReminder()
 		If WinExist("Notification Settings")
 		{
 			height1 := 850
+			NotificationActive := 1
 		}
 		Gui, InfluenceReminder:Font, s10
 		Gui, InfluenceReminder:Color, %Background%
 		Gui, InfluenceReminder:+AlwaysOnTop -Border
 		Gui, InfluenceReminder:Add, Button, x150 y40, OK
 		Gui, InfluenceReminder:Add, Button, x300 y40, Revert Count
-		Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, InfluenceReminder
-		WinSet, Style, -0xC00000, InfluenceReminder
-		WinSet, Transparent, %NotificationTransparency%, InfluenceReminder
-		InfluenceNotificationSound()
-		PostSetup()
-		PostMessage, 0x01192,,,, WindowMonitor.ahk - AutoHotkey ; Active alt tab reminder for influences 
-		PostRestore()
-		Return
+		If (NotificationActive = 1)
+		{
+			Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, InfluenceReminder
+			WinSet, Style, -0xC00000, InfluenceReminder
+			WinSet, Transparent, %NotificationTransparency%, InfluenceReminder
+			InfluenceNotificationSound()
+			Return
+		}
+		Else
+		{
+			Gui, InfluenceReminder:Destroy
+		}
 	}
 	Return
 }
