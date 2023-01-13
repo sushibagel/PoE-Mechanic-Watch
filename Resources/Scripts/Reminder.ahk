@@ -83,7 +83,6 @@ ReminderButtonNo()
     VariablePath := VariableIni()
     IniWrite, 0, %VariablePath%, Incursion, Sleep Count
     NotificationIni := NotificationIni()
-    IniWrite, 0, %NotificationIni%, Notification Active, Mechanic Notification Active
     Gui, Reminder:Destroy
     OnMessage(0x01111, "RefreshOverlay")
     RefreshOverlay()
