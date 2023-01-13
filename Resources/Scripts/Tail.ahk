@@ -217,4 +217,3 @@ FirstRun()
 #IncludeAgain, Resources/Scripts/Reminder.ahk
 #IncludeAgain, Resources/Scripts/ReminderGui.ahk
 #IncludeAgain, Resources/Scripts/ScreenCap.ahk
-#IncludeAgain, Resources/Scripts/Transparency.ahk
