@@ -85,5 +85,5 @@ WaitActive()
 
 Reminders()
 {
-    Return, "InfluenceReminder|Reminder|Death Recap|Prompt Delete"
+    Return, "InfluenceReminder|Maven Reminder|Reminder|Death Recap|Prompt Delete"
 }
