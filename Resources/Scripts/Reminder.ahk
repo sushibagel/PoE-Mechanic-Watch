@@ -63,7 +63,8 @@ Reminder()
 
 ReminderButtonYes()
 {
-    Gui, Reminder:Submit
+    Gui, Reminder:Destroy
+    Gui, Reminder:Submit 
     PostSetup()
     RefreshOverlay()
     OnMessage(0x01111, "RefreshOverlay")
