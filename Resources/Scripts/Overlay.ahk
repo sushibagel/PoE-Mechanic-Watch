@@ -56,28 +56,6 @@ RefreshOverlay()
         Gui, Overlay:Add, Text, xs+%TrackOffset%, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
-;     Loop
-;     {
-;         WinGet, PoeID, ID, Path of Exile
-;         If (PoeID = "")
-;         {WinWaitNotActive, ahk_exe code.exe
-; {
-;     reload
-; }
-;             IfWinActive, Transparency
-;             {
-;                 Break
-;             }
-;             Else
-;             {
-;                 WinWait, Path of Exile
-;             }
-;         }
-;         If (PoeID != "")
-;         {
-;             Break
-;         }
-;     }
     ShowTitle := "-0xC00000"
     Activate := "NoActivate"
     OverlayTitle := "Overlay"
