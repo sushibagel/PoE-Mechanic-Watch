@@ -709,3 +709,20 @@ UncheckElderslayer()
         GuiControl, , DroxTheWarlord, %LastStateDroxTheWarlord%
     }
 }
+
+MavenLog(NewLine, CurrentSearch)
+{
+    MechanicsIni := MechanicsIni()
+    IniRead, InfluenceActive, %MechanicsIni%, Influence, Maven
+    {
+        If (InfluenceActive = 1)
+        {
+            MavenFile := MavenTxt()
+            IniRead, MavenMatch, %MavenFile%, Voice Lines, %CurrentSearch%
+            MavenMatch := StrSplit(MavenMatch, "|")
+            MavenBoss := MavenMatch[1]
+            MavenInvitation := MavenMatch[2]
+            IniWrite, 1, %MechanicsIni%, %MavenInvitation%, %MavenBoss%
+        }
+    }
+}
