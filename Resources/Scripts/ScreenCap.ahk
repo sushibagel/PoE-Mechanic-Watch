@@ -8,53 +8,55 @@ Global CB1
 
 DeathReviewSetup()
 {
-    Gui, Death:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, Death:Font, c%Font% s13 Bold
-    Width := A_ScreenWidth*.29
-    Width := Round(96/A_ScreenDPI*Width)
-    TW := Width - 20
-    fw := Round(96/A_ScreenDPI*10)
-    Gui, Death:Add, Text, w%Width% +Center, Death Review Settings
-    Gui, Death:Font
-    Gui, Death:Font, c%Font% s10
-    Gui, Death:Add, Text, Wrap w%TW%, Note: For on death review you must enable screen recording in your GPU software (NVIDIA ShadowPlay or AMD ReLive) and setup the hotkey below. A character name is not required but will prevent saving recordings when another player in your group dies, the name put in the Character Name box just needs to contain  part of your character's name this will allow you to reduce accidental triggers while not having to change the setting for every character (Example: if you put in ChrisWilson: ChrisWilson123, ChrisWilsonRules, ImChrisWilson will all work). If you use the "Delete Recording" function I highly recommend setting a dedicated folder for saving the your videos, I AM NOT RESPONSIBLE IF YOUR HOMEWORK OR IMPORTANT FILES GET DELETED. 
-    Gui, Death:Font, c%Font% s1
-    Gui, Death:Add, GroupBox, w%Width% +Center x0 h1
-    Space = y+2
-    Gui, Death: -Caption
-    
-    Gui, Death:Font, c%Font% s11 Bold Underline
-    Gui, Death:Add, Text, xs x25 Section, Active
-    Gui, Death:Font
-    Gui, Death:Font, c%Font% s%fw%
+  Gui, Death: Destroy
+  Width := ""
+  Gui, Death:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+  Gui, Death:Font, c%Font% s13 Bold
+  Width := A_ScreenWidth*.29
+  Width := Round(96/A_ScreenDPI*Width)
+  TW := Width - 20
+  fw := Round(96/A_ScreenDPI*10)
+  Gui, Death:Add, Text, w%Width% +Center, Death Review Settings
+  Gui, Death:Font
+  Gui, Death:Font, c%Font% s10
+  Gui, Death:Add, Text, Wrap w%TW%, Note: For on death review you must enable screen recording in your GPU software (NVIDIA ShadowPlay or AMD ReLive) and setup the hotkey below. A character name is not required but will prevent saving recordings when another player in your group dies, the name put in the Character Name box just needs to contain  part of your character's name this will allow you to reduce accidental triggers while not having to change the setting for every character (Example: if you put in ChrisWilson: ChrisWilson123, ChrisWilsonRules, ImChrisWilson will all work). If you use the "Delete Recording" function I highly recommend setting a dedicated folder for saving the your videos, I AM NOT RESPONSIBLE IF YOUR HOMEWORK OR IMPORTANT FILES GET DELETED. 
+  Gui, Death:Font, c%Font% s1
+  Gui, Death:Add, GroupBox, w%Width% +Center x0 h1
+  Space = y+2
+  Gui, Death: -Caption
+  
+  Gui, Death:Font, c%Font% s11 Bold Underline
+  Gui, Death:Add, Text, xs x25 Section, Active
+  Gui, Death:Font
+  Gui, Death:Font, c%Font% s%fw%
+  MiscIni := MiscIni()
+  IniRead, DeathActive, %MiscIni%, On Death, Active, 0
+  Gui, Death:Add, Checkbox, xs+15 +Center VDeathWatchActive Checked%DeathActive%
+  Gui, Death:Font, c%Font% s11 Bold Underline
+  Gui, Death:Add, Text, xs, Prompt
+  Gui, Death:Font
+  Gui, Death:Font, c%Font% s%fw%
+  IniRead, DeathPrompt, %MiscIni%, On Death, Prompt, 0
+  Gui, Death:Add, Checkbox, xs+15 +Center VDeathPrompt Checked%DeathPrompt%
+  
+  Gui, Death:Font, c%Font% s11 Bold Underline
+  Gui, Death:Add, Text, ys Section, Hotkey
+  Gui, Death:Font
+  Gui, Death:Font, c%Font% s%fw%
+  Gui, Death:Font, c%Font%
+  Gui, Death:Color, %Background%
+  #ctrls = 1  ;How many Hotkey controls to add.
+  Loop,% #ctrls 
+  {
     MiscIni := MiscIni()
-    IniRead, DeathActive, %MiscIni%, On Death, Active, 0
-    Gui, Death:Add, Checkbox, xs+15 +Center VDeathWatchActive Checked%DeathActive%
-    Gui, Death:Font, c%Font% s11 Bold Underline
-    Gui, Death:Add, Text, xs, Prompt
-    Gui, Death:Font
-    Gui, Death:Font, c%Font% s%fw%
-    IniRead, DeathPrompt, %MiscIni%, On Death, Prompt, 0
-    Gui, Death:Add, Checkbox, xs+15 +Center VDeathPrompt Checked%DeathPrompt%
-    
-    Gui, Death:Font, c%Font% s11 Bold Underline
-    Gui, Death:Add, Text, ys Section, Hotkey
-    Gui, Death:Font
-    Gui, Death:Font, c%Font% s%fw%
-    Gui, Death:Font, c%Font%
-    Gui, Death:Color, %Background%
-    #ctrls = 1  ;How many Hotkey controls to add.
-    Loop,% #ctrls 
-    {
-      MiscIni := MiscIni()
-      IniRead, ScreenCapHotkey, %MiscIni%, On Death, Screen Record, %A_Space%
-      If %ScreenCapHotkey%                                   ;Check for saved hotkeys in INI file.
-      Hotkey, %ScreenCapHotkey%, DeathCapture, UseErrorLevel               ;Activate saved hotkeys if found.
-      StringReplace, noMods, ScreenCapHotkey, ~                  ;Remove tilde (~) and Win (#) modifiers...
-      StringReplace, noMods, noMods, #,,UseErrorLevel              ;They are incompatible with hotkey controls (cannot be shown).
-      Gui, Death:Add, CheckBox, xs vCB1 Checked%ErrorLevel%, Win Key  ;Add checkboxes to allow the Windows key (#) as a modifier...
-      Gui, Death:Add, Hotkey, xs w80 vScreenCapHotkey gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
-    }
+    IniRead, ScreenCapHotkey, %MiscIni%, On Death, Screen Record, %A_Space%
+    If %ScreenCapHotkey%                                   ;Check for saved hotkeys in INI file.
+    Hotkey, %ScreenCapHotkey%, DeathCapture, UseErrorLevel               ;Activate saved hotkeys if found.
+    StringReplace, noMods, ScreenCapHotkey, ~                  ;Remove tilde (~) and Win (#) modifiers...
+    StringReplace, noMods, noMods, #,,UseErrorLevel              ;They are incompatible with hotkey controls (cannot be shown).
+    Gui, Death:Add, CheckBox, xs vCB1 Checked%ErrorLevel%, Win Key  ;Add checkboxes to allow the Windows key (#) as a modifier...
+    Gui, Death:Add, Hotkey, xs w80 vScreenCapHotkey gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
+  }
   
   IniRead, CharacterName, %MiscIni%, On Death, Character Name
   Gui, Death:Font, c%Font% s11 Bold Underline
@@ -84,6 +86,8 @@ DeathReviewSetup()
 
   Gui, Death:Font, c%Font% s10
   Gui, Death:Add, Button, x20 w50, Close
+  Width := A_ScreenWidth*.29
+  Width := Round(96/A_ScreenDPI*Width)
   Gui, Death:Show, w%Width%, Death Review Settings
   Return
 }
@@ -143,7 +147,6 @@ DeathButtonChange()
   DeathButtonClose()
   Gui, Death:Destroy
   FileSelectFolder, NewFolder,, 2, Select the folder where your recordings are stored. 
-  MiscIni := MiscIni()
   IniWrite, %NewFolder%, %A_ScriptDir%\Resources\Settings\Misc.Ini, On Death, Storage Location
   DeathReviewSetup()
 }
