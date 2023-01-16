@@ -17,9 +17,9 @@ MavenReminder()
     Gui, MavenReminder:Font, s10
     Gui, MavenReminder:Color, %Background%
     Gui, MavenReminder:+AlwaysOnTop -Border
-    MechanicsIni := MechanicsIni()
+    NotificationIni := NotificationIni()
     DisabledReminder := ""
-    IniRead, DisabledReminder, %MechanicsIni%, Active, %MavenReminderType%
+    IniRead, DisabledReminder, %NotificationIni%, Active, %MavenReminderType%
     If !(DisabledReminder = 0)
     {
         Gui, MavenReminder:Show, NoActivate y%NotificationHeight%, Maven Reminder
