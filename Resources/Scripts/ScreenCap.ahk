@@ -71,7 +71,7 @@ DeathReviewSetup()
   Gui, Death:Add, Text, x%Location%, Storage Location
   Gui, Death:Font
   Gui, Death:Font, cBlack s8
-  IniRead, StorageLocation, %MiscIni%, On Death, Storage Location
+  IniRead, StorageLocation, %A_ScriptDir%\Resources\Settings\Misc.Ini, On Death, Storage Location
   Gui, Death:Add, Edit, x25 Section Center w%StorageLocationWidth% vStorageLocation, %StorageLocation%
   Gui, Death:Add, Button, ys w80, Change
 
@@ -97,7 +97,7 @@ DeathButtonClose()
   IniWrite, %DeathWatchActive%, %MiscIni%, On Death, Active
   IniWrite, %CharacterName%, %MiscIni%, On Death, Character Name
   IniWrite, %DeathPrompt%, %MiscIni%, On Death, Prompt
-  IniWrite, %StorageLocation%, %MiscIni%, On Death, Storage Location
+  IniWrite, %StorageLocation%, %A_ScriptDir%\Resources\Settings\Misc.Ini, On Death, Storage Location
 }
 
 GuiClose()
@@ -111,7 +111,7 @@ OnDeath(Newline)
   IniRead, OnDeathActive, %MiscIni%, On Death, Active
   IniRead, DeathHotkey, %MiscIni%, On Death, Screen Record
   IniRead, CharacterName, %MiscIni%, On Death, Character Name, %A_Space%
-  IniRead, StorageLocation, %MiscIni%, On Death, Storage Location
+  IniRead, StorageLocation, %A_ScriptDir%\Resources\Settings\Misc.Ini, On Death, Storage Location
   IniRead, Prompt, %MiscIni%, On Death, Prompt, 0
   IniRead, Delay, %MiscIni%, On Death, Delay, 0
   Sleep, %Delay%
@@ -141,9 +141,10 @@ OnDeath(Newline)
 DeathButtonChange()
 {
   DeathButtonClose()
+  Gui, Death:Destroy
   FileSelectFolder, NewFolder,, 2, Select the folder where your recordings are stored. 
   MiscIni := MiscIni()
-  IniWrite, %NewFolder%, %MiscIni%, On Death, Storage Location
+  IniWrite, %NewFolder%, %A_ScriptDir%\Resources\Settings\Misc.Ini, On Death, Storage Location
   DeathReviewSetup()
 }
 
@@ -232,7 +233,7 @@ RecapButtonDeleteandClose()
 GetLastFile()
 {
   MiscIni := MiscIni()
-  IniRead, StorageLocation, %MiscIni%, On Death, Storage Location
+  IniRead, StorageLocation, %A_ScriptDir%\Resources\Settings\Misc.Ini, On Death, Storage Location
 
    Loop, %StorageLocation%\*
   {
