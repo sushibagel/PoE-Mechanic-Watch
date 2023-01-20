@@ -42,6 +42,7 @@ PostRestore()
 SetTitleMatchMode 2
 DetectHiddenWindows On
 Start()
+Return
 
 Start()
 {
@@ -70,6 +71,7 @@ WaitActive()
         If WinActive("ahk_group PoeWindow")
         {
             Start()
+            Exit
         }
         PostSetup()
         PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
@@ -79,9 +81,13 @@ WaitActive()
         If WinExist(Item)
         {
             WinHide, %Item%
+            PostRestore()  
+            Start()
+            Exit
         }
         PostRestore()  
         Start()
+        Exit
     }
 }
 

@@ -236,7 +236,7 @@ RecapButtonDeleteandClose()
 GetLastFile()
 {
   MiscIni := MiscIni()
-  IniRead, StorageLocation, %A_ScriptDir%\Resources\Settings\Misc.Ini, On Death, Storage Location
+  IniRead, StorageLocation, Resources\Settings\Misc.Ini, On Death, Storage Location
 
    Loop, %StorageLocation%\*
   {
