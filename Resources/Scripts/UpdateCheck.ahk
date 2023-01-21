@@ -1,5 +1,7 @@
 UpdateCheck()
 {
+	MiscIni := MiscIni()
+	IniWrite, %A_Now%, %MiscIni%, Update Check, Last Update
 	FileReadLine, InstalledVersion, Resources/Data/Version.txt, 1
 	Filename = %A_ScriptDir%/PoE Mechanic Watch Update.zip
 	url = https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Resources/Data/Version.txt
@@ -37,4 +39,15 @@ UpdateCheck()
 				MsgBox, some other crazy error occured. 
 	}
 	Return
+}
+
+LaunchUpdate()
+{
+	MiscIni := MiscIni()
+	IniRead, LastUpdate, %MiscIni%, Update Check, Last Update, 20230120080629
+	EnvSub, LastUpdate, %A_Now%, hours
+	If (LastUpdate < 9)
+	{
+		UpdateCheck()
+	}
 }

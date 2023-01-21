@@ -11,6 +11,7 @@ OnMessage(0x01111, "RefreshOverlay")
 OnMessage(0x012222, "OverlayKill")
 OnMessage(0x01786, "Start")
 OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
+OnMessage(0x01783, "LaunchUpdate") ;timed update on PoE launch
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Menu, Tray, NoStandard
