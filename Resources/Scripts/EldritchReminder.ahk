@@ -44,7 +44,7 @@ EldritchReminder()
 		Gui, InfluenceReminder:Add, Button, x300 y40, Revert Count
 		If (NotificationActive = 1)
 		{
-			Gui, InfluenceReminder:Show, NoActivate x%width1% y%height1%, InfluenceReminder
+			Gui, InfluenceReminder:Show, NoActivate y%height1%, InfluenceReminder
 			WinSet, Style, -0xC00000, InfluenceReminder
 			WinSet, Transparent, %NotificationTransparency%, InfluenceReminder
 			Return
