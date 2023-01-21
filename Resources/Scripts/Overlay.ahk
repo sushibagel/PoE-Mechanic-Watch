@@ -37,16 +37,47 @@ RefreshOverlay()
         {
             if (%mechanicactive% = 1)
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
+                Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
                 If (Mechanic = "Incursion")
                 {
                     MechanicsIni := MechanicsIni()
                     IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
+                    VariableIni := VariableIni()
+                    IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
+                    If (IncursionTotal = 1)
+                    {
+                        IncursionTotal := 4
+                    }
+                    Else 
+                    {
+                        IncursionTotal := 3
+                    }
+                    Gui, Overlay:Font, cWhite s%OverlayFont%
+                    TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
                 }
             }
             Else
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
+                Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
+                If (Mechanic = "Incursion")
+                {
+                    MechanicsIni := MechanicsIni()
+                    IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
+                    VariableIni := VariableIni()
+                    IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
+                    If (IncursionTotal = 1)
+                    {
+                        IncursionTotal := 4
+                    }
+                    Else 
+                    {
+                        IncursionTotal := 3
+                    }
+                    Gui, Overlay:Font, cWhite s%OverlayFont%
+                    TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                }
             }
             mechanictest ++
         }
