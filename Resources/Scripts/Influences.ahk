@@ -120,7 +120,7 @@ InfluenceReminderButtonOK()
     MechanicsPath := MechanicsIni()
     If (InfluenceCount = 28)
     {
-        IniWrite, 0, %MechanicsPath%, InfluenceTrack, %InfluenceActive%
+        IniWrite, 0, %MechanicsPath%, Influence Track, %InfluenceActive%
     }
     Return
 }
