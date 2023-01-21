@@ -231,6 +231,7 @@ RecapButtonDeleteandClose()
   Gui, Recap:Destroy
   FullPath := GetLastFile()
   FileDelete, %FullPath%
+
 }
 
 GetLastFile()
