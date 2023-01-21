@@ -102,7 +102,7 @@ SearchText(NewLine)
                         {
                             IncursionTotal := 3
                         }
-                        If (IncursionSleep = %IncursionTotal%)
+                        If (IncursionSleep = IncursionTotal)
                         {
                             IniPath := MechanicsIni()
                             IniWrite, 0, %VariablePath%, Incursion, Sleep Count
@@ -117,6 +117,7 @@ SearchText(NewLine)
                             SetTitleMatchMode, %A_TitleMatchMode%
                             Break
                         }
+                        RefreshOverlay()
                     }
                 }
             }
