@@ -8,6 +8,7 @@ EldritchReminder()
 {
 	Gui, InfluenceReminder:Destroy
 	CheckTheme()
+	NotificationHeight := (A_ScreenHeight / 2) - Round(96/A_ScreenDPI*100)
 	TransparencyFile := TransparencyIni()
     IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Influence
 	If (NotificationTransparency = "ERROR")
@@ -22,9 +23,17 @@ EldritchReminder()
 	If (InfluenceCount = 14) or (InfluenceCount = 28)
 	{
 		Gui, InfluenceReminder:Font, c%Font% s12
-		Gui, InfluenceReminder:Add, Text,,%ReminderText%
-		height1 := (A_ScreenHeight / 2) - 100
-		width1 := (A_ScreenWidth / 2)-180
+		Gui, InfluenceReminder:Add, Text, Section,%ReminderText%
+		Gui, InfluenceReminder:Show, NoActivate y%NotificationHeight%, Reminder
+		DetectHiddenWindows, On
+		WinGetPos,xpos,, Width, Height, Reminder
+		bx := Width/2
+		bx := Round(96/A_ScreenDPI*bx)
+		bx2 := bx - 150
+		bx := bx + 50
+		Gui, InfluenceReminder:Hide
+		WinSet, Style, -0xC00000, InfluenceReminder
+    	gheight := height + 10
 		NotificationIni := NotificationIni()
 		IniRead, NotificationActive, %NotificationIni%, Active, Influence, 1
 		If (height2 != "")
@@ -37,14 +46,16 @@ EldritchReminder()
 			height1 := 850
 			NotificationActive := 1
 		}
-		Gui, InfluenceReminder:Font, s10
+		Gui, InfluenceReminder:Font, s2
 		Gui, InfluenceReminder:Color, %Background%
 		Gui, InfluenceReminder:+AlwaysOnTop -Border
-		Gui, InfluenceReminder:Add, Button, x150 y40, OK
-		Gui, InfluenceReminder:Add, Button, x300 y40, Revert Count
+		Gui, InfluenceReminder:Add, Text, xs, %A_Space%
+		Gui, InfluenceReminder:Font, s10
+		Gui, InfluenceReminder:Add, Button, xn x%bx2% w50 Section , OK
+		Gui, InfluenceReminder:Add, Button, x%bx% ys w100, Revert Count
 		If (NotificationActive = 1)
 		{
-			Gui, InfluenceReminder:Show, NoActivate y%height1%, InfluenceReminder
+			Gui, InfluenceReminder:Show, NoActivate y%NotificationHeight% h%gheight%, InfluenceReminder
 			WinSet, Style, -0xC00000, InfluenceReminder
 			WinSet, Transparent, %NotificationTransparency%, InfluenceReminder
 			Return
