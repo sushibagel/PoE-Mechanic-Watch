@@ -38,6 +38,11 @@ RefreshOverlay()
             if (%mechanicactive% = 1)
             {
                 Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
+                If (Mechanic = "Incursion")
+                {
+                    MechanicsIni := MechanicsIni()
+                    IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
+                }
             }
             Else
             {
