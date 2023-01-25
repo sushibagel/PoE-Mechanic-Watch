@@ -61,6 +61,7 @@ Start()
     }
     PostRestore()
     WaitActive()
+    Return
     Exit
 }
 
@@ -72,6 +73,7 @@ WaitActive()
         If WinActive("ahk_group PoeWindow")
         {
             Start()
+            Return
             Exit
         }
         PostSetup()
@@ -84,6 +86,7 @@ WaitActive()
             WinHide, %Item%
             PostRestore()  
             Start()
+            Return
             Exit
         }
         DetectHiddenWindows, On
@@ -96,6 +99,7 @@ WaitActive()
         }
         PostRestore()  
         Start()
+        Return
         Exit
     }
 }
