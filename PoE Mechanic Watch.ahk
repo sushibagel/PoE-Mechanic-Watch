@@ -40,7 +40,6 @@ Menu, SetupMenu, Add, Launch Assist, LaunchGui
 Menu, SetupMenu, Add, Tool Launcher, ToolLaunchGui
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Choose Settings File Location, iniChoose
-Menu, SetupMenu, Add, Death Review Settings, DeathReviewSetup
 Menu, Tray, Default, Setup
 Menu, SetupMenu, Default, Setup Menu
 Menu, Tray, Add
@@ -580,7 +579,6 @@ TransparencyCheck(NotificationTransparency)
 #Include, Resources\Scripts\NotificationSounds.ahk
 #Include, Resources\Scripts\Overlay.ahk
 #Include, Resources\Scripts\OverlaySetup.ahk
-#Include, Resources\Scripts\ScreenCap.ahk
 #Include, Resources\Scripts\ToolLauncher.ahk
 #Include, Resources\Scripts\UpdateCheck.ahk
 
