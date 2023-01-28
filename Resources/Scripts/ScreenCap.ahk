@@ -1,5 +1,6 @@
 Menu, SetupMenu, Add, Death Review Settings, DeathReviewSetup ;tray menu entry
 #Include, Resources\Scripts\ScreenCap.ahk ;main include
+#IncludeAgain, Resources/Scripts/ScreenCap.ahk ;tail.ahk 
 Global RecapActive
 Global RecapSoundActive
 Global RecapTran

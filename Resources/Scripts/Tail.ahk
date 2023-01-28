@@ -235,4 +235,3 @@ FirstRun()
 #IncludeAgain, Resources/Scripts/NotificationSounds.ahk
 #IncludeAgain, Resources/Scripts/Reminder.ahk
 #IncludeAgain, Resources/Scripts/ReminderGui.ahk
-#IncludeAgain, Resources/Scripts/ScreenCap.ahk
