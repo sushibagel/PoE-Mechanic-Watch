@@ -30,7 +30,7 @@ CheckFirstRun() ;Check to see if all First Run Items are complete
     FirstRunPath := FirstRunIni()
     For each, Item in StrSplit(ItemSearch, "|")
     {
-        IniRead, %Item%State, %FirstRunPath%, Completion, %Item%
+        IniRead, %Item%State, %FirstRunPath%, Completion, %Item%, 0
     }
     Return
 }
