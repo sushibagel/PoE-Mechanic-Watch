@@ -9,7 +9,7 @@ Global MapPositionState
 Global SoundState
 Global ThemeState
 Global ToolLauncherState
-Global NotificationyState
+Global NotificationState
 Global ThemeSelect
 Global HideoutSelect
 Global MechanicSelect
