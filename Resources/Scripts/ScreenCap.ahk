@@ -80,8 +80,12 @@ RecapStop()
     RecapButtonNo()
 }
 
-
-
+;tail.ahk logtail section
+	If InStr(NewLine, "has been slain")
+	{
+		OnDeath(Newline)
+		Exit
+	}
 
 
 Global CBScreenCapHotkey

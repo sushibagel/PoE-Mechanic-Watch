@@ -153,11 +153,6 @@ LogTail(text)
 		MavenMatch(Newline)
 		Exit
 	}
-	If InStr(NewLine, "has been slain")
-	{
-		OnDeath(Newline)
-		Exit
-	}
 	MavenFile := MavenTxt()
     IniRead, MavenSearch, %MavenFile%, Voice Lines
     MavenSearch := StrSplit(MavenSearch, ["=", "`n"])
