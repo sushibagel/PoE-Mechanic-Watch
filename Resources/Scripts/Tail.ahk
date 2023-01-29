@@ -153,11 +153,6 @@ LogTail(text)
 		MavenMatch(Newline)
 		Exit
 	}
-	If InStr(NewLine, "has been slain")
-	{
-		OnDeath(Newline)
-		Exit
-	}
 	MavenFile := MavenTxt()
     IniRead, MavenSearch, %MavenFile%, Voice Lines
     MavenSearch := StrSplit(MavenSearch, ["=", "`n"])
@@ -235,4 +230,3 @@ FirstRun()
 #IncludeAgain, Resources/Scripts/NotificationSounds.ahk
 #IncludeAgain, Resources/Scripts/Reminder.ahk
 #IncludeAgain, Resources/Scripts/ReminderGui.ahk
-#IncludeAgain, Resources/Scripts/ScreenCap.ahk

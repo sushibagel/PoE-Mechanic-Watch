@@ -33,7 +33,7 @@ EldritchReminder()
 		bx := bx + 50
 		Gui, InfluenceReminder:Hide
 		WinSet, Style, -0xC00000, InfluenceReminder
-    	gheight := height + 10
+    	gheight := height + Round(96/A_ScreenDPI*20)
 		NotificationIni := NotificationIni()
 		IniRead, NotificationActive, %NotificationIni%, Active, Influence, 1
 		If (height2 != "")
