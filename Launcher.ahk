@@ -1,7 +1,6 @@
 global Location := "Resources\Settings\Hotkeys.ini"
 
 AHKLIB = %A_MyDocuments%\AutoHotKey\Lib
-OW = %AHKLIB%\OnWin.ahk
 VA = %AHKLIB%\VA.ahk
 WV= %AHKLIB%\setWindowVol.ahk
 INI= Resources\Settings\StorageLocation.ini
@@ -17,10 +16,6 @@ If !FileExist(VA)
 If !FileExist(WV)
 {
     FileCopy, Resources\Scripts\setWindowVol.ahk, %AHKLIB%
-}
-If !FileExist(OW)
-{
-    FileCopy, Resources\Scripts\OnWin.ahk, %AHKLIB%
 }
 If FileExist(INI)
 {
