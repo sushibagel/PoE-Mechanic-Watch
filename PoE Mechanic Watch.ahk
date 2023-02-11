@@ -14,6 +14,12 @@ OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
 OnMessage(0x01783, "LaunchUpdate") ;timed update on PoE launch
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+MenuDark()
+
+; Create the menu here
+
+; 0=Default  1=AllowDark  2=ForceDark  3=ForceLight  4=Max
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
 Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
@@ -53,6 +59,16 @@ Menu, AboutMenu, Add, Changelog, Changelog
 Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
 Menu, Tray, Icon, Resources\Images\ritual.png
 
+
+MenuDark(Dark:=1) {
+    ;https://stackoverflow.com/a/58547831/894589
+    static uxtheme := DllCall("GetModuleHandle", "str", "uxtheme", "ptr")
+    static SetPreferredAppMode := DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 135, "ptr")
+    static FlushMenuThemes := DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 136, "ptr")
+
+    DllCall(SetPreferredAppMode, "int", Dark) ; 0=Default  1=AllowDark  2=ForceDark  3=ForceLight  4=Max
+    DllCall(FlushMenuThemes)
+}
 ;;;;;;;;;;;;;;;;;;;;;;;;;; Global Variables ;;;;;;;;;;;;;;;;;;;;;
 Global LogPath
 
