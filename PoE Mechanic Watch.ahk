@@ -185,8 +185,8 @@ If !FileExist(NotificationIni) ;Check for "Notification" ini
     IniWrite, %ReminderWav%, %NotificationIni%, Sounds, Influence
     IniWrite, 1, %NotificationIni%, Active, Notification
     IniWrite, 1, %NotificationIni%, Active, Influence
-    IniWrite, 0, %NotificationIni%, Volume, Notification
-    IniWrite, 0, %NotificationIni%, Volume, Influence
+    IniWrite, 100, %NotificationIni%, Volume, Notification
+    IniWrite, 100, %NotificationIni%, Volume, Influence
     IniWrite, 839, %NotificationIni%, Map Notification Position, Vertical
     IniWrite, 677, %NotificationIni%, Map Notification Position, Horizontal
 }
