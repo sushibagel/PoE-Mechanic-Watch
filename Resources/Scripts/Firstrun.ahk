@@ -85,7 +85,6 @@ FirstRun()
     Gui, First2:Add, Checkbox, vNotificationSelect gNotificationSelect Checked%NotificationState%, %A_Space% View/Change options for various notifications. 
     Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
     Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
-    Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, %A_Space% Sound Settings
     Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
     Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
     Gui, First2:Add, Button, x490, Close
@@ -141,8 +140,8 @@ ThemeSelect()
     Gui, First2:Destroy
     SelectTheme()
     WinWaitClose, Gui:Theme
-    FirstRunWrite("Theme")
     Gui, First:Destroy
+    FirstRunWrite("Theme")
     Return
 }
 
@@ -215,17 +214,6 @@ LaunchAssistSelect()
     Gosub, LaunchGui
     WinWaitClose, Launcher
     FirstRunWrite("LaunchAssist")
-    Return
-}
-
-SoundSelect()
-{
-    Gui, Submit, NoHide
-    Gui, First:Destroy
-    Gui, First2:Destroy
-    UpdateNotification()
-    WinWaitClose, Sounds
-    FirstRunWrite("Sound")
     Return
 }
 
