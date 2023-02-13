@@ -174,7 +174,7 @@ NotificationSelect()
     Gui, First2:Destroy
     NotificationSetup()
     WinWaitClose, Notification Settings
-    FirstRunWrite("Notification Settings")
+    FirstRunWrite("Notification")
     Return
 }
 

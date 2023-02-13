@@ -171,7 +171,7 @@ HotkeyIni := HotkeyIni()
 Blank :=
 If !FileExist(HotkeyIni)
 {
-    Loop, 12
+    Loop, 14
     {
         IniWrite, %blank%, %HotkeyIni%, Hotkeys, %A_Index% 
     }

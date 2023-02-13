@@ -110,7 +110,7 @@ HotkeyGuiClose()
 SetHotkeys()
   {
     HotkeyPath := HotkeyIni()
-    Loop, 12
+    Loop, 14
     {
       IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
       HotkeyOffCheck := "Hotkey"A_Index
