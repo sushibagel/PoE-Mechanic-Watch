@@ -43,7 +43,7 @@ EldritchReminder()
 		}
 		If WinExist("Notification Settings")
 		{
-			height1 := 850
+			NotificationHeight := 850
 			NotificationActive := 1
 		}
 		Gui, InfluenceReminder:Font, s2
