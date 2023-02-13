@@ -137,11 +137,12 @@ ClientOpen()
 ThemeSelect()
 {
     Gui, Submit, NoHide
-    Gui, First:Destroy
+    Gui, First:Hide
     Gui, First2:Destroy
     SelectTheme()
     WinWaitClose, Gui:Theme
     FirstRunWrite("Theme")
+    Gui, First:Destroy
     Return
 }
 
