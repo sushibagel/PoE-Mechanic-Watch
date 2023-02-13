@@ -12,10 +12,22 @@ OnMessage(0x012222, "OverlayKill")
 OnMessage(0x01786, "Start")
 OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
 OnMessage(0x01783, "LaunchUpdate") ;timed update on PoE launch
+OnMessage(0x01789, "Reload") ;timed update on PoE launch
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-MenuDark()
+IniRead, StorageLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
+IniRead, Theme, %StorageLocation%\Resources\Settings\Theme.ini, Theme, Theme, Light
+If (Theme = "Dark")
+    {
+        isDark := 2
+    }
+If (Theme = "Light")
+    {
+        isDark := 3
+    }
+
+MenuDark(isDark)
 
 ; Create the menu here
 
@@ -59,8 +71,7 @@ Menu, AboutMenu, Add, Changelog, Changelog
 Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
 Menu, Tray, Icon, Resources\Images\ritual.png
 
-
-MenuDark(Dark:=1) {
+MenuDark(Dark) {
     ;https://stackoverflow.com/a/58547831/894589
     static uxtheme := DllCall("GetModuleHandle", "str", "uxtheme", "ptr")
     static SetPreferredAppMode := DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 135, "ptr")
@@ -366,7 +377,7 @@ ThemeButtonDarkMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Dark, %ThemeFile%, Theme, Theme
-    CheckTheme()
+    Reload()
     Return
 }
 
@@ -375,7 +386,7 @@ ThemeButtonLightMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Light, %ThemeFile%, Theme, Theme
-    CheckTheme()
+    Reload()
     Return
 }
 
