@@ -183,10 +183,10 @@ If !FileExist(NotificationIni) ;Check for "Notification" ini
     ReminderWav := "Resources\Sounds\reminder.wav"
     IniWrite, %ReminderWav%, %NotificationIni%, Sounds, Notification
     IniWrite, %ReminderWav%, %NotificationIni%, Sounds, Influence
-    IniWrite, 0, %NotificationIni%, Active, Notification
-    IniWrite, 0, %NotificationIni%, Active, Influence
-    IniWrite, 100, %NotificationIni%, Volume, Notification
-    IniWrite, 100, %NotificationIni%, Volume, Influence
+    IniWrite, 1, %NotificationIni%, Active, Notification
+    IniWrite, 1, %NotificationIni%, Active, Influence
+    IniWrite, 0, %NotificationIni%, Volume, Notification
+    IniWrite, 0, %NotificationIni%, Volume, Influence
     IniWrite, 839, %NotificationIni%, Map Notification Position, Vertical
     IniWrite, 677, %NotificationIni%, Map Notification Position, Horizontal
 }
