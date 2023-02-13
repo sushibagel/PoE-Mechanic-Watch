@@ -377,7 +377,10 @@ ThemeButtonDarkMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Dark, %ThemeFile%, Theme, Theme
-    Reload()
+    IfWinNotActive, First
+    {
+        Reload()
+    }
     Return
 }
 
@@ -386,7 +389,10 @@ ThemeButtonLightMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Light, %ThemeFile%, Theme, Theme
-    Reload()
+    IfWinNotActive, First
+    {
+        Reload()
+    }
     Return
 }
 
