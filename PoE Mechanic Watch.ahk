@@ -483,11 +483,21 @@ AdditionalScripts(Action)
    {
         If(Action = "Exit")
         {
-            WinClose, %A_ScriptDir%%script% ahk_class AutoHotkey
+            WinClose, %A_ScriptDir%%script% ahk_class AutoHotkey    
         }
         If(Action = "Reload")
         {
-            Run, %A_ScriptDir%%script%
+            If(script = "\Resources\Scripts\Tail.ahk")
+                {
+                    If WinExist("Tail.ahk")
+                        {
+                            Run, %A_ScriptDir%%script%
+                        }    
+                }                 
+            Else
+                {
+                    Run, %A_ScriptDir%%script%
+                }    
         }
    }
    Return
