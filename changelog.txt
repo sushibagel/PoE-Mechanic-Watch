@@ -1,6 +1,6 @@
 v2.4
 
-Note: For everything to function correctly after this update please make sure to Use the "Launcher.ahk" to start the application. 
+Note: For everything to function correctly after this update please make sure to Use the "Launcher.ahk" to start the application. In some cases a fres install may be necessary. 
 
 -Added an option to store settings files outside of the script folder. To allow for syncing across systems with Dropbox or other file syncing software.
     -Added LaunchOptions.ahk
@@ -19,9 +19,6 @@ Note: For everything to function correctly after this update please make sure to
     -Added NotificationSettings.ahk
     -Removed the Sound and Transparency gui options as they are now handled by the Notification Settings gui. 
     -All notifications now have independent On/Off toggles, sound and Transparency settings. 
--Added an option to auto trigger screen recording On Death. 
-    -Added ScreenCap.ahk
-    -Added a settings gui for On Death Recording. 
 -Fixed the layout of several of the guis and notifications. 
 -Added an option for 4 Incursions per map instead of 3. 
     -Added an Incursion counter to the overlay. 
