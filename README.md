@@ -120,9 +120,6 @@ The stop button was found at <a href="https://www.flaticon.com/free-icons/forbid
 
 I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey. I am in no ways responsible if this script bricks your computer, causes errors or results in a ban in Path of Exile. 
 
-Donations:  
-There are no obligations for anyone to donate but if you wish to you can here: [PayPal](https://www.paypal.com/paypalme/Drew149).
-
 ## Screenshots:
 #### Move Overlay Tool: 
 
