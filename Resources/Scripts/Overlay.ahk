@@ -37,11 +37,47 @@ RefreshOverlay()
         {
             if (%mechanicactive% = 1)
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
+                Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
+                If (Mechanic = "Incursion")
+                {
+                    MechanicsIni := MechanicsIni()
+                    IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
+                    VariableIni := VariableIni()
+                    IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
+                    If (IncursionTotal = 1)
+                    {
+                        IncursionTotal := 4
+                    }
+                    Else 
+                    {
+                        IncursionTotal := 3
+                    }
+                    Gui, Overlay:Font, cWhite s%OverlayFont%
+                    TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                }
             }
             Else
             {
-                Gui, Overlay:Add, Picture, g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
+                Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
+                If (Mechanic = "Incursion")
+                {
+                    MechanicsIni := MechanicsIni()
+                    IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
+                    VariableIni := VariableIni()
+                    IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
+                    If (IncursionTotal = 1)
+                    {
+                        IncursionTotal := 4
+                    }
+                    Else 
+                    {
+                        IncursionTotal := 3
+                    }
+                    Gui, Overlay:Font, cWhite s%OverlayFont%
+                    TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                }
             }
             mechanictest ++
         }
@@ -56,27 +92,9 @@ RefreshOverlay()
         Gui, Overlay:Add, Text, xs+%TrackOffset%, %InfluenceCount%
     }
     Gui, Overlay:Color, 1e1e1e
-    ; Loop
-    ; {
-    ;     WinGet, PoeID, ID, Path of Exile
-    ;     If (PoeID = "")
-    ;     {
-    ;         IfWinActive, Transparency
-    ;         {
-    ;             Break
-    ;         }
-    ;         Else
-    ;         {
-    ;             WinWait, Path of Exile
-    ;         }
-    ;     }
-    ;     If (PoeID != "")
-    ;     {
-    ;         Break
-    ;     }
-    ; }
     ShowTitle := "-0xC00000"
     Activate := "NoActivate"
+    OverlayTitle := "Overlay"
     If (MoveActive = 1)
     {
         LockPosition := "xn x5"
@@ -89,12 +107,13 @@ RefreshOverlay()
         ShowTitle := ""
         Activate := ""
         Gui, Overlay:Color, %Background%
+        OverlayTitle := "Overlay Setup"
     }
     TransparencyPath := TransparencyIni()
     IniRead, OverlayTransparency, %TransparencyPath%, Transparency, Overlay, 255
     Gui, Overlay:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, Overlay:+AlwaysOnTop +ToolWindow +Owner%PoeID% +HWNDOverlay
-    Gui, Overlay:Show, %Activate% x%width% y%height%, Overlay
+    Gui, Overlay:+AlwaysOnTop +ToolWindow +HwndOverlayHwnd
+    Gui, Overlay:Show, %Activate% x%width% y%height%, %OverlayTitle%
     WinSet, Style, %ShowTitle%, Overlay
     If (MoveActive != 1)
     {
@@ -135,6 +154,12 @@ MechanicToggle(ToggleMechanic)
         PostSetup()
         PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
         PostRestore()
+        MechanicsActive()
+        If (MechanicsActive = 0)
+        {
+            NotificationIni := NotificationIni()
+            IniWrite, 0, %NotificationIni%, Notification Active, Mechanic Notification Active
+        }
         RefreshOverlay()
         Return
     }
@@ -217,6 +242,17 @@ Searing()
         Searing = 0
     }
     IniWrite, %Searing%, %MechanicsFilePath%, Influence Track, Searing
+    RefreshOverlay()
+    Return
+}
+
+Maven()
+{
+    MechanicsFilePath := MechanicsIni()
+    IniRead, Maven, %MechanicsFilePath%, Influence Track, Maven
+    OldTrack := Maven
+    Maven ++
+    IniWrite, %Maven%, %MechanicsFilePath%, Influence Track, Maven
     RefreshOverlay()
     Return
 }

@@ -5,6 +5,7 @@ Global FullSearch
 Global IncursionCode
 Global IncursionSleep
 Global MyHideout
+Global MavenSearch
 
 LogMonitor() ;Monitor the PoE client.txt
 {
@@ -49,7 +50,6 @@ LogMonitor() ;Monitor the PoE client.txt
             }
         }
     }
-    Return
 }
 
 SearchText(NewLine)
@@ -92,7 +92,17 @@ SearchText(NewLine)
                         IniWrite, %Code%, %VariablePath%, Incursion, Log Code
                         IncursionSleep ++
                         IniWrite, %IncursionSleep%, %VariablePath%, Incursion, Sleep Count
-                        If (IncursionSleep = 3)
+                        MechanicsIni := MechanicsIni()
+                        IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
+                        If (IncursionTotal = 1)
+                        {
+                            IncursionTotal := 4
+                        }
+                        Else 
+                        {
+                            IncursionTotal := 3
+                        }
+                        If (IncursionSleep = IncursionTotal)
                         {
                             IniPath := MechanicsIni()
                             IniWrite, 0, %VariablePath%, Incursion, Sleep Count
@@ -107,6 +117,7 @@ SearchText(NewLine)
                             SetTitleMatchMode, %A_TitleMatchMode%
                             Break
                         }
+                        RefreshOverlay()
                     }
                 }
             }
@@ -136,7 +147,6 @@ SearchText(NewLine)
             }
         }
     }
-
     IfWinActive, First2
     {
         Return

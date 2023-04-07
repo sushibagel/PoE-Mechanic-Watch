@@ -10,6 +10,7 @@ Global Ritual
 Global Generic
 Global Eater
 Global Searing
+Global Maven
 Global AbyssActive
 Global BlightActive
 Global BreachActive
@@ -27,6 +28,7 @@ Global BreachOn
 Global ExpeditionOn
 Global HarvestOn
 Global IncursionOn
+Global IncursionTotal
 Global LegionOn
 Global MetamorphOn
 Global RitualOn
@@ -52,7 +54,12 @@ SelectMechanics(RunAuto := False)
         IniRead, %Mechanic%State, %MechanicsPath%, Mechanics, %Mechanic%
         autochecked := % mechanic "State"
         autochecked := % %autochecked%
-        Gui, Mechanic:Add, Checkbox, v%Mechanic% Checked%autochecked%, %Mechanic%
+        Gui, Mechanic:Add, Checkbox, xn x10 Section v%Mechanic% Checked%autochecked%, %Mechanic%
+        If (Mechanic = "Incursion")
+        {
+            IniRead, IncursionTotal, %MechanicsPath%, Incursion 4, Active
+            Gui, Mechanic:Add, Checkbox, ys vIncursionTotal Checked%IncursionTotal%, Always 4?
+        }
     }
     Gui, Mechanic:-Border -Caption
     Gui, Mechanic:Color, %Background%
@@ -106,6 +113,7 @@ MechanicButtonOk()
     {
         IniWrite, % %Influence%, %MechanicsPath%, Influence, %Influence%
     }
+    IniWrite, %IncursionTotal%, %MechanicsPath%, Incursion 4, Active
     Gui, Mechanic:Destroy
     PostSetup()
     PostMessage, 0x01111,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 

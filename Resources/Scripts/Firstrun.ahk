@@ -9,13 +9,13 @@ Global MapPositionState
 Global SoundState
 Global ThemeState
 Global ToolLauncherState
-Global TransparencyState
+Global NotificationState
 Global ThemeSelect
 Global HideoutSelect
 Global MechanicSelect
 Global PositionSelect
 Global MapPositionSelect
-Global TransparencySelect
+Global NotificationSelect
 Global AutoMechanicSelect
 Global HotkeySelect
 Global SoundSelect
@@ -24,13 +24,13 @@ Global ToolLauncherSelect
 
 CheckFirstRun() ;Check to see if all First Run Items are complete
 {
-    Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Transparency|ToolLauncher"
+    Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Notification|ToolLauncher"
     Global Item
     Global each
     FirstRunPath := FirstRunIni()
     For each, Item in StrSplit(ItemSearch, "|")
     {
-        IniRead, %Item%State, %FirstRunPath%, Completion, %Item%
+        IniRead, %Item%State, %FirstRunPath%, Completion, %Item%, 0
     }
     Return
 }
@@ -82,12 +82,9 @@ FirstRun()
 
     Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
     Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
-    Gui, First2:Add, Checkbox, vPositionSelect gPositionSelect Checked%PositionState%, %A_Space% Setup your overlay
-    Gui, First2:Add, Checkbox, vMapPositionSelect gMapPositionSelect Checked%MapPositionState%, %A_Space% Select the position of the Map Notifications
-    Gui, First2:Add, Checkbox, vTransparencySelect gTransparencySelect Checked%TransparencyState%, * Set the transparency of your overlays and notifications
+    Gui, First2:Add, Checkbox, vNotificationSelect gNotificationSelect Checked%NotificationState%, %A_Space% View/Change options for various notifications. 
     Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
     Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
-    Gui, First2:Add, Checkbox, vSoundSelect gSoundSelect Checked%SoundState%, %A_Space% Sound Settings
     Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
     Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
     Gui, First2:Add, Button, x490, Close
@@ -139,10 +136,11 @@ ClientOpen()
 ThemeSelect()
 {
     Gui, Submit, NoHide
-    Gui, First:Destroy
+    Gui, First:Hide
     Gui, First2:Destroy
     SelectTheme()
     WinWaitClose, Gui:Theme
+    Gui, First:Destroy
     FirstRunWrite("Theme")
     Return
 }
@@ -169,38 +167,14 @@ MechanicSelect()
     Return
 }
 
-PositionSelect()
+NotificationSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Destroy
     Gui, First2:Destroy
-    OverlaySetup()
-    WinWait, OverlaySetup
-    WinwaitClose, OverlaySetup
-    FirstRunWrite("Position")
-    Return
-}
-
-MapPositionSelect()
-{
-    Gui, Submit, NoHide
-    Gui, First:Destroy
-    Gui, First2:Destroy
-    MoveMap()
-    WinWait, Influence
-    WinwaitClose, Influence
-    FirstRunWrite("MapPosition")
-    Return
-}
-
-TransparencySelect()
-{
-    Gui, Submit, NoHide
-    Gui, First:Destroy
-    Gui, First2:Destroy
-    UpdateTransparency()
-    WinWaitClose, Transparency
-    FirstRunWrite("Transparency")
+    NotificationSetup()
+    WinWaitClose, Notification Settings
+    FirstRunWrite("Notification")
     Return
 }
 
@@ -243,17 +217,6 @@ LaunchAssistSelect()
     Return
 }
 
-SoundSelect()
-{
-    Gui, Submit, NoHide
-    Gui, First:Destroy
-    Gui, First2:Destroy
-    UpdateNotification()
-    WinWaitClose, Sounds
-    FirstRunWrite("Sound")
-    Return
-}
-
 ToolLauncherSelect()
 {
     Gui, Submit, NoHide
@@ -280,9 +243,9 @@ First2ButtonClose()
     Gui, Submit, NoHide
     Gui, First:Destroy
     Gui, First2:Destroy
-    Gui, Transparency:Destroy
+    Gui, NotificationSettings:Destroy
     CheckFirstRun()
-    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%TransparencyState% = 0) or (%ClientState% = "ERROR") or (%HideoutState% = "ERROR") or (%MechanicState% = "ERROR") or (%TransparencyState% = "ERROR")
+    If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%ClientState% = "ERROR") or (%HideoutState% = "ERROR") or (%MechanicState% = "ERROR")
     {
         Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
         Gui, FirstWarning:Color, %Background%

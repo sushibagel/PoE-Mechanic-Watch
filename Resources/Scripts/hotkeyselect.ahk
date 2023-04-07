@@ -8,17 +8,20 @@ HotkeyUpdate()
 
   ;Setup text for individual HotKey descriptions
   HotkeyText1 := "Reverse Map Count Hotkey"
-  HotkeyText2 := "Launch Path of Exile"
-  HotkeyText3 := "Open Tool Launcher"
-  HotkeyText4 := "Abyss"
-  HotkeyText5 := "Blight"
-  HotkeyText6 := "Breach"
-  HotkeyText7 := "Expedition"
-  HotkeyText8 := "Harvest"
-  HotkeyText9 := "Incursion"
-  HotkeyText10 := "Metamorph"
-  HotkeyText11 := "Ritual"
-  HotkeyText12 := "Generic"
+  HotkeyText2 := "Toggle Influence"
+  HotkeyText3 := "Maven Invitation Status"
+  HotkeyText4 := "Launch Path of Exile"
+  HotkeyText5 := "Open Tool Launcher"
+  HotkeyText6 := "Abyss"
+  HotkeyText7 := "Blight"
+  HotkeyText8 := "Breach"
+  HotkeyText9 := "Expedition"
+  HotkeyText10 := "Harvest"
+  HotkeyText11 := "Incursion"
+  HotkeyText12 := "Legion"
+  HotkeyText13 := "Metamorph"
+  HotkeyText14 := "Ritual"
+  HotkeyText15 := "Generic"
 
   Gui, Hotkey:Color, %Background%
   Gui, Hotkey:Font, s12 c%Font% Bold
@@ -29,7 +32,7 @@ HotkeyUpdate()
   space = y+1
   Gui, Hotkey:Add, GroupBox, w500 h10 xs %space%
 
-  #ctrls = 12  ;How many Hotkey controls to add.
+  #ctrls = 15  ;How many Hotkey controls to add.
   Loop,% #ctrls {
   Hotkeytext := "HotkeyText"A_Index
   text := %Hotkeytext%
@@ -107,7 +110,7 @@ HotkeyGuiClose()
 SetHotkeys()
   {
     HotkeyPath := HotkeyIni()
-    Loop, 12
+    Loop, 14
     {
       IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
       HotkeyOffCheck := "Hotkey"A_Index

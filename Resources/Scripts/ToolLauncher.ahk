@@ -164,7 +164,14 @@ ToolLauncherButtonLaunch()
         If (A_GuiControl = launch)
         {
             IniRead, LaunchAddress, %LaunchPath%, User Tools, %A_Index%
-            Run, %LaunchAddress%
+            If InStr(LaunchAddress, .txt)
+            {
+                Run, edit %LaunchAddress%
+            }
+            Else
+            {
+                Run, %LaunchAddress%
+            }
             Gui, ToolLauncher:Destroy
         }
     }

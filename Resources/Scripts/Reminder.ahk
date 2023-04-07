@@ -58,12 +58,13 @@ Reminder()
         SetTitleMatchMode, 1
         SetWindowVol(AhkExe, NotificationVolume)
         SoundPlay, %NotificationSound%
-}
+    }
 }
 
 ReminderButtonYes()
 {
-    Gui, Reminder:Submit
+    Gui, Reminder:Destroy
+    Gui, Reminder:Submit 
     PostSetup()
     RefreshOverlay()
     OnMessage(0x01111, "RefreshOverlay")
@@ -80,12 +81,12 @@ ReminderButtonNo()
     {
         IniWrite, 0, %MechanicIniPath%, Mechanic Active, %Mechanic%
     }
+    VariablePath := VariableIni()
+    IniWrite, 0, %VariablePath%, Incursion, Sleep Count
+    NotificationIni := NotificationIni()
     Gui, Reminder:Destroy
     OnMessage(0x01111, "RefreshOverlay")
     RefreshOverlay()
-    PostSetup()
-    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
-    PostRestore()
     Return
 }
 

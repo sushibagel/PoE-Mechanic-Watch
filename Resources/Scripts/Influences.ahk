@@ -1,5 +1,6 @@
 Global SearingActive  
 Global EaterActive
+Global MavenActive
 Global ReminderText
 Global Influence
 Global InfluenceReminderActive
@@ -34,6 +35,11 @@ InfluenceTrack(NewLine)
             {
                 IniWrite, %MapName%, %VariablePath%, Map, Last Map
                 IniWrite, %SeedNumber%, %VariablePath%, Map, Last Seed
+                If (InfluenceActive = "Maven")
+                {
+                    IniWrite, Yes, %VariablePath%, Map, Maven Map
+                    Exit
+                }
                 InfluenceCount := InfluenceCount()
                 OldTrack = %InfluenceCount%
                 InfluenceCount ++
@@ -72,6 +78,7 @@ InfluenceTrack(NewLine)
                     }   
                     ReminderText = This is your %InfluenceCount% map. Don't forget to kill the boss for your %InvitationType% Invitation
                     EldritchReminder()
+                    InfluenceNotificationSound()
                 }
             }
         }
@@ -94,8 +101,16 @@ InfluenceNotificationSound()
 
 CloseGui()
 {
-    Gui, Influence:Destroy
+    Gui, Quick:Destroy
+    Tooltip
     Return
+}
+
+QuickGuiClose()
+{
+    Tooltip
+    MapMove := 0
+    Return  
 }
 
 InfluenceReminderButtonOK()
@@ -105,11 +120,10 @@ InfluenceReminderButtonOK()
     MechanicsPath := MechanicsIni()
     If (InfluenceCount = 28)
     {
-        IniWrite, 0, %MechanicsPath%, InfluenceTrack, %InfluenceActive%
+        IniWrite, 0, %MechanicsPath%, Influence Track, %InfluenceActive%
     }
     Return
 }
-
 
 InfluenceReminderButtonRevertCount:
 {
@@ -149,6 +163,17 @@ SubtractOne()
         }
         IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Searing
     }
+    If (MavenActive = 1)
+    {
+        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, Maven
+        OldTrack := InfluenceCount
+        InfluenceCount := InfluenceCount - 1
+        If(InfluenceCount = -1)
+        {
+            InfluenceCount = 10
+        }
+        IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Maven
+    }
     Sleep, 100
     RefreshOverlay()
     Return
@@ -176,7 +201,11 @@ InfluenceActive()
     {
         InfluenceActive = Eater
     }
-    If (EaterActive = 0) and (SearingActive = 0)
+    If (MavenActive = 1)
+    {
+        InfluenceActive = Maven
+    }
+    If (EaterActive = 0) and (SearingActive = 0) and (MavenActive = 0)
     {
         InfluenceActive = None
     }
@@ -192,7 +221,7 @@ InfluenceCount()
 
 Influences() ;List of Influences
 {
-    Return, "Eater|Searing"
+    Return, "Eater|Searing|Maven"
 }
 
 InfluenceMapNotification() ;Map tracking notification
@@ -202,40 +231,17 @@ InfluenceMapNotification() ;Map tracking notification
     PostMessage, 0x01741,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Hotkey check
     PostRestore()
     InfluenceHotkey := InfluenceHotkey()
-    NotificationIni := NotificationIni()
-    IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
-    IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
-    Gui, Influence:Color, %Background%
-    Gui, Influence:Font, c%Font% s10
-    Gui, Influence:Add, Text,,You just entered a new map press %InfluenceHotkey%  to subtract 1 map
-    ShowTitle := "-0xC00000"
-    ShowBorder := "-Border"
-    If (MapMove = 1)
-    {
-        Gui, Influence:Add, Button, yn y5, Lock
-        Tooltip, Drag the overlay around and press "Lock" to store it's location.
-        ShowTitle := ""
-        ShowBorder := ""
-        MapMove := 0
-        PostSetup()
-        PostMessage, 0x01111,,,, Tail.ahk - AutoHotkey
-        PostRestore()
-        RefreshOverlay()
-    }
-    Gui, Influence: %ShowBorder% +AlwaysOnTop
-    Gui, Influence:Show, NoActivate x%Horizontal% y%Vertical%, Influence
-    MapTransparency := TransparencyCheck("Map")
-    WinSet, Style,  %ShowTitle%, Influence
-    WinSet, Transparent, %MapTransparency%, Influence
+    Notification := "You just entered a new map press" A_Space InfluenceHotkey A_Space "to subtract 1 map"
+    QuickNotify(Notification)
     Return
 }
 
-InfluenceButtonLock()
+QuickButtonLock()
 {
-    WinGetPos, newwidth, newheight,,, Influence
+    WinGetPos, newwidth, newheight,,, Quick Notify
     newheight := newheight + 30
     ToolTip
-    Gui, Influence:Destroy
+    Gui, Quick:Destroy
     NotificationIni := NotificationIni()
     IniWrite, %newheight%, %NotificationIni%, Map Notification Position, Vertical
     IniWrite, %newwidth%, %NotificationIni%, Map Notification Position, Horizontal
@@ -245,12 +251,13 @@ InfluenceButtonLock()
 MoveMap()
 {
     MapMove := 1
+    RefreshOverlay()
     InfluenceMapNotification()
 }
 
 MapNotificationDestroy()
 {
-    Gui, Influence:Destroy
+    Gui, Quick:Destroy
 }
 
 PostSetup()
@@ -265,4 +272,92 @@ PostRestore()
 {
     DetectHiddenWindows, %Prev_DetectHiddenWindows%
     SetTitleMatchMode, %A_TitleMatchMode%
+}
+
+ToggleInfluence()
+{
+    MechanicsIni := MechanicsIni()
+    Influences := Influences()
+    For each, Influence in StrSplit(Influences, "|")
+    {
+        IniRead, CheckInfluence, %MechanicsIni%, Influence, %Influence%
+        If (CheckInfluence = 1)
+        {
+            If (Influence = "Eater")
+            {
+                IniWrite, 0, %MechanicsIni%, Influence, Eater
+                IniWrite, 1, %MechanicsIni%, Influence, Searing
+                NewInfluence := "Searing Exarch"
+                Break
+            }
+            If (Influence = "Searing")
+            {
+                IniWrite, 0, %MechanicsIni%, Influence, Searing
+                IniWrite, 1, %MechanicsIni%, Influence, Maven
+                NewInfluence := "Maven"
+                Break
+            }
+            If (Influence = "Maven")
+            {
+                IniWrite, 0, %MechanicsIni%, Influence, Maven
+                IniWrite, 1, %MechanicsIni%, Influence, Eater
+                NewInfluence := "Eater of Worlds"
+                Break
+            }
+        }
+    }
+    Notification := "Switching influence tracking to" A_Space NewInfluence  
+    QuickNotify(Notification)
+    RefreshOverlay()
+    SetTimer, CloseGui, -3000
+}
+
+QuickNotify(Notification)
+{
+    Gui, Quick:Destroy
+    NotificationIni := NotificationIni()
+    IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
+    IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
+    Gui, Quick:Color, %Background%
+    Gui, Quick:Font, c%Font% s10
+    ShowTitle := "-0xC00000"
+    ShowBorder := "-Border"
+    If (MapMove = 1)
+    {
+        InfluenceHotkey := InfluenceHotkey()
+        Notification := "You just entered a new map press" A_Space InfluenceHotkey A_Space "to subtract 1 map"
+    }
+    Gui, Quick:Add, Text,,%Notification%
+    If (MapMove = 1)
+    {
+        Gui, Quick:Add, Button, yn y5, Lock
+        Tooltip, Drag the overlay around and press "Lock" to store it's location.
+        ShowTitle := ""
+        ShowBorder := ""
+        MapMove := 0
+    }
+    If InStr(Notification, "Switching Influence")
+    {
+       Horizontal := Horizontal + Round(96/A_ScreenDPI*110)
+    }
+    Gui, Quick: +AlwaysOnTop %ShowBorder%
+    Notificationpath := NotificationIni()
+    IniRead, Active, %NotificationPath%, Active, Quick, 1
+    If (Active = 1)
+    {
+        Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
+        MapTransparency := TransparencyCheck("Quick")
+        WinSet, Style,  %ShowTitle%, Quick Notify
+        WinSet, Transparent, %MapTransparency%, Quick Notify
+    }
+    NotificationPrep("Quick")
+    If (SoundActive = 1)
+    {
+        SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+        SetTitleMatchMode, 2
+        WinGet, AhkExe, ProcessName, Quick
+        SetTitleMatchMode, 1
+        SetWindowVol(AhkExe, NotificationVolume)
+        SoundPlay, %NotificationSound%
+    }
 }
