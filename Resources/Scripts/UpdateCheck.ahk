@@ -13,7 +13,6 @@ UpdateCheck()
 	CurrentVersion := SubStr(CurrentVersion1, 1, 6)
 	CurrentVersion := Trim(CurrentVersion,"`n `t") ; Trim and clean text
 	InstalledVersion := Trim(InstalledVersion,"`n `t") ; Trim and clean text
-	MsgBox, %CurrentVersion% %InstalledVersion%
 	If (InstalledVersion == CurrentVersion)
 	{
 		TrayTip, Up-To-Date, PoE Mechanic Watch Is Up-To-Date,
