@@ -1,78 +1,119 @@
-Acid Caverns
 Academy
+Acid Caverns
+AcidLakes
 Alleyways
 Ancient City
+AncientCity
 Arachnid Nest
+Arachnid Tomb
+ArachnidNest
+ArachnidTomb
 Arcade
 Arena
 Arid Lake
+AridLake
 Armoury
 Arsenal
 Ashen Woods
+AshenWood
 Atoll
 Barrows
 Basilica
 Bazaar
 Beach
+Belfry
 Bog
 Bone Crypt
+BoneCrypt
 Bramble Valley
+BrambleValley
 Burial Chambers
+BurialChambers
 Cage
 Caldera
 Canyon
 Carcass
+Castle Ruins
+CastleRuins
 Cells
 Cemetery
 Channel
 Chateau
 City Square
+CitySquare
 Cold River
+ColdRiver_
 Colonnade
 Colosseum
 Conservatory
 Coral Ruins
+CoralRuins
 Core
 Courthouse
 Courtyard
+Coves 
+Crater
 Crimson Temple
 Crimson Township
+CrimsonTemple
+CrimsonTownship
 Crystal Ore
+CrystalOre
 Cursed Crypt
+CursedCrypt
 Dark Forest
-Defiled Cathedral 
+DarkForest
+Defiled Cathedral
+DefiledCathedral
 Desert
 Desert Springs
+DesertSpring
 Dig
 Dry Sea
+DrySea
 Dunes
 Dungeon
 Estuary
+Excavation
 Factory
 Fields
 Flooded Mine
+FloodedMine
 Forbidden Woods
-Forking River
+ForbiddenWoods
 Forge of the Phoenix
+Forking River
+ForkingRiver
 Foundry
 Frozen Cabins
+FrozenCabins
 Fungal Hollow
+FungalHollow
 Gardens
+Geode
 Ghetto
 Glacier
+Gorge
 Grave Trough
+GraveTrough
 Graveyard
 Grotto
 Haunted Mansion
+HauntedMansion
 Iceberg
 Infested Valley
+InfestedValley
 Ivory Temple
+IvoryTemple
 Jungle Valley
+JungleValley
 Laboratory
 Lair
 Lair of the Hydra
 Lava Chamber
 Lava Lake
+LavaChamber
+LavaLake
 Leyline
 Lighthouse
 Lookout
@@ -83,16 +124,24 @@ Maze
 Maze of the Minotaur
 Mesa
 Mineral Pools
+MineralPools
 Moon Temple
+MoonTemple
 Mud Geyser
+MudGeyser
 Museum
 Necropolis
 Orchard
 Overgrown Ruin
 Overgrown Shrine
+OvergrownRuin
+OvergrownShrine
 Palace
 Park
+Pen
 Peninsula
+Phantasmagoria
+Pier
 Pit
 Pit of the Chimera
 Plateau
@@ -101,102 +150,57 @@ Port
 Precinct
 Primordial Blocks
 Primordial Pool
+PrimordialBlocks
+PrimordialPool
 Promenade
 Racecourse
+Racecourse_
 Ramparts
 Reef
 Relic Chambers
+RelicChambers
 Residence
+Scriptorium
 Sepulchre
 Shipyard
 Shore
+Shrine
 Siege
 Silo
 Spider Forest
 Spider Lair
+SpiderForest
+SpiderLair
+Springs
 Stagnation
 Strand
 Sulphur Vents
+SulphurVents
 Summit
 Sunken City
+SunkenCity
 Temple
 Terrace
 Thicket
 Tower
 Toxic Sewer
+ToxicSewer
+Tribunal
 Tropical Island
+TropicalIsland
 Underground River
 Underground Sea
+UndergroundRiver
+UndergroundSea
 Vaal Pyramid
 Vaal Temple
+VaalPyramid
+VaalTemple
 Vault
 Villa
 Volcano
 Waste Pool
 Wasteland
+WastePool
 Waterways
 Wharf
-
-AncientCity
-HauntedMansion
-RelicChambers
-SpiderLair
-SulphurVents
-PrimordialBlocks
-ArachnidNest
-DefiledCathedral
-FloodedMine
-ForbiddenWoods
-ForkingRiver
-Springs
-UndergroundSea
-SpiderForest
-ColdRiver_
-AridLake
-FrozenCabins
-AcidLakes
-AshenWood
-BoneCrypt
-BrambleValley
-BurialChambers
-CitySquare
-CoralRuins
-CrimsonTemple
-CrimsonTownship
-CrystalOre
-CursedCrypt
-DarkForest
-DesertSpring
-DrySea
-Gorge
-GraveTrough
-InfestedValley
-IvoryTemple
-JungleValley
-LavaChamber
-LavaLake
-MineralPools
-MoonTemple
-MudGeyser
-OvergrownRuin
-OvergrownShrine
-PrimordialPool
-SunkenCity
-ToxicSewer
-TropicalIsland
-UndergroundRiver
-VaalPyramid
-VaalTemple
-WastePool
-
-ArachnidTomb
-Belfry
-CastleRuins
-Crater
-Excavation
-Pen
-Phantasmagoria
-Pier
-Shrine
-Racecourse_
-Tribunal
