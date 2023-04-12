@@ -1,25 +1,3 @@
-v2.4
+v2.4.3
 
-Note: For everything to function correctly after this update please make sure to Use the "Launcher.ahk" to start the application. In some cases a fres install may be necessary. 
-
--Added an option to store settings files outside of the script folder. To allow for syncing across systems with Dropbox or other file syncing software.
-    -Added LaunchOptions.ahk
-    -Added a gui for setup of the storage location. 
--"Alpha" support for Maven Invitation Tracking. See README for more information on Maven Invitation tracking.
-    -Added a Maven Invitation Gui
-    -Added Maven.ahk
-    -Added MavenReminder.ahk
--Added Hotkey options for the following:
-    -Influence Tracking Switcher
-    -Maven Invitation Gui
-    -Legion
--Added severeal more Excursion dialogs. 
--Reworked the window tracking portion of the script to make it faster and more reliable.
--Added a Notification Settings Gui.
-    -Added NotificationSettings.ahk
-    -Removed the Sound and Transparency gui options as they are now handled by the Notification Settings gui. 
-    -All notifications now have independent On/Off toggles, sound and Transparency settings. 
--Fixed the layout of several of the guis and notifications. 
--Added an option for 4 Incursions per map instead of 3. 
-    -Added an Incursion counter to the overlay. 
--Many fixes
+Add some missing maps. 
