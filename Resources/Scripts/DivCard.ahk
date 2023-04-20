@@ -1,3 +1,5 @@
+Global MatchCount
+
 w::
 UpdateCheck()
 {
@@ -8,11 +10,17 @@ UpdateCheck()
 	whr.WaitForResponse() 
 	MapData := whr.ResponseText
     MyMap := "Arcade"
+    MatchCount := 0
     StringSplit, MapData, MapData, "`n"
     ; msgbox, %MapData35%
-    Loop, 10
-        If InStr(MapData35, MyMap)
+    Loop, % MapData.MaxIndex()
+        testdata := "MapData"A_Index
+    Msgbox, %testdata%
+        If InStr(testdata, MyMap)
             {
-                MsgBox, Test %A_LoopField%
+                MatchCount++
+                MatchData%MatchCount% := "MapData"%A_LoopField%
+                MsgBox, djjdjd
             }
+    MsgBox, %MatchCount%
 }
