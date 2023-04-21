@@ -13,6 +13,7 @@ OnMessage(0x01786, "Start")
 OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
 OnMessage(0x01783, "LaunchUpdate") ;timed update on PoE launch
 OnMessage(0x01789, "Reload") ;timed update on PoE launch
+OnMessage(0x204, "WM_RBUTTONDOWN")
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -276,3 +276,21 @@ Move()
     MoveActive := 1
     RefreshOverlay()
 }
+
+WM_RBUTTONDOWN() {
+    If (GetKeyState("Alt", "P"))
+        {
+            ; Get the ID of the control that received the message.
+            ObjectClicked := A_GuiControl
+            MechanicsFilePath := MechanicsIni()
+            CheckMechanic := "Searing|Eater|Maven|Incursion"
+            For each, CountObject in StrSplit(CheckMechanic, "|")
+                {
+                    If InStr(ObjectClicked, CountObject)
+                        {
+                            IniWrite, 0, %MechanicsFilePath%, Influence Track, %CountObject%
+                        }
+                }
+        }
+    RefreshOverlay()
+}
