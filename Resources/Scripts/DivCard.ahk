@@ -1,8 +1,17 @@
+#SingleInstance, Force
 Global MatchCount
 Global testdata
 Global MyMap
 
-#IfWinActive, ahk_exe Notepad.exe
+uxtheme := DllCall("GetModuleHandle", "str", "uxtheme", "ptr")
+SetPreferredAppMode := DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 135, "ptr")
+FlushMenuThemes := DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 136, "ptr")
+DllCall(SetPreferredAppMode, "int", 1) ; Dark
+DllCall(FlushMenuThemes)
+
+DllCall("dwmapi\DwmSetWindowAttribute", "Ptr",DivGui, "Int",20, "Int*",True, "Int",4)
+
+; #IfWinActive, ahk_exe Notepad.exe
 
 ~^c::
     Sleep, 500
@@ -22,7 +31,9 @@ Global MyMap
         Gui, DivCheck:Destroy
         Gui, DivCheck:Font, c%Font% s15 Bold
         Gui, DivCheck:Add, Text, , Map: %MyMap%
-        Gui, DivCheck:-Caption +Border +hwndDivGui
+        ; Gui, DivCheck:-Caption +Border +hwndDivGui 
+        Gui, DivCheck: +hwndDivGui 
+        Gui, DivCheck: Color, 4e4f53
         Gui, DivCheck:Font, c%Font% s10 Bold
 
         TWidth := Round(96/A_ScreenDPI*200)
@@ -40,8 +51,8 @@ Global MyMap
         Loop, % MapData.MaxIndex()
             {
                 testdata := "MapData"A_Index
-                ; msgbox, %testdata%
-                If InStr(MapData[A_Index], MyMap)
+                ExactName := StrSplit(MapData[A_Index], ",", A_Space)
+                If (ExactName[1] = MyMap)
                     {
                         MatchCount++
                         AddDiv := "DivCards"A_Index
@@ -72,29 +83,21 @@ Global MyMap
                         Gui, DivCheck:Font, c%Font% s10 Normal
                         Gui, DivCheck:Add, Text, xs Section w%TWidth% +Wrap, % %MatchCount%Name 
                         TWidth := Round(96/A_ScreenDPI*100)
-                        ; Gui, Add, Text,Center cBlue vWinText gCloseOps, Click here to close.
                         Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, % %MatchCount%Count
                         TWidth := Round(96/A_ScreenDPI*250)
                         Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, % %MatchCount%Reward
                         TWidth := Round(96/A_ScreenDPI*140)
                         Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, % %MatchCount%Useful
                         TWidth := Round(96/A_ScreenDPI*150)
-                        Gui, DivCheck:Font, cBlue s10 Normal Underline
+                        Gui, DivCheck:Font, c1177bb s10 Normal Underline
                         Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap gLink vLink%MatchCount%, % %MatchCount%Linkbtn
                         Link%MatchCount% := %AddDiv%[6]
                     } 
             }
-            Width := A_ScreenWidth*.48
-            Width := Round(96/A_ScreenDPI*Width)
-            ; ; Global SG1 := New ScrollGUI(DivGui, 800, 600, "+Resize +LabelGui1", 3, 4)
-            ; Global SG1 := New ScrollGUI(DivGui, 400, 400, "+Resize +MinSize +LabelGui1", 3, 3)
-            ; SG1.Show("ScrollGUI1 Title", "y0 xcenter")
-            ; ; SG1.Show(DivGui, "y0 xcenter")
-            ; ; Gui, DivCheck:Show, w%Width%
             ; Create ScrollGUI2 with both horizontal and vertical scrollbars
-            SG2 := New ScrollGUI(DivGui, 600, 200, "+Resize +LabelGui2")
+            SG2 := New ScrollGUI(DivGui, 600, 300, "+Resize +LabelGui2")
             ; Show ScrollGUI2
-            SG2.Show("Divination Card", "x0 yCenter")
+            SG2.Show("Divination Card", "xCenter yCenter")
         }
 
 Link()
@@ -133,4 +136,4 @@ Link()
 ; --------
 ; Travel to this Map by using it in a personal Map Device. Maps can only be used once.
 
-#Include Class_ScrollGUI.ahk
+#IncludeAgain, Class_ScrollGUI.ahk
