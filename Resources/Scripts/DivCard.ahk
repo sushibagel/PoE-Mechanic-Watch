@@ -11,16 +11,48 @@ DllCall(FlushMenuThemes)
 
 DllCall("dwmapi\DwmSetWindowAttribute", "Ptr",DivGui, "Int",20, "Int*",True, "Int",4)
 
-; #IfWinActive, ahk_exe Notepad.exe
+#IfWinActive, Path of Exile
 
 ~^c::
+{
+    Gosub, CheckDiv
+    Return
+}
+
++^k::
+{
+    InputBox, MapTitle, Map Search, Input the name of a map,, 200, 125,,,, 15
+    Clipboard := "Item Class: Mapss" 
+    MyMap := MapTitle 
+    Gosub, CheckDiv
+}
+Item Class: Maps
+Rarity: Magic
+Multifarious Crimson Temple Map of Smothering
+--------
+Map Tier: 8
+Item Quantity: +26% (augmented)
+Item Rarity: +15% (augmented)
+Monster Pack Size: +10% (augmented)
+--------
+Item Level: 77
+--------
+Area has increased monster variety
+Players have 40% less Recovery Rate of Life and Energy Shield
+--------
+Travel to this Map by using it in a personal Map Device. Maps can only be used once.
+
+CheckDiv:
     Sleep, 500
     DivSearch := Clipboard
     If InStr(DivSearch,"Item Class: Maps")
     {
         MapData := StrSplit(DivSearch, "`n")
         MapData := StrSplit(MapData[3], " ")
-        MyMap := MapData[1]
+        If !InStr(DivSearch,"Item Class: Mapss")
+            {
+                MyMap := MapData[1]
+            }
         url = https://divcards.io/
         whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
         whr.Open("GET", "https://divcards.io/", true)
