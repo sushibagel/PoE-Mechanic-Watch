@@ -1,4 +1,5 @@
 Global #ctrls
+Global ControlCheck
 
 HotkeyUpdate()
 {
@@ -7,21 +8,22 @@ HotkeyUpdate()
   CheckTheme()
 
   ;Setup text for individual HotKey descriptions
-  HotkeyText1 := "Reverse Map Count Hotkey"
-  HotkeyText2 := "Toggle Influence"
-  HotkeyText3 := "Maven Invitation Status"
-  HotkeyText4 := "Launch Path of Exile"
-  HotkeyText5 := "Open Tool Launcher"
-  HotkeyText6 := "Abyss"
-  HotkeyText7 := "Blight"
-  HotkeyText8 := "Breach"
-  HotkeyText9 := "Expedition"
-  HotkeyText10 := "Harvest"
-  HotkeyText11 := "Incursion"
-  HotkeyText12 := "Legion"
-  HotkeyText13 := "Metamorph"
-  HotkeyText14 := "Ritual"
-  HotkeyText15 := "Generic"
+  HotkeyText1 := "Divination Card Input"
+  HotkeyText2 := "Reverse Map Count Hotkey"
+  HotkeyText3 := "Toggle Influence"
+  HotkeyText4 := "Maven Invitation Status"
+  HotkeyText5 := "Launch Path of Exile"
+  HotkeyText6 := "Open Tool Launcher"
+  HotkeyText7 := "Abyss"
+  HotkeyText8 := "Blight"
+  HotkeyText9 := "Breach"
+  HotkeyText10 := "Expedition"
+  HotkeyText11 := "Harvest"
+  HotkeyText12 := "Incursion"
+  HotkeyText13 := "Legion"
+  HotkeyText14 := "Metamorph"
+  HotkeyText15 := "Ritual"
+  HotkeyText16 := "Generic"
 
   Gui, Hotkey:Color, %Background%
   Gui, Hotkey:Font, s12 c%Font% Bold
@@ -31,8 +33,11 @@ HotkeyUpdate()
   Gui, Hotkey:Font, c%Font% s11 Normal
   space = y+1
   Gui, Hotkey:Add, GroupBox, w500 h10 xs %space%
+  Gui, Hotkey:Add, Text, xm x50, "Ctl + C" Div Card Check ;#%A_Index%:
+  IniRead, CtlActive, %HotkeyIni%, Hotkeys, DivCheck, 0
+  Gui, Hotkey:Add, Checkbox,  yp x250 +Left vControlCheck gCtlToggle Checked%CtlActive% 
 
-  #ctrls = 15  ;How many Hotkey controls to add.
+  #ctrls = 16  ;How many Hotkey controls to add.
   Loop,% #ctrls {
   Hotkeytext := "HotkeyText"A_Index
   text := %Hotkeytext%
@@ -45,7 +50,7 @@ HotkeyUpdate()
   Gui, Hotkey:Add, CheckBox, yp x250 +Left vCB%A_Index% Checked%ErrorLevel%, Win  ;Add checkboxes to allow the Windows key (#) as a modifier...
   Gui, Hotkey:Add, Hotkey, yp x300 vHK%A_Index% gLabel, %noMods%           ;Add hotkey controls and show saved hotkeys.
   }
-  Gui, Hotkey:Show, w550,Dynamic Hotkeys
+  Gui, Hotkey:Show, w550, Hotkey Selector
   return
 }
 
@@ -102,7 +107,7 @@ HotkeyGuiClose()
         Exit
     }
   PostSetup()
-  PostMessage, 0x01786,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Run script start function
+  PostMessage, 0x01789,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Run script reload function
   PostRestore()
   Return
 }
@@ -149,4 +154,11 @@ SetHotkeys()
     }
 
     Return, % InfluenceHotkey
+  }
+
+  CtlToggle()
+  {
+    HotkeyIni := HotkeyIni()
+    Gui, Hotkey:Submit, NoHide
+    IniWrite, %ControlCheck%, %HotkeyIni%, Hotkeys, DivCheck
   }

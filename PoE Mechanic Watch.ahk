@@ -507,94 +507,99 @@ AdditionalScripts(Action)
 HotkeyCheck()
 {
     HotkeyPath := HotkeyIni()
-    Loop, 15
+    Loop, 16
     {
         IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
         
-        If !(Hotkey2 = "")
+        If !(Hotkey1 = "")
         {
-            Hotkey, ~%Hotkey2%, ToggleInfluence
+            Hotkey, %Hotkey1%, DivInput
         }
-        
+
         If !(Hotkey3 = "")
         {
-            Hotkey, ~%Hotkey3%, ViewMaven
+            Hotkey, ~%Hotkey3%, ToggleInfluence
         }
-       
+        
         If !(Hotkey4 = "")
         {
-            Hotkey, ~%Hotkey4%, LaunchPoe
+            Hotkey, ~%Hotkey4%, ViewMaven
         }
        
         If !(Hotkey5 = "")
         {
+            Hotkey, ~%Hotkey5%, LaunchPoe
+        }
+       
+        If !(Hotkey6 = "")
+        {
             Hotkey, ~%Hotkey5%, ToolLaunchGui
         }
         
-        If !(Hotkey1 = "")
+        If !(Hotkey2 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, ~%Hotkey1%, SubtractOne
-        }
-        
-        If !(Hotkey6 = "")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey6%, Abyss, T5
+            Hotkey, ~%Hotkey2%, SubtractOne
         }
         
         If !(Hotkey7 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey7%, Blight, T5
+            Hotkey, %Hotkey7%, Abyss, T5
         }
         
         If !(Hotkey8 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey8%, Breach, T5
+            Hotkey, %Hotkey8%, Blight, T5
         }
         
         If !(Hotkey9 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey9%, Expedition, T5
+            Hotkey, %Hotkey9%, Breach, T5
         }
         
         If !(Hotkey10 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey10%, Harvest, T5
+            Hotkey, %Hotkey10%, Expedition, T5
         }
         
         If !(Hotkey11 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey11%, Incursion, T5
+            Hotkey, %Hotkey11%, Harvest, T5
         }
         
         If !(Hotkey12 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey12%, Legion, T5
+            Hotkey, %Hotkey12%, Incursion, T5
         }
         
         If !(Hotkey13 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey13%, Metamorph, T5
-        }
-
-        If !(Hotkey14 = "")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey14%, Ritual, T5
+            Hotkey, %Hotkey13%, Legion, T5
         }
         
         If !(Hotkey14 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey15%, Generic, T5
+            Hotkey, %Hotkey14%, Metamorph, T5
+        }
+
+        If !(Hotkey15 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey15%, Ritual, T5
+        }
+        
+        If !(Hotkey16 = "")
+        {
+            Hotkey, IfWinActive, ahk_group PoeWindow
+            Hotkey, %Hotkey16%, Generic, T5
         }
     }
 }
@@ -609,6 +614,8 @@ TransparencyCheck(NotificationTransparency)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #Include, Resources\Scripts\AutoMechanic.ahk
+#Include, Resources\Scripts\Class_ScrollGUI.ahk
+#Include, Resources\Scripts\DivCard.ahk
 #Include, Resources\Scripts\EldritchReminder.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk

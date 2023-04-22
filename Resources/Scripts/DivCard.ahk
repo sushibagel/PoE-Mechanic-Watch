@@ -2,6 +2,8 @@
 Global MatchCount
 Global testdata
 Global MyMap
+Global DivCheckActive
+Global MapTitle
 
 uxtheme := DllCall("GetModuleHandle", "str", "uxtheme", "ptr")
 SetPreferredAppMode := DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 135, "ptr")
@@ -11,23 +13,65 @@ DllCall(FlushMenuThemes)
 
 DllCall("dwmapi\DwmSetWindowAttribute", "Ptr",DivGui, "Int",20, "Int*",True, "Int",4)
 
-#IfWinActive, Path of Exile
-
+#IfWinActive, ahk_group PoeWindow
 ~^c::
 {
-    Gosub, CheckDiv
+    CheckDivStatus()
+    If (DivCheckActive = 1)
+        {
+            Gosub, CheckDiv
+        }
     Return
 }
+#If
 
-+^k::
+DivInput()
 {
-    InputBox, MapTitle, Map Search, Input the name of a map,, 200, 125,,,, 15
-    Clipboard := "Item Class: Mapss" 
-    MyMap := MapTitle 
-    Gosub, CheckDiv
+    CheckDivStatus()
+    If (DivCheckActive = 1)
+        {
+            CheckTheme()
+            MapTitle :=
+            Gui, MapInput:Color, Edit, %Secondary% 
+            Gui, MapInput:Color, %Background%
+            Gui, MapInput:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+            Gui, MapInput: -Caption  +AlwaysOnTop 
+            Gui, MapInput:Font, c%Font% s10
+            Gui, MapInput:Add, Text, +Center, Input the name of a map
+            Gui, MapInput:Add, Edit, w145 vMapTitle -Caption -Border
+            Gui, MapInput:Add, Button, +Default gMapSubmit Section, Submit
+            Gui, MapInput:Add, Button, gMapCancel ys x+37, Cancel
+            Gui, MapInput:Margin
+            Gui, MapInput:Show,, Map Input
+            ; InputBox, MapTitle, Map Search, Input the name of a map,, 200, 125,,,, 15
+            WinWaitClose, Map Input
+            If (MapTitle != "")
+                {
+                    Clipboard := "Item Class: Mapss" 
+                    MyMap := MapTitle 
+                    Gosub, CheckDiv
+                }
+            Return
+        }
 }
 
+MapSubmit()
+{
+    Gui, MapInput:Submit
+    Gui, MapInput:Destroy
+}
+
+MapCancel()
+{
+    Gui, MapInput:Destroy
+}
+
+#p::
+Reload
+Return
+
 CheckDiv:
+    CheckTheme()    
     Sleep, 100
     DivSearch := Clipboard
     If InStr(DivSearch,"Item Class: Maps")
@@ -42,7 +86,7 @@ CheckDiv:
             {
                 MyMap := MapData[1]
                 MyMap = %MyMap%
-                FileRead, MapList, C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Data\maplist.txt
+                FileRead, MapList, Resources\Data\maplist.txt
                 Loop
                     {
                         If !InStr(MapList, MyMap)
@@ -62,6 +106,7 @@ CheckDiv:
         whr.WaitForResponse() 
         MapData := whr.ResponseText
         MatchCount := 0
+        CheckTheme()
         Gui, DivCheck:Destroy
         Gui, DivCheck:Font, c%Font% s9 
         Gui, DivCheck:Add, Text, Section, Divination card information and rating are provided by
@@ -73,7 +118,7 @@ CheckDiv:
         Gui, DivCheck:Add, Text, , Map: %MyMap%
         ; Gui, DivCheck:-Caption +Border +hwndDivGui 
         Gui, DivCheck: +hwndDivGui 
-        Gui, DivCheck: Color, 4e4f53
+        Gui, DivCheck: Color, %Background%
         Gui, DivCheck:Font, c%Font% s10 Bold
 
         TWidth := Round(96/A_ScreenDPI*200)
@@ -138,7 +183,13 @@ CheckDiv:
             SG2 := New ScrollGUI(DivGui, 600, 300, "+Resize +LabelGui2")
             ; Show ScrollGUI2
             SG2.Show("Divination Card", "xCenter yCenter")
+            Return
     }
+
+DivCheckGuiClose()
+{
+    Gui, DivCheck:Destroy
+}
 
 Link()
 {
@@ -157,11 +208,14 @@ FindMapName()
         }
     MyMap = %MMap%
 }
-return
 
 DivCardsLink()
 {
     Run, https://divcards.io
 }
 
-#IncludeAgain, Class_ScrollGUI.ahk
+CheckDivStatus()
+{
+    HotkeyIni := HotkeyIni()
+    IniRead, DivCheckActive, %HotkeyIni%, Hotkeys, DivCheck, 0
+}
