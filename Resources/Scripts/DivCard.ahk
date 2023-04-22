@@ -26,33 +26,35 @@ DllCall("dwmapi\DwmSetWindowAttribute", "Ptr",DivGui, "Int",20, "Int*",True, "In
     MyMap := MapTitle 
     Gosub, CheckDiv
 }
-Item Class: Maps
-Rarity: Magic
-Multifarious Crimson Temple Map of Smothering
---------
-Map Tier: 8
-Item Quantity: +26% (augmented)
-Item Rarity: +15% (augmented)
-Monster Pack Size: +10% (augmented)
---------
-Item Level: 77
---------
-Area has increased monster variety
-Players have 40% less Recovery Rate of Life and Energy Shield
---------
-Travel to this Map by using it in a personal Map Device. Maps can only be used once.
 
 CheckDiv:
-    Sleep, 500
+    Sleep, 100
     DivSearch := Clipboard
     If InStr(DivSearch,"Item Class: Maps")
     {
         MapData := StrSplit(DivSearch, "`n")
-        MapData := StrSplit(MapData[3], " ")
+        If !InStr(MapData[3], "Map")
+            {
+                MapData[3] := MapData[4]
+            }
+        MapData := StrSplit(MapData[3], "Map")
         If !InStr(DivSearch,"Item Class: Mapss")
             {
                 MyMap := MapData[1]
-            }
+                MyMap = %MyMap%
+                FileRead, MapList, C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Data\maplist.txt
+                Loop
+                    {
+                        If !InStr(MapList, MyMap)
+                            {
+                                FindMapName()
+                            }
+                        If InStr(MapList, MyMap)
+                            {
+                                Break
+                            }
+                    }    
+                }
         url = https://divcards.io/
         whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
         whr.Open("GET", "https://divcards.io/", true)
@@ -61,6 +63,12 @@ CheckDiv:
         MapData := whr.ResponseText
         MatchCount := 0
         Gui, DivCheck:Destroy
+        Gui, DivCheck:Font, c%Font% s9 
+        Gui, DivCheck:Add, Text, Section, Divination card information and rating are provided by
+        Gui, DivCheck:Font, c1177bb s9   Normal Underline
+        Gui, DivCheck:Margin, 2
+        Gui, DivCheck:Add, Text, ys gDivCardsLink, divcards.io
+        Gui, DivCheck:Margin
         Gui, DivCheck:Font, c%Font% s15 Bold
         Gui, DivCheck:Add, Text, , Map: %MyMap%
         ; Gui, DivCheck:-Caption +Border +hwndDivGui 
@@ -130,42 +138,30 @@ CheckDiv:
             SG2 := New ScrollGUI(DivGui, 600, 300, "+Resize +LabelGui2")
             ; Show ScrollGUI2
             SG2.Show("Divination Card", "xCenter yCenter")
-        }
+    }
 
 Link()
 {
     Run, % %A_GuiControl%
 }
 
-;Alleyways,Home,3,Exceptional Gem 1-20% Qual,UsefulAF,https://www.poewiki.net/wiki/Support_gem#Exceptional_Support_Gems
+FindMapName()
+{
+    MyMap := StrSplit(MyMap, A_Space)
+    TotalSplit := MyMap.MaxIndex() -1
+    MMap :=
+    Loop, %TotalSplit%
+        {
+            MapInstance := A_Index + 1
+            MMap := MMap A_Space MyMap[MapInstance]
+        }
+    MyMap = %MMap%
+}
+return
 
-
-    
-    
-       
-
-    ; ; Headings 
-    ; Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
-    ; Gui, NotificationSettings:Add, Text, xs x25 Section, Notification Type
-    ; XOff := Round(96/A_ScreenDPI*50)
-    ; Gui, NotificationSettings:Add, Text, x+%XOff% ys, Enabled
-    ; XOff := Round(96/A_ScreenDPI*30)
-    ; Gui, NotificationSettings:Add, Text, x+%XOff% ys, Sound Settings
-    ; XOff := Round(96/A_ScreenDPI*45)
-    ; Gui, NotificationSettings:Add, Text, x+%XOff% ys, Transparency Settings
-    ; XOff := Round(96/A_ScreenDPI*33)
-    ; Gui, NotificationSettings:Add, Text, x+%XOff% ys, Additional Settings
-
-
-
-; Item Class: Maps
-; Rarity: Normal
-; Arcade Map
-; --------
-; Map Tier: 12
-; --------
-; Item Level: 81
-; --------
-; Travel to this Map by using it in a personal Map Device. Maps can only be used once.
+DivCardsLink()
+{
+    Run, https://divcards.io
+}
 
 #IncludeAgain, Class_ScrollGUI.ahk
