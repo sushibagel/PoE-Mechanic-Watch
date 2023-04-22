@@ -151,6 +151,10 @@ CheckDiv:
                             {
                                 %MatchCount%Useful := "Garbage"
                             }
+                        If (%MatchCount%Useful = "GodTier")
+                            {
+                                %MatchCount%Useful := "Top Tier"
+                            }
                         If (%MatchCount%Useful = "UsefulAF")
                             {
                                 %MatchCount%Useful := "Useful"
