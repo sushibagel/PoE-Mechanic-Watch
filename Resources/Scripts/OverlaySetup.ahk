@@ -55,7 +55,7 @@ OverlaySetup()
     Gui, OverlaySetup:-Caption -Border
     Gui, OverlaySetup:Add, Button, xn x20 w80 h30, Move
     Gui, OverlaySetup:Add, Button, xp x270 w80 h30, OK
-    Gui, OverlaySetup:Show, w375, OverlaySetup
+    Gui, OverlaySetup:Show, w375, +AlwaysOnTop OverlaySetup
     Return
 }
 

@@ -12,7 +12,7 @@ GroupAdd, PoeWindow, Influence
 GroupAdd, PoeWindow, Transparency 
 GroupAdd, PoeWindow, Path of Exile 
 GroupAdd, PoeWindow, Overlay
-GroupAdd, PoeWindow, Overlay Setup
+GroupAdd, PoeWindow, OverlaySetup
 GroupAdd, PoeWindow, Quick Notify
 GroupAdd, PoeWindow, Notification Settings
 GroupAdd, PoeWindow, Awakened PoE Trade
