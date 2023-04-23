@@ -1,4 +1,3 @@
-#SingleInstance, Force
 Global MatchCount
 Global testdata
 Global MyMap
@@ -11,19 +10,19 @@ FlushMenuThemes := DllCall("GetProcAddress", "ptr", uxtheme, "ptr", 136, "ptr")
 DllCall(SetPreferredAppMode, "int", 1) ; Dark
 DllCall(FlushMenuThemes)
 
-DllCall("dwmapi\DwmSetWindowAttribute", "Ptr",DivGui, "Int",20, "Int*",True, "Int",4)
+DllCall("dwmapi\DwmSetWindowAttribute", "Ptr", DivGui, "Int", 20, "Int*", &True, "Int", 4)
 
-#IfWinActive, ahk_group PoeWindow
+#HotIf WinActive("ahk_group PoeWindow", )
 ~^c::
 {
     CheckDivStatus()
     If (DivCheckActive = 1)
         {
-            Gosub, CheckDiv
+            CheckDiv()
         }
     Return
 }
-#If
+#HotIf
 
 DivInput()
 {
@@ -31,25 +30,29 @@ DivInput()
     If (DivCheckActive = 1)
         {
             CheckTheme()
-            MapTitle :=
-            Gui, MapInput:Color, Edit, %Secondary% 
-            Gui, MapInput:Color, %Background%
-            Gui, MapInput:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-            Gui, MapInput: -Caption  +AlwaysOnTop 
-            Gui, MapInput:Font, c%Font% s10
-            Gui, MapInput:Add, Text, +Center, Input the name of a map
-            Gui, MapInput:Add, Edit, w145 vMapTitle -Caption -Border
-            Gui, MapInput:Add, Button, +Default gMapSubmit Section, Submit
-            Gui, MapInput:Add, Button, gMapCancel ys x+37, Cancel
-            Gui, MapInput:Margin
-            Gui, MapInput:Show,, Map Input
+            MapTitle := ""
+            MapInput := Gui()
+            MapInput.BackColor := "Edit"
+            MapInput.BackColor := Background
+            MapInput.Opt("+E0x02000000 +E0x00080000") ; WS_EX_COMPOSITED WS_EX_LAYERED
+            MapInput.Opt("-Caption  +AlwaysOnTop")
+            MapInput.SetFont("c" . Font . " s10")
+            MapInput.Add("Text", "+Center", "Input the name of a map")
+            ogcEditMapTitle := MapInput.Add("Edit", "w145 vMapTitle -Caption -Border")
+            ogcButtonSubmit := MapInput.Add("Button", "+Default  Section", "Submit")
+            ogcButtonSubmit.OnEvent("Click", MapSubmit.Bind("Normal"))
+            ogcButtonCancel := MapInput.Add("Button", "ys x+37", "Cancel")
+            ogcButtonCancel.OnEvent("Click", MapCancel.Bind("Normal"))
+            MapInput.MarginX := "", MapInput.MarginY := ""
+            MapInput.Title := "Map Input"
+            MapInput.Show()
             ; InputBox, MapTitle, Map Search, Input the name of a map,, 200, 125,,,, 15
-            WinWaitClose, Map Input
+            WinWaitClose("Map Input")
             If (MapTitle != "")
                 {
-                    Clipboard := "Item Class: Mapss" 
+                    A_Clipboard := "Item Class: Mapss" 
                     MyMap := MapTitle 
-                    Gosub, CheckDiv
+                    CheckDiv()
                 }
             Return
         }
@@ -57,24 +60,28 @@ DivInput()
 
 MapSubmit()
 {
-    Gui, MapInput:Submit
-    Gui, MapInput:Destroy
+    oSaved := MapInput.Submit()
+    MapTitle := oSaved.MapTitle
+    MapInput.Destroy()
 }
 
 MapCancel()
 {
-    Gui, MapInput:Destroy
+    MapInput.Destroy()
 }
 
 #p::
-Reload
+{ ; V1toV2: Added bracket
+Reload()
 Return
+} ; Added bracket before function
 
-CheckDiv:
+CheckDiv()
+{ ; V1toV2: Added bracket
     CheckTheme()    
-    Sleep, 100
-    DivSearch := Clipboard
-    If InStr(DivSearch,"Item Class: Maps")
+    Sleep(100)
+    DivSearch := A_Clipboard
+    If InStr(DivSearch, "Item Class: Maps")
     {
         MapData := StrSplit(DivSearch, "`n")
         If !InStr(MapData[3], "Map")
@@ -82,11 +89,11 @@ CheckDiv:
                 MapData[3] := MapData[4]
             }
         MapData := StrSplit(MapData[3], "Map")
-        If !InStr(DivSearch,"Item Class: Mapss")
+        If !InStr(DivSearch, "Item Class: Mapss")
             {
                 MyMap := MapData[1]
-                MyMap = %MyMap%
-                FileRead, MapList, Resources\Data\maplist.txt
+                MyMap := MyMap
+                MapList := Fileread("Resources\Data\maplist.txt")
                 Loop
                     {
                         If !InStr(MapList, MyMap)
@@ -99,41 +106,43 @@ CheckDiv:
                             }
                     }    
                 }
-        url = https://divcards.io/
-        whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        url := "https://divcards.io/"
+        whr := ComObject("WinHttp.WinHttpRequest.5.1")
         whr.Open("GET", "https://divcards.io/", true)
         whr.Send()
         whr.WaitForResponse() 
         MapData := whr.ResponseText
         MatchCount := 0
         CheckTheme()
-        Gui, DivCheck:Destroy
-        Gui, DivCheck:Font, c%Font% s9 
-        Gui, DivCheck:Add, Text, Section, Divination card information and rating are provided by
-        Gui, DivCheck:Font, c1177bb s9   Normal Underline
-        Gui, DivCheck:Margin, 2
-        Gui, DivCheck:Add, Text, ys gDivCardsLink, divcards.io
-        Gui, DivCheck:Margin
-        Gui, DivCheck:Font, c%Font% s15 Bold
-        Gui, DivCheck:Add, Text, , Map: %MyMap%
+        DivCheck := Gui()
+        DivCheck.Destroy()
+        DivCheck.SetFont("c" . Font . " s9")
+        DivCheck.Add("Text", "Section", "Divination card information and rating are provided by")
+        DivCheck.SetFont("c1177bb s9   Normal Underline")
+        DivCheck.MarginX := "2", DivCheck.MarginY := ""
+        ogcTextdivcardsio := DivCheck.Add("Text", "ys", "divcards.io")
+        ogcTextdivcardsio.OnEvent("Click", DivCardsLink.Bind("Normal"))
+        DivCheck.MarginX := "", DivCheck.MarginY := ""
+        DivCheck.SetFont("c" . Font . " s15 Bold")
+        DivCheck.Add("Text", , "Map: " . MyMap)
         ; Gui, DivCheck:-Caption +Border +hwndDivGui 
-        Gui, DivCheck: +hwndDivGui 
-        Gui, DivCheck: Color, %Background%
-        Gui, DivCheck:Font, c%Font% s10 Bold
+        DivCheck.Opt("+hwndDivGui")
+        DivCheck.Color(Background)
+        DivCheck.SetFont("c" . Font . " s10 Bold")
 
         TWidth := Round(96/A_ScreenDPI*200)
-        Gui, DivCheck:Add, Text, xs Section w%TWidth% +Wrap, Divination Card 
+        DivCheck.Add("Text", "xs Section w" . TWidth . " +Wrap", "Divination Card")
         TWidth := Round(96/A_ScreenDPI*149)
-        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, Stack Count
+        DivCheck.Add("Text", "ys w" . TWidth . " +Wrap", "Stack Count")
         TWidth := Round(96/A_ScreenDPI*250)
-        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, Reward
+        DivCheck.Add("Text", "ys w" . TWidth . " +Wrap", "Reward")
         TWidth := Round(96/A_ScreenDPI*125)
-        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, Usefullness
+        DivCheck.Add("Text", "ys w" . TWidth . " +Wrap", "Usefullness")
         TWidth := Round(96/A_ScreenDPI*150)
-        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, Wiki Link
+        DivCheck.Add("Text", "ys w" . TWidth . " +Wrap", "Wiki Link")
         
         MapData := StrSplit(MapData,"`n")
-        Loop, % MapData.MaxIndex()
+        Loop MapData.MaxIndex()
             {
                 testdata := "MapData"A_Index
                 ExactName := StrSplit(MapData[A_Index], ",", A_Space)
@@ -169,17 +178,18 @@ CheckDiv:
                                 %MatchCount%Linkbtn := "N/A"
                             }
                         TWidth := Round(96/A_ScreenDPI*250)
-                        Gui, DivCheck:Font, c%Font% s10 Normal
-                        Gui, DivCheck:Add, Text, xs Section w%TWidth% +Wrap, % %MatchCount%Name 
+                        DivCheck.SetFont("c" . Font . " s10 Normal")
+                        DivCheck.Add("Text", "xs Section w" . TWidth . " +Wrap", %MatchCount%Name)
                         TWidth := Round(96/A_ScreenDPI*100)
-                        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, % %MatchCount%Count
+                        DivCheck.Add("Text", "ys w" . TWidth . " +Wrap", %MatchCount%Count)
                         TWidth := Round(96/A_ScreenDPI*250)
-                        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, % %MatchCount%Reward
+                        DivCheck.Add("Text", "ys w" . TWidth . " +Wrap", %MatchCount%Reward)
                         TWidth := Round(96/A_ScreenDPI*140)
-                        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, % %MatchCount%Useful
+                        DivCheck.Add("Text", "ys w" . TWidth . " +Wrap", %MatchCount%Useful)
                         TWidth := Round(96/A_ScreenDPI*150)
-                        Gui, DivCheck:Font, c1177bb s10 Normal Underline
-                        Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap gLink vLink%MatchCount%, % %MatchCount%Linkbtn
+                        DivCheck.SetFont("c1177bb s10 Normal Underline")
+                        ogcTextLink := DivCheck.Add("Text", "ys w" . TWidth . " +Wrap  vLink" . MatchCount, %MatchCount%Linkbtn)
+                        ogcTextLink.OnEvent("Click", Link.Bind("Normal"))
                         Link%MatchCount% := %AddDiv%[6]
                     } 
             }
@@ -189,37 +199,38 @@ CheckDiv:
             SG2.Show("Divination Card", "xCenter yCenter")
             Return
     }
+} ; V1toV2: Added bracket before function
 
 DivCheckGuiClose()
 {
-    Gui, DivCheck:Destroy
+    DivCheck.Destroy()
 }
 
 Link()
 {
-    Run, % %A_GuiControl%
+    Run(%A_GuiControl%)
 }
 
 FindMapName()
 {
     MyMap := StrSplit(MyMap, A_Space)
     TotalSplit := MyMap.MaxIndex() -1
-    MMap :=
-    Loop, %TotalSplit%
+    MMap := ""
+    Loop TotalSplit
         {
             MapInstance := A_Index + 1
             MMap := MMap A_Space MyMap[MapInstance]
         }
-    MyMap = %MMap%
+    MyMap := MMap
 }
 
 DivCardsLink()
 {
-    Run, https://divcards.io
+    Run("https://divcards.io")
 }
 
 CheckDivStatus()
 {
     HotkeyIni := HotkeyIni()
-    IniRead, DivCheckActive, %HotkeyIni%, Hotkeys, DivCheck, 0
+    DivCheckActive := IniRead(HotkeyIni, "Hotkeys", "DivCheck", 0)
 }

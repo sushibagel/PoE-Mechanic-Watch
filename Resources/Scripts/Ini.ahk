@@ -24,7 +24,7 @@ FirstRunIni()
     MyKey := "FirstRun"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 HideoutIni()
@@ -32,7 +32,7 @@ HideoutIni()
     MyKey := "Hideout"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 HotkeyIni()
@@ -40,7 +40,7 @@ HotkeyIni()
     MyKey := "Hotkey"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 LaunchOptionsIni()
@@ -48,7 +48,7 @@ LaunchOptionsIni()
     MyKey := "LaunchOptions"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 MechanicsIni()
@@ -56,7 +56,7 @@ MechanicsIni()
     MyKey := "Mechanics"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile) 
-    Return, % IniFile
+    Return IniFile
 }
 
 MiscIni()
@@ -64,7 +64,7 @@ MiscIni()
     MyKey := "Misc"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 NotificationIni()
@@ -72,7 +72,7 @@ NotificationIni()
     MyKey := "Notification"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 OverlayIni()
@@ -80,13 +80,13 @@ OverlayIni()
     MyKey := "Overlay"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 StorageIni()
 {
     IniFile := "Resources\Settings\StorageLocation.ini"
-    Return, % IniFile
+    Return IniFile
 }
 
 ThemeIni()
@@ -94,7 +94,7 @@ ThemeIni()
     MyKey := "Theme"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 TransparencyIni()
@@ -102,7 +102,7 @@ TransparencyIni()
     MyKey := "Transparency"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 VariableIni()
@@ -110,22 +110,22 @@ VariableIni()
     MyKey := "Variable"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
-    Return, % IniFile
+    Return IniFile
 }
 
 CheckDir(IniFile)
 {
-    If A_ScriptDir contains Resources
+    if (A_ScriptDir ~= "i)(Resources)")
     {   
         Ini := StrSplit(A_ScriptDir, "Resources\Scripts")
         IniFile := Ini[1] IniFile
     }
-    IniRead, CurrentLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
+    CurrentLocation := IniRead("Resources\Settings\StorageLocation.ini", "Settings Location", "Location")
     If !InStr(CurrentLocation, "A_ScriptDir")
     {
         IniFile := StrSplit(IniFile, "Resources")
         IniFile := "Resources" IniFile[2] 
         IniFile := CurrentLocation "\" IniFile
     }
-    Return, %IniFile%
+    return IniFile
 }

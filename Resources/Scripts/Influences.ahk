@@ -10,73 +10,72 @@ InfluenceTrack(NewLine)
 {
     MapTrack := NewLine
     PostSetup()
-    PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey
+    PostMessage(0x01118, , , , "WindowMonitor.ahk - AutoHotkey")
     PostRestore()
     InfluenceActive()
     If (InfluenceActive != "None")
     {
-        FileRead, MapList, Resources\Data\maplist.txt 
+        MapList := Fileread("Resources\Data\maplist.txt")
         FirstSplit := StrSplit(MapTrack, A_Space)
-        AreaLevel = % FirstSplit[10]
-        SeedNumber = % FirstSplit[15]
+        AreaLevel := FirstSplit[10]
+        SeedNumber := FirstSplit[15]
         If (AreaLevel >= 81)
         {
-            SplitDelim = `"
-            GetMap = % FirstSplit[12]
-            SecondSplit := StrSplit(GetMap, SplitDelim)
-            GetMap = % SecondSplit[2]
+            GetMap := FirstSplit[12]
+            SecondSplit := StrSplit(GetMap, '"')
+            GetMap := SecondSplit[2]
             MapName := StrSplit(GetMap, "MapWorlds")
-            MapName = % MapName[2]
-            FileRead, MapList, Resources\Data\maplist.txt
+            MapName := MapName[2]
+            MapList := Fileread("Resources\Data\maplist.txt")
             VariablePath := VariableIni()
-            IniRead, LastMap, %VariablePath%, Map, Last Map
-            IniRead, LastSeed, %VariablePath%, Map, Last Seed
+            LastMap := IniRead(VariablePath, "Map", "Last Map")
+            LastSeed := IniRead(VariablePath, "Map", "Last Seed")
             If InStr(MapList, MapName) and (MapName != "") and ((MapName != LastMap) or (SeedNumber != LastSeed))
             {
-                IniWrite, %MapName%, %VariablePath%, Map, Last Map
-                IniWrite, %SeedNumber%, %VariablePath%, Map, Last Seed
+                IniWrite(MapName, VariablePath, "Map", "Last Map")
+                IniWrite(SeedNumber, VariablePath, "Map", "Last Seed")
                 If (InfluenceActive = "Maven")
                 {
-                    IniWrite, Yes, %VariablePath%, Map, Maven Map
-                    Exit
+                    IniWrite("Yes", VariablePath, "Map", "Maven Map")
+                    Exit()
                 }
-                InfluenceCount := InfluenceCount()
-                OldTrack = %InfluenceCount%
+                InfluenceCount := InfluenceCountFunc()
+                OldTrack := InfluenceCount
                 InfluenceCount ++
                 If (InfluenceCount >= 29)
                 {
-                    InfluenceCount = 1
+                    InfluenceCount := "1"
                 }
                 RefreshOverlay()
                 MechanicsPath := MechanicsIni()
-                IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, %InfluenceActive%
+                IniWrite(InfluenceCount, MechanicsPath, "Influence Track", InfluenceActive)
                 InfluenceMapNotification()
-                SetTimer, CloseGui, -3000
+                SetTimer(CloseGui,-3000)
                 If (InfluenceCount = 14) or (InfluenceCount = 28)
                 {
                     If (InfluenceCount = 14)
                     {
                         If (InfluenceActive = "Searing")
                         {
-                            InvitationType = Polaric
+                            InvitationType := "Polaric"
                         }
                         If (InfluenceActive = "Eater")
                         {
-                            InvitationType = Writhing
+                            InvitationType := "Writhing"
                         }
                     }
                     If (InfluenceCount = 28) 
                     {
                         If (InfluenceActive = "Searing")
                         {
-                            InvitationType = Incandescent
+                            InvitationType := "Incandescent"
                         }
                         If (InfluenceActive = "Eater")
                         {
-                            InvitationType = Screaming
+                            InvitationType := "Screaming"
                         }
                     }   
-                    ReminderText = This is your %InfluenceCount% map. Don't forget to kill the boss for your %InvitationType% Invitation
+                    ReminderText := "This is your " . InfluenceCount . " map. Don't forget to kill the boss for your " . InvitationType . " Invitation"
                     EldritchReminder()
                     InfluenceNotificationSound()
                 }
@@ -90,37 +89,39 @@ InfluenceNotificationSound()
     NotificationPrep("Influence")
     If (SoundActive = 1)
     {
-        SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
-        SetTitleMatchMode, 2
-        WinGet, AhkExe, ProcessName, Reminder
-        SetTitleMatchMode, 1
+        SoundPlay("Resources\Sounds\blank.wav") ;;;;; super hacky workaround but works....
+        SetTitleMatchMode(2)
+        AhkExe := WinGetProcessName("Reminder")
+        SetTitleMatchMode(1)
         SetWindowVol(AhkExe, NotificationVolume)
-        SoundPlay, %NotificationSound%
+        SoundPlay(NotificationSound)
     }
 }
 
 CloseGui()
 {
-    Gui, Quick:Destroy
-    Tooltip
+    Quick := Gui()
+    Quick.Destroy()
+    ToolTip()
     Return
 }
 
 QuickGuiClose()
 {
-    Tooltip
+    ToolTip()
     MapMove := 0
-    Return  
+    Return 
 }
 
 InfluenceReminderButtonOK()
 {
-    WinActivate, Path of Exile
-    Gui, InfluenceReminder:Destroy
+    WinActivate("Path of Exile")
+    InfluenceReminder := Gui()
+    InfluenceReminder.Destroy()
     MechanicsPath := MechanicsIni()
     If (InfluenceCount = 28)
     {
-        IniWrite, 0, %MechanicsPath%, Influence Track, %InfluenceActive%
+        IniWrite(0, MechanicsPath, "Influence Track", InfluenceActive)
     }
     Return
 }
@@ -128,8 +129,8 @@ InfluenceReminderButtonOK()
 InfluenceReminderButtonRevertCount:
 {
     InfluenceReminderActive := 0
-    WinActivate, Path of Exile
-    Gui, InfluenceReminder:Destroy
+    WinActivate("Path of Exile")
+    InfluenceReminder.Destroy()
     SubtractOne()
     Return
 }
@@ -137,44 +138,44 @@ InfluenceReminderButtonRevertCount:
 SubtractOne()
 {
     InfluenceActive()
-    InfluenceActive = 
-    InfluenceCount = 
+    InfluenceActive := ""
+    InfluenceCount := ""
     MechanicsPath := MechanicsIni()
-    InfluenceCount := InfluenceCount()
+    InfluenceCount := InfluenceCountFunc()
     If (EaterActive = 1)
     {
-        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, Eater
+        InfluenceCount := IniRead(MechanicsPath, "Influence Track", "Eater")
         OldTrack := InfluenceCount
         InfluenceCount := InfluenceCount - 1
         If(InfluenceCount = -1)
         {
-            InfluenceCount = 27
+            InfluenceCount := "27"
         }
-        IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Eater
+        IniWrite(InfluenceCount, MechanicsPath, "Influence Track", "Eater")
     }
     If (SearingActive = 1)
     {
-        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, Searing
+        InfluenceCount := IniRead(MechanicsPath, "Influence Track", "Searing")
         OldTrack := InfluenceCount
         InfluenceCount := InfluenceCount - 1
             If(InfluenceCount = -1)
         {
-            InfluenceCount = 27
+            InfluenceCount := "27"
         }
-        IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Searing
+        IniWrite(InfluenceCount, MechanicsPath, "Influence Track", "Searing")
     }
     If (MavenActive = 1)
     {
-        IniRead, InfluenceCount, %MechanicsPath%, Influence Track, Maven
+        InfluenceCount := IniRead(MechanicsPath, "Influence Track", "Maven")
         OldTrack := InfluenceCount
         InfluenceCount := InfluenceCount - 1
         If(InfluenceCount = -1)
         {
-            InfluenceCount = 10
+            InfluenceCount := "10"
         }
-        IniWrite, %InfluenceCount%, %MechanicsPath%, Influence Track, Maven
+        IniWrite(InfluenceCount, MechanicsPath, "Influence Track", "Maven")
     }
-    Sleep, 100
+    Sleep(100)
     RefreshOverlay()
     Return
 }
@@ -185,50 +186,50 @@ InfluenceActive()
     InfluencesTypes := Influences()
     For each, Influence in StrSplit(InfluencesTypes, "|")
     {
-        IniRead, %Influence%, %MechanicsPath%, Influence, %Influence%
+        %Influence% := IniRead(MechanicsPath, "Influence", Influence)
         If (%Influence% = 1)
         %Influence%Active := 1
-        InfluenceActive = %Influence%
+        InfluenceActive := Influence
         If (%Influence% = 0)
         %Influence%Active := 0
     }
 
     If (SearingActive = 1)
     {
-        InfluenceActive = Searing
+        InfluenceActive := "Searing"
     }
     If (EaterActive = 1)
     {
-        InfluenceActive = Eater
+        InfluenceActive := "Eater"
     }
     If (MavenActive = 1)
     {
-        InfluenceActive = Maven
+        InfluenceActive := "Maven"
     }
     If (EaterActive = 0) and (SearingActive = 0) and (MavenActive = 0)
     {
-        InfluenceActive = None
+        InfluenceActive := "None"
     }
     Return
 }
 
-InfluenceCount()
+InfluenceCountFunc()
 {
     MechanicsPath := MechanicsIni()
-    IniRead, InfluenceCount, %MechanicsPath%, Influence Track, %InfluenceActive%
-    Return, %InfluenceCount%
+    InfluenceCount := IniRead(MechanicsPath, "Influence Track", InfluenceActive)
+    return InfluenceCount
 }
 
 Influences() ;List of Influences
 {
-    Return, "Eater|Searing|Maven"
+    Return "Eater|Searing|Maven"
 }
 
 InfluenceMapNotification() ;Map tracking notification
 {
     NotificationPrep("Map")
     PostSetup()
-    PostMessage, 0x01741,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Hotkey check
+    PostMessage(0x01741, , , , "PoE Mechanic Watch.ahk - AutoHotkey") ;Hotkey check
     PostRestore()
     InfluenceHotkey := InfluenceHotkey()
     Notification := "You just entered a new map press" A_Space InfluenceHotkey A_Space "to subtract 1 map"
@@ -238,13 +239,13 @@ InfluenceMapNotification() ;Map tracking notification
 
 QuickButtonLock()
 {
-    WinGetPos, newwidth, newheight,,, Quick Notify
+    WinGetPos(&newwidth, &newheight, , , "Quick Notify")
     newheight := newheight + 30
-    ToolTip
-    Gui, Quick:Destroy
+    ToolTip()
+    Quick.Destroy()
     NotificationIni := NotificationIni()
-    IniWrite, %newheight%, %NotificationIni%, Map Notification Position, Vertical
-    IniWrite, %newwidth%, %NotificationIni%, Map Notification Position, Horizontal
+    IniWrite(newheight, NotificationIni, "Map Notification Position", "Vertical")
+    IniWrite(newwidth, NotificationIni, "Map Notification Position", "Horizontal")
     Return
 }
 
@@ -257,21 +258,21 @@ MoveMap()
 
 MapNotificationDestroy()
 {
-    Gui, Quick:Destroy
+    Quick.Destroy()
 }
 
 PostSetup()
 {
     Prev_DetectHiddenWindows := A_DetectHiddenWIndows
     Prev_TitleMatchMode := A_TitleMatchMode
-    SetTitleMatchMode 2
-    DetectHiddenWindows On
+    SetTitleMatchMode(2)
+    DetectHiddenWindows(true)
 }
 
 PostRestore()
 {
-    DetectHiddenWindows, %Prev_DetectHiddenWindows%
-    SetTitleMatchMode, %A_TitleMatchMode%
+    DetectHiddenWindows(Prev_DetectHiddenWindows)
+    SetTitleMatchMode(A_TitleMatchMode)
 }
 
 ToggleInfluence()
@@ -280,27 +281,27 @@ ToggleInfluence()
     Influences := Influences()
     For each, Influence in StrSplit(Influences, "|")
     {
-        IniRead, CheckInfluence, %MechanicsIni%, Influence, %Influence%
+        CheckInfluence := IniRead(MechanicsIni, "Influence", Influence)
         If (CheckInfluence = 1)
         {
             If (Influence = "Eater")
             {
-                IniWrite, 0, %MechanicsIni%, Influence, Eater
-                IniWrite, 1, %MechanicsIni%, Influence, Searing
+                IniWrite(0, MechanicsIni, "Influence", "Eater")
+                IniWrite(1, MechanicsIni, "Influence", "Searing")
                 NewInfluence := "Searing Exarch"
                 Break
             }
             If (Influence = "Searing")
             {
-                IniWrite, 0, %MechanicsIni%, Influence, Searing
-                IniWrite, 1, %MechanicsIni%, Influence, Maven
+                IniWrite(0, MechanicsIni, "Influence", "Searing")
+                IniWrite(1, MechanicsIni, "Influence", "Maven")
                 NewInfluence := "Maven"
                 Break
             }
             If (Influence = "Maven")
             {
-                IniWrite, 0, %MechanicsIni%, Influence, Maven
-                IniWrite, 1, %MechanicsIni%, Influence, Eater
+                IniWrite(0, MechanicsIni, "Influence", "Maven")
+                IniWrite(1, MechanicsIni, "Influence", "Eater")
                 NewInfluence := "Eater of Worlds"
                 Break
             }
@@ -309,17 +310,17 @@ ToggleInfluence()
     Notification := "Switching influence tracking to" A_Space NewInfluence  
     QuickNotify(Notification)
     RefreshOverlay()
-    SetTimer, CloseGui, -3000
+    SetTimer(CloseGui,-3000)
 }
 
 QuickNotify(Notification)
 {
-    Gui, Quick:Destroy
+    Quick.Destroy()
     NotificationIni := NotificationIni()
-    IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
-    IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
-    Gui, Quick:Color, %Background%
-    Gui, Quick:Font, c%Font% s10
+    Vertical := IniRead(NotificationIni, "Map Notification Position", "Vertical")
+    Horizontal := IniRead(NotificationIni, "Map Notification Position", "Horizontal")
+    Quick.BackColor := Background
+    Quick.SetFont("c" . Font . " s10")
     ShowTitle := "-0xC00000"
     ShowBorder := "-Border"
     If (MapMove = 1)
@@ -327,11 +328,12 @@ QuickNotify(Notification)
         InfluenceHotkey := InfluenceHotkey()
         Notification := "You just entered a new map press" A_Space InfluenceHotkey A_Space "to subtract 1 map"
     }
-    Gui, Quick:Add, Text,,%Notification%
+    Quick.Add("Text", , Notification)
     If (MapMove = 1)
     {
-        Gui, Quick:Add, Button, yn y5, Lock
-        Tooltip, Drag the overlay around and press "Lock" to store it's location.
+        ogcButtonLock := Quick.Add("Button", "yn y5", "Lock")
+        ogcButtonLock.OnEvent("Click", QuickButtonLock.Bind("Normal"))
+        ToolTip("Drag the overlay around and press `"Lock`" to store it's location.")
         ShowTitle := ""
         ShowBorder := ""
         MapMove := 0
@@ -340,24 +342,25 @@ QuickNotify(Notification)
     {
        Horizontal := Horizontal + Round(96/A_ScreenDPI*110)
     }
-    Gui, Quick: +AlwaysOnTop %ShowBorder%
+    Quick.Opt("+AlwaysOnTop " . ShowBorder)
     Notificationpath := NotificationIni()
-    IniRead, Active, %NotificationPath%, Active, Quick, 1
+    Active := IniRead(NotificationPath, "Active", "Quick", 1)
     If (Active = 1)
     {
-        Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
+        Quick.Title := "Quick Notify"
+        Quick.Show("NoActivate x" . Horizontal . " y" . Vertical)
         MapTransparency := TransparencyCheck("Quick")
-        WinSet, Style,  %ShowTitle%, Quick Notify
-        WinSet, Transparent, %MapTransparency%, Quick Notify
+        WinSetStyle(ShowTitle, "Quick Notify")
+        WinSetTransparent(MapTransparency, "Quick Notify")
     }
     NotificationPrep("Quick")
     If (SoundActive = 1)
     {
-        SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
-        SetTitleMatchMode, 2
-        WinGet, AhkExe, ProcessName, Quick
-        SetTitleMatchMode, 1
+        SoundPlay("Resources\Sounds\blank.wav") ;;;;; super hacky workaround but works....
+        SetTitleMatchMode(2)
+        AhkExe := WinGetProcessName("Quick")
+        SetTitleMatchMode(1)
         SetWindowVol(AhkExe, NotificationVolume)
-        SoundPlay, %NotificationSound%
+        SoundPlay(NotificationSound)
     }
 }

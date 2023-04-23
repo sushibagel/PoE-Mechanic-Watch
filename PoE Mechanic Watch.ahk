@@ -1,24 +1,23 @@
-#SingleInstance, force
-#Persistent
-#NoEnv
-;#Warn
+#SingleInstance force
+#Requires AutoHotkey >=2.0
+Persistent
 
 OnExit("Exit")
-CoordMode, Screen
-DetectHiddenWindows, On
+CoordMode("Screen")
+DetectHiddenWindows(true)
 
-OnMessage(0x01111, "RefreshOverlay")
-OnMessage(0x012222, "OverlayKill")
-OnMessage(0x01786, "Start")
-OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
-OnMessage(0x01783, "LaunchUpdate") ;timed update on PoE launch
-OnMessage(0x01789, "Reload") ;timed update on PoE launch
-OnMessage(0x204, "WM_RBUTTONDOWN")
+OnMessage(0x01111, RefreshOverlay)
+OnMessage(0x012222, OverlayKill)
+OnMessage(0x01786, Start)
+OnMessage(0x01741, HotkeyCheck) ;check hotkeys
+OnMessage(0x01783, LaunchUpdate) ;timed update on PoE launch
+OnMessage(0x01789, Reload) ;timed update on PoE launch
+OnMessage(0x204, WM_RBUTTONDOWN)
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-IniRead, StorageLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
-IniRead, Theme, %StorageLocation%\Resources\Settings\Theme.ini, Theme, Theme, Light
+StorageLocation := IniRead("Resources\Settings\StorageLocation.ini", "Settings Location", "Location")
+Theme := IniRead(StorageLocation "\Resources\Settings\Theme.ini", "Theme", "Theme", "Light")
 If (Theme = "Dark")
     {
         isDark := 2
@@ -33,44 +32,47 @@ MenuDark(isDark)
 ; Create the menu here
 
 ; 0=Default  1=AllowDark  2=ForceDark  3=ForceLight  4=Max
-Menu, Tray, NoStandard
-Menu, Tray, Add, Select Mechanics, SelectMechanics
-Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
-Menu, Tray, Add, View Maven Invitation Status, ViewMaven
-Menu, Tray, Add
-Menu, Tray, Add, Launch Path of Exile, LaunchPoe
-Menu, Tray, Add, View Path of Exile Log, ViewLog
-Menu, Tray, Add
-Menu, SetupMenu, Add, Setup Menu, FirstRun
-Menu, SetupMenu, Add
-Menu, Tray, Add, Setup, :SetupMenu
-Menu, SetupMenu, Add, Set Hideout, SetHideout
-Menu, SetupMenu, Add
-Menu, SetupMenu, Add, Change Theme, SelectTheme
-Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
-Menu, SetupMenu, Add
-Menu, SetupMenu, Add, Overlay Settings, OverlaySetup
-Menu, SetupMenu, Add, Move Overlay, Move
-Menu, SetupMenu, Add, Move Map Notification, MoveMap
-Menu, SetupMenu, Add
-Menu, SetupMenu, Add, Notification Settings, NotificationSetup
-Menu, SetupMenu, Add
-Menu, SetupMenu, Add, Launch Assist, LaunchGui
-Menu, SetupMenu, Add, Tool Launcher, ToolLaunchGui
-Menu, SetupMenu, Add
-Menu, SetupMenu, Add, Choose Settings File Location, iniChoose
-Menu, Tray, Default, Setup
-Menu, SetupMenu, Default, Setup Menu
-Menu, Tray, Add
-Menu, Tray, Add, Reload, Reload
-Menu, Tray, Add
-Menu, Tray, Add, Check for Updates, UpdateCheck
-Menu, Tray, Add, Exit, Exit
-Menu, AboutMenu, Add, Version, Version
-Menu, Tray, Add, About, :AboutMenu
-Menu, AboutMenu, Add, Changelog, Changelog
-Menu, AboutMenu, Add, Q&&A/Feedback, Feedback
-Menu, Tray, Icon, Resources\Images\ritual.png
+Tray:= A_TrayMenu
+Tray.Delete() ; V1toV2: not 100% replacement of NoStandard, Only if NoStandard is used at the beginning
+Tray.Add("Select Mechanics", SelectMechanics)
+Tray.Add("Select Auto Enable/Disable (Beta)", SelectAuto)
+Tray.Add("View Maven Invitation Status", ViewMaven)
+Tray.Add()
+Tray.Add("Launch Path of Exile", LaunchPoe)
+Tray.Add("View Path of Exile Log", ViewLog)
+Tray.Add()
+SetupMenu := Menu()
+SetupMenu.Add("Setup Menu", FirstRun)
+SetupMenu.Add()
+Tray.Add("Setup", SetupMenu)
+SetupMenu.Add("Set Hideout", SetHideout)
+SetupMenu.Add()
+SetupMenu.Add("Change Theme", SelectTheme)
+SetupMenu.Add("Change Hotkey", HotkeyUpdate)
+SetupMenu.Add()
+SetupMenu.Add("Overlay Settings", OverlaySetup)
+SetupMenu.Add("Move Overlay", Move)
+SetupMenu.Add("Move Map Notification", MoveMap)
+SetupMenu.Add()
+SetupMenu.Add("Notification Settings", NotificationSetup)
+SetupMenu.Add()
+SetupMenu.Add("Launch Assist", LaunchGui)
+SetupMenu.Add("Tool Launcher", ToolLaunchGui)
+SetupMenu.Add()
+SetupMenu.Add("Choose Settings File Location", iniChoose)
+Tray.Default := "Setup"
+SetupMenu.Default := "Setup Menu"
+Tray.Add()
+Tray.Add("Reload", Reload)
+Tray.Add()
+Tray.Add("Check for Updates", UpdateCheck)
+Tray.Add("Exit", Exit)
+AboutMenu := Menu()
+AboutMenu.Add("Version", Version)
+Tray.Add("About", AboutMenu)
+AboutMenu.Add("Changelog", Changelog)
+AboutMenu.Add("Q&&A/Feedback", Feedback)
+Tray.Icon("Resources\Images\ritual.png")
 
 MenuDark(Dark) {
     ;https://stackoverflow.com/a/58547831/894589
@@ -118,17 +120,17 @@ Global LaunchKeys
 Global keyLaunchName
 
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
-GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
-GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
-GroupAdd, PoeWindow, ahk_class POEWindowClass
-GroupAdd, PoeWindow, Reminder
-GroupAdd, PoeWindow, InfluenceReminder
-GroupAdd, PoeWindow, Overlay
-GroupAdd, PoeWindow, Move
-GroupAdd, PoeWindow, Awakened PoE Trade   
-GroupAdd, PoeWindow, Influence  
-GroupAdd, PoeWindow, Transparency   
+GroupAdd("PoeWindow", "ahk_exe PathOfExileSteam.exe")
+GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
+GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
+GroupAdd("PoeWindow", "ahk_class POEWindowClass")
+GroupAdd("PoeWindow", "Reminder")
+GroupAdd("PoeWindow", "InfluenceReminder")
+GroupAdd("PoeWindow", "Overlay")
+GroupAdd("PoeWindow", "Move")
+GroupAdd("PoeWindow", "Awakened PoE Trade")
+GroupAdd("PoeWindow", "Influence")
+GroupAdd("PoeWindow", "Transparency")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 LocationIni := StorageIni()
@@ -136,9 +138,9 @@ If !FileExist(LocationIni) ;Check for "Theme" ini
 {
     If !FileExist("Resources\Settings")
     {
-        FileCreateDir, Resources\Settings
+        DirCreate("Resources\Settings")
     }
-    IniWrite, A_ScriptDir, %LocationIni%, Settings Location, Location
+    IniWrite("A_ScriptDir", LocationIni, "Settings Location", "Location")
 }
 
 ThemeIni := ThemeIni()
@@ -146,35 +148,35 @@ If !FileExist(ThemeIni) ;Check for "Theme" ini
 {
     If !FileExist("Resources\Settings")
     {
-        FileCreateDir, Resources\Settings
+        DirCreate("Resources\Settings")
     }
-    IniWrite, White, %ThemeIni%, Dark, Font
-    IniWrite, 4e4f53, %ThemeIni%, Dark, Background
-    IniWrite, a6a6a6, %ThemeIni%, Dark, Secondary
-    IniWrite, Black, %ThemeIni%, Light, Font
-    IniWrite, White, %ThemeIni%, Light, Background
-    IniWrite, ededed, %ThemeIni%, Light, Secondary
-    IniWrite, Dark, %ThemeIni%, Theme, Theme
+    IniWrite("White", ThemeIni, "Dark", "Font")
+    IniWrite("4e4f53", ThemeIni, "Dark", "Background")
+    IniWrite("a6a6a6", ThemeIni, "Dark", "Secondary")
+    IniWrite("Black", ThemeIni, "Light", "Font")
+    IniWrite("White", ThemeIni, "Light", "Background")
+    IniWrite("ededed", ThemeIni, "Light", "Secondary")
+    IniWrite("Dark", ThemeIni, "Theme", "Theme")
 }
 
 CheckTheme()
 OverlayIni := OverlayIni()
 If !FileExist(OverlayIni) ;Check for "Overlay" ini
 {
-    IniWrite, 962, %OverlayIni%, Overlay Position, Height
-    IniWrite, 570, %OverlayIni%, Overlay Position, Width
-    IniWrite, Horizontal, %OverlayIni%, Overlay Position, Orientation
-    IniWrite, 50, %OverlayIni%, Size, Height
-    IniWrite, 12, %OverlayIni%, Size, Font
+    IniWrite(962, OverlayIni, "Overlay Position", "Height")
+    IniWrite(570, OverlayIni, "Overlay Position", "Width")
+    IniWrite("Horizontal", OverlayIni, "Overlay Position", "Orientation")
+    IniWrite(50, OverlayIni, "Size", "Height")
+    IniWrite(12, OverlayIni, "Size", "Font")
 }
 
 HotkeyIni := HotkeyIni()
-Blank :=
+Blank := ""
 If !FileExist(HotkeyIni)
 {
-    Loop, 14
+    Loop 14
     {
-        IniWrite, %blank%, %HotkeyIni%, Hotkeys, %A_Index% 
+        IniWrite(blank, HotkeyIni, "Hotkeys", A_Index)
     }
 }
 
@@ -182,14 +184,14 @@ NotificationIni := NotificationIni()
 If !FileExist(NotificationIni) ;Check for "Notification" ini
 {
     ReminderWav := "Resources\Sounds\reminder.wav"
-    IniWrite, %ReminderWav%, %NotificationIni%, Sounds, Notification
-    IniWrite, %ReminderWav%, %NotificationIni%, Sounds, Influence
-    IniWrite, 1, %NotificationIni%, Active, Notification
-    IniWrite, 1, %NotificationIni%, Active, Influence
-    IniWrite, 100, %NotificationIni%, Volume, Notification
-    IniWrite, 100, %NotificationIni%, Volume, Influence
-    IniWrite, 839, %NotificationIni%, Map Notification Position, Vertical
-    IniWrite, 677, %NotificationIni%, Map Notification Position, Horizontal
+    IniWrite(ReminderWav, NotificationIni, "Sounds", "Notification")
+    IniWrite(ReminderWav, NotificationIni, "Sounds", "Influence")
+    IniWrite(1, NotificationIni, "Active", "Notification")
+    IniWrite(1, NotificationIni, "Active", "Influence")
+    IniWrite(100, NotificationIni, "Volume", "Notification")
+    IniWrite(100, NotificationIni, "Volume", "Influence")
+    IniWrite(839, NotificationIni, "Map Notification Position", "Vertical")
+    IniWrite(677, NotificationIni, "Map Notification Position", "Horizontal")
 }
 
 MechanicsIni := MechanicsIni()
@@ -198,19 +200,19 @@ If !FileExist(MechanicsIni) ;Check for "Mechanics" ini
     Mechanics := Mechanics()
     For each, Item in StrSplit(Mechanics, "|")
     {
-        IniWrite, 0, %MechanicsIni%, Mechanics, %Item%
-        IniWrite, 0, %MechanicsIni%, Mechanic Active, %Item%
+        IniWrite(0, MechanicsIni, "Mechanics", Item)
+        IniWrite(0, MechanicsIni, "Mechanic Active", Item)
     }
     AutoMechanics := AutoMechanics()
     For each, Item in StrSplit(AutoMechanics, "|")
     {
-        IniWrite, 0, %MechanicsIni%, Auto Mechanics, %Item%
+        IniWrite(0, MechanicsIni, "Auto Mechanics", Item)
     }
     Influences := Influences()
     For each, Item in StrSplit(Influences, "|")
     {
-        IniWrite, 0, %MechanicsIni%, Influence, %Item%
-        IniWrite, 0, %MechanicsIni%, Influence Track, %Item%
+        IniWrite(0, MechanicsIni, "Influence", Item)
+        IniWrite(0, MechanicsIni, "Influence Track", Item)
     }
 }
 
@@ -220,7 +222,7 @@ If !FileExist(TransparencyIni)
     TransparencyItems := "Overlay|Notification|Influence|Map"
     For each, Item in StrSplit(TransparencyItems, "|")
     {
-        IniWrite, 255, %TransparencyIni%, Transparency, %Item%
+        IniWrite(255, TransparencyIni, "Transparency", Item)
     }
 }
 
@@ -238,7 +240,7 @@ If !FileExist(FirstRunIni)
     FirstRun()
 }
 
-IniRead, FirstRunActive, %FirstRunIni%, Active, Active
+FirstRunActive := IniRead(FirstRunIni, "Active", "Active")
 If (FirstRunActive = 1)
 {
     FirstRun()
@@ -247,37 +249,37 @@ If (FirstRunActive = 1)
 LaunchOptionIni := LaunchOptionsIni()
 If !FileExist(LaunchOptionIni) ;Check for "Launch options" ini
 {
-    MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
-    WinWait, ahk_Group PoeWindow
+    MsgBox("Please launch Path of Exile for the script to continue loading", "Launch Path of Exile", "")
+    WinWait("ahk_Group PoeWindow")
 }
 
 HideoutIni := HideoutIni()
 If !FileExist(HideoutIni) ;Check for "Hideout" ini
 {
-GroupAdd, FirstRunGroup, First2
-GroupAdd, FirstRunGroup, Move
-    IfWinNotActive, ahk_Group FirstRunGroup
+GroupAdd("FirstRunGroup", "First2")
+GroupAdd("FirstRunGroup", "Move")
+    if !WinActive("ahk_Group FirstRunGroup")
     {
         FirstRunIni := FirstRunIni()
-        IniRead, FirstrunHideout, %FirstRunIni%, Completion, Hideout
+        FirstrunHideout := IniRead(FirstRunIni, "Completion", "Hideout")
         If (FirstrunHideout = 1)
         {
             SetHideout()
         }
     }  
-    Return  
+    Return 
 }
 
 VariableIni := VariableIni()
 If !FileExist(VariableIni) ;Check for "Variable" ini
 {
-    IniWrite, None, %VariableIni%, Map, Last Map
-    IniWrite, None, %VariableIni%, Map, Last Seed
+    IniWrite("None", VariableIni, "Map", "Last Map")
+    IniWrite("None", VariableIni, "Map", "Last Seed")
 }
 
 ;;;;;;;;;;;;;;;; End Setup ;;;;;;;;;;;;;;;
 
-IndexTrack =
+IndexTrack := ""
 
 UpdateCheck()
 Start()
@@ -286,10 +288,10 @@ Return
 Start()
 {
     HotkeyCheck()
-    WinWait, ahk_Group PoeWindow
+    WinWait("ahk_Group PoeWindow")
     GetLogPath()
     CheckTheme()
-    Run, Resources\Scripts\Tail.ahk
+    Run("Resources\Scripts\Tail.ahk")
     Overlay()
 }
 Return
@@ -297,54 +299,54 @@ Return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Settings Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
 {
-    WinGet, POEpath, ProcessPath, Path of Exile
+    POEpath := WinGetProcessPath("Path of Exile")
 
-    IfInstring, POEpath, PathOfExileSteam.exe
+    if InStr(POEpath, "PathOfExileSteam.exe")
     {
-        StringTrimRight, POEPathTrim, POEpath, 20
+        POEPathTrim := SubStr(POEpath, 1, -1*(20))
     }
 
-    IfInstring, POEpath, PathOfExile_x64Steam.exe
+    if InStr(POEpath, "PathOfExile_x64Steam.exe")
     {
-        StringTrimRight, POEPathTrim, POEpath, 23
+        POEPathTrim := SubStr(POEpath, 1, -1*(23))
     }
 
-    IfInstring, POEpath, Client.exe
+    if InStr(POEpath, "Client.exe")
     {
-        StringTrimRight, POEPathTrim, POEpath, 10
+        POEPathTrim := SubStr(POEpath, 1, -1*(10))
     }
 
-    IfInstring, POEpath, PathOfExile.exe
+    if InStr(POEpath, "PathOfExile.exe")
     {
-        StringTrimRight, POEPathTrim, POEpath, 15
+        POEPathTrim := SubStr(POEpath, 1, -1*(15))
     }
 
-    IfInstring, POEpath, PathOfExile_x64.exe
+    if InStr(POEpath, "PathOfExile_x64.exe")
     {
-        StringTrimRight, POEPathTrim, POEpath, 18
+        POEPathTrim := SubStr(POEpath, 1, -1*(18))
     }
 
-    IfInstring, POEpath, PathOfExileEGS.exe
+    if InStr(POEpath, "PathOfExileEGS.exe")
     {
-        StringTrimRight, POEPathTrim, POEpath, 18 
+        POEPathTrim := SubStr(POEpath, 1, -1*(18))
     }
 
-    IfInstring, POEpath, PathOfExile_x64EGS.exe
+    if InStr(POEpath, "PathOfExile_x64EGS.exe")
     {
-        StringTrimRight, POEPathTrim, POEpath, 21 
+        POEPathTrim := SubStr(POEpath, 1, -1*(21))
     }
     
     LaunchIni := LaunchOptionsIni()
-    LogPath = %POEPathTrim%logs\Client.txt
+    LogPath := POEPathTrim . "logs\Client.txt"
     If (LogPath != "logs\Client.txt")
     {
-        IniWrite, %LogPath%, %LaunchIni%, POE, log
-        IniWrite, %POEPathTrim%, %LaunchIni%, POE, Directory
-        IniWrite, %POEpath%, %LaunchIni%, POE, EXE
+        IniWrite(LogPath, LaunchIni, "POE", "log")
+        IniWrite(POEPathTrim, LaunchIni, "POE", "Directory")
+        IniWrite(POEpath, LaunchIni, "POE", "EXE")
     }
     If (LogPath = "logs\Client.txt")
     {
-        IniRead, LogPath, %LaunchIni%, POE, log
+        LogPath := IniRead(LaunchIni, "POE", "log")
     }
     Return
 }
@@ -352,33 +354,37 @@ GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;; Theme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SelectTheme()
 {
-    Gui, Theme:-Border
-    Gui, Theme:Color, %Secondary%
-    Gui, Theme:-Caption
-    Gui, Theme:Font, c%Font% s10
-    Gui, Theme:Add, Button, x+10 yp+10 w90 h30, Dark Mode
-    Gui, Theme:Add, Picture, yn y10 Section ,Resources/Images/Dark Theme/Dark Reminder.png
-    Gui, Theme:Add, Picture, xs ,Resources/Images/Dark Theme/Dark Notification Selector.png
-    Gui, Theme:Add, Picture, ys ,Resources/Images/Dark Theme/Dark Mechanic Selector.png
-    Gui, Theme:Add, Picture, xs Section ,Resources/Images/Dark Theme/Dark Hotkey.png
-    Gui, Theme:Add, Picture, yn y10 ,Resources/Images/Dark Theme/Dark Hideout Select.png
-    Gui, Theme:Add, GroupBox, w900 h10 xn x10
-    Gui, Theme:Add, Button, x10 y+10 w90 h30 Section , Light Mode
-    Gui, Theme:Add, Picture, ys Section ,Resources//Images/Light Theme/Light Reminder.png
-    Gui, Theme:Add, Picture, xs ,Resources/Images/Light Theme/Light Notification Selector.png
-    Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Mechanic Selector.png
-    Gui, Theme:Add, Picture, xs ,Resources/ImageReturns/Light Theme/Light Hotkey.png
-    Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Hideout Select.png
-    Gui, Theme:Show,,Gui:Theme
+    Theme := Gui()
+    Theme.Opt("-Border")
+    Theme.BackColor := Secondary
+    Theme.Opt("-Caption")
+    Theme.SetFont("c" . Font . " s10")
+    ogcButtonDarkMode := Theme.Add("Button", "x+10 yp+10 w90 h30", "Dark Mode")
+    ogcButtonDarkMode.OnEvent("Click", ThemeButtonDarkMode.Bind("Normal"))
+    Theme.Add("Picture", "yn y10 Section", "Resources/Images/Dark Theme/Dark Reminder.png")
+    Theme.Add("Picture", "xs", "Resources/Images/Dark Theme/Dark Notification Selector.png")
+    Theme.Add("Picture", "ys", "Resources/Images/Dark Theme/Dark Mechanic Selector.png")
+    Theme.Add("Picture", "xs Section", "Resources/Images/Dark Theme/Dark Hotkey.png")
+    Theme.Add("Picture", "yn y10", "Resources/Images/Dark Theme/Dark Hideout Select.png")
+    Theme.Add("GroupBox", "w900 h10 xn x10")
+    ogcButtonLightMode := Theme.Add("Button", "x10 y+10 w90 h30 Section", "Light Mode")
+    ogcButtonLightMode.OnEvent("Click", ThemeButtonLightMode.Bind("Normal"))
+    Theme.Add("Picture", "ys Section", "Resources//Images/Light Theme/Light Reminder.png")
+    Theme.Add("Picture", "xs", "Resources/Images/Light Theme/Light Notification Selector.png")
+    Theme.Add("Picture", "ys", "Resources/Images/Light Theme/Light Mechanic Selector.png")
+    Theme.Add("Picture", "xs", "Resources/ImageReturns/Light Theme/Light Hotkey.png")
+    Theme.Add("Picture", "ys", "Resources/Images/Light Theme/Light Hideout Select.png")
+    Theme.Title := "Gui:Theme"
+    Theme.Show()
     Return
 }
 
 ThemeButtonDarkMode()
 {    
-    Gui, Theme:Destroy
+    Theme.Destroy()
     ThemeFile := ThemeIni()
-    IniWrite, Dark, %ThemeFile%, Theme, Theme
-    IfWinExist, First
+    IniWrite("Dark", ThemeFile, "Theme", "Theme")
+    if WinExist("First")
     {
         Reload()
     }
@@ -387,10 +393,10 @@ ThemeButtonDarkMode()
 
 ThemeButtonLightMode()
 {
-    Gui, Theme:Destroy
+    Theme.Destroy()
     ThemeFile := ThemeIni()
-    IniWrite, Light, %ThemeFile%, Theme, Theme
-    IfWinExist, First
+    IniWrite("Light", ThemeFile, "Theme", "Theme")
+    if WinExist("First")
     {
         Reload()
     }
@@ -401,27 +407,27 @@ CheckTheme()
 {
     Global ThemeItems := "Font|Background|Secondary"
     ThemeFile := ThemeIni()
-    IniRead, ColorMode, %ThemeFile%, Theme, Theme
+    ColorMode := IniRead(ThemeFile, "Theme", "Theme")
     Global Item
     Global each
     For each, Item in StrSplit(ThemeItems, "|")
     {
-        IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
+        %Item% := IniRead(ThemeFile, ColorMode, Item)
     }
-    Return, %ColorMode%
+    return ColorMode
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Hideout ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SetHideout()
 {
-    RunWait, Resources\Scripts\HideoutUpdate.ahk
+    RunWait("Resources\Scripts\HideoutUpdate.ahk")
     Return
 }
 
 GetHideout()
 {
     IniFile := HideoutIni()
-    IniRead, MyHideout, % IniFile, Current Hideout, MyHideout
+    MyHideout := IniRead(IniFile, "Current Hideout", "MyHideout")
     Return
 }
 
@@ -429,11 +435,11 @@ GetHideout()
 LaunchPoe()
 {
     LaunchOptionsIni := LaunchOptionsIni()
-    IniRead, PoeLaunch, %LaunchOptionsIni%, POE, EXE
-    IniRead, PoeDir, %LaunchOptionsIni%, POE, Directory
-    SetWOrkingDir, %PoeDir%
-    Run, %PoeLaunch%
-    SetWorkingDir, %A_ScriptDir%
+    PoeLaunch := IniRead(LaunchOptionsIni, "POE", "EXE")
+    PoeDir := IniRead(LaunchOptionsIni, "POE", "Directory")
+    SetWorkingDir(PoeDir)
+    Run(PoeLaunch)
+    SetWorkingDir(A_ScriptDir)
     LaunchSupport()
 Return
 }
@@ -441,40 +447,40 @@ Return
 ViewLog()
 {
     LaunchOptionsIni := LaunchOptionsIni()
-    IniRead, LogPath, %LaunchOptionsIni%, POE, Directory
-    run, %LogPath%\logs
+    LogPath := IniRead(LaunchOptionsIni, "POE", "Directory")
+    Run(LogPath "\logs")
     Return
 }
 
 Changelog()
 {
-    Run, Resources\Scripts\Changelog.ahk
+    Run("Resources\Scripts\Changelog.ahk")
     Return
 }
 
 Feedback()
 {
-    Run, https://github.com/sushibagel/PoE-Mechanic-Watch/discussions
+    Run("https://github.com/sushibagel/PoE-Mechanic-Watch/discussions")
     Return
 }
 
 Version()
 {
-    Run, Resources\Scripts\Version.ahk
+    Run("Resources\Scripts\Version.ahk")
     Return
 }
 
 Reload()
 {
     AdditionalScripts("Reload")
-    Reload
+    Reload()
     Return
 }
 
 Exit()
 {
     AdditionalScripts("Exit")
-    ExitApp
+    ExitApp()
 }
 
 AdditionalScripts(Action)
@@ -484,7 +490,7 @@ AdditionalScripts(Action)
    {
         If(Action = "Exit")
         {
-            WinClose, %A_ScriptDir%%script% ahk_class AutoHotkey    
+            WinClose(A_ScriptDir "" script " ahk_class AutoHotkey")
         }
         If(Action = "Reload")
         {
@@ -492,12 +498,12 @@ AdditionalScripts(Action)
                 {
                     If WinExist("Tail.ahk")
                         {
-                            Run, %A_ScriptDir%%script%
+                            Run(A_ScriptDir "" script)
                         }    
                 }                 
             Else
                 {
-                    Run, %A_ScriptDir%%script%
+                    Run(A_ScriptDir "" script)
                 }    
         }
    }
@@ -507,99 +513,99 @@ AdditionalScripts(Action)
 HotkeyCheck()
 {
     HotkeyPath := HotkeyIni()
-    Loop, 16
+    Loop 16
     {
-        IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
+        Hotkey%A_Index% := IniRead(HotkeyPath, "Hotkeys", A_Index)
         
         If !(Hotkey1 = "")
         {
-            Hotkey, %Hotkey1%, DivInput
+            Hotkey(Hotkey1, DivInput)
         }
 
         If !(Hotkey3 = "")
         {
-            Hotkey, ~%Hotkey3%, ToggleInfluence
+            Hotkey("~" Hotkey3, ToggleInfluence)
         }
         
         If !(Hotkey4 = "")
         {
-            Hotkey, ~%Hotkey4%, ViewMaven
+            Hotkey("~" Hotkey4, ViewMaven)
         }
        
         If !(Hotkey5 = "")
         {
-            Hotkey, ~%Hotkey5%, LaunchPoe
+            Hotkey("~" Hotkey5, LaunchPoe)
         }
        
         If !(Hotkey6 = "")
         {
-            Hotkey, ~%Hotkey5%, ToolLaunchGui
+            Hotkey("~" Hotkey5, ToolLaunchGui)
         }
         
         If !(Hotkey2 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, ~%Hotkey2%, SubtractOne
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey("~" Hotkey2, SubtractOne)
         }
         
         If !(Hotkey7 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey7%, Abyss, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey7, Abyss, "T5")
         }
         
         If !(Hotkey8 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey8%, Blight, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey8, Blight, "T5")
         }
         
         If !(Hotkey9 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey9%, Breach, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey9, Breach, "T5")
         }
         
         If !(Hotkey10 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey10%, Expedition, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey10, Expedition, "T5")
         }
         
         If !(Hotkey11 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey11%, Harvest, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey11, Harvest, "T5")
         }
         
         If !(Hotkey12 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey12%, Incursion, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey12, Incursion, "T5")
         }
         
         If !(Hotkey13 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey13%, Legion, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey13, Legion, "T5")
         }
         
         If !(Hotkey14 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey14%, Metamorph, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey14, Metamorph, "T5")
         }
 
         If !(Hotkey15 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey15%, Ritual, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey15, Ritual, "T5")
         }
         
         If !(Hotkey16 = "")
         {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey16%, Generic, T5
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey(Hotkey16, Generic, "T5")
         }
     }
 }
@@ -607,30 +613,30 @@ HotkeyCheck()
 TransparencyCheck(NotificationTransparency)
 {
    TransparencyIniPath := TransparencyIni()
-   IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%, 255
-   Return, %NotificationTransparency%
+   NotificationTransparency := IniRead(TransparencyIniPath, "Transparency", NotificationTransparency, 255)
+   return NotificationTransparency
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-#Include, Resources\Scripts\AutoMechanic.ahk
-#Include, Resources\Scripts\Class_ScrollGUI.ahk
-#Include, Resources\Scripts\DivCard.ahk
-#Include, Resources\Scripts\EldritchReminder.ahk
-#Include, Resources\Scripts\Firstrun.ahk
-#Include, Resources\Scripts\HotkeySelect.ahk
-#Include, Resources\Scripts\Ini.ahk
-#Include, Resources\Scripts\iniChoose.ahk
-#Include, Resources\Scripts\Influences.ahk
-#Include, Resources\Scripts\LaunchOptions.ahk
-#Include, Resources\Scripts\Maven.ahk
-#Include, Resources\Scripts\MavenReminder.ahk
-#Include, Resources\Scripts\Mechanics.ahk
-#Include, Resources\Scripts\NotificationSettings.ahk
-#Include, Resources\Scripts\NotificationSounds.ahk
-#Include, Resources\Scripts\Overlay.ahk
-#Include, Resources\Scripts\OverlaySetup.ahk
-#Include, Resources\Scripts\ToolLauncher.ahk
-#Include, Resources\Scripts\UpdateCheck.ahk
+#Include "Resources\Scripts\AutoMechanic.ahk"
+#Include "Resources\Scripts\DivCard.ahk"
+#Include "Resources\Scripts\EldritchReminder.ahk"
+#Include "Resources\Scripts\Firstrun.ahk"
+#Include "Resources\Scripts\HotkeySelect.ahk"
+#Include "Resources\Scripts\Ini.ahk"
+#Include "Resources\Scripts\iniChoose.ahk"
+#Include "Resources\Scripts\Influences.ahk"
+#Include "Resources\Scripts\LaunchOptions.ahk"
+#Include "Resources\Scripts\Maven.ahk"
+#Include "Resources\Scripts\MavenReminder.ahk"
+#Include "Resources\Scripts\Mechanics.ahk"
+#Include "Resources\Scripts\NotificationSettings.ahk"
+#Include "Resources\Scripts\NotificationSounds.ahk"
+#Include "Resources\Scripts\Overlay.ahk"
+#Include "Resources\Scripts\OverlaySetup.ahk"
+#Include "Resources\Scripts\ToolLauncher.ahk"
+#Include "Resources\Scripts\UpdateCheck.ahk"
 
 ;New Mechanic setup list. Add the following Global Variables (Mechanic Name, MechanicActive, MechanicOn - to Mechanics.ahk) Add mechanic name to Mechanic()(Function) in Mechanics.ahk
+

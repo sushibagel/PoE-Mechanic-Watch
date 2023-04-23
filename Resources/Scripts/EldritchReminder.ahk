@@ -6,14 +6,15 @@ Global InfluenceReminderActive
 
 EldritchReminder()
 {
-	Gui, InfluenceReminder:Destroy
+	InfluenceReminder := Gui()
+	InfluenceReminder.Destroy()
 	CheckTheme()
 	NotificationHeight := (A_ScreenHeight / 2) - Round(96/A_ScreenDPI*100)
 	TransparencyFile := TransparencyIni()
-    IniRead, NotificationTransparency, %TransparencyFile%, Transparency, Influence
+    NotificationTransparency := IniRead(TransparencyFile, "Transparency", "Influence")
 	If (NotificationTransparency = "ERROR")
 	{
-		NotificationTransparency = 255
+		NotificationTransparency := "255"
 	}
 	If WinExist("Notification Settings")
 	{
@@ -22,20 +23,21 @@ EldritchReminder()
 	}
 	If (InfluenceCount = 14) or (InfluenceCount = 28)
 	{
-		Gui, InfluenceReminder:Font, c%Font% s12
-		Gui, InfluenceReminder:Add, Text, Section,%ReminderText%
-		Gui, InfluenceReminder:Show, NoActivate y%NotificationHeight%, Reminder
-		DetectHiddenWindows, On
-		WinGetPos,xpos,, Width, Height, Reminder
+		InfluenceReminder.SetFont("c" . Font . " s12")
+		InfluenceReminder.Add("Text", "Section", ReminderText)
+		InfluenceReminder.Title := "Reminder"
+		InfluenceReminder.Show("NoActivate y" . NotificationHeight)
+		DetectHiddenWindows(true)
+		WinGetPos(&xpos, , &Width, &Height, "Reminder")
 		bx := Width/2
 		bx := Round(96/A_ScreenDPI*bx)
 		bx2 := bx - 150
 		bx := bx + 50
-		Gui, InfluenceReminder:Hide
-		WinSet, Style, -0xC00000, InfluenceReminder
+		InfluenceReminder.Hide()
+		WinSetStyle(-12582912, "InfluenceReminder")
     	gheight := height + Round(96/A_ScreenDPI*20)
 		NotificationIni := NotificationIni()
-		IniRead, NotificationActive, %NotificationIni%, Active, Influence, 1
+		NotificationActive := IniRead(NotificationIni, "Active", "Influence", 1)
 		If (height2 != "")
 		{
 			height1 := height2
@@ -46,23 +48,26 @@ EldritchReminder()
 			NotificationHeight := 850
 			NotificationActive := 1
 		}
-		Gui, InfluenceReminder:Font, s2
-		Gui, InfluenceReminder:Color, %Background%
-		Gui, InfluenceReminder:+AlwaysOnTop -Border
-		Gui, InfluenceReminder:Add, Text, xs, %A_Space%
-		Gui, InfluenceReminder:Font, s10
-		Gui, InfluenceReminder:Add, Button, xn x%bx2% w50 Section , OK
-		Gui, InfluenceReminder:Add, Button, x%bx% ys w100, Revert Count
+		InfluenceReminder.SetFont("s2")
+		InfluenceReminder.BackColor := Background
+		InfluenceReminder.Opt("+AlwaysOnTop -Border")
+		InfluenceReminder.Add("Text", "xs", A_Space)
+		InfluenceReminder.SetFont("s10")
+		ogcButtonOK := InfluenceReminder.Add("Button", "xn x" . bx2 . " w50 Section", "OK")
+		ogcButtonOK.OnEvent("Click", InfluenceReminderButtonOK.Bind("Normal"))
+		ogcButtonRevertCount := InfluenceReminder.Add("Button", "x" . bx . " ys w100", "Revert Count")
+		ogcButtonRevertCount.OnEvent("Click", InfluenceReminderButtonRevertCount.Bind("Normal"))
 		If (NotificationActive = 1)
 		{
-			Gui, InfluenceReminder:Show, NoActivate y%NotificationHeight% h%gheight%, InfluenceReminder
-			WinSet, Style, -0xC00000, InfluenceReminder
-			WinSet, Transparent, %NotificationTransparency%, InfluenceReminder
+			InfluenceReminder.Title := "InfluenceReminder"
+			InfluenceReminder.Show("NoActivate y" . NotificationHeight . " h" . gheight)
+			WinSetStyle(-12582912, "InfluenceReminder")
+			WinSetTransparent(NotificationTransparency, "InfluenceReminder")
 			Return
 		}
 		Else
 		{
-			Gui, InfluenceReminder:Destroy
+			InfluenceReminder.Destroy()
 		}
 	}
 	Return
@@ -70,5 +75,5 @@ EldritchReminder()
 
 EldritchReminderDestroy()
 {
-	Gui, InfluenceReminder:Destroy
+	InfluenceReminder.Destroy()
 }
