@@ -1,3 +1,8 @@
-v2.4.3
+v2.5
 
-Add some missing maps. 
+-   Added a map divination card checker. This uses divcards.io (Can be enabled in the Hotkey Selector Menu)
+    -   Added DivCard.ahk
+    -   Check maps by copying map data (Control + C)
+    -   Search for any map by setting a hotkey in the Hotkey Selector Menu. (Hint: This is useful for Kirac Missions)
+-   "Alt + Right" Click will now reset any counters (Eater, Searing, Maven, Incursion)
+-   Added and additional Expedition dialog. 

@@ -30,6 +30,10 @@ Maven Invitation Tracking for map bosses is done automatically. Maps will only b
 
 I have not tested Maven tracking extensively so there may be bugs. When I began this project I was excited to see the how Maven farming would feel with the new changes to Awakened Gem drops. Unforunately, (in my opinion) Maven still just doesn't feel very rewarding to farm so this resulted in minimal testing. This does not mean I refuse to work on it so please report any issues you notice. 
 
+##### Other Features:
+- Check Divination Cards in each map by pressing "Control + C" 
+- Setup tools/applications that will launch alongside Path of Exile    
+
 ## Installation:  
 To run this script you ***MUST*** have AutoHotKey installed. https://www.autohotkey.com/
 
@@ -58,6 +62,8 @@ If at any time you wish to change any settings this can be done by right clickin
 ![Tray Menu Icon](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu%20Icon.jpg?raw=true)
 
 ![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
+
+All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking them or reset with "Alt + Right" 
 
 #### Tray Menu Item Descriptions:  
 - Select Mechanics - Allows you to select which mechanics will appear for tracking in your Overlay  
@@ -116,7 +122,8 @@ Thank you to user "Coco" on the AutoHotKey forums for sharing the OnWin.ahk libr
 The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>  
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>  
 The reload button was found at <a href="https://www.flaticon.com/free-icons/refresh" title="refresh icons">Refresh icons created by Gregor Cresnar - Flaticon</a>  
-The stop button was found at <a href="https://www.flaticon.com/free-icons/forbidden" title="forbidden icons">Forbidden icons created by Freepik - Flaticon</a>  
+The stop button was found at <a href="https://www.flaticon.com/free-icons/forbidden" title="forbidden icons">Forbidden icons created by Freepik - Flaticon</a> 
+Thank you to the developer of divcards.io for the divination card data used in the Div Card checker. 
 
 I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey. I am in no ways responsible if this script bricks your computer, causes errors or results in a ban in Path of Exile. 
 
