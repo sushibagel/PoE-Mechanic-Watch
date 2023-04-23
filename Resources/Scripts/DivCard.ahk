@@ -189,6 +189,7 @@ CheckDiv:
             SG2.Show("Divination Card", "xCenter yCenter")
             Return
     }
+    Return
 
 DivCheckGuiClose()
 {
