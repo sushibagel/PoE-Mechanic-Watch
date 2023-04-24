@@ -130,7 +130,7 @@ SetHotkeys()
   InfluenceHotkey()
   {
     HotkeyPath := HotkeyIni()
-    IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 1
+    IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 2
 
     If InfluenceHotkey contains +
     {
