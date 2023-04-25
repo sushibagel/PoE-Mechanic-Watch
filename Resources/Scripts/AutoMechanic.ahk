@@ -81,5 +81,5 @@ ReadAutoMechanics()
 
 AutoMechanics()
 {
-    Return, "Blight|Expedition|Incursion"
+    Return, "Blight|Expedition|Incursion|Metamorph|Ritual"
 }

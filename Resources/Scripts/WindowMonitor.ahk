@@ -17,7 +17,6 @@ GroupAdd, PoeWindow, Quick Notify
 GroupAdd, PoeWindow, Notification Settings
 GroupAdd, PoeWindow, Awakened PoE Trade
 GroupAdd, PoeWindow, ahk_exe Code.exe
-GroupAdd, PoeWindow, ahk_exe notepad.exe
 
 ; OnMessage(0x01192, "ActivateInfluenceReminder")
 ; OnMessage(0x01155, "DeactivateInfluenceReminder")

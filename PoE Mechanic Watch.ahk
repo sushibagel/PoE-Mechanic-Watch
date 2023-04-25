@@ -129,6 +129,7 @@ GroupAdd, PoeWindow, Move
 GroupAdd, PoeWindow, Awakened PoE Trade   
 GroupAdd, PoeWindow, Influence  
 GroupAdd, PoeWindow, Transparency   
+GroupAdd, PoeWindow, ahk_exe code.exe
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 LocationIni := StorageIni()
@@ -290,6 +291,7 @@ Start()
     GetLogPath()
     CheckTheme()
     Run, Resources\Scripts\Tail.ahk
+    Run, Resources\Scripts\ScreenSearch.ahk
     Overlay()
 }
 Return
@@ -479,7 +481,7 @@ Exit()
 
 AdditionalScripts(Action)
 {
-   ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\WindowMonitor.ahk"
+   ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\WindowMonitor.ahk|\Resources\Scripts\ScreenSearch.ahk"
    For each, script in StrSplit(ScriptsActions, "|")
    {
         If(Action = "Exit")

@@ -56,6 +56,14 @@ RefreshOverlay()
                     TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                     Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
                 }
+                If (Mechanic = "Ritual")
+                    {
+                        MechanicsIni := MechanicsIni()
+                        IniRead, Ritualcount, %MechanicsIni%, Ritual Count, Count
+                        Gui, Overlay:Font, cWhite s%OverlayFont%
+                        TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %Ritualcount%
+                    }
             }
             Else
             {

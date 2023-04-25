@@ -4,6 +4,9 @@ AHKLIB = %A_MyDocuments%\AutoHotKey\Lib
 VA = %AHKLIB%\VA.ahk
 WV= %AHKLIB%\setWindowVol.ahk
 INI= Resources\Settings\StorageLocation.ini
+Gdip = %AHKLIB%\Gdip_All.ahk
+IS = %AHKLIB%\Gdip_ImageSearch.ahk
+ISC = %AHKLIB%\Gdip_ImageSearch.c
 
 If !FileExist(AHKLIB)
 {
@@ -17,6 +20,18 @@ If !FileExist(WV)
 {
     FileCopy, Resources\Scripts\setWindowVol.ahk, %AHKLIB%
 }
+If !FileExist(Gdip)
+{
+    FileCopy, Resources\Scripts\Gdip_All.ahk, %AHKLIB%
+}
+If !FileExist(IS)
+{
+    FileCopy, Resources\Scripts\Gdip_ImageSearch.ahk, %AHKLIB%
+}
+If !FileExist(ISC)
+{
+    FileCopy, Resources\Scripts\Gdip_ImageSearch.c, %AHKLIB%
+}
 If FileExist(INI)
 {
     IniRead, Location, %INI%, Settings Location, Location
@@ -26,9 +41,9 @@ If FileExist(INI)
 If FileExist(Location)
 {
     IniRead, Hotkeys, %Location%, Hotkeys
-    If !InStr(Hotkeys, "15")
+    If !InStr(Hotkeys, "16")
     {
-        Loop, 15
+        Loop, 16
         {
             IniWrite, %A_Space%, %Location%, Hotkeys, %A_Index%
         }
