@@ -59,7 +59,7 @@ RefreshOverlay()
                 If (Mechanic = "Ritual")
                     {
                         MechanicsIni := MechanicsIni()
-                        IniRead, Ritualcount, %MechanicsIni%, Ritual Count, Count
+                        IniRead, Ritualcount, %MechanicsIni%, Ritual Track, Count, %A_Space%
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         Gui, Overlay:Add, Text, xs+%TrackOffset%, %Ritualcount%

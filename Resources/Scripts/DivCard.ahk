@@ -131,7 +131,6 @@ CheckDiv:
         Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, Usefullness
         TWidth := Round(96/A_ScreenDPI*150)
         Gui, DivCheck:Add, Text, ys w%TWidth% +Wrap, Wiki Link
-        
         MapData := StrSplit(MapData,"`n")
         Loop, % MapData.MaxIndex()
             {
