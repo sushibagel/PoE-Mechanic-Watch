@@ -83,7 +83,7 @@ ScreenCheck()
                             If (isActive = 1)
                                 {
                                     IniWrite, 0, %MechanicsIni%, Mechanic Active, Metamorph
-                                    IniWrite, 0, %MechanicsIni%, Metamorph Track, Status ;Shut screen search off for metamorph until next map. Toggled back on in hideout section of log script
+                                    IniWrite, 0, %MechanicsIni%, Metamorph Track, Status ;Shut screen search off for metamorph until next map. Toggled back on on in the Tail.ahk script
                                     IniWrite, 1, %MechanicsIni%, Metamorph Track, Icon Status ;Toggle Icon search on. 
                                     RefreshOverlay()
                                     GdipClean()
@@ -93,13 +93,12 @@ ScreenCheck()
                         
                     If InStr(ThisSearch, "Shop")
                         {
-                            msgbox, test
                             MechanicsIni := MechanicsIni()
                             IniRead, isActive, %MechanicsIni%, Mechanic Active, Ritual
                             If (isActive = 1)
                                 {
                                     IniWrite, 0, %MechanicsIni%, Mechanic Active, Ritual
-                                    IniWrite, 0, %MechanicsIni%, Ritual Track, Status ;Shut screen search off for ritual until next map. Toggled back on in hideout section of log script
+                                    IniWrite, 0, %MechanicsIni%, Ritual Track, Status ;Shut screen search off for ritual until next map. Toggled back on by the "Tail.ahk" script. 
                                     RefreshOverlay()
                                     GdipClean()
                                     Return
@@ -134,7 +133,7 @@ ScreenCheck()
                                     IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount24
                                     IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount34
                                     IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
-                                    IniWrite, 0, %MechanicsIni%, Ritual Track, %ThisSearch% ;Shut screen search off for ritual the ritual icon. Toggled back on as we go
+                                    IniWrite, 0, %MechanicsIni%, Ritual Track, %ThisSearch% ;Shut screen search off for the triggering ritual. Toggled back on as we go
                                     RitualCount := StrSplit(ThisSearch, "RitualCount")
                                     RitualCount := SubStr(RitualCount[2], 1, 1) "/" SubStr(RitualCount[2], 0, 1)
                                     IniWrite, %RitualCount%, %MechanicsIni%, Ritual Track, Count

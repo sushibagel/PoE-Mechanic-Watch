@@ -135,6 +135,7 @@ LogTail(text)
 	}
 	If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
 	{
+		ToggleScreenSearch(NewLine)
 		InfluenceTrack(NewLine)
 		Exit
 	}
@@ -218,6 +219,36 @@ FirstRun()
 {
 	
 }
+
+ToggleScreenSearch(NewLine)
+{
+	NewMap =: ;Clear map name variable
+	ResetTrack := NewLine
+	FirstTrack := StrSplit(ResetTrack, A_Space)
+	SeedTrack = % FirstTrack[15] ;Get zone seed number
+	SplitDelim = `"
+	TrackMap = % FirstTrack[12]
+	SecondTrack := StrSplit(TrackMap, SplitDelim)
+	TrackMap = % SecondTrack[2]
+	NewMap := StrSplit(TrackMap, "MapWorlds")
+	NewMap = % NewMap[2] ; Zone name
+
+	VariablePath := VariableIni()
+	IniRead, PriorMap, %VariablePath%, Screen Search Zone Track, Last Map
+	IniRead, PriorSeed, %VariablePath%, Screen Search Zone Track, Last Seed
+	If (NewMap != "") and ((NewMap != PriorMap) or (SeedTrack != PriorSeed))
+	{
+		IniWrite, %NewMap%, %VariablePath%, Screen Search Zone Track, Last Map
+        IniWrite, %SeedTrack%, %VariablePath%, Screen Search Zone Track, Last Seed
+		MechanicsIni := MechanicsIni()
+		IniWrite, 1, %MechanicsIni%, Ritual Track, Status
+		IniWrite, 1, %MechanicsIni%, Metamorph Track, Status
+		IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
+		IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
+	}
+
+}
+
 #IncludeAgain, Resources/Scripts/AutoMechanic.ahk
 #IncludeAgain, Resources/Scripts/EldritchReminder.ahk
 #IncludeAgain, Resources/Scripts/HotkeySelect.ahk
