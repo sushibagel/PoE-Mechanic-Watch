@@ -45,15 +45,15 @@ ScreenCheck()
                     IniRead, TrackerCheck,  %MechanicsIni%, %CurrentSearch%, Status, 0 ; Check the status of the mechanic tracker 
                     If (ActiveCheck = 1) and (TrackerCheck = 1)
                         {
-                            If (MySearches = "")
-                                {
-                                   CurrentSearch := % SearchMechanics[A_Index] "Search"
-                                   MySearches := %CurrentSearch%()
-                                }
                             If !(MySearches = "")
                                 {
                                     CurrentSearch := % SearchMechanics[A_Index] "Search"
                                     MySearches := MySearches "|" %CurrentSearch%()
+                                }
+                            If (MySearches = "")
+                                {
+                                   CurrentSearch := % SearchMechanics[A_Index] "Search"
+                                   MySearches := %CurrentSearch%()
                                 }
                         }
                 }
@@ -91,7 +91,6 @@ ScreenCheck()
                                     Return
                                 }
                         }
-                        
                     If InStr(ThisSearch, "Shop")
                         {
                             MechanicsIni := MechanicsIni()
@@ -189,7 +188,7 @@ MetamorphSearch()
 
 RitualSearch()
 {
-    Return, "RitualCount23|RitualCount33|RitualCount24|RitualCount34|RitualCount44|RitualShop|RitualCount13|RitualCount14"
+    Return, "RitualShop|RitualCount23|RitualCount33|RitualCount24|RitualCount34|RitualCount44|RitualCount13|RitualCount14"
 }
 
 GdipClean()
