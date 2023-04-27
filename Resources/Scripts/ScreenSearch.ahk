@@ -1,6 +1,7 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
+#NoTrayIcon
 
 Global ScreenSearchMechanics := "Metamorph|Ritual"
 Global MySearches
@@ -210,7 +211,3 @@ GdipClean()
 }
 
 #IncludeAgain, Resources/Scripts/Ini.ahk
-
-#P::
-Reload
-Return
