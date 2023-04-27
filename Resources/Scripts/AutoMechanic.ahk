@@ -1,6 +1,8 @@
 Global BlightAuto
 Global ExpeditionAuto 
 Global IncursionAuto
+Global MetamorphAuto
+Global RitualAuto
 Global AutoMechanicSearch
 
 SelectAuto()
@@ -19,8 +21,8 @@ SelectAuto()
     }
     Gui, Auto:Font, s10
     Gui, Auto:Add, Text, +Wrap w180, Note: to use Auto Mechanics the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel. 
-    Gui, Auto:Add, Button, x10 y210 w80 h40, Select Mechanics
-    Gui, Auto:Add, Button, x105 y210 w80 h40, OK
+    Gui, Auto:Add, Button, x10 y260 w80 h40, Select Mechanics
+    Gui, Auto:Add, Button, x105 y260 w80 h40, OK
     Gui, Auto:Show, W200, Auto Enable/Disable (Beta)
     Return
 }
