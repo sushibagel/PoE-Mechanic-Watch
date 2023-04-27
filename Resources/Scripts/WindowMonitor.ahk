@@ -16,8 +16,6 @@ GroupAdd, PoeWindow, OverlaySetup
 GroupAdd, PoeWindow, Quick Notify
 GroupAdd, PoeWindow, Notification Settings
 GroupAdd, PoeWindow, Awakened PoE Trade
-GroupAdd, PoeWindow, ahk_exe Code.exe
-GroupAdd, PoeWindow, ahk_exe explorer.exe
 
 ; OnMessage(0x01192, "ActivateInfluenceReminder")
 ; OnMessage(0x01155, "DeactivateInfluenceReminder")
@@ -84,7 +82,7 @@ WaitActive()
         DetectHiddenWindows, On
         If !WinExist("Path of Exile")
         {
-            ; WinWaitActive, Path of Exile
+            WinWaitActive, Path of Exile
             PostSetup()
             PostMessage, 0x01783,,,, PoE Mechanic Watch.ahk - AutoHotkey ;timed update on PoE launch
             PostRestore()
