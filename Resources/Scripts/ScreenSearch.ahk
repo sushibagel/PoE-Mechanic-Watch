@@ -1,7 +1,7 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
-#NoTrayIcon
+; #NoTrayIcon
 
 Global ScreenSearchMechanics := "Metamorph|Ritual"
 Global MySearches
@@ -138,6 +138,10 @@ ScreenCheck()
                                     RitualCount := SubStr(RitualCount[2], 1, 1) "/" SubStr(RitualCount[2], 0, 1)
                                     IniWrite, %RitualCount%, %MechanicsIni%, Ritual Track, Count
                                     RefreshOverlay()
+                                    If (RitualCount = "3/3") or (RitualCount = "4/4")
+                                        {
+                                            QuickNotify()
+                                        }
                                 }
 
                     GdipClean()
@@ -207,6 +211,54 @@ GdipClean()
     Gdip_DisposeImage(RitualCount23)
     Gdip_DisposeImage(RitualCount44)
     Gdip_Shutdown(gdipToken)
+}
+
+QuickNotify()
+{
+    Gui, Quick:Destroy
+    NotificationIni := NotificationIni()
+    IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
+    IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
+    ThemeIni := ThemeIni()
+    IniRead, Theme, %ThemeIni%, Theme, Theme
+    IniRead, Background, %ThemeIni%, %Theme%, Background
+    IniRead, Background, %ThemeIni%, %Theme%, Font
+    Gui, Quick:Color, %Background%
+    Gui, Quick:Font, c%Font% s10
+    ShowTitle := "-0xC00000"
+    ShowBorder := "-Border"
+    Gui, Quick:Add, Text,,You just completed your Final Ritual, Don't forget to get your rewards. 
+    Gui, Quick: +AlwaysOnTop %ShowBorder%
+    Notificationpath := NotificationIni()
+    IniRead, Active, %NotificationPath%, Active, Quick, 1
+    If (Active = 1)
+    {
+        Gui, Quick:Show, NoActivate x%Horizontal% y%Vertical%, Quick Notify
+        TransparencyIniPath := TransparencyIni()
+        IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, Quick, 255
+        WinSet, Style,  %ShowTitle%, Quick Notify
+        WinSet, Transparent, %NotificationTransparency%, Quick Notify
+    }
+    NotificationPath := NotificationIni()
+    IniRead, SoundActive, %NotificationPath%, Sound Active, Quick
+    IniRead, NotificationSound, %NotificationPath%, Sounds, Quick, Resources\Sounds\reminder.wav
+    If (SoundActive = 1)
+    {
+        SoundPlay, Resources\Sounds\blank.wav ;;;;; super hacky workaround but works....
+        SetTitleMatchMode, 2
+        WinGet, AhkExe, ProcessName, Quick
+        SetTitleMatchMode, 1
+        SetWindowVol(AhkExe, NotificationVolume)
+        SoundPlay, %NotificationSound%
+    }
+    SetTimer, CloseGui, -3000
+}
+
+CloseGui()
+{
+    Gui, Quick:Destroy
+    Tooltip
+    Return
 }
 
 #IncludeAgain, Resources/Scripts/Ini.ahk
