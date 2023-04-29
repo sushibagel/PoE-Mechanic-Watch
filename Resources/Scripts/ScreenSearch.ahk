@@ -1,6 +1,7 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
+#MaxMem 1024
 ; #NoTrayIcon
 
 Global ScreenSearchMechanics := "Metamorph|Ritual"
@@ -28,8 +29,9 @@ Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling t
                 If (ActiveCheck = 1)
                     {
                         WriteBitmaps()
+                        GdipClean()
                         SetTimer, ScreenCheck, 1000
-                        SetTimer, Restart, 180000
+                        ; SetTimer, Restart, 180000
                         Break
                     }
             }

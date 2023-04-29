@@ -1,6 +1,7 @@
 #SingleInstance, force
 #Persistent
 #NoEnv
+#MaxMem 1024
 ;#Warn
 
 OnExit("Exit")

@@ -2,6 +2,8 @@
 #Persistent
 #NoEnv
 #NoTrayIcon
+#MaxMem 1024
+
 Global MechanicsActive
 Global WaitKill
 SetTitleMatchMode, 2

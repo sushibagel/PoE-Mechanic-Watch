@@ -2,6 +2,7 @@
 #Persistent
 #NoEnv
 #NoTrayIcon
+#MaxMem 1024
 
 Global CLogTailer
 Global NewLine
