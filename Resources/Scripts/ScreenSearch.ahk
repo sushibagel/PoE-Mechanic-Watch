@@ -9,6 +9,10 @@ Global MySearches
 #Include <Gdip_All>
 #Include <Gdip_ImageSearch>
 
+GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
+GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
+GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
+GroupAdd, PoeWindow, ahk_class POEWindowClass
                             
 OnExit("ExitScript") 
 
@@ -23,13 +27,124 @@ Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling t
                 IniRead, ActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
                 If (ActiveCheck = 1)
                     {
-                        SetTimer, ScreenCheck, 500
+                        WriteBitmaps()
+                        SetTimer, ScreenCheck, 1000
                         Break
                     }
             }
     }
 
 ScreenCheck()
+{
+    MySearches := GetSearches()
+    ;begin actual search
+    gdipToken := Gdip_Startup()
+    PoeHwnd := WinExist("ahk_group PoeWindow")
+    bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+    MySearches := GetSearches()
+    gdipToken := Gdip_Startup()
+    MySearches := StrSplit(MySearches, "|")
+    LoopCount := MySearches.MaxIndex()
+    Loop, %LoopCount%
+        {
+            ThisSearch := % MySearches[A_Index]
+            SearchActive := ThisSearch "Search"
+            ScreenIni := ScreenIni()
+            IniRead, ThisSearch1, %ScreenIni%, Bitmaps, %ThisSearch%
+            If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,,0,0,0,30,0xFFFFFF,1,0) = 1)
+                {  
+                    If InStr(ThisSearch, "Assem")
+                        {
+                            MechanicsIni := MechanicsIni()
+                            IniRead, isActive, %MechanicsIni%, Mechanic Active, Metamorph
+                            If (isActive = 1)
+                                {
+                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Metamorph
+                                    IniWrite, 0, %MechanicsIni%, Metamorph Track, Status ;Shut screen search off for metamorph until next map. Toggled back on on in the Tail.ahk script
+                                    IniWrite, 1, %MechanicsIni%, Metamorph Track, Icon Status ;Toggle Icon search on. 
+                                    RefreshOverlay()
+                                    GdipClean()
+                                    Break
+                                }
+                        }
+                    If InStr(ThisSearch, "Shop")
+                        {
+                            MechanicsIni := MechanicsIni()
+                            IniRead, isActive, %MechanicsIni%, Mechanic Active, Ritual
+                            If (isActive = 1)
+                                {
+                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Ritual
+                                    IniWrite, 0, %MechanicsIni%, Ritual Track, Status ;Shut screen search off for ritual until next map. Toggled back on by the "Tail.ahk" script. 
+                                    RefreshOverlay()
+                                    GdipClean()
+                                    Break
+                                }
+                        }
+                    
+                    If InStr(ThisSearch, "MetamorphIcon")
+                        {
+                            MechanicsIni := MechanicsIni()
+                            IniRead, iconStatus, %MechanicsIni%, Metamorph Track, Icon Status, 0
+                            If (iconStatus = 1)
+                                {
+                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Metamorph
+                                    IniWrite, 0, %MechanicsIni%, Metamorph Track, Icon Status ;Shut screen search off for metamorph the metamorph icon. Toggled back on by aseembly screen
+                                    RefreshOverlay()
+                                }
+                            GdipClean()
+                            Break
+                        }
+
+                    If InStr(ThisSearch, "RitualCount")
+                        {
+                            MechanicsIni := MechanicsIni()
+                            IniRead, iconStatus, %MechanicsIni%, Ritual Track, %ThisSearch%, 0
+                            If (iconStatus = 1)
+                                {
+                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Ritual
+                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount13 ;Toggle on all the ritual trackers except the one that triggered. 
+                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount23
+                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
+                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount14
+                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount24
+                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount34
+                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
+                                    IniWrite, 0, %MechanicsIni%, Ritual Track, %ThisSearch% ;Shut screen search off for the triggering ritual. Toggled back on as we go
+                                    RitualCount := StrSplit(ThisSearch, "RitualCount")
+                                    RitualCount := SubStr(RitualCount[2], 1, 1) "/" SubStr(RitualCount[2], 0, 1)
+                                    IniWrite, %RitualCount%, %MechanicsIni%, Ritual Track, Count
+                                    RefreshOverlay()
+                                    If (RitualCount = "3/3") or (RitualCount = "4/4")
+                                        {
+                                            QuickNotify()
+                                        }
+                                }
+                                GdipClean()
+                                Break
+                }
+        }
+    }
+}
+Return
+
+WriteBitmaps()
+{
+    MySearches := GetSearches()
+    gdipToken := Gdip_Startup()
+    MySearches := StrSplit(MySearches, "|")
+    LoopCount := MySearches.MaxIndex()
+    Loop, %LoopCount% ; Get all image locations
+        {
+            PngSearch := MySearches[A_Index]
+            PngLocation := "Resources\Images\Image Search\" MySearches[A_Index] ".png"
+            %PngSearch% := Gdip_CreateBitmapFromFile(PngLocation)
+            BitmapData := %PngSearch%
+            ScreenIni := ScreenIni()
+            IniWrite, %BitmapData%, %ScreenIni%, Bitmaps, % MySearches[A_Index]
+        }
+}
+
+GetSearches()
 {
     MechanicsIni := MechanicsIni()
     SearchMechanics := StrSplit(ScreenSearchMechanics, "|")
@@ -58,99 +173,8 @@ ScreenCheck()
                         }
                 }
         }
-;begin actual search
-    gdipToken := Gdip_Startup()
-    bmpHaystack := Gdip_BitmapFromScreen()
-    MySearches := StrSplit(MySearches, "|")
-    LoopCount := MySearches.MaxIndex()
-    Loop, %LoopCount% ; Get all image locations
-        {
-            PngSearch := MySearches[A_Index]
-            PngLocation := "Resources\Images\Image Search\" MySearches[A_Index] ".png"
-            %PngSearch% := Gdip_CreateBitmapFromFile(PngLocation)
-        }
-    
-    Loop, %LoopCount%
-        {
-            ThisSearch := % MySearches[A_Index]
-            ThisSearch1 := %ThisSearch%
-            SearchActive := ThisSearch "Search"
-            If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,,0,0,0,30,0xFFFFFF,1,0) = 1)
-                {  
-                    If InStr(ThisSearch, "Assem")
-                        {
-                            MechanicsIni := MechanicsIni()
-                            IniRead, isActive, %MechanicsIni%, Mechanic Active, Metamorph
-                            If (isActive = 1)
-                                {
-                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Metamorph
-                                    IniWrite, 0, %MechanicsIni%, Metamorph Track, Status ;Shut screen search off for metamorph until next map. Toggled back on on in the Tail.ahk script
-                                    IniWrite, 1, %MechanicsIni%, Metamorph Track, Icon Status ;Toggle Icon search on. 
-                                    RefreshOverlay()
-                                    GdipClean()
-                                    Return
-                                }
-                        }
-                    If InStr(ThisSearch, "Shop")
-                        {
-                            MechanicsIni := MechanicsIni()
-                            IniRead, isActive, %MechanicsIni%, Mechanic Active, Ritual
-                            If (isActive = 1)
-                                {
-                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Ritual
-                                    IniWrite, 0, %MechanicsIni%, Ritual Track, Status ;Shut screen search off for ritual until next map. Toggled back on by the "Tail.ahk" script. 
-                                    RefreshOverlay()
-                                    GdipClean()
-                                    Return
-                                }
-                        }
-                    
-                    If InStr(ThisSearch, "MetamorphIcon")
-                        {
-                            MechanicsIni := MechanicsIni()
-                            IniRead, iconStatus, %MechanicsIni%, Metamorph Track, Icon Status, 0
-                            If (iconStatus = 1)
-                                {
-                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Metamorph
-                                    IniWrite, 0, %MechanicsIni%, Metamorph Track, Icon Status ;Shut screen search off for metamorph the metamorph icon. Toggled back on by aseembly screen
-                                    RefreshOverlay()
-                                }
-                            GdipClean()
-                            Return
-                        }
-
-                    If InStr(ThisSearch, "RitualCount")
-                        {
-                            MechanicsIni := MechanicsIni()
-                            IniRead, iconStatus, %MechanicsIni%, Ritual Track, %ThisSearch%, 0
-                            If (iconStatus = 1)
-                                {
-                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Ritual
-                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount13 ;Toggle on all the ritual trackers except the one that triggered. 
-                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount23
-                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
-                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount14
-                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount24
-                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount34
-                                    IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
-                                    IniWrite, 0, %MechanicsIni%, Ritual Track, %ThisSearch% ;Shut screen search off for the triggering ritual. Toggled back on as we go
-                                    RitualCount := StrSplit(ThisSearch, "RitualCount")
-                                    RitualCount := SubStr(RitualCount[2], 1, 1) "/" SubStr(RitualCount[2], 0, 1)
-                                    IniWrite, %RitualCount%, %MechanicsIni%, Ritual Track, Count
-                                    RefreshOverlay()
-                                    If (RitualCount = "3/3") or (RitualCount = "4/4")
-                                        {
-                                            QuickNotify()
-                                        }
-                                }
-
-                    GdipClean()
-                    Return
-                }
-        }
-    }
+    Return, %MySearches%
 }
-
 DestroySearchGui:
 {
     Gui, ScreenSearch:Destroy

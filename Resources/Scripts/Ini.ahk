@@ -10,6 +10,7 @@ IniPath(MyKey){
         case "Misc":            MyValue := "Resources\Settings\Misc.ini"                ;Section Key - On Death
         case "Notification":    MyValue := "Resources\Settings\Notification.ini"        ;Section Key - Sounds, Active, Volume
         case "Overlay":         MyValue := "Resources\Settings\OverlayPosition.ini"     ;Section Key - Overlay
+        case "Screen":          MyValue := "Resources\Data\ScreenSearch.ini"            ;Section Key - Bitmaps 
         case "Theme":           MyValue := "Resources\Settings\Theme.ini"               ;Section Key - Dark, Light, Theme
         case "Transparency":    MyValue := "Resources\Settings\Transparency.ini"        ;Section Key - Transparency
         case "Variable":        MyValue := "Resources\Data\Variable.ini"                ;Section Key - Map       
@@ -78,6 +79,14 @@ NotificationIni()
 OverlayIni()
 {
     MyKey := "Overlay"
+    IniFile := IniPath(MyKey)
+    IniFile := CheckDir(IniFile)
+    Return, % IniFile
+}
+
+ScreenIni()
+{
+    MyKey := "Screen"
     IniFile := IniPath(MyKey)
     IniFile := CheckDir(IniFile)
     Return, % IniFile
