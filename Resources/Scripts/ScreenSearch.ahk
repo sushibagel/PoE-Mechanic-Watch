@@ -3,6 +3,7 @@
 #NoEnv
 #MaxMem 1024
 ; #NoTrayIcon
+Menu, Tray, Icon, C:\Users\drwsi\Downloads\7039_exe_hardware_hospital_install_installer_icon.png
 
 Global ScreenSearchMechanics := "Metamorph|Ritual"
 Global MySearches
@@ -44,6 +45,9 @@ ScreenCheck()
     gdipToken := Gdip_Startup()
     PoeHwnd := WinExist("ahk_group PoeWindow")
     bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+    ScreenIni := ScreenIni()
+    IniWrite, %bmpHaystack%, %ScreenIni%, Bitmaps, HayStackImage
+    Gdip_DisposeImage(bmpHaystack)
     MySearches := GetSearches()
     gdipToken := Gdip_Startup()
     MySearches := StrSplit(MySearches, "|")
@@ -51,7 +55,6 @@ ScreenCheck()
     Loop, %LoopCount%
         {
             ThisSearch := % MySearches[A_Index]
-            SearchActive := ThisSearch "Search"
             If InStr(ThisSearch, "Metamorph")
                 {
                     ThisSection := "Metamorph Track"
@@ -79,8 +82,9 @@ ScreenCheck()
             {
                 ScreenIni := ScreenIni()
                 IniRead, ThisSearch1, %ScreenIni%, Bitmaps, %ThisSearch%
-                If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,,0,0,0,30,0xFFFFFF,1,0) = 1)
-                    {  
+                IniRead, bmpHaystack, %ScreenIni%, Bitmaps, HayStackImage
+                If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,,0,0,0,30,0xFFFFFF,1,0) > 0)
+                    {     
                         If InStr(ThisSearch, "Assem")
                             {
                                 MechanicsIni := MechanicsIni()
@@ -169,7 +173,7 @@ WriteBitmaps()
             %PngSearch% := Gdip_CreateBitmapFromFile(PngLocation)
             BitmapData := %PngSearch%
             ScreenIni := ScreenIni()
-            IniWrite, %BitmapData%, %ScreenIni%, Bitmaps, % MySearches[A_Index]
+            IniWrite, %BitmapData%, %ScreenIni%, Bitmaps, %PngSearch%
         }
 }
 
@@ -263,7 +267,6 @@ GdipClean()
     Gdip_DisposeImage(RitualCount34)
     Gdip_DisposeImage(RitualCount23)
     Gdip_DisposeImage(RitualCount44)
-    Gdip_Shutdown(gdipToken)
 }
 
 QuickNotify()
@@ -316,6 +319,7 @@ CloseGui()
 
 Restart()
 {
+    Gdip_Shutdown(gdipToken)
     Reload
 }
 

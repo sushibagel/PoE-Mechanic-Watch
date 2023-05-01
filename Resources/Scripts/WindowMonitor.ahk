@@ -18,7 +18,6 @@ GroupAdd, PoeWindow, OverlaySetup
 GroupAdd, PoeWindow, Quick Notify
 GroupAdd, PoeWindow, Notification Settings
 GroupAdd, PoeWindow, Awakened PoE Trade
-GroupAdd, PoeWindow, ahk_exe code.exe
 
 ; OnMessage(0x01192, "ActivateInfluenceReminder")
 ; OnMessage(0x01155, "DeactivateInfluenceReminder")
