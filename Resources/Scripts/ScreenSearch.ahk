@@ -2,8 +2,8 @@
 #Persistent
 #NoEnv
 #MaxMem 1024
-; #NoTrayIcon
-Menu, Tray, Icon, C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\metamorph.png
+#NoTrayIcon
+Menu, Tray, Icon, Resources\Images\generic.png
 
 Global ScreenSearchMechanics := "Metamorph|Ritual"
 Global MySearches
@@ -31,7 +31,7 @@ Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling t
                     {
                         WriteBitmaps()
                         GdipClean()
-                        SetTimer, ScreenCheck, 500
+                        SetTimer, ScreenCheck, 1000
                         ; SetTimer, Restart, 180000
                         Break
                     }

@@ -4,6 +4,8 @@
 #NoTrayIcon
 #MaxMem 1024
 
+Menu, Tray, Icon, Resources\Images\maven.png
+
 Global CLogTailer
 Global NewLine
 

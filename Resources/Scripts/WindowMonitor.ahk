@@ -4,6 +4,8 @@
 #NoTrayIcon
 #MaxMem 1024
 
+Menu, Tray, Icon, Resources\Images\incursion.png
+
 Global MechanicsActive
 Global WaitKill
 SetTitleMatchMode, 2
