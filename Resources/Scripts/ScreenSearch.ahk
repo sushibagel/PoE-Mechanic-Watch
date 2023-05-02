@@ -3,7 +3,7 @@
 #NoEnv
 #MaxMem 1024
 ; #NoTrayIcon
-Menu, Tray, Icon, C:\Users\drwsi\Downloads\7039_exe_hardware_hospital_install_installer_icon.png
+Menu, Tray, Icon, C:\Users\drwsi\Documents\PoE Mechanic Watch\PoE-Mechanic-Watch\Resources\Images\metamorph.png
 
 Global ScreenSearchMechanics := "Metamorph|Ritual"
 Global MySearches
@@ -31,7 +31,7 @@ Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling t
                     {
                         WriteBitmaps()
                         GdipClean()
-                        SetTimer, ScreenCheck, 1000
+                        SetTimer, ScreenCheck, 500
                         ; SetTimer, Restart, 180000
                         Break
                     }
@@ -47,7 +47,6 @@ ScreenCheck()
     bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
     ScreenIni := ScreenIni()
     IniWrite, %bmpHaystack%, %ScreenIni%, Bitmaps, HayStackImage
-    Gdip_DisposeImage(bmpHaystack)
     MySearches := GetSearches()
     gdipToken := Gdip_Startup()
     MySearches := StrSplit(MySearches, "|")
@@ -99,7 +98,7 @@ ScreenCheck()
                                         Break
                                     }
                             }
-                        If InStr(ThisSearch, "Shop")
+                        If InStr(ThisSearch, "Shop") ; need to make it only reset if opened at full count
                             {
                                 MechanicsIni := MechanicsIni()
                                 IniRead, isActive, %MechanicsIni%, Mechanic Active, Ritual
@@ -154,9 +153,14 @@ ScreenCheck()
                                     GdipClean()
                                     Break
                             }
-                    }  
+                            Gdip_DisposeImage(bmpHaystack)
+                            Gdip_Shutdown(gdipToken)
+                    }
             } 
-    }
+        }
+
+        Gdip_DisposeImage(bmpHaystack)
+        Gdip_Shutdown(gdipToken)
 }
 Return
 
