@@ -11,19 +11,44 @@ SelectAuto()
     Sleep, 100
     Gui, Auto:-Border -Caption
     Gui, Auto:Color, %Background%
-    Gui, Auto:Font, c%Font% s10
+    Gui, Auto:Font, c%Font% s5
+    Gui, Auto: Add, Text, Section,
+    Gui, Auto:Font, c%Font% s13
     AutoMechanicSearch := AutoMechanics()
     For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
         autochecked := % mechanic "Auto"
         autochecked := % %autochecked%
-        Gui, Auto:Add, Checkbox, v%Mechanic% Checked%autochecked%, %Mechanic%
+        Gui, Auto:Add, Checkbox, xs v%Mechanic% Checked%autochecked%, %Mechanic%
+        Gui, Auto:Font, c%Font% s5
+        If (Mechanic = "Metamorph") or (Mechanic = "Ritual")
+            {
+                FootNote := 2
+            }
+        Else
+            {
+                FootNote := 1
+            }
+        Gui, Auto: Add, Text, x+.5 yp, %FootNote%
+        Gui, Auto:Font, c%Font% s13
     }
+    Gui, Auto:Font, c%Font% s5
+    Gui, Auto: Add, Text, xs Section,
     Gui, Auto:Font, s10
-    Gui, Auto:Add, Text, +Wrap w180, Note: to use Auto Mechanics the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel. 
-    Gui, Auto:Add, Button, x10 y260 w80 h40, Select Mechanics
-    Gui, Auto:Add, Button, x105 y260 w80 h40, OK
-    Gui, Auto:Show, W200, Auto Enable/Disable (Beta)
+    Gui, Auto:Add, Text, xs +Wrap w250, 1 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel. 
+    Gui, Auto:Font, c%Font% s5
+    Gui, Auto: Add, Text, xs Section,
+    Gui, Auto:Font, s10
+    Gui, Auto:Add, Text, xs +Wrap w250, 2 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+    Gui, Auto:Font, c%Font% s5
+    Gui, Auto: Add, Text, xs Section,
+    Gui, Auto:Font, s10
+    Gui, Auto:Add, Button, xs Section w80 h40, Select Mechanics
+    Gui, Auto:Add, Button, ys w80 h40, Calibrate Search
+    Gui, Auto:Add, Button, ys w80 h40, OK
+    Gui, Auto:Font, c%Font% s5
+    Gui, Auto: Add, Text, xs Section,
+    Gui, Auto:Show, , Auto Enable/Disable (Beta)
     Return
 }
 
