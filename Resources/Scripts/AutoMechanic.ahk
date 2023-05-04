@@ -118,26 +118,40 @@ AutoButtonCalibrateSearch()
     Gui, Calibrate:Font, c%Font% s5
     Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Font, c%Font% s18
-    Gui, Calibrate:Add, Text, Section +Center w550, Screen Search Calibration Tool
+    GuiW := Round(96/A_ScreenDPI*670)
+    Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Screen Search Calibration Tool
     Gui, Calibrate:Font, c%Font% s9
-    Gui, Calibrate:Add, Text, +Wrap Section w550, Note: Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage.
+    Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage. The calibrate button will enable screenshot mode, carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image if you have any background (part of your map) it can result in the tool to fail to recognize future instances.
+    BoxH := Round(96/A_ScreenDPI*1)
+    Gui, Calibrate:Font, s1
+    Gui, Calibrate:Add, Text,,
+    Gui, Calibrate:Add, GroupBox, +Center x5 w%GuiW% h%BoxH%
+    Gui, Calibrate:Add, Text,,
     MySearches := MetamorphSearch() "|" RitualSearch()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
+    Gui, Calibrate:Font, c%Font% s12
     Loop, %LoopCount%
         {
-            
+            Gui, Calibrate:Add, Text, Section xs, % MySearches[A_Index]
+            XBut := Round(96/A_ScreenDPI*425)
+            Gui, Calibrate:Add, Button, ys x%XBut% w80, Calibrate
+            Gui, Calibrate:Font, c1177bb Normal Underline 
+            XSample := Round(96/A_ScreenDPI*570)
+            Gui, Calibrate:Add, Text, ys x%XSample% w80, Sample
+            Gui, Calibrate:Font, c%Font% Normal
         }
+    Gui, Calibrate:Add, Text, Section,    
     Gui, Calibrate:Show, , Calibration Tool
     Return
 }
-
+    
 MetamorphSearch()
 {
-    Return, "MetamorphAssem|MetamorphIcon"
+    Return, "Metamorph Assembler|Metamorph Icon"
 }
 
 RitualSearch()
 {
-    Return, "RitualShop|RitualCount23|RitualCount33|RitualCount24|RitualCount34|RitualCount44|RitualCount13|RitualCount14"
+    Return, "Ritual 1/3|Ritual 2/3|Ritual 3/3|Ritual 1/4|Ritual 2/4|Ritual 3/4|Ritual 4/4|Ritual Shop"
 }
