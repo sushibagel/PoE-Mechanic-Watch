@@ -18,28 +18,39 @@ GroupAdd, PoeWindow, ahk_class POEWindowClass
                             
 OnExit("ExitScript") 
 
-MechanicsIni := MechanicsIni()
-SearchMechanics := StrSplit(ScreenSearchMechanics, "|")
-MechanicCount := SearchMechanics.MaxIndex()
-Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
-    {
-        IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % SearchMechanics[A_Index], 0
-        If (ActiveCheck = 1)
-            {
-                IniRead, ActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
-                If (ActiveCheck = 1)
-                    {
-                        WriteBitmaps()
-                        GdipClean()
-                        SetTimer, ScreenCheck, 1000
-                        ; SetTimer, Restart, 180000
-                        Break
-                    }
-            }
-    }
+Start()
+Return
+
+Start()
+{
+    WinWaitActive, ahk_group PoeWindow
+    MechanicsIni := MechanicsIni()
+    SearchMechanics := StrSplit(ScreenSearchMechanics, "|")
+    MechanicCount := SearchMechanics.MaxIndex()
+    Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
+        {
+            IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % SearchMechanics[A_Index], 0
+            If (ActiveCheck = 1)
+                {
+                    IniRead, ActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
+                    If (ActiveCheck = 1)
+                        {
+                            WriteBitmaps()
+                            GdipClean()
+                            SetTimer, ScreenCheck, 1000
+                            ; SetTimer, Restart, 180000
+                            Break
+                        }
+                }
+        }
+}
 
 ScreenCheck()
 {
+    If !WinActive("ahk_group PoeWindow")
+        {
+            Start()
+        }
     MySearches := GetSearches()
     ;begin actual search
     gdipToken := Gdip_Startup()
@@ -212,6 +223,7 @@ GetSearches()
         }
     Return, %MySearches%
 }
+
 DestroySearchGui:
 {
     Gui, ScreenSearch:Destroy
