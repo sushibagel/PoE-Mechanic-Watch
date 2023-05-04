@@ -7,6 +7,8 @@ Menu, Tray, Icon, Resources\Images\generic.png
 
 Global ScreenSearchMechanics := "Metamorph|Ritual"
 Global MySearches
+Global MetamorphIcon
+Global MetamorphAssem
 
 #Include <Gdip_All>
 #Include <Gdip_ImageSearch>

@@ -4,6 +4,7 @@ Global IncursionAuto
 Global MetamorphAuto
 Global RitualAuto
 Global AutoMechanicSearch
+Global test
 
 SelectAuto()
 {
@@ -142,10 +143,19 @@ AutoButtonCalibrateSearch()
             Gui, Calibrate:Font, c%Font% Normal
         }
     Gui, Calibrate:Add, Text, Section,    
+    Gui, Calibrate:Add, Button, ys x%XBut% w80 vtest, Calibrate
     Gui, Calibrate:Show, , Calibration Tool
+    OnMessage(0x0200, "MouseMove")
     Return
 }
-    
+
+MouseMove() {
+    If InStr(A_GuiControl, "test")
+        {
+            ToolTip,  hey it works!
+        }
+ }
+ 
 MetamorphSearch()
 {
     Return, "Metamorph Assembler|Metamorph Icon"
