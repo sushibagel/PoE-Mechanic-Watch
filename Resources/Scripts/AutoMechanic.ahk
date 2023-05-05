@@ -142,7 +142,7 @@ AutoButtonCalibrateSearch()
     Gui, Calibrate:Font, c%Font% s18
     GuiW := Round(96/A_ScreenDPI*630)
     Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Screen Search Calibration Tool
-    Gui, Calibrate:Font, c%Font% s9
+    Gui, Calibrate:Font, c%Font% s10
     Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage. The calibrate button will enable screenshot mode, carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image if you have any background (part of your map) it can result in the tool to fail to recognize future instances.
     BoxH := Round(96/A_ScreenDPI*1)
     Gui, Calibrate:Font, s1
