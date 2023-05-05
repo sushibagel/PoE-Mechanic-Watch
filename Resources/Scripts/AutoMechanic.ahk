@@ -4,6 +4,28 @@ Global IncursionAuto
 Global MetamorphAuto
 Global RitualAuto
 Global AutoMechanicSearch
+Global Sample1
+Global Sample2
+Global Sample3
+Global Sample4
+Global Sample5
+Global Sample6
+Global Sample7
+Global Sample8
+Global Sample9
+Global Sample10
+Global LastHwnd
+Global Button1
+Global Button2
+Global Button3
+Global Button4
+Global Button5
+Global Button6
+Global Button7
+Global Button8
+Global Button9
+Global Button10
+Global SamplePressed
 
 SelectAuto()
 {
@@ -118,14 +140,14 @@ AutoButtonCalibrateSearch()
     Gui, Calibrate:Font, c%Font% s5
     Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Font, c%Font% s18
-    GuiW := Round(96/A_ScreenDPI*600)
+    GuiW := Round(96/A_ScreenDPI*630)
     Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Screen Search Calibration Tool
     Gui, Calibrate:Font, c%Font% s9
     Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage. The calibrate button will enable screenshot mode, carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image if you have any background (part of your map) it can result in the tool to fail to recognize future instances.
     BoxH := Round(96/A_ScreenDPI*1)
     Gui, Calibrate:Font, s1
     Gui, Calibrate:Add, Text,,
-    Gui, Calibrate:Add, GroupBox, +Center x5 w%GuiW% h%BoxH%
+    Gui, Calibrate:Add, GroupBox, +Center x5 w%GuiW% h%BoxH%OpenImage
     Gui, Calibrate:Add, Text,,
     MySearches := MetamorphSearch() "|" RitualSearch()
     MySearches := StrSplit(MySearches, "|")
@@ -138,32 +160,110 @@ AutoButtonCalibrateSearch()
             Gui, Calibrate:Add, Button, ys x%XBut% w80, Calibrate
             Gui, Calibrate:Font, c1177bb Normal Underline 
             XSample := Round(96/A_ScreenDPI*570)
-            Gui, Calibrate:Add, Picture,ys x+10 w53 h30
-            Gui, Calibrate:Add, Text, yp+5 w80 Hwnd%A_Index% gOpenImage, Sample
+            Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%A_Index% gOpenImage, Sample
             Gui, Calibrate:Font, c%Font% Normal
         }
-    Gui, Calibrate:Add, Text, Section gOpenImage vtest, Sample
+    Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Show, , Calibration Tool
     OnMessage(0x0200, "MouseMove")
     Return
 }
-Global test
+
 MouseMove(wParam, lParam, Msg, Hwnd) {
-    If InStr(A_GuiControl, "Sample")
+    If InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
         {
-            Gui, Calibrate:Submit, nohide
             MouseGetPos,,,, mHwnd, 2
-            GuiControlGet, GuiCtrl,,%A_GuiControl%
-            ; if (mHwnd = MyEditHwnd)
-            GuiControlGet, Var, Name, %A_GuiControl%
-            ToolTip,  %Hwnd% | %mHwnd% | %GuiCtrl% | %test%
+            If Instr(mHwnd, Sample1) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 300
+                    ImageW := 100
+                    ShowImage("MetamorphAssem", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 100
+                    ShowImage("MetamorphIcon", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount13", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount23", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount33", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount14", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount24", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount34", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample9) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount44", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample10) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 100
+                    ShowImage("RitualShop", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
         }
-    If !InStr(A_GuiControl, "Sample")
+    If !InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
         {
-            ToolTip
+            Gui, ImageView:Destroy
+            LastHwnd :=
         }
  }
  
+ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption")
+{
+    MouseGetPos, MouseX, MouseY,,,
+    WinGetPos, GuiX,, GuiW,, Calibration Tool
+    ImgShow := Guix + GuiW
+    MouseY := MouseY + 150
+    Gui, ImageView:-Border %Caption%
+    Gui, ImageView:Color, c1e1e1e
+    Gui, ImageView:Add, Picture,w%ImageW% h%ImageH%, Resources\Images\Image Search\%SelectedImage%.png
+    Gui, ImageView:Show, x%ImgShow% y%MouseY%,ImageView
+    WinSet, TransColor, 1e1e1e 255, ImageView
+}
+
 MetamorphSearch()
 {
     Return, "Metamorph Assembler|Metamorph Icon"
@@ -175,6 +275,94 @@ RitualSearch()
 }
 
 OpenImage()
+{    
+    MouseGetPos,,,, mHwnd, 
+    Gui, ImageView:Destroy
+    SamplePressed :=
+    If Instr(mHwnd, "Static7")
+        {
+            SamplePressed := 1
+            ImageH := 350
+            ImageW := 150
+            ShowImage("MetamorphAssem", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static9")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 150
+            ShowImage("MetamorphIcon", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static11")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 130
+            ShowImage("RitualCount13", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static13")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 130
+            ShowImage("RitualCount23", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static15")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 130
+            ShowImage("RitualCount33", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static17")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 130
+            ShowImage("RitualCount14", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static19")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 130
+            ShowImage("RitualCount24", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static21")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 130
+            ShowImage("RitualCount34", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static23")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 130
+            ShowImage("RitualCount44", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static25")
+        {
+            SamplePressed := 1
+            ImageH := 150
+            ImageW := 150
+            ShowImage("RitualShop", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+}
+
+ImageViewGuiClose()
 {
-    msgbox, test
+    Gui, ImageView:Destroy
+    SamplePressed :=
 }
