@@ -4,7 +4,8 @@ Global IncursionAuto
 Global MetamorphAuto
 Global RitualAuto
 Global AutoMechanicSearch
-Global test
+
+global Array := {"Button": []}
 
 SelectAuto()
 {
@@ -119,7 +120,7 @@ AutoButtonCalibrateSearch()
     Gui, Calibrate:Font, c%Font% s5
     Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Font, c%Font% s18
-    GuiW := Round(96/A_ScreenDPI*670)
+    GuiW := Round(96/A_ScreenDPI*600)
     Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Screen Search Calibration Tool
     Gui, Calibrate:Font, c%Font% s9
     Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage. The calibrate button will enable screenshot mode, carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image if you have any background (part of your map) it can result in the tool to fail to recognize future instances.
@@ -139,11 +140,12 @@ AutoButtonCalibrateSearch()
             Gui, Calibrate:Add, Button, ys x%XBut% w80, Calibrate
             Gui, Calibrate:Font, c1177bb Normal Underline 
             XSample := Round(96/A_ScreenDPI*570)
-            Gui, Calibrate:Add, Text, ys x%XSample% w80, Sample
+            Gui, Calibrate:Add, Picture,ys x+10 w53 h30
+            Gui, Calibrate:Add, Text, yp-10 w80, Sample
+            
             Gui, Calibrate:Font, c%Font% Normal
         }
     Gui, Calibrate:Add, Text, Section,    
-    Gui, Calibrate:Add, Button, ys x%XBut% w80 vtest, Calibrate
     Gui, Calibrate:Show, , Calibration Tool
     OnMessage(0x0200, "MouseMove")
     Return
