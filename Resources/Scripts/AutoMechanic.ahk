@@ -5,8 +5,6 @@ Global MetamorphAuto
 Global RitualAuto
 Global AutoMechanicSearch
 
-global Array := {"Button": []}
-
 SelectAuto()
 {
     ReadAutoMechanics()
@@ -141,20 +139,28 @@ AutoButtonCalibrateSearch()
             Gui, Calibrate:Font, c1177bb Normal Underline 
             XSample := Round(96/A_ScreenDPI*570)
             Gui, Calibrate:Add, Picture,ys x+10 w53 h30
-            Gui, Calibrate:Add, Text, yp-10 w80, Sample
-            
+            Gui, Calibrate:Add, Text, yp+5 w80 Hwnd%A_Index% gOpenImage, Sample
             Gui, Calibrate:Font, c%Font% Normal
         }
-    Gui, Calibrate:Add, Text, Section,    
+    Gui, Calibrate:Add, Text, Section gOpenImage vtest, Sample
     Gui, Calibrate:Show, , Calibration Tool
     OnMessage(0x0200, "MouseMove")
     Return
 }
-
-MouseMove() {
-    If InStr(A_GuiControl, "test")
+Global test
+MouseMove(wParam, lParam, Msg, Hwnd) {
+    If InStr(A_GuiControl, "Sample")
         {
-            ToolTip,  hey it works!
+            Gui, Calibrate:Submit, nohide
+            MouseGetPos,,,, mHwnd, 2
+            GuiControlGet, GuiCtrl,,%A_GuiControl%
+            ; if (mHwnd = MyEditHwnd)
+            GuiControlGet, Var, Name, %A_GuiControl%
+            ToolTip,  %Hwnd% | %mHwnd% | %GuiCtrl% | %test%
+        }
+    If !InStr(A_GuiControl, "Sample")
+        {
+            ToolTip
         }
  }
  
@@ -166,4 +172,9 @@ MetamorphSearch()
 RitualSearch()
 {
     Return, "Ritual 1/3|Ritual 2/3|Ritual 3/3|Ritual 1/4|Ritual 2/4|Ritual 3/4|Ritual 4/4|Ritual Shop"
+}
+
+OpenImage()
+{
+    msgbox, test
 }
