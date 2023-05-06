@@ -1,3 +1,5 @@
+#Include <Gdip_All>
+
 Global BlightAuto
 Global ExpeditionAuto 
 Global IncursionAuto
@@ -143,7 +145,7 @@ AutoButtonCalibrateSearch()
     GuiW := Round(96/A_ScreenDPI*630)
     Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Screen Search Calibration Tool
     Gui, Calibrate:Font, c%Font% s10
-    Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage. The calibrate button will enable screenshot mode, carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image if you have any background (part of your map) it can result in the tool to fail to recognize future instances.
+    Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage. The calibrate button will open the "Snipping Tool" on your computer, verify the "Rectanglular Snip" Mode is enabled, press "New" and carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image if you have any background (part of your map) it can result in the tool to fail to recognize future instances. Once you are happy with the screenshot close the tool without saving. 
     BoxH := Round(96/A_ScreenDPI*1)
     Gui, Calibrate:Font, s1
     Gui, Calibrate:Add, Text,,
@@ -157,7 +159,7 @@ AutoButtonCalibrateSearch()
         {
             Gui, Calibrate:Add, Text, Section xs, % MySearches[A_Index]
             XBut := Round(96/A_ScreenDPI*425)
-            Gui, Calibrate:Add, Button, ys x%XBut% w80, Calibrate
+            Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%A_Index%, Calibrate
             Gui, Calibrate:Font, c1177bb Normal Underline 
             XSample := Round(96/A_ScreenDPI*570)
             Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%A_Index% gOpenImage, Sample
@@ -366,3 +368,115 @@ ImageViewGuiClose()
     Gui, ImageView:Destroy
     SamplePressed :=
 }
+
+Button1()
+{
+    FileName := "Resources\Images\Image Search\MetamorphAssem.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button2()
+{
+    FileName := "Resources\Images\Image Search\MetamorphIcon.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button3()
+{
+    FileName := "Resources\Images\Image Search\RitualCount13.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button4()
+{
+    FileName := "Resources\Images\Image Search\RitualCount23.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button5()
+{
+    FileName := "Resources\Images\Image Search\RitualCount33.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button6()
+{
+    FileName := "Resources\Images\Image Search\RitualCount14.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button7()
+{
+    FileName := "Resources\Images\Image Search\RitualCount24.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button8()
+{
+    FileName := "Resources\Images\Image Search\RitualCount34.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button9()
+{
+    FileName := "Resources\Images\Image Search\RitualCount44.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+Button10()
+{
+    FileName := "Resources\Images\Image Search\RitualShop.png"
+    ScreenShotTool(FileName)
+    GdipTest(Filename)
+}
+
+ScreenShotTool(path)
+{
+    Gui, Calibrate:Minimize
+    Run, SnippingTool
+    WinWaitActive, Snipping Tool
+    WinWaitClose, Snipping Tool
+    snToken := Gdip_Startup()
+    ClipWait, , 1
+    pBitmap := Gdip_CreateBitmapFromClipboard()
+    Gdip_SaveBitmapToFile(pBitmap, path)
+    Gdip_DisposeImage(pBitmap)
+    Gdip_Shutdown(snToken)
+}
+
+GdipTest(FileName)
+{
+    rnToken := Gdip_Startup()
+    Global PngSearch := Gdip_CreateBitmapFromFile(FileName)
+    ; Global bmpHaystack := Gdip_BitmapFromScreen() ; For testing purposes
+    Global bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+    Sleep, 2000
+    Loop, 255
+        {
+            If (Gdip_ImageSearch(bmpHaystack,PngSearch,LIST,,0,0,0,A_Index,0xFFFFFF,1,0) > 0)
+                {
+                    msgbox, test
+                    VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety. 
+                    Break
+                }
+        }
+        IniTitle := StrSplit(Filename, "\")
+        IniTitle := StrSplit(IniTitle[4],".png")
+        IniTitle := IniTitle[1]
+        ScreenIni := ScreenIni()
+        IniWrite, %VariationAmt%, %ScreenIni%, Variation, %IniTitle%
+        Gdip_DisposeImage(bmpHaystack)
+        Gdip_DisposeImage(PngSearch)
+        Gdip_Shutdown(rnToken)
+        Return, %VariationAmt%
+}
+Return
