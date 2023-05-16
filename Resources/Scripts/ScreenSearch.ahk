@@ -126,7 +126,6 @@ ScreenCheck()
                                         IniWrite, 0, %MechanicsIni%, Metamorph Track, Icon Status ;Shut screen search off for metamorph the metamorph icon. Toggled back on by aseembly screen
                                         RefreshOverlay()
                                     }
-                                GdipClean()
                                 Break
                             }
 
