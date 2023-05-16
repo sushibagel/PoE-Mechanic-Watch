@@ -15,8 +15,6 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-                            
-OnExit("ExitScript") 
 
 Start()
 Return
@@ -35,10 +33,7 @@ Start()
                     IniRead, ActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
                     If (ActiveCheck = 1)
                         {
-                            WriteBitmaps()
-                            GdipClean()
                             SetTimer, ScreenCheck, 500
-                            ; SetTimer, Restart, 180000
                             Break
                         }
                 }
@@ -53,13 +48,10 @@ ScreenCheck()
             SetTimer, ScreenCheck, Off
             Start()
         }
-    MySearches := GetSearches()
-    ;begin actual search
     gdipToken := Gdip_Startup()
     PoeHwnd := WinExist("ahk_group PoeWindow")
     bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-    ; ScreenIni := ScreenIni()
-    ; IniWrite, %bmpHaystack%, %ScreenIni%, Bitmaps, HayStackImage
+    ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
     MySearches := GetSearches()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
@@ -93,10 +85,11 @@ ScreenCheck()
             {
                 ScreenIni := ScreenIni()
                 IniRead, ThisSearch1, %ScreenIni%, Bitmaps, %ThisSearch%
-                IniRead, bmpHaystack, %ScreenIni%, Bitmaps, HayStackImage
                 IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 35
-                If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,,0,0,0,%SearchVariation%,0xFFFFFF,1,0) > 0)
-                    {     
+                PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
+                ThisSearch1 := Gdip_CreateBitmapFromFile(PngLocation)
+                If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
+                    {
                         If InStr(ThisSearch, "Assem")
                             {
                                 MechanicsIni := MechanicsIni()
@@ -163,25 +156,26 @@ ScreenCheck()
                                                 QuickNotify()
                                             }
                                     }
-                                    GdipClean()
-                                    Break
                             }
-                            DeleteObject(bmpHaystack)
-                            Gdip_DisposeImage(bmpHaystack)
-                            Gdip_Shutdown(gdipToken)
+                        Break
                     }
-            } 
+                Else
+                    {
+                        Gdip_DisposeImage(ThisSearch1)
+                        DeleteObject(ThisSearch1)
+                    }
+                }
         }
-        DeleteObject(bmpHaystack)
-        Gdip_DisposeImage(bmpHaystack)
         Gdip_Shutdown(gdipToken)
+        Gdip_DisposeImage(bmpHaystack)
+        DeleteObject(bmpHaystack)
+        DeleteObject(ErrorLevel)
 }
-Return
 
 WriteBitmaps()
 {
     MySearches := GetSearches()
-    gdipToken := Gdip_Startup()
+    gdipImages := Gdip_Startup()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
     Loop, %LoopCount% ; Get all image locations
@@ -193,6 +187,31 @@ WriteBitmaps()
             ScreenIni := ScreenIni()
             IniWrite, %BitmapData%, %ScreenIni%, Bitmaps, %PngSearch%
         }
+    Gdip_DisposeImage(MetamorphAssem)
+    Gdip_DisposeImage(MetamorphIcon)
+    Gdip_DisposeImage(RitualIcon)
+    Gdip_DisposeImage(RitualCount13)
+    Gdip_DisposeImage(RitualCount23)
+    Gdip_DisposeImage(RitualCount33)
+    Gdip_DisposeImage(RitualShop)
+    Gdip_DisposeImage(RitualCount14)
+    Gdip_DisposeImage(RitualCount24)
+    Gdip_DisposeImage(RitualCount34)
+    Gdip_DisposeImage(RitualCount23)
+    Gdip_DisposeImage(RitualCount44)
+    DeleteObject(MetamorphAssem)
+    DeleteObject(MetamorphIcon)
+    DeleteObject(RitualIcon)
+    DeleteObject(RitualCount13)
+    DeleteObject(RitualCount23)
+    DeleteObject(RitualCount33)
+    DeleteObject(RitualShop)
+    DeleteObject(RitualCount14)
+    DeleteObject(RitualCount24)
+    DeleteObject(RitualCount34)
+    DeleteObject(RitualCount23)
+    DeleteObject(RitualCount44)
+    Gdip_Shutdown(gdipImages)
 }
 Return
 
@@ -236,12 +255,6 @@ DestroySearchGui:
     Return
 }
 
-ExitScript()
-{
-    GdipClean()
-    Return
-}
-
 RefreshOverlay()
 {
 	PostSetup()
@@ -274,38 +287,6 @@ MetamorphSearch()
 RitualSearch()
 {
     Return, "RitualShop|RitualCount23|RitualCount33|RitualCount24|RitualCount34|RitualCount44|RitualCount13|RitualCount14"
-}
-
-GdipClean()
-{
-    Gdip_DisposeImage(bmpHaystack)
-    Gdip_DisposeImage(MetamorphAssem)
-    Gdip_DisposeImage(MetamorphIcon)
-    Gdip_DisposeImage(RitualIcon)
-    Gdip_DisposeImage(RitualCount13)
-    Gdip_DisposeImage(RitualCount23)
-    Gdip_DisposeImage(RitualCount33)
-    Gdip_DisposeImage(RitualShop)
-    Gdip_DisposeImage(RitualCount14)
-    Gdip_DisposeImage(RitualCount24)
-    Gdip_DisposeImage(RitualCount34)
-    Gdip_DisposeImage(RitualCount23)
-    Gdip_DisposeImage(RitualCount44)
-    DeleteObject(bmpHaystack)
-
-    DeleteObject(MetamorphAssem)
-    DeleteObject(MetamorphIcon)
-    DeleteObject(RitualIcon)
-    DeleteObject(RitualCount13)
-    DeleteObject(RitualCount23)
-    DeleteObject(RitualCount33)
-    DeleteObject(RitualShop)
-    DeleteObject(RitualCount14)
-    DeleteObject(RitualCount24)
-    DeleteObject(RitualCount34)
-    DeleteObject(RitualCount23)
-    DeleteObject(RitualCount44)
-    Return
 }
 
 QuickNotify()
