@@ -15,7 +15,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-
+GroupAdd, PoeWindow, ahk_exe explorer.exe
 Start()
 Return
 
@@ -51,7 +51,7 @@ ScreenCheck()
     gdipToken := Gdip_Startup()
     PoeHwnd := WinExist("ahk_group PoeWindow")
     bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-    ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
+    bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
     MySearches := GetSearches()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
@@ -167,49 +167,6 @@ ScreenCheck()
         DeleteObject(bmpHaystack)
         DeleteObject(ErrorLevel)
 }
-
-WriteBitmaps()
-{
-    MySearches := GetSearches()
-    gdipImages := Gdip_Startup()
-    MySearches := StrSplit(MySearches, "|")
-    LoopCount := MySearches.MaxIndex()
-    Loop, %LoopCount% ; Get all image locations
-        {
-            PngSearch := MySearches[A_Index]
-            PngLocation := "Resources\Images\Image Search\" MySearches[A_Index] ".png"
-            %PngSearch% := Gdip_CreateBitmapFromFile(PngLocation)
-            BitmapData := %PngSearch%
-            ScreenIni := ScreenIni()
-            IniWrite, %BitmapData%, %ScreenIni%, Bitmaps, %PngSearch%
-        }
-    Gdip_DisposeImage(MetamorphAssem)
-    Gdip_DisposeImage(MetamorphIcon)
-    Gdip_DisposeImage(RitualIcon)
-    Gdip_DisposeImage(RitualCount13)
-    Gdip_DisposeImage(RitualCount23)
-    Gdip_DisposeImage(RitualCount33)
-    Gdip_DisposeImage(RitualShop)
-    Gdip_DisposeImage(RitualCount14)
-    Gdip_DisposeImage(RitualCount24)
-    Gdip_DisposeImage(RitualCount34)
-    Gdip_DisposeImage(RitualCount23)
-    Gdip_DisposeImage(RitualCount44)
-    DeleteObject(MetamorphAssem)
-    DeleteObject(MetamorphIcon)
-    DeleteObject(RitualIcon)
-    DeleteObject(RitualCount13)
-    DeleteObject(RitualCount23)
-    DeleteObject(RitualCount33)
-    DeleteObject(RitualShop)
-    DeleteObject(RitualCount14)
-    DeleteObject(RitualCount24)
-    DeleteObject(RitualCount34)
-    DeleteObject(RitualCount23)
-    DeleteObject(RitualCount44)
-    Gdip_Shutdown(gdipImages)
-}
-Return
 
 GetSearches()
 {
@@ -339,8 +296,5 @@ Restart()
     Gdip_Shutdown(gdipToken)
     Reload
 }
-
-~#^+p::
-Return
 
 #IncludeAgain, Resources/Scripts/Ini.ahk
