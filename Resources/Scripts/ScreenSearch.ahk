@@ -84,11 +84,10 @@ ScreenCheck()
             If (ThisSearchActive = 1)
             {
                 ScreenIni := ScreenIni()
-                IniRead, ThisSearch1, %ScreenIni%, Bitmaps, %ThisSearch%
                 IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 35
                 PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
                 ThisSearch1 := Gdip_CreateBitmapFromFile(PngLocation)
-                If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
+                If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                     {
                         If InStr(ThisSearch, "Assem")
                             {
