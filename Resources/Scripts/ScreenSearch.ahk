@@ -37,7 +37,7 @@ Start()
                         {
                             WriteBitmaps()
                             GdipClean()
-                            SetTimer, ScreenCheck, 1500
+                            SetTimer, ScreenCheck, 500
                             ; SetTimer, Restart, 180000
                             Break
                         }
@@ -58,10 +58,9 @@ ScreenCheck()
     gdipToken := Gdip_Startup()
     PoeHwnd := WinExist("ahk_group PoeWindow")
     bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-    ScreenIni := ScreenIni()
-    IniWrite, %bmpHaystack%, %ScreenIni%, Bitmaps, HayStackImage
+    ; ScreenIni := ScreenIni()
+    ; IniWrite, %bmpHaystack%, %ScreenIni%, Bitmaps, HayStackImage
     MySearches := GetSearches()
-    gdipToken := Gdip_Startup()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
     Loop, %LoopCount%
@@ -167,12 +166,13 @@ ScreenCheck()
                                     GdipClean()
                                     Break
                             }
+                            DeleteObject(bmpHaystack)
                             Gdip_DisposeImage(bmpHaystack)
                             Gdip_Shutdown(gdipToken)
                     }
             } 
         }
-
+        DeleteObject(bmpHaystack)
         Gdip_DisposeImage(bmpHaystack)
         Gdip_Shutdown(gdipToken)
 }
@@ -291,6 +291,20 @@ GdipClean()
     Gdip_DisposeImage(RitualCount34)
     Gdip_DisposeImage(RitualCount23)
     Gdip_DisposeImage(RitualCount44)
+    DeleteObject(bmpHaystack)
+
+    DeleteObject(MetamorphAssem)
+    DeleteObject(MetamorphIcon)
+    DeleteObject(RitualIcon)
+    DeleteObject(RitualCount13)
+    DeleteObject(RitualCount23)
+    DeleteObject(RitualCount33)
+    DeleteObject(RitualShop)
+    DeleteObject(RitualCount14)
+    DeleteObject(RitualCount24)
+    DeleteObject(RitualCount34)
+    DeleteObject(RitualCount23)
+    DeleteObject(RitualCount44)
     Return
 }
 
