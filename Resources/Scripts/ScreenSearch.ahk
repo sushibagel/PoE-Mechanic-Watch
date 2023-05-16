@@ -100,7 +100,6 @@ ScreenCheck()
                                         IniWrite, 0, %MechanicsIni%, Metamorph Track, Status ;Shut screen search off for metamorph until next map. Toggled back on on in the Tail.ahk script
                                         IniWrite, 1, %MechanicsIni%, Metamorph Track, Icon Status ;Toggle Icon search on. 
                                         RefreshOverlay()
-                                        GdipClean()
                                         Break
                                     }
                             }
@@ -113,7 +112,6 @@ ScreenCheck()
                                         IniWrite, 0, %MechanicsIni%, Mechanic Active, Ritual
                                         IniWrite, 0, %MechanicsIni%, Ritual Track, Status ;Shut screen search off for ritual until next map. Toggled back on by the "Tail.ahk" script. 
                                         RefreshOverlay()
-                                        GdipClean()
                                         Break
                                     }
                             }
