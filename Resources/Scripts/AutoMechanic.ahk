@@ -1,4 +1,5 @@
 #Include <Gdip_All>
+#Include <Gdip_ImageSearch>
 
 Global BlightAuto
 Global ExpeditionAuto 
@@ -28,6 +29,12 @@ Global Button8
 Global Button9
 Global Button10
 Global SamplePressed
+Global CWindow
+
+GroupAdd, PoeScreen, ahk_exe PathOfExileSteam.exe
+GroupAdd, PoeScreen, ahk_exe PathOfExile.exe 
+GroupAdd, PoeScreen, ahk_exe PathOfExileEGS.exe
+GroupAdd, PoeScreen, ahk_class POEWindowClass
 
 SelectAuto()
 {
@@ -375,114 +382,124 @@ Button1()
 {
     FileName := "Resources\Images\Image Search\MetamorphAssem.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button2()
 {
     FileName := "Resources\Images\Image Search\MetamorphIcon.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button3()
 {
     FileName := "Resources\Images\Image Search\RitualCount13.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button4()
 {
     FileName := "Resources\Images\Image Search\RitualCount23.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button5()
 {
     FileName := "Resources\Images\Image Search\RitualCount33.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button6()
 {
     FileName := "Resources\Images\Image Search\RitualCount14.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button7()
 {
     FileName := "Resources\Images\Image Search\RitualCount24.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button8()
 {
     FileName := "Resources\Images\Image Search\RitualCount34.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button9()
 {
     FileName := "Resources\Images\Image Search\RitualCount44.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 Button10()
 {
     FileName := "Resources\Images\Image Search\RitualShop.png"
     ScreenShotTool(FileName)
-    GdipTest(Filename)
 }
 
 ScreenShotTool(path)
 {
     Gui, Calibrate:Minimize
     Run, SnippingTool
+    SetTitleMatchMode, 2
     WinWaitActive, Snipping Tool
     WinWaitClose, Snipping Tool
+    WinGetActiveTitle, CWindow
     snToken := Gdip_Startup()
     ClipWait, , 1
     pBitmap := Gdip_CreateBitmapFromClipboard()
     Gdip_SaveBitmapToFile(pBitmap, path)
-    Gdip_DisposeImage(pBitmap)
-    Gdip_Shutdown(snToken)
-}
-
-GdipTest(FileName)
-{
-    rnToken := Gdip_Startup()
-    ; Global PngSearch := Gdip_CreateBitmapFromFile(FileName)
-    Global bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-    Global bmpHaystack := Gdip_BitmapFromScreen()
-
+    WinActivate, %CWindow%
+    WinWaitActive, %CWindow%
+    PoeHwnd := WinExist(CWindow)
+    Gui, CalibrationNotice:Destroy
+    Gui, CalibrationNotice:Color, %Background%
+    Gui, CalibrationNotice:Font, c%Font% s10
+    Gui, CalibrationNotice:Add, Text,,Performing calibration, please wait...
+    Gui, CalibrationNotice: +AlwaysOnTop -Border
+    Gui, CalibrationNotice:Show, NoActivate, Calibration Notify
+    MapTransparency := TransparencyCheck("Quick")
+    WinSet, Style,  %ShowTitle%, Calibration Notify
+    WinSet, Transparent, %MapTransparency%, Calibration Notify
     Sleep, 2000
-    Loop, 255
+    Global bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+    Global bmpNeedle := Gdip_CreateBitmapFromFile(path)
+    Loop, 201
         {
-            If (Gdip_ImageSearch(bmpHaystack,PngSearch,LIST,,0,0,0,A_Index,0xFFFFFF,1,0) > 0)
+            If (Gdip_ImageSearch(bmpHaystack,bmpNeedle,LIST,0,0,0,0,A_Index,0xFFFFFF,1,0) > 0)
                 {
                     Global VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety. 
                     Break
                 }
+                Else
+                    {
+                        If (A_Index = 201) 
+                            {
+                                Gui, CalibrationNotice:Destroy
+                                Msgbox, Calibration failed. Try again. 
+                            }
+                    }
         }
-        msgbox, test ;need to add calibrating notification
-        IniTitle := StrSplit(Filename, "\")
+        Gui, CalibrationNotice:Destroy
+        IniTitle := StrSplit(path, "\")
         IniTitle := StrSplit(IniTitle[4],".png")
         IniTitle := IniTitle[1]
         ScreenIni := ScreenIni()
+        If (VariationAmt < 30)
+            {
+                VariationAmt := 30
+            }
         IniWrite, %VariationAmt%, %ScreenIni%, Variation, %IniTitle%
         Gdip_DisposeImage(bmpHaystack)
-        Gdip_DisposeImage(PngSearch)
+        Gdip_DisposeImage(bmpNeedle)
+        Gdip_DisposeImage(pBitmap)
         Gdip_Shutdown(rnToken)
-        Return, %VariationAmt%
+        DeleteObject(pBitmap)
+        DeleteObject(bmpHaystack)
+        DeleteObject(bmpNeedle)
+        DeleteObject(ErrorLevel)
 }
-Return
 
 ReloadScreenSearch()
 {
