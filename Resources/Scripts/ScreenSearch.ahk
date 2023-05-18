@@ -51,7 +51,7 @@ ScreenCheck()
     gdipToken := Gdip_Startup()
     PoeHwnd := WinExist("ahk_group PoeWindow")
     bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-    bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
+    ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
     MySearches := GetSearches()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()

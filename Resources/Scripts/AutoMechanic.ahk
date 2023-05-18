@@ -31,6 +31,7 @@ Global SamplePressed
 
 SelectAuto()
 {
+    Gui, Auto:Destroy
     ReadAutoMechanics()
     Sleep, 100
     Gui, Auto:-Border -Caption
@@ -457,19 +458,20 @@ ScreenShotTool(path)
 GdipTest(FileName)
 {
     rnToken := Gdip_Startup()
-    Global PngSearch := Gdip_CreateBitmapFromFile(FileName)
-    ; Global bmpHaystack := Gdip_BitmapFromScreen() ; For testing purposes
+    ; Global PngSearch := Gdip_CreateBitmapFromFile(FileName)
     Global bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+    Global bmpHaystack := Gdip_BitmapFromScreen()
+
     Sleep, 2000
     Loop, 255
         {
             If (Gdip_ImageSearch(bmpHaystack,PngSearch,LIST,,0,0,0,A_Index,0xFFFFFF,1,0) > 0)
                 {
-                    msgbox, test
-                    VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety. 
+                    Global VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety. 
                     Break
                 }
         }
+        msgbox, test ;need to add calibrating notification
         IniTitle := StrSplit(Filename, "\")
         IniTitle := StrSplit(IniTitle[4],".png")
         IniTitle := IniTitle[1]
