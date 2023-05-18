@@ -87,6 +87,7 @@ AutoButtonOk()
         Iniwrite, 1, %FirstRunPath%, Completion, AutoMechanic
         FirstRun()
     }
+    ReloadScreenSearch()
     Return
 }
 
@@ -478,5 +479,11 @@ GdipTest(FileName)
         Gdip_DisposeImage(PngSearch)
         Gdip_Shutdown(rnToken)
         Return, %VariationAmt%
+}
+Return
+
+ReloadScreenSearch()
+{
+    Run, %A_ScriptDir%\Resources\Scripts\ScreenSearch.ahk
 }
 Return
