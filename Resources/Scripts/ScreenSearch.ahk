@@ -357,7 +357,13 @@ EldritchScreen()
                 If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
                     {
                         MechanicsIni := MechanicsIni()
-                        IniWrite, %A_Index%, %MechanicsIni%, Influence Track, %InfluenceActive%
+                        IniRead, CurrentCount, %MechanicsIni%, Influence Track, %InfluenceActive%
+                        If !(CurrentCount = A_Index)
+                            {
+                                IniWrite, %A_Index%, %MechanicsIni%, Influence Track, %InfluenceActive%
+                                RefreshOverlay()
+                            }
+                        ; Need to make it stop after 1 match. 
                         Break
                     }
                     Else
