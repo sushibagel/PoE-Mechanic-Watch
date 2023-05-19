@@ -6,6 +6,8 @@ Global ExpeditionAuto
 Global IncursionAuto
 Global MetamorphAuto
 Global RitualAuto
+Global EldritchAuto
+Global Eldritch
 Global AutoMechanicSearch
 Global Sample1
 Global Sample2
@@ -53,11 +55,15 @@ SelectAuto()
         autochecked := % %autochecked%
         Gui, Auto:Add, Checkbox, xs v%Mechanic% Checked%autochecked%, %Mechanic%
         Gui, Auto:Font, c%Font% s6
+        If (Mechanic = "Eldritch")
+            {
+                FootNote := 3
+            }
         If (Mechanic = "Metamorph") or (Mechanic = "Ritual")
             {
                 FootNote := 2
             }
-        Else
+        If (Mechanic = "Blight") or (Mechanic = "Expedition") or (Mechanic = "Incursion")
             {
                 FootNote := 1
             }
@@ -72,6 +78,11 @@ SelectAuto()
     Gui, Auto:Add, Text, xs Section,
     Gui, Auto:Font, s10
     Gui, Auto:Add, Text, xs +Wrap w250, 2 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+    Gui, Auto:Font, c%Font% s5
+    Gui, Auto:Add, Text, xs Section,
+    Gui, Auto:Font, s10
+    Gui, Auto:Add, Text, xs +Wrap w250, 3 : Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+    Gui, Auto:Font, c%Font% s5
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Add, Text, xs Section,
     Gui, Auto:Font, s10
@@ -141,7 +152,7 @@ ReadAutoMechanics()
 
 AutoMechanics()
 {
-    Return, "Blight|Expedition|Incursion|Metamorph|Ritual"
+    Return, "Blight|Expedition|Incursion|Metamorph|Ritual|Eldritch"
 }
 
 AutoButtonCalibrateSearch()
