@@ -54,7 +54,7 @@ SelectAuto()
         autochecked := % mechanic "Auto"
         autochecked := % %autochecked%
         Gui, Auto:Add, Checkbox, xs v%Mechanic% Checked%autochecked%, %Mechanic%
-        Gui, Auto:Font, c%Font% s6
+        Gui, Auto:Font, s7 c1177bb Normal Underline 
         If (Mechanic = "Eldritch")
             {
                 FootNote := 3
@@ -67,21 +67,14 @@ SelectAuto()
             {
                 FootNote := 1
             }
-        Gui, Auto:Add, Text, x+.5 yp, %FootNote%
+        Gui, Auto:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
+        Gui, Auto:Font
         Gui, Auto:Font, c%Font% s13
     }
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Add, Text, xs Section,
-    Gui, Auto:Font, s10
-    Gui, Auto:Add, Text, xs +Wrap w250, 1 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel. 
-    Gui, Auto:Font, c%Font% s5
-    Gui, Auto:Add, Text, xs Section,
-    Gui, Auto:Font, s10
-    Gui, Auto:Add, Text, xs +Wrap w250, 2 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-    Gui, Auto:Font, c%Font% s5
-    Gui, Auto:Add, Text, xs Section,
-    Gui, Auto:Font, s10
-    Gui, Auto:Add, Text, xs +Wrap w250, 3 : Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+    Gui, Auto:Font, s10 c%Background%
+    Gui, Auto:Add, Text, xs +Wrap w250 vText, 3 : Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Add, Text, xs Section,
@@ -92,6 +85,7 @@ SelectAuto()
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Add, Text, xs Section,
     Gui, Auto:Show, , Auto Enable/Disable (Beta)
+    OnMessage(0x0200, "MouseMove")
     Return
 }
 
@@ -192,6 +186,28 @@ AutoButtonCalibrateSearch()
 }
 
 MouseMove(wParam, lParam, Msg, Hwnd) {
+    If InStr(A_GuiControl, "1")
+        {
+            NoteSelected := 0
+            MouseGetPos,,,, mHwnd, 2
+            ViewFootnote(1)
+            Return
+        }
+If Instr(mHwnd, Sample10) and 
+    If InStr(A_GuiControl, "2")
+        {
+            NoteSelected := 0
+            MouseGetPos,,,, mHwnd, 2
+            ViewFootnote(2)
+            Return
+        }
+    If InStr(A_GuiControl, "3")
+        {
+            NoteSelected := 0
+            MouseGetPos,,,, mHwnd, 2
+            ViewFootnote(3)
+            Return
+        }
     If InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
         {
             MouseGetPos,,,, mHwnd, 2
@@ -269,6 +285,12 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
     If !InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
         {
             Gui, ImageView:Destroy
+            LastHwnd :=
+        }
+    If !InStr(A_GuiControl, "1") and !InStr(A_GuiControl, "2") and !InStr(A_GuiControl, "3") and !(NoteSelected = 1)
+        {
+            GuiControl, Auto:, Text,
+            Gui, FootnoteView:Destroy
             LastHwnd :=
         }
  }
@@ -517,3 +539,35 @@ ReloadScreenSearch()
     Run, %A_ScriptDir%\Resources\Scripts\ScreenSearch.ahk
 }
 Return
+
+OpenFootnote()
+{    
+    NoteSelected := 1
+    MouseGetPos,,,, mHwnd, 
+    If InStr(A_GuiControl, "1")
+    {
+        ViewFootnote(1)
+    }
+}
+
+ViewFootnote(FootnoteNum)
+{
+    If (FootnoteNum = 1)
+        {
+            GuiControl, Auto:, Text, 1 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
+            Gui, Auto:Font, c%Font% s10
+            GuiControl, Font, Text
+        }
+        If (FootnoteNum = 2)
+            {
+                GuiControl, Auto:, Text, 2 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                Gui, Auto:Font, c%Font% s10
+                GuiControl, Font, Text
+            }
+            If (FootnoteNum = 3)
+                {
+                    GuiControl, Auto:, Text, 3 : Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                    Gui, Auto:Font, c%Font% s10
+                    GuiControl, Font, Text
+                }
+}
