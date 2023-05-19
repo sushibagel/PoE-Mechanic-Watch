@@ -5,7 +5,7 @@
 ; #NoTrayIcon
 Menu, Tray, Icon, Resources\Images\generic.png
 
-Global ScreenSearchMechanics := "Metamorph|Ritual"
+Global ScreenSearchMechanics := "Metamorph|Ritual|Eldritch"
 Global MySearches
 
 #Include <Gdip_All>
@@ -15,7 +15,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-GroupAdd, PoeWindow, ahk_exe ApplicationFrameHost.exe
+GroupAdd, PoeWindow, ahk_exe Code.exe
 
 Start()
 Return
@@ -31,12 +31,17 @@ Start()
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % SearchMechanics[A_Index], 0
             If (ActiveCheck = 1)
                 {
-                    IniRead, ActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
-                    If (ActiveCheck = 1)
+                    IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
+                    If (mActiveCheck = 1)
                         {
                             SetTimer, ScreenCheck, 500
                             Break
                         }
+                }
+            If (SearchMechanics[A_Index] = "Eldritch") and (ActiveCheck = 1)
+                {
+                    SetTimer, ScreenCheck, 500
+                    Break
                 }
         }
 }
@@ -51,7 +56,9 @@ ScreenCheck()
         }
     HideoutIni := HideoutIni()
     IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout, 0
-    If (HideoutStatus = 1)
+    MechanicsIni := MechanicsIni()
+    IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, Eldritch, 0
+    If (HideoutStatus = 1) and (ActiveCheck = 1)
         {
             EldritchScreen()
             Return
@@ -307,6 +314,12 @@ Restart()
 
 EldritchScreen()
 {
+    HideoutIni := HideoutIni()
+    IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout, 0
+    If !(HideoutStatus = 1)
+        {
+            Return
+        }
     MechanicsPath := MechanicsIni()
     InfluencesTypes := "Eater|Searing|Maven"
     For each, Influence in StrSplit(InfluencesTypes, "|")
@@ -349,7 +362,7 @@ EldritchScreen()
         gdipToken := Gdip_Startup()
         PoeHwnd := WinExist("ahk_group PoeWindow")
         bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-        bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
+        ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
         Loop, %TotalSearches%
             {
                 EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive A_Index ".png"
