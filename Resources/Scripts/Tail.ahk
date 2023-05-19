@@ -27,6 +27,8 @@ LogTail(text)
 	FullSearch = %MyDialogs%,%MyHideout%,%MyDialogsDisable%
 	If NewLine contains %MyHideout%
 	{
+		HideoutIni := HideoutIni()
+		IniWrite, 1, %HideoutIni%, In Hideout, In Hideout
 		PostSetup()
 		PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 
 		PostRestore()
@@ -138,6 +140,8 @@ LogTail(text)
 	}
 	If InStr(NewLine, "Generating level") and InStr(NewLine, "with seed")
 	{
+		HideoutIni := HideoutIni()
+		IniWrite, 0, %HideoutIni%, In Hideout, In Hideout
 		ToggleScreenSearch(NewLine)
 		InfluenceTrack(NewLine)
 		Exit

@@ -131,6 +131,7 @@ MechanicButtonOk()
         Iniwrite, 1, %FirstRunPath%, Completion, Mechanic
         FirstRun()
     }
+    ReloadScreenSearch()
     Return
 }
 

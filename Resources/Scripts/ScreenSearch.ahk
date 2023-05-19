@@ -15,7 +15,8 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-GroupAdd, PoeWindow, ahk_exe explorer.exe
+GroupAdd, PoeWindow, ahk_exe ApplicationFrameHost.exe
+
 Start()
 Return
 
@@ -48,10 +49,17 @@ ScreenCheck()
             SetTimer, ScreenCheck, Off
             Start()
         }
+    HideoutIni := HideoutIni()
+    IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout, 0
+    If (HideoutStatus = 1)
+        {
+            EldritchScreen()
+            Return
+        }
     gdipToken := Gdip_Startup()
     PoeHwnd := WinExist("ahk_group PoeWindow")
     bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-    bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
+    ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
     MySearches := GetSearches()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
@@ -295,6 +303,77 @@ Restart()
 {
     Gdip_Shutdown(gdipToken)
     Reload
+}
+
+EldritchScreen()
+{
+    MechanicsPath := MechanicsIni()
+    InfluencesTypes := "Eater|Searing|Maven"
+    For each, Influence in StrSplit(InfluencesTypes, "|")
+    {
+        IniRead, %Influence%, %MechanicsPath%, Influence, %Influence%
+        If (%Influence% = 1)
+        %Influence%Active := 1
+        InfluenceActive = %Influence%
+        If (%Influence% = 0)
+        %Influence%Active := 0
+    }
+    If (SearingActive = 1)
+    {
+        InfluenceActive = Searing
+    }
+    If (EaterActive = 1)
+    {
+        InfluenceActive = Eater
+    }
+    If (MavenActive = 1)
+    {
+        InfluenceActive = Maven
+    }
+    If (EaterActive = 0) and (SearingActive = 0) and (MavenActive = 0)
+    {
+        InfluenceActive = None
+    }
+    If (InfluenceActive ="None")
+        {
+            Return
+        }
+    If (InfluenceActive = "Searing") or  (InfluenceActive = "Eater")
+        {
+            TotalSearches := 28
+        }
+    If (InfluenceActive = "Maven")
+        {
+            TotalSearches := 10
+        }
+        gdipToken := Gdip_Startup()
+        PoeHwnd := WinExist("ahk_group PoeWindow")
+        bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+        bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
+        Loop, %TotalSearches%
+            {
+                EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive A_Index ".png"
+                EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
+                If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
+                    {
+                        MechanicsIni := MechanicsIni()
+                        IniWrite, %A_Index%, %MechanicsIni%, Influence Track, %InfluenceActive%
+                        Break
+                    }
+                    Else
+                    {
+                        Gdip_DisposeImage(EldritchSearch)
+                        DeleteObject(EldritchSearch)
+                    }
+            }
+
+        Gdip_DisposeImage(EldritchSearch)
+        DeleteObject(EldritchSearch)
+        Gdip_Shutdown(gdipToken)
+        Gdip_DisposeImage(bmpHaystack)
+        DeleteObject(bmpHaystack)
+        DeleteObject(ErrorLevel)
+        Return
 }
 
 #IncludeAgain, Resources/Scripts/Ini.ahk
