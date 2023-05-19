@@ -32,6 +32,7 @@ Global Button9
 Global Button10
 Global SamplePressed
 Global CWindow
+Global NoteSelected
 
 GroupAdd, PoeScreen, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeScreen, ahk_exe PathOfExile.exe 
@@ -54,7 +55,7 @@ SelectAuto()
         autochecked := % mechanic "Auto"
         autochecked := % %autochecked%
         Gui, Auto:Add, Checkbox, xs v%Mechanic% Checked%autochecked%, %Mechanic%
-        Gui, Auto:Font, s7 c1177bb Normal Underline 
+        Gui, Auto:Font, s8 c1177bb Normal Underline 
         If (Mechanic = "Eldritch")
             {
                 FootNote := 3
@@ -545,9 +546,17 @@ OpenFootnote()
     NoteSelected := 1
     MouseGetPos,,,, mHwnd, 
     If InStr(A_GuiControl, "1")
-    {
-        ViewFootnote(1)
-    }
+        {
+            ViewFootnote(1)
+        }
+    If InStr(A_GuiControl, "2")
+        {
+            ViewFootnote(2)
+        }
+    If InStr(A_GuiControl, "3")
+        {
+            ViewFootnote(3)
+        }
 }
 
 ViewFootnote(FootnoteNum)
