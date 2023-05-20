@@ -33,6 +33,12 @@ Global Button10
 Global SamplePressed
 Global CWindow
 Global NoteSelected
+Global EaterVar
+Global SearingVar
+Global MavenVar
+Global SampleEater
+Global SampleSearing
+Global SampleMaven
 
 GroupAdd, PoeScreen, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeScreen, ahk_exe PathOfExile.exe 
@@ -153,6 +159,7 @@ AutoMechanics()
 AutoButtonCalibrateSearch()
 {
     Gui, Auto:Destroy
+    Gui, Calibrate:Destroy
     Gui, Calibrate:Color, %Background%
     Gui, Calibrate:Font, c%Font% s5
     Gui, Calibrate:Add, Text, Section,
@@ -180,6 +187,27 @@ AutoButtonCalibrateSearch()
             Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%A_Index% gOpenImage, Sample
             Gui, Calibrate:Font, c%Font% Normal
         }
+    Influences := Influences()
+    For each, boss in StrSplit(Influences, "|")
+        {
+            Gui, Calibrate:Add, Text, Section xs, %boss%
+            XEdit := Round(96/A_ScreenDPI*325)
+            EditOffset := 5
+            Gui, Calibrate:Font, cBlack Normal
+            Gui, Calibrate:Add, Edit, Center ys+%EditOffset% x%XEdit% h20 w50 v%boss%Var
+            ERange := "1-27"
+            If (boss = "Maven")
+                {
+                    ERange := "1-10"
+                }
+            Gui, Calibrate:Add, UpDown, Range%ERange%, %Value% x270 h20 
+            XBut := Round(96/A_ScreenDPI*425)
+            Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%boss%, Calibrate
+            Gui, Calibrate:Font, c1177bb Normal Underline 
+            XSample := Round(96/A_ScreenDPI*570)
+            Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%boss% g%boss%Image, Sample
+            Gui, Calibrate:Font, c%Font% Normal
+        }
     Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Show, , Calibration Tool
     OnMessage(0x0200, "MouseMove")
@@ -187,26 +215,26 @@ AutoButtonCalibrateSearch()
 }
 
 MouseMove(wParam, lParam, Msg, Hwnd) {
-    If InStr(A_GuiControl, "1")
+    MouseGetPos,,,, mHwnd, 2
+    If InStr(A_GuiControl, "1") and (NoteSelected != 1)
         {
             NoteSelected := 0
-            MouseGetPos,,,, mHwnd, 2
             ViewFootnote(1)
+            LastHwnd := mHwnd
             Return
         }
-If Instr(mHwnd, Sample10) and 
-    If InStr(A_GuiControl, "2")
+    If InStr(A_GuiControl, "2") and (NoteSelected != 2)
         {
             NoteSelected := 0
-            MouseGetPos,,,, mHwnd, 2
             ViewFootnote(2)
+            LastHwnd := mHwnd
             Return
         }
-    If InStr(A_GuiControl, "3")
+    If InStr(A_GuiControl, "3") and (NoteSelected != 3)
         {
             NoteSelected := 0
-            MouseGetPos,,,, mHwnd, 2
             ViewFootnote(3)
+            LastHwnd := mHwnd
             Return
         }
     If InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
@@ -282,13 +310,34 @@ If Instr(mHwnd, Sample10) and
                     ShowImage("RitualShop", ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
+            If Instr(mHwnd, SampleEater) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 100
+                    ShowImage("Eldritch/eater5", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 100
+                    ShowImage("Eldritch/searing5", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 100
+                    ShowImage("Eldritch/maven5", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
         }
     If !InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
         {
             Gui, ImageView:Destroy
             LastHwnd :=
         }
-    If !InStr(A_GuiControl, "1") and !InStr(A_GuiControl, "2") and !InStr(A_GuiControl, "3") and !(NoteSelected = 1)
+    If !InStr(A_GuiControl, "1") and !InStr(A_GuiControl, "2") and !InStr(A_GuiControl, "3") and (NoteSelected !>= 1)
         {
             GuiControl, Auto:, Text,
             Gui, FootnoteView:Destroy
@@ -543,18 +592,20 @@ Return
 
 OpenFootnote()
 {    
-    NoteSelected := 1
     MouseGetPos,,,, mHwnd, 
     If InStr(A_GuiControl, "1")
         {
+            NoteSelected := 1
             ViewFootnote(1)
         }
     If InStr(A_GuiControl, "2")
         {
+            NoteSelected := 2
             ViewFootnote(2)
         }
     If InStr(A_GuiControl, "3")
         {
+            NoteSelected := 3
             ViewFootnote(3)
         }
 }
@@ -563,20 +614,50 @@ ViewFootnote(FootnoteNum)
 {
     If (FootnoteNum = 1)
         {
-            GuiControl, Auto:, Text, 1 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
+            GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
             Gui, Auto:Font, c%Font% s10
             GuiControl, Font, Text
         }
-        If (FootnoteNum = 2)
-            {
-                GuiControl, Auto:, Text, 2 : to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-                Gui, Auto:Font, c%Font% s10
-                GuiControl, Font, Text
-            }
-            If (FootnoteNum = 3)
-                {
-                    GuiControl, Auto:, Text, 3 : Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-                    Gui, Auto:Font, c%Font% s10
-                    GuiControl, Font, Text
-                }
+    If (FootnoteNum = 2)
+        {
+            GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+            Gui, Auto:Font, c%Font% s10
+            GuiControl, Font, Text
+        }
+    If (FootnoteNum = 3)
+        {
+            GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+            Gui, Auto:Font, c%Font% s10
+            GuiControl, Font, Text
+        }
+}
+
+ButtonEater()
+{
+
+}
+
+ButtonSearing()
+{
+
+}
+
+ButtonMaven()
+{
+
+}
+
+EaterImage()
+{
+
+}
+
+SearingImage()
+{
+
+}
+
+MavenImage()
+{
+
 }
