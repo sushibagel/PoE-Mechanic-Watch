@@ -634,30 +634,54 @@ ViewFootnote(FootnoteNum)
 
 ButtonEater()
 {
-
+    Gui, Calibrate:Submit, Nohide
+    FileName := "Resources\Images\Image Search\Eldritch\eater" eaterVar ".png"
+    ScreenShotTool(FileName)
 }
 
 ButtonSearing()
 {
-
+    Gui, Calibrate:Submit, Nohide
+    FileName := "Resources\Images\Image Search\Eldritch\searing" searingVar ".png"
+    ScreenShotTool(FileName)
 }
 
 ButtonMaven()
 {
-
+    Gui, Calibrate:Submit, Nohide
+    FileName := "Resources\Images\Image Search\Eldritch\maven" mavenVar ".png"
+    ScreenShotTool(FileName)
 }
 
 EaterImage()
 {
-
+    MouseGetPos,,,, mHwnd, 
+    Gui, ImageView:Destroy
+    SamplePressed := 1
+    ImageH := 100
+    ImageW := 100
+    ShowImage("Eldritch\eater5", ImageH, ImageW, "+Caption")
+    LastHwnd := mHwnd
 }
 
 SearingImage()
 {
-
+    MouseGetPos,,,, mHwnd, 
+    Gui, ImageView:Destroy
+    SamplePressed := 1
+    ImageH := 100
+    ImageW := 100
+    ShowImage("Eldritch\searing5", ImageH, ImageW, "+Caption")
+    LastHwnd := mHwnd
 }
 
 MavenImage()
 {
-
+    MouseGetPos,,,, mHwnd, 
+    Gui, ImageView:Destroy
+    SamplePressed := 1
+    ImageH := 100
+    ImageW := 100
+    ShowImage("Eldritch\maven5", ImageH, ImageW, "+Caption")
+    LastHwnd := mHwnd
 }
