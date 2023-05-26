@@ -7,6 +7,7 @@ Menu, Tray, Icon, Resources\Images\generic.png
 
 Global ScreenSearchMechanics := "Metamorph|Ritual|Eldritch"
 Global MySearches
+Global SearchActiveEldritch
 
 #Include <Gdip_All>
 #Include <Gdip_ImageSearch>
@@ -334,18 +335,22 @@ EldritchScreen()
     If (SearingActive = 1)
     {
         InfluenceActive = Searing
+        ActiveSearch := "Eater|Maven"
     }
     If (EaterActive = 1)
     {
         InfluenceActive = Eater
+        ActiveSearch := "Searing|Maven"
     }
     If (MavenActive = 1)
     {
         InfluenceActive = Maven
+        ActiveSearch := "Eater|Searing"
     }
     If (EaterActive = 0) and (SearingActive = 0) and (MavenActive = 0)
     {
         InfluenceActive = None
+        ActiveSearch := "Eater|Searing|Maven"
     }
     If (InfluenceActive ="None")
         {
@@ -362,6 +367,7 @@ EldritchScreen()
         gdipToken := Gdip_Startup()
         PoeHwnd := WinExist("ahk_group PoeWindow")
         bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+        SearchActiveEldritch := 1
         ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
         Loop, %TotalSearches%
             {
@@ -377,8 +383,8 @@ EldritchScreen()
                                 IniWrite, %CurrentSearch%, %MechanicsIni%, Influence Track, %InfluenceActive%
                                 RefreshOverlay()
                             }
-                        ; Need to make it stop after 1 match. 
-                        Break
+                        SearchActiveEldritch := 0 ;Skip searching for an active mechanic if a match is found here
+                        Break ; Need to make it stop after 1 match. 
                     }
                     Else
                     {
@@ -386,7 +392,40 @@ EldritchScreen()
                         DeleteObject(EldritchSearch)
                     }
             }
-
+        Gdip_DisposeImage(EldritchSearch)
+        DeleteObject(EldritchSearch)
+        Gdip_Shutdown(gdipToken)
+        Gdip_DisposeImage(bmpHaystack)
+        DeleteObject(bmpHaystack)
+        DeleteObject(ErrorLevel)
+        If !(SearchActiveEldritch := 0)
+            {
+                gdipToken := Gdip_Startup()
+                PoeHwnd := WinExist("ahk_group PoeWindow")
+                bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+                SearchActiveEldritch := 1
+                For each, EldritchBoss in StrSplit(ActiveSearch, "|")
+                    {
+                        EldritchPath := "Resources\Images\Image Search\Eldritch\" EldritchBoss "on.png"
+                        EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
+                        If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
+                            {
+                                MechanicsIni := MechanicsIni()
+                                FixCase := RegExReplace(EldritchBoss, "^(.)", "$T1")
+                                IniWrite, 0, %MechanicsIni%, Influence, Eater
+                                IniWrite, 0, %MechanicsIni%, Influence, Searing
+                                IniWrite, 0, %MechanicsIni%, Influence, Maven
+                                IniWrite, 1, %MechanicsIni%, Influence, %FixCase%
+                                RefreshOverlay()
+                                Break
+                            }
+                            Else
+                            {
+                                Gdip_DisposeImage(EldritchSearch)
+                                DeleteObject(EldritchSearch)
+                            }
+                    }
+            }
         Gdip_DisposeImage(EldritchSearch)
         DeleteObject(EldritchSearch)
         Gdip_Shutdown(gdipToken)
