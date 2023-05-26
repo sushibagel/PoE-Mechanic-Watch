@@ -365,15 +365,16 @@ EldritchScreen()
         ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
         Loop, %TotalSearches%
             {
-                EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive A_Index ".png"
+                CurrentSearch := A_Index - 1
+                EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
                 EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
                 If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
                     {
                         MechanicsIni := MechanicsIni()
                         IniRead, CurrentCount, %MechanicsIni%, Influence Track, %InfluenceActive%
-                        If !(CurrentCount = A_Index)
+                        If !(CurrentCount = CurrentSearch)
                             {
-                                IniWrite, %A_Index%, %MechanicsIni%, Influence Track, %InfluenceActive%
+                                IniWrite, %CurrentSearch%, %MechanicsIni%, Influence Track, %InfluenceActive%
                                 RefreshOverlay()
                             }
                         ; Need to make it stop after 1 match. 
