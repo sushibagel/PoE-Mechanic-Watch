@@ -191,10 +191,22 @@ AutoButtonCalibrateSearch()
     For each, boss in StrSplit(Influences, "|")
         {
             Gui, Calibrate:Add, Text, Section xs, %boss%
+            Gui, Calibrate:Font, s8 c1177bb Normal Underline 
+            If (boss = "Maven")
+                {
+                    FootNote := 2
+                }
+            Else
+                {
+                    FootNote := 1  
+                }
+            Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
+            Gui, Calibrate:Font
             XEdit := Round(96/A_ScreenDPI*325)
             EditOffset := 5
             Gui, Calibrate:Font, cBlack Normal
             Gui, Calibrate:Add, Edit, Center ys+%EditOffset% x%XEdit% h20 w50 v%boss%Var
+            Gui, Calibrate:Font, c%Font% s12
             ERange := "0-27"
             If (boss = "Maven")
                 {
@@ -313,21 +325,21 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
             If Instr(mHwnd, SampleEater) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
-                    ImageW := 100
+                    ImageW := 130
                     ShowImage("Eldritch/eater5", ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
-                    ImageW := 100
+                    ImageW := 130
                     ShowImage("Eldritch/searing5", ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
-                    ImageW := 100
+                    ImageW := 130
                     ShowImage("Eldritch/maven5", ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
@@ -378,80 +390,80 @@ OpenImage()
     If Instr(mHwnd, "Static7")
         {
             SamplePressed := 1
-            ImageH := 350
-            ImageW := 150
+            ImageH := 300
+            ImageW := 100
             ShowImage("MetamorphAssem", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static9")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 150
+            ImageH := 100
+            ImageW := 100
             ShowImage("MetamorphIcon", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static11")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount13", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static13")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount23", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static15")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount33", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static17")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount14", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static19")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount24", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static21")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount34", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static23")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount44", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static25")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 150
+            ImageH := 100
+            ImageW := 100
             ShowImage("RitualShop", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
@@ -661,7 +673,7 @@ EaterImage()
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
-    ImageW := 100
+    ImageW := 130
     ShowImage("Eldritch\eater5", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
 }
@@ -672,7 +684,7 @@ SearingImage()
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
-    ImageW := 100
+    ImageW := 130
     ShowImage("Eldritch\searing5", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
 }
@@ -683,7 +695,7 @@ MavenImage()
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
-    ImageW := 100
+    ImageW := 130
     ShowImage("Eldritch\maven5", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
 }
