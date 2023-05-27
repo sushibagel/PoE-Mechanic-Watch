@@ -195,10 +195,10 @@ AutoButtonCalibrateSearch()
             EditOffset := 5
             Gui, Calibrate:Font, cBlack Normal
             Gui, Calibrate:Add, Edit, Center ys+%EditOffset% x%XEdit% h20 w50 v%boss%Var
-            ERange := "1-27"
+            ERange := "0-27"
             If (boss = "Maven")
                 {
-                    ERange := "1-10"
+                    ERange := "0-10"
                 }
             Gui, Calibrate:Add, UpDown, Range%ERange%, %Value% x270 h20 
             XBut := Round(96/A_ScreenDPI*425)
@@ -354,7 +354,9 @@ ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption")
     Gui, ImageView:-Border %Caption%
     Gui, ImageView:Color, c1e1e1e
     Gui, ImageView:Add, Picture,w%ImageW% h%ImageH%, Resources\Images\Image Search\%SelectedImage%.png
-    Gui, ImageView:Show, x%ImgShow% y%MouseY%,ImageView
+    WinGetPos,,,, winHeight, Calibration Tool
+    winHeight := (A_ScreenHeight/2) - (ImageH/2)
+    Gui, ImageView:Show, x%ImgShow% y%winHeight%,ImageView
     WinSet, TransColor, 1e1e1e 255, ImageView
 }
 
