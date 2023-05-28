@@ -66,10 +66,6 @@ MapCancel()
     Gui, MapInput:Destroy
 }
 
-#p::
-Reload
-Return
-
 CheckDiv:
     CheckTheme()    
     Sleep, 100
@@ -99,9 +95,9 @@ CheckDiv:
                             }
                     }    
                 }
-        url = https://divcards.io/
+        url = https://poeloot.click/#3.21
         whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-        whr.Open("GET", "https://divcards.io/", true)
+        whr.Open("GET", "https://poeloot.click/#3.21", true)
         whr.Send()
         whr.WaitForResponse() 
         MapData := whr.ResponseText

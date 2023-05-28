@@ -38,7 +38,7 @@ LogTail(text)
 			Reminder()
 		}
 		MechanicsIni := MechanicsIni()
-		IniRead, MavenMap, %MechanicsIni%, Maven Map, Maven Map 10, 0
+		IniRead, MavenMap, %MechanicsIni%, Maven Map, Maven Map, 0
 		{
 			If !(MavenMap = 0) and !(MavenMap = "")
 			{
