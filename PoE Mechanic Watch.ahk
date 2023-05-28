@@ -513,10 +513,10 @@ HotkeyCheck()
     {
         IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
         
-        If !(Hotkey1 = "")
-        {
-            Hotkey, %Hotkey1%, DivInput
-        }
+        ; If !(Hotkey1 = "")
+        ; {
+        ;     Hotkey, %Hotkey1%, DivInput
+        ; }
 
         If !(Hotkey3 = "")
         {
@@ -617,7 +617,7 @@ TransparencyCheck(NotificationTransparency)
 
 #Include, Resources\Scripts\AutoMechanic.ahk
 #Include, Resources\Scripts\Class_ScrollGUI.ahk
-#Include, Resources\Scripts\DivCard.ahk
+; #Include, Resources\Scripts\DivCard.ahk
 #Include, Resources\Scripts\EldritchReminder.ahk
 #Include, Resources\Scripts\Firstrun.ahk
 #Include, Resources\Scripts\HotkeySelect.ahk
