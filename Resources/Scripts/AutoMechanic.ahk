@@ -357,19 +357,29 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
         }
  }
  
-ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption")
+ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption", CustomText := "", GuiTranparent := 1)
 {
     MouseGetPos, MouseX, MouseY,,,
     WinGetPos, GuiX,, GuiW,, Calibration Tool
     ImgShow := Guix + GuiW
     MouseY := MouseY + 150
-    Gui, ImageView:-Border %Caption%
-    Gui, ImageView:Color, c1e1e1e
+    Gui, ImageView: %Caption%
+    Gui, ImageView:Color, %Background%
     Gui, ImageView:Add, Picture,w%ImageW% h%ImageH%, Resources\Images\Image Search\%SelectedImage%.png
+    Gui, ImageView:Font, c%Font% s10
+    If (CustomText != "")
+        {
+           Gui, ImageView:Add, Text, w200 +Wrap , %CustomText%
+           CustomText :=
+           Gui, ImageView:Add, Text, w200 +Wrap ,
+        }
     WinGetPos,,,, winHeight, Calibration Tool
     winHeight := (A_ScreenHeight/2) - (ImageH/2)
     Gui, ImageView:Show, x%ImgShow% y%winHeight%,ImageView
-    WinSet, TransColor, 1e1e1e 255, ImageView
+    If (GuiTranparent  != 0)
+        {
+            WinSet, TransColor, %Background% 255, ImageView
+        }
 }
 
 MetamorphSearch()
@@ -473,6 +483,7 @@ ImageViewGuiClose()
 {
     Gui, ImageView:Destroy
     SamplePressed :=
+    NoteSelected :=
 }
 
 Button1()
@@ -610,11 +621,13 @@ OpenFootnote()
     If InStr(A_GuiControl, "1")
         {
             NoteSelected := 1
+            SamplePressed := 1
             ViewFootnote(1)
         }
     If InStr(A_GuiControl, "2")
         {
             NoteSelected := 2
+            SamplePressed := 1
             ViewFootnote(2)
         }
     If InStr(A_GuiControl, "3")
@@ -627,16 +640,44 @@ OpenFootnote()
 ViewFootnote(FootnoteNum)
 {
     If (FootnoteNum = 1)
-        {
-            GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
-            Gui, Auto:Font, c%Font% s10
-            GuiControl, Font, Text
-        }
+    {            
+        If WinActive("Calibration Tool")
+            {
+                CustomText := "To calibrate first select the stage (0-27) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+                Caption := "-Caption"
+                If (SamplePressed = 1)
+                    {
+                        Caption := "+Caption"
+                    }
+                ShowImage("", 0, 0, Caption, CustomText,0)
+            }
+        Else
+            {
+                GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
+                Gui, Auto:Font, c%Font% s10
+                GuiControl, Font, Text
+                SamplePressed := 0
+            }
+    }
     If (FootnoteNum = 2)
         {
-            GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-            Gui, Auto:Font, c%Font% s10
-            GuiControl, Font, Text
+            If WinActive("Calibration Tool")
+                {
+                    CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+                    Caption := "-Caption"
+                    If (SamplePressed = 1)
+                        {
+                            Caption := "+Caption"
+                        }
+                    ShowImage("", 0, 0, Caption, CustomText,0)
+                }
+            Else
+                {
+                    GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                    Gui, Auto:Font, c%Font% s10
+                    GuiControl, Font, Text
+                    SamplePressed := 0
+                }
         }
     If (FootnoteNum = 3)
         {
