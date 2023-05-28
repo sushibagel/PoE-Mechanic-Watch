@@ -191,14 +191,26 @@ AutoButtonCalibrateSearch()
     For each, boss in StrSplit(Influences, "|")
         {
             Gui, Calibrate:Add, Text, Section xs, %boss%
+            Gui, Calibrate:Font, s8 c1177bb Normal Underline 
+            If (boss = "Maven")
+                {
+                    FootNote := 2
+                }
+            Else
+                {
+                    FootNote := 1  
+                }
+            Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
+            Gui, Calibrate:Font
             XEdit := Round(96/A_ScreenDPI*325)
             EditOffset := 5
             Gui, Calibrate:Font, cBlack Normal
             Gui, Calibrate:Add, Edit, Center ys+%EditOffset% x%XEdit% h20 w50 v%boss%Var
-            ERange := "1-27"
+            Gui, Calibrate:Font, c%Font% s12
+            ERange := "0-28"
             If (boss = "Maven")
                 {
-                    ERange := "1-10"
+                    ERange := "0-11"
                 }
             Gui, Calibrate:Add, UpDown, Range%ERange%, %Value% x270 h20 
             XBut := Round(96/A_ScreenDPI*425)
@@ -313,22 +325,43 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
             If Instr(mHwnd, SampleEater) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
-                    ImageW := 100
-                    ShowImage("Eldritch/eater5", ImageH, ImageW)
+                    ImageW := 130
+                    Gui, Calibrate:Submit, Nohide
+                    If (eaterVar =28)
+                        {
+                            eaterVar := "on"
+                            ImageH := 50
+                            ImageW := 70
+                        }
+                    ShowImage("Eldritch/eater" eaterVar, ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
-                    ImageW := 100
-                    ShowImage("Eldritch/searing5", ImageH, ImageW)
+                    ImageW := 130
+                    Gui, Calibrate:Submit, Nohide
+                    If (searingVar =28)
+                        {
+                            searingVar := "on"
+                            ImageH := 50
+                            ImageW := 70
+                        }
+                    ShowImage("Eldritch/searing" searingVar, ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
-                    ImageW := 100
-                    ShowImage("Eldritch/maven5", ImageH, ImageW)
+                    ImageW := 130
+                    Gui, Calibrate:Submit, Nohide
+                    If (mavenVar =11)
+                        {
+                            mavenVar := "on"
+                            ImageH := 70
+                            ImageW := 50
+                        }
+                    ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
         }
@@ -345,17 +378,29 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
         }
  }
  
-ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption")
+ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption", CustomText := "", GuiTranparent := 1)
 {
     MouseGetPos, MouseX, MouseY,,,
     WinGetPos, GuiX,, GuiW,, Calibration Tool
     ImgShow := Guix + GuiW
     MouseY := MouseY + 150
-    Gui, ImageView:-Border %Caption%
-    Gui, ImageView:Color, c1e1e1e
+    Gui, ImageView: %Caption%
+    Gui, ImageView:Color, %Background%
     Gui, ImageView:Add, Picture,w%ImageW% h%ImageH%, Resources\Images\Image Search\%SelectedImage%.png
-    Gui, ImageView:Show, x%ImgShow% y%MouseY%,ImageView
-    WinSet, TransColor, 1e1e1e 255, ImageView
+    Gui, ImageView:Font, c%Font% s10
+    If (CustomText != "")
+        {
+           Gui, ImageView:Add, Text, w200 +Wrap , %CustomText%
+           CustomText :=
+           Gui, ImageView:Add, Text, w200 +Wrap ,
+        }
+    WinGetPos,,,, winHeight, Calibration Tool
+    winHeight := (A_ScreenHeight/2) - (ImageH/2)
+    Gui, ImageView:Show, x%ImgShow% y%winHeight%,ImageView
+    If (GuiTranparent  != 0)
+        {
+            WinSet, TransColor, %Background% 255, ImageView
+        }
 }
 
 MetamorphSearch()
@@ -376,80 +421,80 @@ OpenImage()
     If Instr(mHwnd, "Static7")
         {
             SamplePressed := 1
-            ImageH := 350
-            ImageW := 150
+            ImageH := 300
+            ImageW := 100
             ShowImage("MetamorphAssem", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static9")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 150
+            ImageH := 100
+            ImageW := 100
             ShowImage("MetamorphIcon", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static11")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount13", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static13")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount23", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static15")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount33", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static17")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount14", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static19")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount24", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static21")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount34", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static23")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 130
+            ImageH := 100
+            ImageW := 80
             ShowImage("RitualCount44", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "Static25")
         {
             SamplePressed := 1
-            ImageH := 150
-            ImageW := 150
+            ImageH := 100
+            ImageW := 100
             ShowImage("RitualShop", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
@@ -459,6 +504,7 @@ ImageViewGuiClose()
 {
     Gui, ImageView:Destroy
     SamplePressed :=
+    NoteSelected :=
 }
 
 Button1()
@@ -596,11 +642,13 @@ OpenFootnote()
     If InStr(A_GuiControl, "1")
         {
             NoteSelected := 1
+            SamplePressed := 1
             ViewFootnote(1)
         }
     If InStr(A_GuiControl, "2")
         {
             NoteSelected := 2
+            SamplePressed := 1
             ViewFootnote(2)
         }
     If InStr(A_GuiControl, "3")
@@ -613,16 +661,44 @@ OpenFootnote()
 ViewFootnote(FootnoteNum)
 {
     If (FootnoteNum = 1)
-        {
-            GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
-            Gui, Auto:Font, c%Font% s10
-            GuiControl, Font, Text
-        }
+    {            
+        If WinActive("Calibration Tool")
+            {
+                CustomText := "To calibrate first select the stage (0-27) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+                Caption := "-Caption"
+                If (SamplePressed = 1)
+                    {
+                        Caption := "+Caption"
+                    }
+                ShowImage("", 0, 0, Caption, CustomText,0)
+            }
+        Else
+            {
+                GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
+                Gui, Auto:Font, c%Font% s10
+                GuiControl, Font, Text
+                SamplePressed := 0
+            }
+    }
     If (FootnoteNum = 2)
         {
-            GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-            Gui, Auto:Font, c%Font% s10
-            GuiControl, Font, Text
+            If WinActive("Calibration Tool")
+                {
+                    CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+                    Caption := "-Caption"
+                    If (SamplePressed = 1)
+                        {
+                            Caption := "+Caption"
+                        }
+                    ShowImage("", 0, 0, Caption, CustomText,0)
+                }
+            Else
+                {
+                    GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                    Gui, Auto:Font, c%Font% s10
+                    GuiControl, Font, Text
+                    SamplePressed := 0
+                }
         }
     If (FootnoteNum = 3)
         {
@@ -659,7 +735,7 @@ EaterImage()
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
-    ImageW := 100
+    ImageW := 130
     ShowImage("Eldritch\eater5", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
 }
@@ -670,7 +746,7 @@ SearingImage()
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
-    ImageW := 100
+    ImageW := 130
     ShowImage("Eldritch\searing5", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
 }
@@ -681,7 +757,7 @@ MavenImage()
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
-    ImageW := 100
+    ImageW := 130
     ShowImage("Eldritch\maven5", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
 }
