@@ -207,10 +207,10 @@ AutoButtonCalibrateSearch()
             Gui, Calibrate:Font, cBlack Normal
             Gui, Calibrate:Add, Edit, Center ys+%EditOffset% x%XEdit% h20 w50 v%boss%Var
             Gui, Calibrate:Font, c%Font% s12
-            ERange := "0-27"
+            ERange := "0-28"
             If (boss = "Maven")
                 {
-                    ERange := "0-10"
+                    ERange := "0-11"
                 }
             Gui, Calibrate:Add, UpDown, Range%ERange%, %Value% x270 h20 
             XBut := Round(96/A_ScreenDPI*425)
@@ -326,21 +326,42 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
                 {
                     ImageH := 100
                     ImageW := 130
-                    ShowImage("Eldritch/eater5", ImageH, ImageW)
+                    Gui, Calibrate:Submit, Nohide
+                    If (eaterVar =28)
+                        {
+                            eaterVar := "on"
+                            ImageH := 50
+                            ImageW := 70
+                        }
+                    ShowImage("Eldritch/eater" eaterVar, ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
                     ImageW := 130
-                    ShowImage("Eldritch/searing5", ImageH, ImageW)
+                    Gui, Calibrate:Submit, Nohide
+                    If (searingVar =28)
+                        {
+                            searingVar := "on"
+                            ImageH := 50
+                            ImageW := 70
+                        }
+                    ShowImage("Eldritch/searing" searingVar, ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
                     ImageW := 130
-                    ShowImage("Eldritch/maven5", ImageH, ImageW)
+                    Gui, Calibrate:Submit, Nohide
+                    If (mavenVar =11)
+                        {
+                            mavenVar := "on"
+                            ImageH := 70
+                            ImageW := 50
+                        }
+                    ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
         }
