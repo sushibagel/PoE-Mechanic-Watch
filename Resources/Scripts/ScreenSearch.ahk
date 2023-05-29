@@ -2,7 +2,7 @@
 #Persistent
 #NoEnv
 #MaxMem 1024
-; #NoTrayIcon
+#NoTrayIcon
 Menu, Tray, Icon, Resources\Images\generic.png
 
 Global ScreenSearchMechanics := "Metamorph|Ritual|Eldritch"
