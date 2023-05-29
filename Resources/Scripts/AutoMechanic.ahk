@@ -664,7 +664,7 @@ ViewFootnote(FootnoteNum)
     {
         If WinActive("Calibration Tool")
         {
-            CustomText := "To calibrate first select the stage (0-27) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+            CustomText := "To calibrate first select the stage (0-27) you want to calibrate then press the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
             Caption := "-Caption"
             If (SamplePressed = 1)
             {
@@ -684,7 +684,7 @@ ViewFootnote(FootnoteNum)
     {
         If WinActive("Calibration Tool")
         {
-            CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+            CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
             Caption := "-Caption"
             If (SamplePressed = 1)
             {
