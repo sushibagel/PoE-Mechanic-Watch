@@ -2,7 +2,7 @@
 #Include <Gdip_ImageSearch>
 
 Global BlightAuto
-Global ExpeditionAuto 
+Global ExpeditionAuto
 Global IncursionAuto
 Global MetamorphAuto
 Global RitualAuto
@@ -41,7 +41,7 @@ Global SampleSearing
 Global SampleMaven
 
 GroupAdd, PoeScreen, ahk_exe PathOfExileSteam.exe
-GroupAdd, PoeScreen, ahk_exe PathOfExile.exe 
+GroupAdd, PoeScreen, ahk_exe PathOfExile.exe
 GroupAdd, PoeScreen, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeScreen, ahk_class POEWindowClass
 
@@ -61,19 +61,19 @@ SelectAuto()
         autochecked := % mechanic "Auto"
         autochecked := % %autochecked%
         Gui, Auto:Add, Checkbox, xs v%Mechanic% Checked%autochecked%, %Mechanic%
-        Gui, Auto:Font, s8 c1177bb Normal Underline 
+        Gui, Auto:Font, s8 c1177bb Normal Underline
         If (Mechanic = "Eldritch")
-            {
-                FootNote := 3
-            }
+        {
+            FootNote := 3
+        }
         If (Mechanic = "Metamorph") or (Mechanic = "Ritual")
-            {
-                FootNote := 2
-            }
+        {
+            FootNote := 2
+        }
         If (Mechanic = "Blight") or (Mechanic = "Expedition") or (Mechanic = "Incursion")
-            {
-                FootNote := 1
-            }
+        {
+            FootNote := 1
+        }
         Gui, Auto:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
         Gui, Auto:Font
         Gui, Auto:Font, c%Font% s13
@@ -113,7 +113,7 @@ AutoButtonOk()
 
 AutoWrite()
 {
-    Gui, Submit, NoHide 
+    Gui, Submit, NoHide
     AutoMechanicSearch := AutoMechanics()
     MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
@@ -167,7 +167,7 @@ AutoButtonCalibrateSearch()
     GuiW := Round(96/A_ScreenDPI*630)
     Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Screen Search Calibration Tool
     Gui, Calibrate:Font, c%Font% s10
-    Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate the stage. The calibrate button will open the "Snipping Tool" on your computer, verify the "Rectangular Snip" Mode is enabled, press "New" and carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image, if you have any background (part of your map) it can result in the tool to failing to recognize future instances. Once you are happy with the screenshot close the tool without saving. 
+    Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate. The calibrate button will open the "Snipping Tool" on your computer, verify the "Rectangular Snip" Mode is enabled, press "New" and carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image, if you have any background (part of your map) it can result in the tool to failing to recognize future instances. Once you are happy with the screenshot close the tool without saving.
     BoxH := Round(96/A_ScreenDPI*1)
     Gui, Calibrate:Font, s1
     Gui, Calibrate:Add, Text,,
@@ -178,48 +178,48 @@ AutoButtonCalibrateSearch()
     LoopCount := MySearches.MaxIndex()
     Gui, Calibrate:Font, c%Font% s12
     Loop, %LoopCount%
-        {
-            Gui, Calibrate:Add, Text, Section xs, % MySearches[A_Index]
-            XBut := Round(96/A_ScreenDPI*425)
-            Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%A_Index%, Calibrate
-            Gui, Calibrate:Font, c1177bb Normal Underline 
-            XSample := Round(96/A_ScreenDPI*570)
-            Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%A_Index% gOpenImage, Sample
-            Gui, Calibrate:Font, c%Font% Normal
-        }
+    {
+        Gui, Calibrate:Add, Text, Section xs, % MySearches[A_Index]
+        XBut := Round(96/A_ScreenDPI*425)
+        Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%A_Index%, Calibrate
+        Gui, Calibrate:Font, c1177bb Normal Underline
+        XSample := Round(96/A_ScreenDPI*570)
+        Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%A_Index% gOpenImage, Sample
+        Gui, Calibrate:Font, c%Font% Normal
+    }
     Influences := Influences()
     For each, boss in StrSplit(Influences, "|")
+    {
+        Gui, Calibrate:Add, Text, Section xs, %boss%
+        Gui, Calibrate:Font, s8 c1177bb Normal Underline
+        If (boss = "Maven")
         {
-            Gui, Calibrate:Add, Text, Section xs, %boss%
-            Gui, Calibrate:Font, s8 c1177bb Normal Underline 
-            If (boss = "Maven")
-                {
-                    FootNote := 2
-                }
-            Else
-                {
-                    FootNote := 1  
-                }
-            Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
-            Gui, Calibrate:Font
-            XEdit := Round(96/A_ScreenDPI*325)
-            EditOffset := 5
-            Gui, Calibrate:Font, cBlack Normal
-            Gui, Calibrate:Add, Edit, Center ys+%EditOffset% x%XEdit% h20 w50 v%boss%Var
-            Gui, Calibrate:Font, c%Font% s12
-            ERange := "0-28"
-            If (boss = "Maven")
-                {
-                    ERange := "0-11"
-                }
-            Gui, Calibrate:Add, UpDown, Range%ERange%, %Value% x270 h20 
-            XBut := Round(96/A_ScreenDPI*425)
-            Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%boss%, Calibrate
-            Gui, Calibrate:Font, c1177bb Normal Underline 
-            XSample := Round(96/A_ScreenDPI*570)
-            Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%boss% g%boss%Image, Sample
-            Gui, Calibrate:Font, c%Font% Normal
+            FootNote := 2
         }
+        Else
+        {
+            FootNote := 1
+        }
+        Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
+        Gui, Calibrate:Font
+        XEdit := Round(96/A_ScreenDPI*325)
+        EditOffset := 5
+        Gui, Calibrate:Font, cBlack Normal
+        Gui, Calibrate:Add, Edit, Center ys+%EditOffset% x%XEdit% h20 w50 v%boss%Var
+        Gui, Calibrate:Font, c%Font% s12
+        ERange := "0-28"
+        If (boss = "Maven")
+        {
+            ERange := "0-11"
+        }
+        Gui, Calibrate:Add, UpDown, Range%ERange%, %Value% x270 h20
+        XBut := Round(96/A_ScreenDPI*425)
+        Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%boss%, Calibrate
+        Gui, Calibrate:Font, c1177bb Normal Underline
+        XSample := Round(96/A_ScreenDPI*570)
+        Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%boss% g%boss%Image, Sample
+        Gui, Calibrate:Font, c%Font% Normal
+    }
     Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Show, , Calibration Tool
     OnMessage(0x0200, "MouseMove")
@@ -229,155 +229,155 @@ AutoButtonCalibrateSearch()
 MouseMove(wParam, lParam, Msg, Hwnd) {
     MouseGetPos,,,, mHwnd, 2
     If InStr(A_GuiControl, "1") and (NoteSelected != 1)
-        {
-            NoteSelected := 0
-            ViewFootnote(1)
-            LastHwnd := mHwnd
-            Return
-        }
+    {
+        NoteSelected := 0
+        ViewFootnote(1)
+        LastHwnd := mHwnd
+        Return
+    }
     If InStr(A_GuiControl, "2") and (NoteSelected != 2)
-        {
-            NoteSelected := 0
-            ViewFootnote(2)
-            LastHwnd := mHwnd
-            Return
-        }
+    {
+        NoteSelected := 0
+        ViewFootnote(2)
+        LastHwnd := mHwnd
+        Return
+    }
     If InStr(A_GuiControl, "3") and (NoteSelected != 3)
-        {
-            NoteSelected := 0
-            ViewFootnote(3)
-            LastHwnd := mHwnd
-            Return
-        }
+    {
+        NoteSelected := 0
+        ViewFootnote(3)
+        LastHwnd := mHwnd
+        Return
+    }
     If InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
+    {
+        MouseGetPos,,,, mHwnd, 2
+        If Instr(mHwnd, Sample1) and (mHwnd != LastHwnd)
         {
-            MouseGetPos,,,, mHwnd, 2
-            If Instr(mHwnd, Sample1) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 300
-                    ImageW := 100
-                    ShowImage("MetamorphAssem", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 100
-                    ShowImage("MetamorphIcon", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount13", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount23", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount33", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount14", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount24", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount34", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample9) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount44", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample10) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 100
-                    ShowImage("RitualShop", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, SampleEater) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 130
-                    Gui, Calibrate:Submit, Nohide
-                    If (eaterVar =28)
-                        {
-                            eaterVar := "on"
-                            ImageH := 50
-                            ImageW := 70
-                        }
-                    ShowImage("Eldritch/eater" eaterVar, ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 130
-                    Gui, Calibrate:Submit, Nohide
-                    If (searingVar =28)
-                        {
-                            searingVar := "on"
-                            ImageH := 50
-                            ImageW := 70
-                        }
-                    ShowImage("Eldritch/searing" searingVar, ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 130
-                    Gui, Calibrate:Submit, Nohide
-                    If (mavenVar =11)
-                        {
-                            mavenVar := "on"
-                            ImageH := 70
-                            ImageW := 50
-                        }
-                    ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
+            ImageH := 300
+            ImageW := 100
+            ShowImage("MetamorphAssem", ImageH, ImageW)
+            LastHwnd := mHwnd
         }
+        If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 100
+            ShowImage("MetamorphIcon", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualCount13", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualCount23", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualCount33", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualCount14", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualCount24", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualCount34", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample9) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualCount44", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, Sample10) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 100
+            ShowImage("RitualShop", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, SampleEater) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 130
+            Gui, Calibrate:Submit, Nohide
+            If (eaterVar =28)
+            {
+                eaterVar := "on"
+                ImageH := 50
+                ImageW := 70
+            }
+            ShowImage("Eldritch/eater" eaterVar, ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 130
+            Gui, Calibrate:Submit, Nohide
+            If (searingVar =28)
+            {
+                searingVar := "on"
+                ImageH := 50
+                ImageW := 70
+            }
+            ShowImage("Eldritch/searing" searingVar, ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+        If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
+        {
+            ImageH := 100
+            ImageW := 130
+            Gui, Calibrate:Submit, Nohide
+            If (mavenVar =11)
+            {
+                mavenVar := "on"
+                ImageH := 70
+                ImageW := 50
+            }
+            ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+    }
     If !InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
-        {
-            Gui, ImageView:Destroy
-            LastHwnd :=
-        }
+    {
+        Gui, ImageView:Destroy
+        LastHwnd :=
+    }
     If !InStr(A_GuiControl, "1") and !InStr(A_GuiControl, "2") and !InStr(A_GuiControl, "3") and (NoteSelected !>= 1)
-        {
-            GuiControl, Auto:, Text,
-            Gui, FootnoteView:Destroy
-            LastHwnd :=
-        }
- }
- 
+    {
+        GuiControl, Auto:, Text,
+        Gui, FootnoteView:Destroy
+        LastHwnd :=
+    }
+}
+
 ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption", CustomText := "", GuiTranparent := 1)
 {
     MouseGetPos, MouseX, MouseY,,,
@@ -389,18 +389,18 @@ ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption", CustomText := "",
     Gui, ImageView:Add, Picture,w%ImageW% h%ImageH%, Resources\Images\Image Search\%SelectedImage%.png
     Gui, ImageView:Font, c%Font% s10
     If (CustomText != "")
-        {
-           Gui, ImageView:Add, Text, w200 +Wrap , %CustomText%
-           CustomText :=
-           Gui, ImageView:Add, Text, w200 +Wrap ,
-        }
+    {
+        Gui, ImageView:Add, Text, w200 +Wrap , %CustomText%
+        CustomText :=
+        Gui, ImageView:Add, Text, w200 +Wrap ,
+    }
     WinGetPos,,,, winHeight, Calibration Tool
     winHeight := (A_ScreenHeight/2) - (ImageH/2)
     Gui, ImageView:Show, x%ImgShow% y%winHeight%,ImageView
-    If (GuiTranparent  != 0)
-        {
-            WinSet, TransColor, %Background% 255, ImageView
-        }
+    If (GuiTranparent != 0)
+    {
+        WinSet, TransColor, %Background% 255, ImageView
+    }
 }
 
 MetamorphSearch()
@@ -414,90 +414,90 @@ RitualSearch()
 }
 
 OpenImage()
-{    
-    MouseGetPos,,,, mHwnd, 
+{
+    MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed :=
     If Instr(mHwnd, "Static7")
-        {
-            SamplePressed := 1
-            ImageH := 300
-            ImageW := 100
-            ShowImage("MetamorphAssem", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 300
+        ImageW := 100
+        ShowImage("MetamorphAssem", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static9")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 100
-            ShowImage("MetamorphIcon", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 100
+        ShowImage("MetamorphIcon", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static11")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount13", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 80
+        ShowImage("RitualCount13", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static13")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount23", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 80
+        ShowImage("RitualCount23", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static15")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount33", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 80
+        ShowImage("RitualCount33", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static17")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount14", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 80
+        ShowImage("RitualCount14", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static19")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount24", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 80
+        ShowImage("RitualCount24", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static21")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount34", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 80
+        ShowImage("RitualCount34", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static23")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount44", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 80
+        ShowImage("RitualCount44", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static25")
-        {
-            SamplePressed := 1
-            ImageH := 100
-            ImageW := 100
-            ShowImage("RitualShop", ImageH, ImageW, "+Caption")
-            LastHwnd := mHwnd
-        }
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 100
+        ShowImage("RitualShop", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
 }
 
 ImageViewGuiClose()
@@ -589,45 +589,45 @@ ScreenShotTool(path)
     Gui, CalibrationNotice: +AlwaysOnTop -Border
     Gui, CalibrationNotice:Show, NoActivate, Calibration Notify
     MapTransparency := TransparencyCheck("Quick")
-    WinSet, Style,  %ShowTitle%, Calibration Notify
+    WinSet, Style, %ShowTitle%, Calibration Notify
     WinSet, Transparent, %MapTransparency%, Calibration Notify
     Sleep, 2000
     Global bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
     Global bmpNeedle := Gdip_CreateBitmapFromFile(path)
     Loop, 201
+    {
+        If (Gdip_ImageSearch(bmpHaystack,bmpNeedle,LIST,0,0,0,0,A_Index,0xFFFFFF,1,0) > 0)
         {
-            If (Gdip_ImageSearch(bmpHaystack,bmpNeedle,LIST,0,0,0,0,A_Index,0xFFFFFF,1,0) > 0)
-                {
-                    Global VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety. 
-                    Break
-                }
-                Else
-                    {
-                        If (A_Index = 201) 
-                            {
-                                Gui, CalibrationNotice:Destroy
-                                Msgbox, Calibration failed. Try again. 
-                            }
-                    }
+            Global VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety.
+            Break
         }
-        Gui, CalibrationNotice:Destroy
-        IniTitle := StrSplit(path, "\")
-        IniTitle := StrSplit(IniTitle[4],".png")
-        IniTitle := IniTitle[1]
-        ScreenIni := ScreenIni()
-        If (VariationAmt < 30)
+        Else
+        {
+            If (A_Index = 201)
             {
-                VariationAmt := 30
+                Gui, CalibrationNotice:Destroy
+                Msgbox, Calibration failed. Try again.
             }
-        IniWrite, %VariationAmt%, %ScreenIni%, Variation, %IniTitle%
-        Gdip_DisposeImage(bmpHaystack)
-        Gdip_DisposeImage(bmpNeedle)
-        Gdip_DisposeImage(pBitmap)
-        Gdip_Shutdown(rnToken)
-        DeleteObject(pBitmap)
-        DeleteObject(bmpHaystack)
-        DeleteObject(bmpNeedle)
-        DeleteObject(ErrorLevel)
+        }
+    }
+    Gui, CalibrationNotice:Destroy
+    IniTitle := StrSplit(path, "\")
+    IniTitle := StrSplit(IniTitle[4],".png")
+    IniTitle := IniTitle[1]
+    ScreenIni := ScreenIni()
+    If (VariationAmt < 30)
+    {
+        VariationAmt := 30
+    }
+    IniWrite, %VariationAmt%, %ScreenIni%, Variation, %IniTitle%
+    Gdip_DisposeImage(bmpHaystack)
+    Gdip_DisposeImage(bmpNeedle)
+    Gdip_DisposeImage(pBitmap)
+    Gdip_Shutdown(rnToken)
+    DeleteObject(pBitmap)
+    DeleteObject(bmpHaystack)
+    DeleteObject(bmpNeedle)
+    DeleteObject(ErrorLevel)
 }
 
 ReloadScreenSearch()
@@ -637,75 +637,75 @@ ReloadScreenSearch()
 Return
 
 OpenFootnote()
-{    
-    MouseGetPos,,,, mHwnd, 
+{
+    MouseGetPos,,,, mHwnd,
     If InStr(A_GuiControl, "1")
-        {
-            NoteSelected := 1
-            SamplePressed := 1
-            ViewFootnote(1)
-        }
+    {
+        NoteSelected := 1
+        SamplePressed := 1
+        ViewFootnote(1)
+    }
     If InStr(A_GuiControl, "2")
-        {
-            NoteSelected := 2
-            SamplePressed := 1
-            ViewFootnote(2)
-        }
+    {
+        NoteSelected := 2
+        SamplePressed := 1
+        ViewFootnote(2)
+    }
     If InStr(A_GuiControl, "3")
-        {
-            NoteSelected := 3
-            ViewFootnote(3)
-        }
+    {
+        NoteSelected := 3
+        ViewFootnote(3)
+    }
 }
 
 ViewFootnote(FootnoteNum)
 {
     If (FootnoteNum = 1)
-    {            
+    {
         If WinActive("Calibration Tool")
-            {
-                CustomText := "To calibrate first select the stage (0-27) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
-                Caption := "-Caption"
-                If (SamplePressed = 1)
-                    {
-                        Caption := "+Caption"
-                    }
-                ShowImage("", 0, 0, Caption, CustomText,0)
-            }
-        Else
-            {
-                GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
-                Gui, Auto:Font, c%Font% s10
-                GuiControl, Font, Text
-                SamplePressed := 0
-            }
-    }
-    If (FootnoteNum = 2)
         {
-            If WinActive("Calibration Tool")
-                {
-                    CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
-                    Caption := "-Caption"
-                    If (SamplePressed = 1)
-                        {
-                            Caption := "+Caption"
-                        }
-                    ShowImage("", 0, 0, Caption, CustomText,0)
-                }
-            Else
-                {
-                    GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-                    Gui, Auto:Font, c%Font% s10
-                    GuiControl, Font, Text
-                    SamplePressed := 0
-                }
+            CustomText := "To calibrate first select the stage (0-27) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+            Caption := "-Caption"
+            If (SamplePressed = 1)
+            {
+                Caption := "+Caption"
+            }
+            ShowImage("", 0, 0, Caption, CustomText,0)
         }
-    If (FootnoteNum = 3)
+        Else
         {
-            GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+            GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
             Gui, Auto:Font, c%Font% s10
             GuiControl, Font, Text
+            SamplePressed := 0
         }
+    }
+    If (FootnoteNum = 2)
+    {
+        If WinActive("Calibration Tool")
+        {
+            CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching its important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+            Caption := "-Caption"
+            If (SamplePressed = 1)
+            {
+                Caption := "+Caption"
+            }
+            ShowImage("", 0, 0, Caption, CustomText,0)
+        }
+        Else
+        {
+            GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+            Gui, Auto:Font, c%Font% s10
+            GuiControl, Font, Text
+            SamplePressed := 0
+        }
+    }
+    If (FootnoteNum = 3)
+    {
+        GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+        Gui, Auto:Font, c%Font% s10
+        GuiControl, Font, Text
+    }
 }
 
 ButtonEater()
@@ -731,7 +731,7 @@ ButtonMaven()
 
 EaterImage()
 {
-    MouseGetPos,,,, mHwnd, 
+    MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
@@ -742,7 +742,7 @@ EaterImage()
 
 SearingImage()
 {
-    MouseGetPos,,,, mHwnd, 
+    MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
@@ -753,7 +753,7 @@ SearingImage()
 
 MavenImage()
 {
-    MouseGetPos,,,, mHwnd, 
+    MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed := 1
     ImageH := 100
