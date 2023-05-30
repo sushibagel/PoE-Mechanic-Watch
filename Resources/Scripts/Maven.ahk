@@ -117,6 +117,7 @@ ResetMaven()
 
 ViewMaven()
 {
+    Gui, Maven:Destroy
     MechanicsIni := MechanicsIni()
     Gui, Maven:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, Maven:Font, c%Font% s13 Bold
@@ -125,7 +126,7 @@ ViewMaven()
     Gui, Maven:Add, Text, w%Width% +Center, Maven Completion Status
     Gui, Maven:Font
     Gui, Maven:Font, c%Font% s%fw%
-    Gui, Maven:Add, Text, w%Width% +Center, Note: You can check/uncheck items to change the completion status. 
+    Gui, Maven:Add, Text, w%Width% +Center, Note: You can check/uncheck items to change the completion status.
     Gui, Maven:Font, c%Font% s1
     Gui, Maven:Add, GroupBox, w%Width% +Center x0 h1
     Space = y+2
@@ -136,7 +137,7 @@ ViewMaven()
     Gui, Maven:Font
     Gui, Maven:Font, c%Font% s%fw%
 
-; Map Bosses
+    ; Map Bosses
     Loop, 10
     {
         IniRead, MapCompletion, %MechanicsIni%, Maven Map, Maven Map %A_Index%
@@ -148,7 +149,7 @@ ViewMaven()
         }
     }
     Gui, Maven:Add, CheckBox, Checked0 gUncheckMaps vUncheckMaps, Remove All
-                
+
     ; The Formed
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
@@ -191,7 +192,7 @@ ViewMaven()
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
     Gui, Maven:Add, CheckBox, Checked0 gUncheckFormed vUncheckFormed, Remove All
 
-; The Forgotten
+    ; The Forgotten
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Forgotten
@@ -288,7 +289,7 @@ ViewMaven()
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
     Gui, Maven:Add, CheckBox, Checked0 gUncheckFeared vUncheckFeared, Remove All
 
-; The Twisted
+    ; The Twisted
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Twisted
@@ -334,7 +335,7 @@ ViewMaven()
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
     Gui, Maven:Add, CheckBox, Checked0 gUncheckTwisted vUncheckTwisted, Remove All
 
-; The Hidden
+    ; The Hidden
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Hidden
@@ -381,7 +382,7 @@ ViewMaven()
     Gui, Maven:Add, CheckBox, %Checked% v%ControlText2%, %ControlText%
     Gui, Maven:Add, CheckBox, Checked0 gUncheckHidden vUncheckHidden, Remove All
 
-; The Elderslayers
+    ; The Elderslayers
     Gui, Maven:Font, c%Font% s11
     Gui, Maven:Font, Bold Underline
     Gui, Maven:Add, Text, ys Section, The Elderslayers
@@ -506,7 +507,7 @@ MavenMatch(NewLine)
     }
 }
 
-Formed() 
+Formed()
 {
     Return, "Lair of the Hydra|Maze of the Minotaur|Forge of the Phoenix|Pit of the Chimera"
 }
