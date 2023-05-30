@@ -95,10 +95,10 @@ MechanicGuiClose()
 
 MechanicButtonOk()
 {
-    Gui, Submit, NoHide 
+    Gui, Submit, NoHide
     If (Searing = 1) and (Eater = 1)
     {
-        Msgbox, Warning, you can only have one Influence active at a time. 
+        Msgbox, Warning, you can only have one Influence active at a time.
         Gui, Mechanic:Destroy
         SelectMechanics()
     }
@@ -116,7 +116,7 @@ MechanicButtonOk()
     IniWrite, %IncursionTotal%, %MechanicsPath%, Incursion 4, Active
     Gui, Mechanic:Destroy
     PostSetup()
-    PostMessage, 0x01111,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 
+    PostMessage, 0x01111,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences
     PostRestore()
     If (AutoRun = 1)
     {
@@ -132,6 +132,7 @@ MechanicButtonOk()
         FirstRun()
     }
     ReloadScreenSearch()
+    RefreshOverlay()
     Return
 }
 
