@@ -77,6 +77,7 @@ Global LastStateVeritaniaTheRedeemer
 Global LastStateAlHezminTheHunter
 Global LastStateDroxTheWarlord
 Global NumBosses
+Global MavenBoss
 
 MavenTrack()
 {
@@ -150,6 +151,10 @@ ViewMaven()
         }
     }
     Gui, Maven:Add, CheckBox, Checked0 gUncheckMaps vUncheckMaps, Remove All
+    Gui, Maven:Font, cBlack
+    Gui, Maven:Add, Edit, Center xs w60 vMavenBoss
+    Gui, Maven:Add, Button, xp+65 , Add
+    Gui, Maven:Font,c%Font%
 
     ; The Formed
     Gui, Maven:Font, c%Font% s11
@@ -484,6 +489,23 @@ MavenButtonClose()
     Return
 }
 
+MavenButtonAdd()
+{
+    Gui, Maven:Submit, Nohide
+    MechanicsIni := MechanicsIni()
+    Loop, 10
+    {
+        IniRead, CheckBoss, %MechanicsIni%, Maven Map, Maven Map %A_Index%
+        If (CheckBoss = "")
+        {
+            IniWrite, %MavenBoss%, %MechanicsIni%, Maven Map, Maven Map %A_Index%
+            IniWrite, %A_Index%, %MechanicsIni%, Influence Track, Maven
+            ViewMaven()
+            Break
+        }
+    }
+    Return
+}
 RemoveMap(RemoveMap)
 {
     MechanicsIni := MechanicsIni()
