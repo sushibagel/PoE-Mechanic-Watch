@@ -479,6 +479,8 @@ MavenButtonClose()
             IniWrite, %BossName%, %MechanicsIni%, Maven Map, Maven Map %NumBosses%
         }
     }
+    IniWrite, %NumBosses%, %MechanicsIni%, Influence Track, Maven
+    RefreshOverlay()
     Return
 }
 
