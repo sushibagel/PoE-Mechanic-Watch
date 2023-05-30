@@ -76,6 +76,7 @@ Global LastStateBaranTheCrusader
 Global LastStateVeritaniaTheRedeemer
 Global LastStateAlHezminTheHunter
 Global LastStateDroxTheWarlord
+Global NumBosses
 
 MavenTrack()
 {
@@ -465,6 +466,17 @@ MavenButtonClose()
             BossName := StrReplace(BossName, "-")
             BossName := %BossName%
             IniWrite, %BossName%, %MechanicsIni%, The %Witness%, %Boss%
+        }
+    }
+    NumBosses := 0
+    Loop, 10
+    {
+        IniRead, BossName, %MechanicsIni%, Maven Map, Maven Map %A_Index%
+        IniWrite, %A_Space%, %MechanicsIni%, Maven Map, Maven Map %A_Index%
+        If (BossName != "")
+        {
+            NumBosses++
+            IniWrite, %BossName%, %MechanicsIni%, Maven Map, Maven Map %NumBosses%
         }
     }
     Return
