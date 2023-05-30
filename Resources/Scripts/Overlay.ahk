@@ -28,7 +28,7 @@ RefreshOverlay()
     MechanicsActive()
     InfluenceActive()
     mechanictest = 0
-    
+
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
         mechanicon = %Mechanic%On
@@ -48,7 +48,7 @@ RefreshOverlay()
                     {
                         IncursionTotal := 4
                     }
-                    Else 
+                    Else
                     {
                         IncursionTotal := 3
                     }
@@ -57,13 +57,13 @@ RefreshOverlay()
                     Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
                 }
                 If (Mechanic = "Ritual")
-                    {
-                        MechanicsIni := MechanicsIni()
-                        IniRead, Ritualcount, %MechanicsIni%, Ritual Track, Count, %A_Space%
-                        Gui, Overlay:Font, cWhite s%OverlayFont%
-                        TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %Ritualcount%
-                    }
+                {
+                    MechanicsIni := MechanicsIni()
+                    IniRead, Ritualcount, %MechanicsIni%, Ritual Track, Count, %A_Space%
+                    Gui, Overlay:Font, cWhite s%OverlayFont%
+                    TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %Ritualcount%
+                }
             }
             Else
             {
@@ -78,13 +78,13 @@ RefreshOverlay()
                     {
                         IncursionTotal := 4
                     }
-                    Else 
+                    Else
                     {
                         IncursionTotal := 3
                     }
                     Gui, Overlay:Font, cWhite s%OverlayFont%
                     TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                    ;Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
                 }
             }
             mechanictest ++
@@ -135,7 +135,7 @@ OverlayGuiClose()
     Tooltip
     MoveActive := 0
     RefreshOverlay()
-    Return  
+    Return
 }
 
 OverlayKill()
@@ -163,13 +163,13 @@ MechanicToggle(ToggleMechanic)
         PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
         PostRestore()
         If (ToggleMechanic = "Metamorph") or (ToggleMechanic = "Ritual")
-            {
-                MechanicsIni := MechanicsIni()
-                IniWrite, 1, %MechanicsIni%, Ritual Track, Status
-                IniWrite, 1, %MechanicsIni%, Metamorph Track, Status
-                IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
-                IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
-            }
+        {
+            MechanicsIni := MechanicsIni()
+            IniWrite, 1, %MechanicsIni%, Ritual Track, Status
+            IniWrite, 1, %MechanicsIni%, Metamorph Track, Status
+            IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
+            IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
+        }
         MechanicsActive()
         If (MechanicsActive = 0)
         {
@@ -295,18 +295,18 @@ Move()
 
 WM_RBUTTONDOWN() {
     If (GetKeyState("Alt", "P"))
+    {
+        ; Get the ID of the control that received the message.
+        ObjectClicked := A_GuiControl
+        MechanicsFilePath := MechanicsIni()
+        CheckMechanic := "Searing|Eater|Maven|Incursion"
+        For each, CountObject in StrSplit(CheckMechanic, "|")
         {
-            ; Get the ID of the control that received the message.
-            ObjectClicked := A_GuiControl
-            MechanicsFilePath := MechanicsIni()
-            CheckMechanic := "Searing|Eater|Maven|Incursion"
-            For each, CountObject in StrSplit(CheckMechanic, "|")
-                {
-                    If InStr(ObjectClicked, CountObject)
-                        {
-                            IniWrite, 0, %MechanicsFilePath%, Influence Track, %CountObject%
-                        }
-                }
+            If InStr(ObjectClicked, CountObject)
+            {
+                IniWrite, 0, %MechanicsFilePath%, Influence Track, %CountObject%
+            }
         }
+    }
     RefreshOverlay()
 }
