@@ -10,6 +10,7 @@ Global SoundState
 Global ThemeState
 Global ToolLauncherState
 Global NotificationState
+Global StorageState
 Global ThemeSelect
 Global HideoutSelect
 Global MechanicSelect
@@ -21,10 +22,11 @@ Global HotkeySelect
 Global SoundSelect
 Global LaunchAssistSelect
 Global ToolLauncherSelect
+Global StorageSelect
 
 CheckFirstRun() ;Check to see if all First Run Items are complete
 {
-    Global ItemSearch := "Client|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Notification|ToolLauncher"
+    Global ItemSearch := "Client|Storage|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Notification|ToolLauncher"
     Global Item
     Global each
     FirstRunPath := FirstRunIni()
@@ -69,6 +71,7 @@ FirstRun()
     Gui, First2:Add, Text,, Before using PoE Mechanic Watch click each item below to set your preferences.
     Gui, First2:Add, Text,, Items with a * are required
     Gui, First2:Add, Checkbox, vClientOpened gClientOpen Checked%ClientState%, * Open your Path of Exile Client
+    Gui, First2:Add, Checkbox, vStorageSelect gStorageSelect Checked%StorageState%, %A_Space% Select an alternate location to store settings files.
     Gui, First2:Add, Checkbox, vThemeSelect gThemeSelect Checked%ThemeState%, %A_Space% Select your Theme
     IniFile := HideoutIni()
     If FileExist(IniFile)
@@ -77,12 +80,12 @@ FirstRun()
     }
     Else
     {
-        HideoutSetup = 
+        HideoutSetup =
     }
 
     Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
     Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
-    Gui, First2:Add, Checkbox, vNotificationSelect gNotificationSelect Checked%NotificationState%, %A_Space% View/Change options for various notifications. 
+    Gui, First2:Add, Checkbox, vNotificationSelect gNotificationSelect Checked%NotificationState%, %A_Space% View/Change options for various notifications.
     Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
     Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
     Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
@@ -130,6 +133,17 @@ ClientOpen()
             Reload()
         }
     }
+    Return
+}
+StorageSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Hide
+    Gui, First2:Destroy
+    iniChoose()
+    WinWaitClose, Gui:iniChoose
+    Gui, First:Destroy
+    FirstRunWrite("Storage")
     Return
 }
 
@@ -194,7 +208,6 @@ AutoMechanicSelect()
     Return
 }
 
-
 HotkeySelect()
 {
     Gui, Submit, NoHide
@@ -250,7 +263,7 @@ First2ButtonClose()
         Gui, FirstWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
         Gui, FirstWarning:Color, %Background%
         Gui, FirstWarning:Font, c%Font% s10
-        Gui, FirstWarning:Add, Text, w530 +Center, You haven't gone through all the required setup processes, PoE Mechanic Watch may not function correctly until you do. 
+        Gui, FirstWarning:Add, Text, w530 +Center, You haven't gone through all the required setup processes, PoE Mechanic Watch may not function correctly until you do.
         Gui, FirstWarning:Add, Button, y50 x50, I'll do it later
         Gui, FirstWarning:Add, Button, y50 x450, Go Back
         Gui, FirstWarning: +AlwaysOnTop -Caption
@@ -273,7 +286,6 @@ FirstReminderButtonOK()
 FirstWarningButtonI'lldoitlater:
 Exit()
 Return
-
 
 FirstWarningButtonGoBack()
 {
