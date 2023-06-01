@@ -89,6 +89,9 @@ Global ColorMode
 Global Background
 Global Font
 Global Secondary
+Global CustomBackground
+Global CustomFont
+Global CustomSecondary
 
 Global ClientOpened
 Global MyHideout
@@ -362,15 +365,31 @@ SelectTheme()
     Gui, Theme:Add, Picture, yn y10 Section ,Resources/Images/Dark Theme/Dark Reminder.png
     Gui, Theme:Add, Picture, xs ,Resources/Images/Dark Theme/Dark Notification Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Dark Theme/Dark Mechanic Selector.png
-    Gui, Theme:Add, Picture, xs Section ,Resources/Images/Dark Theme/Dark Hotkey.png
     Gui, Theme:Add, Picture, yn y10 ,Resources/Images/Dark Theme/Dark Hideout Select.png
     Gui, Theme:Add, GroupBox, w900 h10 xn x10
     Gui, Theme:Add, Button, x10 y+10 w90 h30 Section , Light Mode
     Gui, Theme:Add, Picture, ys Section ,Resources//Images/Light Theme/Light Reminder.png
     Gui, Theme:Add, Picture, xs ,Resources/Images/Light Theme/Light Notification Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Mechanic Selector.png
-    Gui, Theme:Add, Picture, xs ,Resources/ImageReturns/Light Theme/Light Hotkey.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Hideout Select.png
+    Gui, Theme:Add, GroupBox, w900 h10 xn x10
+    Gui, Theme:Add, Button, x10 y+10 w90 h30 Section, Custom
+    ThemeFile := ThemeIni()
+    IniRead, CustomBackground, %ThemeFile%, Custom, Background, %A_Space%
+    Gui, Theme:Font, c%Font% s10
+    Gui, Theme:Add, Text, YS+5, Background:
+    Gui, Theme:Font, cBlack s10
+    Gui, Theme:Add, Edit, vCustomBackground +Center w90 YS, %CustomBackground%
+    IniRead, CustomFont, %ThemeFile%, Custom, Font, %A_Space%
+    Gui, Theme:Font, c%Font% s10
+    Gui, Theme:Add, Text, YS+5, Font:
+    Gui, Theme:Font, cBlack s10
+    Gui, Theme:Add, Edit, vCustomFont +Center w90 YS, %CustomFont%
+    IniRead, CustomSecondary, %ThemeFile%, Custom, Secondary, %A_Space%
+    Gui, Theme:Font, c%Font% s10
+    Gui, Theme:Add, Text, YS+5, Secondary Color:
+    Gui, Theme:Font, cBlack s10
+    Gui, Theme:Add, Edit, vCustomSecondary +Center w90 YS, %CustomSecondary%
     Gui, Theme:Show,,Gui:Theme
     Return
 }
@@ -380,10 +399,7 @@ ThemeButtonDarkMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Dark, %ThemeFile%, Theme, Theme
-    IfWinExist, First
-    {
-        Reload()
-    }
+    Reload()
     Return
 }
 
@@ -392,10 +408,20 @@ ThemeButtonLightMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Light, %ThemeFile%, Theme, Theme
-    IfWinExist, First
-    {
-        Reload()
-    }
+    Reload()
+    Return
+}
+
+ThemeButtonCustom()
+{
+    Gui, Theme:Submit
+    Gui, Theme:Destroy
+    ThemeFile := ThemeIni()
+    IniWrite, %CustomBackground%, %ThemeFile%, Custom, Background
+    IniWrite, %CustomFont%, %ThemeFile%, Custom, Font
+    IniWrite, %CustomSecondary%, %ThemeFile%, Custom, Secondary
+    IniWrite, Custom, %ThemeFile%, Theme, Theme
+    Reload()
     Return
 }
 

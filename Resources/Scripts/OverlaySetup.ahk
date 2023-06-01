@@ -18,7 +18,7 @@ OverlaySetup()
     Gui, OverlaySetup:Font, s10
     Gui, OverlaySetup:Color, DropDownList, %Secondary% -Caption -Border
     Gui, OverlaySetup:Add, DropDownList, xp x100 Choose%DDSelect% gOrientationChoice vOrientationChoice Section, Horizontal|Vertical
-    If (ColorMode = "Dark")
+    If (ColorMode = "Dark") or (ColorMode = "Custom")
     {
         RefreshColor = refresh white.png
     }
@@ -30,13 +30,13 @@ OverlaySetup()
     Space = y+5
     Gui, OverlaySetup:Font, c%Font% s11
     Gui, OverlaySetup:Color, Edit, %Secondary% -Caption -Border
-    Gui, OverlaySetup:Color, %Background% 
+    Gui, OverlaySetup:Color, %Background%
     Gui, OverlaySetup:Add, GroupBox, w350 h10 xn x10
     Space = y+2
     OverlayList := "Height|Font"
     For each, OverlayItem in StrSplit(OverlayList, "|")
     {
-        IniRead,  %OverlayItem%Value, %OverlayPath%, Size, %OverlayItem%
+        IniRead, %OverlayItem%Value, %OverlayPath%, Size, %OverlayItem%
         Gui, OverlaySetup:Font, c%Font% s11
         If (OverlayItem = "Height")
         {
@@ -46,11 +46,11 @@ OverlaySetup()
         {
             ItemText = Font Size:
         }
-        Gui, OverlaySetup:Add, Text, xn x20 Section, %ItemText% 
+        Gui, OverlaySetup:Add, Text, xn x20 Section, %ItemText%
         Gui, OverlaySetup:Font, cBlack s10
         Value := %OverlayItem%Value
         Gui, OverlaySetup:Add, Edit, Center v%OverlayItem%Edit g%OverlayItem%Edit ys x200 w50
-        Gui, OverlaySetup:Add, UpDown, Range0-255, %Value% ;;;; 0 = invisible 255 = Opaque 
+        Gui, OverlaySetup:Add, UpDown, Range0-255, %Value% ;;;; 0 = invisible 255 = Opaque
     }
     Gui, OverlaySetup:-Caption -Border
     Gui, OverlaySetup:Add, Button, xn x20 w80 h30, Move

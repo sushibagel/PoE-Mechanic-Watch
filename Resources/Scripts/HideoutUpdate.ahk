@@ -9,10 +9,11 @@ Global UpTwoLevels
 StringTrimRight, UpOneLevel, A_ScriptDir, 7
 StringTrimRight, UpTwoLevels, UpOneLevel, 10
 
-IniRead, ColorMode, %UpOneLevel%Settings/Theme.ini, Theme, Theme
-IniRead, Font, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Font
-IniRead, Background, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Background
-IniRead, Secondary, %UpOneLevel%Settings/Theme.ini, %ColorMode%, Secondary
+ThemeIni := ThemeIni()
+IniRead, ColorMode, %ThemeIni%, Theme, Theme
+IniRead, Font, %ThemeIni%, %ColorMode%, Font
+IniRead, Background, %ThemeIni%, %ColorMode%, Background
+IniRead, Secondary, %ThemeIni%, %ColorMode%, Secondary
 
 LVArray := []
 Gui, Add, Text, c%Font% ,Search:
@@ -38,73 +39,74 @@ GuiClose:
 ExitApp
 
 Search:
-if getkeystate("CapsLock","T")
-return
+   if getkeystate("CapsLock","T")
+      return
 
-GuiControlGet, SearchTerm
-GuiControl, -Redraw, LV
-LV_Delete()
-For Each, FileName In LVArray
-{
-   If (SearchTerm != "")
+   GuiControlGet, SearchTerm
+   GuiControl, -Redraw, LV
+   LV_Delete()
+   For Each, FileName In LVArray
    {
-      If (InStr(FileName, SearchTerm) = 1) ; for matching at the start
-      ; If InStr(FileName, SearchTerm) ; for overall matching
+      If (SearchTerm != "")
+      {
+         If (InStr(FileName, SearchTerm) = 1) ; for matching at the start
+            ; If InStr(FileName, SearchTerm) ; for overall matching
+            LV_Add("", FileName)
+      }
+      Else
          LV_Add("", FileName)
    }
-   Else
-      LV_Add("", FileName)
-}
-Items := LV_GetCount()
-SB_SetText("   " . Items . " of " . TotalItems . " Items")
-GuiControl, +Redraw, LV
+   Items := LV_GetCount()
+   SB_SetText(" " . Items . " of " . TotalItems . " Items")
+   GuiControl, +Redraw, LV
 Return
 
 Enter::
 NumpadEnter::
-if SearchTerm =
-{
-   Gosub, Warning
-}
-Else
-{
-GuiControlGet, SearchTerm
-Gui, Destroy
-HideoutSet := SearchTerm
-GoSub, WriteFile
-Return
-}
+   if SearchTerm =
+   {
+      Gosub, Warning
+   }
+   Else
+   {
+      GuiControlGet, SearchTerm
+      Gui, Destroy
+      HideoutSet := SearchTerm
+      GoSub, WriteFile
+      Return
+   }
 
 Cancel:
 ExitApp
 
 Submit:
-If ((A_GuiEvent = "DoubleClick") || (Trigger_Action))
-{
-clipboard=
-LV_GetText(C1,A_EventInfo,1)
-HideoutSet = %C1%
-Gui, Destroy
-GoSub, WriteFile
-Return
-}
+   If ((A_GuiEvent = "DoubleClick") || (Trigger_Action))
+   {
+      clipboard=
+      LV_GetText(C1,A_EventInfo,1)
+      HideoutSet = %C1%
+      Gui, Destroy
+      GoSub, WriteFile
+      Return
+   }
 Return
 
 WriteFile:
-if HideoutSet !=
-{
-   IniWrite, %HideoutSet%, %UpOneLevel%Settings\Hideout.ini, Current Hideout, MyHideout
-   HideoutSet :=
-   IfWinNotExist, First2
+   if HideoutSet !=
    {
-      Run, %UpTwoLevels%PoE Mechanic Watch.ahk
+      HideoutIni := HideoutIni()
+      IniWrite, %HideoutSet%, %HideoutIni%, Current Hideout, MyHideout
+      HideoutSet :=
+      IfWinNotExist, First2
+      {
+         Run, %UpTwoLevels%PoE Mechanic Watch.ahk
+         ExitApp
+      }
       ExitApp
    }
-   ExitApp
-}
 
 WarningButtonOK:
-Reload
+   Reload
 ExitApp
 Return
 
@@ -118,3 +120,5 @@ Warning:
    Gui, Warning:-Caption
    Gui, Warning:Add, Button,,&OK
    Gui, Warning:Show
+
+   #IncludeAgain, Resources/Scripts/Ini.ahk

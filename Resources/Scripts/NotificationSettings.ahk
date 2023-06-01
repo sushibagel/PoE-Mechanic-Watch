@@ -37,7 +37,7 @@ Exit
 NotificationSetup()
 {
     Gui, NotificationSettings:Destroy
-    If (ColorMode = "Dark")
+    If (ColorMode = "Dark") or (ColorMode = "Custom")
     {
         IconColor = Resources/Images/volume white.png
         RefreshColor = Resources/Images/refresh white.png
@@ -84,8 +84,8 @@ NotificationSetup()
     Gui, NotificationSettings:Add, GroupBox, w%Width% +Center x0 h1
     Space = y+2
     Gui, NotificationSettings: -Caption
-    
-    ; Headings 
+
+    ; Headings
     Gui, NotificationSettings:Font, c%Font% s%fw1% Bold Underline
     Gui, NotificationSettings:Add, Text, xs x25 Section, Notification Type
     XOff := Round(96/A_ScreenDPI*50)
@@ -116,7 +116,7 @@ NotificationSetup()
 
     ; Overlay Section
     Gui, NotificationSettings:Font
-    Gui, NotificationSettings:Add, Text, xs y-2 x25, 
+    Gui, NotificationSettings:Add, Text, xs y-2 x25,
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
@@ -126,15 +126,15 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
     Gui, NotificationSettings:Add, Picture, gOverlayTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gOverlayStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Font, cBlack 
+    Gui, NotificationSettings:Font, cBlack
     IniRead, Value, %TransparencyFile%, Transparency, Overlay, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%EditOffset% x%Edit2% h20 w50 vOverlayTran
-    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
-    XOff := Round(96/A_ScreenDPI*815) 
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
+    XOff := Round(96/A_ScreenDPI*815)
     Gui, NotificationSettings:Add, Button, gOverlaySettings ys+%Offset% x%XOff% w50, Layout
     Gui, NotificationSettings:Add, Button, gMove ys+%Offset% w50, Move
 
-; Quick Notification Section
+    ; Quick Notification Section
     NotificaitonIni := NotificationIni()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
@@ -153,16 +153,16 @@ NotificationSetup()
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     IniRead, Value, %NotificationIni%, Volume, Quick, 100
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vQuickVolume
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
     Gui, NotificationSettings:Add, Picture, gQuickTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gQuickStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Quick, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vQuickTran
-    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20  
-    XOff := Round(96/A_ScreenDPI*855) 
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
+    XOff := Round(96/A_ScreenDPI*855)
     Gui, NotificationSettings:Add, Button, gMoveMap ys+%Offset% x%XOff% w50, Move
 
-; Mechanic Notification Section
+    ; Mechanic Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
@@ -179,14 +179,14 @@ NotificationSetup()
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     IniRead, Value, %NotificationIni%, Volume, Notification, 100
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vNotificationVolume
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
-    Gui, NotificationSettings:Add, Picture, gNotificationTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor% 
-    Gui, NotificationSettings:Add, Picture, gNotificationStop ys-%Offset% x%StopButton% w15 h15, %StopColor% 
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
+    Gui, NotificationSettings:Add, Picture, gNotificationTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
+    Gui, NotificationSettings:Add, Picture, gNotificationStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Notification, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vNotificationTran
-    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
 
-; Influence Notification Section
+    ; Influence Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
@@ -203,14 +203,14 @@ NotificationSetup()
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vInfluenceVolume
     IniRead, Value, %NotificationIni%, Volume, Notification, 100
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
     Gui, NotificationSettings:Add, Picture, gInfluenceTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gInfluenceStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Influence, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vInfluenceTran
-    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
 
-; Maven Notification Section
+    ; Maven Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
     Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxheight%
@@ -227,12 +227,12 @@ NotificationSetup()
     Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vMavenVolume
     IniRead, Value, %NotificationIni%, Volume, Maven, 100
-    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20  
+    Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
     Gui, NotificationSettings:Add, Picture, gMavenTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gMavenStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Maven, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vMavenTran
-    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20 
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
 
     ; Invitation Stuff
     Invitations := Witnesses()
@@ -255,7 +255,6 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Text, Section xs x25, The Elderslayers Notification
     Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%ElderslayersCurrent% vElderslayersCheck
 
-
     Gui, NotificationSettings:Font, c%Font% s1
     Width := A_ScreenWidth*.53
     Width := Round(96/A_ScreenDPI*Width)
@@ -265,7 +264,7 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Button, x20 w50, Close
     Gui, NotificationSettings:Color, %Background%
     Gui, NotificationSettings:Show, y150 W%Width%, Notification Settings
-  Return
+    Return
 }
 
 NotificationSettingsButtonClose(){
@@ -285,7 +284,7 @@ NotificationSettingsButtonClose(){
     {
         Value := Invitation "Check"
         Value := %Value%
-        IniWrite, %Value%, %NotificaitonIni%, Active, The %Invitation%    
+        IniWrite, %Value%, %NotificaitonIni%, Active, The %Invitation%
     }
     Categories := "Quick|Notification|Influence|Maven"
     For each, Item in StrSplit(Categories, "|")
@@ -335,7 +334,7 @@ OverlayStop()
 {
     Gui, Overlay:Destroy
     Return
-} 
+}
 
 ; Quick Notificaiton Controls
 SoundButtonQuick()
