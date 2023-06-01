@@ -21,13 +21,13 @@ OnMessage(0x204, "WM_RBUTTONDOWN")
 IniRead, StorageLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
 IniRead, Theme, %StorageLocation%\Resources\Settings\Theme.ini, Theme, Theme, Light
 If (Theme = "Dark")
-    {
-        isDark := 2
-    }
+{
+    isDark := 2
+}
 If (Theme = "Light")
-    {
-        isDark := 3
-    }
+{
+    isDark := 3
+}
 
 MenuDark(isDark)
 
@@ -52,7 +52,7 @@ Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Overlay Settings, OverlaySetup
 Menu, SetupMenu, Add, Move Overlay, Move
-Menu, SetupMenu, Add, Move Map Notification, MoveMap
+Menu, SetupMenu, Add, Move Quick Notification, MoveMap
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Notification Settings, NotificationSetup
 Menu, SetupMenu, Add
@@ -120,16 +120,16 @@ Global keyLaunchName
 
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
-GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
+GroupAdd, PoeWindow, ahk_exe PathOfExile.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, Reminder
 GroupAdd, PoeWindow, InfluenceReminder
 GroupAdd, PoeWindow, Overlay
 GroupAdd, PoeWindow, Move
-GroupAdd, PoeWindow, Awakened PoE Trade   
-GroupAdd, PoeWindow, Influence  
-GroupAdd, PoeWindow, Transparency   
+GroupAdd, PoeWindow, Awakened PoE Trade
+GroupAdd, PoeWindow, Influence
+GroupAdd, PoeWindow, Transparency
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 LocationIni := StorageIni()
@@ -175,7 +175,7 @@ If !FileExist(HotkeyIni)
 {
     Loop, 14
     {
-        IniWrite, %blank%, %HotkeyIni%, Hotkeys, %A_Index% 
+        IniWrite, %blank%, %HotkeyIni%, Hotkeys, %A_Index%
     }
 }
 
@@ -255,8 +255,8 @@ If !FileExist(LaunchOptionIni) ;Check for "Launch options" ini
 HideoutIni := HideoutIni()
 If !FileExist(HideoutIni) ;Check for "Hideout" ini
 {
-GroupAdd, FirstRunGroup, First2
-GroupAdd, FirstRunGroup, Move
+    GroupAdd, FirstRunGroup, First2
+    GroupAdd, FirstRunGroup, Move
     IfWinNotActive, ahk_Group FirstRunGroup
     {
         FirstRunIni := FirstRunIni()
@@ -265,8 +265,8 @@ GroupAdd, FirstRunGroup, Move
         {
             SetHideout()
         }
-    }  
-    Return  
+    }
+    Return
 }
 
 VariableIni := VariableIni()
@@ -328,14 +328,14 @@ GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
 
     IfInstring, POEpath, PathOfExileEGS.exe
     {
-        StringTrimRight, POEPathTrim, POEpath, 18 
+        StringTrimRight, POEPathTrim, POEpath, 18
     }
 
     IfInstring, POEpath, PathOfExile_x64EGS.exe
     {
-        StringTrimRight, POEPathTrim, POEpath, 21 
+        StringTrimRight, POEPathTrim, POEpath, 21
     }
-    
+
     LaunchIni := LaunchOptionsIni()
     LogPath = %POEPathTrim%logs\Client.txt
     If (LogPath != "logs\Client.txt")
@@ -376,7 +376,7 @@ SelectTheme()
 }
 
 ThemeButtonDarkMode()
-{    
+{
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Dark, %ThemeFile%, Theme, Theme
@@ -437,7 +437,7 @@ LaunchPoe()
     Run, %PoeLaunch%
     SetWorkingDir, %A_ScriptDir%
     LaunchSupport()
-Return
+    Return
 }
 
 ViewLog()
@@ -481,29 +481,29 @@ Exit()
 
 AdditionalScripts(Action)
 {
-   ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\WindowMonitor.ahk|\Resources\Scripts\ScreenSearch.ahk"
-   For each, script in StrSplit(ScriptsActions, "|")
-   {
+    ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\WindowMonitor.ahk|\Resources\Scripts\ScreenSearch.ahk"
+    For each, script in StrSplit(ScriptsActions, "|")
+    {
         If(Action = "Exit")
         {
-            WinClose, %A_ScriptDir%%script% ahk_class AutoHotkey    
+            WinClose, %A_ScriptDir%%script% ahk_class AutoHotkey
         }
         If(Action = "Reload")
         {
             If(script = "\Resources\Scripts\Tail.ahk")
-                {
-                    If WinExist("Tail.ahk")
-                        {
-                            Run, %A_ScriptDir%%script%
-                        }    
-                }                 
-            Else
+            {
+                If WinExist("Tail.ahk")
                 {
                     Run, %A_ScriptDir%%script%
-                }    
+                }
+            }
+            Else
+            {
+                Run, %A_ScriptDir%%script%
+            }
         }
-   }
-   Return
+    }
+    Return
 }
 
 HotkeyCheck()
@@ -512,7 +512,7 @@ HotkeyCheck()
     Loop, 16
     {
         IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
-        
+
         ; If !(Hotkey1 = "")
         ; {
         ;     Hotkey, %Hotkey1%, DivInput
@@ -522,70 +522,70 @@ HotkeyCheck()
         {
             Hotkey, ~%Hotkey3%, ToggleInfluence
         }
-        
+
         If !(Hotkey4 = "")
         {
             Hotkey, ~%Hotkey4%, ViewMaven
         }
-       
+
         If !(Hotkey5 = "")
         {
             Hotkey, ~%Hotkey5%, LaunchPoe
         }
-       
+
         If !(Hotkey6 = "")
         {
             Hotkey, ~%Hotkey5%, ToolLaunchGui
         }
-        
+
         If !(Hotkey2 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, ~%Hotkey2%, SubtractOne
         }
-        
+
         If !(Hotkey7 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey7%, Abyss, T5
         }
-        
+
         If !(Hotkey8 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey8%, Blight, T5
         }
-        
+
         If !(Hotkey9 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey9%, Breach, T5
         }
-        
+
         If !(Hotkey10 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey10%, Expedition, T5
         }
-        
+
         If !(Hotkey11 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey11%, Harvest, T5
         }
-        
+
         If !(Hotkey12 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey12%, Incursion, T5
         }
-        
+
         If !(Hotkey13 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey13%, Legion, T5
         }
-        
+
         If !(Hotkey14 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
@@ -597,7 +597,7 @@ HotkeyCheck()
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey15%, Ritual, T5
         }
-        
+
         If !(Hotkey16 = "")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
@@ -608,9 +608,9 @@ HotkeyCheck()
 
 TransparencyCheck(NotificationTransparency)
 {
-   TransparencyIniPath := TransparencyIni()
-   IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%, 255
-   Return, %NotificationTransparency%
+    TransparencyIniPath := TransparencyIni()
+    IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%, 255
+    Return, %NotificationTransparency%
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
