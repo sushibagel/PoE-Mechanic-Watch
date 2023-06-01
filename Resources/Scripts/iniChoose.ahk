@@ -56,6 +56,11 @@ iniChooseButtonClose()
 {
     Gui, Submit, NoHide
     Gui, iniChoose:Destroy
+    DetectHiddenWindows, On
+    If WinExist("First2" )
+        {
+            Firstrun()
+        }
     Return
 }
 
