@@ -55,11 +55,11 @@ NotificationSetup()
     NotificationIni := NotificationIni()
     Gui, NotificationSettings:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, NotificationSettings:Font, c%Font% s13 Bold
-    Width := A_ScreenWidth*.75
+    Width := A_ScreenWidth*.90
     Width := Round(96/A_ScreenDPI*Width)
-    BoxH := Round(96/A_ScreenDPI*43)
-    Box:= Width - Round(96/A_ScreenDPI*12)
-    BoxHeight := Round(96/A_ScreenDPI*210)
+    BoxH := Round(96/A_ScreenDPI*49)
+    Box:= Round(96/A_ScreenDPI*(A_ScreenWidth*.590))
+    BoxHeight := Round(96/A_ScreenDPI*230)
     TW := Width - 20
     fw := Round(96/A_ScreenDPI*12)
     fw1 := Round(96/A_ScreenDPI*15)
@@ -78,7 +78,7 @@ NotificationSetup()
     TextOffset := Round(96/A_ScreenDPI*14)
     MavenInvitations := Round(96/A_ScreenDPI*25)
 
-    Gui, NotificationSettings:Add, Text, w%Width% +Center, Notification Settings
+    Gui, NotificationSettings:Add, Text, w%Box% +Center, Notification Settings
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font% s1
     Gui, NotificationSettings:Add, GroupBox, w%Width% +Center x0 h1
@@ -256,13 +256,13 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Checkbox, ys+1 x%Check1% Checked%ElderslayersCurrent% vElderslayersCheck
 
     Gui, NotificationSettings:Font, c%Font% s1
-    Width := A_ScreenWidth*.53
-    Width := Round(96/A_ScreenDPI*Width)
+
     Gui, NotificationSettings:Add, GroupBox, w%Width% +Center x0 h1
 
     Gui, NotificationSettings:Font, c%Font% s10
     Gui, NotificationSettings:Add, Button, x20 w50, Close
     Gui, NotificationSettings:Color, %Background%
+    Gui, NotificationSettings:-DPIScale
     Gui, NotificationSettings:Show, y150 W%Width%, Notification Settings
     Return
 }
