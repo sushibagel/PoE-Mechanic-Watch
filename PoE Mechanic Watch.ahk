@@ -369,37 +369,37 @@ SelectTheme()
     Gui, Theme:Add, Picture, xs ,Resources/Images/Dark Theme/Dark Notification Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Dark Theme/Dark Mechanic Selector.png
     Gui, Theme:Add, Picture, yn y10 ,Resources/Images/Dark Theme/Dark Hideout Select.png
-    Gui, Theme:Add, GroupBox, w710 h10 xn x10
+    Gui, Theme:Add, GroupBox, w970 h10 xn x10
     Gui, Theme:Add, Button, x10 y+10 w90 h30 Section , Light Mode
     Gui, Theme:Add, Picture, ys Section ,Resources//Images/Light Theme/Light Reminder.png
     Gui, Theme:Add, Picture, xs ,Resources/Images/Light Theme/Light Notification Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Mechanic Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Hideout Select.png
 
-    Gui, Theme:Add, GroupBox, w1 h640 yn
+    Gui, Theme:Add, GroupBox, w1 h900 yn
     Gui, Theme:Add, Button, yn y10 w90 h30 Section, Custom
     ThemeFile := ThemeIni()
-    IniRead, CustomBackground, %ThemeFile%, Custom, Background, %A_Space%
-    IniRead, CustomFont, %ThemeFile%, Custom, Font, %A_Space%
-    IniRead, CustomSecondary, %ThemeFile%, Custom, Secondary, %A_Space%
+    IniRead, CustomBackground, %ThemeFile%, Custom, Background, Gray
+    IniRead, CustomFont, %ThemeFile%, Custom, Font, White
+    IniRead, CustomSecondary, %ThemeFile%, Custom, Secondary, Silver
     Gui, Theme:Font, c%Font% s10
     Gui, Theme:Add, Link, xs w420 +Wrap Section, Custom colors can be selected by typing in the color names listed below or with a 6-digit hex color code (Note: Do not include "#" in your hex code). I you are looking for a color picker <a href="https://g.co/kgs/2dFtE2">Google has a great one here.</a> Once you've typed in your desired color press "Enter" to apply it to the samples below, if you're happy with the colors press the "Custom" button above to save the colors.
 
-    Gui, Theme:Add, Text, Section, Background:
+    Gui, Theme:Add, Text, Section w110, Background:
     Gui, Theme:Font, cBlack s10
-    Gui, Theme:Add, Edit, vCustomBackground +Center w90 x870 YS, %CustomBackground%
-    Gui, Theme:Add, Progress, YS w100 h25 c%CustomBackground% vBackgroundProgress, 100
+    Gui, Theme:Add, Edit, vCustomBackground +Center w90 YS, %CustomBackground%
+    Gui, Theme:Add, Progress, YS w100 h20 c%CustomBackground% vBackgroundProgress, 100
 
     Gui, Theme:Font, c%Font% s10
-    Gui, Theme:Add, Text, xs Section, Secondary Color:
+    Gui, Theme:Add, Text, xs Section w110, Secondary Color:
     Gui, Theme:Font, cBlack s10
-    Gui, Theme:Add, Edit, vCustomSecondary +Center w90 x870 YS, %CustomSecondary%
+    Gui, Theme:Add, Edit, vCustomSecondary +Center w90 YS, %CustomSecondary%
     Gui, Theme:Add, Progress, YS w100 h20 c%CustomSecondary% vSecondaryProgress, 100
 
     Gui, Theme:Font, c%Font% s10
-    Gui, Theme:Add, Text, xs Section, Font:
+    Gui, Theme:Add, Text, xs Section w110, Font:
     Gui, Theme:Font, cBlack s10
-    Gui, Theme:Add, Edit, vCustomFont +Center w90 x870 YS, %CustomFont%
+    Gui, Theme:Add, Edit, vCustomFont +Center w90 YS, %CustomFont%
     Gui, Theme:Add, Progress, YS w100 h20 c%CustomFont% vFontProgress, 100
     Gui, Theme:Add, Text, xs Section, %A_Space%
     ColorOptions := "Black-Silver|Gray-White|Maroon-Red|Purple-Fuchsia|Green-Lime|Olive-Yellow|Navy-Blue|Teal-Aqua"
@@ -408,14 +408,14 @@ SelectTheme()
         ColorChoice := StrSplit(ColorChoice, "-")
         Color1 := ColorChoice[1]
         Gui, Theme:Font, c%Font% s10
-        Gui, Theme:Add, Text, xs Section, % ColorChoice[1] ":"
+        Gui, Theme:Add, Text, xs Section w55, % ColorChoice[1] ":"
         Gui, Theme:Font, cBlack s10
-        Gui, Theme:Add, Progress, YS x870 w90 h20 c%Color1%, 100
+        Gui, Theme:Add, Progress, YS x+30 w90 h20 c%Color1%, 100
         Color2 := ColorChoice[2]
         Gui, Theme:Font, c%Font% s10
-        Gui, Theme:Add, Text, YS, % ColorChoice[2] ":"
+        Gui, Theme:Add, Text, YS w55, % ColorChoice[2] ":"
         Gui, Theme:Font, cBlack s10
-        Gui, Theme:Add, Progress, YS w90 h20 x1070 c%Color2%, 100
+        Gui, Theme:Add, Progress, YS w90 h20 x+30 c%Color2%, 100
     }
 
     Gui, Theme:-DPIScale
