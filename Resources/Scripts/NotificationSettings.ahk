@@ -55,8 +55,7 @@ NotificationSetup()
     NotificationIni := NotificationIni()
     Gui, NotificationSettings:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, NotificationSettings:Font, c%Font% s13 Bold
-    Width := A_ScreenWidth*.90
-    Width := Round(96/A_ScreenDPI*Width)
+    Width := Round(96/A_ScreenDPI*1625)
     BoxH := Round(96/A_ScreenDPI*49)
     Box:= Round(96/A_ScreenDPI*(A_ScreenWidth*.590))
     BoxHeight := Round(96/A_ScreenDPI*230)
@@ -263,6 +262,7 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Button, x20 w50, Close
     Gui, NotificationSettings:Color, %Background%
     Gui, NotificationSettings:-DPIScale
+
     Gui, NotificationSettings:Show, y150 W%Width%, Notification Settings
     Return
 }
