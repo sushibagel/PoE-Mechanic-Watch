@@ -54,7 +54,10 @@ RefreshOverlay()
                     }
                     Gui, Overlay:Font, cWhite s%OverlayFont%
                     TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                    If (IncursionCount > 0)
+                    {
+                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                    }
                 }
                 If (Mechanic = "Ritual")
                 {
