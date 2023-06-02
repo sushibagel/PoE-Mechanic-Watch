@@ -369,14 +369,19 @@ SelectTheme()
     Gui, Theme:Add, Picture, xs ,Resources/Images/Dark Theme/Dark Notification Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Dark Theme/Dark Mechanic Selector.png
     Gui, Theme:Add, Picture, yn y10 ,Resources/Images/Dark Theme/Dark Hideout Select.png
-    Gui, Theme:Add, GroupBox, w970 h10 xn x10
+
+    BoxW := Round(96/A_ScreenDPI*970)
+    ; Gui, Theme:Add, GroupBox, w970 h10 xn x10
+    Gui, Theme:Add, GroupBox, w%BoxW% h10 xn x10
+
     Gui, Theme:Add, Button, x10 y+10 w90 h30 Section , Light Mode
     Gui, Theme:Add, Picture, ys Section ,Resources//Images/Light Theme/Light Reminder.png
     Gui, Theme:Add, Picture, xs ,Resources/Images/Light Theme/Light Notification Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Mechanic Selector.png
     Gui, Theme:Add, Picture, ys ,Resources/Images/Light Theme/Light Hideout Select.png
 
-    Gui, Theme:Add, GroupBox, w1 h900 yn
+    BoxH := Round(96/A_ScreenDPI*900)
+    Gui, Theme:Add, GroupBox, w1 h%BoxH% yn
     Gui, Theme:Add, Button, yn y10 w90 h30 Section, Custom
     ThemeFile := ThemeIni()
     IniRead, CustomBackground, %ThemeFile%, Custom, Background, Gray
