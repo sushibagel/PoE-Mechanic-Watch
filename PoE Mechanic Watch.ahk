@@ -360,6 +360,7 @@ GetLogPath() ;;;;; Get client and log paths ;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;; Theme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SelectTheme()
 {
+    Gui, Theme:Destroy
     Gui, Theme:-Border
     Gui, Theme:Color, %Secondary%
     Gui, Theme:-Caption
@@ -371,7 +372,6 @@ SelectTheme()
     Gui, Theme:Add, Picture, yn y10 ,Resources/Images/Dark Theme/Dark Hideout Select.png
 
     BoxW := Round(96/A_ScreenDPI*970)
-    ; Gui, Theme:Add, GroupBox, w970 h10 xn x10
     Gui, Theme:Add, GroupBox, w%BoxW% h10 xn x10
 
     Gui, Theme:Add, Button, x10 y+10 w90 h30 Section , Light Mode
