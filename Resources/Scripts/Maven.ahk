@@ -114,6 +114,7 @@ MavenTrack()
 ResetMaven()
 {
     MavenReminderText := "You have just entered a Maven's Crucible click ""Yes"" to view/reset tracking."
+    MavenReminderType:= "Crucible"
     MavenReminder()
 }
 
