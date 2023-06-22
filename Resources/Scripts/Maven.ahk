@@ -89,7 +89,7 @@ MavenTrack()
     {
         MechanicsPath := MechanicsIni()
         IniRead, MavenCount, %MechanicsPath%, Influence Track, Maven
-        If (MavenCount < 10)
+        If (MavenCount < 10) and (CurrentMap != "Phoenix") and (CurrentMap != "Chimera") and (CurrentMap != "Hydra") and (CurrentMap != "Minotaur")
         {
             MavenCount ++
             IniWrite, %MavenCount%, %MechanicsPath%, Influence Track, Maven
@@ -533,7 +533,7 @@ MavenMatch(NewLine)
         MySearch := MavenSearch[A_Index]
         If NewLine contains %MySearch%
         {
-            IniRead, MavenData, %MavenFile%, Voice LInes, %MySearch%
+            IniRead, MavenData, %MavenFile%, Voice Lines, %MySearch%
             MavenData := StrSplit(MavenData, "|")
             MavenBoss := MavenData[1]
             MavenSection := MavenData[2]
