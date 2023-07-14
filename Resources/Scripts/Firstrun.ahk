@@ -214,7 +214,7 @@ HotkeySelect()
     Gui, First:Destroy
     Gui, First2:Destroy
     HotkeyUpdate()
-    Winwaitclose, Dynamic Hotkeys
+    Winwaitclose, Hotkey Selector
     FirstRunWrite("Hotkey")
     Return
 }
