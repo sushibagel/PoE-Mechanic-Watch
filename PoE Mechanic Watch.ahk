@@ -547,6 +547,8 @@ Version()
 
 Reload()
 {
+    FirstRunPath := FirstRunIni()
+    IniWrite, 0, %FirstRunPath%, Active, Active
     AdditionalScripts("Reload")
     Reload
     Return
@@ -554,6 +556,8 @@ Reload()
 
 Exit()
 {
+    FirstRunPath := FirstRunIni()
+    IniWrite, 0, %FirstRunPath%, Active, Active
     AdditionalScripts("Exit")
     ExitApp
 }
