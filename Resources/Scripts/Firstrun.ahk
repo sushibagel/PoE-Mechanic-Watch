@@ -200,7 +200,7 @@ AutoMechanicSelect()
     SelectAuto()
     Winwaitclose, Auto Enable/Disable (Beta)
     Sleep, 100
-    If WinExist("Mechanic")
+    If WinExist("Mechanic") or If WinExist("Calibration Tool")
     {
         Return
     }

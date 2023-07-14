@@ -156,7 +156,7 @@ AutoMechanics()
     Return, "Blight|Expedition|Incursion|Metamorph|Ritual|Eldritch"
 }
 
-AutoButtonCalibrateSearch()
+AutoButtonCalibrateSearch(RunAuto := False)
 {
     Gui, Auto:Destroy
     Gui, Calibrate:Destroy
@@ -224,6 +224,16 @@ AutoButtonCalibrateSearch()
     Gui, Calibrate:Show, , Calibration Tool
     OnMessage(0x0200, "MouseMove")
     Return
+}
+
+CalibrateGuiClose:
+{
+    Gui, Calibrate:Destroy
+    If (AutoRun = 1)
+    {
+        SelectAuto()
+        AutoRun :=
+    }
 }
 
 MouseMove(wParam, lParam, Msg, Hwnd) {
