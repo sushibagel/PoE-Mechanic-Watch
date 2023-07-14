@@ -81,7 +81,7 @@ SelectAuto()
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Add, Text, xs Section,
     Gui, Auto:Font, s10 c%Background%
-    Gui, Auto:Add, Text, xs +Wrap w250 vText, 3 : Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+    Gui, Auto:Add, Text, xs +Wrap w250 vText, 3 : Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool). You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Font, c%Font% s5
     Gui, Auto:Add, Text, xs Section,
