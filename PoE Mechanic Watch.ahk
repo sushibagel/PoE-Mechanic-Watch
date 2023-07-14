@@ -595,87 +595,87 @@ HotkeyCheck()
         ;     Hotkey, %Hotkey1%, DivInput
         ; }
 
-        If !(Hotkey3 = "")
+        If !(Hotkey3 = "") and !(Hotkey3 = "ERROR")
         {
             Hotkey, ~%Hotkey3%, ToggleInfluence
         }
 
-        If !(Hotkey4 = "")
+        If !(Hotkey4 = "") and !(Hotkey4 = "ERROR")
         {
             Hotkey, ~%Hotkey4%, ViewMaven
         }
 
-        If !(Hotkey5 = "")
+        If !(Hotkey5 = "") and !(Hotkey5 = "ERROR")
         {
             Hotkey, ~%Hotkey5%, LaunchPoe
         }
 
-        If !(Hotkey6 = "")
+        If !(Hotkey6 = "") and !(Hotkey6 = "ERROR")
         {
             Hotkey, ~%Hotkey5%, ToolLaunchGui
         }
 
-        If !(Hotkey2 = "")
+        If !(Hotkey2 = "") and !(Hotkey2 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, ~%Hotkey2%, SubtractOne
         }
 
-        If !(Hotkey7 = "")
+        If !(Hotkey7 = "") and !(Hotkey7 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey7%, Abyss, T5
         }
 
-        If !(Hotkey8 = "")
+        If !(Hotkey8 = "") and !(Hotkey8 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey8%, Blight, T5
         }
 
-        If !(Hotkey9 = "")
+        If !(Hotkey9 = "") and !(Hotkey9 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey9%, Breach, T5
         }
 
-        If !(Hotkey10 = "")
+        If !(Hotkey10 = "") and !(Hotkey10 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey10%, Expedition, T5
         }
 
-        If !(Hotkey11 = "")
+        If !(Hotkey11 = "") and !(Hotkey11 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey11%, Harvest, T5
         }
 
-        If !(Hotkey12 = "")
+        If !(Hotkey12 = "") and !(Hotkey12 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey12%, Incursion, T5
         }
 
-        If !(Hotkey13 = "")
+        If !(Hotkey13 = "") and !(Hotkey13 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey13%, Legion, T5
         }
 
-        If !(Hotkey14 = "")
+        If !(Hotkey14 = "") and !(Hotkey14 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey14%, Metamorph, T5
         }
 
-        If !(Hotkey15 = "")
+        If !(Hotkey15 = "") and !(Hotkey15 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey15%, Ritual, T5
         }
 
-        If !(Hotkey16 = "")
+        If !(Hotkey16 = "") and !(Hotkey16 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey16%, Generic, T5
