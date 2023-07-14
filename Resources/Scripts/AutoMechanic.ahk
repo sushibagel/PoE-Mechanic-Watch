@@ -156,7 +156,7 @@ AutoMechanics()
     Return, "Blight|Expedition|Incursion|Metamorph|Ritual|Eldritch"
 }
 
-AutoButtonCalibrateSearch(RunAuto := False)
+AutoButtonCalibrateSearch()
 {
     Gui, Auto:Destroy
     Gui, Calibrate:Destroy
