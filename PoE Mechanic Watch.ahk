@@ -47,6 +47,8 @@ Menu, SetupMenu, Add
 Menu, Tray, Add, Setup, :SetupMenu
 Menu, SetupMenu, Add, Set Hideout, SetHideout
 Menu, SetupMenu, Add
+Menu, SetupMenu, Add, Calibrate Search, AutoButtonCalibrateSearch
+Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Change Theme, SelectTheme
 Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
 Menu, SetupMenu, Add
