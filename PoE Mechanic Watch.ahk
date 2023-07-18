@@ -545,10 +545,15 @@ Version()
     Return
 }
 
-Reload()
+Reload(Special)
 {
-    FirstRunPath := FirstRunIni()
-    IniWrite, 0, %FirstRunPath%, Active, Active
+    If (Special != 1)
+        {
+            FirstRunPath := FirstRunIni()
+            IniWrite, 0, %FirstRunPath%, Active, Active
+            AdditionalScripts("Reload")
+            Reload
+        }
     AdditionalScripts("Reload")
     Reload
     Return

@@ -124,13 +124,13 @@ ClientOpen()
             Iniwrite, 0, %FirstRunPath%, Completion, Client
             WinWaitClose, FirstReminder
             CheckFirstRun()
-            Reload()
+            Reload(1)
         }
         Else
         {
             Iniwrite, 1, %FirstRunPath%, Completion, Client
             GetLogPath()
-            Reload()
+            Reload(1)
         }
     }
     Return
@@ -245,7 +245,7 @@ FirstRunWrite(WriteItem)
 {
     FirstRunPath := FirstRunIni()
     Iniwrite, 1, %FirstRunPath%, Completion, % WriteItem
-    Reload()
+    Reload(1)
     Return
 }
 
@@ -272,7 +272,7 @@ First2ButtonClose()
     }
     Else
     {
-        Reload
+        Reload(1)
     }
     Return
 }
