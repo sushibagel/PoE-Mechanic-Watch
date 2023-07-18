@@ -545,7 +545,7 @@ Version()
     Return
 }
 
-Reload(Special)
+Reload(Special := 0)
 {
     If (Special != 1)
         {
