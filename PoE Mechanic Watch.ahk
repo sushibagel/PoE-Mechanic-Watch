@@ -557,10 +557,13 @@ Reload(Special := 0)
     Return
 }
 
-Exit()
+Exit(Special := 0)
 {
-    FirstRunPath := FirstRunIni()
-    IniWrite, 0, %FirstRunPath%, Active, Active
+    If (Special != 1) or (Special != "Reload")
+        {
+            FirstRunPath := FirstRunIni()
+            IniWrite, 0, %FirstRunPath%, Active, Active
+        }
     AdditionalScripts("Exit")
     ExitApp
 }
