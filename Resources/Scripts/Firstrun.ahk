@@ -39,6 +39,8 @@ CheckFirstRun() ;Check to see if all First Run Items are complete
 
 FirstRun()
 {
+    Gui, First:Destroy
+    Gui, First2:Destroy
     PostSetup()
     LaunchPathIni := LaunchOptionsIni()
     IniRead, exe, %LaunchPathIni%, POE, EXE
@@ -118,8 +120,8 @@ ClientOpen()
             Gui, FirstReminder:Add, Text, w500 +Center, You must open Path of Exile to continue. This is required so the Client.txt path can be obtained. (This is only necessary for the first run)
             Gui, FirstReminder:Add, Button, x490, OK
             Gui, FirstReminder: +AlwaysOnTop -Caption
-            yh := (A_ScreenHeight/2) -250
-            xh := A_ScreenWidth/2
+            yh := (A_ScreenHeight/2)
+            xh := (A_ScreenWidth/2) - 225
             Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
             Iniwrite, 0, %FirstRunPath%, Completion, Client
             WinWaitClose, FirstReminder
