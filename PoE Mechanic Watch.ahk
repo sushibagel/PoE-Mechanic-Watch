@@ -551,8 +551,6 @@ Reload(Special := 0)
         {
             FirstRunPath := FirstRunIni()
             IniWrite, 0, %FirstRunPath%, Active, Active
-            AdditionalScripts("Reload")
-            Reload
         }
     AdditionalScripts("Reload")
     Reload
