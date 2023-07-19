@@ -123,7 +123,9 @@ The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speak
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>  
 The reload button was found at <a href="https://www.flaticon.com/free-icons/refresh" title="refresh icons">Refresh icons created by Gregor Cresnar - Flaticon</a>  
 The stop button was found at <a href="https://www.flaticon.com/free-icons/forbidden" title="forbidden icons">Forbidden icons created by Freepik - Flaticon</a> 
-Thank you to the developer of divcards.io for the divination card data used in the Div Card checker. 
+The mimize icon was found at <a href="https://www.flaticon.com/free-icons/minus" title="minus icons">Minus icons created by Pixel perfect - Flaticon</a>
+The close icon was found at <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by Pixel perfect - Flaticon</a>
+
 
 I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey. I am in no ways responsible if this script bricks your computer, causes errors or results in a ban in Path of Exile. 
 
