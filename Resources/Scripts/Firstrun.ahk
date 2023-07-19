@@ -58,7 +58,20 @@ FirstRun()
     Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, First:Color, %Background%
     Gui, First:Font, c%Font% s12
-    Gui, First:Add, Text, w550 +Center, Welcome to PoE Mechanic Watch
+    Gui, First:Add, Text, y25 w550 +Center, Welcome to PoE Mechanic Watch
+    If (ColorMode = "Dark") or (ColorMode = "Custom")
+        {
+            MinimizeColor = Resources/Images/minimize white.png
+            CloseColor = Resources/Images/close white.png
+        }
+        If (ColorMode = "Light")
+        {
+            MinimizeColor = Resources/Images/minimize.png
+            CloseColor = Resources/Images/close.png
+        }
+    Gui, First:Add, Picture, y16 x495 w10 h10 gFirstMinimize, %MinimizeColor%
+    Gui, First:Add, Picture, y10 x525 w10 h10 gFirstClose, %CloseColor%
+
     Gui, First: -Caption
     Gui, First:Show, NoActivate x%xh% y%yh% w550, First
     WinSet, Style, -0xC00000, First
@@ -93,11 +106,11 @@ FirstRun()
     Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
     Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
     Gui, First2:Add, Button, x490, Close
-    Gui, First2: -Caption +HwndFirst2
+    Gui, First2: +AlwaysOnTop -Caption +HwndFirst2
     Gui, First2:Show, x%xh% y%yh1% w550, First2
     WinSet, Style, -0xC00000, First2
 
-    Gui, First: -Caption +OwnerFirst2 ;;;;;; Intentionally here so that First2 is shown so it can own First
+    Gui, First: +AlwaysOnTop -Caption +OwnerFirst2 ;;;;;; Intentionally here so that First2 is shown so it can own First
     Gui, First:Show, x%xh% y%yh% w550, First
     WinSet, Style, -0xC00000, First
     WinWaitClose, First2
@@ -249,6 +262,20 @@ FirstRunWrite(WriteItem)
     Iniwrite, 1, %FirstRunPath%, Completion, % WriteItem
     Reload(1)
     Return
+}
+
+FirstClose()
+{
+    First2ButtonClose()
+    Return
+}
+
+FirstMinimize()
+{
+    WinSet, AlwaysOnTop, Off, First
+    WinSet, AlwaysOnTop, Off, First
+    WinMinimize, First2
+    WinMinimize, First
 }
 
 First2ButtonClose()
