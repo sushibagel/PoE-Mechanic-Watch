@@ -18,7 +18,7 @@ OverlaySetup()
     Gui, OverlaySetup:Font, s10
     Gui, OverlaySetup:Color, DropDownList, %Secondary% -Caption -Border
     Gui, OverlaySetup:Add, DropDownList, xp x100 Choose%DDSelect% gOrientationChoice vOrientationChoice Section, Horizontal|Vertical
-    If (ColorMode = "Dark") or (ColorMode = "Custom")
+    If (ColorMode = "Dark")
     {
         RefreshColor = refresh white.png
     }
@@ -26,6 +26,18 @@ OverlaySetup()
     {
         RefreshColor = refresh.png
     }
+    If (ColorMode = "Custom")
+    {
+        If (Icons = "Dark")
+            {
+                RefreshColor = refresh white.png
+            }
+        If (Icons = "Light")
+            {
+                RefreshColor = refresh.png
+            }
+    }
+
     Gui, OverlaySetup:Add, Picture, gTestOverlay w25 h25 ys x+45, Resources/Images/%RefreshColor%
     Space = y+5
     Gui, OverlaySetup:Font, c%Font% s11

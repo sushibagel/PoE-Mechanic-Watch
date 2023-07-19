@@ -37,7 +37,7 @@ Exit
 NotificationSetup()
 {
     Gui, NotificationSettings:Destroy
-    If (ColorMode = "Dark") or (ColorMode = "Custom")
+    If (ColorMode = "Dark")
     {
         IconColor = Resources/Images/volume white.png
         RefreshColor = Resources/Images/refresh white.png
@@ -51,6 +51,23 @@ NotificationSetup()
         PlayColor = Resources/Images/play.png
         StopColor = Resources/Images/stop.png
     }
+    If (ColorMode = "Custom")
+        {
+            If (Icons = "Dark")
+                {
+                    IconColor = Resources/Images/volume white.png
+                    RefreshColor = Resources/Images/refresh white.png
+                    PlayColor = Resources/Images/play white.png
+                    StopColor = Resources/Images/stop white.png
+                }
+            If (Icons = "Light")
+                {
+                    IconColor = Resources/Images/volume.png
+                    RefreshColor = Resources/Images/refresh.png
+                    PlayColor = Resources/Images/play.png
+                    StopColor = Resources/Images/stop.png
+                }
+        }
     TransparencyFile := TransparencyIni()
     NotificationIni := NotificationIni()
     Gui, NotificationSettings:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED

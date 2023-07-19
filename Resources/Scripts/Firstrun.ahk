@@ -59,7 +59,7 @@ FirstRun()
     Gui, First:Color, %Background%
     Gui, First:Font, c%Font% s12
     Gui, First:Add, Text, y25 w550 +Center, Welcome to PoE Mechanic Watch
-    If (ColorMode = "Dark") or (ColorMode = "Custom")
+    If (ColorMode = "Dark")
         {
             MinimizeColor = Resources/Images/minimize white.png
             CloseColor = Resources/Images/close white.png
@@ -69,6 +69,19 @@ FirstRun()
             MinimizeColor = Resources/Images/minimize.png
             CloseColor = Resources/Images/close.png
         }
+        If (ColorMode = "Custom")
+            {
+                If (Icons = "Dark")
+                    {
+                        MinimizeColor = Resources/Images/minimize white.png
+                        CloseColor = Resources/Images/close white.png
+                    }
+                If (Icons = "Light")
+                    {
+                        MinimizeColor = Resources/Images/minimize.png
+                        CloseColor = Resources/Images/close.png
+                    }
+            }
     Gui, First:Add, Picture, y16 x495 w10 h10 gFirstMinimize, %MinimizeColor%
     Gui, First:Add, Picture, y10 x525 w10 h10 gFirstClose, %CloseColor%
 
