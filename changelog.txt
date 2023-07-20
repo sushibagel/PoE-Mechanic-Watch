@@ -22,8 +22,9 @@ v2.6
 -   Added Metamorph, Ritual and Eldritch to the Auto Enable/Disable Mechanic Tool.
     -   Added a button to the selection tool to access the Image Recognition Calibration Tool.
 
+-   The setup tool is now always on top but can be minimized/closed using appropriate buttons. 
 -   Added the settings storage location tool to the First Run/Setup Tool.
--   Incursion counter now only shows when active. 
+-   The Incursion counter now only shows when active. 
 -   Added a custom themeing option.
 -   Fixes to Maven map tracking.
 -   Added option to add map to Maven completion count.
