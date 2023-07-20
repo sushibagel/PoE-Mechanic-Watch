@@ -2,18 +2,22 @@
 #Requires AutoHotkey >=2.0
 Persistent
 
-; IniRead, StorageLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
-; IniRead, Theme, %StorageLocation%\Resources\Settings\Theme.ini, Theme, Theme, Light
-; If (Theme = "Dark")
-; {
-;     isDark := 2
-; }
-; If (Theme = "Light")
-; {
-;     isDark := 3
-; }
+StorageLocation := IniRead("Resources\Settings\StorageLocation.ini", "Settings" "Location", "Location", "A_ScriptDir")
+If (StorageLocation = "A_ScriptDir")
+    {
+        StorageLocation := A_ScriptDir
+    }
+Theme := IniRead( StorageLocation "\Resources\Settings\Theme.ini", "Theme", "Theme", "Dark")
 
-; MenuDark(3)
+If (Theme = "Dark")
+{
+    isDark := 2
+}
+If (Theme = "Light")
+{
+    isDark := 3
+}
+MenuDark(isDark)
 
 ; Tray Setup
 Tray := A_TrayMenu
@@ -88,3 +92,27 @@ Exit(*)
 {
     ExitApp
 }
+
+; FirstRun Check
+FirstRunInis := FirstRunIni()
+If FileExist(FirstRunIni) ;Check for "FirstRun" ini
+{
+    CheckFirstRun()
+    If (ClientState = "ERROR") or (HideoutState = "ERROR") or (MechanicState = "ERROR") or (ClientState = 0) or (HideoutState = 0) or (MechanicState = 0) or (ClientState = "") or (HideoutState = "") or (MechanicState = "")
+    {
+        FirstRun()
+    }
+}
+If !FileExist(FirstRunIni)
+{
+    FirstRun()
+}
+
+FirstRunActive := IniRead(FirstRunIni, Active, Active,0)
+If (FirstRunActive = 1)
+{
+    FirstRun()
+}
+
+#IncludeAgain Resources\Scripts\Firstrun.ahk
+#IncludeAgain Resources\Scripts\Ini.ahk
