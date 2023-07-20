@@ -479,7 +479,7 @@ ThemeButtonDarkMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Dark, %ThemeFile%, Theme, Theme
-    Reload()
+    Reload(1)
     Return
 }
 
@@ -488,7 +488,7 @@ ThemeButtonLightMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Light, %ThemeFile%, Theme, Theme
-    Reload()
+    Reload(1)
     Return
 }
 
@@ -510,7 +510,7 @@ ThemeButtonCustom()
         }
     IniWrite, %CustomIcon%, %ThemeFile%, Custom, Icons
     IniWrite, Custom, %ThemeFile%, Theme, Theme
-    Reload()
+    Reload(1)
     Return
 }
 
@@ -596,7 +596,7 @@ Reload(Special := 0)
     If (Special != 1)
         {
             FirstRunPath := FirstRunIni()
-            IniWrite, 0, %FirstRunPath%, Active, Active
+            IniWrite, 0, %FirstRunPath%, Active, Activ
         }
     AdditionalScripts("Reload")
     Reload
@@ -605,7 +605,7 @@ Reload(Special := 0)
 
 Exit(Special := 0)
 {
-    If (Special = "Reload")
+    If (Special = "Reload") or (Special = "Single")
         {
             Return
         }
