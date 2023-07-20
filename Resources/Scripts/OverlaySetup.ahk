@@ -28,11 +28,11 @@ OverlaySetup()
     }
     If (ColorMode = "Custom")
     {
-        If (Icons = "Dark")
+        If (Icons = "White")
             {
                 RefreshColor = refresh white.png
             }
-        If (Icons = "Light")
+        If (Icons = "Black")
             {
                 RefreshColor = refresh.png
             }

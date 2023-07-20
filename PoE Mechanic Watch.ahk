@@ -91,9 +91,11 @@ Global ColorMode
 Global Background
 Global Font
 Global Secondary
+Global Icons
 Global CustomBackground
 Global CustomFont
 Global CustomSecondary
+Global CustomIcon
 Global SecondaryProgress
 Global BackgroundProgress
 Global FontProgress
@@ -408,7 +410,38 @@ SelectTheme()
     Gui, Theme:Font, cBlack s10
     Gui, Theme:Add, Edit, vCustomFont +Center w90 YS, %CustomFont%
     Gui, Theme:Add, Progress, YS w100 h20 c%CustomFont% vFontProgress, 100
+    
+    Gui, Theme:Font, c%Font% s10
+    Gui, Theme:Add, Text, xs Section w110, Icons:
+    DarkOn := 0
+    LightOn := 0
+    If (ColorMode = "Dark")
+        {
+            DarkOn := 1
+        }
+    If (ColorMode = "Light")
+        {
+            LightOn := 1
+        }
+    If (ColorMode = "Custom")
+        {
+            If (Icons = "White")
+                {
+                    DarkOn := 1
+                }
+            If (Icons = "Black")
+                {
+                    LightOn :=1
+                }
+        }
+    Gui, Theme:Font, c%Font% s10
+    Gui, Theme:Add, Radio, Group YS vCustomIcon Checked%LightOn%, Black
+    Gui, Theme:Add, Radio, XS+122 Checked%DarkOn%, White
+    Gui, Theme:Add, Picture, YP-25 x+20 w15 h15, Resources/Images/play.png
+    Gui, Theme:Add, Picture, XP y+10 w15 h15, Resources/Images/play white.png
+    Gui, Theme:Add, Text, yp xs Section, %A_Space%
     Gui, Theme:Add, Text, xs Section, %A_Space%
+
     ColorOptions := "Black-Silver|Gray-White|Maroon-Red|Purple-Fuchsia|Green-Lime|Olive-Yellow|Navy-Blue|Teal-Aqua"
     For each, ColorChoice in StrSplit(ColorOptions, "|")
     {
@@ -467,6 +500,15 @@ ThemeButtonCustom()
     IniWrite, %CustomBackground%, %ThemeFile%, Custom, Background
     IniWrite, %CustomFont%, %ThemeFile%, Custom, Font
     IniWrite, %CustomSecondary%, %ThemeFile%, Custom, Secondary
+    If (CustomIcon = 1)
+        {
+            CustomIcon := "Black"
+        }
+    Else
+        {
+            CustomIcon := "White"
+        }
+    IniWrite, %CustomIcon%, %ThemeFile%, Custom, Icons
     IniWrite, Custom, %ThemeFile%, Theme, Theme
     Reload()
     Return
@@ -480,9 +522,13 @@ ColorPicker()
 
 CheckTheme()
 {
-    Global ThemeItems := "Font|Background|Secondary"
+    Global ThemeItems := "Font|Background|Secondary|Icons"
     ThemeFile := ThemeIni()
     IniRead, ColorMode, %ThemeFile%, Theme, Theme
+    If (ColorMode = "Custom")
+        {
+            IniRead, Icons, %ThemeFile%, Custom, Icons
+        }
     Global Item
     Global each
     For each, Item in StrSplit(ThemeItems, "|")

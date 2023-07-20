@@ -71,12 +71,12 @@ FirstRun()
         }
         If (ColorMode = "Custom")
             {
-                If (Icons = "Dark")
+                If (Icons = "White")
                     {
                         MinimizeColor = Resources/Images/minimize white.png
                         CloseColor = Resources/Images/close white.png
                     }
-                If (Icons = "Light")
+                If (Icons = "Black")
                     {
                         MinimizeColor = Resources/Images/minimize.png
                         CloseColor = Resources/Images/close.png

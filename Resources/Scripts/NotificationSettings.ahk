@@ -53,14 +53,14 @@ NotificationSetup()
     }
     If (ColorMode = "Custom")
         {
-            If (Icons = "Dark")
+            If (Icons = "White")
                 {
                     IconColor = Resources/Images/volume white.png
                     RefreshColor = Resources/Images/refresh white.png
                     PlayColor = Resources/Images/play white.png
                     StopColor = Resources/Images/stop white.png
                 }
-            If (Icons = "Light")
+            If (Icons = "Black")
                 {
                     IconColor = Resources/Images/volume.png
                     RefreshColor = Resources/Images/refresh.png
