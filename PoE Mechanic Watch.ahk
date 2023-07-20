@@ -19,6 +19,10 @@ OnMessage(0x204, "WM_RBUTTONDOWN")
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 IniRead, StorageLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
+If (StorageLocation = "A_ScriptDir")
+    {
+        StorageLocation := A_ScriptDir
+    }
 IniRead, Theme, %StorageLocation%\Resources\Settings\Theme.ini, Theme, Theme, Light
 If (Theme = "Dark")
 {
