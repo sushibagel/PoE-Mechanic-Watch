@@ -1,8 +1,33 @@
-v2.5
+v2.6
 
--   Added a map divination card checker. This uses divcards.io (Can be enabled in the Hotkey Selector Menu)
-    -   Added DivCard.ahk
-    -   Check maps by copying map data (Control + C)
-    -   Search for any map by setting a hotkey in the Hotkey Selector Menu. (Hint: This is useful for Kirac Missions)
--   "Alt + Right" Click will now reset any counters (Eater, Searing, Maven, Incursion)
--   Added and additional Expedition dialog. 
+-   Removed Div Card checker. 
+        - I hope to bring this back at some point but it broke due to changes to Divcards.io
+
+-   Added Auto Tracking of Ritual and Metamorph.
+    -   Auto Tracking for Ritual, Metamorph and Eldritch Mechanics are done using image recognition. 
+    -   The following files were added for image recognition:
+        -   Gdip_All.ahk to the scripts directory
+        -   Gdip_ImageSearch.ahk to the scripts directory
+        -   Gdip_ImageSearch.c to the scripts directory
+    -   Added several example images used for image recognition to Resources/Images/Image Search.
+    -   Added a Calibration tool for image recognition.
+
+-   Improved Auto Tracking for Maven, Searing Exarch, and Eater of Worlds using image recognition. (See above)
+    -   Auto switch between Eldritch Mechanics at the map device.
+    -   Keeps counts updated when accessing the map device.
+    -   Added several example images used for image recognition to Resources/Images/Image Search/
+    Eldritch.
+    -   Added a Calibration tool for image recognition.
+
+-   Added Metamorph, Ritual and Eldritch to the Auto Enable/Disable Mechanic Tool.
+    -   Added a button to the selection tool to access the Image Recognition Calibration Tool.
+
+-   Added the settings storage location tool to the First Run/Setup Tool.
+-   Incursion counter now only shows when active. 
+-   Added a custom themeing option.
+-   Fixes to Maven map tracking.
+-   Added option to add map to Maven completion count.
+-   Improved all Overlay images.
+-   Added an additional Expedition dialog.
+-   Updated Launcher.ahk to support the Gdip files. 
+-   Other minor fixes.
