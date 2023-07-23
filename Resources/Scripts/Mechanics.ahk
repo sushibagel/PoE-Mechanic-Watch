@@ -63,7 +63,7 @@ SelectMechanics(RunAuto := False)
     }
     Gui, Mechanic:-Border -Caption
     Gui, Mechanic:Color, %Background%
-    Gui, Mechanic:Font, s1 %Secondary%
+    Gui, Mechanic:Font, s1 c%Secondary%
     Gui, Mechanic:Add, Text
     Gui, Mechanic:Add, Text, w200 0x10
     Gui, Mechanic:Font, Bold s11
