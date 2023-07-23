@@ -59,7 +59,7 @@ FirstRun()
     Gui, First:Font, c%Font% s12
     Gui, First:Add, Text, y25 w550 +Center, Welcome to PoE Mechanic Watch
     Gui, First: -Caption
-    Gui, First:Show, NoActivate x%xh% y%yh% w550, First
+    Gui, First:Show, NoActivate x%xh% y-200 w550, First
     WinSet, Style, -0xC00000, First
     WinGetPos, X, Y, w, h, First
     Gui, First:Destroy
