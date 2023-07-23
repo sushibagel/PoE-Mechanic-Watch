@@ -42,7 +42,7 @@ I have not tested Maven tracking extensively so there may be bugs. When I began 
 - Setup tools/applications that will launch alongside Path of Exile    
 
 ## Installation:  
-To run this script you ***MUST*** have AutoHotKey v1 installed (v2 is not currently supported). https://www.autohotkey.com/
+To run this script you ***MUST*** have AutoHotKey v1 installed. https://www.autohotkey.com/ Note: I do plan to eventually move this script to AutoHotKey v2, however, it would require a significant amount of work as I plan to do a complete rewrite along with the update so I don't currently have a timeline for it. 
 
 Download and unzip the program. Double-click ***"Launcher.ahk"*** to run the program.  
 Please note, it must be run from within a folder containing all the assets and files that are contained in the zip. 
