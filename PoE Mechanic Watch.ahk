@@ -262,8 +262,13 @@ If (FirstRunActive = 1)
 LaunchOptionIni := LaunchOptionsIni()
 If !FileExist(LaunchOptionIni) ;Check for "Launch options" ini
 {
-    MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
-    WinWait, ahk_Group PoeWindow
+    FirstRunIni := FirstRunIni()
+    IniRead, FirstRunActive, %FirstRunIni%, Active, Active
+    If (FirstRunActive = 1)
+        {
+            MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
+            WinWait, ahk_Group PoeWindow
+        }
 }
 
 HideoutIni := HideoutIni()
