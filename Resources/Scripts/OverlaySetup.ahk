@@ -16,7 +16,6 @@ OverlaySetup()
     Gui, OverlaySetup:Font, c%Font% s11
     Gui, OverlaySetup:Add, Text, Section x20, Layout:
     Gui, OverlaySetup:Font, s10
-    Gui, OverlaySetup:Color, DropDownList, %Secondary% -Caption -Border
     Gui, OverlaySetup:Add, DropDownList, xp x100 Choose%DDSelect% gOrientationChoice vOrientationChoice Section, Horizontal|Vertical
     If (ColorMode = "Dark")
     {
