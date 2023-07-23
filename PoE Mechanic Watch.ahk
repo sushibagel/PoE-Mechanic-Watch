@@ -488,6 +488,8 @@ ThemeButtonDarkMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Dark, %ThemeFile%, Theme, Theme
+    FirstRunIni := FirstRunIni()
+    IniWrite, 1, %FirstRunIni%, Completion, Theme
     Reload(1)
     Return
 }
@@ -497,6 +499,8 @@ ThemeButtonLightMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Light, %ThemeFile%, Theme, Theme
+    FirstRunIni := FirstRunIni()
+    IniWrite, 1, %FirstRunIni%, Completion, Theme
     Reload(1)
     Return
 }
@@ -519,6 +523,8 @@ ThemeButtonCustom()
         }
     IniWrite, %CustomIcon%, %ThemeFile%, Custom, Icons
     IniWrite, Custom, %ThemeFile%, Theme, Theme
+    FirstRunIni := FirstRunIni()
+    IniWrite, 1, %FirstRunIni%, Completion, Theme
     Reload(1)
     Return
 }
