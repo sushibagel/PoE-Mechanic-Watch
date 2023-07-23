@@ -96,6 +96,8 @@ WriteFile:
    {
       HideoutIni := HideoutIni()
       IniWrite, %HideoutSet%, %HideoutIni%, Current Hideout, MyHideout
+      FirstRunIni := FirstRunIni()
+      IniWrite, 1, %FirstRunIni%, Completion, Hideout
       HideoutSet :=
       IfWinNotExist, First2
       {
