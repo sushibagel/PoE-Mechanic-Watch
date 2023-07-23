@@ -34,7 +34,7 @@ Tray.Add
 SetupMenu := Menu()
 Tray.Add "Setup", SetupMenu
 Tray.Default := "Setup"
-SetupMenu.Add "Setup Menu", SelectMechanics
+SetupMenu.Add "Setup Menu", FirstRun
 SetupMenu.Add 
 SetupMenu.Add "Set Hideout", SelectMechanics
 SetupMenu.Add 
@@ -94,25 +94,47 @@ Exit(*)
 }
 
 ; FirstRun Check
-FirstRunInis := FirstRunIni()
-If FileExist(FirstRunIni) ;Check for "FirstRun" ini
+ClientState := ""
+ThemeState := ""
+HideoutState := ""
+MechanicState := ""
+PositionState := ""
+MapPositionState := ""
+AutomechanicState := ""
+HotkeyState := ""
+SoundState := ""
+LaunchAssistState := ""
+NotificationState := ""
+ToolLauncherState := ""
+FirstRunPath := FirstRunIni()
+If FileExist(FirstRunPath) ;Check for "FirstRun" ini
 {
-    CheckFirstRun()
-    If (ClientState = "ERROR") or (HideoutState = "ERROR") or (MechanicState = "ERROR") or (ClientState = 0) or (HideoutState = 0) or (MechanicState = 0) or (ClientState = "") or (HideoutState = "") or (MechanicState = "")
+    FirstRunItemList := FirstRunItems()
+    FirstRunPath := FirstRunIni()
+    For each, Item in StrSplit(FirstRunItemList, "|")
     {
-        FirstRun()
+        %Item%State := ""
+        %Item%State := IniRead(FirstRunPath, "Completion", Item, 0)
+        If (ClientState = "ERROR") or (HideoutState = "ERROR") or (MechanicState = "ERROR") or (ClientState = 0) or (HideoutState = 0) or (MechanicState = 0) or (ClientState = "") or (HideoutState = "") or (MechanicState = "")
+            {
+                FirstRun()
+            }
     }
 }
-If !FileExist(FirstRunIni)
+If !FileExist(FirstRunPath)
 {
     FirstRun()
 }
 
-FirstRunActive := IniRead(FirstRunIni, Active, Active,0)
+FirstRunActive := IniRead(FirstRunPath, "Active", "Active",0)
 If (FirstRunActive = 1)
 {
     FirstRun()
 }
+
+; End Setup
+
+UpdateCheck()
 
 #IncludeAgain Resources\Scripts\Firstrun.ahk
 #IncludeAgain Resources\Scripts\Ini.ahk
