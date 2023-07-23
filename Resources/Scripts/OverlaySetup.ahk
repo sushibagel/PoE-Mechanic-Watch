@@ -40,8 +40,7 @@ OverlaySetup()
 
     Gui, OverlaySetup:Add, Picture, gTestOverlay w25 h25 ys x+45, Resources/Images/%RefreshColor%
     Space = y+5
-    Gui, OverlaySetup:Font, c%Font% s11
-    Gui, OverlaySetup:Color, Edit, %Secondary% -Caption -Border
+    Gui, OverlaySetup:Font, cBlack s11
     Gui, OverlaySetup:Color, %Background%
     Gui, OverlaySetup:Add, GroupBox, w350 h10 xn x10
     Space = y+2
