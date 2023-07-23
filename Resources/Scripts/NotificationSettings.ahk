@@ -142,7 +142,7 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
     Gui, NotificationSettings:Add, Picture, gOverlayTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gOverlayStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Font, cBlack
+    Gui, NotificationSettings:Font, c%Font%
     IniRead, Value, %TransparencyFile%, Transparency, Overlay, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%EditOffset% x%Edit2% h20 w50 vOverlayTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
@@ -166,7 +166,6 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, ys-%Offset% x%SpeakerButton% w15 h15 gSoundButtonQuick, %IconColor%
     Gui, NotificationSettings:Add, Picture, gTestQuickSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
-    Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     IniRead, Value, %NotificationIni%, Volume, Quick, 100
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vQuickVolume
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
@@ -192,7 +191,6 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gSoundsButtonNotification ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gTestNotificationSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
-    Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     IniRead, Value, %NotificationIni%, Volume, Notification, 100
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vNotificationVolume
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
@@ -216,7 +214,6 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gSoundsButtonInfluence ys-%Offset% x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gTestInfluenceSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
-    Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vInfluenceVolume
     IniRead, Value, %NotificationIni%, Volume, Notification, 100
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
@@ -240,7 +237,6 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gSoundsButtonMaven ys-1 x%SpeakerButton% w15 h15, %IconColor%
     Gui, NotificationSettings:Add, Picture, gTestMavenSound ys-%Offset% x%PlayButton% w15 h15, %PlayColor%
     Gui, NotificationSettings:Font, cBlack
-    Gui, NotificationSettings:Color, Edit, %Secondary% -Caption -Border
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit% h20 w50 vMavenVolume
     IniRead, Value, %NotificationIni%, Volume, Maven, 100
     Gui, NotificationSettings:Add, UpDown, Range0-100, %Value% x270 h20
