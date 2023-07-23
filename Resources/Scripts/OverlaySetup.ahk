@@ -62,10 +62,10 @@ OverlaySetup()
         Gui, OverlaySetup:Add, Edit, Center v%OverlayItem%Edit g%OverlayItem%Edit ys x200 w50
         Gui, OverlaySetup:Add, UpDown, Range0-255, %Value% ;;;; 0 = invisible 255 = Opaque
     }
-    Gui, OverlaySetup:-Caption -Border
+    Gui, OverlaySetup:-Caption -Border +AlwaysOnTop
     Gui, OverlaySetup:Add, Button, xn x20 w80 h30, Move
     Gui, OverlaySetup:Add, Button, xp x270 w80 h30, OK
-    Gui, OverlaySetup:Show, w375
+    Gui, OverlaySetup:Show, w375,
     Return
 }
 
