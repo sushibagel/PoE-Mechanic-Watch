@@ -16,9 +16,8 @@ OverlaySetup()
     Gui, OverlaySetup:Font, c%Font% s11
     Gui, OverlaySetup:Add, Text, Section x20, Layout:
     Gui, OverlaySetup:Font, s10
-    Gui, OverlaySetup:Color, DropDownList, %Secondary% -Caption -Border
     Gui, OverlaySetup:Add, DropDownList, xp x100 Choose%DDSelect% gOrientationChoice vOrientationChoice Section, Horizontal|Vertical
-    If (ColorMode = "Dark") or (ColorMode = "Custom")
+    If (ColorMode = "Dark")
     {
         RefreshColor = refresh white.png
     }
@@ -26,10 +25,21 @@ OverlaySetup()
     {
         RefreshColor = refresh.png
     }
+    If (ColorMode = "Custom")
+    {
+        If (Icons = "White")
+            {
+                RefreshColor = refresh white.png
+            }
+        If (Icons = "Black")
+            {
+                RefreshColor = refresh.png
+            }
+    }
+
     Gui, OverlaySetup:Add, Picture, gTestOverlay w25 h25 ys x+45, Resources/Images/%RefreshColor%
     Space = y+5
-    Gui, OverlaySetup:Font, c%Font% s11
-    Gui, OverlaySetup:Color, Edit, %Secondary% -Caption -Border
+    Gui, OverlaySetup:Font, cBlack s11
     Gui, OverlaySetup:Color, %Background%
     Gui, OverlaySetup:Add, GroupBox, w350 h10 xn x10
     Space = y+2
@@ -52,10 +62,10 @@ OverlaySetup()
         Gui, OverlaySetup:Add, Edit, Center v%OverlayItem%Edit g%OverlayItem%Edit ys x200 w50
         Gui, OverlaySetup:Add, UpDown, Range0-255, %Value% ;;;; 0 = invisible 255 = Opaque
     }
-    Gui, OverlaySetup:-Caption -Border
+    Gui, OverlaySetup:-Caption -Border +AlwaysOnTop
     Gui, OverlaySetup:Add, Button, xn x20 w80 h30, Move
     Gui, OverlaySetup:Add, Button, xp x270 w80 h30, OK
-    Gui, OverlaySetup:Show, w375, +AlwaysOnTop OverlaySetup
+    Gui, OverlaySetup:Show, w375,OverlaySetup
     Return
 }
 

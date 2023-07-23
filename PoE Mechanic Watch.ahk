@@ -19,6 +19,10 @@ OnMessage(0x204, "WM_RBUTTONDOWN")
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 IniRead, StorageLocation, Resources\Settings\StorageLocation.ini, Settings Location, Location
+If (StorageLocation = "A_ScriptDir")
+    {
+        StorageLocation := A_ScriptDir
+    }
 IniRead, Theme, %StorageLocation%\Resources\Settings\Theme.ini, Theme, Theme, Light
 If (Theme = "Dark")
 {
@@ -46,6 +50,8 @@ Menu, SetupMenu, Add, Setup Menu, FirstRun
 Menu, SetupMenu, Add
 Menu, Tray, Add, Setup, :SetupMenu
 Menu, SetupMenu, Add, Set Hideout, SetHideout
+Menu, SetupMenu, Add
+Menu, SetupMenu, Add, Calibrate Search, AutoButtonCalibrateSearch
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Change Theme, SelectTheme
 Menu, SetupMenu, Add, Change Hotkey, HotkeyUpdate
@@ -89,9 +95,11 @@ Global ColorMode
 Global Background
 Global Font
 Global Secondary
+Global Icons
 Global CustomBackground
 Global CustomFont
 Global CustomSecondary
+Global CustomIcon
 Global SecondaryProgress
 Global BackgroundProgress
 Global FontProgress
@@ -254,8 +262,13 @@ If (FirstRunActive = 1)
 LaunchOptionIni := LaunchOptionsIni()
 If !FileExist(LaunchOptionIni) ;Check for "Launch options" ini
 {
-    MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
-    WinWait, ahk_Group PoeWindow
+    FirstRunIni := FirstRunIni()
+    IniRead, FirstRunActive, %FirstRunIni%, Active, Active
+    If (FirstRunActive != 1)
+        {
+            MsgBox,, Launch Path of Exile, Please launch Path of Exile for the script to continue loading
+            WinWait, ahk_Group PoeWindow
+        }
 }
 
 HideoutIni := HideoutIni()
@@ -406,7 +419,38 @@ SelectTheme()
     Gui, Theme:Font, cBlack s10
     Gui, Theme:Add, Edit, vCustomFont +Center w90 YS, %CustomFont%
     Gui, Theme:Add, Progress, YS w100 h20 c%CustomFont% vFontProgress, 100
+    
+    Gui, Theme:Font, c%Font% s10
+    Gui, Theme:Add, Text, xs Section w110, Icons:
+    DarkOn := 0
+    LightOn := 0
+    If (ColorMode = "Dark")
+        {
+            DarkOn := 1
+        }
+    If (ColorMode = "Light")
+        {
+            LightOn := 1
+        }
+    If (ColorMode = "Custom")
+        {
+            If (Icons = "White")
+                {
+                    DarkOn := 1
+                }
+            If (Icons = "Black")
+                {
+                    LightOn :=1
+                }
+        }
+    Gui, Theme:Font, c%Font% s10
+    Gui, Theme:Add, Radio, Group YS vCustomIcon Checked%LightOn%, Black
+    Gui, Theme:Add, Radio, XS+122 Checked%DarkOn%, White
+    Gui, Theme:Add, Picture, YP-25 x+20 w15 h15, Resources/Images/play.png
+    Gui, Theme:Add, Picture, XP y+10 w15 h15, Resources/Images/play white.png
+    Gui, Theme:Add, Text, yp xs Section, %A_Space%
     Gui, Theme:Add, Text, xs Section, %A_Space%
+
     ColorOptions := "Black-Silver|Gray-White|Maroon-Red|Purple-Fuchsia|Green-Lime|Olive-Yellow|Navy-Blue|Teal-Aqua"
     For each, ColorChoice in StrSplit(ColorOptions, "|")
     {
@@ -444,7 +488,9 @@ ThemeButtonDarkMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Dark, %ThemeFile%, Theme, Theme
-    Reload()
+    FirstRunIni := FirstRunIni()
+    IniWrite, 1, %FirstRunIni%, Completion, Theme
+    Reload(1)
     Return
 }
 
@@ -453,7 +499,9 @@ ThemeButtonLightMode()
     Gui, Theme:Destroy
     ThemeFile := ThemeIni()
     IniWrite, Light, %ThemeFile%, Theme, Theme
-    Reload()
+    FirstRunIni := FirstRunIni()
+    IniWrite, 1, %FirstRunIni%, Completion, Theme
+    Reload(1)
     Return
 }
 
@@ -465,8 +513,19 @@ ThemeButtonCustom()
     IniWrite, %CustomBackground%, %ThemeFile%, Custom, Background
     IniWrite, %CustomFont%, %ThemeFile%, Custom, Font
     IniWrite, %CustomSecondary%, %ThemeFile%, Custom, Secondary
+    If (CustomIcon = 1)
+        {
+            CustomIcon := "Black"
+        }
+    Else
+        {
+            CustomIcon := "White"
+        }
+    IniWrite, %CustomIcon%, %ThemeFile%, Custom, Icons
     IniWrite, Custom, %ThemeFile%, Theme, Theme
-    Reload()
+    FirstRunIni := FirstRunIni()
+    IniWrite, 1, %FirstRunIni%, Completion, Theme
+    Reload(1)
     Return
 }
 
@@ -478,9 +537,13 @@ ColorPicker()
 
 CheckTheme()
 {
-    Global ThemeItems := "Font|Background|Secondary"
+    Global ThemeItems := "Font|Background|Secondary|Icons"
     ThemeFile := ThemeIni()
     IniRead, ColorMode, %ThemeFile%, Theme, Theme
+    If (ColorMode = "Custom")
+        {
+            IniRead, Icons, %ThemeFile%, Custom, Icons
+        }
     Global Item
     Global each
     For each, Item in StrSplit(ThemeItems, "|")
@@ -543,16 +606,30 @@ Version()
     Return
 }
 
-Reload()
+Reload(Special := 0)
 {
+    If (Special != 1)
+        {
+            FirstRunPath := FirstRunIni()
+            IniWrite, 0, %FirstRunPath%, Active, Activ
+        }
     AdditionalScripts("Reload")
     Reload
     Return
 }
 
-Exit()
+Exit(Special := 0)
 {
-    AdditionalScripts("Exit")
+    If (Special = "Reload") or (Special = "Single")
+        {
+            Return
+        }
+    If (Special != 1)
+        {
+            FirstRunPath := FirstRunIni()
+            IniWrite, 0, %FirstRunPath%, Active, Active
+            AdditionalScripts("Exit")
+        }
     ExitApp
 }
 
@@ -594,88 +671,88 @@ HotkeyCheck()
         ; {
         ;     Hotkey, %Hotkey1%, DivInput
         ; }
-
-        If !(Hotkey3 = "")
+        Hotkey, IfWinActive
+        If !(Hotkey3 = "") and !(Hotkey3 = "ERROR")
         {
             Hotkey, ~%Hotkey3%, ToggleInfluence
         }
 
-        If !(Hotkey4 = "")
+        If !(Hotkey4 = "") and !(Hotkey4 = "ERROR")
         {
             Hotkey, ~%Hotkey4%, ViewMaven
         }
 
-        If !(Hotkey5 = "")
+        If !(Hotkey5 = "") and !(Hotkey5 = "ERROR")
         {
             Hotkey, ~%Hotkey5%, LaunchPoe
         }
 
-        If !(Hotkey6 = "")
+        If !(Hotkey6 = "") and !(Hotkey6 = "ERROR")
         {
             Hotkey, ~%Hotkey5%, ToolLaunchGui
         }
 
-        If !(Hotkey2 = "")
+        If !(Hotkey2 = "") and !(Hotkey2 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, ~%Hotkey2%, SubtractOne
         }
 
-        If !(Hotkey7 = "")
+        If !(Hotkey7 = "") and !(Hotkey7 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey7%, Abyss, T5
         }
 
-        If !(Hotkey8 = "")
+        If !(Hotkey8 = "") and !(Hotkey8 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey8%, Blight, T5
         }
 
-        If !(Hotkey9 = "")
+        If !(Hotkey9 = "") and !(Hotkey9 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey9%, Breach, T5
         }
 
-        If !(Hotkey10 = "")
+        If !(Hotkey10 = "") and !(Hotkey10 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey10%, Expedition, T5
         }
 
-        If !(Hotkey11 = "")
+        If !(Hotkey11 = "") and !(Hotkey11 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey11%, Harvest, T5
         }
 
-        If !(Hotkey12 = "")
+        If !(Hotkey12 = "") and !(Hotkey12 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey12%, Incursion, T5
         }
 
-        If !(Hotkey13 = "")
+        If !(Hotkey13 = "") and !(Hotkey13 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey13%, Legion, T5
         }
 
-        If !(Hotkey14 = "")
+        If !(Hotkey14 = "") and !(Hotkey14 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey14%, Metamorph, T5
         }
 
-        If !(Hotkey15 = "")
+        If !(Hotkey15 = "") and !(Hotkey15 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey15%, Ritual, T5
         }
 
-        If !(Hotkey16 = "")
+        If !(Hotkey16 = "") and !(Hotkey16 = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey16%, Generic, T5

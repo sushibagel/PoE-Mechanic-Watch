@@ -39,6 +39,7 @@ CheckFirstRun() ;Check to see if all First Run Items are complete
 
 FirstRun()
 {
+    Gui, First:Destroy
     PostSetup()
     LaunchPathIni := LaunchOptionsIni()
     IniRead, exe, %LaunchPathIni%, POE, EXE
@@ -56,23 +57,54 @@ FirstRun()
     Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
     Gui, First:Color, %Background%
     Gui, First:Font, c%Font% s12
-    Gui, First:Add, Text, w550 +Center, Welcome to PoE Mechanic Watch
+    Gui, First:Add, Text, y25 w550 +Center, Welcome to PoE Mechanic Watch
     Gui, First: -Caption
-    Gui, First:Show, NoActivate x%xh% y%yh% w550, First
+    Gui, First:Show, NoActivate x%xh% y-200 w550, First
     WinSet, Style, -0xC00000, First
     WinGetPos, X, Y, w, h, First
-    Gui, First:Hide
+    Gui, First:Destroy
     xh := xh - (w/2)
-    yh1 := yh + h
+    yh1 := yh
 
-    Gui, First2:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-    Gui, First2:Color, %Secondary%
-    Gui, First2:Font, cBlack s10
-    Gui, First2:Add, Text,, Before using PoE Mechanic Watch click each item below to set your preferences.
-    Gui, First2:Add, Text,, Items with a * are required
-    Gui, First2:Add, Checkbox, vClientOpened gClientOpen Checked%ClientState%, * Open your Path of Exile Client
-    Gui, First2:Add, Checkbox, vStorageSelect gStorageSelect Checked%StorageState%, %A_Space% Select an alternate location to store settings files.
-    Gui, First2:Add, Checkbox, vThemeSelect gThemeSelect Checked%ThemeState%, %A_Space% Select your Theme
+    Gui, First:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+
+    Gui, First:Font, cWhite s18
+    Gui, First:Add, Text, y5 x0 w550 +Center BackgroundTrans, Welcome to PoE Mechanic Watch
+
+    If (ColorMode = "Dark")
+        {
+            MinimizeColor = Resources/Images/minimize white.png
+            CloseColor = Resources/Images/close white.png
+        }
+        If (ColorMode = "Light")
+        {
+            MinimizeColor = Resources/Images/minimize.png
+            CloseColor = Resources/Images/close.png
+        }
+        If (ColorMode = "Custom")
+            {
+                If (Icons = "White")
+                    {
+                        MinimizeColor = Resources/Images/minimize white.png
+                        CloseColor = Resources/Images/close white.png
+                    }
+                If (Icons = "Black")
+                    {
+                        MinimizeColor = Resources/Images/minimize.png
+                        CloseColor = Resources/Images/close.png
+                    }
+            }
+    Gui, First:Add, Picture, y16 x495 w10 h10 gFirstMinimize BackgroundTrans, %MinimizeColor%
+    Gui, First:Add, Picture, y10 x525 w10 h10 gFirstClose BackgroundTrans, %CloseColor%
+
+    Gui, First:Add, Progress, x0 y0 h40 w570 Background%Background%
+    Gui, First:Color, %Secondary%
+    Gui, First:Font, cBlack s10
+    Gui, First:Add, Text, x15, Before using PoE Mechanic Watch click each item below to set your preferences.
+    Gui, First:Add, Text, y+3, Items with a * are required
+    Gui, First:Add, Checkbox, vClientOpened gClientOpen Checked%ClientState%, * Open your Path of Exile Client
+    Gui, First:Add, Checkbox, vStorageSelect gStorageSelect Checked%StorageState%, %A_Space% Select an alternate location to store settings files.
+    Gui, First:Add, Checkbox, vThemeSelect gThemeSelect Checked%ThemeState%, %A_Space% Select your Theme
     IniFile := HideoutIni()
     If FileExist(IniFile)
     {
@@ -83,22 +115,17 @@ FirstRun()
         HideoutSetup =
     }
 
-    Gui, First2:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
-    Gui, First2:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
-    Gui, First2:Add, Checkbox, vNotificationSelect gNotificationSelect Checked%NotificationState%, %A_Space% View/Change options for various notifications.
-    Gui, First2:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
-    Gui, First2:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
-    Gui, First2:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
-    Gui, First2:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
-    Gui, First2:Add, Button, x490, Close
-    Gui, First2: -Caption +HwndFirst2
-    Gui, First2:Show, x%xh% y%yh1% w550, First2
-    WinSet, Style, -0xC00000, First2
-
-    Gui, First: -Caption +OwnerFirst2 ;;;;;; Intentionally here so that First2 is shown so it can own First
-    Gui, First:Show, x%xh% y%yh% w550, First
+    Gui, First:Add, Checkbox, vHideoutSelect gHideoutSelect Checked%HideoutState%, * Select your Hideout %HideoutSetup%
+    Gui, First:Add, Checkbox, vMechanicSelect gMechanicSelect Checked%MechanicState%, * Select the Mechanics you want to track
+    Gui, First:Add, Checkbox, vNotificationSelect gNotificationSelect Checked%NotificationState%, %A_Space% View/Change options for various notifications.
+    Gui, First:Add, Checkbox, vAutoMechanicSelect gAutoMechanicSelect Checked%AutoMechanicState%, %A_Space% Select Auto Mechanics
+    Gui, First:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
+    Gui, First:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
+    Gui, First:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
+    Gui, First:Add, Button, x490, Close
+    Gui, First: +AlwaysOnTop
+    Gui, First:Show, x%xh% y%yh1% w550, First
     WinSet, Style, -0xC00000, First
-    WinWaitClose, First2
     Return
 }
 
@@ -108,7 +135,7 @@ ClientOpen()
     If (ClientOpened = 1)
     {
         Gui, First:Destroy
-        Gui, First2:Destroy
+        Gui, First:Destroy
         FirstRunPath := FirstRunIni()
         If !WinExist("ahk_exe PathOfExileSteam.exe") and !WinExist("ahk_exe PathOfExile.exe") and !WinExist("ahk_exe PathOfExileEGS.exe") and !WinExist("ahk_class POEWindowClass")
         {
@@ -118,19 +145,19 @@ ClientOpen()
             Gui, FirstReminder:Add, Text, w500 +Center, You must open Path of Exile to continue. This is required so the Client.txt path can be obtained. (This is only necessary for the first run)
             Gui, FirstReminder:Add, Button, x490, OK
             Gui, FirstReminder: +AlwaysOnTop -Caption
-            yh := (A_ScreenHeight/2) -250
-            xh := A_ScreenWidth/2
+            yh := (A_ScreenHeight/2)
+            xh := (A_ScreenWidth/2) - 225
             Gui, FirstReminder:Show, NoActivate x%xh% y%yh% w550, FirstReminder
             Iniwrite, 0, %FirstRunPath%, Completion, Client
             WinWaitClose, FirstReminder
             CheckFirstRun()
-            Reload()
+            Reload(1)
         }
         Else
         {
             Iniwrite, 1, %FirstRunPath%, Completion, Client
             GetLogPath()
-            Reload()
+            Reload(1)
         }
     }
     Return
@@ -139,7 +166,6 @@ StorageSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Hide
-    Gui, First2:Destroy
     iniChoose()
     WinWaitClose, Gui:iniChoose
     Gui, First:Destroy
@@ -151,7 +177,6 @@ ThemeSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Hide
-    Gui, First2:Destroy
     SelectTheme()
     WinWaitClose, Gui:Theme
     Gui, First:Destroy
@@ -162,10 +187,10 @@ ThemeSelect()
 HideoutSelect()
 {
     Gui, Submit, NoHide
-    Gui, First:Destroy
-    Gui, First2:Hide
+    Gui, First:Hide
     SetHideout()
-    Gui, First2:Destroy
+    WinWaitClose, Gui:ListView
+    Gui, First:Destroy
     FirstRunWrite("Hideout")
     Return
 }
@@ -174,7 +199,6 @@ MechanicSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Destroy
-    Gui, First2:Destroy
     SelectMechanics()
     WinWaitClose, Mechanic
     FirstRunWrite("Mechanic")
@@ -185,7 +209,6 @@ NotificationSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Destroy
-    Gui, First2:Destroy
     NotificationSetup()
     WinWaitClose, Notification Settings
     FirstRunWrite("Notification")
@@ -196,11 +219,10 @@ AutoMechanicSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Destroy
-    Gui, First2:Destroy
     SelectAuto()
     Winwaitclose, Auto Enable/Disable (Beta)
     Sleep, 100
-    If WinExist("Mechanic")
+    If WinExist("Mechanic") or If WinExist("Calibration Tool")
     {
         Return
     }
@@ -212,9 +234,8 @@ HotkeySelect()
 {
     Gui, Submit, NoHide
     Gui, First:Destroy
-    Gui, First2:Destroy
     HotkeyUpdate()
-    Winwaitclose, Dynamic Hotkeys
+    Winwaitclose, Hotkey Selector
     FirstRunWrite("Hotkey")
     Return
 }
@@ -223,7 +244,6 @@ LaunchAssistSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Destroy
-    Gui, First2:Destroy
     Gosub, LaunchGui
     WinWaitClose, Launcher
     FirstRunWrite("LaunchAssist")
@@ -234,7 +254,6 @@ ToolLauncherSelect()
 {
     Gui, Submit, NoHide
     Gui, First:Destroy
-    Gui, First2:Destroy
     Gosub, ToolLaunchGui
     WinWaitClose, ToolLauncher
     FirstRunWrite("ToolLauncher")
@@ -245,17 +264,30 @@ FirstRunWrite(WriteItem)
 {
     FirstRunPath := FirstRunIni()
     Iniwrite, 1, %FirstRunPath%, Completion, % WriteItem
-    Reload()
+    Reload(1)
     Return
 }
 
-First2ButtonClose()
+FirstClose()
+{
+    FirstButtonClose()
+    Return
+}
+
+FirstMinimize()
+{
+    WinSet, AlwaysOnTop, Off, First
+    WinSet, AlwaysOnTop, Off, First
+    WinMinimize, First
+    WinMinimize, First
+}
+
+FirstButtonClose()
 {
     FirstRunPath := FirstRunIni()
     IniWrite, 0, %FirstRunPath%, Active, Active
     Gui, Submit, NoHide
     Gui, First:Destroy
-    Gui, First2:Destroy
     Gui, NotificationSettings:Destroy
     CheckFirstRun()
     If (%ClientState% = 0) or (%HideoutState% = 0) or (%MechanicState% = 0) or (%ClientState% = "ERROR") or (%HideoutState% = "ERROR") or (%MechanicState% = "ERROR")
@@ -272,7 +304,7 @@ First2ButtonClose()
     }
     Else
     {
-        Reload
+        Reload(1)
     }
     Return
 }

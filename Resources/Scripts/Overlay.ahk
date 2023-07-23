@@ -114,6 +114,7 @@ RefreshOverlay()
             LockPosition := "yn y5"
         }
         Gui, Overlay:Add, Button, %LockPosition%, Lock
+        WinClose, %A_ScriptDir%\Resources\Scripts\WindowMonitor.ahk ahk_class AutoHotkey
         Tooltip, Drag the overlay around and press "Lock" to store it's location.
         ShowTitle := ""
         Activate := ""
@@ -284,6 +285,7 @@ OverlayButtonLock()
     Tooltip
     MoveActive := 0
     OverlayPath := OverlayIni()
+    Run, %A_ScriptDir%\Resources\Scripts\WindowMonitor.ahk ahk_class AutoHotkey
     IniWrite, %newheight%, %OverlayPath%, Overlay Position, Height
     IniWrite, %newwidth%, %OverlayPath%, Overlay Position, Width
     RefreshOverlay()
