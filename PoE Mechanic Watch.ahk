@@ -671,7 +671,7 @@ HotkeyCheck()
         ; {
         ;     Hotkey, %Hotkey1%, DivInput
         ; }
-
+        Hotkey, IfWinActive
         If !(Hotkey3 = "") and !(Hotkey3 = "ERROR")
         {
             Hotkey, ~%Hotkey3%, ToggleInfluence
