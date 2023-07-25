@@ -30,6 +30,7 @@ LogTail(text)
 		HideoutIni := HideoutIni()
 		IniWrite, 1, %HideoutIni%, In Hideout, In Hideout
 		PostSetup()
+		PostMessage, 0x01775,,,, PoE Mechanic Watch.ahk - AutoHotkey ; Activate Map Device Search Tool 
 		PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 
 		PostRestore()
 		MechanicsActive()

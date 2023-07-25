@@ -10,11 +10,13 @@ DetectHiddenWindows, On
 
 OnMessage(0x01111, "RefreshOverlay")
 OnMessage(0x012222, "OverlayKill")
+OnMessage(0x012229, "MasterOverlayKill")
 OnMessage(0x01786, "Start")
 OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
 OnMessage(0x01783, "LaunchUpdate") ;timed update on PoE launch
 OnMessage(0x01789, "Reload") ;timed update on PoE launch
 OnMessage(0x204, "WM_RBUTTONDOWN")
+OnMessage(0x01775, "MapDevice") ;Launch Map Device Search
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -779,6 +781,7 @@ TransparencyCheck(NotificationTransparency)
 #Include, Resources\Scripts\iniChoose.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
+#Include, Resources\Scripts\Masters.ahk
 #Include, Resources\Scripts\Maven.ahk
 #Include, Resources\Scripts\MavenReminder.ahk
 #Include, Resources\Scripts\Mechanics.ahk
