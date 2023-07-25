@@ -4,6 +4,7 @@
 #MaxMem 1024
 #NoTrayIcon
 Menu, Tray, Icon, Resources\Images\generic.png
+SetBatchLines, -1
 
 Global ScreenSearchMechanics := "Metamorph|Ritual|Eldritch"
 Global MySearches
