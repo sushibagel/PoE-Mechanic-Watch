@@ -35,6 +35,7 @@ MapDevice()
                             If WinExist("Master Reminder")
                                 {
                                     Gui, Master:Destroy
+                                    Gui, ActivateBlocker:Destroy
                                 }
                         }
                     Gdip_DisposeImage(bmpSearching)
