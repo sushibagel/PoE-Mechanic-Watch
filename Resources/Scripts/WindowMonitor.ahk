@@ -76,7 +76,7 @@ WaitActive()
         }
         PostSetup()
         PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
-        PostMessage, 0x012229,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
+        PostMessage, 0x012229,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Master Overlay
         Reminders := Reminders()
         SetTitleMatchMode 3
         For each, Item in StrSplit(Reminders, "|")

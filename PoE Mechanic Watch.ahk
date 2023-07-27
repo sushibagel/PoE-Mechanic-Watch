@@ -42,8 +42,9 @@ MenuDark(isDark)
 ; 0=Default  1=AllowDark  2=ForceDark  3=ForceLight  4=Max
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
-Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
+Menu, Tray, Add, Select Auto Enable/Disable, SelectAuto
 Menu, Tray, Add, View Maven Invitation Status, ViewMaven
+Menu, Tray, Add, Master Mapping Settings, MasterSetup
 Menu, Tray, Add
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
