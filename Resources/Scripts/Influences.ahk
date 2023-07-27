@@ -231,7 +231,7 @@ InfluenceMapNotification() ;Map tracking notification
     PostMessage, 0x01741,,,, PoE Mechanic Watch.ahk - AutoHotkey ;Hotkey check
     PostRestore()
     InfluenceHotkey := InfluenceHotkey()
-    Notification := "You just entered a new map press" A_Space InfluenceHotkey A_Space "to subtract 1 map"
+    Notification := "You just entered a new map press" A_Space  """" InfluenceHotkey """" A_Space "to subtract 1 map"
     QuickNotify(Notification)
     Return
 }

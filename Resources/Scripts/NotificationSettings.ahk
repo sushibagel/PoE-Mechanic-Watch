@@ -142,7 +142,7 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked1 Disabled
     Gui, NotificationSettings:Add, Picture, gOverlayTest ys-%Offset% x%PlayButton2% w15 h15, %PlayColor%
     Gui, NotificationSettings:Add, Picture, gOverlayStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
-    Gui, NotificationSettings:Font, c%Font%
+    Gui, NotificationSettings:Font, cBlack
     IniRead, Value, %TransparencyFile%, Transparency, Overlay, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%EditOffset% x%Edit2% h20 w50 vOverlayTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
