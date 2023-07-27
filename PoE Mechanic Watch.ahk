@@ -666,7 +666,7 @@ AdditionalScripts(Action)
 HotkeyCheck()
 {
     HotkeyPath := HotkeyIni()
-    Loop, 16
+    Loop, 17
     {
         IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
 
@@ -760,6 +760,12 @@ HotkeyCheck()
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey16%, Generic, T5
         }
+
+        If !(Hotkey17 = "") and !(Hotkey17 = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %Hotkey17%, ToggleMasters, T5
+            }
     }
 }
 

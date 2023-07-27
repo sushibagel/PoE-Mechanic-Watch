@@ -89,9 +89,8 @@ WM_LBUTTONDOWN()
                 }
         If WinActive("Activate Blocker") and (MasterGuiMove != 1)
             {
-                HotKeyIniLoc := HotkeyIni()
-                IniRead, ToggleKey, %HotKeyIniLoc%, Hotkeys, 17, Hotkey Not Set
-                NotificationText := "Please select a master mission to continue! Press" A_Space """" ToggleKey """" A_Space "to turn off."
+                MasterHotkey := MasterHotkeyGet()
+                NotificationText := "Please select a master mission to continue! Press" A_Space """" MasterHotkey """" A_Space "to turn off."
                 QuickNotify(NotificationText)
                 SetTimer, CloseQuickNotify, -3000
             }
