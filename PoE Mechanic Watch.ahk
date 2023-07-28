@@ -25,6 +25,7 @@ Tray.Delete ; Delete the standard items.
 Tray.Add "Select Mechanics", SelectMechanics
 Tray.Add "Select Auto Enable/Disable", SelectMechanics
 Tray.Add "View Maven Invitation Status", SelectMechanics
+Tray.Add "Master Mapping Settings", SelectMechanics
 Tray.Add 
 Tray.Add "Launch Path of Exile", SelectMechanics
 Tray.Add "View Path of Exile Log", SelectMechanics
@@ -94,18 +95,6 @@ Exit(*)
 }
 
 ; FirstRun Check
-ClientState := ""
-ThemeState := ""
-HideoutState := ""
-MechanicState := ""
-PositionState := ""
-MapPositionState := ""
-AutomechanicState := ""
-HotkeyState := ""
-SoundState := ""
-LaunchAssistState := ""
-NotificationState := ""
-ToolLauncherState := ""
 FirstRunPath := FirstRunIni()
 If FileExist(FirstRunPath) ;Check for "FirstRun" ini
 {
