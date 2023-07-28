@@ -1,6 +1,7 @@
 All at Sea
 Alpine
 Arboreal
+Atlas
 Azurite Cavern
 Backstreet
 Baleful
@@ -25,6 +26,7 @@ Entombed
 Eternal Wasteland
 Excavated
 Furious
+Ghost-lit Graveyard
 Glacial
 Glacial Expanse
 Glimmerwood
@@ -41,18 +43,22 @@ Overgrown
 Polaric
 Primeval
 Ravenous
+Redeemer's
 Ritualist's
 Robber's Trench
 Sanquine
+Seething
 Shaped
 Skeletal
 Stately
 Sunken
 Sunspire
+Tavern
 Thaumaturgical
+Timekeeper's
 Towering
 Undercity
 Unearthed
 Urban Sprawl
-Void
 Vast Plains
+Void
