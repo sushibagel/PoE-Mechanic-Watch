@@ -111,7 +111,7 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 
 - If clicking the "View Log" button isn't taking you to the correct path, this is likely because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
 
-- The Auto Enable/Disable feature is currently in Beta. For it to work for Blight, Expedition and Incursion it requires the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. I've tried to be as thorough as possible in adding dialogs but I may have missed some as there is some variance in the.
+- Blight, Expedition or Incursion mechanics aren't automatically enabling/disabling. These mechanics all require the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. Please note there are some situations where certain dialogs aren't issued and it may result in a failure to enable/disable tracking. If you happen to find any dialogs that do not work as triggers please post a bug report on my Github. 
 
 - If Auto tracking isn't working for Metamorph, Ritual or the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven) you may meed to calibrate the image recognition using the "Calibrate Search" tool found in the Auto Enable/Disable menu.
 
@@ -121,7 +121,7 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 When using the "Update" tool press "Enter" or select "OK" when you notified of an update. "PoE Mechanic Watch Update.zip" will download to your PoE Mechanic Watch folder, simply unzip and copy all the files from the new release folder into your existing directy. Doing this should keep all user settings.
 
 #### Hideout Notes:  
-The first time your run this script you will be required to set your hideout in the first run "Setup" menu. If at any time you switch your hideout you can change it by using the "Set Hideout" tool in the "Setup" submenu of the tray icon menu. Use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected.
+The first time your run this script you will be required to set your hideout in the first run "Setup" menu. If at any time you switch your hideout you can change it by using the "Set Hideout" tool in the "Setup" submenu of the tray icon menu. Use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected. Please also feel free to let me know your hideout type is missing by posting feedback on my Github. 
 
 For feedback, questions or suggestions please visit the <a href="https://github.com/sushibagel/PoE-Mechanic-Watch/discussions" title="Discussion Section">Discussion Section of the Github</a>  
 
