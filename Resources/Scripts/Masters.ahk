@@ -1,7 +1,7 @@
 Global MasterOverlayLaunch
 Global MasterMechanic
 Global MasterTransparency
-Global BlockerTransparency
+Global WarningTransparency
 Global MasterGuiMove
 
 MapDevice()
@@ -47,7 +47,7 @@ MapDevice()
                             If WinExist("Master Reminder")
                                 {
                                     Gui, Master:Destroy
-                                    Gui, ActivateBlocker:Destroy
+                                    Gui, ActivateWarning:Destroy
                                 }
                         }
                     Gdip_DisposeImage(bmpSearching)
@@ -64,7 +64,7 @@ LaunchMaster()
 {
     MasterOverlayKill()
     SelectorLaunch()
-    BlockerLaunch()
+    WarningLaunch()
     OnMessage(0x201, "WM_LBUTTONDOWN")
     Return
 }
@@ -83,23 +83,23 @@ WM_LBUTTONDOWN()
             {
                 PostMessage 0xA1, 2
                 MouseGetPos, MouseX, MouseY
-                Winget, hwnd, ID, Activate Blocker
+                Winget, hwnd, ID, Activate Warning
                 GuiControl,, Master, X%MouseX%, Y%MouseY%
                 Return
                 }
-        If WinActive("Activate Blocker") and (MasterGuiMove != 1)
+        If WinActive("Activate Warning") and (MasterGuiMove != 1)
             {
                 MasterHotkey := MasterHotkeyGet()
                 NotificationText := "Please select a master mission to continue! Press" A_Space """" MasterHotkey """" A_Space "to turn off."
                 QuickNotify(NotificationText)
                 SetTimer, CloseQuickNotify, -3000
             }
-            If WinActive("Activate Blocker") and (MasterGuiMove = 1)
+            If WinActive("Activate Warning") and (MasterGuiMove = 1)
                 {
                     PostMessage 0xA1, 2
                     MouseGetPos, MouseX, MouseY
-                    Winget, hwnd, ID, Activate Blocker
-                    GuiControl,, ActivateBlocker, X%MouseX%, Y%MouseY%
+                    Winget, hwnd, ID, Activate Warning
+                    GuiControl,, ActivateWarning, X%MouseX%, Y%MouseY%
                     Return
                 }
     }
@@ -107,7 +107,7 @@ WM_LBUTTONDOWN()
 MasterOverlayKill()
 {
     Gui, Master:Destroy
-    Gui, ActivateBlocker:Destroy
+    Gui, ActivateWarning:Destroy
     Return
 }
 
@@ -210,16 +210,16 @@ MasterSetup()
     Gui, MasterSetup:Font, c%Font% s5
     Gui, MasterSetup:Add, Text,,
     Gui, MasterSetup:Font, c%Font% s12
-    Gui, MasterSetup:Add, Text, Section xs, Button Blocker
-    Gui, MasterSetup:Add, Picture, gBlockerLaunch YS x%Offset1% w15 h15, %PlayColor%
-    Gui, MasterSetup:Add, Picture, gBlockerMove YS x+%Offset% w20 h20, %MoveColor%
-    Gui, MasterSetup:Add, Picture, gBlockerKill YS x+%Offset% w15 h15, %StopColor%
+    Gui, MasterSetup:Add, Text, Section xs, Warning Message
+    Gui, MasterSetup:Add, Picture, gWarningLaunch YS x%Offset1% w15 h15, %PlayColor%
+    Gui, MasterSetup:Add, Picture, gWarningMove YS x+%Offset% w20 h20, %MoveColor%
+    Gui, MasterSetup:Add, Picture, gWarningKill YS x+%Offset% w15 h15, %StopColor%
     Gui, MasterSetup:Font, cBlack s10
-    IniRead, Value, %NotificationIniLoc%, Activation Blocker, Transparency, 255
-    Gui, MasterSetup:Add, Edit, Center YS x+%Offset2% h20 w50 gBlockerTran vBlockerTransparency
+    IniRead, Value, %NotificationIniLoc%, Activation Warning, Transparency, 255
+    Gui, MasterSetup:Add, Edit, Center YS x+%Offset2% h20 w50 gWarningTran vWarningTransparency
     Gui, MasterSetup:Add, UpDown, Range0-255, %Value% x270 h20
     Gui, MasterSetup:Font, c%Font% s10
-    Gui, MasterSetup:Add, Text, YS x+%Offset% +Wrap w180, The Button Blocker needs to be positioned on "Activate" button on the map device. This will be in place to keep you from activating your map prior to selecting a master mission.
+    Gui, MasterSetup:Add, Text, YS x+%Offset% +Wrap w180, Place the Warning Message somewhere that will be visible when attempting to activate your map.
 
     Gui, MasterSetup:Font, c%Font% s12
     ButtonLoc := GuiW - 50
@@ -254,6 +254,7 @@ SelectorLaunch(Move:=0)
     Gui, Master:Color, %Background%
     Gui, Master:Font, c%Font% s10
     AllowResize := ""
+    OnMessage(0x201, "")
     If (Move = 1)
         {
             OnMessage(0x201, "WM_LBUTTONDOWN")
@@ -277,7 +278,7 @@ SelectorLaunch(Move:=0)
 
 MasterGuiClose()
 {
-    BlockerKill()
+    WarningKill()
     Return
 }
 
@@ -291,7 +292,6 @@ MasterButtonLock()
 {
     WinGetPos, newx, newy, newwidth, newheight, Master
     Winget, hwnd, ID, Master
-    GetClientSize(hwnd, newwidth, newheight)
     NotificationIni := NotificationIni()
     IniWrite, %newheight%, %NotificationIni%, Master Notification Position, Height
     IniWrite, %newwidth%, %NotificationIni%, Master Notification Position, Width
@@ -309,15 +309,17 @@ GetClientSize(hwnd, ByRef w, ByRef h)   ;by Lexikos http://www.autohotkey.com/fo
     h := NumGet(rc, 12, "int")
 }
 
-BlockerLaunch(Move:=0)
+WarningLaunch(Move:=0)
 {
-    Gui, ActivateBlocker:Destroy
+    Gui, ActivateWarning:Destroy
     CheckTheme()
-    Gui, ActivateBlocker:Color, %Background%
-    Gui, ActivateBlocker:Font, c%Font% s10
+    Gui, ActivateWarning:Color, %Background%
+    Gui, ActivateWarning:Font, c%Font% s10
+    Gui, ActivateWarning:Add, Text, Center y5, Master mission not active. Please select a master mission!
     AllowResize := ""
     Resizable := ""
     Resizable2 := ""
+    OnMessage(0x201, "")
     If (Move = 1)
         {
             OnMessage(0x201, "WM_LBUTTONDOWN")
@@ -325,58 +327,57 @@ BlockerLaunch(Move:=0)
             ShowTitle := ""
             ShowBorder := ""
             AllowResize := "+Resize MinSize94x31 MaxSize1000x1000"
-            Gui, ActivateBlocker:Add, Button,x3 w50, Lock
+            Gui, ActivateWarning:Add, Button,x3 w50, Lock
             ToolTip, Click and drag the top bar to position on top of "Activate" button in the map device. Use the sides/corners to resize the window. 
         }
-    Gui, ActivateBlocker:+AlwaysOnTop -Border -Caption %AllowResize%
+    Gui, ActivateWarning:+AlwaysOnTop -Border -Caption %AllowResize%
     NotificationIni := NotificationIni()
-    IniRead, NotificationY, %NotificationIni%, Activation Blocker, Vertical, 870
-    IniRead, Notificationx, %NotificationIni%, Activation Blocker, Horizontal, 560
-    IniRead, Notificationw, %NotificationIni%, Activation Blocker, Width, 100
-    IniRead, Notificationh, %NotificationIni%, Activation Blocker, Height, 35
-    IniRead, Trans, %NotificationIni%, Activation Blocker, Transparency, 255
-    Gui, ActivateBlocker:+hwndGui25 -DPIScale
-    Gui, ActivateBlocker:Show, y%NotificationY% x%Notificationx% h%Notificationh% w%Notificationw% NoActivate, Activate Blocker
-    WinSet, Transparent, %Trans%, Activate Blocker
+    IniRead, NotificationY, %NotificationIni%, Activation Warning, Vertical, 913
+    IniRead, Notificationx, %NotificationIni%, Activation Warning, Horizontal, 406
+    IniRead, Notificationh, %NotificationIni%, Activation Warning, Height, 53
+    IniRead, Trans, %NotificationIni%, Activation Warning, Transparency, 255
+    Gui, ActivateWarning:+hwndGui25 -DPIScale
+    Gui, ActivateWarning:Show, y%NotificationY% x%Notificationx% h%Notificationh% NoActivate, Activate Warning
+    WinSet, Transparent, %Trans%, Activate Warning
     Return
 }
 
-BlockerMove()
+WarningMove()
 {
-    BlockerLaunch(1)
+    WarningLaunch(1)
     Return
 }
 
-BlockerKill()
+WarningKill()
 {
-    Gui, ActivateBlocker:Destroy
+    Gui, ActivateWarning:Destroy
     ToolTip
     Return
 }
 
-ActivateBlockerButtonLock()
+ActivateWarningButtonLock()
 {
-    WinGetPos, newx, newy, newwidth, newheight, Activate Blocker
-    Winget, hwnd, ID, Activate Blocker
+    WinGetPos, newx, newy, newwidth, newheight, Activate Warning
+    Winget, hwnd, ID, Activate Warning
     GetClientSize(hwnd, newwidth, newheight)
+    newheight := newheight - 20
     NotificationIni := NotificationIni()
-    IniWrite, %newheight%, %NotificationIni%, Activation Blocker, Height
-    IniWrite, %newwidth%, %NotificationIni%, Activation Blocker, Width
-    IniWrite, %newx%, %NotificationIni%, Activation Blocker, Horizontal
-    IniWrite, %newy%, %NotificationIni%, Activation Blocker, Vertical
-    BlockerKill()
+    IniWrite, %newheight%, %NotificationIni%, Activation Warning, Height
+    IniWrite, %newx%, %NotificationIni%, Activation Warning, Horizontal
+    IniWrite, %newy%, %NotificationIni%, Activation Warning, Vertical
+    WarningKill()
     Return
 }
 
-ActivateBlockerGuiClose()
+ActivateWarningGuiClose()
 {
-    BlockerKill()
+    WarningKill()
     Return
 }
 
 MasterSetupGuiClose()
 {
-    BlockerKill()
+    WarningKill()
     MasterOverlayKill()
     Return
 }
@@ -389,10 +390,10 @@ MasterTran()
     Return
 }
 
-BlockerTran()
+WarningTran()
 {
     Gui, MasterSetup:Submit, Nohide
     NotificationIniLoc := NotificationIni()
-    IniWrite, %BlockerTransparency%, %NotificationIniLoc%, Activation Blocker, Transparency
+    IniWrite, %WarningTransparency%, %NotificationIniLoc%, Activation Warning, Transparency
     Return
 }
