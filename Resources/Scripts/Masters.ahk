@@ -328,7 +328,7 @@ WarningLaunch(Move:=0)
             ShowBorder := ""
             AllowResize := "+Resize MinSize94x31 MaxSize1000x1000"
             Gui, ActivateWarning:Add, Button,x3 w50, Lock
-            ToolTip, Click and drag the top bar to position on top of "Activate" button in the map device. Use the sides/corners to resize the window. 
+            ToolTip, Click and drag the window to a position of your liking. Use the sides/corners to resize the window. 
         }
     Gui, ActivateWarning:+AlwaysOnTop -Border -Caption %AllowResize%
     NotificationIni := NotificationIni()
