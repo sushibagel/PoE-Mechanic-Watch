@@ -23,6 +23,7 @@ GroupAdd, PoeWindow, Awakened PoE Trade
 GroupAdd, PoeWindow, Master Reminder
 GroupAdd, PoeWindow, Activate Blocker
 
+SetTimer, CheckActive
 ; OnMessage(0x01192, "ActivateInfluenceReminder")
 ; OnMessage(0x01155, "DeactivateInfluenceReminder")
 ; Waitkill := 0
@@ -102,4 +103,13 @@ WaitActive()
 Reminders()
 {
     Return, "InfluenceReminder|Maven Reminder|Reminder|Death Recap|Prompt Delete"
+}
+
+CheckActive()
+{
+    If !WinActive("ahk_group PoeWindow")
+        {
+            WaitActive()
+        }
+    Return
 }
