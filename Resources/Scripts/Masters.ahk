@@ -34,7 +34,9 @@ MapDevice()
                     bmpSearching := Gdip_BitmapFromHWND(PoeHwnd2, 1)
                     ImageLocation := "Resources\Images\Image Search\MapDevice.png"
                     SearchingFor := Gdip_CreateBitmapFromFile(ImageLocation)
-                    If (Gdip_ImageSearch(bmpSearching,SearchingFor,LIST,0,0,0,0,150,,1,0) > 0)
+                    SearchIniLoc := ScreenIni()
+                    IniRead, MapVariation, %SearchIniLoc%, Variation, MapDevice
+                    If (Gdip_ImageSearch(bmpSearching,SearchingFor,LIST,0,0,0,0,MapVariation,,1,0) > 0)
                         {
 
                             If !WinExist("Master Reminder") and (MasterOverlayLaunch = 0)
