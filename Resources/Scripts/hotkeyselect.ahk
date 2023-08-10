@@ -24,6 +24,7 @@ HotkeyUpdate()
   HotkeyText14 := "Metamorph"
   HotkeyText15 := "Ritual"
   HotkeyText16 := "Generic"
+  HotkeyText17 := "Master Mapping Tool"
 
   Gui, Hotkey:Color, %Background%
   Gui, Hotkey:Font, s12 c%Font% Bold
@@ -37,7 +38,7 @@ HotkeyUpdate()
   IniRead, CtlActive, %HotkeyIni%, Hotkeys, DivCheck, 0
   ; Gui, Hotkey:Add, Checkbox,  yp x250 +Left vControlCheck gCtlToggle Checked%CtlActive%
 
-  #ctrls = 16 ;How many Hotkey controls to add.
+  #ctrls = 17 ;How many Hotkey controls to add.
   Loop,% #ctrls {
     Hotkeytext := "HotkeyText"A_Index
     text := %Hotkeytext%
@@ -121,7 +122,7 @@ HotkeyGuiClose()
 SetHotkeys()
 {
   HotkeyPath := HotkeyIni()
-  Loop, 14
+  Loop, 17
   {
     IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
     HotkeyOffCheck := "Hotkey"A_Index
@@ -167,4 +168,32 @@ CtlToggle()
   HotkeyIni := HotkeyIni()
   Gui, Hotkey:Submit, NoHide
   IniWrite, %ControlCheck%, %HotkeyIni%, Hotkeys, DivCheck
+}
+
+MasterHotkeyGet()
+{
+  HotkeyPath := HotkeyIni()
+  IniRead, ToggleKey, %HotkeyPath%, Hotkeys, 17, Hotkey Not Set
+  If ToggleKey contains +
+  {
+    StringReplace, ToggleKey, ToggleKey, + , Shift +%A_Space%,
+  }
+  If ToggleKey contains ^
+  {
+    StringReplace, ToggleKey, ToggleKey, ^ , Control +%A_Space%,
+  }
+  If ToggleKey contains !
+  {
+    StringReplace, ToggleKey, ToggleKey, ! , Alt +%A_Space%,
+  }
+  If ToggleKey contains #
+  {
+    StringReplace, ToggleKey, ToggleKey, # , Win +%A_Space%,
+  }
+  If (ToggleKey = "")
+  {
+    ToggleKey := "Hotkey Not Set"
+  }
+
+  Return, % ToggleKey
 }

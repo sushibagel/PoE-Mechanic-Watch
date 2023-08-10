@@ -2,8 +2,8 @@ Global MoveActive
 
 Overlay()
 {
-    RefreshOverlay()
     Run, Resources\Scripts\WindowMonitor.ahk
+    RefreshOverlay()
     Return
 }
 

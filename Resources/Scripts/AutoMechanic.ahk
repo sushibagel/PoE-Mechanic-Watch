@@ -39,6 +39,8 @@ Global MavenVar
 Global SampleEater
 Global SampleSearing
 Global SampleMaven
+Global SampleMapDevice
+Global Completion
 
 GroupAdd, PoeScreen, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeScreen, ahk_exe PathOfExile.exe
@@ -215,11 +217,23 @@ AutoButtonCalibrateSearch()
         Gui, Calibrate:Add, UpDown, Range%ERange%, %Value% x270 h20
         XBut := Round(96/A_ScreenDPI*425)
         Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%boss%, Calibrate
-        Gui, Calibrate:Font, c1177bb Normal Underline
+        Gui, Calibrate:Font, c1177bb Normal Underline s12
         XSample := Round(96/A_ScreenDPI*570)
         Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%boss% g%boss%Image, Sample
-        Gui, Calibrate:Font, c%Font% Normal
+        Gui, Calibrate:Font, c%Font% Normal s12
     }
+    Gui, Calibrate:Add, Text, Section xs, Map Device
+    Gui, Calibrate:Font, s8 c1177bb Normal Underline
+    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, 3
+    XBut := Round(96/A_ScreenDPI*425)
+    Gui, Calibrate:Font, Normal 
+    Gui, Calibrate:Font, c%Font% s12
+    Gui, Calibrate:Add, Button, ys x%XBut% w80 gMapDeviceButton, Calibrate
+    XSample := Round(96/A_ScreenDPI*570)
+    Gui, Calibrate:Font, c1177bb Normal Underline s12
+    Gui, Calibrate:Add, Text, ys x+10 w80 HwndSampleMapDevice gMapDeviceImage, Sample
+    Gui, Calibrate:Font, c%Font% Normal
+
     Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Show, , Calibration Tool
     OnMessage(0x0200, "MouseMove")
@@ -228,6 +242,8 @@ AutoButtonCalibrateSearch()
 
 CalibrateGuiClose:
 {
+    Gui, FootnoteView:Destroy
+    Gui, ImageView:Destroy
     Gui, Calibrate:Destroy
     If (AutoRun = 1)
     {
@@ -374,6 +390,15 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
             ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
             LastHwnd := mHwnd
         }
+        If Instr(mHwnd, MapDevice) and (mHwnd != LastHwnd)
+            {
+                ImageH := 80
+                ImageW := 250
+                Gui, Calibrate:Submit, Nohide
+                ShowImage("MapDevice", ImageH, ImageW)
+                LastHwnd := mHwnd
+            }
+
     }
     If !InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
     {
@@ -508,6 +533,15 @@ OpenImage()
         ShowImage("RitualShop", ImageH, ImageW, "+Caption")
         LastHwnd := mHwnd
     }
+    If Instr(mHwnd, "MapDevice")
+    {
+        SamplePressed := 1
+        ImageH := 100
+        ImageW := 250
+        msgbox, %ImagH% %ImageW%
+        ShowImage("MapDevice", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
 }
 
 ImageViewGuiClose()
@@ -579,23 +613,24 @@ Button10()
 
 ScreenShotTool(path)
 {
+    gdipCalibrate := Gdip_Startup()
     Gui, Calibrate:Minimize
+    Completion := ""
     Run, SnippingTool
     SetTitleMatchMode, 2
     WinWaitActive, Snipping Tool
     WinWaitClose, Snipping Tool
-    WinGetActiveTitle, CWindow
-    snToken := Gdip_Startup()
     ClipWait, , 1
     pBitmap := Gdip_CreateBitmapFromClipboard()
     Gdip_SaveBitmapToFile(pBitmap, path)
-    WinActivate, %CWindow%
-    WinWaitActive, %CWindow%
+    WinActivate, Path of Exile
+    WinWaitActive, Path of Exile
     PoeHwnd := WinExist(CWindow)
     Gui, CalibrationNotice:Destroy
     Gui, CalibrationNotice:Color, %Background%
     Gui, CalibrationNotice:Font, c%Font% s10
-    Gui, CalibrationNotice:Add, Text,,Performing calibration, please wait...
+    Gui, CalibrationNotice:Add, Text,,Performing calibration, please wait... 
+    Gui, CalibrationNotice:Add, Text, w200 Center vCompletion, %Completion%
     Gui, CalibrationNotice: +AlwaysOnTop -Border
     Gui, CalibrationNotice:Show, NoActivate, Calibration Notify
     MapTransparency := TransparencyCheck("Quick")
@@ -606,9 +641,12 @@ ScreenShotTool(path)
     Global bmpNeedle := Gdip_CreateBitmapFromFile(path)
     Loop, 201
     {
-        If (Gdip_ImageSearch(bmpHaystack,bmpNeedle,LIST,0,0,0,0,A_Index,0xFFFFFF,1,0) > 0)
+        Completion := Round(A_Index/201*100) "%" 
+        GuiControl, CalibrationNotice:, Completion, %Completion%
+        If (Gdip_ImageSearch(bmpHaystack,bmpNeedle,LIST,0,0,0,0,A_Index,,1,0) > 0)
         {
             Global VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety.
+            ; msgbox, Success! Your new calibration value is %A_Index%
             Break
         }
         Else
@@ -633,7 +671,7 @@ ScreenShotTool(path)
     Gdip_DisposeImage(bmpHaystack)
     Gdip_DisposeImage(bmpNeedle)
     Gdip_DisposeImage(pBitmap)
-    Gdip_Shutdown(rnToken)
+    Gdip_Shutdown(gdipCalibrate)
     DeleteObject(pBitmap)
     DeleteObject(bmpHaystack)
     DeleteObject(bmpNeedle)
@@ -664,6 +702,7 @@ OpenFootnote()
     If InStr(A_GuiControl, "3")
     {
         NoteSelected := 3
+        SamplePressed := 1
         ViewFootnote(3)
     }
 }
@@ -712,9 +751,22 @@ ViewFootnote(FootnoteNum)
     }
     If (FootnoteNum = 3)
     {
-        GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-        Gui, Auto:Font, c%Font% s10
-        GuiControl, Font, Text
+        If WinActive("Calibration Tool")
+            {
+                CustomText := "The Map Device is used for identifying when the map device is open to activate the Master Mapping tool. To calibrate select the ""Map Receptacle""  text and the surrounding box, it`'s important not to select any of the Kirac mods below or your hideout in the background as this may cause issues with screen recognition."
+                Caption := "-Caption"
+                If (SamplePressed = 1)
+                {
+                    Caption := "+Caption"
+                }
+                ShowImage("", 0, 0, Caption, CustomText,0)
+            }
+            Else
+            {
+                GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                Gui, Auto:Font, c%Font% s10
+                GuiControl, Font, Text
+            }
     }
 }
 
@@ -770,4 +822,24 @@ MavenImage()
     ImageW := 130
     ShowImage("Eldritch\maven5", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
+}
+
+MapDeviceImage()
+{
+    MouseGetPos,,,, mHwnd,
+    Gui, ImageView:Destroy
+    SamplePressed := 1
+    ImageH := 130
+    ImageW := 250
+    ShowImage("MapDevice", ImageH, ImageW, "+Caption")
+    LastHwnd := mHwnd
+    Return
+}
+
+MapDeviceButton()
+{
+    Gui, Calibrate:Submit, Nohide
+    FileName := "Resources\Images\Image Search\MapDevice.png"
+    ScreenShotTool(FileName)
+    Return
 }

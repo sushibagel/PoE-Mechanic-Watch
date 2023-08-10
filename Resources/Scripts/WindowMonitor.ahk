@@ -20,7 +20,10 @@ GroupAdd, PoeWindow, OverlaySetup
 GroupAdd, PoeWindow, Quick Notify
 GroupAdd, PoeWindow, Notification Settings
 GroupAdd, PoeWindow, Awakened PoE Trade
+GroupAdd, PoeWindow, Master Reminder
+GroupAdd, PoeWindow, Activate Blocker
 
+SetTimer, CheckActive
 ; OnMessage(0x01192, "ActivateInfluenceReminder")
 ; OnMessage(0x01155, "DeactivateInfluenceReminder")
 ; Waitkill := 0
@@ -74,6 +77,7 @@ WaitActive()
         }
         PostSetup()
         PostMessage, 0x012222,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Overlay
+        PostMessage, 0x012229,,,, PoE Mechanic Watch.ahk - AutoHotkey ; destroy Master Overlay
         Reminders := Reminders()
         SetTitleMatchMode 3
         For each, Item in StrSplit(Reminders, "|")
@@ -99,4 +103,13 @@ WaitActive()
 Reminders()
 {
     Return, "InfluenceReminder|Maven Reminder|Reminder|Death Recap|Prompt Delete"
+}
+
+CheckActive()
+{
+    If !WinActive("ahk_group PoeWindow")
+        {
+            WaitActive()
+        }
+    Return
 }

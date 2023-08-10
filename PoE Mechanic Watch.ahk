@@ -10,11 +10,13 @@ DetectHiddenWindows, On
 
 OnMessage(0x01111, "RefreshOverlay")
 OnMessage(0x012222, "OverlayKill")
+OnMessage(0x012229, "MasterOverlayKill")
 OnMessage(0x01786, "Start")
 OnMessage(0x01741, "HotkeyCheck") ;check hotkeys
 OnMessage(0x01783, "LaunchUpdate") ;timed update on PoE launch
 OnMessage(0x01789, "Reload") ;timed update on PoE launch
 OnMessage(0x204, "WM_RBUTTONDOWN")
+OnMessage(0x01775, "MapDevice") ;Launch Map Device Search
 
 ;;;;;;;;;;;;;; Tray Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -40,8 +42,9 @@ MenuDark(isDark)
 ; 0=Default  1=AllowDark  2=ForceDark  3=ForceLight  4=Max
 Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
-Menu, Tray, Add, Select Auto Enable/Disable (Beta), SelectAuto
+Menu, Tray, Add, Select Auto Enable/Disable, SelectAuto
 Menu, Tray, Add, View Maven Invitation Status, ViewMaven
+Menu, Tray, Add, Master Mapping Settings, MasterSetup
 Menu, Tray, Add
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
@@ -663,7 +666,7 @@ AdditionalScripts(Action)
 HotkeyCheck()
 {
     HotkeyPath := HotkeyIni()
-    Loop, 16
+    Loop, 17
     {
         IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
 
@@ -757,6 +760,12 @@ HotkeyCheck()
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %Hotkey16%, Generic, T5
         }
+
+        If !(Hotkey17 = "") and !(Hotkey17 = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %Hotkey17%, ToggleMasters, T5
+            }
     }
 }
 
@@ -779,6 +788,7 @@ TransparencyCheck(NotificationTransparency)
 #Include, Resources\Scripts\iniChoose.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
+#Include, Resources\Scripts\Masters.ahk
 #Include, Resources\Scripts\Maven.ahk
 #Include, Resources\Scripts\MavenReminder.ahk
 #Include, Resources\Scripts\Mechanics.ahk

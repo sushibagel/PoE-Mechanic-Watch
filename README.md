@@ -5,7 +5,7 @@ This program is a AutoHotKey Script. AutoHotKey can be downloaded for free here:
 
 The purpose of this program is for use with Path Of Exile to assist in tracking and reminding the user of completing in game mechanics.   
 
-This program works by setting an overlay in Path of Exile, when one of the overlay icons are pressed the script then begins continuously reading your Client.txt log file looking for a line stating that you have entered your hideout. Once the text is found in your log file a notification is triggered reminding you to complete the mechanic that you have turned on monitoring for, Clicking "Yes!" will close the notificaiton and begin reading your logs again, clicking "No" will turn off the reminder script resetting the overlay. Clicking the overlay icon a second time will also turn the reminder script off and reset the overlay. 
+This program works by setting an overlay in Path of Exile, when one of the overlay icons are pressed (or triggered) the script then begins continuously reading your Client.txt log file looking for a line stating that you have entered your hideout. Once the text is found in your log file a notification is triggered reminding you to complete the mechanic that you have turned on monitoring for, Clicking "Yes!" will close the notificaiton and begin reading your logs again, clicking "No" will turn off the reminder script resetting the overlay. Clicking the overlay icon a second time will also turn the reminder script off and reset the overlay. 
 
 #### The following game mechanics are currently supported:  
 - Abyss  
@@ -18,7 +18,8 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 - Metamorph  
 - Ritual  
 - Searing Exarch/Eater of Worlds/Maven (Map Count Tracking)
-- A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.  
+- A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.
+- Mapping - Reminder to select a Master Mission.   
 
 #### Auto Mechanic Tracking:
 Auto Mechanic Tracking is available for Blight, Expedition, Incursion, Metamorph, Ritual and the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven).
@@ -39,6 +40,10 @@ Maven Invitation Tracking for map bosses is done automatically. Maps will only b
 I have not tested Maven tracking extensively so there may be bugs. When I began this project I was excited to see the how Maven farming would feel with the new changes to Awakened Gem drops. Unforunately, (in my opinion) Maven still just doesn't feel very rewarding to farm so this resulted in minimal testing. This does not mean I refuse to work on it so please report any issues you notice. 
 
 ##### Other Features:
+##  Master Mapping:
+-   Sets an overlay and reminder to track if you've selected a master mission.
+
+##  Launch tools:
 - Setup tools/applications that will launch alongside Path of Exile    
 
 ## Installation:  
@@ -111,7 +116,7 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 
 - If clicking the "View Log" button isn't taking you to the correct path, this is likely because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
 
-- The Auto Enable/Disable feature is currently in Beta. For it to work for Blight, Expedition and Incursion it requires the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. I've tried to be as thorough as possible in adding dialogs but I may have missed some as there is some variance in the.
+- Blight, Expedition or Incursion mechanics aren't automatically enabling/disabling. These mechanics all require the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. Please note there are some situations where certain dialogs aren't issued and it may result in a failure to enable/disable tracking. If you happen to find any dialogs that do not work as triggers please post a bug report on my Github. 
 
 - If Auto tracking isn't working for Metamorph, Ritual or the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven) you may meed to calibrate the image recognition using the "Calibrate Search" tool found in the Auto Enable/Disable menu.
 
@@ -121,7 +126,7 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 When using the "Update" tool press "Enter" or select "OK" when you notified of an update. "PoE Mechanic Watch Update.zip" will download to your PoE Mechanic Watch folder, simply unzip and copy all the files from the new release folder into your existing directy. Doing this should keep all user settings.
 
 #### Hideout Notes:  
-The first time your run this script you will be required to set your hideout in the first run "Setup" menu. If at any time you switch your hideout you can change it by using the "Set Hideout" tool in the "Setup" submenu of the tray icon menu. Use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected.
+The first time your run this script you will be required to set your hideout in the first run "Setup" menu. If at any time you switch your hideout you can change it by using the "Set Hideout" tool in the "Setup" submenu of the tray icon menu. Use the search box to find the hideout type you use,  double clicking the name of your hideout or typing in the full hideout name and pressing enter will set your hideout. Note: If you hideout is not listed you can type in your hideout and press enter. However, any typos can result in the script not working as expected. Please also feel free to let me know your hideout type is missing by posting feedback on my Github. 
 
 For feedback, questions or suggestions please visit the <a href="https://github.com/sushibagel/PoE-Mechanic-Watch/discussions" title="Discussion Section">Discussion Section of the Github</a>  
 
