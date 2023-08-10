@@ -5,7 +5,7 @@ This program is a AutoHotKey Script. AutoHotKey can be downloaded for free here:
 
 The purpose of this program is for use with Path Of Exile to assist in tracking and reminding the user of completing in game mechanics.   
 
-This program works by setting an overlay in Path of Exile, when one of the overlay icons are pressed the script then begins continuously reading your Client.txt log file looking for a line stating that you have entered your hideout. Once the text is found in your log file a notification is triggered reminding you to complete the mechanic that you have turned on monitoring for, Clicking "Yes!" will close the notificaiton and begin reading your logs again, clicking "No" will turn off the reminder script resetting the overlay. Clicking the overlay icon a second time will also turn the reminder script off and reset the overlay. 
+This program works by setting an overlay in Path of Exile, when one of the overlay icons are pressed (or triggered) the script then begins continuously reading your Client.txt log file looking for a line stating that you have entered your hideout. Once the text is found in your log file a notification is triggered reminding you to complete the mechanic that you have turned on monitoring for, Clicking "Yes!" will close the notificaiton and begin reading your logs again, clicking "No" will turn off the reminder script resetting the overlay. Clicking the overlay icon a second time will also turn the reminder script off and reset the overlay. 
 
 #### The following game mechanics are currently supported:  
 - Abyss  
@@ -18,7 +18,8 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 - Metamorph  
 - Ritual  
 - Searing Exarch/Eater of Worlds/Maven (Map Count Tracking)
-- A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.  
+- A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.
+- Mapping - Reminder to select a Master Mission.   
 
 #### Auto Mechanic Tracking:
 Auto Mechanic Tracking is available for Blight, Expedition, Incursion, Metamorph, Ritual and the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven).
@@ -39,6 +40,10 @@ Maven Invitation Tracking for map bosses is done automatically. Maps will only b
 I have not tested Maven tracking extensively so there may be bugs. When I began this project I was excited to see the how Maven farming would feel with the new changes to Awakened Gem drops. Unforunately, (in my opinion) Maven still just doesn't feel very rewarding to farm so this resulted in minimal testing. This does not mean I refuse to work on it so please report any issues you notice. 
 
 ##### Other Features:
+##  Master Mapping:
+-   Sets an overlay and reminder to track if you've selected a master mission.
+
+##  Launch tools:
 - Setup tools/applications that will launch alongside Path of Exile    
 
 ## Installation:  
