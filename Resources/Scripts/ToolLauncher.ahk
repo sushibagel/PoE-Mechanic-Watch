@@ -172,7 +172,7 @@ ToolLauncherButtonLaunch()
             {
                 Run, %LaunchAddress%
             }
-            msgbox, test ;ForTesting
+            msgbox, test ;ForTesting 123
             Gui, ToolLauncher:Destroy
         }
     }
