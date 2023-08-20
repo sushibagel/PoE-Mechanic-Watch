@@ -692,7 +692,7 @@ HotkeyCheck()
 
         If !(Hotkey6 = "") and !(Hotkey6 = "ERROR")
         {
-            Hotkey, ~%Hotkey5%, ToolLaunchGui
+            Hotkey, ~%Hotkey6%, ToolLaunchGui
         }
 
         If !(Hotkey2 = "") and !(Hotkey2 = "ERROR")
