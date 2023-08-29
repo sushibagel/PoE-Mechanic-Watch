@@ -353,7 +353,7 @@ EldritchScreen()
         InfluenceActive = None
         ActiveSearch := "Eater|Searing|Maven"
     }
-    If (InfluenceActive ="None")
+    If (InfluenceActive = "None")
         {
             Return
         }
@@ -409,7 +409,7 @@ EldritchScreen()
                     {
                         EldritchPath := "Resources\Images\Image Search\Eldritch\" EldritchBoss "on.png"
                         EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
-                        If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
+                        If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,35,0xFFFFFF,1,0) > 0)
                             {
                                 MechanicsIni := MechanicsIni()
                                 FixCase := RegExReplace(EldritchBoss, "^(.)", "$T1")
