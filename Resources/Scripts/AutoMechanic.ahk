@@ -607,7 +607,7 @@ Button9()
 
 Button10()
 {
-    FileName := "Resources\Images\Image Search\RitualShop.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualShop.png"
     ScreenShotTool(FileName)
 }
 
@@ -657,6 +657,9 @@ ScreenShotTool(path)
                 Msgbox, Calibration failed. Try again.
             }
         }
+        Gdip_DisposeImage(bmpNeedle)
+        DeleteObject(bmpNeedle)
+        DeleteObject(ErrorLevel)
     }
     Gui, CalibrationNotice:Destroy
     IniTitle := StrSplit(path, "\")

@@ -102,7 +102,12 @@ ScreenCheck()
             {
                 ScreenIni := ScreenIni()
                 IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 35
-                PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
+                PngLocation := "Resources\Images\Image Search\Custom\" ThisSearch ".png"
+                If !FileExist(PngLocation)
+                    {
+                        PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
+                    }
+
                 ThisSearch1 := Gdip_CreateBitmapFromFile(PngLocation)
                 If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                     {
@@ -373,7 +378,12 @@ EldritchScreen()
         Loop, %TotalSearches%
             {
                 CurrentSearch := A_Index - 1
-                EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
+                EldritchPath := "Resources\Images\Image Search\Eldritch\Custom\" InfluenceActive CurrentSearch ".png"
+                If !FileExist(EldritchPath)
+                    {
+                        EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
+                    }
+
                 EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
                 If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
                     {
@@ -407,7 +417,12 @@ EldritchScreen()
                 SearchActiveEldritch := 1
                 For each, EldritchBoss in StrSplit(ActiveSearch, "|")
                     {
-                        EldritchPath := "Resources\Images\Image Search\Eldritch\" EldritchBoss "on.png"
+                        EldritchPath := "Resources\Images\Image Search\Eldritch\Custom\" EldritchBoss "on.png"
+                        If !FileExist(EldritchPath)
+                            {
+                                EldritchPath := "Resources\Images\Image Search\Eldritch\" EldritchBoss ".png"
+                            }
+
                         EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
                         If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,35,0xFFFFFF,1,0) > 0)
                             {
