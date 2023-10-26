@@ -776,21 +776,21 @@ ViewFootnote(FootnoteNum)
 ButtonEater()
 {
     Gui, Calibrate:Submit, Nohide
-    FileName := "Resources\Images\Image Search\Eldritch\eater" eaterVar ".png"
+    FileName := "Resources\Images\Image Search\Eldritch\Custom\eater" eaterVar ".png"
     ScreenShotTool(FileName)
 }
 
 ButtonSearing()
 {
     Gui, Calibrate:Submit, Nohide
-    FileName := "Resources\Images\Image Search\Eldritch\searing" searingVar ".png"
+    FileName := "Resources\Images\Image Search\Eldritch\Custom\searing" searingVar ".png"
     ScreenShotTool(FileName)
 }
 
 ButtonMaven()
 {
     Gui, Calibrate:Submit, Nohide
-    FileName := "Resources\Images\Image Search\Eldritch\maven" mavenVar ".png"
+    FileName := "Resources\Images\Image Search\Eldritch\Custom\maven" mavenVar ".png"
     ScreenShotTool(FileName)
 }
 
