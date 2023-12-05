@@ -31,6 +31,8 @@ HotkeyUpdate()
   Gui, Hotkey:Add, Text, +Center w500, Click the boxes below and enter your desired key combination.
   space = y+5
   Gui, Hotkey:Add, Text, %space% +Center w500,(Un)Check the box to toggle the Windows key modifier.
+  Gui, Hotkey:Font, s7 c%Font% Normal
+  Gui, Hotkey:Add, Text, %space% +Center w500,Note: To add the Windows Key as part of your hotkey you MUST check the box prior to entering in your hotkey value.
   Gui, Hotkey:Font, c%Font% s11 Normal
   space = y+1
   Gui, Hotkey:Add, GroupBox, w500 h10 xs %space%
