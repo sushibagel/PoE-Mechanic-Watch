@@ -5,7 +5,6 @@ Global Expedition
 Global Harvest
 Global Incursion
 Global Legion
-Global Metamorph
 Global Ritual
 Global Generic
 Global Eater
@@ -18,7 +17,6 @@ Global ExpeditionActive
 Global HarvestActive
 Global IncursionActive
 Global LegionActive
-Global MetamorphActive
 Global RitualActive
 Global GenericActive
 Global MechanicSearch
@@ -30,7 +28,6 @@ Global HarvestOn
 Global IncursionOn
 Global IncursionTotal
 Global LegionOn
-Global MetamorphOn
 Global RitualOn
 Global GenericOn
 Global mechanicsOn
@@ -41,7 +38,7 @@ Global AutoRun
 
 Mechanics() ;List of Mechanics
 {
-    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Metamorph|Ritual|Generic"
+    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Ritual|Generic"
 }
 
 SelectMechanics(RunAuto := False)

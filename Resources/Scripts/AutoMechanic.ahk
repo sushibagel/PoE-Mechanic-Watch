@@ -4,7 +4,6 @@
 Global BlightAuto
 Global ExpeditionAuto
 Global IncursionAuto
-Global MetamorphAuto
 Global RitualAuto
 Global EldritchAuto
 Global Eldritch
@@ -68,7 +67,7 @@ SelectAuto()
         {
             FootNote := 3
         }
-        If (Mechanic = "Metamorph") or (Mechanic = "Ritual")
+        If (Mechanic = "Ritual")
         {
             FootNote := 2
         }
@@ -155,7 +154,7 @@ ReadAutoMechanics()
 
 AutoMechanics()
 {
-    Return, "Blight|Expedition|Incursion|Metamorph|Ritual|Eldritch"
+    Return, "Blight|Expedition|Incursion|Ritual|Eldritch"
 }
 
 AutoButtonCalibrateSearch()
@@ -175,7 +174,7 @@ AutoButtonCalibrateSearch()
     Gui, Calibrate:Add, Text,,
     Gui, Calibrate:Add, GroupBox, +Center x5 w%GuiW% h%BoxH%OpenImage
     Gui, Calibrate:Add, Text,,
-    MySearches := MetamorphSearch() "|" RitualSearch()
+    MySearches := RitualSearch()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
     Gui, Calibrate:Font, c%Font% s12
@@ -280,68 +279,54 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
         MouseGetPos,,,, mHwnd, 2
         If Instr(mHwnd, Sample1) and (mHwnd != LastHwnd)
         {
-            ImageH := 300
-            ImageW := 100
-            ShowImage("MetamorphAssem", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 100
-            ShowImage("MetamorphIcon", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
-        {
             ImageH := 100
             ImageW := 80
             ShowImage("RitualCount13", ImageH, ImageW)
             LastHwnd := mHwnd
         }
-        If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
+        If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
         {
             ImageH := 100
             ImageW := 80
             ShowImage("RitualCount23", ImageH, ImageW)
             LastHwnd := mHwnd
         }
-        If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
+        If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
         {
             ImageH := 100
             ImageW := 80
             ShowImage("RitualCount33", ImageH, ImageW)
             LastHwnd := mHwnd
         }
-        If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
+        If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
         {
             ImageH := 100
             ImageW := 80
             ShowImage("RitualCount14", ImageH, ImageW)
             LastHwnd := mHwnd
         }
-        If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
+        If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
         {
             ImageH := 100
             ImageW := 80
             ShowImage("RitualCount24", ImageH, ImageW)
             LastHwnd := mHwnd
         }
-        If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
+        If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
         {
             ImageH := 100
             ImageW := 80
             ShowImage("RitualCount34", ImageH, ImageW)
             LastHwnd := mHwnd
         }
-        If Instr(mHwnd, Sample9) and (mHwnd != LastHwnd)
+        If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
         {
             ImageH := 100
             ImageW := 80
             ShowImage("RitualCount44", ImageH, ImageW)
             LastHwnd := mHwnd
         }
-        If Instr(mHwnd, Sample10) and (mHwnd != LastHwnd)
+        If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
         {
             ImageH := 100
             ImageW := 100
@@ -438,11 +423,6 @@ ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption", CustomText := "",
     }
 }
 
-MetamorphSearch()
-{
-    Return, "Metamorph Assembler|Metamorph Icon"
-}
-
 RitualSearch()
 {
     Return, "Ritual 1/3|Ritual 2/3|Ritual 3/3|Ritual 1/4|Ritual 2/4|Ritual 3/4|Ritual 4/4|Ritual Shop"
@@ -453,22 +433,6 @@ OpenImage()
     MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed :=
-    If Instr(mHwnd, "Static7")
-    {
-        SamplePressed := 1
-        ImageH := 300
-        ImageW := 100
-        ShowImage("MetamorphAssem", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static9")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 100
-        ShowImage("MetamorphIcon", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
     If Instr(mHwnd, "Static11")
     {
         SamplePressed := 1
@@ -553,59 +517,47 @@ ImageViewGuiClose()
 
 Button1()
 {
-    FileName := "Resources\Images\Image Search\MetamorphAssem.png"
+    FileName := "Resources\Images\Image Search\RitualCount13.png"
     ScreenShotTool(FileName)
 }
 
 Button2()
 {
-    FileName := "Resources\Images\Image Search\MetamorphIcon.png"
+    FileName := "Resources\Images\Image Search\RitualCount23.png"
     ScreenShotTool(FileName)
 }
 
 Button3()
 {
-    FileName := "Resources\Images\Image Search\RitualCount13.png"
+    FileName := "Resources\Images\Image Search\RitualCount33.png"
     ScreenShotTool(FileName)
 }
 
 Button4()
 {
-    FileName := "Resources\Images\Image Search\RitualCount23.png"
+    FileName := "Resources\Images\Image Search\RitualCount14.png"
     ScreenShotTool(FileName)
 }
 
 Button5()
 {
-    FileName := "Resources\Images\Image Search\RitualCount33.png"
+    FileName := "Resources\Images\Image Search\RitualCount24.png"
     ScreenShotTool(FileName)
 }
 
 Button6()
 {
-    FileName := "Resources\Images\Image Search\RitualCount14.png"
+    FileName := "Resources\Images\Image Search\RitualCount34.png"
     ScreenShotTool(FileName)
 }
 
 Button7()
 {
-    FileName := "Resources\Images\Image Search\RitualCount24.png"
-    ScreenShotTool(FileName)
-}
-
-Button8()
-{
-    FileName := "Resources\Images\Image Search\RitualCount34.png"
-    ScreenShotTool(FileName)
-}
-
-Button9()
-{
     FileName := "Resources\Images\Image Search\RitualCount44.png"
     ScreenShotTool(FileName)
 }
 
-Button10()
+Button8()
 {
     FileName := "Resources\Images\Image Search\Custom\RitualShop.png"
     ScreenShotTool(FileName)
