@@ -40,6 +40,10 @@ Global SampleSearing
 Global SampleMaven
 Global SampleMapDevice
 Global Completion
+Global Text
+Global SampleEaterOn
+Global SampleSearingOn
+Global SampleMavenOn
 
 GroupAdd, PoeScreen, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeScreen, ahk_exe PathOfExile.exe
@@ -220,10 +224,23 @@ AutoButtonCalibrateSearch()
         XSample := Round(96/A_ScreenDPI*570)
         Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%boss% g%boss%Image, Sample
         Gui, Calibrate:Font, c%Font% Normal s12
+
+        ;add boss "On" line
+        Gui, Calibrate:Add, Text, Section xs, %boss% On
+        Gui, Calibrate:Font, s8 c1177bb Normal Underline
+        Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote3 gOpenFootnote, 3
+        XBut := Round(96/A_ScreenDPI*425)
+        Gui, Calibrate:Font, Normal 
+        Gui, Calibrate:Font, c%Font% s12
+        Gui, Calibrate:Add, Button, ys x%XBut% w80 g%boss%OnButton, Calibrate
+        XSample := Round(96/A_ScreenDPI*570)
+        Gui, Calibrate:Font, c1177bb Normal Underline s12
+        Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%boss%On g%boss%On, Sample
+        Gui, Calibrate:Font, c%Font% Normal
     }
     Gui, Calibrate:Add, Text, Section xs, Map Device
     Gui, Calibrate:Font, s8 c1177bb Normal Underline
-    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, 3
+    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote4 gOpenFootnote, 4
     XBut := Round(96/A_ScreenDPI*425)
     Gui, Calibrate:Font, Normal 
     Gui, Calibrate:Font, c%Font% s12
@@ -274,117 +291,147 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
         LastHwnd := mHwnd
         Return
     }
+    If InStr(A_GuiControl, "4") and (NoteSelected != 4)
+        {
+            NoteSelected := 0
+            ViewFootnote(4)
+            LastHwnd := mHwnd
+            Return
+        }
     If InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
-    {
-        MouseGetPos,,,, mHwnd, 2
-        If Instr(mHwnd, Sample1) and (mHwnd != LastHwnd)
         {
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount13", ImageH, ImageW)
-            LastHwnd := mHwnd
+            MouseGetPos,,,, mHwnd, 2
+            If Instr(mHwnd, Sample1) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount13", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount23", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount33", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount14", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount24", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount34", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    ShowImage("RitualCount44", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 100
+                    ShowImage("RitualShop", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleEater) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 130
+                    Gui, Calibrate:Submit, Nohide
+                    If (eaterVar =28)
+                    {
+                        eaterVar := "on"
+                        ImageH := 50
+                        ImageW := 70
+                    }
+                    ShowImage("Eldritch/eater" eaterVar, ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 130
+                    Gui, Calibrate:Submit, Nohide
+                    If (searingVar =28)
+                    {
+                        searingVar := "on"
+                        ImageH := 50
+                        ImageW := 70
+                    }
+                    ShowImage("Eldritch/searing" searingVar, ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 130
+                    Gui, Calibrate:Submit, Nohide
+                    If (mavenVar =11)
+                    {
+                        mavenVar := "on"
+                        ImageH := 70
+                        ImageW := 50
+                    }
+                    ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleMapDevice) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 80
+                    ImageW := 250
+                    Gui, Calibrate:Submit, Nohide
+                    ShowImage("MapDevice", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleSearingOn) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 50
+                    ImageW := 70
+                    Gui, Calibrate:Submit, Nohide
+                    ShowImage("Eldritch/searingon", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleMavenOn) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 50
+                    ImageW := 70
+                    Gui, Calibrate:Submit, Nohide
+                    ShowImage("Eldritch/mavenon", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, SampleEaterOn) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 50
+                    ImageW := 70
+                    Gui, Calibrate:Submit, Nohide
+                    ShowImage("Eldritch/eateron", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
         }
-        If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount23", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount33", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount14", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount24", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount34", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 80
-            ShowImage("RitualCount44", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 100
-            ShowImage("RitualShop", ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, SampleEater) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 130
-            Gui, Calibrate:Submit, Nohide
-            If (eaterVar =28)
-            {
-                eaterVar := "on"
-                ImageH := 50
-                ImageW := 70
-            }
-            ShowImage("Eldritch/eater" eaterVar, ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, SampleSearing) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 130
-            Gui, Calibrate:Submit, Nohide
-            If (searingVar =28)
-            {
-                searingVar := "on"
-                ImageH := 50
-                ImageW := 70
-            }
-            ShowImage("Eldritch/searing" searingVar, ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, SampleMaven) and (mHwnd != LastHwnd)
-        {
-            ImageH := 100
-            ImageW := 130
-            Gui, Calibrate:Submit, Nohide
-            If (mavenVar =11)
-            {
-                mavenVar := "on"
-                ImageH := 70
-                ImageW := 50
-            }
-            ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
-            LastHwnd := mHwnd
-        }
-        If Instr(mHwnd, MapDevice) and (mHwnd != LastHwnd)
-            {
-                ImageH := 80
-                ImageW := 250
-                Gui, Calibrate:Submit, Nohide
-                ShowImage("MapDevice", ImageH, ImageW)
-                LastHwnd := mHwnd
-            }
-
-    }
     If !InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
     {
         Gui, ImageView:Destroy
@@ -500,12 +547,35 @@ OpenImage()
     If Instr(mHwnd, "MapDevice")
     {
         SamplePressed := 1
-        ImageH := 100
+        ImageH := 150
         ImageW := 250
-        msgbox, %ImagH% %ImageW%
         ShowImage("MapDevice", ImageH, ImageW, "+Caption")
         LastHwnd := mHwnd
     }
+    If Instr(mHwnd, "SampleMavenOn")
+        {
+            SamplePressed := 1
+            ImageH := 50
+            ImageW := 70
+            ShowImage("Eldritch/mavenon", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "SampleSearingOn")
+        {
+            SamplePressed := 1
+            ImageH := 50
+            ImageW := 70
+            ShowImage("Eldritch/searingon", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "SampleEaterOn")
+        {
+            SamplePressed := 1
+            ImageH := 50
+            ImageW := 70
+            ShowImage("Eldritch/eateron", ImageH, ImageW)
+            LastHwnd := mHwnd
+        }
 }
 
 ImageViewGuiClose()
@@ -660,6 +730,12 @@ OpenFootnote()
         SamplePressed := 1
         ViewFootnote(3)
     }
+    If InStr(A_GuiControl, "4")
+        {
+            NoteSelected := 4
+            SamplePressed := 1
+            ViewFootnote(4)
+        }
 }
 
 ViewFootnote(FootnoteNum)
@@ -705,6 +781,26 @@ ViewFootnote(FootnoteNum)
         }
     }
     If (FootnoteNum = 3)
+        {
+            If WinActive("Calibration Tool")
+            {
+                CustomText := "The Eldritch ""On"" search function is used to determine which boss is selected for your mapping influence. When active it will auto switch between the three mechanics as necessary."
+                Caption := "-Caption"
+                If (SamplePressed = 1)
+                {
+                    Caption := "+Caption"
+                }
+                ShowImage("", 0, 0, Caption, CustomText,0)
+            }
+            Else
+            {
+                GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                Gui, Auto:Font, c%Font% s10
+                GuiControl, Font, Text
+                SamplePressed := 0
+            }
+        }
+    If (FootnoteNum = 4)
     {
         If WinActive("Calibration Tool")
             {
@@ -795,6 +891,66 @@ MapDeviceButton()
 {
     Gui, Calibrate:Submit, Nohide
     FileName := "Resources\Images\Image Search\Custom\MapDevice.png"
+    ScreenShotTool(FileName)
+    Return
+}
+
+EaterOn()
+{
+    MouseGetPos,,,, mHwnd,
+    Gui, ImageView:Destroy
+    SamplePressed := 1
+    ImageH := 70
+    ImageW := 80
+    ShowImage("Eldritch\eateron", ImageH, ImageW, "+Caption")
+    LastHwnd := mHwnd
+    Return
+}
+
+SearingOn()
+{
+    MouseGetPos,,,, mHwnd,
+    Gui, ImageView:Destroy
+    SamplePressed := 1
+    ImageH := 70
+    ImageW := 80
+    ShowImage("Eldritch\searingon", ImageH, ImageW, "+Caption")
+    LastHwnd := mHwnd
+    Return
+}
+
+MavenOn()
+{
+    MouseGetPos,,,, mHwnd,
+    Gui, ImageView:Destroy
+    SamplePressed := 1
+    ImageH := 70
+    ImageW := 80
+    ShowImage("Eldritch\mavenon", ImageH, ImageW, "+Caption")
+    LastHwnd := mHwnd
+    Return
+}
+
+EaterOnButton()
+{
+    Gui, Calibrate:Submit, Nohide
+    FileName := "Resources\Images\Image Search\Eldritch\Custom\eateron.png"
+    ScreenShotTool(FileName)
+    Return
+}
+
+SearingOnButton()
+{
+    Gui, Calibrate:Submit, Nohide
+    FileName := "Resources\Images\Image Search\Eldritch\Custom\searingon.png"
+    ScreenShotTool(FileName)
+    Return
+}
+
+MavenOnButton()
+{
+    Gui, Calibrate:Submit, Nohide
+    FileName := "Resources\Images\Image Search\Eldritch\Custom\mavenon.png"
     ScreenShotTool(FileName)
     Return
 }
