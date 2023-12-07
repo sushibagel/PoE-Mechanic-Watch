@@ -517,43 +517,43 @@ ImageViewGuiClose()
 
 Button1()
 {
-    FileName := "Resources\Images\Image Search\RitualCount13.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualCount13.png"
     ScreenShotTool(FileName)
 }
 
 Button2()
 {
-    FileName := "Resources\Images\Image Search\RitualCount23.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualCount23.png"
     ScreenShotTool(FileName)
 }
 
 Button3()
 {
-    FileName := "Resources\Images\Image Search\RitualCount33.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualCount33.png"
     ScreenShotTool(FileName)
 }
 
 Button4()
 {
-    FileName := "Resources\Images\Image Search\RitualCount14.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualCount14.png"
     ScreenShotTool(FileName)
 }
 
 Button5()
 {
-    FileName := "Resources\Images\Image Search\RitualCount24.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualCount24.png"
     ScreenShotTool(FileName)
 }
 
 Button6()
 {
-    FileName := "Resources\Images\Image Search\RitualCount34.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualCount34.png"
     ScreenShotTool(FileName)
 }
 
 Button7()
 {
-    FileName := "Resources\Images\Image Search\RitualCount44.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualCount44.png"
     ScreenShotTool(FileName)
 }
 
@@ -794,7 +794,7 @@ MapDeviceImage()
 MapDeviceButton()
 {
     Gui, Calibrate:Submit, Nohide
-    FileName := "Resources\Images\Image Search\MapDevice.png"
+    FileName := "Resources\Images\Image Search\Custom\MapDevice.png"
     ScreenShotTool(FileName)
     Return
 }
