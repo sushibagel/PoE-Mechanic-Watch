@@ -1,3 +1,10 @@
-v2.7.2
+v2.8
 
--   Update some images
+Note: If you've created calibrated images to your system to avoid overwriting your images copy them into /Image Search/Custom and /Image Search/Eldritch/Custom prior to copying all other files over. 
+
+-   Calibration images now save in a custom location. 
+-   Added a calibration option for Maven, Eater and Searing Exarch "On" 
+-   Removed Metamorph
+-   Updated the hidout list. 
+-   Updated some default images
+-   Minor Fixes
