@@ -32,7 +32,14 @@ MapDevice()
                     gdipMapDevice := Gdip_Startup()
                     PoeHwnd2 := WinExist("ahk_class POEWindowClass")
                     bmpSearching := Gdip_BitmapFromHWND(PoeHwnd2, 1)
-                    ImageLocation := "Resources\Images\Image Search\MapDevice.png"
+
+
+                    ImageLocation := "Resources\Images\Image Search\Custom\MapDevice.png"
+                    If !FileExist(ImageLocation)
+                        {
+                            ImageLocation := "Resources\Images\Image Search\MapDevice.png"
+                        }
+
                     SearchingFor := Gdip_CreateBitmapFromFile(ImageLocation)
                     SearchIniLoc := ScreenIni()
                     IniRead, MapVariation, %SearchIniLoc%, Variation, MapDevice
