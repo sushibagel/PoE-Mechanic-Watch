@@ -250,8 +250,6 @@ ToggleScreenSearch(NewLine)
         IniWrite, %SeedTrack%, %VariablePath%, Screen Search Zone Track, Last Seed
 		MechanicsIni := MechanicsIni()
 		IniWrite, 1, %MechanicsIni%, Ritual Track, Status
-		IniWrite, 1, %MechanicsIni%, Metamorph Track, Status
-		IniWrite, 1, %MechanicsIni%, Metamorph Track, Icon Status
 		IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
 		IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
 	}
