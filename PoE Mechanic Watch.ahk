@@ -53,6 +53,7 @@ Menu, SetupMenu, Add, Setup Menu, FirstRun
 Menu, SetupMenu, Add
 Menu, Tray, Add, Setup, :SetupMenu
 Menu, SetupMenu, Add, Set Hideout, SetHideout
+Menu, SetupMenu, Add, Map Reminder Settings, MapSettings
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Calibrate Search, AutoButtonCalibrateSearch
 Menu, SetupMenu, Add
@@ -765,6 +766,13 @@ TransparencyCheck(NotificationTransparency)
     TransparencyIniPath := TransparencyIni()
     IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%, 255
     Return, %NotificationTransparency%
+}
+
+MapSettings()
+{
+    PostSetup()
+    PostMessage, 0x01997,,,, Tail.ahk ;Trigger Map Settings Setup Tool
+    PostRestore()
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
