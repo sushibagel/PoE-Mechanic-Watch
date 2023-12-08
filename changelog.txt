@@ -8,3 +8,8 @@ Note: If you've created calibrated images to your system to avoid overwriting yo
 -   Updated the hidout list. 
 -   Updated some default images
 -   Minor Fixes
+
+v2.8.1
+
+- Added a map reminder option
+- Added a duration setting for quick notifications
