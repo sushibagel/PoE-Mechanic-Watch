@@ -38,12 +38,15 @@ Maven Invitation Tracking for map bosses is done automatically. Maps will only b
 
 I have not tested Maven tracking extensively so there may be bugs. When I began this project I was excited to see the how Maven farming would feel with the new changes to Awakened Gem drops. Unforunately, (in my opinion) Maven still just doesn't feel very rewarding to farm so this resulted in minimal testing. This does not mean I refuse to work on it so please report any issues you notice. 
 
-##### Other Features:
-##  Master Mapping:
+## Other Features:
+####  Master Mapping:
 -   Sets an overlay and reminder to track if you've selected a master mission.
 
-##  Launch tools:
-- Setup tools/applications that will launch alongside Path of Exile    
+####  Launch tools:
+-   Setup tools/applications that will launch alongside Path of Exile    
+
+#### Mapping Reminder:
+-   Allows you to set a custom message that is displayed each time you enter a map. The idea for this came from a community member and will most likely be useful as a reminder to turn on buff such as Corrupting Fever or Blood Rage or to enable your "Reused at the end of this Flask’s effect" Flasks. This reminder is available as a permanent notification (that would need to be dismissed) or a temporary notification that would close once expired. To change how long the notification is shown for the temporary notification change the Quick Notification "Duration" setting in the "Notification Settings" panel. 
 
 ## Installation:  
 To run this script you ***MUST*** have AutoHotKey v1 installed. https://www.autohotkey.com/ Note: I do plan to eventually move this script to AutoHotKey v2, however, it would require a significant amount of work as I plan to do a complete rewrite along with the update so I don't currently have a timeline for it. 
