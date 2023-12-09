@@ -83,13 +83,16 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 - Select Mechanics - Allows you to select which mechanics will appear for tracking in your Overlay  
 - Select Auto Enable/Disable - Allows you to select which mechanics will have auto enable/disable active. Please see the important information above about this feature. [Go to Auto Mechanic Information](#auto-mechanic-tracking)  
 - View Maven Invitation Status - Launches a window that allows you to view/manage completion of the various Maven invitations.
+- Master Mapping Settings - Launches the setup tool for the Master Mapping Reminder. 
 - Launch Path of Exile - This will launch your Path of Exile client along with anything you've setup to launch alongside it with the "Launch Assist" tool  
 - View Path of Exile Log - Takes you to your Client.txt Log File  
 - Setup - Takes you to the "Setup" sub menu   
 - Reload - Reloads PoE Mechanic Tracking  
 - Check for Updates - Manually check for updates. For more information on updating please see the Troubleshooting secton. [Go to Troubleshooting section](#troubleshooting)  
 - Setup Menu - Display the "Setup Menu" that is shown the first time you run the tool   
-- Set Hideout - Launches the Hideout selection tool. Please see the [hideout notes](#hideout-notes) below    
+- Set Hideout - Launches the Hideout selection tool. Please see the [hideout notes](#hideout-notes) below 
+- Map Reminder Settings - Launches the setup tool for the Map Reminder. 
+- Calibrate Search - Launches the image recognition setup tool. 
 - Change Theme - Displays the Theme Selector Tool   
 - Change Hotkey - Allows you to set your hotkey combination for various tasks. 
 - Overlay Settings - Allows you to change the size, position and orientation of the overlay.
@@ -98,8 +101,7 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 - Notification Settings - Allows you to toggle various notifications on/off. Toggle and set notification sound files and volume. Set transparency of notifications and move/manage notifications.
 - Launch Assist - The launch assist tool allows you to select files/applications that you would like launched alongside you Path of Exile client when using your defined hotkey or the "Launch Path of Exile" tray menu item   
 - Tool Launcher - A set of shortcuts that can be used to launch various programs, tools, website, etc. that you may wish to use while playing.
-- Set Transparency - Launches the tool to set your transparency options for various overlays and notifications   
-- Sound Settings - Allows you to test/set your notification sounds and volume    
+- Choose Settings File Location - Allows you to set the location you want your settings to be stored. This is useful if you wish to share settings between machines. 
 
 ## Troubleshooting:  
 - If you are receiving the following error when starting the script: "Call to nonexistent function: Specifically: SetWindowVol(AhkExe, NotificationVolume) Line 67" this is likely because you launched the "PoE Mechanic Watch.ahk" file. Please try again using the "Launcher.ahk" instead. 
