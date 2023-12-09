@@ -1,15 +1,16 @@
-v2.8
-
 Note: If you've created calibrated images to your system to avoid overwriting your images copy them into /Image Search/Custom and /Image Search/Eldritch/Custom prior to copying all other files over. 
 
+v2.8.2
+-   Check for "Custom" image search folders on start and create them if they don't exist. 
+
+v2.8.1
+-   Added a map reminder option
+-   Added a duration setting for quick notifications
+
+v2.8
 -   Calibration images now save in a custom location. 
 -   Added a calibration option for Maven, Eater and Searing Exarch "On" 
 -   Removed Metamorph
 -   Updated the hidout list. 
 -   Updated some default images
 -   Minor Fixes
-
-v2.8.1
-
-- Added a map reminder option
-- Added a duration setting for quick notifications
