@@ -15,18 +15,17 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 - Harvest  
 - Incursion  
 - Legion
-- Metamorph  
 - Ritual  
 - Searing Exarch/Eater of Worlds/Maven (Map Count Tracking)
 - A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.
 - Mapping - Reminder to select a Master Mission.   
 
 #### Auto Mechanic Tracking:
-Auto Mechanic Tracking is available for Blight, Expedition, Incursion, Metamorph, Ritual and the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven).
+Auto Mechanic Tracking is available for Blight, Expedition, Incursion, Ritual and the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven).
 
 For Blight, Expedition and Incursion Auto Mechanic Tracking can be enabled in a seperate menu. This feature ***requires*** the ***"Output Dialogue To Chat"*** setting to be turned on in the "UI" section of the settings in game. Incursion reminders are only disabled after the 3rd encounter. Please note this feature depends on NPC dialogs, due to dialogs being random it may not be 100% reliable.  
 
-Auto Tracking for Metamorph and Ritual is done using image recognition. Image recognition may require calibration to work. It's recommended to use it as is first before attempting to calibrate.
+Auto Tracking for Ritual is done using image recognition. Image recognition may require calibration to work. It's recommended to use it as is first before attempting to calibrate.
 
 Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon, the counter can be reset by holding alt and right clicking the icon. The Hotkey to remove a counted map can be changed using the "Change Hotkey" tray menu option. 
 
@@ -118,7 +117,7 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 
 - Blight, Expedition or Incursion mechanics aren't automatically enabling/disabling. These mechanics all require the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. Please note there are some situations where certain dialogs aren't issued and it may result in a failure to enable/disable tracking. If you happen to find any dialogs that do not work as triggers please post a bug report on my Github. 
 
-- If Auto tracking isn't working for Metamorph, Ritual or the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven) you may meed to calibrate the image recognition using the "Calibrate Search" tool found in the Auto Enable/Disable menu.
+- If Auto tracking isn't working for Ritual or the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven) you may meed to calibrate the image recognition using the "Calibrate Search" tool found in the Auto Enable/Disable menu.
 
 - For the "Launch Path of Exile" tray menu command to work properly, the game must be launched at least once with this tool running first. 
 

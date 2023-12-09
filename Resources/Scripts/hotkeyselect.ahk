@@ -7,30 +7,15 @@ HotkeyUpdate()
   HotkeyIni := HotkeyIni()
   CheckTheme()
 
-  ;Setup text for individual HotKey descriptions
-  HotkeyText1 := "Divination Card Input"
-  HotkeyText2 := "Reverse Map Count Hotkey"
-  HotkeyText3 := "Toggle Influence"
-  HotkeyText4 := "Maven Invitation Status"
-  HotkeyText5 := "Launch Path of Exile"
-  HotkeyText6 := "Open Tool Launcher"
-  HotkeyText7 := "Abyss"
-  HotkeyText8 := "Blight"
-  HotkeyText9 := "Breach"
-  HotkeyText10 := "Expedition"
-  HotkeyText11 := "Harvest"
-  HotkeyText12 := "Incursion"
-  HotkeyText13 := "Legion"
-  HotkeyText14 := "Metamorph"
-  HotkeyText15 := "Ritual"
-  HotkeyText16 := "Generic"
-  HotkeyText17 := "Master Mapping Tool"
+  HotkeyMechanics := GetHokeyMechanics()
 
   Gui, Hotkey:Color, %Background%
   Gui, Hotkey:Font, s12 c%Font% Bold
   Gui, Hotkey:Add, Text, +Center w500, Click the boxes below and enter your desired key combination.
   space = y+5
   Gui, Hotkey:Add, Text, %space% +Center w500,(Un)Check the box to toggle the Windows key modifier.
+  Gui, Hotkey:Font, s7 c%Font% Normal
+  Gui, Hotkey:Add, Text, %space% +Center w500,Note: To add the Windows Key as part of your hotkey you MUST check the box prior to entering in your hotkey value.
   Gui, Hotkey:Font, c%Font% s11 Normal
   space = y+1
   Gui, Hotkey:Add, GroupBox, w500 h10 xs %space%
@@ -38,28 +23,74 @@ HotkeyUpdate()
   IniRead, CtlActive, %HotkeyIni%, Hotkeys, DivCheck, 0
   ; Gui, Hotkey:Add, Checkbox,  yp x250 +Left vControlCheck gCtlToggle Checked%CtlActive%
 
-  #ctrls = 17 ;How many Hotkey controls to add.
-  Loop,% #ctrls {
-    Hotkeytext := "HotkeyText"A_Index
-    text := %Hotkeytext%
-    If (A_Index != 1)
+  For each, HotkeyItem in StrSplit(HotKeyMechanics, "|")
     {
-      Gui, Hotkey:Add, Text, xm x50, %text% ;#%A_Index%:
+      HotKeyText := HotkeyItem
+      If (HotkeyItem = "MapCount")
+        {
+          HotkeyText := "Reverse Map Count Hotkey"
+        }
+      If (HotkeyItem = "ToggleInfluence")
+        {
+          HotkeyText := "Toggle Influence"
+        }
+      If (HotkeyItem = "MavenInvitation")
+        {
+          HotkeyText := "Maven INvitation Status"
+        }
+      If (HotkeyItem = "LaunchPoE")
+        {
+          HotkeyText := "Launch Path of Exile"
+        }
+      If (HotkeyItem = "ToolLauncher")
+        {
+          HotkeyText := "Open Tool Launcher"
+        }
+      If (HotkeyItem = "MasterMapping")
+        {
+          HotkeyText := "Master Mapping Tool"
+        }
+  
+      Gui, Hotkey:Add, Text, xm x50, %HotKeyText% ;#%A_Index%:
+      IniRead, savedHK%HotkeyItem%, %HotkeyIni%, Hotkeys, %HotkeyItem%, %A_Space%
+      If savedHK%HotkeyItem% ;Check for saved hotkeys in INI file.
+        Hotkey,% savedHK%HotkeyItem%, Label%HotkeyItem%, UseErrorLevel ;Activate saved hotkeys if found.
+      StringReplace, noMods, savedHK%HotkeyItem%, ~ ;Remove tilde (~) and Win (#) modifiers...
+      StringReplace, noMods, noMods, #,,UseErrorLevel ;They are incompatible with hotkey controls (cannot be shown).
+        Gui, Hotkey:Add, CheckBox, yp x250 +Left vCB%HotkeyItem% Checked%ErrorLevel%, Win ;Add checkboxes to allow the Windows key (#) as a modifier...
+        Gui, Hotkey:Add, Hotkey, yp x300 vHK%HotkeyItem% gLabel, %noMods% ;Add hotkey controls and show saved hotkeys.
     }
-    IniRead, savedHK%A_Index%, %HotkeyIni%, Hotkeys, %A_Index%, %A_Space%
-    If savedHK%A_Index% ;Check for saved hotkeys in INI file.
-      Hotkey,% savedHK%A_Index%, Label%A_Index%, UseErrorLevel ;Activate saved hotkeys if found.
-    StringReplace, noMods, savedHK%A_Index%, ~ ;Remove tilde (~) and Win (#) modifiers...
-    StringReplace, noMods, noMods, #,,UseErrorLevel ;They are incompatible with hotkey controls (cannot be shown).
-    If (A_Index != 1)
-    {
-      Gui, Hotkey:Add, CheckBox, yp x250 +Left vCB%A_Index% Checked%ErrorLevel%, Win ;Add checkboxes to allow the Windows key (#) as a modifier...
-      Gui, Hotkey:Add, Hotkey, yp x300 vHK%A_Index% gLabel, %noMods% ;Add hotkey controls and show saved hotkeys.
-    }
-  }
-  Gui, Hotkey:Show, w550, Hotkey Selector
-  return
+    Gui, Hotkey:Show, w550, Hotkey Selector
+    return
 }
+
+
+
+
+
+
+;   #ctrls = 16 ;How many Hotkey controls to add.
+;   Loop,% #ctrls {
+;     Hotkeytext := "HotkeyText"A_Index
+;     text := %Hotkeytext%
+;     If (A_Index != 1)
+;     {
+;       Gui, Hotkey:Add, Text, xm x50, %text% ;#%A_Index%:
+;     }
+;     IniRead, savedHK%A_Index%, %HotkeyIni%, Hotkeys, %A_Index%, %A_Space%
+;     If savedHK%A_Index% ;Check for saved hotkeys in INI file.
+;       Hotkey,% savedHK%A_Index%, Label%A_Index%, UseErrorLevel ;Activate saved hotkeys if found.
+;     StringReplace, noMods, savedHK%A_Index%, ~ ;Remove tilde (~) and Win (#) modifiers...
+;     StringReplace, noMods, noMods, #,,UseErrorLevel ;They are incompatible with hotkey controls (cannot be shown).
+;     If (A_Index != 1)
+;     {
+;       Gui, Hotkey:Add, CheckBox, yp x250 +Left vCB%A_Index% Checked%ErrorLevel%, Win ;Add checkboxes to allow the Windows key (#) as a modifier...
+;       Gui, Hotkey:Add, Hotkey, yp x300 vHK%A_Index% gLabel, %noMods% ;Add hotkey controls and show saved hotkeys.
+;     }
+;   }
+;   Gui, Hotkey:Show, w550, Hotkey Selector
+;   return
+; }
 
 Label()
 {
@@ -122,22 +153,23 @@ HotkeyGuiClose()
 SetHotkeys()
 {
   HotkeyPath := HotkeyIni()
-  Loop, 17
-  {
-    IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
-    HotkeyOffCheck := "Hotkey"A_Index
-    If (%HotkeyOffCheck% = "") Or (%HotkeyOffCheck% = "Error")
+  HotkeyMechanics := GetHokeyMechanics()
+  For each, HotkeyItem in StrSplit(HotKeyMechanics, "|")
     {
-      Hotkey, %HotkeyOffCheck%, Off, UseErrorLevel
+      IniRead, Hotkey%HotkeyItem%, %HotkeyPath%, Hotkeys, %HotkeyItem%
+      HotkeyOffCheck := "Hotkey"HotkeyItem
+      If (%HotkeyOffCheck% = "") Or (%HotkeyOffCheck% = "Error")
+      {
+        Hotkey, %HotkeyOffCheck%, Off, UseErrorLevel
+      }
+      Return
     }
   }
-  Return
-}
 
 InfluenceHotkey()
 {
   HotkeyPath := HotkeyIni()
-  IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, 2
+  IniRead, InfluenceHotkey, %HotkeyPath%, Hotkeys, ToggleInfluence
 
   If InfluenceHotkey contains +
   {
@@ -173,7 +205,7 @@ CtlToggle()
 MasterHotkeyGet()
 {
   HotkeyPath := HotkeyIni()
-  IniRead, ToggleKey, %HotkeyPath%, Hotkeys, 17, Hotkey Not Set
+  IniRead, ToggleKey, %HotkeyPath%, Hotkeys, MasterMapping, Hotkey Not Set
   If ToggleKey contains +
   {
     StringReplace, ToggleKey, ToggleKey, + , Shift +%A_Space%,
@@ -196,4 +228,9 @@ MasterHotkeyGet()
   }
 
   Return, % ToggleKey
+}
+
+GetHokeyMechanics()
+{
+  Return, "MapCount|ToggleInfluence|MavenInvitation|LaunchPoE|ToolLauncher|Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Ritual|Generic|MasterMapping"
 }

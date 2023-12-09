@@ -309,7 +309,9 @@ ToggleInfluence()
     Notification := "Switching influence tracking to" A_Space NewInfluence  
     QuickNotify(Notification)
     RefreshOverlay()
-    SetTimer, CloseGui, -3000
+    NotificationIni := NotificationIni()
+    IniRead, CloseDuration, %NotificationIni%, Map Notification Position, Duration
+    SetTimer, CloseGui, -%CloseDuration%
 }
 
 QuickNotify(Notification)

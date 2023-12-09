@@ -6,7 +6,7 @@
 Menu, Tray, Icon, Resources\Images\generic.png
 SetBatchLines, -1
 
-Global ScreenSearchMechanics := "Metamorph|Ritual|Eldritch"
+Global ScreenSearchMechanics := "Ritual|Eldritch"
 Global MySearches
 Global SearchActiveEldritch
 
@@ -75,18 +75,6 @@ ScreenCheck()
     Loop, %LoopCount%
         {
             ThisSearch := % MySearches[A_Index]
-            If InStr(ThisSearch, "Metamorph")
-                {
-                    ThisSection := "Metamorph Track"
-                    If (ThisSearch = "MetamorphAssem")
-                        {
-                            CurrentSearch := "Status"
-                        }
-                    If (ThisSearch = "MetamorphIcon")
-                        {
-                            CurrentSearch := "Icon Status"
-                        }
-                }
             If InStr(ThisSearch, "Ritual")
                 {
                     ThisSection := "Ritual Track"
@@ -102,23 +90,15 @@ ScreenCheck()
             {
                 ScreenIni := ScreenIni()
                 IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 35
-                PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
+                PngLocation := "Resources\Images\Image Search\Custom\" ThisSearch ".png"
+                If !FileExist(PngLocation)
+                    {
+                        PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
+                    }
+
                 ThisSearch1 := Gdip_CreateBitmapFromFile(PngLocation)
                 If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                     {
-                        If InStr(ThisSearch, "Assem")
-                            {
-                                MechanicsIni := MechanicsIni()
-                                IniRead, isActive, %MechanicsIni%, Mechanic Active, Metamorph
-                                If (isActive = 1)
-                                    {
-                                        IniWrite, 0, %MechanicsIni%, Mechanic Active, Metamorph
-                                        IniWrite, 0, %MechanicsIni%, Metamorph Track, Status ;Shut screen search off for metamorph until next map. Toggled back on on in the Tail.ahk script
-                                        IniWrite, 1, %MechanicsIni%, Metamorph Track, Icon Status ;Toggle Icon search on. 
-                                        RefreshOverlay()
-                                        Break
-                                    }
-                            }
                         If InStr(ThisSearch, "Shop") ; need to make it only reset if opened at full count
                             {
                                 MechanicsIni := MechanicsIni()
@@ -132,19 +112,6 @@ ScreenCheck()
                                     }
                             }
                         
-                        If InStr(ThisSearch, "MetamorphIcon")
-                            {
-                                MechanicsIni := MechanicsIni()
-                                IniRead, iconStatus, %MechanicsIni%, Metamorph Track, Icon Status, 0
-                                If (iconStatus = 1)
-                                    {
-                                        IniWrite, 1, %MechanicsIni%, Mechanic Active, Metamorph
-                                        IniWrite, 0, %MechanicsIni%, Metamorph Track, Icon Status ;Shut screen search off for metamorph the metamorph icon. Toggled back on by aseembly screen
-                                        RefreshOverlay()
-                                    }
-                                Break
-                            }
-
                         If InStr(ThisSearch, "RitualCount")
                             {
                                 MechanicsIni := MechanicsIni()
@@ -247,11 +214,6 @@ PostRestore()
     DetectHiddenWindows, %Prev_DetectHiddenWindows%
     SetTitleMatchMode, %A_TitleMatchMode%
     Return
-}
-
-MetamorphSearch()
-{
-    Return, "MetamorphAssem|MetamorphIcon"
 }
 
 RitualSearch()
@@ -373,7 +335,12 @@ EldritchScreen()
         Loop, %TotalSearches%
             {
                 CurrentSearch := A_Index - 1
-                EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
+                EldritchPath := "Resources\Images\Image Search\Eldritch\Custom\" InfluenceActive CurrentSearch ".png"
+                If !FileExist(EldritchPath)
+                    {
+                        EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
+                    }
+
                 EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
                 If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
                     {
@@ -407,7 +374,12 @@ EldritchScreen()
                 SearchActiveEldritch := 1
                 For each, EldritchBoss in StrSplit(ActiveSearch, "|")
                     {
-                        EldritchPath := "Resources\Images\Image Search\Eldritch\" EldritchBoss "on.png"
+                        EldritchPath := "Resources\Images\Image Search\Eldritch\Custom\" EldritchBoss "on.png"
+                        If !FileExist(EldritchPath)
+                            {
+                                EldritchPath := "Resources\Images\Image Search\Eldritch\" EldritchBoss ".png"
+                            }
+
                         EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
                         If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,35,0xFFFFFF,1,0) > 0)
                             {

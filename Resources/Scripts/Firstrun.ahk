@@ -11,6 +11,7 @@ Global ThemeState
 Global ToolLauncherState
 Global NotificationState
 Global StorageState
+Global MapNotificationState
 Global ThemeSelect
 Global HideoutSelect
 Global MechanicSelect
@@ -23,10 +24,11 @@ Global SoundSelect
 Global LaunchAssistSelect
 Global ToolLauncherSelect
 Global StorageSelect
+Global MapNotificationSelect
 
 CheckFirstRun() ;Check to see if all First Run Items are complete
 {
-    Global ItemSearch := "Client|Storage|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Notification|ToolLauncher"
+    Global ItemSearch := "Client|Storage|Theme|Hideout|Mechanic|Position|MapPosition|AutoMechanic|Hotkey|Sound|LaunchAssist|Notification|ToolLauncher|MapNotification"
     Global Item
     Global each
     FirstRunPath := FirstRunIni()
@@ -122,6 +124,7 @@ FirstRun()
     Gui, First:Add, Checkbox, vHotkeySelect gHotkeySelect Checked%HotkeyState%, %A_Space% Modify Hotkeys (Highly recommended if you are using Influence tracking)
     Gui, First:Add, Checkbox, vLaunchAssistSelect gLaunchAssistSelect Checked%LaunchAssistState%, %A_Space% Select applications/scripts/etc. to be launched alongside Path of Exile
     Gui, First:Add, Checkbox, vToolLauncherSelect gToolLauncherSelect Checked%ToolLauncherState%, %A_Space% Quickly launch your favorite applications/scripts/websites
+    Gui, First:Add, Checkbox, vMapNotificationSelect gMapNotificationSelect Checked%MapNotificationState%, %A_Space% Get a reminder to start enable your buffs when you enter a map. 
     Gui, First:Add, Button, x490, Close
     Gui, First: +AlwaysOnTop
     Gui, First:Show, x%xh% y%yh1% w550, First
@@ -257,6 +260,17 @@ ToolLauncherSelect()
     Gosub, ToolLaunchGui
     WinWaitClose, ToolLauncher
     FirstRunWrite("ToolLauncher")
+    Return
+}
+
+MapNotificationSelect()
+{
+    Gui, Submit, NoHide
+    Gui, First:Destroy
+    MapSettings()
+    Sleep, 200
+    WinWaitClose, MapSettingsSetup
+    FirstRunWrite("MapNotification")
     Return
 }
 

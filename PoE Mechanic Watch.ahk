@@ -53,6 +53,7 @@ Menu, SetupMenu, Add, Setup Menu, FirstRun
 Menu, SetupMenu, Add
 Menu, Tray, Add, Setup, :SetupMenu
 Menu, SetupMenu, Add, Set Hideout, SetHideout
+Menu, SetupMenu, Add, Map Reminder Settings, MapSettings
 Menu, SetupMenu, Add
 Menu, SetupMenu, Add, Calibrate Search, AutoButtonCalibrateSearch
 Menu, SetupMenu, Add
@@ -666,105 +667,96 @@ AdditionalScripts(Action)
 HotkeyCheck()
 {
     HotkeyPath := HotkeyIni()
-    Loop, 17
+    HotkeyMechanics := GetHokeyMechanics()
+    For each, HotkeyItem in StrSplit(HotKeyMechanics, "|")
     {
-        IniRead, Hotkey%A_Index%, %HotkeyPath%, Hotkeys, %A_Index%
-
-        ; If !(Hotkey1 = "")
-        ; {
-        ;     Hotkey, %Hotkey1%, DivInput
-        ; }
+        IniRead, HotkeyCombo, %HotkeyPath%, Hotkeys, %HotkeyItem%
+        HotkeySet := %HotkeyItem%
         Hotkey, IfWinActive
-        If !(Hotkey3 = "") and !(Hotkey3 = "ERROR")
+        If (HotkeyItem = "ToggleInfluence") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
-            Hotkey, ~%Hotkey3%, ToggleInfluence
+            Hotkey, ~%HotkeyCombo%, ToggleInfluence
         }
 
-        If !(Hotkey4 = "") and !(Hotkey4 = "ERROR")
+        If (HotkeyItem = "MavenInvitation") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
-            Hotkey, ~%Hotkey4%, ViewMaven
+            Hotkey, ~%HotkeyCombo%, ViewMaven
         }
 
-        If !(Hotkey5 = "") and !(Hotkey5 = "ERROR")
+        If (HotkeyItem = "LaunchPoE") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
-            Hotkey, ~%Hotkey5%, LaunchPoe
+            Hotkey, ~%HotkeyCombo%, LaunchPoe
         }
 
-        If !(Hotkey6 = "") and !(Hotkey6 = "ERROR")
+        If (HotkeyItem = "ToolLauncher") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
-            Hotkey, ~%Hotkey6%, ToolLaunchGui
+            Hotkey, ~%HotkeyCombo%, ToolLaunchGui
         }
 
-        If !(Hotkey2 = "") and !(Hotkey2 = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, ~%Hotkey2%, SubtractOne
-        }
-
-        If !(Hotkey7 = "") and !(Hotkey7 = "ERROR")
+        If (HotkeyItem = "MapCount") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey7%, Abyss, T5
+            Hotkey, ~%HotkeyCombo%, SubtractOne
         }
 
-        If !(Hotkey8 = "") and !(Hotkey8 = "ERROR")
+        If (HotkeyItem = "Abyss") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey8%, Blight, T5
+            Hotkey, %HotkeyCombo%, Abyss, T5
         }
 
-        If !(Hotkey9 = "") and !(Hotkey9 = "ERROR")
+        If (HotkeyItem = "Blight") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey9%, Breach, T5
+            Hotkey, %HotkeyCombo%, Blight, T5
         }
 
-        If !(Hotkey10 = "") and !(Hotkey10 = "ERROR")
+        If (HotkeyItem = "Breach") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey10%, Expedition, T5
+            Hotkey, %HotkeyCombo%, Breach, T5
         }
 
-        If !(Hotkey11 = "") and !(Hotkey11 = "ERROR")
+        If (HotkeyItem = "Expedition") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey11%, Harvest, T5
+            Hotkey, %HotkeyCombo%, Expedition, T5
         }
 
-        If !(Hotkey12 = "") and !(Hotkey12 = "ERROR")
+        If (HotkeyItem = "Harvest") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey12%, Incursion, T5
+            Hotkey, %HotkeyCombo%, Harvest, T5
         }
 
-        If !(Hotkey13 = "") and !(Hotkey13 = "ERROR")
+        If (HotkeyItem = "Incursion") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey13%, Legion, T5
+            Hotkey, %HotkeyCombo%, Incursion, T5
         }
 
-        If !(Hotkey14 = "") and !(Hotkey14 = "ERROR")
+        If (HotkeyItem = "Legion") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey14%, Metamorph, T5
+            Hotkey, %HotkeyCombo%, Legion, T5
         }
 
-        If !(Hotkey15 = "") and !(Hotkey15 = "ERROR")
+        If (HotkeyItem = "Ritual") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey15%, Ritual, T5
+            Hotkey, %HotkeyCombo%, Ritual, T5
         }
 
-        If !(Hotkey16 = "") and !(Hotkey16 = "ERROR")
+        If (HotkeyItem = "Generic") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %Hotkey16%, Generic, T5
+            Hotkey, %HotkeyCombo%, Generic, T5
         }
 
-        If !(Hotkey17 = "") and !(Hotkey17 = "ERROR")
+        If (HotkeyItem = "MasterMapping") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
             {
                 Hotkey, IfWinActive, ahk_group PoeWindow
-                Hotkey, %Hotkey17%, ToggleMasters, T5
+                Hotkey, %HotkeyCombo%, ToggleMasters, T5
             }
     }
 }
@@ -774,6 +766,13 @@ TransparencyCheck(NotificationTransparency)
     TransparencyIniPath := TransparencyIni()
     IniRead, NotificationTransparency, %TransparencyIniPath%, Transparency, %NotificationTransparency%, 255
     Return, %NotificationTransparency%
+}
+
+MapSettings()
+{
+    PostSetup()
+    PostMessage, 0x01997,,,, Tail.ahk ;Trigger Map Settings Setup Tool
+    PostRestore()
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

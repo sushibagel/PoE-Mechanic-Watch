@@ -2,6 +2,7 @@ Global OverlayTran
 Global QuickActive
 Global QuickSoundActive
 Global QuickVolume
+Global QuickDuration
 Global QuickTran
 Global NotificationTran
 Global NotificationActive
@@ -154,9 +155,11 @@ NotificationSetup()
     NotificaitonIni := NotificationIni()
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
-    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
+    Boxh2 := Boxh + 20
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh2%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Quick Notification
+    test2 := TextOffset+15
+    Gui, NotificationSettings:Add, Text, yp+%test2% x25 Section, Quick Notification
     Gui, NotificationSettings:Font
     IniRead, QuickActive, %NotificationIni%, Active, Quick, 1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked%QuickActive% vQuickActive
@@ -174,9 +177,18 @@ NotificationSetup()
     IniRead, Value, %TransparencyFile%, Transparency, Quick, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vQuickTran
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
-    XOff := Round(96/A_ScreenDPI*855)
+    XOff := Round(96/A_ScreenDPI*815)
     Gui, NotificationSettings:Add, Button, gMoveMap ys+%Offset% x%XOff% w50, Move
-
+    Gui, NotificationSettings:Font, c%Font%
+    XOff := Round(96/A_ScreenDPI*890)
+    Gui, NotificationSettings:Add, Text, ys-15 x%XOff%, Duration (Seconds)
+    Gui, NotificationSettings:Font, cBlack
+    XOff := Round(96/A_ScreenDPI*905)
+    IniRead, Duration, %NotificationIni%, Map Notification Position, Duration, 3000
+    QuickDuration := Duration / 1000
+    Gui, NotificationSettings:Add, Edit, Center yp ys-1 x%XOff% h20 w50 vQuickDuration
+    Gui, NotificationSettings:Add, UpDown, Range0-60, %QuickDuration% x270 h20
+    
     ; Mechanic Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
@@ -314,6 +326,8 @@ NotificationSettingsButtonClose(){
         IniWrite, %Volume%, %NotificaitonIni%, Volume, %Item%
         IniWrite, %Tran%, %TransparencyIni%, Transparency, %Item%
     }
+    QuickDuration := QuickDuration * 1000
+    IniWrite, %QuickDuration%, %NotificaitonIni%, Map Notification Position, Duration
 }
 
 OverlayTest()

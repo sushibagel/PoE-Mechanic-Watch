@@ -1,5 +1,6 @@
 All at Sea
 Alpine
+Ancestral
 Arboreal
 Atlas
 Azurite Cavern
@@ -25,6 +26,8 @@ Enlightened
 Entombed
 Eternal Wasteland
 Excavated
+ExileCon 2023
+Forge of the Titans
 Furious
 Ghost-lit Graveyard
 Glacial
@@ -47,16 +50,20 @@ Redeemer's
 Ritualist's
 Robber's Trench
 Sanquine
+Searing
 Seething
 Shaped
 Skeletal
 Stately
 Sunken
 Sunspire
+Synthesis
+Tangled
 Tavern
 Thaumaturgical
 Timekeeper's
 Towering
+Trial of the Ancestors
 Undercity
 Unearthed
 Urban Sprawl

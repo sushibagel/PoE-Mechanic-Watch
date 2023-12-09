@@ -1,3 +1,4 @@
+Global HotkeyCount
 global Location := "Resources\Settings\Hotkeys.ini"
 
 AHKLIB = %A_MyDocuments%\AutoHotKey\Lib
@@ -41,11 +42,19 @@ If FileExist(INI)
 If FileExist(Location)
 {
     IniRead, Hotkeys, %Location%, Hotkeys
-    If !InStr(Hotkeys, "16")
+    If InStr(Hotkeys, "1=")
     {
-        Loop, 16
+        HotkeyCount := 1
+        HotKeyMechanics := "MapCount|ToggleInfluence|MavenInvitation|LaunchPoE|ToolLauncher|Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Metamorph|Ritual|Generic|MasterMapping"
+
+        For each, HotkeyItem in StrSplit(HotKeyMechanics, "|")
         {
-            IniWrite, %A_Space%, %Location%, Hotkeys, %A_Index%
+            HotkeyCount ++
+            IniRead, NewHotkey, %Location%, Hotkeys, %HotkeyCount%
+            IniDelete, %Location%, Hotkeys, %HotkeyCount%
+            KeyCombo := %HotkeyItem%
+            IniWrite, %NewHotkey%, %Location%, Hotkeys, %HotkeyItem%
+            IniDelete, %Location%, Hotkeys, 1
         }
         SetTimer, Exit, 5000
         msgbox, This update may have broken any hotkeys you previously had set. Please check and update them. 

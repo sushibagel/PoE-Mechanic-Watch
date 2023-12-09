@@ -54,8 +54,8 @@ Courtyard
 Coves 
 Crater
 Crimson Temple
-Crimson Township
 CrimsonTemple
+Crimson Township
 CrimsonTownship
 Crystal Ore
 CrystalOre
@@ -133,8 +133,8 @@ Museum
 Necropolis
 Orchard
 Overgrown Ruin
-Overgrown Shrine
 OvergrownRuin
+Overgrown Shrine
 OvergrownShrine
 Palace
 Park
@@ -168,8 +168,8 @@ Shrine
 Siege
 Silo
 Spider Forest
-Spider Lair
 SpiderForest
+Spider Lair
 SpiderLair
 Springs
 Stagnation
@@ -189,8 +189,8 @@ Tribunal
 Tropical Island
 TropicalIsland
 Underground River
-Underground Sea
 UndergroundRiver
+Underground Sea
 UndergroundSea
 Vaal Pyramid
 Vaal Temple
@@ -200,7 +200,7 @@ Vault
 Villa
 Volcano
 Waste Pool
-Wasteland
 WastePool
+Wasteland
 Waterways
 Wharf

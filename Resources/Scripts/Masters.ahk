@@ -32,7 +32,14 @@ MapDevice()
                     gdipMapDevice := Gdip_Startup()
                     PoeHwnd2 := WinExist("ahk_class POEWindowClass")
                     bmpSearching := Gdip_BitmapFromHWND(PoeHwnd2, 1)
-                    ImageLocation := "Resources\Images\Image Search\MapDevice.png"
+
+
+                    ImageLocation := "Resources\Images\Image Search\Custom\MapDevice.png"
+                    If !FileExist(ImageLocation)
+                        {
+                            ImageLocation := "Resources\Images\Image Search\MapDevice.png"
+                        }
+
                     SearchingFor := Gdip_CreateBitmapFromFile(ImageLocation)
                     SearchIniLoc := ScreenIni()
                     IniRead, MapVariation, %SearchIniLoc%, Variation, MapDevice
@@ -94,7 +101,9 @@ WM_LBUTTONDOWN()
                 MasterHotkey := MasterHotkeyGet()
                 NotificationText := "Please select a master mission to continue! Press" A_Space """" MasterHotkey """" A_Space "to turn off."
                 QuickNotify(NotificationText)
-                SetTimer, CloseQuickNotify, -3000
+                NotificationIni := NotificationIni()
+                IniRead, CloseDuration, %NotificationIni%, Map Notification Position, Duration
+                SetTimer, CloseQuickNotify, -%CloseDuration%
             }
             If WinActive("Activate Warning") and (MasterGuiMove = 1)
                 {

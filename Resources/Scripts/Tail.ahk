@@ -13,6 +13,8 @@ OnMessage(0x01113, "ReminderDestroy")
 OnMessage(0x01112, "Reminder")
 OnMessage(0x01122, "EldritchReminderDestroy")
 OnMessage(0x01123, "EldritchReminder")
+OnMessage(0x01997, "MapSettings") ;Trigger Map Settings Setup Tool
+
 LogMonitor()
 
 LogPath := GetLogPath()
@@ -144,6 +146,7 @@ LogTail(text)
 		HideoutIni := HideoutIni()
 		IniWrite, 0, %HideoutIni%, In Hideout, In Hideout
 		ToggleScreenSearch(NewLine)
+		MapReminder(NewLine)
 		InfluenceTrack(NewLine)
 		Exit
 	}
@@ -250,8 +253,6 @@ ToggleScreenSearch(NewLine)
         IniWrite, %SeedTrack%, %VariablePath%, Screen Search Zone Track, Last Seed
 		MechanicsIni := MechanicsIni()
 		IniWrite, 1, %MechanicsIni%, Ritual Track, Status
-		IniWrite, 1, %MechanicsIni%, Metamorph Track, Status
-		IniWrite, 1, %MechanicsIni%, Metamorph Track, Icon Status
 		IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
 		IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
 	}
@@ -264,6 +265,7 @@ ToggleScreenSearch(NewLine)
 #IncludeAgain, Resources/Scripts/Influences.ahk
 #IncludeAgain, Resources/Scripts/Ini.ahk
 #IncludeAgain, Resources/Scripts/LogMonitor.ahk
+#IncludeAgain, Resources/Scripts/MapReminder.ahk
 #IncludeAgain, Resources/Scripts/Maven.ahk
 #IncludeAgain, Resources/Scripts/MavenReminder.ahk
 #IncludeAgain, Resources/Scripts/Mechanics.ahk
