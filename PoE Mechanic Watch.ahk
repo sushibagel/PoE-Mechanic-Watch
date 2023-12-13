@@ -2,6 +2,7 @@
 #Persistent
 #NoEnv
 #MaxMem 1024
+#Requires AutoHotkey >=1.1.36 <2
 ;#Warn
 
 OnExit("Exit")
