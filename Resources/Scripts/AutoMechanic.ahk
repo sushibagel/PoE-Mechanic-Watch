@@ -635,6 +635,7 @@ Button8()
 
 ScreenShotTool(path)
 {
+    FileDelete, %path%
     gdipCalibrate := Gdip_Startup()
     Gui, Calibrate:Minimize
     Completion := ""
