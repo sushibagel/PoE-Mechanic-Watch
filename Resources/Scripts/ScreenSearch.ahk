@@ -98,7 +98,8 @@ ScreenCheck()
                 ThisSearch1 := Gdip_CreateBitmapFromFile(PngLocation)
                 If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                     {
-                        If InStr(ThisSearch, "Shop") ; need to make it only reset if opened at full count
+                        IniRead, RitualStatus, %MechanicsIni%, Ritual Track, Count
+                        If InStr(ThisSearch, "Shop") and ((RitualStatus = "4/4") or (RitualStatus = "3/3")) ; need to make it only reset if opened at full count
                             {
                                 MechanicsIni := MechanicsIni()
                                 IniRead, isActive, %MechanicsIni%, Mechanic Active, Ritual
