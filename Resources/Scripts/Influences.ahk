@@ -317,6 +317,7 @@ ToggleInfluence()
 QuickNotify(Notification)
 {
     Gui, Quick:Destroy
+    CheckTheme()
     NotificationIni := NotificationIni()
     IniRead, Vertical, %NotificationIni%, Map Notification Position, Vertical
     IniRead, Horizontal, %NotificationIni%, Map Notification Position, Horizontal
