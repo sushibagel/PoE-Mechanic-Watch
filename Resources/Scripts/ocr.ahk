@@ -1,81 +1,66 @@
 #Persistent
 #NoEnv
-#SingleInstance Force
-SetWorkingDir, %A_ScriptDir%
+#SingleInstance, Force
+
+Global FinishedCoord
 
 ;	REF: https://www.autohotkey.com/boards/viewtopic.php?t=72674
 ;	PROVIDED BY: teadrinker
 ;	DATE: February 21st, 2020
 ;	NOTES: Optical character recognition (OCR) with UWP API
 
-SetSysTrayIcon:
-v_scriptICON := A_ScriptDir . "\OCR icon 256x.ico"
-If FileExist(v_scriptICON)
-	Menu Tray, Icon, %v_scriptICON%, 1
-v_scriptICON := ""
+SetTimer, CheckScreen, 300
 
-TrayTipInfo:															; used in conjunction with 'ForceScriptExit:' labeled routine
-; .... --- look at the end ---> ..127...................................................... --- 127 max TrayTip length --> ...v
-	Menu, Tray, Tip, (OCR) Use ALT+SHIFT+X to begin`, then`nright click+drag to make a selection box.`nLet go of all mouse buttons.`n`nQUIT: +Numpad5
+!+y::
+{
+   GetArea()
+   Return
+}
 
-AtTheTop:
-MsgBox, 4161, Optical character recognition (OCR), 
-	( LTrim
-		Use [ALT+SHIFT+X] to begin,
-		then Right-Click & hold it at the 'start' point,
-		and drag your mouse to create a selection box.
-		***** Be patient, it may take a moment
-		for the box to appear.
-		Lastly, let go of all mouse buttons. Ta Da!
-		The result is copied to the Clipboard.
-		***** This OCR script is not perfect.
-		Double-check the results against the source.
-		
-		QUIT: SHIFT+Numpad5
-
-		... click [OK] to begin ...
-	)
-	IfMsgBox Ok, {
-		Return
-	} Else IfMsgBox Cancel, {
-		ExitApp
-	}
-Return
-
-/*	REF: https://www.autohotkey.com/docs/Hotkeys.htm
-
-	AHK's Hotkey modifiers are:
-		!	= Alt
-		^	= Ctrl
-		+	= Shift
-		#	= Win (Windows logo key)
-		
-*/
-!+x::	; ALT+SHIFT+x
-	hBitmap := HBitmapFromScreen(GetArea()*)
-	pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
-	DllCall("DeleteObject", "Ptr", hBitmap)
-	v_text := OCR(pIRandomAccessStream, "en")
-	ObjRelease(pIRandomAccessStream)
-	Clipboard := % v_text
-	v_Reminder := 
-	MsgBox, 4161, Optical character recognition (OCR), 
-		( LTrim
-			The following has been copied to the Clipboard:
-			==============================
-			%Clipboard%
-		)
-Return
-
-;	use 'NumpadClear' instead of '+Numpad5' to represent SHIFT+Numpad5 hotkey
-NumpadClear::															; behaves as If [SHIFT]+Numpad5 were pressed together
-	ExitApp
-Return
+CheckScreen()
+   {
+      ScreenIni := ScreenIni()
+      ScreenIni := "test.ini" ;delete this. It's temp for testing purposes
+      For each, Coordinate in StrSplit("x|y|w|h", "|")
+         {
+            If (Coordinate = "x")
+               {
+                  Default := A_ScreenWidth/2
+               }
+            If (Coordinate = "y")
+               {
+                  Default := 0
+               }
+            If (Coordinate = "w")
+               {
+                  Default := A_ScreenWidth
+               }
+            If (Coordinate = "h")
+               {
+                  Default := A_ScreenHeight
+               }
+               Search := "Search" Coordinate
+            IniRead, %Search%, %ScreenIni%, OCR Area, %Coordinate%, %Default%
+         } 
+      hBitmap := HBitmapFromScreen(SearchX, SearchY, SearchW, SearchH)
+      pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
+      DllCall("DeleteObject", "Ptr", hBitmap)
+      v_text := OCR(pIRandomAccessStream, "en")
+      ObjRelease(pIRandomAccessStream)
+      ScreenText := % v_text
+      v_Reminder := 
+      If InStr(ScreenText, "My Name is Frodo") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+         {
+            msgbox, this test work!
+         }
+      Return
+   }
 
 GetArea() {
+   FinishedCoord := 0
    area := []
    StartSelection(area)
-   while !area.w
+   While, FinishedCoord = 0
       Sleep, 100
    Return area
 }
@@ -97,8 +82,14 @@ Select(area) {
    Hotkey, LButton, Off
    Hook := ""
    Gui, %hGui%:Show, Hide
-   for k, v in ["x", "y", "w", "h"]
-      area[v] := %v%
+   ScreenIni := ScreenIni()
+   For each, Coordinate in StrSplit("x|y|w|h", "|")
+      {
+         CoordinateValue := %Coordinate%
+         ScreenIni := "test.ini" ;;; delete this it's temp for testing
+         IniWrite, %CoordinateValue%, %ScreenIni%, OCR Area, %Coordinate% 
+      }  
+   FinishedCoord := 1   
 }
 
 ReplaceSystemCursors(IDC = "") {
@@ -130,6 +121,7 @@ ReplaceSystemCursors(IDC = "") {
       }
       OnExit(exitFunc)
    }
+   Return
 }
 
 CreateSelectionGui() {
@@ -302,16 +294,19 @@ CreateClass(string, interface, ByRef Class)
    DllCall("ole32\CLSIDFromString", "wstr", interface, "ptr", &GUID)
    DllCall("Combase.dll\RoGetActivationFactory", "ptr", hString, "ptr", &GUID, "ptr*", Class)
    DeleteHString(hString)
+   Return
 }
 
 CreateHString(string, ByRef hString)
 {
     DllCall("Combase.dll\WindowsCreateString", "wstr", string, "uint", StrLen(string), "ptr*", hString)
+    Return
 }
 
 DeleteHString(hString)
 {
    DllCall("Combase.dll\WindowsDeleteString", "ptr", hString)
+   Return
 }
 
 WaitForAsync(Object, ByRef ObjectResult)
@@ -334,4 +329,7 @@ WaitForAsync(Object, ByRef ObjectResult)
       Sleep 10
    }
    DllCall(NumGet(NumGet(Object+0)+8*A_PtrSize), "ptr", Object, "ptr*", ObjectResult)   ; GetResults
+   Return
 }
+
+#IncludeAgain, Ini.ahk
