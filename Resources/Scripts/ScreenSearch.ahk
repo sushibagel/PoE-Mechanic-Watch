@@ -64,9 +64,6 @@ ScreenCheck()
             EldritchScreen()
             Return
         }
-    gdipToken := Gdip_Startup()
-    PoeHwnd := WinExist("ahk_group PoeWindow")
-    bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
     ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
     MySearches := GetSearches()
     MySearches := StrSplit(MySearches, "|")
@@ -94,9 +91,11 @@ ScreenCheck()
                     {
                         PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
                     }
-
-                ThisSearch1 := Gdip_CreateBitmapFromFile(PngLocation)
-                If (Gdip_ImageSearch(bmpHaystack,ThisSearch1,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
+                gdipToken := Gdip_Startup()
+                PoeHwnd := WinExist("ahk_group PoeWindow")
+                bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+                ScreenSearchData := Gdip_CreateBitmapFromFile(PngLocation)
+                If (Gdip_ImageSearch(bmpHaystack,ScreenSearchData,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
                     {
                         IniRead, RitualStatus, %MechanicsIni%, Ritual Track, Count
                         If InStr(ThisSearch, "Shop") and ((RitualStatus = "4/4") or (RitualStatus = "3/3")) ; need to make it only reset if opened at full count
@@ -141,11 +140,17 @@ ScreenCheck()
                     }
                 Else
                     {
-                        Gdip_DisposeImage(ThisSearch1)
-                        DeleteObject(ThisSearch1)
+                        Gdip_DisposeImage(ScreenSearchData)
+                        DeleteObject(ScreenSearchData)
+                        Gdip_Shutdown(gdipToken)
+                        Gdip_DisposeImage(bmpHaystack)
+                        DeleteObject(bmpHaystack)
+                        DeleteObject(ErrorLevel)
                     }
                 }
         }
+        Gdip_DisposeImage(ScreenSearchData)
+        DeleteObject(ScreenSearchData)
         Gdip_Shutdown(gdipToken)
         Gdip_DisposeImage(bmpHaystack)
         DeleteObject(bmpHaystack)
