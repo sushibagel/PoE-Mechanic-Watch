@@ -95,7 +95,7 @@ ScreenCheck()
                 PoeHwnd := WinExist("ahk_group PoeWindow")
                 bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
                 ScreenSearchData := Gdip_CreateBitmapFromFile(PngLocation)
-                If (Gdip_ImageSearch(bmpHaystack,ScreenSearchData,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
+                If (Gdip_ImageSearch(bmpHaystack,ScreenSearchData,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                     {
                         IniRead, RitualStatus, %MechanicsIni%, Ritual Track, Count
                         If InStr(ThisSearch, "Shop") and ((RitualStatus = "4/4") or (RitualStatus = "3/3")) ; need to make it only reset if opened at full count
@@ -345,9 +345,10 @@ EldritchScreen()
                     {
                         EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
                     }
-
+                ScreenIni := ScreenIni()
+                IniRead, SearchVariation, %ScreenIni%, Variation, Eldritch, 35
                 EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
-                If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,30,0xFFFFFF,1,0) > 0)
+                If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                     {
                         MechanicsIni := MechanicsIni()
                         IniRead, CurrentCount, %MechanicsIni%, Influence Track, %InfluenceActive%
