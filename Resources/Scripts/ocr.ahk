@@ -3,7 +3,7 @@
 #NoEnv
 #MaxMem 1024
 ; #NoTrayIcon ;need to enable for release
-Menu, Tray, Icon, C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Images\incursion.png ;path will need to be changed for release
+Menu, Tray, Icon, C:\Users\drwsi\Documents\PoE-Mechanic-Watch\PoE-Mechanic-Watch\Resources\Images\incursion.png ;path will need to be changed for release
 SetBatchLines, -1
 Global FinishedCoord
 
@@ -27,7 +27,8 @@ Start()
 {
    WinWaitActive, ahk_group PoeWindow
    MechanicsIni := MechanicsIni()
-   MechanicsIni := "Mechanics.ini" ;for testing only needs to be removed for release
+   ; Delete this was for testing
+   MechanicsIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Settings\Mechanics.ini"
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
@@ -49,7 +50,7 @@ Return
 
 OCRMechanics()
 {
-   Return, "Incursion|Delve|Betrayal"
+   Return, "Incursion|Delve|Betrayal|Einhar"
 }
 
 CheckScreen()
@@ -60,7 +61,8 @@ CheckScreen()
              Start()
          }
          HideoutIni := HideoutIni()
-         HideoutIni := "Hideout.ini" ;for testing only needs to be removed for release
+            ; Delete this was for testing
+         HideoutIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Settings\Hideout.ini"
          Loop
             {
                IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
@@ -74,7 +76,8 @@ CheckScreen()
                   }
             }
       ScreenIni := ScreenIni()
-      ScreenIni := "test.ini" ;delete this. It's temp for testing purposes
+      ; Delete this was for testing
+      ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
       For each, Coordinate in StrSplit("x|y|w|h", "|")
          {
             If (Coordinate = "x")
@@ -107,22 +110,31 @@ CheckScreen()
       OCRMechanics := StrSplit(OCRMechanics, "|")
       MechanicCount := OCRMechanics.MaxIndex()
       MechanicsIni := MechanicsIni()
-      MechanicsIni := "Mechanics.ini" ;for testing only needs to be removed for release
+      ; Delete this was for testing
+      MechanicsIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Settings\Mechanics.ini"
       Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
             IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
             If(ActiveCheck = 1) and (mActiveCheck = 1)
                {
-                  msgbox, % OCRMechanics[A_Index]
+                  tooltip, %ScreenText%
+                  If InStr(ScreenText, "Einhar, Beastmaster") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                     { 
+                        FindBeasts := "Find and weaken the beasts so that Einhar can capture them."
+                        If InStr(ScreenText, "Find and weaken the beasts so") 
+                           {
+                              BeastCompletion := StrSplit(ScreenText, FindBeasts)
+                              msgbox, % Beastcompletion[2]
+                           }
+                        If InStr(ScreenText, "Mission Complete")
+                           {
+                              msgbox, this test work!
+                           }
+                     }
+                  Return
                }
          }
-msgbox, test
-      If InStr(ScreenText, "My Name is Frodo") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
-         { 
-            msgbox, this test work!
-         }
-      Return
    }
 
 GetArea() {
@@ -152,10 +164,10 @@ Select(area) {
    Hook := ""
    Gui, %hGui%:Show, Hide
    ScreenIni := ScreenIni()
+   ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
    For each, Coordinate in StrSplit("x|y|w|h", "|")
       {
          CoordinateValue := %Coordinate%
-         ScreenIni := "test.ini" ;;; delete this it's temp for testing
          IniWrite, %CoordinateValue%, %ScreenIni%, OCR Area, %Coordinate% 
       }  
    FinishedCoord := 1   
