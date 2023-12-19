@@ -644,8 +644,8 @@ ScreenShotTool(path)
     WinWaitActive, Snipping Tool
     WinWaitClose, Snipping Tool
     ClipWait, , 1
-    pBitmap := Gdip_CreateBitmapFromClipboard()
-    Gdip_SaveBitmapToFile(pBitmap, path)
+    CalibrateCreate := Gdip_CreateBitmapFromClipboard()
+    Gdip_SaveBitmapToFile(CalibrateCreate, path)
     WinActivate, Path of Exile
     WinWaitActive, Path of Exile
     PoeHwnd := WinExist(CWindow)
@@ -660,13 +660,13 @@ ScreenShotTool(path)
     WinSet, Style, %ShowTitle%, Calibration Notify
     WinSet, Transparent, %MapTransparency%, Calibration Notify
     Sleep, 2000
-    Global bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-    Global bmpNeedle := Gdip_CreateBitmapFromFile(path)
+    Global CaliHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+    Global CaliNeedle := Gdip_CreateBitmapFromFile(path)
     Loop, 201
     {
         Completion := Round(A_Index/201*100) "%" 
         GuiControl, CalibrationNotice:, Completion, %Completion%
-        If (Gdip_ImageSearch(bmpHaystack,bmpNeedle,LIST,0,0,0,0,A_Index,,1,0) > 0)
+        If (Gdip_ImageSearch(CaliHaystack,CaliNeedle,LIST,0,0,0,0,A_Index,,1,0) > 0)
         {
             Global VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety.
             ; msgbox, Success! Your new calibration value is %A_Index%
@@ -680,8 +680,8 @@ ScreenShotTool(path)
                 Msgbox, Calibration failed. Try again.
             }
         }
-        Gdip_DisposeImage(bmpNeedle)
-        DeleteObject(bmpNeedle)
+        Gdip_DisposeImage(CaliNeedle)
+        DeleteObject(CaliNeedle)
         DeleteObject(ErrorLevel)
     }
     Gui, CalibrationNotice:Destroy
@@ -694,13 +694,13 @@ ScreenShotTool(path)
         VariationAmt := 30
     }
     IniWrite, %VariationAmt%, %ScreenIni%, Variation, %IniTitle%
-    Gdip_DisposeImage(bmpHaystack)
-    Gdip_DisposeImage(bmpNeedle)
-    Gdip_DisposeImage(pBitmap)
+    Gdip_DisposeImage(CaliHaystack)
+    Gdip_DisposeImage(CaliNeedle)
+    Gdip_DisposeImage(CalibrateCreate)
     Gdip_Shutdown(gdipCalibrate)
-    DeleteObject(pBitmap)
-    DeleteObject(bmpHaystack)
-    DeleteObject(bmpNeedle)
+    DeleteObject(CalibrateCreate)
+    DeleteObject(CaliHaystack)
+    DeleteObject(CaliNeedle)
     DeleteObject(ErrorLevel)
 }
 
