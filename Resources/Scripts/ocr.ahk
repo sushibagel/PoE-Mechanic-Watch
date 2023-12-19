@@ -1,7 +1,10 @@
+#SingleInstance, Force
 #Persistent
 #NoEnv
-#SingleInstance, Force
-
+#MaxMem 1024
+; #NoTrayIcon ;need to enable for release
+Menu, Tray, Icon, C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Images\incursion.png ;path will need to be changed for release
+SetBatchLines, -1
 Global FinishedCoord
 
 ;	REF: https://www.autohotkey.com/boards/viewtopic.php?t=72674
@@ -9,16 +12,67 @@ Global FinishedCoord
 ;	DATE: February 21st, 2020
 ;	NOTES: Optical character recognition (OCR) with UWP API
 
-SetTimer, CheckScreen, 300
+GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
+GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
+GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
+GroupAdd, PoeWindow, ahk_class POEWindowClass
+GroupAdd, PoeWindow, ahk_exe Code.exe
 
-!+y::
+Start()
+Return
+
++!x::GetArea()
+
+Start()
 {
-   GetArea()
-   Return
+   WinWaitActive, ahk_group PoeWindow
+   MechanicsIni := MechanicsIni()
+   MechanicsIni := "Mechanics.ini" ;for testing only needs to be removed for release
+   OCRMechanics := OCRMechanics()
+   OCRMechanics := StrSplit(OCRMechanics, "|")
+   MechanicCount := OCRMechanics.MaxIndex()
+   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
+      {
+         IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
+         If (ActiveCheck = 1)
+            {
+               IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
+               If (mActiveCheck = 1)
+                  {
+                     SetTimer, CheckScreen, 300
+                     Break
+                  }
+            }
+      }
+}
+Return
+
+OCRMechanics()
+{
+   Return, "Incursion|Delve|Betrayal"
 }
 
 CheckScreen()
    {
+      If !WinActive("ahk_group PoeWindow")
+         {
+             SetTimer, CheckScreen, Off
+             Start()
+         }
+         HideoutIni := HideoutIni()
+         HideoutIni := "Hideout.ini" ;for testing only needs to be removed for release
+         Loop
+            {
+               IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
+               If (HideoutStatus = 1)
+                  {
+                     Sleep, 5000
+                  }
+               If (HideoutStatus = 0)
+                  {
+                     Break
+                  }
+            }
       ScreenIni := ScreenIni()
       ScreenIni := "test.ini" ;delete this. It's temp for testing purposes
       For each, Coordinate in StrSplit("x|y|w|h", "|")
@@ -49,8 +103,23 @@ CheckScreen()
       ObjRelease(pIRandomAccessStream)
       ScreenText := % v_text
       v_Reminder := 
-      If InStr(ScreenText, "My Name is Frodo") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+      OCRMechanics := OCRMechanics()
+      OCRMechanics := StrSplit(OCRMechanics, "|")
+      MechanicCount := OCRMechanics.MaxIndex()
+      MechanicsIni := MechanicsIni()
+      MechanicsIni := "Mechanics.ini" ;for testing only needs to be removed for release
+      Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
+            IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
+            IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
+            If(ActiveCheck = 1) and (mActiveCheck = 1)
+               {
+                  msgbox, % OCRMechanics[A_Index]
+               }
+         }
+msgbox, test
+      If InStr(ScreenText, "My Name is Frodo") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+         { 
             msgbox, this test work!
          }
       Return
