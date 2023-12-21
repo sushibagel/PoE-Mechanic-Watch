@@ -118,8 +118,9 @@ CheckScreen()
             IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
             If(ActiveCheck = 1) and (mActiveCheck = 1)
                {
+                  test := OCRMechanics[A_Index]
                   tooltip, %ScreenText%
-                  If InStr(ScreenText, "Einhar, Beastmaster") and (OCRMechanics[A_Index] = "Einhar") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                  If InStr(ScreenText, "Einhar, Beastmaster") and InStr(test, "Einhar") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                      { 
                         FindBeasts := "Find and weaken the beasts so that Einhar can capture them."
                         If InStr(ScreenText, "Find and weaken the beasts so") 
