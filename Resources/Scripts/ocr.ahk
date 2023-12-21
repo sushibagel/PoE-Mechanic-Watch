@@ -3,7 +3,7 @@
 #NoEnv
 #MaxMem 1024
 ; #NoTrayIcon ;need to enable for release
-Menu, Tray, Icon, C:\Users\drwsi\Documents\PoE-Mechanic-Watch\PoE-Mechanic-Watch\Resources\Images\incursion.png ;path will need to be changed for release
+; Menu, Tray, Icon, C:\Users\drwsi\Documents\PoE-Mechanic-Watch\PoE-Mechanic-Watch\Resources\Images\incursion.png ;path will need to be changed for release
 SetBatchLines, -1
 Global FinishedCoord
 
@@ -28,7 +28,7 @@ Start()
    WinWaitActive, ahk_group PoeWindow
    MechanicsIni := MechanicsIni()
    ; Delete this was for testing
-   MechanicsIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Settings\Mechanics.ini"
+   MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
@@ -62,7 +62,7 @@ CheckScreen()
          }
          HideoutIni := HideoutIni()
             ; Delete this was for testing
-         HideoutIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Settings\Hideout.ini"
+         HideoutIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\hideout.ini"
          Loop
             {
                IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
@@ -77,7 +77,7 @@ CheckScreen()
             }
       ScreenIni := ScreenIni()
       ; Delete this was for testing
-      ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
+      ScreenIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\test.ini"
       For each, Coordinate in StrSplit("x|y|w|h", "|")
          {
             If (Coordinate = "x")
@@ -111,7 +111,7 @@ CheckScreen()
       MechanicCount := OCRMechanics.MaxIndex()
       MechanicsIni := MechanicsIni()
       ; Delete this was for testing
-      MechanicsIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Settings\Mechanics.ini"
+      MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
       Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
@@ -119,13 +119,13 @@ CheckScreen()
             If(ActiveCheck = 1) and (mActiveCheck = 1)
                {
                   tooltip, %ScreenText%
-                  If InStr(ScreenText, "Einhar, Beastmaster") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                  If InStr(ScreenText, "Einhar, Beastmaster") and (OCRMechanics[A_Index] = "Einhar") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                      { 
                         FindBeasts := "Find and weaken the beasts so that Einhar can capture them."
                         If InStr(ScreenText, "Find and weaken the beasts so") 
                            {
                               BeastCompletion := StrSplit(ScreenText, FindBeasts)
-                              msgbox, % Beastcompletion[2]
+                              msgbox, % Beastcompletion[2] Einhar match
                            }
                         If InStr(ScreenText, "Mission Complete")
                            {
@@ -133,7 +133,7 @@ CheckScreen()
                            }
                      }
 
-                  If InStr(ScreenText, "Niko, Master of the Depths") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                  If InStr(ScreenText, "Niko, Master of the Depths") and (OCRMechanics[A_Index] = "Delve") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                      { 
                         FindNiko := "Find the Voltaxic Sulphite deposits"
                         If InStr(ScreenText, FindNiko) 
@@ -146,6 +146,19 @@ CheckScreen()
                               msgbox, this test work!
                            }
                      }
+                     If InStr(ScreenText, "Jun, Veiled Master") and (OCRMechanics[A_Index] = "Betrayal") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                        { 
+                           FindBetrayal := "Complete the Immortal Syndicate encounters"
+                           If InStr(ScreenText, FindBetrayal) 
+                              {
+                                 BetrayalCompletion := StrSplit(ScreenText, FindBetrayal)
+                                 msgbox, % BetrayalCompletion[2]
+                              }
+                           If InStr(ScreenText, "Mission Complete")
+                              {
+                                 msgbox, this test work!
+                              }
+                        }
                }
          }
    }
