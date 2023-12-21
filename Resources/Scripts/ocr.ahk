@@ -132,7 +132,20 @@ CheckScreen()
                               msgbox, this test work!
                            }
                      }
-                  Return
+
+                  If InStr(ScreenText, "Niko, Master of the Depths") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                     { 
+                        FindNiko := "Find the Voltaxic Sulphite deposits"
+                        If InStr(ScreenText, FindNiko) 
+                           {
+                              NiknoCompletion := StrSplit(ScreenText, FindNiko)
+                              msgbox, % NiknoCompletion[2]
+                           }
+                        If InStr(ScreenText, "Mission Complete")
+                           {
+                              msgbox, this test work!
+                           }
+                     }
                }
          }
    }
