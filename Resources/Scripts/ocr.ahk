@@ -120,24 +120,29 @@ CheckScreen()
                {
                   test := OCRMechanics[A_Index]
                   tooltip, %ScreenText%
-                  If InStr(ScreenText, "Einhar, Beastmaster") and InStr(test, "Einhar") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
-                     { 
-                        FindBeasts := "Find and weaken the beasts so that Einhar can capture them."
-                        If InStr(ScreenText, "Find and weaken the beasts so") 
-                           {
-                              BeastCompletion := StrSplit(ScreenText, FindBeasts)
-                              msgbox, % Beastcompletion[2] Einhar match
-                           }
-                        If InStr(ScreenText, "Mission Complete")
-                           {
-                              msgbox, this test work!
-                           }
-                     }
+                  ; Define the regex pattern
+                  EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+                  ; Check if the string matches the regex pattern
+                  If (RegExMatch(ScreenText, EinharPattern))
+                  {
+                     ;now look for specific match matches to determine what part of the chain we are in. 
+                     If InStr(ScreenText, "Mission complete")
+                        {
+                           msgbox, complete!
+                        }
+                     EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+                     If (RegExMatch(ScreenText, EinharProcessPattern))
+                        {
+                           EinharCount := StrSplit(ScreenText,"(")
+                           msgbox, % EinharCount[2]
+                        }
+                  }
 
-                  If InStr(ScreenText, "Niko, Master of the Depths") and (OCRMechanics[A_Index] = "Delve") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                  NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
+                  If (RegExMatch(ScreenText, NikoPattern)) ;and (OCRMechanics[A_Index] = "Delve") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                      { 
-                        FindNiko := "Find the Voltaxic Sulphite deposits"
-                        If InStr(ScreenText, FindNiko) 
+                        NikoProcessPattern := ".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*"
+                        If (RegExMatch(ScreenText, NikoProcessPattern))
                            {
                               NiknoCompletion := StrSplit(ScreenText, FindNiko)
                               msgbox, % NiknoCompletion[2]
@@ -147,7 +152,7 @@ CheckScreen()
                               msgbox, this test work!
                            }
                      }
-                     If InStr(ScreenText, "Jun, Veiled Master") and (OCRMechanics[A_Index] = "Betrayal") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                     If InStr(ScreenText, "Jun, Veiled Master") ;and (OCRMechanics[A_Index] = "Betrayal") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                         { 
                            FindBetrayal := "Complete the Immortal Syndicate encounters"
                            If InStr(ScreenText, FindBetrayal) 
