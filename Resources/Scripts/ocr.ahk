@@ -119,7 +119,7 @@ CheckScreen()
             If(ActiveCheck = 1) and (mActiveCheck = 1)
                {
                   test := OCRMechanics[A_Index]
-                  tooltip, %ScreenText%
+                  ; tooltip, %ScreenText%
                   ; Define the regex pattern
                   EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
                   ; Check if the string matches the regex pattern
