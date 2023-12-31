@@ -37,10 +37,6 @@ RefreshOverlay()
         {
             If (%mechanicactive% = 1)
             {
-                if (Mechanic = "Einhar")
-                    {
-                        msgbox, test
-                    }
                 Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
                 If (Mechanic = "Incursion")
                     {
