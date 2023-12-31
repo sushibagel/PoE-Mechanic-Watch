@@ -33,42 +33,70 @@ RefreshOverlay()
     {
         mechanicon = %Mechanic%On
         mechanicactive = %Mechanic%Active
-        If (%mechanicon% = 1)
+        If (%mechanicon% = 1) or (%mechanicon% = 2)
         {
-            if (%mechanicactive% = 1)
+            If (%mechanicactive% = 1)
             {
+                if (Mechanic = "Einhar")
+                    {
+                        msgbox, test
+                    }
                 Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%_selected.png
                 If (Mechanic = "Incursion")
-                {
-                    MechanicsIni := MechanicsIni()
-                    IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
-                    VariableIni := VariableIni()
-                    IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
-                    If (IncursionTotal = 1)
                     {
-                        IncursionTotal := 4
+                        MechanicsIni := MechanicsIni()
+                        IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
+                        VariableIni := VariableIni()
+                        IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
+                        If (IncursionTotal = 1)
+                        {
+                            IncursionTotal := 4
+                        }
+                        Else
+                        {
+                            IncursionTotal := 3
+                        }
+                        Gui, Overlay:Font, cWhite s%OverlayFont%
+                        TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                        If (IncursionCount > 0)
+                        {
+                            Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                        }
                     }
-                    Else
-                    {
-                        IncursionTotal := 3
-                    }
-                    Gui, Overlay:Font, cWhite s%OverlayFont%
-                    TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                    If (IncursionCount > 0)
-                    {
-                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
-                    }
-                }
                 If (Mechanic = "Ritual")
-                {
-                    MechanicsIni := MechanicsIni()
-                    IniRead, Ritualcount, %MechanicsIni%, Ritual Track, Count, %A_Space%
-                    Gui, Overlay:Font, cWhite s%OverlayFont%
-                    TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %Ritualcount%
-                }
+                    {
+                        MechanicsIni := MechanicsIni()
+                        IniRead, Ritualcount, %MechanicsIni%, Ritual Track, Count, %A_Space%
+                        Gui, Overlay:Font, cWhite s%OverlayFont%
+                        TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %Ritualcount%
+                    }
+                If (Mechanic = "Einhar")
+                    {
+                        MechanicsIni := MechanicsIni()
+                        IniRead, EinharCount, %MechanicsIni%, Einhar Track, Current Count, ""
+                        TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                        Gui, Overlay:Font, cWhite s%OverlayFont%
+                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %EinharCount%
+                    }
+                If (Mechanic = "Niko")
+                    {
+                        MechanicsIni := MechanicsIni()
+                        IniRead, NikoCount, %MechanicsIni%, Niko Track, Current Count, ""
+                        TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                        Gui, Overlay:Font, cWhite s%OverlayFont%
+                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %NikoCount%
+                    }
+                If (Mechanic = "Betrayal")
+                    {
+                        MechanicsIni := MechanicsIni()
+                        IniRead, BetrayalCount, %MechanicsIni%, Betrayal Track, Current Count, ""
+                        TrackOffset := IconHeight/2 - OverlayFont/2 - 6
+                        Gui, Overlay:Font, cWhite s%OverlayFont%
+                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %BetrayalCount%
+                    }
             }
-            Else
+            If (%mechanicon% = 1) 
             {
                 Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
                 If (Mechanic = "Incursion")
@@ -189,6 +217,11 @@ Abyss()
     MechanicToggle("Abyss")
     Return
 }
+Betrayal()
+{
+    MechanicToggle("Betrayal")
+    Return
+}
 Blight()
 {
     MechanicToggle("Blight")
@@ -197,6 +230,11 @@ Blight()
 Breach()
 {
     MechanicToggle("Breach")
+    Return
+}
+Einhar()
+{
+    MechanicToggle("Einhar")
     Return
 }
 Expedition()
@@ -219,6 +257,11 @@ Incursion()
 Legion()
 {
     MechanicToggle("Legion")
+    Return
+}
+Niko()
+{
+    MechanicToggle("Niko")
     Return
 }
 Ritual()

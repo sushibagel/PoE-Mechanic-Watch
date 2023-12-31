@@ -50,7 +50,7 @@ Return
 
 OCRMechanics()
 {
-   Return, "Incursion|Delve|Betrayal|Einhar"
+   Return, "Incursion|Niko|Betrayal|Einhar"
 }
 
 CheckScreen()
@@ -118,8 +118,6 @@ CheckScreen()
             IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
             If(ActiveCheck = 1) and (mActiveCheck = 1)
                {
-                  test := OCRMechanics[A_Index]
-                  ; tooltip, %ScreenText%
                   ; Define the regex pattern
                   EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
                   ; Check if the string matches the regex pattern
@@ -128,7 +126,10 @@ CheckScreen()
                      ;now look for specific match matches to determine what part of the chain we are in. 
                      If InStr(ScreenText, "Mission complete")
                         {
-                           msgbox, complete!
+                           MechanicsIni := MechanicsIni()
+                           IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
+                           IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
+                           RefreshOverlay()
                         }
                      EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
                      If (RegExMatch(ScreenText, EinharProcessPattern))
@@ -138,13 +139,19 @@ CheckScreen()
                            If (StrLen(EinharCount[1]) = 3)
                               {
                                  EinharCount := StrSplit(EinharCount[1])
-                                 msgbox, % EinharCount[1] "/" EinharCount[3]
+                                 ; msgbox, % EinharCount[1] "/" EinharCount[3]
+                                 EinharCount := EinharCount[1] "/" EinharCount[3]
+                                 MechanicsIni := MechanicsIni()
+                                 IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
                               }
+                           MechanicsIni := MechanicsIni()
+                           IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
+                           RefreshOverlay()
                         }
                   }
-                  ; IniRead, DelveActive, %MechanicsIni%, Auto Mechanics, Delve, 0
+                  ; IniRead, NikoActive, %MechanicsIni%, Auto Mechanics, Niko, 0
                   NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
-                  If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Delve") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                  If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Niko") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                      { 
                         NikoProcessPattern := ".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*"
                         If (RegExMatch(ScreenText, NikoProcessPattern))
@@ -448,6 +455,30 @@ WaitForAsync(Object, ByRef ObjectResult)
    }
    DllCall(NumGet(NumGet(Object+0)+8*A_PtrSize), "ptr", Object, "ptr*", ObjectResult)   ; GetResults
    Return
+}
+
+RefreshOverlay()
+{
+	PostSetup()
+   PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
+	PostRestore()
+   Return
+}
+
+PostSetup()
+{
+    Prev_DetectHiddenWindows := A_DetectHiddenWIndows
+    Prev_TitleMatchMode := A_TitleMatchMode
+    SetTitleMatchMode 2
+    DetectHiddenWindows On
+    Return
+}
+
+PostRestore()
+{
+    DetectHiddenWindows, %Prev_DetectHiddenWindows%
+    SetTitleMatchMode, %A_TitleMatchMode%
+    Return
 }
 
 #IncludeAgain, Resources/Scripts/Ini.ahk

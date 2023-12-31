@@ -1,33 +1,42 @@
 Global Abyss
+Global Betrayal
 Global Blight
 Global Breach
+Global Einhar
 Global Expedition
 Global Harvest
 Global Incursion
 Global Legion
+Global Niko
 Global Ritual
 Global Generic
 Global Eater
 Global Searing
 Global Maven
 Global AbyssActive
+Global BetrayalActive
 Global BlightActive
 Global BreachActive
+Global EinharActive
 Global ExpeditionActive
 Global HarvestActive
 Global IncursionActive
 Global LegionActive
+Global NikoActive
 Global RitualActive
 Global GenericActive
 Global MechanicSearch
 Global AbyssOn
+Global BetrayalOn
 Global BlightOn
 Global BreachOn
+Global EinharOn
 Global ExpeditionOn
 Global HarvestOn
 Global IncursionOn
 Global IncursionTotal
 Global LegionOn
+Global NikoOn
 Global RitualOn
 Global GenericOn
 Global mechanicsOn
@@ -38,7 +47,7 @@ Global AutoRun
 
 Mechanics() ;List of Mechanics
 {
-    Return, "Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Ritual|Generic"
+    Return, "Abyss|Betrayal|Blight|Breach|Einhar|Expedition|Harvest|Incursion|Legion|Niko|Ritual|Generic"
 }
 
 SelectMechanics(RunAuto := False)
@@ -142,14 +151,19 @@ ReadMechanics()
     {
         IniRead, %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
         If (%Mechanic% = 1)
-        {
-            %Mechanic%On := 1
-            MechanicsOn ++
-        }
+            {
+                %Mechanic%On := 1
+                MechanicsOn ++
+            }
         If (%Mechanic% = 0)
-        {
-            %Mechanic%On := 0
-        }
+            {
+                %Mechanic%On := 0
+            }
+        If (%Mechanic% = 2)
+            {
+                %Mechanic%On := 2
+                MechanicsOn ++
+            }
     }
     Return
 }
