@@ -28,7 +28,7 @@ Start()
    WinWaitActive, ahk_group PoeWindow
    MechanicsIni := MechanicsIni()
    ; Delete this was for testing
-   MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
+   ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
@@ -62,7 +62,7 @@ CheckScreen()
          }
          HideoutIni := HideoutIni()
             ; Delete this was for testing
-         HideoutIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\hideout.ini"
+         ; HideoutIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\hideout.ini"
          Loop
             {
                IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
@@ -77,7 +77,7 @@ CheckScreen()
             }
       ScreenIni := ScreenIni()
       ; Delete this was for testing
-      ScreenIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\test.ini"
+      ; ScreenIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\test.ini"
       For each, Coordinate in StrSplit("x|y|w|h", "|")
          {
             If (Coordinate = "x")
@@ -111,19 +111,18 @@ CheckScreen()
       MechanicCount := OCRMechanics.MaxIndex()
       MechanicsIni := MechanicsIni()
       ; Delete this was for testing
-      MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
+      ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
       Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
             IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
             If(ActiveCheck = 1) and (mActiveCheck = 1)
                {
-                  test := OCRMechanics[A_Index]
-                  tooltip, %ScreenText%
+                  IniRead, EinharActive, %MechanicsIni%, Auto Mechanics, Einhar, 0
                   ; Define the regex pattern
                   EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
                   ; Check if the string matches the regex pattern
-                  If (RegExMatch(ScreenText, EinharPattern))
+                  If (RegExMatch(ScreenText, EinharPattern)) and (OCRMechanics[A_Index] = "Einhar") ;and (EinharActive = 1)
                   {
                      ;now look for specific match matches to determine what part of the chain we are in. 
                      If InStr(ScreenText, "Mission complete")
@@ -134,12 +133,17 @@ CheckScreen()
                      If (RegExMatch(ScreenText, EinharProcessPattern))
                         {
                            EinharCount := StrSplit(ScreenText,"(")
-                           msgbox, % EinharCount[2]
+                           EinharCount := StrSplit(EinharCount[2],")")
+                           If (StrLen(EinharCount[1]) = 3)
+                              {
+                                 EinharCount := StrSplit(EinharCount[1])
+                                 msgbox, % EinharCount[1] "/" EinharCount[3]
+                              }
                         }
                   }
-
+                  ; IniRead, DelveActive, %MechanicsIni%, Auto Mechanics, Delve, 0
                   NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
-                  If (RegExMatch(ScreenText, NikoPattern)) ;and (OCRMechanics[A_Index] = "Delve") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                  If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Delve") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                      { 
                         NikoProcessPattern := ".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*"
                         If (RegExMatch(ScreenText, NikoProcessPattern))
@@ -152,7 +156,7 @@ CheckScreen()
                               msgbox, this test work!
                            }
                      }
-                     If InStr(ScreenText, "Jun, Veiled Master") ;and (OCRMechanics[A_Index] = "Betrayal") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
+                     If InStr(ScreenText, "Jun, Veiled Master") and (OCRMechanics[A_Index] = "Betrayal") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                         { 
                            FindBetrayal := "Complete the Immortal Syndicate encounters"
                            If InStr(ScreenText, FindBetrayal) 
@@ -196,7 +200,7 @@ Select(area) {
    Hook := ""
    Gui, %hGui%:Show, Hide
    ScreenIni := ScreenIni()
-   ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
+   ; ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
    For each, Coordinate in StrSplit("x|y|w|h", "|")
       {
          CoordinateValue := %Coordinate%
@@ -445,4 +449,4 @@ WaitForAsync(Object, ByRef ObjectResult)
    Return
 }
 
-#IncludeAgain, Ini.ahk
+#IncludeAgain, Resources/Scripts/Ini.ahk
