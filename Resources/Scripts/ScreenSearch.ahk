@@ -29,8 +29,10 @@ Start()
     MechanicCount := SearchMechanics.MaxIndex()
     Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
         {
+            ScreenIni := ScreenIni()
+            IniRead, CalibrateActive, %ScreenIni%, Screen Search Disable, Disable, 0
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % SearchMechanics[A_Index], 0
-            If (ActiveCheck = 1)
+            If (ActiveCheck = 1) and (CalibrateActive = 0)
                 {
                     IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
                     If (mActiveCheck = 1)
@@ -39,7 +41,7 @@ Start()
                             Break
                         }
                 }
-            If (SearchMechanics[A_Index] = "Eldritch") and (ActiveCheck = 1)
+            If (SearchMechanics[A_Index] = "Eldritch") and (ActiveCheck = 1) and (CalibrateActive = 0)
                 {
                     SetTimer, ScreenCheck, 500
                     Break
@@ -50,7 +52,9 @@ Return
 
 ScreenCheck()
 {
-    If !WinActive("ahk_group PoeWindow")
+    ScreenIni := ScreenIni()
+    IniRead, CalibrateActive, %ScreenIni%, Screen Search Disable, Disable, 0
+    If !WinActive("ahk_group PoeWindow") or (CalibrateActive = 1)
         {
             SetTimer, ScreenCheck, Off
             Start()
