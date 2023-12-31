@@ -636,6 +636,8 @@ Button8()
 ScreenShotTool(path)
 {
     FileDelete, %path%
+    ScreenIni := ScreenIni()
+    IniWrite, 1, %ScreenIni%, Screen Search Disable, Disable
     gdipCalibrate := Gdip_Startup()
     Gui, Calibrate:Minimize
     Completion := ""
@@ -694,6 +696,7 @@ ScreenShotTool(path)
         VariationAmt := 30
     }
     IniWrite, %VariationAmt%, %ScreenIni%, Variation, %IniTitle%
+    IniWrite, 0, %ScreenIni%, Screen Search Disable, Disable
     Gdip_DisposeImage(CaliHaystack)
     Gdip_DisposeImage(CaliNeedle)
     Gdip_DisposeImage(CalibrateCreate)

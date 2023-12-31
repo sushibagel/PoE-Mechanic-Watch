@@ -651,7 +651,7 @@ Exit(Special := 0)
 
 AdditionalScripts(Action)
 {
-    ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\WindowMonitor.ahk|\Resources\Scripts\ScreenSearch.ahk"
+    ScriptsActions := "\Resources\Scripts\Tail.ahk|\Resources\Scripts\WindowMonitor.ahk|\Resources\Scripts\ScreenSearch.ahk|\Resources\Scripts\ocr.ahk"
     For each, script in StrSplit(ScriptsActions, "|")
     {
         If(Action = "Exit")
