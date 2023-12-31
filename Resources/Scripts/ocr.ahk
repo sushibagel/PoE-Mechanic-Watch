@@ -28,7 +28,7 @@ Start()
    WinWaitActive, ahk_group PoeWindow
    MechanicsIni := MechanicsIni()
    ; Delete this was for testing
-   MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
+   ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
@@ -62,7 +62,7 @@ CheckScreen()
          }
          HideoutIni := HideoutIni()
             ; Delete this was for testing
-         HideoutIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\hideout.ini"
+         ; HideoutIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\hideout.ini"
          Loop
             {
                IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
@@ -77,7 +77,7 @@ CheckScreen()
             }
       ScreenIni := ScreenIni()
       ; Delete this was for testing
-      ScreenIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\test.ini"
+      ; ScreenIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\test.ini"
       For each, Coordinate in StrSplit("x|y|w|h", "|")
          {
             If (Coordinate = "x")
@@ -111,7 +111,7 @@ CheckScreen()
       MechanicCount := OCRMechanics.MaxIndex()
       MechanicsIni := MechanicsIni()
       ; Delete this was for testing
-      MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
+      ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
       Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
@@ -119,7 +119,7 @@ CheckScreen()
             If(ActiveCheck = 1) and (mActiveCheck = 1)
                {
                   test := OCRMechanics[A_Index]
-                  tooltip, %ScreenText%
+                  ; tooltip, %ScreenText%
                   ; Define the regex pattern
                   EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
                   ; Check if the string matches the regex pattern
@@ -196,7 +196,7 @@ Select(area) {
    Hook := ""
    Gui, %hGui%:Show, Hide
    ScreenIni := ScreenIni()
-   ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
+   ; ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
    For each, Coordinate in StrSplit("x|y|w|h", "|")
       {
          CoordinateValue := %Coordinate%
