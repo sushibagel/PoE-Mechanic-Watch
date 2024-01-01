@@ -8,6 +8,7 @@ SetBatchLines, -1
 Global FinishedCoord
 
 OnMessage(0x01987, "GetSideTextArea")
+OnMessage(0x01988, "GetRitualTextArea")
 
 ;	REF: https://www.autohotkey.com/boards/viewtopic.php?t=72674
 ;	PROVIDED BY: teadrinker
@@ -586,4 +587,11 @@ GetSideTextArea()
    GetTextArea("Side Area")
    Return
 }
+
+GetRitualTextArea()
+{
+   GetTextArea("Ritual Area")
+   Return
+}
+
 #IncludeAgain, Resources/Scripts/Ini.ahk

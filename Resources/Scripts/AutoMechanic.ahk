@@ -209,6 +209,19 @@ AutoButtonCalibrateSearch()
     Loop, %LoopCount%
     {
         Gui, Calibrate:Add, Text, Section xs, % MySearches[A_Index]
+        Gui, Calibrate:Font, s8 c1177bb Normal Underline
+        If (MySearches[A_Index] = "Ritual Icon") or (MySearches[A_Index] = "Ritual Shop")
+            {
+                Footnote := 
+            }
+        If (MySearches[A_Index] = "Ritual Text")
+            {
+                Footnote := 1
+            }
+        Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote1 gOpenFootnote, %Footnote%
+        Gui, Calibrate:Font
+        Gui, Calibrate:Font, cBlack Normal
+        Gui, Calibrate:Font, c%Font% s12
         XBut := Round(96/A_ScreenDPI*425)
         Gui, Calibrate:Add, Button, ys x%XBut% w80 gButton%A_Index%, Calibrate
         Gui, Calibrate:Font, c1177bb Normal Underline
@@ -285,6 +298,8 @@ CalibrateGuiClose:
     Gui, FootnoteView:Destroy
     Gui, ImageView:Destroy
     Gui, Calibrate:Destroy
+    ScreenIni := ScreenIni()
+    IniWrite, 0, %ScreenIni%, Screen Search Disable, Disable
     If (AutoRun = 1)
     {
         SelectAuto()
@@ -347,6 +362,13 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 100
+                    ShowImage("RitualText", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+            If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
                     ImageW := 100
@@ -432,7 +454,7 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
                     ImageH := 100
                     ImageW := 80
                     Gui, Calibrate:Submit, Nohide
-                    ShowImage("RitualIcon", ImageH, ImageW)
+                    ShowImage("RitualIcon", ImageH, ImageW) ; update once an image is taken. 
                     LastHwnd := mHwnd
                 }
     }
@@ -484,7 +506,7 @@ OpenImage()
     MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed :=
-    If Instr(mHwnd, "Static7")
+    If Instr(mHwnd, "Static8")
         {
             SamplePressed := 1
             ImageH := 100
@@ -492,7 +514,7 @@ OpenImage()
             ShowImage("RitualIcon", ImageH, ImageW,"+Caption")
             LastHwnd := mHwnd
         }
-    If Instr(mHwnd, "Static9")
+    If Instr(mHwnd, "Static11")
     {
         SamplePressed := 1
         ImageH := 250
@@ -500,7 +522,15 @@ OpenImage()
         ShowImage("RitualIcon", ImageH, ImageW, "+Caption")
         LastHwnd := mHwnd
     }
-    If Instr(mHwnd, "Static11")
+    If Instr(mHwnd, "Static14")
+        {
+            SamplePressed := 1
+            ImageH := 180
+            ImageW := 100
+            ShowImage("RitualText", ImageH, ImageW, "+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static17")
     {
         SamplePressed := 1
         ImageH := 190
@@ -551,47 +581,21 @@ ImageViewGuiClose()
 
 Button1()
 {
-    FileName := "Resources\Images\Image Search\Custom\RitualCount13.png"
+    FileName := "Resources\Images\Image Search\Custom\RitualIcon.png"
     ScreenShotTool(FileName)
 }
 
 Button2()
 {
-    FileName := "Resources\Images\Image Search\Custom\RitualCount23.png"
-    ScreenShotTool(FileName)
+    Gui, Calibrate:Submit, Nohide
+    WinMinimize, Calibration Tool
+    PostSetup()
+    PostMessage, 0x01988,,,, ocr.ahk - AutoHotkey ;Calibrate ritual text search
+    PostRestore()
+    Return
 }
 
 Button3()
-{
-    FileName := "Resources\Images\Image Search\Custom\RitualCount33.png"
-    ScreenShotTool(FileName)
-}
-
-Button4()
-{
-    FileName := "Resources\Images\Image Search\Custom\RitualCount14.png"
-    ScreenShotTool(FileName)
-}
-
-Button5()
-{
-    FileName := "Resources\Images\Image Search\Custom\RitualCount24.png"
-    ScreenShotTool(FileName)
-}
-
-Button6()
-{
-    FileName := "Resources\Images\Image Search\Custom\RitualCount34.png"
-    ScreenShotTool(FileName)
-}
-
-Button7()
-{
-    FileName := "Resources\Images\Image Search\Custom\RitualCount44.png"
-    ScreenShotTool(FileName)
-}
-
-Button8()
 {
     FileName := "Resources\Images\Image Search\Custom\RitualShop.png"
     ScreenShotTool(FileName)
@@ -979,7 +983,7 @@ QuestText()
     Gui, Calibrate:Submit, Nohide
     WinMinimize, Calibration Tool
     PostSetup()
-    PostMessage, 0x01987,,,, ocr.ahk - AutoHotkey
+    PostMessage, 0x01987,,,, ocr.ahk - AutoHotkey ; Calibrate quest tracker text search
     PostRestore()
     Return
 }

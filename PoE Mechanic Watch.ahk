@@ -322,6 +322,8 @@ Return
 
 Start()
 {
+    ScreenIni := ScreenIni()
+    IniWrite, 0, %ScreenIni%, Screen Search Disable, Disable
     HotkeyCheck()
     WinWait, ahk_Group PoeWindow
     GetLogPath()
