@@ -3,7 +3,7 @@
 #NoEnv
 #MaxMem 1024
 ; #NoTrayIcon ;need to enable for release
-; Menu, Tray, Icon, C:\Users\drwsi\Documents\PoE-Mechanic-Watch\PoE-Mechanic-Watch\Resources\Images\incursion.png ;path will need to be changed for release
+Menu, Tray, Icon, Resources\Images\incursion.png ;path will need to be changed for release
 SetBatchLines, -1
 Global FinishedCoord
 
@@ -38,7 +38,7 @@ Start()
          If (ActiveCheck = 1)
             {
                IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
-               If (mActiveCheck = 1)
+               If (mActiveCheck > 0)
                   {
                      SetTimer, CheckScreen, 300
                      Break
@@ -112,56 +112,115 @@ CheckScreen()
       MechanicsIni := MechanicsIni()
       ; Delete this was for testing
       ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
+     Global test
       Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
             IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
-            If(ActiveCheck = 1) and (mActiveCheck = 1)
+            If(ActiveCheck = 1) and (mActiveCheck > 0)
                {
                   ; Define the regex pattern
                   EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
                   ; Check if the string matches the regex pattern
-                  If (RegExMatch(ScreenText, EinharPattern)) and (OCRMechanics[A_Index] = "Einhar") ;and (EinharActive = 1)
+                  If (RegExMatch(ScreenText, EinharPattern)) and (OCRMechanics[A_Index] = "Einhar") 
                   {
                      ;now look for specific match matches to determine what part of the chain we are in. 
                      If InStr(ScreenText, "Mission complete")
                         {
                            MechanicsIni := MechanicsIni()
-                           IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
-                           IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
-                           RefreshOverlay()
+                           IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
+                           If (CurrentStatus = 1)
+                              {
+                                 IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
+                                 IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
+                                 RefreshOverlay()
+                              }
                         }
                      EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
                      If (RegExMatch(ScreenText, EinharProcessPattern))
                         {
                            EinharCount := StrSplit(ScreenText,"(")
                            EinharCount := StrSplit(EinharCount[2],")")
-                           If (StrLen(EinharCount[1]) = 3)
+                           If InStr(EinharCount[1], "/")
                               {
-                                 EinharCount := StrSplit(EinharCount[1])
-                                 ; msgbox, % EinharCount[1] "/" EinharCount[3]
-                                 EinharCount := EinharCount[1] "/" EinharCount[3]
-                                 MechanicsIni := MechanicsIni()
-                                 IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
+                                 EinharCount := EinharCount[1]
+                              }
+                           Else
+                              {
+                                 If (StrLen(EinharCount[1]) = 3) and !(EinharCount[1] = "")
+                                    {
+                                       EinharCount := StrSplit(EinharCount[1])
+                                       EinharCount := EinharCount[1] "/" EinharCount[3]                     
+                                    }
+                                 If (StrLen(EinharCount[1]) = 4) and !(EinharCount[1] = "")
+                                    {
+                                       EinharCount := StrSplit(EinharCount[1])
+                                       EinharCount := EinharCount[1] "/" EinharCount[3] EinharCount[4]                    
+                                    }
+                                 If (StrLen(EinharCount[1]) = 5) and !(EinharCount[1] = "")
+                                    {
+                                       EinharCount := StrSplit(EinharCount[1])
+                                       EinharCount := EinharCount[1] EinharCount[2] "/" EinharCount[4] EinharCount[5]                    
+                                    }
+                                 If (EinharCount[1] = "")
+                                    {
+                                       EinharCount := 0
+                                    }
                               }
                            MechanicsIni := MechanicsIni()
-                           IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
-                           RefreshOverlay()
+                           CurrentCount := ""
+                           IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
+                           If !(CurrentCount = EinharCount)
+                              {
+                                 IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
+                                 IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
+                                 RefreshOverlay()
+                              }
                         }
                   }
-                  ; IniRead, NikoActive, %MechanicsIni%, Auto Mechanics, Niko, 0
                   NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
                   If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Niko") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
                      { 
                         NikoProcessPattern := ".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*"
                         If (RegExMatch(ScreenText, NikoProcessPattern))
                            {
-                              NiknoCompletion := StrSplit(ScreenText, FindNiko)
-                              msgbox, % NiknoCompletion[2]
+                              NikoCount := StrSplit(ScreenText,"(")
+                              NikoCount := StrSplit(NikoCount[2],")")
+                              If InStr(NikoCount[1], "/")
+                                 {
+                                    NikoCount := NikoCount[1]
+                                 }
+                              Else
+                                 {
+                                    If !( NikoCount[1] = "")
+                                       {
+                                          NikoCount := NikoCount[1] "/" NikoCount[3]
+                                       }
+                                    If (NikoCount[1] = "")
+                                       {
+                                          NikoCount := 0
+                                       }
+                                 }
+                              MechanicsIni := MechanicsIni()
+                              CurrentCount := ""
+                              IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
+                              If !(CurrentCount = NikoCount)
+                                 {
+                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
+                                    IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
+                                    RefreshOverlay()
+                                 }
                            }
                         If InStr(ScreenText, "Mission Complete")
                            {
-                              msgbox, this test work!
+                              MechanicsIni := MechanicsIni()
+                              IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Niko, 0
+                              If (CurrentStatus = 1)
+                              {
+                                 IniWrite, 0, %MechanicsIni%, Mechanic Active, Niko
+                                 IniWrite, "", %MechanicsIni%, Niko Track, Current Count
+                                 RefreshOverlay()
+                              }
                            }
                      }
                      If InStr(ScreenText, "Jun, Veiled Master") and (OCRMechanics[A_Index] = "Betrayal") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
@@ -169,12 +228,42 @@ CheckScreen()
                            FindBetrayal := "Complete the Immortal Syndicate encounters"
                            If InStr(ScreenText, FindBetrayal) 
                               {
-                                 BetrayalCompletion := StrSplit(ScreenText, FindBetrayal)
-                                 msgbox, % BetrayalCompletion[2]
+                                 BetrayalCount := StrSplit(ScreenText,"(")
+                                 BetrayalCount := StrSplit(BetrayalCount[2],")")
+                                 If InStr(BetrayalCount[1], "/")
+                                    {
+                                       BetrayalCount := BetrayalCount[1]
+                                    }
+                                 Else
+                                    {
+                                       If !(BetrayalCount[1] = "")
+                                          {
+                                             BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
+                                          }
+                                       Else
+                                          {
+                                             BetrayalCount := 0
+                                          }
+                                    }
+                                 MechanicsIni := MechanicsIni()
+                                 IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
+                                 If !(CurrentCount = BetrayalCount)
+                                    {
+                                       IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
+                                       IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
+                                       RefreshOverlay()
+                                    }
                               }
                            If InStr(ScreenText, "Mission Complete")
                               {
-                                 msgbox, this test work!
+                                 MechanicsIni := MechanicsIni()
+                                 IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
+                                 If (CurrentStatus = 1)
+                                    {
+                                       IniWrite, 0, %MechanicsIni%, Mechanic Active, Betrayal
+                                       IniWrite, "", %MechanicsIni%, Betrayal Track, Current Count
+                                       RefreshOverlay()
+                                    }
                               }
                         }
                }

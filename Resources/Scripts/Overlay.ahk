@@ -71,6 +71,10 @@ RefreshOverlay()
                     {
                         MechanicsIni := MechanicsIni()
                         IniRead, EinharCount, %MechanicsIni%, Einhar Track, Current Count, ""
+                        If (EinharCount = 0)
+                            {
+                                EinharCount := ""
+                            }
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         Gui, Overlay:Add, Text, xs+%TrackOffset%, %EinharCount%
@@ -79,6 +83,10 @@ RefreshOverlay()
                     {
                         MechanicsIni := MechanicsIni()
                         IniRead, NikoCount, %MechanicsIni%, Niko Track, Current Count, ""
+                        If (NikoCount = 0)
+                            {
+                                NikoCount := ""
+                            }
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         Gui, Overlay:Add, Text, xs+%TrackOffset%, %NikoCount%
@@ -87,6 +95,10 @@ RefreshOverlay()
                     {
                         MechanicsIni := MechanicsIni()
                         IniRead, BetrayalCount, %MechanicsIni%, Betrayal Track, Current Count, ""
+                        If (BetrayalCount = 0)
+                            {
+                                BetrayalCount := ""
+                            }
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         Gui, Overlay:Add, Text, xs+%TrackOffset%, %BetrayalCount%
