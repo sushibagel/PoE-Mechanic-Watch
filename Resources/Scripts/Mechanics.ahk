@@ -52,28 +52,54 @@ Mechanics() ;List of Mechanics
 
 SelectMechanics(RunAuto := False)
 {
+    Gui, Mechanic:Destroy
     MechanicSearch := Mechanics()
     Gui, Mechanic:Font, c%Font% s10
     MechanicsPath := MechanicsIni()
+    Gui, Mechanic:Add, Text, xn x10 Section, Mechanic
+    Gui, Mechanic:Add, Text, x93 ys, On
+    Gui, Mechanic:Add, Text, x135 ys, Active Only
+    Gui, Mechanic:Add, Text, x222 ys, Off
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
         IniRead, %Mechanic%State, %MechanicsPath%, Mechanics, %Mechanic%
         autochecked := % mechanic "State"
         autochecked := % %autochecked%
-        Gui, Mechanic:Add, Checkbox, xn x10 Section v%Mechanic% Checked%autochecked%, %Mechanic%
-        If (Mechanic = "Incursion")
-        {
-            IniRead, IncursionTotal, %MechanicsPath%, Incursion 4, Active
-            Gui, Mechanic:Add, Checkbox, ys vIncursionTotal Checked%IncursionTotal%, Always 4?
-        }
+        Gui, Mechanic:Add, Text, xn x15 Section, %Mechanic%:
+        If (autochecked = 1)
+            {
+                OnChecked := 1
+                OffChecked := 0
+                AutoOnly := 0
+            }
+        If (autochecked = 0)
+            {
+                OnChecked := 0
+                OffChecked := 1
+                AutoOnly := 0
+            }
+        If (autochecked = 2)
+            {
+                OnChecked := 0
+                OffChecked := 0
+                AutoOnly := 1
+            }
+        Gui, Mechanic:Add, Radio, x95 ys v%Mechanic% Checked%OnChecked%
+        Gui, Mechanic:Add, Radio, x160 ys Checked%AutoOnly%
+        Gui, Mechanic:Add, Radio, x225 ys Checked%OffChecked%
+        ; If (Mechanic = "Incursion") Need to add this back in another way. (OCR?)
+        ; {
+        ;     IniRead, IncursionTotal, %MechanicsPath%, Incursion 4, Active
+        ;     Gui, Mechanic:Add, Checkbox, ys vIncursionTotal Checked%IncursionTotal%, Always 4?
+        ; }
     }
     Gui, Mechanic:-Border -Caption
     Gui, Mechanic:Color, %Background%
     Gui, Mechanic:Font, s1 c%Secondary%
     Gui, Mechanic:Add, Text
-    Gui, Mechanic:Add, Text, w200 0x10
+    Gui, Mechanic:Add, Text, xn w260 0x10
     Gui, Mechanic:Font, Bold s11
-    Gui, Mechanic:Add, Text,,Select One
+    Gui, Mechanic:Add, Text,x10,Select One
     Gui, Mechanic:Font, s1 c%Font%
     Gui, Mechanic:Font, Normal s10
     InfluencesTypes := Influences()
@@ -82,10 +108,10 @@ SelectMechanics(RunAuto := False)
         IniRead, %Influence%State, %MechanicsPath%, Influence, %Influence%
         autochecked = %Influence%State
         autochecked := % %autochecked%
-        Gui, Mechanic:Add, Radio, v%Influence% Checked%autochecked%, %Influence%
+        Gui, Mechanic:Add, Radio, x15 v%Influence% Checked%autochecked%, %Influence%
     }
     Gui, Mechanic:Add, Radio, vNone, None
-    Gui, Mechanic:Add, Button, xp x100 w80 h20, OK
+    Gui, Mechanic:Add, Button, xp x150 w80 h20, OK
     Gui Mechanic:Show,,Mechanic
     If (RunAuto = 1)
     {
@@ -113,6 +139,10 @@ MechanicButtonOk()
     MechanicsPath := MechanicsIni()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
+        If (%Mechanic% = 3)
+            {
+                %Mechanic% := 0
+            }
         IniWrite, % %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
     }
     For each, Influence in StrSplit(InfluencesTypes, "|")
