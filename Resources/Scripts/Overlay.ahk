@@ -202,6 +202,11 @@ MechanicToggle(ToggleMechanic)
         PostSetup()
         PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate Reminder tracker
         PostRestore()
+        If (ToggleMechanic = "Einhar")
+            {
+                MechanicsIni := MechanicsIni()
+                IniWrite, %BlankVariable%, %MechanicsIni%, Einhar Track, Current Count
+            }
         If (ToggleMechanic = "Ritual")
         {
             MechanicsIni := MechanicsIni()

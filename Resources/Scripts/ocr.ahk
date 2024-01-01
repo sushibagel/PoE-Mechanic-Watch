@@ -18,7 +18,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-GroupAdd, PoeWindow, ahk_exe Code.exe
+; GroupAdd, PoeWindow, ahk_exe Code.exe
 
 Start()
 Return
@@ -44,7 +44,7 @@ Start()
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
-   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
+   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting th   e search variables here because I don't want to activate the timer twice. 
       {
          IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
          If (ActiveCheck = 1)
@@ -124,7 +124,6 @@ CheckScreen()
       MechanicsIni := MechanicsIni()
       ; Delete this was for testing
       ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
-     Global test
       Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
@@ -159,6 +158,10 @@ CheckScreen()
                               }
                            Else
                               {
+                                 If (EinharCount[1] = "")
+                                    {
+                                       EinharCount := 0
+                                    }
                                  If (StrLen(EinharCount[1]) = 3) and !(EinharCount[1] = "")
                                     {
                                        EinharCount := StrSplit(EinharCount[1])
@@ -173,10 +176,6 @@ CheckScreen()
                                     {
                                        EinharCount := StrSplit(EinharCount[1])
                                        EinharCount := EinharCount[1] EinharCount[2] "/" EinharCount[4] EinharCount[5]                    
-                                    }
-                                 If (EinharCount[1] = "")
-                                    {
-                                       EinharCount := 0
                                     }
                               }
                            MechanicsIni := MechanicsIni()
