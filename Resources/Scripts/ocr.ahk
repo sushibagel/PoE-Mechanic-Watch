@@ -18,7 +18,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-; GroupAdd, PoeWindow, ahk_exe Code.exe
+GroupAdd, PoeWindow, ahk_exe Code.exe
 
 Start()
 Return
@@ -234,49 +234,50 @@ CheckScreen()
                               }
                            }
                      }
-                     If InStr(ScreenText, "Jun, Veiled Master") and (OCRMechanics[A_Index] = "Betrayal") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
-                        { 
-                           FindBetrayal := "Complete the Immortal Syndicate encounters"
-                           If InStr(ScreenText, FindBetrayal) 
-                              {
-                                 BetrayalCount := StrSplit(ScreenText,"(")
-                                 BetrayalCount := StrSplit(BetrayalCount[2],")")
-                                 If InStr(BetrayalCount[1], "/")
-                                    {
-                                       BetrayalCount := BetrayalCount[1]
-                                    }
-                                 Else
-                                    {
-                                       If !(BetrayalCount[1] = "")
-                                          {
-                                             BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
-                                          }
-                                       Else
-                                          {
-                                             BetrayalCount := 0
-                                          }
-                                    }
-                                 MechanicsIni := MechanicsIni()
-                                 IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
-                                 If !(CurrentCount = BetrayalCount)
-                                    {
-                                       IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
-                                       IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
-                                       RefreshOverlay()
-                                    }
-                              }
-                           If InStr(ScreenText, "Mission Complete")
-                              {
-                                 MechanicsIni := MechanicsIni()
-                                 IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
-                                 If (CurrentStatus = 1)
-                                    {
-                                       IniWrite, 0, %MechanicsIni%, Mechanic Active, Betrayal
-                                       IniWrite, "", %MechanicsIni%, Betrayal Track, Current Count
-                                       RefreshOverlay()
-                                    }
-                              }
-                        }
+                  BetrayalPattern := ".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
+                  If (RegExMatch(ScreenText, BetrayalPattern)) and (OCRMechanics[A_Index] = "Betrayal")
+                     { 
+                        BetrayalProcessPattern := ".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
+                        If (RegExMatch(ScreenText, BetrayalProcessPattern))
+                           {
+                              BetrayalCount := StrSplit(ScreenText,"(")
+                              BetrayalCount := StrSplit(BetrayalCount[2],")")
+                              If InStr(BetrayalCount[1], "/")
+                                 {
+                                    BetrayalCount := BetrayalCount[1]
+                                 }
+                              Else
+                                 {
+                                    If !(BetrayalCount[1] = "")
+                                       {
+                                          BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
+                                       }
+                                    Else
+                                       {
+                                          BetrayalCount := 0
+                                       }
+                                 }
+                              MechanicsIni := MechanicsIni()
+                              IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
+                              If !(CurrentCount = BetrayalCount)
+                                 {
+                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
+                                    IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
+                                    RefreshOverlay()
+                                 }
+                           }
+                        If InStr(ScreenText, "Mission Complete")
+                           {
+                              MechanicsIni := MechanicsIni()
+                              IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
+                              If (CurrentStatus = 1)
+                                 {
+                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Betrayal
+                                    IniWrite, "", %MechanicsIni%, Betrayal Track, Current Count
+                                    RefreshOverlay()
+                                 }
+                           }
+                     }
                }
          }
    }
