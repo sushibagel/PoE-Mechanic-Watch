@@ -158,7 +158,7 @@ CheckScreen()
                               }
                            Else
                               {
-                                 If (EinharCount[1] = "")
+                                 If (EinharCount[1] = "") or InStr(NikoCount[1], Optional)
                                     {
                                        EinharCount := 0
                                     }
@@ -203,7 +203,7 @@ CheckScreen()
                                  }
                               Else
                                  {
-                                    If !( NikoCount[1] = "")
+                                    If !( NikoCount[1] = "") and !InStr(NikoCount[1], Optional)
                                        {
                                           NikoCount := NikoCount[1] "/" NikoCount[3]
                                        }
@@ -248,7 +248,7 @@ CheckScreen()
                                  }
                               Else
                                  {
-                                    If !(BetrayalCount[1] = "")
+                                    If !(BetrayalCount[1] = "") and !InStr(BetryalCount[1], Optional)
                                        {
                                           BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
                                        }
