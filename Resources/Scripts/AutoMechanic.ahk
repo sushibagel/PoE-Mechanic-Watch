@@ -67,18 +67,30 @@ SelectAuto()
         autochecked := % %autochecked%
         Gui, Auto:Add, Checkbox, xs v%Mechanic% Checked%autochecked%, %Mechanic%
         Gui, Auto:Font, s8 c1177bb Normal Underline
-        If (Mechanic = "Eldritch")
-        {
-            FootNote := 3
-        }
-        If (Mechanic = "Ritual")
-        {
-            FootNote := 2
-        }
-        If (Mechanic = "Blight") or (Mechanic = "Expedition") or (Mechanic = "Incursion")
-        {
-            FootNote := 1
-        }
+        If (Mechanic = "Betrayal") or (Mechanic = "Einhar") or (Mechanic = "Niko") ; uses OCR Only
+            {
+                FootNote := 1
+            }   
+        If (Mechanic = "Blight") ; Blight uses all 3 mechanics for tracking (Image Recognition, Log reading and OCR)
+            {
+                FootNote := 2
+            }
+        If (Mechanic = "Expedition") ; uses log reading only
+            {
+                FootNote := 3
+            }
+        If (Mechanic = "Incursion") ; Incursion uses Log reading and OCR
+            {
+                FootNote := 4
+            }
+        If (Mechanic = "Ritual") ; uses image recognition and OCR
+            {
+                FootNote := 5
+            }
+        If (Mechanic = "Eldritch") ; uses image recognition
+            {
+                FootNote := 6
+            }   
         Gui, Auto:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
         Gui, Auto:Font
         Gui, Auto:Font, c%Font% s13
@@ -158,7 +170,7 @@ ReadAutoMechanics()
 
 AutoMechanics()
 {
-    Return, "Blight|Expedition|Incursion|Ritual|Eldritch"
+    Return, "Betrayal|Blight|Einhar|Expedition|Incursion|Niko|Ritual|Eldritch"
 }
 
 AutoButtonCalibrateSearch()
@@ -314,6 +326,13 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
         {
             NoteSelected := 0
             ViewFootnote(5)
+            LastHwnd := mHwnd
+            Return
+        }
+    If InStr(A_GuiControl, "6") and (NoteSelected != 6)
+        {
+            NoteSelected := 0
+            ViewFootnote(6)
             LastHwnd := mHwnd
             Return
         }
@@ -691,6 +710,12 @@ OpenFootnote()
             SamplePressed := 1
             ViewFootnote(5)
         }
+    If InStr(A_GuiControl, "6")
+        {
+            NoteSelected := 6
+            SamplePressed := 1
+            ViewFootnote(6)
+        }
 }
 
 ViewFootnote(FootnoteNum)
@@ -709,7 +734,7 @@ ViewFootnote(FootnoteNum)
         }
         Else
         {
-            GuiControl, Auto:, Text, 1: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
+            GuiControl, Auto:, Text, 1: This mechanic uses OCR to read text on your screen and recongize when certain mechanics are active in your maps. To use it you must have "Quest Tracking" enabled in the game settings and the corresponding mechanic must be turned on in the "Select Mechanics" menu. Setting the OCR Zone is available in the Calibration Tool but should not be necessary. 
             Gui, Auto:Font, c%Font% s10
             GuiControl, Font, Text
             SamplePressed := 0
@@ -729,7 +754,7 @@ ViewFootnote(FootnoteNum)
         }
         Else
         {
-            GuiControl, Auto:, Text, 2: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+            GuiControl, Auto:, Text, 2: this Auto Mechanic uses a combination of Image Recognition and reading the client log to detect its status. To use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game and you must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
             Gui, Auto:Font, c%Font% s10
             GuiControl, Font, Text
             SamplePressed := 0
@@ -749,31 +774,32 @@ ViewFootnote(FootnoteNum)
             }
             Else
             {
-                GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                GuiControl, Auto:, Text, 3: to use this Auto Mechanic the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" turned on in the games UI Settings panel.
                 Gui, Auto:Font, c%Font% s10
                 GuiControl, Font, Text
                 SamplePressed := 0
             }
         }
     If (FootnoteNum = 4)
-    {
-        If WinActive("Calibration Tool")
-            {
-                CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
-                Caption := "-Caption"
-                If (SamplePressed = 1)
+        {
+            If WinActive("Calibration Tool")
                 {
-                    Caption := "+Caption"
+                    CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+                    Caption := "-Caption"
+                    If (SamplePressed = 1)
+                    {
+                        Caption := "+Caption"
+                    }
+                    ShowImage("", 0, 0, Caption, CustomText,0)
                 }
-                ShowImage("", 0, 0, Caption, CustomText,0)
-            }
-            Else
-            {
-                GuiControl, Auto:, Text, 3: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
-                Gui, Auto:Font, c%Font% s10
-                GuiControl, Font, Text
-            }
-    }
+                Else
+                {
+                    GuiControl, Auto:, Text, 4: This Auto Mechanic uses a combination of reading the client log and OCR to detect its status. To use it the corresponding mechanic must be turned on in the "Select Mechanics" menu. You must also have "Output Dialog To Chat" and "Quest Tracking" turned on in the games UI Settings panel and . The OCR "Zone" can be set in the Calibration Tool but should not be necessary. 
+
+                    Gui, Auto:Font, c%Font% s10
+                    GuiControl, Font, Text
+                }
+        }
     If (FootnoteNum = 5)
         {
             If WinActive("Calibration Tool")
@@ -785,6 +811,31 @@ ViewFootnote(FootnoteNum)
                         Caption := "+Caption"
                     }
                     ShowImage("", 0, 0, Caption, CustomText,0)
+                }
+            Else
+                {
+                    GuiControl, Auto:, Text, 5: This Auto Mechanic uses a combination of Image Recognition and OCR to track the mechanic status. To use it you may need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game. Configuration of the OCR "Zone" should not be necessary but is also possible in the Calibration Tool. 
+                    Gui, Auto:Font, c%Font% s10
+                    GuiControl, Font, Text
+                }
+        }
+    If (FootnoteNum = 6)
+        {
+            If WinActive("Calibration Tool")
+                {
+                    CustomText := ""
+                    Caption := "-Caption"
+                    If (SamplePressed = 1)
+                    {
+                        Caption := "+Caption"
+                    }
+                    ShowImage("", 0, 0, Caption, CustomText,0)
+                }
+            Else
+                {
+                    GuiControl, Auto:, Text, 6: Eldritch refers to Maven, Eater of Worlds and Searing Exarch. The tool will automatically check for whichever is active when the map device is,used in your hideout (make sure to keep your hideout updated using the "Set Hideout" tool) You may also need to calibrate the Search Tool by clicking the "Calibrate Search" button when you have it active in game.
+                    Gui, Auto:Font, c%Font% s10
+                    GuiControl, Font, Text
                 }
         }
 }
