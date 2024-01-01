@@ -330,6 +330,7 @@ Start()
     CheckTheme()
     Run, Resources\Scripts\Tail.ahk
     Run, Resources\Scripts\ScreenSearch.ahk
+    Run, Resources\Scripts\ocr.ahk
     Overlay()
 }
 Return
