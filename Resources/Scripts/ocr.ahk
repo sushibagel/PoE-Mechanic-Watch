@@ -7,6 +7,8 @@ Menu, Tray, Icon, Resources\Images\incursion.png ;path will need to be changed f
 SetBatchLines, -1
 Global FinishedCoord
 
+OnMessage(0x01987, "GetSideTextArea")
+
 ;	REF: https://www.autohotkey.com/boards/viewtopic.php?t=72674
 ;	PROVIDED BY: teadrinker
 ;	DATE: February 21st, 2020
@@ -21,7 +23,17 @@ GroupAdd, PoeWindow, ahk_exe Code.exe
 Start()
 Return
 
-+!x::GetArea()
+GetTextArea(SelectedArea)
+{
+   GetArea()
+   ScreenIni := ScreenIni()
+   For each, Coordinate in StrSplit("x|y|w|h", "|")
+      {
+         IniRead, Coord, %ScreenIni%, OCR Area, %Coordinate%
+         IniWrite, %Coord%, %ScreenIni%, %SelectedArea%, %Coordinate%
+         IniWrite, %blankVariable%, %ScreenIni%, OCR Area, %Coordinate%
+      } 
+}
 
 Start()
 {
@@ -97,7 +109,7 @@ CheckScreen()
                   Default := A_ScreenHeight
                }
                Search := "Search" Coordinate
-            IniRead, %Search%, %ScreenIni%, OCR Area, %Coordinate%, %Default%
+            IniRead, %Search%, %ScreenIni%, Side Area, %Coordinate%, %Default%
          } 
       hBitmap := HBitmapFromScreen(SearchX, SearchY, SearchW, SearchH)
       pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
@@ -297,7 +309,6 @@ Select(area) {
    Hook := ""
    Gui, %hGui%:Show, Hide
    ScreenIni := ScreenIni()
-   ; ScreenIni := "C:\Users\drwsi\Dropbox\Mechanic Track\Resources\Data\ScreenSearch.ini"
    For each, Coordinate in StrSplit("x|y|w|h", "|")
       {
          CoordinateValue := %Coordinate%
@@ -570,4 +581,9 @@ PostRestore()
     Return
 }
 
+GetSideTextArea()
+{
+   GetTextArea("Side Area")
+   Return
+}
 #IncludeAgain, Resources/Scripts/Ini.ahk

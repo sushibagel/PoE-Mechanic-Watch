@@ -182,6 +182,18 @@ AutoButtonCalibrateSearch()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
     Gui, Calibrate:Font, c%Font% s12
+    Gui, Calibrate:Add, Text, Section xs, Quest Tracker Text
+    Gui, Calibrate:Font, s8 c1177bb Normal Underline
+    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote1 gOpenFootnote, 1
+    Gui, Calibrate:Font
+    Gui, Calibrate:Font, cBlack Normal
+    Gui, Calibrate:Font, c%Font% s12
+    XBut := Round(96/A_ScreenDPI*425)
+    Gui, Calibrate:Add, Button, ys x%XBut% w80 gQuestText, Calibrate
+    Gui, Calibrate:Font, c1177bb Normal Underline
+    XSample := Round(96/A_ScreenDPI*570)
+    Gui, Calibrate:Add, Text, ys x+10 w80 HwndSampleQuestText gOpenImage, Sample
+    Gui, Calibrate:Font, c%Font% Normal
     Loop, %LoopCount%
     {
         Gui, Calibrate:Add, Text, Section xs, % MySearches[A_Index]
@@ -199,11 +211,11 @@ AutoButtonCalibrateSearch()
         Gui, Calibrate:Font, s8 c1177bb Normal Underline
         If (boss = "Maven")
         {
-            FootNote := 2
+            FootNote := 4
         }
         Else
         {
-            FootNote := 1
+            FootNote := 2
         }
         Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
         Gui, Calibrate:Font
@@ -240,7 +252,7 @@ AutoButtonCalibrateSearch()
     }
     Gui, Calibrate:Add, Text, Section xs, Map Device
     Gui, Calibrate:Font, s8 c1177bb Normal Underline
-    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote4 gOpenFootnote, 4
+    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote5 gOpenFootnote, 5
     XBut := Round(96/A_ScreenDPI*425)
     Gui, Calibrate:Font, Normal 
     Gui, Calibrate:Font, c%Font% s12
@@ -298,6 +310,13 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
             LastHwnd := mHwnd
             Return
         }
+    If InStr(A_GuiControl, "5") and (NoteSelected != 5)
+        {
+            NoteSelected := 0
+            ViewFootnote(5)
+            LastHwnd := mHwnd
+            Return
+        }
     If InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
         {
             MouseGetPos,,,, mHwnd, 2
@@ -305,52 +324,10 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
                 {
                     ImageH := 100
                     ImageW := 80
-                    ShowImage("RitualCount13", ImageH, ImageW)
+                    ShowImage("RitualIcon", ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, Sample2) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount23", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample3) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount33", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample4) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount14", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample5) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount24", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample6) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount34", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample7) and (mHwnd != LastHwnd)
-                {
-                    ImageH := 100
-                    ImageW := 80
-                    ShowImage("RitualCount44", ImageH, ImageW)
-                    LastHwnd := mHwnd
-                }
-            If Instr(mHwnd, Sample8) and (mHwnd != LastHwnd)
                 {
                     ImageH := 100
                     ImageW := 100
@@ -431,7 +408,15 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
                     ShowImage("Eldritch/eateron", ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
-        }
+            If Instr(mHwnd, SampleQuestText) and (mHwnd != LastHwnd)
+                {
+                    ImageH := 100
+                    ImageW := 80
+                    Gui, Calibrate:Submit, Nohide
+                    ShowImage("RitualIcon", ImageH, ImageW)
+                    LastHwnd := mHwnd
+                }
+    }
     If !InStr(A_GuiControl, "Sample") and (SamplePressed != 1)
     {
         Gui, ImageView:Destroy
@@ -472,7 +457,7 @@ ShowImage(SelectedImage, ImageH, ImageW, Caption:= "-Caption", CustomText := "",
 
 RitualSearch()
 {
-    Return, "Ritual 1/3|Ritual 2/3|Ritual 3/3|Ritual 1/4|Ritual 2/4|Ritual 3/4|Ritual 4/4|Ritual Shop"
+    Return, "Ritual Icon|Ritual Text|Ritual Shop"
 }
 
 OpenImage()
@@ -480,67 +465,27 @@ OpenImage()
     MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed :=
+    If Instr(mHwnd, "Static7")
+        {
+            SamplePressed := 1
+            ImageH := 100
+            ImageW := 80
+            ShowImage("RitualIcon", ImageH, ImageW,"+Caption")
+            LastHwnd := mHwnd
+        }
+    If Instr(mHwnd, "Static9")
+    {
+        SamplePressed := 1
+        ImageH := 250
+        ImageW := 100
+        ShowImage("RitualIcon", ImageH, ImageW, "+Caption")
+        LastHwnd := mHwnd
+    }
     If Instr(mHwnd, "Static11")
     {
         SamplePressed := 1
-        ImageH := 100
-        ImageW := 80
-        ShowImage("RitualCount13", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static13")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 80
-        ShowImage("RitualCount23", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static15")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 80
-        ShowImage("RitualCount33", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static17")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 80
-        ShowImage("RitualCount14", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static19")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 80
-        ShowImage("RitualCount24", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static21")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 80
-        ShowImage("RitualCount34", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static23")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 80
-        ShowImage("RitualCount44", ImageH, ImageW, "+Caption")
-        LastHwnd := mHwnd
-    }
-    If Instr(mHwnd, "Static25")
-    {
-        SamplePressed := 1
-        ImageH := 100
-        ImageW := 100
+        ImageH := 190
+        ImageW := 150
         ShowImage("RitualShop", ImageH, ImageW, "+Caption")
         LastHwnd := mHwnd
     }
@@ -557,7 +502,7 @@ OpenImage()
             SamplePressed := 1
             ImageH := 50
             ImageW := 70
-            ShowImage("Eldritch/mavenon", ImageH, ImageW)
+            ShowImage("Eldritch/mavenon", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "SampleSearingOn")
@@ -565,7 +510,7 @@ OpenImage()
             SamplePressed := 1
             ImageH := 50
             ImageW := 70
-            ShowImage("Eldritch/searingon", ImageH, ImageW)
+            ShowImage("Eldritch/searingon", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
     If Instr(mHwnd, "SampleEaterOn")
@@ -573,7 +518,7 @@ OpenImage()
             SamplePressed := 1
             ImageH := 50
             ImageW := 70
-            ShowImage("Eldritch/eateron", ImageH, ImageW)
+            ShowImage("Eldritch/eateron", ImageH, ImageW, "+Caption")
             LastHwnd := mHwnd
         }
 }
@@ -740,6 +685,12 @@ OpenFootnote()
             SamplePressed := 1
             ViewFootnote(4)
         }
+    If InStr(A_GuiControl, "5")
+        {
+            NoteSelected := 5
+            SamplePressed := 1
+            ViewFootnote(5)
+        }
 }
 
 ViewFootnote(FootnoteNum)
@@ -748,7 +699,7 @@ ViewFootnote(FootnoteNum)
     {
         If WinActive("Calibration Tool")
         {
-            CustomText := "To calibrate first select the stage (0-27) you want to calibrate then press the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+            CustomText := "Upon selecting ""Calibrate"" the Calibration Tool Menu will minimize, simply click and drag (a yellow box should appear as you drag) the area you want to use as the ""Calibrated"" area. It's recommended to select a larger area than may seem necessary to make sure that the text is completely captured. Calibration shouldn't be necessary but can help to make the tool slightly more efficient."
             Caption := "-Caption"
             If (SamplePressed = 1)
             {
@@ -768,7 +719,7 @@ ViewFootnote(FootnoteNum)
     {
         If WinActive("Calibration Tool")
         {
-            CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+            CustomText := "To calibrate first select the stage (0-27) you want to calibrate then press the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
             Caption := "-Caption"
             If (SamplePressed = 1)
             {
@@ -808,7 +759,7 @@ ViewFootnote(FootnoteNum)
     {
         If WinActive("Calibration Tool")
             {
-                CustomText := "The Map Device is used for identifying when the map device is open to activate the Master Mapping tool. To calibrate select the ""Map Receptacle""  text and the surrounding box, it`'s important not to select any of the Kirac mods below or your hideout in the background as this may cause issues with screen recognition."
+                CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
                 Caption := "-Caption"
                 If (SamplePressed = 1)
                 {
@@ -823,6 +774,19 @@ ViewFootnote(FootnoteNum)
                 GuiControl, Font, Text
             }
     }
+    If (FootnoteNum = 5)
+        {
+            If WinActive("Calibration Tool")
+                {
+                    CustomText := "The Map Device is used for identifying when the map device is open to activate the Master Mapping tool. To calibrate select the ""Map Receptacle""  text and the surrounding box, it`'s important not to select any of the Kirac mods below or your hideout in the background as this may cause issues with screen recognition."
+                    Caption := "-Caption"
+                    If (SamplePressed = 1)
+                    {
+                        Caption := "+Caption"
+                    }
+                    ShowImage("", 0, 0, Caption, CustomText,0)
+                }
+        }
 }
 
 ButtonEater()
@@ -956,5 +920,15 @@ MavenOnButton()
     Gui, Calibrate:Submit, Nohide
     FileName := "Resources\Images\Image Search\Eldritch\Custom\mavenon.png"
     ScreenShotTool(FileName)
+    Return
+}
+
+QuestText()
+{
+    Gui, Calibrate:Submit, Nohide
+    WinMinimize, Calibration Tool
+    PostSetup()
+    PostMessage, 0x01987,,,, ocr.ahk - AutoHotkey
+    PostRestore()
     Return
 }
