@@ -59,6 +59,9 @@ SelectMechanics(RunAuto := False)
     Gui, Mechanic:Add, Text, xn x10 Section, Mechanic
     Gui, Mechanic:Add, Text, x93 ys, On
     Gui, Mechanic:Add, Text, x135 ys, Active Only
+    Gui, Mechanic:Font, c%Font% s7
+    Gui, Mechanic:Add, Text, x+.5 ys, 1
+    Gui, Mechanic:Font, c%Font% s10
     Gui, Mechanic:Add, Text, x222 ys, Off
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
@@ -93,6 +96,9 @@ SelectMechanics(RunAuto := False)
         ;     Gui, Mechanic:Add, Checkbox, ys vIncursionTotal Checked%IncursionTotal%, Always 4?
         ; }
     }
+    Gui, Mechanic:Font, s8 c%Font%
+    Gui, Mechanic:Add, Text, xn x10 w240,1. Active Only will hide the mechanic icon unless it is made active either by hotkey or auto mechanic. 
+
     Gui, Mechanic:-Border -Caption
     Gui, Mechanic:Color, %Background%
     Gui, Mechanic:Font, s1 c%Secondary%
