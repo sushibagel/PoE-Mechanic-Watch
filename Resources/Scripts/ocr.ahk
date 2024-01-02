@@ -3,7 +3,7 @@
 #NoEnv
 #MaxMem 1024
 ; #NoTrayIcon ;need to enable for release
-Menu, Tray, Icon, Resources\Images\incursion.png ;path will need to be changed for release
+Menu, Tray, Icon, Resources\Images\incursion.png
 SetBatchLines, -1
 Global FinishedCoord
 
@@ -40,8 +40,6 @@ Start()
 {
    WinWaitActive, ahk_group PoeWindow
    MechanicsIni := MechanicsIni()
-   ; Delete this was for testing
-   ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
@@ -63,7 +61,7 @@ Return
 
 OCRMechanics()
 {
-   Return, "Incursion|Niko|Betrayal|Einhar"
+   Return, "Incursion|Niko|Betrayal|Einhar|Ritual"
 }
 
 CheckScreen()
@@ -74,8 +72,6 @@ CheckScreen()
              Start()
          }
          HideoutIni := HideoutIni()
-            ; Delete this was for testing
-         ; HideoutIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\hideout.ini"
          Loop
             {
                IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
@@ -89,8 +85,6 @@ CheckScreen()
                   }
             }
       ScreenIni := ScreenIni()
-      ; Delete this was for testing
-      ; ScreenIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\test.ini"
       For each, Coordinate in StrSplit("x|y|w|h", "|")
          {
             If (Coordinate = "x")
@@ -123,8 +117,6 @@ CheckScreen()
       OCRMechanics := StrSplit(OCRMechanics, "|")
       MechanicCount := OCRMechanics.MaxIndex()
       MechanicsIni := MechanicsIni()
-      ; Delete this was for testing
-      ; MechanicsIni := "C:\Users\drwsi\OneDrive\Documents\PoE-Mechanic-Watch\Resources\Scripts\Mechanics.ini"
       Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
          {
             IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
@@ -148,8 +140,8 @@ CheckScreen()
                                  RefreshOverlay()
                               }
                         }
-                     EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
-                     If (RegExMatch(ScreenText, EinharProcessPattern))
+                  EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+                  If (RegExMatch(ScreenText, EinharProcessPattern))
                         {
                            EinharCount := StrSplit(ScreenText,"(")
                            EinharCount := StrSplit(EinharCount[2],")")
@@ -278,6 +270,15 @@ CheckScreen()
                                     RefreshOverlay()
                                  }
                            }
+                     }
+                  If (OCRMEchanics[A_Index] = "Ritual")
+                     {
+                        IniRead, RitualActive, %MechanicsIni%, Mechanic Active, Ritual, 0
+                        If (RitualActive = 1)
+                           {
+                              RitualOCR()
+                           }
+                        Return
                      }
                }
          }
@@ -591,6 +592,55 @@ GetSideTextArea()
 GetRitualTextArea()
 {
    GetTextArea("Ritual Area")
+   Return
+}
+
+RitualOCR()
+{
+   ScreenIni := ScreenIni()
+   For each, Coordinate in StrSplit("x|y|w|h", "|")
+      {
+         If (Coordinate = "x")
+            {
+               Default := 0
+            }
+         If (Coordinate = "y")
+            {
+               Default := A_ScreenHeight/3
+            }
+         If (Coordinate = "w")
+            {
+               Default := A_ScreenWidth
+            }
+         If (Coordinate = "h")
+            {
+               Default := A_ScreenHeight
+            }
+         Search := "Search" Coordinate
+         IniRead, %Search%, %ScreenIni%, Ritual Area, %Coordinate%, %Default%
+      } 
+   hBitmap := HBitmapFromScreen(SearchX, SearchY, SearchW, SearchH)
+   pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
+   DllCall("DeleteObject", "Ptr", hBitmap)
+   v_text := OCR(pIRandomAccessStream, "en")
+   ObjRelease(pIRandomAccessStream)
+   ScreenText := % v_text
+   RitualSearchCombos :=    ".*(?:113|213|313|114|214|314|414|1/3|2/3|3/3|1/4|2/4|3/4|4/4).*" ;using a search combo to help prevent false positives
+   If (RegExMatch(ScreenText, RitualSearchCombos, RitualMatch)) 
+      {
+         If !InStr(RitualMatch, "/")
+            {
+               RitualMatch := StrSplit(RitualMatch)
+               RitualMatch := RitualMatch[1] "/" RitualMatch[3]
+            }
+            MechanicsIni := MechanicsIni()
+         IniRead, CurrentCount, %MechanicsIni%, Ritual Track, Count
+         If !(CurrentCount = RitualMatch)
+            {
+               IniWrite, %RitualMatch%, %MechanicsIni%, Ritual Track, Count
+               RefreshOverlay()
+            }
+      }
    Return
 }
 
