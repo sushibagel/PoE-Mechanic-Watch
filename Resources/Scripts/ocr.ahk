@@ -152,12 +152,13 @@ CheckScreen()
                               }
                            Else
                               {
-                                 If (EinharCount[1] = "") or InStr(NikoCount[1], Optional)
+                                 If (EinharCount[1] = "") or InStr(EinharCount[1], "Optional")
                                     {
                                        EinharCount := 0
                                     }
                                  If (StrLen(EinharCount[1]) = 3) and !(EinharCount[1] = "")
                                     {
+                                       
                                        EinharCount := StrSplit(EinharCount[1])
                                        EinharCount := EinharCount[1] "/" EinharCount[3]                     
                                     }
@@ -175,7 +176,7 @@ CheckScreen()
                            MechanicsIni := MechanicsIni()
                            CurrentCount := ""
                            IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
-                           If !(CurrentCount = EinharCount) and (EinharComplete = 0)
+                           If !(CurrentCount = EinharCount) and !(EinharComplete = 1)
                               {
                                  EinharComplete := 1
                                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
@@ -213,8 +214,8 @@ CheckScreen()
                               IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
                               If !(CurrentCount = NikoCount)
                                  {
-                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
                                     IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
+                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
                                     RefreshOverlay()
                                  }
                            }
@@ -244,7 +245,7 @@ CheckScreen()
                                  }
                               Else
                                  {
-                                    If !(BetrayalCount[1] = "") and !InStr(BetryalCount[1], Optional)
+                                    If !(BetrayalCount[1] = "") and !InStr(BetryalCount[1], "Optional")
                                        {
                                           BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
                                        }

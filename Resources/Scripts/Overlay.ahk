@@ -73,7 +73,7 @@ RefreshOverlay()
                         IniRead, EinharCount, %MechanicsIni%, Einhar Track, Current Count, ""
                         If (EinharCount = 0)
                             {
-                                EinharCount := ""
+                                EinharCount := BlankVariable
                             }
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         Gui, Overlay:Font, cWhite s%OverlayFont%
@@ -85,7 +85,7 @@ RefreshOverlay()
                         IniRead, NikoCount, %MechanicsIni%, Niko Track, Current Count, ""
                         If (NikoCount = 0)
                             {
-                                NikoCount := ""
+                                NikoCount := BlankVariable
                             }
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         Gui, Overlay:Font, cWhite s%OverlayFont%
@@ -97,14 +97,14 @@ RefreshOverlay()
                         IniRead, BetrayalCount, %MechanicsIni%, Betrayal Track, Current Count, ""
                         If (BetrayalCount = 0)
                             {
-                                BetrayalCount := ""
+                                BetrayalCount := BlankVariable
                             }
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         Gui, Overlay:Add, Text, xs+%TrackOffset%, %BetrayalCount%
                     }
             }
-            If (%mechanicon% = 1) 
+            If (%mechanicon% = 1) and !(%mechanicactive% = 1)
             {
                 Gui, Overlay:Add, Picture, Section g%Mechanic% %OverlayOrientation% w-1 h%IconHeight%, Resources/Images/%Mechanic%.png
                 If (Mechanic = "Incursion")
@@ -215,6 +215,16 @@ MechanicToggle(ToggleMechanic)
             IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
             IniWrite, %A_Space%, %MechanicsIni%, Ritual Track, Count
         }
+        If (ToggleMechanic = "Niko")
+            {
+                MechanicsIni := MechanicsIni()
+                IniWrite, %A_Space%, %MechanicsIni%, Niko Track, Current Count
+            }
+        If (ToggleMechanic = "Betrayal")
+            {
+                MechanicsIni := MechanicsIni()
+                IniWrite, %A_Space%, %MechanicsIni%, Betrayal Track, Current Count
+            }
         MechanicsActive()
         If (MechanicsActive = 0)
         {
