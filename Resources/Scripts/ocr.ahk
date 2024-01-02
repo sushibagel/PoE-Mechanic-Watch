@@ -6,6 +6,7 @@
 Menu, Tray, Icon, Resources\Images\incursion.png
 SetBatchLines, -1
 Global FinishedCoord
+Global EinharComplete
 
 OnMessage(0x01987, "GetSideTextArea")
 OnMessage(0x01988, "GetRitualTextArea")
@@ -51,7 +52,7 @@ Start()
                IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
                If (mActiveCheck > 0)
                   {
-                     SetTimer, CheckScreen, 300
+                     SetTimer, CheckScreen, 800
                      Break
                   }
             }
@@ -174,8 +175,9 @@ CheckScreen()
                            MechanicsIni := MechanicsIni()
                            CurrentCount := ""
                            IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
-                           If !(CurrentCount = EinharCount)
+                           If !(CurrentCount = EinharCount) and (EinharComplete = 0)
                               {
+                                 EinharComplete := 1
                                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
                                  IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
                                  RefreshOverlay()
@@ -196,13 +198,14 @@ CheckScreen()
                                  }
                               Else
                                  {
-                                    If !( NikoCount[1] = "") and !InStr(NikoCount[1], Optional)
-                                       {
-                                          NikoCount := NikoCount[1] "/" NikoCount[3]
-                                       }
                                     If (NikoCount[1] = "")
                                        {
                                           NikoCount := 0
+                                       }
+                                    If !( NikoCount[1] = "") and !InStr(NikoCount[1], "Optional")
+                                       {
+                                          NikoCount := StrSplit(NikoCount[1])
+                                          NikoCount := NikoCount[1] "/" NikoCount[3]
                                        }
                                  }
                               MechanicsIni := MechanicsIni()
