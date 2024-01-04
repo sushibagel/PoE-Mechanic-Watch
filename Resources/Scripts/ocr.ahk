@@ -191,34 +191,52 @@ CheckScreen()
                         NikoProcessPattern := ".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*"
                         If (RegExMatch(ScreenText, NikoProcessPattern))
                            {
-                              NikoCount := StrSplit(ScreenText,"(")
-                              NikoCount := StrSplit(NikoCount[2],")")
-                              If InStr(NikoCount[1], "/")
+                              NikoCount := StrSplit(ScreenText, "`n")
+                              Test := NikoCount.MaxIndex()
+                              Loop, %Test%
                                  {
-                                    NikoCount := NikoCount[1]
-                                 }
-                              Else
-                                 {
-                                    If (NikoCount[1] = "")
+                                    If (RegexMatch(NikoCount[A_Index],NikoProcessPattern))
                                        {
-                                          NikoCount := 0
-                                       }
-                                    If !( NikoCount[1] = "") and !InStr(NikoCount[1], "Optional")
-                                       {
-                                          NikoCount := StrSplit(NikoCount[1])
-                                          NikoCount := NikoCount[1] "/" NikoCount[3]
-                                       }
+                                          IndexMatch := A_Index -1
+                                          Loop, 2
+                                             {
+                                                IndexMatch++
+                                                If InStr(NikoCount[IndexMatch], "(")
+                                                   {
+                                                      NikoCount := StrSplit(NikoCount[IndexMatch],"(")
+                                                      NikoCount := StrSplit(NikoCount[2],")")
+                                                      If InStr(NikoCount[1], "/")
+                                                         {
+                                                            NikoCount := NikoCount[1]
+                                                            Break
+                                                         }
+                                                   }
+                                                Else
+                                                   {
+                                                      If (NikoCount[1] = "")
+                                                         {
+                                                            NikoCount := 0
+                                                         }
+                                                      If !(NikoCount[1] = "") 
+                                                         {
+                                                            NikoCount := StrSplit(NikoCount[1])
+                                                            NikoCount := NikoCount[1] "/" NikoCount[3]
+                                                         }
+                                                   }
+                                                }
+                                             }
+                                          }
+                                             MechanicsIni := MechanicsIni()
+                                             CurrentCount := ""
+                                             IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
+                                             If !(CurrentCount = NikoCount)
+                                                {
+                                                   IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
+                                                   IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
+                                                   RefreshOverlay()
+                                                }                                          
                                  }
-                              MechanicsIni := MechanicsIni()
-                              CurrentCount := ""
-                              IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
-                              If !(CurrentCount = NikoCount)
-                                 {
-                                    IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
-                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
-                                    RefreshOverlay()
-                                 }
-                           }
+
                         If InStr(ScreenText, "Mission Complete")
                            {
                               MechanicsIni := MechanicsIni()
