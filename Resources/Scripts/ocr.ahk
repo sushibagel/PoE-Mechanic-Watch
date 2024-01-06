@@ -285,37 +285,57 @@ CheckScreen()
             }
          }
          BetrayalPattern := ".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
-         If (RegExMatch(ScreenText, BetrayalPattern)) and (OCRMechanics[A_Index] = "Betrayal")
+         If (RegExMatch(ScreenText, BetrayalPattern)) and (OCRMechanics[A_Index] = "Betrayal") 
          {
             BetrayalProcessPattern := ".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
             If (RegExMatch(ScreenText, BetrayalProcessPattern))
             {
-               BetrayalCount := StrSplit(ScreenText,"(")
-               BetrayalCount := StrSplit(BetrayalCount[2],")")
-               If InStr(BetrayalCount[1], "/")
+               BetrayalCount := StrSplit(ScreenText, "`n")
+               BetrayalLines := BetrayalCount.MaxIndex()
+               Loop, %BetrayalLines%
                {
-                  BetrayalCount := BetrayalCount[1]
-               }
-               Else
-               {
-                  If !(BetrayalCount[1] = "") and !InStr(BetryalCount[1], "Optional")
+                  If (RegexMatch(BetrayalCount[A_Index],BetrayalProcessPattern))
                   {
-                     BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
-                  }
-                  Else
-                  {
-                     BetrayalCount := 0
+                     IndexMatch := A_Index -1
+                     Loop, 2
+                     {
+                        IndexMatch++
+                        If InStr(BetrayalCount[IndexMatch], "(")
+                        {
+                           BetrayalCount := StrSplit(BetrayalCount[IndexMatch],"(")
+                           BetrayalCount := StrSplit(BetrayalCount[2],")")
+                           If InStr(BetrayalCount[1], "/")
+                           {
+                              BetrayalCount := BetrayalCount[1]
+                              Break
+                           }
+                        }
+                        Else
+                        {
+                           If (BetrayalCount[1] = "")
+                           {
+                              BetrayalCount := 0
+                           }
+                           If !(BetrayalCount[1] = "")
+                           {
+                              BetrayalCount := StrSplit(BetrayalCount[1])
+                              BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
+                           }
+                        }
+                     }
                   }
                }
                MechanicsIni := MechanicsIni()
+               CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
                If !(CurrentCount = BetrayalCount)
                {
-                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
                   IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
+                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
                   RefreshOverlay()
                }
             }
+         
             If InStr(ScreenText, "Mission Complete")
             {
                MechanicsIni := MechanicsIni()
