@@ -17,7 +17,7 @@ OnMessage(0x01988, "GetRitualTextArea")
 ;	NOTES: Optical character recognition (OCR) with UWP API
 
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
-GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
+GroupAdd, PoeWindow, ahk_exe PathOfExile.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
 GroupAdd, PoeWindow, ahk_exe Code.exe
@@ -30,11 +30,11 @@ GetTextArea(SelectedArea)
    GetArea()
    ScreenIni := ScreenIni()
    For each, Coordinate in StrSplit("x|y|w|h", "|")
-      {
-         IniRead, Coord, %ScreenIni%, OCR Area, %Coordinate%
-         IniWrite, %Coord%, %ScreenIni%, %SelectedArea%, %Coordinate%
-         IniWrite, %blankVariable%, %ScreenIni%, OCR Area, %Coordinate%
-      } 
+   {
+      IniRead, Coord, %ScreenIni%, OCR Area, %Coordinate%
+      IniWrite, %Coord%, %ScreenIni%, %SelectedArea%, %Coordinate%
+      IniWrite, %blankVariable%, %ScreenIni%, OCR Area, %Coordinate%
+   }
 }
 
 Start()
@@ -44,19 +44,19 @@ Start()
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
-   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting th   e search variables here because I don't want to activate the timer twice. 
+   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting th   e search variables here because I don't want to activate the timer twice.
+   {
+      IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
+      If (ActiveCheck = 1)
       {
-         IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
-         If (ActiveCheck = 1)
-            {
-               IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
-               If (mActiveCheck > 0)
-                  {
-                     SetTimer, CheckScreen, 800
-                     Break
-                  }
-            }
+         IniRead, mActiveCheck, %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay.
+         If (mActiveCheck > 0)
+         {
+            SetTimer, CheckScreen, 800
+            Break
+         }
       }
+   }
 }
 Return
 
@@ -66,245 +66,280 @@ OCRMechanics()
 }
 
 CheckScreen()
+{
+   If !WinActive("ahk_group PoeWindow")
    {
-      If !WinActive("ahk_group PoeWindow")
+      SetTimer, CheckScreen, Off
+      Start()
+   }
+   HideoutIni := HideoutIni()
+   Loop
+   {
+      IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
+      If (HideoutStatus = 1)
+      {
+         Sleep, 5000
+      }
+      If (HideoutStatus = 0)
+      {
+         Break
+      }
+   }
+   ScreenIni := ScreenIni()
+   For each, Coordinate in StrSplit("x|y|w|h", "|")
+   {
+      If (Coordinate = "x")
+      {
+         Default := A_ScreenWidth/2
+      }
+      If (Coordinate = "y")
+      {
+         Default := 0
+      }
+      If (Coordinate = "w")
+      {
+         Default := A_ScreenWidth
+      }
+      If (Coordinate = "h")
+      {
+         Default := A_ScreenHeight
+      }
+      Search := "Search" Coordinate
+      IniRead, %Search%, %ScreenIni%, Side Area, %Coordinate%, %Default%
+   }
+   hBitmap := HBitmapFromScreen(SearchX, SearchY, SearchW, SearchH)
+   pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
+   DllCall("DeleteObject", "Ptr", hBitmap)
+   v_text := OCR(pIRandomAccessStream, "en")
+   ObjRelease(pIRandomAccessStream)
+   ScreenText := % v_text
+   v_Reminder :=
+   OCRMechanics := OCRMechanics()
+   OCRMechanics := StrSplit(OCRMechanics, "|")
+   MechanicCount := OCRMechanics.MaxIndex()
+   MechanicsIni := MechanicsIni()
+   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice.
+   {
+      IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
+      IniRead, mActiveCheck, %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay.
+      If(ActiveCheck = 1) and (mActiveCheck > 0)
+      {
+         ; Define the regex pattern
+         EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+         ; Check if the string matches the regex pattern
+         If (RegExMatch(ScreenText, EinharPattern)) and (OCRMechanics[A_Index] = "Einhar")
          {
-             SetTimer, CheckScreen, Off
-             Start()
-         }
-         HideoutIni := HideoutIni()
-         Loop
+            ;now look for specific match matches to determine what part of the chain we are in.
+            If InStr(ScreenText, "Mission complete")
             {
-               IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
-               If (HideoutStatus = 1)
-                  {
-                     Sleep, 5000
-                  }
-               If (HideoutStatus = 0)
-                  {
-                     Break
-                  }
+               MechanicsIni := MechanicsIni()
+               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
+               If (CurrentStatus = 1)
+               {
+                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
+                  IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
+                  RefreshOverlay()
+               }
             }
-      ScreenIni := ScreenIni()
-      For each, Coordinate in StrSplit("x|y|w|h", "|")
-         {
-            If (Coordinate = "x")
+            EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+            If (RegExMatch(ScreenText, EinharPattern)) and (OCRMechanics[A_Index] = "Einhar") ; Find Einhar mission in the screen text and check that it the auto mechanic is active.
+            {
+               EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+               If (RegExMatch(ScreenText, EinharProcessPattern)) ;Narrow down the search to see if the mission was completed.
                {
-                  Default := A_ScreenWidth/2
-               }
-            If (Coordinate = "y")
-               {
-                  Default := 0
-               }
-            If (Coordinate = "w")
-               {
-                  Default := A_ScreenWidth
-               }
-            If (Coordinate = "h")
-               {
-                  Default := A_ScreenHeight
-               }
-               Search := "Search" Coordinate
-            IniRead, %Search%, %ScreenIni%, Side Area, %Coordinate%, %Default%
-         } 
-      hBitmap := HBitmapFromScreen(SearchX, SearchY, SearchW, SearchH)
-      pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
-      DllCall("DeleteObject", "Ptr", hBitmap)
-      v_text := OCR(pIRandomAccessStream, "en")
-      ObjRelease(pIRandomAccessStream)
-      ScreenText := % v_text
-      v_Reminder := 
-      OCRMechanics := OCRMechanics()
-      OCRMechanics := StrSplit(OCRMechanics, "|")
-      MechanicCount := OCRMechanics.MaxIndex()
-      MechanicsIni := MechanicsIni()
-      Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice. 
-         {
-            IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
-            IniRead, mActiveCheck,  %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay. 
-            If(ActiveCheck = 1) and (mActiveCheck > 0)
-               {
-                  ; Define the regex pattern
-                  EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
-                  ; Check if the string matches the regex pattern
-                  If (RegExMatch(ScreenText, EinharPattern)) and (OCRMechanics[A_Index] = "Einhar") 
+                  EinharCount := StrSplit(ScreenText, "`n") ;Split the text found on screen by lines.
+                  EinharLines := EinharCount.MaxIndex()
+                  Loop, %EinharLines%
                   {
-                     ;now look for specific match matches to determine what part of the chain we are in. 
-                     If InStr(ScreenText, "Mission complete")
+                     If (RegexMatch(EinharCount[A_Index],EinharProcessPattern))
+                     {
+                        IndexMatch := A_Index -1
+                        Loop, 2
                         {
-                           MechanicsIni := MechanicsIni()
-                           IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
-                           If (CurrentStatus = 1)
-                              {
-                                 IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
-                                 IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
-                                 RefreshOverlay()
-                              }
-                        }
-                  EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
-                  If (RegExMatch(ScreenText, EinharProcessPattern))
-                        {
-                           EinharCount := StrSplit(ScreenText,"(")
-                           EinharCount := StrSplit(EinharCount[2],")")
-                           If InStr(EinharCount[1], "/")
+                           IndexMatch++
+                           If InStr(EinharCount[IndexMatch], "(")
+                           {
+                              EinharCount := StrSplit(EinharCount[IndexMatch],"(")
+                              EinharCount := StrSplit(EinharCount[2],")")
+                              If InStr(EinharCount[1], "/") ;If "/" is found in the number sequence we just use that as the "Count" text for the overlay.
                               {
                                  EinharCount := EinharCount[1]
+                                 Break
                               }
+                           }
                            Else
-                              {
-                                 If (EinharCount[1] = "") or InStr(EinharCount[1], "Optional")
-                                    {
-                                       EinharCount := 0
-                                    }
-                                 If (StrLen(EinharCount[1]) = 3) and !(EinharCount[1] = "")
-                                    {
-                                       
-                                       EinharCount := StrSplit(EinharCount[1])
-                                       EinharCount := EinharCount[1] "/" EinharCount[3]                     
-                                    }
-                                 If (StrLen(EinharCount[1]) = 4) and !(EinharCount[1] = "")
-                                    {
-                                       EinharCount := StrSplit(EinharCount[1])
-                                       EinharCount := EinharCount[1] "/" EinharCount[3] EinharCount[4]                    
-                                    }
-                                 If (StrLen(EinharCount[1]) = 5) and !(EinharCount[1] = "")
-                                    {
-                                       EinharCount := StrSplit(EinharCount[1])
-                                       EinharCount := EinharCount[1] EinharCount[2] "/" EinharCount[4] EinharCount[5]                    
-                                    }
-                              }
-                           MechanicsIni := MechanicsIni()
-                           CurrentCount := ""
-                           IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
-                           If !(CurrentCount = EinharCount) and !(EinharComplete = 1)
-                              {
-                                 EinharComplete := 1
-                                 IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
-                                 IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
-                                 RefreshOverlay()
-                              }
-                        }
-                  }
-                  NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
-                  If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Niko") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics? 
-                     { 
-                        NikoProcessPattern := ".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*"
-                        If (RegExMatch(ScreenText, NikoProcessPattern))
                            {
-                              NikoCount := StrSplit(ScreenText, "`n")
-                              Test := NikoCount.MaxIndex()
-                              Loop, %Test%
-                                 {
-                                    If (RegexMatch(NikoCount[A_Index],NikoProcessPattern))
-                                       {
-                                          IndexMatch := A_Index -1
-                                          Loop, 2
-                                             {
-                                                IndexMatch++
-                                                If InStr(NikoCount[IndexMatch], "(")
-                                                   {
-                                                      NikoCount := StrSplit(NikoCount[IndexMatch],"(")
-                                                      NikoCount := StrSplit(NikoCount[2],")")
-                                                      If InStr(NikoCount[1], "/")
-                                                         {
-                                                            NikoCount := NikoCount[1]
-                                                            Break
-                                                         }
-                                                   }
-                                                Else
-                                                   {
-                                                      If (NikoCount[1] = "")
-                                                         {
-                                                            NikoCount := 0
-                                                         }
-                                                      If !(NikoCount[1] = "") 
-                                                         {
-                                                            NikoCount := StrSplit(NikoCount[1])
-                                                            NikoCount := NikoCount[1] "/" NikoCount[3]
-                                                         }
-                                                   }
-                                                }
-                                             }
-                                          }
-                                             MechanicsIni := MechanicsIni()
-                                             CurrentCount := ""
-                                             IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
-                                             If !(CurrentCount = NikoCount)
-                                                {
-                                                   IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
-                                                   IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
-                                                   RefreshOverlay()
-                                                }                                          
-                                 }
+                              If (EinharCount[1] = "") ;If the string is empty the first step of the mechanic probably hasn't been completed so we'll just leave it blank.
+                              {
+                                 EinharCount := 0
+                              }
 
-                        If InStr(ScreenText, "Mission Complete")
-                           {
-                              MechanicsIni := MechanicsIni()
-                              IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Niko, 0
-                              If (CurrentStatus = 1)
+                              If !(EinharCount[1] = "") ;If we don't find the "/" and the string isn't empty we need to figure out the correct "count"
                               {
-                                 IniWrite, 0, %MechanicsIni%, Mechanic Active, Niko
-                                 IniWrite, "", %MechanicsIni%, Niko Track, Current Count
-                                 RefreshOverlay()
+                                 If (StrLen(EinharCount[1]) = 3) and !(EinharCount[1] = "")
+                                 {
+
+                                    EinharCount := StrSplit(EinharCount[1])
+                                    EinharCount := EinharCount[1] "/" EinharCount[3]
+                                 }
+                                 If (StrLen(EinharCount[1]) = 4) and !(EinharCount[1] = "")
+                                 {
+                                    EinharCount := StrSplit(EinharCount[1])
+                                    EinharCount := EinharCount[1] "/" EinharCount[3] EinharCount[4]
+                                 }
+                                 If (StrLen(EinharCount[1]) = 5) and !(EinharCount[1] = "")
+                                 {
+                                    EinharCount := StrSplit(EinharCount[1])
+                                    EinharCount := EinharCount[1] EinharCount[2] "/" EinharCount[4] EinharCount[5]
+                                 }
                               }
                            }
+                        }
                      }
-                  BetrayalPattern := ".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
-                  If (RegExMatch(ScreenText, BetrayalPattern)) and (OCRMechanics[A_Index] = "Betrayal")
-                     { 
-                        BetrayalProcessPattern := ".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
-                        If (RegExMatch(ScreenText, BetrayalProcessPattern))
-                           {
-                              BetrayalCount := StrSplit(ScreenText,"(")
-                              BetrayalCount := StrSplit(BetrayalCount[2],")")
-                              If InStr(BetrayalCount[1], "/")
-                                 {
-                                    BetrayalCount := BetrayalCount[1]
-                                 }
-                              Else
-                                 {
-                                    If !(BetrayalCount[1] = "") and !InStr(BetryalCount[1], "Optional")
-                                       {
-                                          BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
-                                       }
-                                    Else
-                                       {
-                                          BetrayalCount := 0
-                                       }
-                                 }
-                              MechanicsIni := MechanicsIni()
-                              IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
-                              If !(CurrentCount = BetrayalCount)
-                                 {
-                                    IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
-                                    IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
-                                    RefreshOverlay()
-                                 }
-                           }
-                        If InStr(ScreenText, "Mission Complete")
-                           {
-                              MechanicsIni := MechanicsIni()
-                              IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
-                              If (CurrentStatus = 1)
-                                 {
-                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Betrayal
-                                    IniWrite, "", %MechanicsIni%, Betrayal Track, Current Count
-                                    RefreshOverlay()
-                                 }
-                           }
-                     }
-                  If (OCRMEchanics[A_Index] = "Ritual")
-                     {
-                        IniRead, RitualActive, %MechanicsIni%, Mechanic Active, Ritual, 0
-                        If (RitualActive = 1)
-                           {
-                              RitualOCR()
-                           }
-                        Return
-                     }
+                  }
+                  MechanicsIni := MechanicsIni()
+                  CurrentCount := ""
+                  IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
+                  If !(CurrentCount = EinharCount)
+                  {
+                     IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
+                     IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
+                     RefreshOverlay()
+                  }
                }
+
+               If InStr(ScreenText, "Mission Complete")
+               {
+                  MechanicsIni := MechanicsIni()
+                  IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
+                  If (CurrentStatus = 1)
+                  {
+                     IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
+                     IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
+                     RefreshOverlay()
+                  }
+               }
+            }
+         NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
+         If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Niko") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics?
+         {
+            NikoProcessPattern := ".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*"
+            If (RegExMatch(ScreenText, NikoProcessPattern))
+            {
+               NikoCount := StrSplit(ScreenText, "`n")
+               NikoLines := NikoCount.MaxIndex()
+               Loop, %NikoLines%
+               {
+                  If (RegexMatch(NikoCount[A_Index],NikoProcessPattern))
+                  {
+                     IndexMatch := A_Index -1
+                     Loop, 2
+                     {
+                        IndexMatch++
+                        If InStr(NikoCount[IndexMatch], "(")
+                        {
+                           NikoCount := StrSplit(NikoCount[IndexMatch],"(")
+                           NikoCount := StrSplit(NikoCount[2],")")
+                           If InStr(NikoCount[1], "/")
+                           {
+                              NikoCount := NikoCount[1]
+                              Break
+                           }
+                        }
+                        Else
+                        {
+                           If (NikoCount[1] = "")
+                           {
+                              NikoCount := 0
+                           }
+                           If !(NikoCount[1] = "")
+                           {
+                              NikoCount := StrSplit(NikoCount[1])
+                              NikoCount := NikoCount[1] "/" NikoCount[3]
+                           }
+                        }
+                     }
+                  }
+               }
+               MechanicsIni := MechanicsIni()
+               CurrentCount := ""
+               IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
+               If !(CurrentCount = NikoCount)
+               {
+                  IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
+                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
+                  RefreshOverlay()
+               }
+            }
+
+            If InStr(ScreenText, "Mission Complete")
+            {
+               MechanicsIni := MechanicsIni()
+               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Niko, 0
+               If (CurrentStatus = 1)
+               {
+                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Niko
+                  IniWrite, "", %MechanicsIni%, Niko Track, Current Count
+                  RefreshOverlay()
+               }
+            }
          }
+         BetrayalPattern := ".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
+         If (RegExMatch(ScreenText, BetrayalPattern)) and (OCRMechanics[A_Index] = "Betrayal")
+         {
+            BetrayalProcessPattern := ".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
+            If (RegExMatch(ScreenText, BetrayalProcessPattern))
+            {
+               BetrayalCount := StrSplit(ScreenText,"(")
+               BetrayalCount := StrSplit(BetrayalCount[2],")")
+               If InStr(BetrayalCount[1], "/")
+               {
+                  BetrayalCount := BetrayalCount[1]
+               }
+               Else
+               {
+                  If !(BetrayalCount[1] = "") and !InStr(BetryalCount[1], "Optional")
+                  {
+                     BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
+                  }
+                  Else
+                  {
+                     BetrayalCount := 0
+                  }
+               }
+               MechanicsIni := MechanicsIni()
+               IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
+               If !(CurrentCount = BetrayalCount)
+               {
+                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
+                  IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
+                  RefreshOverlay()
+               }
+            }
+            If InStr(ScreenText, "Mission Complete")
+            {
+               MechanicsIni := MechanicsIni()
+               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
+               If (CurrentStatus = 1)
+               {
+                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Betrayal
+                  IniWrite, "", %MechanicsIni%, Betrayal Track, Current Count
+                  RefreshOverlay()
+               }
+            }
+         }
+         If (OCRMEchanics[A_Index] = "Ritual")
+         {
+            IniRead, RitualActive, %MechanicsIni%, Mechanic Active, Ritual, 0
+            If (RitualActive = 1)
+            {
+               RitualOCR()
+            }
+            Return
+         }
+      }
    }
+}
 
 GetArea() {
    FinishedCoord := 0
@@ -314,7 +349,7 @@ GetArea() {
       Sleep, 100
    Return area
 }
-   
+
 StartSelection(area) {
    handler := Func("Select").Bind(area)
    Hotkey, LButton, % handler, On
@@ -334,37 +369,37 @@ Select(area) {
    Gui, %hGui%:Show, Hide
    ScreenIni := ScreenIni()
    For each, Coordinate in StrSplit("x|y|w|h", "|")
-      {
-         CoordinateValue := %Coordinate%
-         IniWrite, %CoordinateValue%, %ScreenIni%, OCR Area, %Coordinate% 
-      }  
-   FinishedCoord := 1   
+   {
+      CoordinateValue := %Coordinate%
+      IniWrite, %CoordinateValue%, %ScreenIni%, OCR Area, %Coordinate%
+   }
+   FinishedCoord := 1
 }
 
 ReplaceSystemCursors(IDC = "") {
    Static IMAGE_CURSOR := 2, SPI_SETCURSORS := 0x57
-        , exitFunc := Func("ReplaceSystemCursors").Bind("")
-        , SysCursors := { IDC_APPSTARTING: 32650
-                        , IDC_ARROW      : 32512
-                        , IDC_CROSS      : 32515
-                        , IDC_HAND       : 32649
-                        , IDC_HELP       : 32651
-                        , IDC_IBEAM      : 32513
-                        , IDC_NO         : 32648
-                        , IDC_SIZEALL    : 32646
-                        , IDC_SIZENESW   : 32643
-                        , IDC_SIZENWSE   : 32642
-                        , IDC_SIZEWE     : 32644
-                        , IDC_SIZENS     : 32645 
-                        , IDC_UPARROW    : 32516
-                        , IDC_WAIT       : 32514 }
+      , exitFunc := Func("ReplaceSystemCursors").Bind("")
+      , SysCursors := { IDC_APPSTARTING: 32650
+         , IDC_ARROW : 32512
+         , IDC_CROSS : 32515
+         , IDC_HAND : 32649
+         , IDC_HELP : 32651
+         , IDC_IBEAM : 32513
+         , IDC_NO : 32648
+         , IDC_SIZEALL : 32646
+         , IDC_SIZENESW : 32643
+         , IDC_SIZENWSE : 32642
+         , IDC_SIZEWE : 32644
+         , IDC_SIZENS : 32645
+         , IDC_UPARROW : 32516
+         , IDC_WAIT : 32514 }
    If !IDC {
       DllCall("SystemParametersInfo", UInt, SPI_SETCURSORS, UInt, 0, UInt, 0, UInt, 0)
       OnExit(exitFunc, 0)
    }
-   Else  {
+   Else {
       hCursor := DllCall("LoadCursor", Ptr, 0, UInt, SysCursors[IDC], Ptr)
-      For k, v in SysCursors  {
+      For k, v in SysCursors {
          hCopy := DllCall("CopyImage", Ptr, hCursor, UInt, IMAGE_CURSOR, Int, 0, Int, 0, UInt, 0, Ptr)
          DllCall("SetSystemCursor", Ptr, hCopy, UInt, v)
       }
@@ -382,9 +417,9 @@ CreateSelectionGui() {
 
 LowLevelMouseProc(nCode, wParam, lParam) {
    Static WM_MOUSEMOVE := 0x200, WM_LBUTTONUP := 0x202
-        , coords := [], startMouseX, startMouseY, hGui
-        , timer := Func("LowLevelMouseProc").Bind("timer", "", "")
-   
+      , coords := [], startMouseX, startMouseY, hGui
+      , timer := Func("LowLevelMouseProc").Bind("timer", "", "")
+
    If (nCode = "timer") {
       While coords[1] {
          point := coords.RemoveAt(1)
@@ -443,9 +478,9 @@ HBitmapToRandomAccessStream(hBitmap) {
         , IID_IPicture            := "{7BF80980-BF32-101A-8BBB-00AA00300CAB}"
         , PICTYPE_BITMAP := 1
         , BSOS_DEFAULT   := 0
-        
+
    DllCall("Ole32\CreateStreamOnHGlobal", "Ptr", 0, "UInt", true, "PtrP", pIStream, "UInt")
-   
+
    VarSetCapacity(PICTDESC, sz := 8 + A_PtrSize*2, 0)
    NumPut(sz, PICTDESC)
    NumPut(PICTYPE_BITMAP, PICTDESC, 4)
@@ -517,7 +552,7 @@ OCR(IRandomAccessStream, language := "en")
    Loop % count
    {
       DllCall(NumGet(NumGet(lines+0)+6*A_PtrSize), "ptr", lines, "int", A_Index-1, "ptr*", OcrLine)
-      DllCall(NumGet(NumGet(OcrLine+0)+7*A_PtrSize), "ptr", OcrLine, "ptr*", hText) 
+      DllCall(NumGet(NumGet(OcrLine+0)+7*A_PtrSize), "ptr", OcrLine, "ptr*", hText)
       buffer := DllCall("Combase.dll\WindowsGetStringRawBuffer", "ptr", hText, "uint*", length, "ptr")
       text .= StrGet(buffer, "UTF-16") "`n"
       ObjRelease(OcrLine)
@@ -640,7 +675,7 @@ RitualOCR()
             }
          Search := "Search" Coordinate
          IniRead, %Search%, %ScreenIni%, Ritual Area, %Coordinate%, %Default%
-      } 
+      }
    hBitmap := HBitmapFromScreen(SearchX, SearchY, SearchW, SearchH)
    pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
    DllCall("DeleteObject", "Ptr", hBitmap)
@@ -648,7 +683,7 @@ RitualOCR()
    ObjRelease(pIRandomAccessStream)
    ScreenText := % v_text
    RitualSearchCombos :=    ".*(?:113|213|313|114|214|314|414|1/3|2/3|3/3|1/4|2/4|3/4|4/4).*" ;using a search combo to help prevent false positives
-   If (RegExMatch(ScreenText, RitualSearchCombos, RitualMatch)) 
+   If (RegExMatch(ScreenText, RitualSearchCombos, RitualMatch))
       {
          If !InStr(RitualMatch, "/")
             {
@@ -685,7 +720,7 @@ QuickNotify()
     Gui, Quick:Font, c%Font% s10
     ShowTitle := "-0xC00000"
     ShowBorder := "-Border"
-    Gui, Quick:Add, Text,,You just completed your Final Ritual, Don't forget to get your rewards. 
+    Gui, Quick:Add, Text,,You just completed your Final Ritual, Don't forget to get your rewards.
     Gui, Quick: +AlwaysOnTop %ShowBorder%
     Notificationpath := NotificationIni()
     IniRead, Active, %NotificationPath%, Active, Quick, 1
