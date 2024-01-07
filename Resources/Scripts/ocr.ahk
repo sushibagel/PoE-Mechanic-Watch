@@ -166,60 +166,61 @@ CheckScreen()
                                  EinharCount := EinharCount[1]
                                  Break
                               }
-                           }
-                           Else
-                           {
-                              If (EinharCount[1] = "") ;If the string is empty the first step of the mechanic probably hasn't been completed so we'll just leave it blank.
-                              {
-                                 EinharCount := 0
-                              }
-
-                              If !(EinharCount[1] = "") ;If we don't find the "/" and the string isn't empty we need to figure out the correct "count"
-                              {
-                                 If (StrLen(EinharCount[1]) = 3) and !(EinharCount[1] = "")
+                              Else
                                  {
-
-                                    EinharCount := StrSplit(EinharCount[1])
-                                    EinharCount := EinharCount[1] "/" EinharCount[3]
+                                    If (EinharCount[1] = "") ;If the string is empty the first step of the mechanic probably hasn't been completed so we'll just leave it blank.
+                                    {
+                                       EinharCount := 0
+                                    }
+      
+                                    If !(EinharCount[1] = "") ;If we don't find the "/" and the string isn't empty we need to figure out the correct "count"
+                                    {
+                                       If (StrLen(EinharCount[1]) = 3) and !(EinharCount[1] = "")
+                                       {
+      
+                                          EinharCount := StrSplit(EinharCount[1])
+                                          EinharCount := EinharCount[1] "/" EinharCount[3]
+                                       }
+                                       If (StrLen(EinharCount[1]) = 4) and !(EinharCount[1] = "")
+                                       {
+                                          EinharCount := StrSplit(EinharCount[1])
+                                          EinharCount := EinharCount[1] "/" EinharCount[3] EinharCount[4]
+                                       }
+                                       If (StrLen(EinharCount[1]) = 5) and !(EinharCount[1] = "")
+                                       {
+                                          EinharCount := StrSplit(EinharCount[1])
+                                          EinharCount := EinharCount[1] EinharCount[2] "/" EinharCount[4] EinharCount[5]
+                                       }
+                                    }
                                  }
-                                 If (StrLen(EinharCount[1]) = 4) and !(EinharCount[1] = "")
-                                 {
-                                    EinharCount := StrSplit(EinharCount[1])
-                                    EinharCount := EinharCount[1] "/" EinharCount[3] EinharCount[4]
-                                 }
-                                 If (StrLen(EinharCount[1]) = 5) and !(EinharCount[1] = "")
-                                 {
-                                    EinharCount := StrSplit(EinharCount[1])
-                                    EinharCount := EinharCount[1] EinharCount[2] "/" EinharCount[4] EinharCount[5]
-                                 }
-                              }
                            }
                         }
                      }
                   }
-                  MechanicsIni := MechanicsIni()
-                  CurrentCount := ""
-                  IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
-                  If !(CurrentCount = EinharCount)
-                  {
-                     IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
-                     IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
-                     RefreshOverlay()
-                  }
                }
-
-               If InStr(ScreenText, "Mission Complete")
+               MechanicsIni := MechanicsIni()
+               CurrentCount := ""
+               IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
+               If !(CurrentCount = EinharCount)
                {
-                  MechanicsIni := MechanicsIni()
-                  IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
-                  If (CurrentStatus = 1)
-                  {
-                     IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
-                     IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
-                     RefreshOverlay()
-                  }
+                  IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
+                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
+                  RefreshOverlay()
                }
             }
+
+            If InStr(ScreenText, "Mission Complete")
+            {
+               MechanicsIni := MechanicsIni()
+               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
+               If (CurrentStatus = 1)
+               {
+                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
+                  IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
+                  RefreshOverlay()
+               }
+            }
+         }
          NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
          If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Niko") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics?
          {
@@ -245,18 +246,18 @@ CheckScreen()
                               NikoCount := NikoCount[1]
                               Break
                            }
-                        }
-                        Else
-                        {
-                           If (NikoCount[1] = "")
-                           {
-                              NikoCount := 0
-                           }
-                           If !(NikoCount[1] = "")
-                           {
-                              NikoCount := StrSplit(NikoCount[1])
-                              NikoCount := NikoCount[1] "/" NikoCount[3]
-                           }
+                           Else
+                              {
+                                 If (NikoCount[1] = "")
+                                 {
+                                    NikoCount := 0
+                                 }
+                                 If !(NikoCount[1] = "")
+                                 {
+                                    NikoCount := StrSplit(NikoCount[1])
+                                    NikoCount := NikoCount[1] "/" NikoCount[3]
+                                 }
+                              }
                         }
                      }
                   }
@@ -285,8 +286,9 @@ CheckScreen()
             }
          }
          BetrayalPattern := ".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
-         If (RegExMatch(ScreenText, BetrayalPattern)) and (OCRMechanics[A_Index] = "Betrayal") 
+         If (RegExMatch(ScreenText, BetrayalPattern)) and (OCRMechanics[A_Index] = "Betrayal")
          {
+
             BetrayalProcessPattern := ".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*"
             If (RegExMatch(ScreenText, BetrayalProcessPattern))
             {
@@ -309,17 +311,17 @@ CheckScreen()
                               BetrayalCount := BetrayalCount[1]
                               Break
                            }
-                        }
-                        Else
-                        {
-                           If (BetrayalCount[1] = "")
+                           Else
                            {
-                              BetrayalCount := 0
-                           }
-                           If !(BetrayalCount[1] = "")
-                           {
-                              BetrayalCount := StrSplit(BetrayalCount[1])
-                              BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
+                              If (BetrayalCount[1] = "") and (A_Index = 2)
+                              {
+                                 BetrayalCount := 0
+                              }
+                              If !(BetrayalCount[1] = "") and (A_Index = 2)
+                              {
+                                 BetrayalCount := StrSplit(BetrayalCount[1])
+                                 BetrayalCount := BetrayalCount[1] "/" BetrayalCount[3]
+                              }
                            }
                         }
                      }
@@ -335,7 +337,7 @@ CheckScreen()
                   RefreshOverlay()
                }
             }
-         
+
             If InStr(ScreenText, "Mission Complete")
             {
                MechanicsIni := MechanicsIni()
