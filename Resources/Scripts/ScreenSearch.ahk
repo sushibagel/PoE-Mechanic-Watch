@@ -86,73 +86,54 @@ ScreenCheck()
                 }
             MechanicsIni := MechanicsIni()
             IniRead, ThisSearchActive, %MechanicsIni%, %ThisSection%, %CurrentSearch%
-            If (ThisSearchActive = 1)
-            {
-                ScreenIni := ScreenIni()
-                IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 35
-                PngLocation := "Resources\Images\Image Search\Custom\" ThisSearch ".png"
-                If !FileExist(PngLocation)
-                    {
-                        PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
-                    }
-                gdipToken := Gdip_Startup()
-                PoeHwnd := WinExist("ahk_group PoeWindow")
-                bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-                ScreenSearchData := Gdip_CreateBitmapFromFile(PngLocation)
-                If (Gdip_ImageSearch(bmpHaystack,ScreenSearchData,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
-                    {
-                        IniRead, RitualStatus, %MechanicsIni%, Ritual Track, Count
-                        If InStr(ThisSearch, "Shop") and ((RitualStatus = "4/4") or (RitualStatus = "3/3")) ; need to make it only reset if opened at full count
-                            {
-                                MechanicsIni := MechanicsIni()
-                                IniRead, isActive, %MechanicsIni%, Mechanic Active, Ritual
-                                If (isActive = 1)
-                                    {
-                                        IniWrite, 0, %MechanicsIni%, Mechanic Active, Ritual
-                                        IniWrite, 0, %MechanicsIni%, Ritual Track, Status ;Shut screen search off for ritual until next map. Toggled back on by the "Tail.ahk" script. 
-                                        RefreshOverlay()
-                                        Break
-                                    }
-                            }
-                        
-                        If InStr(ThisSearch, "RitualCount")
-                            {
-                                MechanicsIni := MechanicsIni()
-                                IniRead, iconStatus, %MechanicsIni%, Ritual Track, %ThisSearch%, 0
-                                If (iconStatus = 1)
-                                    {
-                                        IniWrite, 1, %MechanicsIni%, Mechanic Active, Ritual
-                                        IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount13 ;Toggle on all the ritual trackers except the one that triggered. 
-                                        IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount23
-                                        IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
-                                        IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount14
-                                        IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount24
-                                        IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount34
-                                        IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
-                                        IniWrite, 0, %MechanicsIni%, Ritual Track, %ThisSearch% ;Shut screen search off for the triggering ritual. Toggled back on as we go
-                                        RitualCount := StrSplit(ThisSearch, "RitualCount")
-                                        RitualCount := SubStr(RitualCount[2], 1, 1) "/" SubStr(RitualCount[2], 0, 1)
-                                        IniWrite, %RitualCount%, %MechanicsIni%, Ritual Track, Count
-                                        RefreshOverlay()
-                                        If (RitualCount = "3/3") or (RitualCount = "4/4")
-                                            {
-                                                QuickNotify()
-                                            }
-                                    }
-                            }
-                        Break
-                    }
-                Else
-                    {
-                        Gdip_DisposeImage(ScreenSearchData)
-                        DeleteObject(ScreenSearchData)
-                        Gdip_Shutdown(gdipToken)
-                        Gdip_DisposeImage(bmpHaystack)
-                        DeleteObject(bmpHaystack)
-                        DeleteObject(ErrorLevel)
-                    }
+            ScreenIni := ScreenIni()
+            IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 35
+            PngLocation := "Resources\Images\Image Search\Custom\" ThisSearch ".png"
+            If !FileExist(PngLocation)
+                {
+                    PngLocation := "Resources\Images\Image Search\" ThisSearch ".png"
                 }
-        }
+            gdipToken := Gdip_Startup()
+            PoeHwnd := WinExist("ahk_group PoeWindow")
+            bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+            ScreenSearchData := Gdip_CreateBitmapFromFile(PngLocation)
+            If (Gdip_ImageSearch(bmpHaystack,ScreenSearchData,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
+                {
+                    IniRead, RitualStatus, %MechanicsIni%, Ritual Track, Count
+                    IniRead, RitualActiveStatus, %MechanicsIni%, Mechanic Active, Ritual, 0
+                    If InStr(ThisSearch, "Shop") and (RitualActiveStatus = 1) and ((RitualStatus = "4/4") or (RitualStatus = "3/3")) ; need to make it only reset if opened at full count
+                        {
+                            MechanicsIni := MechanicsIni()
+                            IniRead, isActive, %MechanicsIni%, Mechanic Active, Ritual
+                            If (isActive = 1)
+                                {
+                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Ritual
+                                    IniWrite, 0, %MechanicsIni%, Ritual Track, Status ;Shut screen search off for ritual until next map. Toggled back on by the "Tail.ahk" script. 
+                                    IniWrite, %BlankVariable%, %MechanicsIni%, Ritual Track, Count ;erase the ritual count
+                                    RefreshOverlay()
+                                    Break
+                                }
+                        }
+                    If InStr(ThisSearch, "RitualIcon") and (RitualActiveStatus = 0) 
+                        {
+                            MechanicsIni := MechanicsIni()
+                            IniWrite, 1, %MechanicsIni%, Mechanic Active, Ritual
+                            IniWrite, %BlankVariable%, %MechanicsIni%, Ritual Track, Count
+                            Sleep, 200
+                            RefreshOverlay()
+                        }
+                    Break
+                }
+            Else
+                {
+                    Gdip_DisposeImage(ScreenSearchData)
+                    DeleteObject(ScreenSearchData)
+                    Gdip_Shutdown(gdipToken)
+                    Gdip_DisposeImage(bmpHaystack)
+                    DeleteObject(bmpHaystack)
+                    DeleteObject(ErrorLevel)
+                }
+            }
         Gdip_DisposeImage(ScreenSearchData)
         DeleteObject(ScreenSearchData)
         Gdip_Shutdown(gdipToken)
@@ -227,7 +208,7 @@ PostRestore()
 
 RitualSearch()
 {
-    Return, "RitualShop|RitualCount23|RitualCount33|RitualCount24|RitualCount34|RitualCount44|RitualCount13|RitualCount14"
+    Return, "RitualShop|RitualIcon"
 }
 
 QuickNotify()
