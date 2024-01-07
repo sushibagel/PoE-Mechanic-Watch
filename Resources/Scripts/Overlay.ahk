@@ -211,8 +211,6 @@ MechanicToggle(ToggleMechanic)
         {
             MechanicsIni := MechanicsIni()
             IniWrite, 1, %MechanicsIni%, Ritual Track, Status
-            IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount33
-            IniWrite, 1, %MechanicsIni%, Ritual Track, RitualCount44
             IniWrite, %A_Space%, %MechanicsIni%, Ritual Track, Count
         }
         If (ToggleMechanic = "Niko")
