@@ -6,7 +6,7 @@
 Menu, Tray, Icon, Resources\Images\generic.png
 SetBatchLines, -1
 
-Global ScreenSearchMechanics := "Ritual|Eldritch"
+Global ScreenSearchMechanics := "Ritual|Eldritch|Blight"
 Global MySearches
 Global SearchActiveEldritch
 
@@ -68,7 +68,6 @@ ScreenCheck()
             EldritchScreen()
             Return
         }
-    ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
     MySearches := GetSearches()
     MySearches := StrSplit(MySearches, "|")
     LoopCount := MySearches.MaxIndex()
@@ -96,6 +95,7 @@ ScreenCheck()
             gdipToken := Gdip_Startup()
             PoeHwnd := WinExist("ahk_group PoeWindow")
             bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
+            ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
             ScreenSearchData := Gdip_CreateBitmapFromFile(PngLocation)
             If (Gdip_ImageSearch(bmpHaystack,ScreenSearchData,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                 {
@@ -114,6 +114,15 @@ ScreenCheck()
                                     Break
                                 }
                         }
+                    If InStr(ThisSearch, "Blight")
+                        {
+                            msgbox, blight
+                            MechanicsIni := MechanicsIni()
+                            IniWrite, 0, %MechanicsIni%, Mechanic Active, Blight
+                            Sleep, 200
+                            RefreshOverlay()
+                            Break
+                        }
                     If InStr(ThisSearch, "RitualIcon") and (RitualActiveStatus = 0) 
                         {
                             MechanicsIni := MechanicsIni()
@@ -121,8 +130,8 @@ ScreenCheck()
                             IniWrite, %BlankVariable%, %MechanicsIni%, Ritual Track, Count
                             Sleep, 200
                             RefreshOverlay()
+                            Break
                         }
-                    Break
                 }
             Else
                 {
@@ -156,7 +165,7 @@ GetSearches()
                     IniRead, ActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay.
                     CurrentSearch := SearchMechanics[A_Index] " Track"
                     IniRead, TrackerCheck,  %MechanicsIni%, %CurrentSearch%, Status, 0 ; Check the status of the mechanic tracker 
-                    If (ActiveCheck = 1) and (TrackerCheck = 1)
+                    If (ActiveCheck = 1) and (TrackerCheck = 1) and !(SearchMechanics[A_Index] = "Blight")
                         {
                             If !(MySearches = "")
                                 {
@@ -168,6 +177,18 @@ GetSearches()
                                    CurrentSearch := % SearchMechanics[A_Index] "Search"
                                    MySearches := %CurrentSearch%()
                                 }
+                        }
+                    IniRead, BlightStatus, %MechanicsIni%, Mechanic Active, Blight, 0
+                    If (SearchMechanics[A_Index] = "Blight") and (BlightStatus = 1)
+                        {
+                            If !(MySearches = "")
+                                {
+                                    MySearches := MySearches "|Blight"
+                                }
+                            If (MySearches = "")
+                                {
+                                    MySearches := "Blight"
+                                }    
                         }
                 }
         }
