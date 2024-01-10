@@ -291,6 +291,11 @@ Ritual()
     MechanicToggle("Ritual")
     Return
 }
+Ultimatum()
+{
+    MechanicToggle("Ultimatum")
+    Return
+}
 Generic()
 {
     MechanicToggle("Generic")
