@@ -19,9 +19,7 @@ HotkeyUpdate()
   Gui, Hotkey:Font, c%Font% s11 Normal
   space = y+1
   Gui, Hotkey:Add, GroupBox, w500 h10 xs %space%
-  ; Gui, Hotkey:Add, Text, xm x50, "Ctl + C" Div Card Check ;#%A_Index%:
   IniRead, CtlActive, %HotkeyIni%, Hotkeys, DivCheck, 0
-  ; Gui, Hotkey:Add, Checkbox,  yp x250 +Left vControlCheck gCtlToggle Checked%CtlActive%
 
   For each, HotkeyItem in StrSplit(HotKeyMechanics, "|")
     {
@@ -36,7 +34,7 @@ HotkeyUpdate()
         }
       If (HotkeyItem = "MavenInvitation")
         {
-          HotkeyText := "Maven INvitation Status"
+          HotkeyText := "Maven Invitation Status"
         }
       If (HotkeyItem = "LaunchPoE")
         {
@@ -63,34 +61,6 @@ HotkeyUpdate()
     Gui, Hotkey:Show, w550, Hotkey Selector
     return
 }
-
-
-
-
-
-
-;   #ctrls = 16 ;How many Hotkey controls to add.
-;   Loop,% #ctrls {
-;     Hotkeytext := "HotkeyText"A_Index
-;     text := %Hotkeytext%
-;     If (A_Index != 1)
-;     {
-;       Gui, Hotkey:Add, Text, xm x50, %text% ;#%A_Index%:
-;     }
-;     IniRead, savedHK%A_Index%, %HotkeyIni%, Hotkeys, %A_Index%, %A_Space%
-;     If savedHK%A_Index% ;Check for saved hotkeys in INI file.
-;       Hotkey,% savedHK%A_Index%, Label%A_Index%, UseErrorLevel ;Activate saved hotkeys if found.
-;     StringReplace, noMods, savedHK%A_Index%, ~ ;Remove tilde (~) and Win (#) modifiers...
-;     StringReplace, noMods, noMods, #,,UseErrorLevel ;They are incompatible with hotkey controls (cannot be shown).
-;     If (A_Index != 1)
-;     {
-;       Gui, Hotkey:Add, CheckBox, yp x250 +Left vCB%A_Index% Checked%ErrorLevel%, Win ;Add checkboxes to allow the Windows key (#) as a modifier...
-;       Gui, Hotkey:Add, Hotkey, yp x300 vHK%A_Index% gLabel, %noMods% ;Add hotkey controls and show saved hotkeys.
-;     }
-;   }
-;   Gui, Hotkey:Show, w550, Hotkey Selector
-;   return
-; }
 
 Label()
 {
@@ -232,5 +202,5 @@ MasterHotkeyGet()
 
 GetHokeyMechanics()
 {
-  Return, "MapCount|ToggleInfluence|MavenInvitation|LaunchPoE|ToolLauncher|Abyss|Blight|Breach|Expedition|Harvest|Incursion|Legion|Ritual|Generic|MasterMapping"
+  Return, "MapCount|ToggleInfluence|MavenInvitation|LaunchPoE|ToolLauncher|Abyss|Betrayal|Blight|Breach|Einhar|Expedition|Harvest|Incursion|Legion|Niko|Ritual|Ultimatum|Generic|MasterMapping"
 }

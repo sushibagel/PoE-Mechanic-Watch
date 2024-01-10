@@ -721,6 +721,12 @@ HotkeyCheck()
             Hotkey, %HotkeyCombo%, Abyss, T5
         }
 
+        If (HotkeyItem = "Betrayal") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Betrayal, T5
+            }
+
         If (HotkeyItem = "Blight") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
@@ -732,6 +738,12 @@ HotkeyCheck()
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %HotkeyCombo%, Breach, T5
         }
+
+        If (HotkeyItem = "Einhar") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Einhar, T5
+            }
 
         If (HotkeyItem = "Expedition") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
@@ -757,11 +769,23 @@ HotkeyCheck()
             Hotkey, %HotkeyCombo%, Legion, T5
         }
 
+        If (HotkeyItem = "Niko") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Niko, T5
+            }
+
         If (HotkeyItem = "Ritual") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %HotkeyCombo%, Ritual, T5
         }
+
+        If (HotkeyItem = "Ultimatum") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Ultimatum, T5
+            }
 
         If (HotkeyItem = "Generic") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
         {
