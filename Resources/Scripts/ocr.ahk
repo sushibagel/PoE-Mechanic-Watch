@@ -168,7 +168,9 @@ CheckScreen()
                               }
                               Else
                                  {
-                                    If (EinharCount[1] = "") ;If the string is empty the first step of the mechanic probably hasn't been completed so we'll just leave it blank.
+                                    MechanicsIni := MechanicsIni()
+                                    IniRead, ActiveCheck, %MechanicsIni%, Section, Einhar, 0
+                                    If (EinharCount[1] = "") and !(ActiveCheck = 1) ;If the string is empty the first step of the mechanic probably hasn't been completed so we'll just leave it blank.
                                     {
                                        EinharCount := 0
                                     }
@@ -248,7 +250,9 @@ CheckScreen()
                            }
                            Else
                               {
-                                 If (NikoCount[1] = "")
+                                 MechanicsIni := MechanicsIni()
+                                 IniRead, ActiveCheck, %MechanicsIni%, Section, Niko, 0
+                                 If (NikoCount[1] = "") and !(ActiveCheck = 1)
                                  {
                                     NikoCount := 0
                                  }
@@ -313,7 +317,9 @@ CheckScreen()
                            }
                            Else
                            {
-                              If (BetrayalCount[1] = "") and (A_Index = 2)
+                              MechanicsIni := MechanicsIni()
+                              IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
+                              If (BetrayalCount[1] = "") and (A_Index = 2) and and !(ActiveCheck = 1)
                               {
                                  BetrayalCount := 0
                               }
