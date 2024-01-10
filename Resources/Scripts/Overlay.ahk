@@ -41,23 +41,14 @@ RefreshOverlay()
                 If (Mechanic = "Incursion")
                     {
                         MechanicsIni := MechanicsIni()
-                        IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
-                        VariableIni := VariableIni()
-                        IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
-                        If (IncursionTotal = 1)
-                        {
-                            IncursionTotal := 4
-                        }
-                        Else
-                        {
-                            IncursionTotal := 3
-                        }
+                        IniRead, IncursionCount, %MechanicsIni%, Incursion Count, Current Count
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                        If (IncursionCount > 0)
-                        {
-                            Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
-                        }
+                        If (IncursionCount = 0)
+                            {
+                                IncursionCount := BlankVariable
+                            }
+                        Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%
                     }
                 If (Mechanic = "Ritual")
                     {
@@ -110,20 +101,15 @@ RefreshOverlay()
                 If (Mechanic = "Incursion")
                 {
                     MechanicsIni := MechanicsIni()
-                    IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
-                    VariableIni := VariableIni()
-                    IniRead, IncursionCount, %VariableIni%, Incursion, Sleep Count, 0
-                    If (IncursionTotal = 1)
-                    {
-                        IncursionTotal := 4
-                    }
-                    Else
-                    {
-                        IncursionTotal := 3
-                    }
+                    IniRead, IncursionCount, %MechanicsIni%, Incursion Count, Current Count
                     Gui, Overlay:Font, cWhite s%OverlayFont%
                     TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                    ;Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%/%IncursionTotal%
+                    If (IncursionCount = 0)
+                        {
+                            IncursionCount := BlankVariable
+                        }
+                    Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%
+                    }
                 }
             }
             mechanictest ++
@@ -223,6 +209,11 @@ MechanicToggle(ToggleMechanic)
                 MechanicsIni := MechanicsIni()
                 IniWrite, %A_Space%, %MechanicsIni%, Betrayal Track, Current Count
             }
+        If (ToggleMechanic = "Incursion")
+            {
+                MechanicsIni := MechanicsIni()
+                IniWrite, %A_Space%, %MechanicsIni%, Incursion Track, Current Count
+            }
         MechanicsActive()
         If (MechanicsActive = 0)
         {
@@ -271,8 +262,6 @@ Harvest()
 }
 Incursion()
 {
-    VariablePath := VariableIni()
-    IniWrite, 0, %VariablePath%, Incursion, Sleep Count
     MechanicToggle("Incursion")
     Return
 }

@@ -1,17 +1,11 @@
-Global IncursionGo
 Global MyDialogs
 Global MyDialogsDisable
 Global FullSearch
-Global IncursionCode
-Global IncursionSleep
 Global MyHideout
 Global MavenSearch
 
 LogMonitor() ;Monitor the PoE client.txt
 {
-    FileRead, ReadFile, Resources\Data\Incursiondialogsdisable.txt
-    IncursionGo := StrReplace(ReadFile, "`r`n" , ",")
-
     MyHideout := GetHideout()
     ReadMechanics()
     ReadAutoMechanics()
@@ -78,45 +72,6 @@ SearchText(NewLine)
                         SetTitleMatchMode, %A_TitleMatchMode%
                         Break
                     }
-                    If NewLine contains %IncursionGo%
-                    {
-                        VariablePath := VariableIni()
-                        IniRead, IncursionCode, %VariablePath%, Incursion, Log Code, 0
-                        IniRead, IncursionSleep, %VariablePath%, Incursion, Sleep Count, 0
-                        GetLogCode := StrSplit(NewLine, A_Space)
-                        Code = % GetLogCode[3]
-                        If (Code = IncursionCode) and (Code != "")
-                        {
-                            Break
-                        }
-                        IniWrite, %Code%, %VariablePath%, Incursion, Log Code
-                        IncursionSleep ++
-                        IniWrite, %IncursionSleep%, %VariablePath%, Incursion, Sleep Count
-                        MechanicsIni := MechanicsIni()
-                        IniRead, IncursionTotal, %MechanicsIni%, Incursion 4, Active
-                        If (IncursionTotal = 1)
-                        {
-                            IncursionTotal := 4
-                        }
-                        Else 
-                        {
-                            IncursionTotal := 3
-                        }
-                        If (IncursionSleep = IncursionTotal)
-                        {
-                            IniPath := MechanicsIni()
-                            IniWrite, 0, %VariablePath%, Incursion, Sleep Count
-                            IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
-                            Prev_DetectHiddenWindows := A_DetectHiddenWIndows
-                            Prev_TitleMatchMode := A_TitleMatchMode
-                            SetTitleMatchMode 2
-                            DetectHiddenWindows On
-                            PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey ;refresh overlay
-                            PostMessage, 0x01118,,,, WindowMonitor.ahk - AutoHotkey ;Deactivate reminder overlay
-                            DetectHiddenWindows, %Prev_DetectHiddenWindows%
-                            SetTitleMatchMode, %A_TitleMatchMode%
-                            Break
-                        }
                         RefreshOverlay()
                     }
                 }

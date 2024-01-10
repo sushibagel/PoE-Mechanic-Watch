@@ -365,6 +365,71 @@ CheckScreen()
             }
             Return
          }
+         IncursionPattern := ".*(?:Master Explorer|Alva, Master|Alva Master|Complete the temporal|the temporal Incursion).*"
+         If (RegExMatch(ScreenText, IncursionPattern)) and (OCRMechanics[A_Index] = "Incursion") ; Here I would put in the specific text to search for I believe it could be used for Alva, Incursion, Betrayal maybe other mechanics?
+         {
+            IncursionProcessPattern := ".*(?:FComplete the temporal|the temporal Incursion).*"
+            If (RegExMatch(ScreenText, IncursionProcessPattern))
+            {
+               IncursionCount := StrSplit(ScreenText, "`n")
+               IncursionLines := IncursionCount.MaxIndex()
+               Loop, %IncursionLines%
+               {
+                  If (RegexMatch(IncursionCount[A_Index],IncursionProcessPattern))
+                  {
+                     IndexMatch := A_Index -1
+                     Loop, 2
+                     {
+                        IndexMatch++
+                        If InStr(IncursionCount[IndexMatch], "(")
+                        {
+                           IncursionCount := StrSplit(IncursionCount[IndexMatch],"(")
+                           IncursionCount := StrSplit(IncursionCount[2],")")
+                           If InStr(IncursionCount[1], "/")
+                           {
+                              IncursionCount := IncursionCount[1]
+                              Break
+                           }
+                           Else
+                              {
+                                 MechanicsIni := MechanicsIni()
+                                 IniRead, ActiveCheck, %MechanicsIni%, Section, Incursion, 0
+                                 If (IncursionCount[1] = "") and !(ActiveCheck = 1)
+                                 {
+                                    IncursionCount := 0
+                                 }
+                                 If !(IncursionCount[1] = "")
+                                 {
+                                    IncursionCount := StrSplit(IncursionCount[1])
+                                    IncursionCount := IncursionCount[1] "/" IncursionCount[3]
+                                 }
+                              }
+                        }
+                     }
+                  }
+               }
+               MechanicsIni := MechanicsIni()
+               CurrentCount := ""
+               IniRead, CurrentCount, %MechanicsIni%, Incursion Track, Current Count
+               If !(CurrentCount = IncursionCount)
+               {
+                  IniWrite, %IncursionCount%, %MechanicsIni%, Incursion Track, Current Count
+                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Incursion
+                  RefreshOverlay()
+               }
+            }
+            If InStr(ScreenText, "Mission Complete")
+               {
+                  MechanicsIni := MechanicsIni()
+                  IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Incursion, 0
+                  If (CurrentStatus = 1)
+                  {
+                     IniWrite, 0, %MechanicsIni%, Mechanic Active, Incursion
+                     IniWrite, "", %MechanicsIni%, Incursion Track, Current Count
+                     RefreshOverlay()
+                  }
+               }
+            }
       }
    }
 }

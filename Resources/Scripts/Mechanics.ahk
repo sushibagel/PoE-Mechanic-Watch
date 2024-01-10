@@ -93,11 +93,6 @@ SelectMechanics(RunAuto := False)
         Gui, Mechanic:Add, Radio, x95 ys v%Mechanic% Checked%OnChecked%
         Gui, Mechanic:Add, Radio, x160 ys Checked%AutoOnly%
         Gui, Mechanic:Add, Radio, x225 ys Checked%OffChecked%
-        ; If (Mechanic = "Incursion") Need to add this back in another way. (OCR?)
-        ; {
-        ;     IniRead, IncursionTotal, %MechanicsPath%, Incursion 4, Active
-        ;     Gui, Mechanic:Add, Checkbox, ys vIncursionTotal Checked%IncursionTotal%, Always 4?
-        ; }
     }
     Gui, Mechanic:Font, s8 c%Font%
     Gui, Mechanic:Add, Text, xn x10 w240,1. Active Only will hide the mechanic icon unless it is made active either by hotkey or auto mechanic. 
@@ -158,7 +153,6 @@ MechanicButtonOk()
     {
         IniWrite, % %Influence%, %MechanicsPath%, Influence, %Influence%
     }
-    IniWrite, %IncursionTotal%, %MechanicsPath%, Incursion 4, Active
     Gui, Mechanic:Destroy
     PostSetup()
     PostMessage, 0x01111,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences
