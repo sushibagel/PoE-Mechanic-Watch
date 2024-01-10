@@ -9,6 +9,7 @@ Global Incursion
 Global Legion
 Global Niko
 Global Ritual
+Global Ultimatum
 Global Generic
 Global Eater
 Global Searing
@@ -24,6 +25,7 @@ Global IncursionActive
 Global LegionActive
 Global NikoActive
 Global RitualActive
+Global UltimatumActive
 Global GenericActive
 Global MechanicSearch
 Global AbyssOn
@@ -38,6 +40,7 @@ Global IncursionTotal
 Global LegionOn
 Global NikoOn
 Global RitualOn
+Global UltimatumOn
 Global GenericOn
 Global mechanicsOn
 Global MechanicsActive
@@ -47,7 +50,7 @@ Global AutoRun
 
 Mechanics() ;List of Mechanics
 {
-    Return, "Abyss|Betrayal|Blight|Breach|Einhar|Expedition|Harvest|Incursion|Legion|Niko|Ritual|Generic"
+    Return, "Abyss|Betrayal|Blight|Breach|Einhar|Expedition|Harvest|Incursion|Legion|Niko|Ritual|Ultimatum|Generic"
 }
 
 SelectMechanics(RunAuto := False)
@@ -65,7 +68,7 @@ SelectMechanics(RunAuto := False)
     Gui, Mechanic:Add, Text, x222 ys, Off
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        IniRead, %Mechanic%State, %MechanicsPath%, Mechanics, %Mechanic%
+        IniRead, %Mechanic%State, %MechanicsPath%, Mechanics, %Mechanic%, 0
         autochecked := % mechanic "State"
         autochecked := % %autochecked%
         Gui, Mechanic:Add, Text, xn x15 Section, %Mechanic%:
@@ -211,7 +214,7 @@ MechanicsActive()
     MechanicSearch := Mechanics()
     For each, Mechanic in StrSplit(MechanicSearch, "|")
     {
-        IniRead, %Mechanic%, %MechanicsPath%, Mechanic Active, %Mechanic%
+        IniRead, %Mechanic%, %MechanicsPath%, Mechanic Active, %Mechanic%, 0
         If (%Mechanic% = 1)
         {
             %Mechanic%Active := 1
