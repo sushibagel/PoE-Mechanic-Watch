@@ -182,9 +182,9 @@ AutoButtonCalibrateSearch()
     Gui, Calibrate:Add, Text, Section,
     Gui, Calibrate:Font, c%Font% s18
     GuiW := Round(96/A_ScreenDPI*630)
-    Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Screen Search Calibration Tool
+    Gui, Calibrate:Add, Text, Section +Center w%GuiW%, Calibration Tool
     Gui, Calibrate:Font, c%Font% s10
-    Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate. The calibrate button will open the "Snipping Tool" on your computer, verify the "Rectangular Snip" Mode is enabled, press "New" and carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image, if you have any background (part of your map) it can result in the tool to failing to recognize future instances. Once you are happy with the screenshot close the tool without saving.
+    Gui, Calibrate:Add, Text, +Wrap Section w%GuiW%, Note: Calibration may not be necessary for your system, only perform a calibration if auto search doesnt work on your system. Each mechanic has several calibration steps. You'll need to have the mechanic available in each stage to calibrate. Mouse over or click the number next to the name of each calibration item for more information and instructions on how to calibrate. You can also mouse over or click the "Sample" text next to each calibration item for a sample  of what the calibration section should look like. 
     BoxH := Round(96/A_ScreenDPI*1)
     Gui, Calibrate:Font, s1
     Gui, Calibrate:Add, Text,,
@@ -212,7 +212,7 @@ AutoButtonCalibrateSearch()
         Gui, Calibrate:Font, s8 c1177bb Normal Underline
         If (MySearches[A_Index] = "Ritual Icon") or (MySearches[A_Index] = "Ritual Shop")
             {
-                Footnote := 
+                Footnote := 2
             }
         If (MySearches[A_Index] = "Ritual Text")
             {
@@ -236,11 +236,11 @@ AutoButtonCalibrateSearch()
         Gui, Calibrate:Font, s8 c1177bb Normal Underline
         If (boss = "Maven")
         {
-            FootNote := 4
+            FootNote := 5
         }
         Else
         {
-            FootNote := 2
+            FootNote := 3
         }
         Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote%A_Index% gOpenFootnote, %FootNote%
         Gui, Calibrate:Font
@@ -265,7 +265,7 @@ AutoButtonCalibrateSearch()
         ;add boss "On" line
         Gui, Calibrate:Add, Text, Section xs, %boss% On
         Gui, Calibrate:Font, s8 c1177bb Normal Underline
-        Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote3 gOpenFootnote, 3
+        Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote4 gOpenFootnote, 4
         XBut := Round(96/A_ScreenDPI*425)
         Gui, Calibrate:Font, Normal 
         Gui, Calibrate:Font, c%Font% s12
@@ -277,7 +277,7 @@ AutoButtonCalibrateSearch()
     }
     Gui, Calibrate:Add, Text, Section xs, Map Device
     Gui, Calibrate:Font, s8 c1177bb Normal Underline
-    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote5 gOpenFootnote, 5
+    Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote6 gOpenFootnote, 6
     XBut := Round(96/A_ScreenDPI*425)
     Gui, Calibrate:Font, Normal 
     Gui, Calibrate:Font, c%Font% s12
@@ -748,7 +748,7 @@ ViewFootnote(FootnoteNum)
     {
         If WinActive("Calibration Tool")
         {
-            CustomText := "To calibrate first select the stage (0-27) you want to calibrate then press the calibrate button. Note: To calibrate auto switching use 28. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+            CustomText := "The calibrate button will open the ""Snipping Tool"" on your computer, verify the ""Rectangular Snip"" Mode is enabled, press ""New"" and carefully select a section of your screen similar to the samples shown. Be sure that your screenshot only includes a static image, if you have any background (part of your map) it can result in the tool to failing to recognize future instances. Once you are happy with the screenshot close the tool without saving."
             Caption := "-Caption"
             If (SamplePressed = 1)
             {
@@ -768,7 +768,8 @@ ViewFootnote(FootnoteNum)
         {
             If WinActive("Calibration Tool")
             {
-                CustomText := "The Eldritch ""On"" search function is used to determine which boss is selected for your mapping influence. When active it will auto switch between the three mechanics as necessary."
+                CustomText := "To calibrate first select the stage (0-27) you want to calibrate then press the calibrate button. The calibrate button will open the ""Snipping Tool"" on your computer, verify the ""Rectangular Snip"" Mode is enabled, press ""New"" and carefully select a section of your screen similar to the samples shown. When calibrating it`'s important to not capture any surrounding elements (the map device background is fine) to avoid issues."
+                
                 Caption := "-Caption"
                 If (SamplePressed = 1)
                 {
@@ -788,7 +789,7 @@ ViewFootnote(FootnoteNum)
         {
             If WinActive("Calibration Tool")
                 {
-                    CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. Note: To calibrate auto switching use 11. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
+                    CustomText := "The Eldritch ""On"" search function is used to determine which boss is selected for your mapping influence. When active it will auto switch between the three mechanics as necessary. The calibrate button will open the ""Snipping Tool"" on your computer, verify the ""Rectangular Snip"" Mode is enabled, press ""New"" and carefully select a section of your screen similar to the samples shown. When calibrating auto switching it`'s important not to select any of the ring area around the logo as it will throw off the ability of the screen recognition to work if filled in."
                     Caption := "-Caption"
                     If (SamplePressed = 1)
                     {
@@ -808,7 +809,7 @@ ViewFootnote(FootnoteNum)
         {
             If WinActive("Calibration Tool")
                 {
-                    CustomText := "The Map Device is used for identifying when the map device is open to activate the Master Mapping tool. To calibrate select the ""Map Receptacle""  text and the surrounding box, it`'s important not to select any of the Kirac mods below or your hideout in the background as this may cause issues with screen recognition."
+                    CustomText := "To calibrate first select the stage (0-10) you want to calibrate followed by the calibrate button. The calibrate button will open the ""Snipping Tool"" on your computer, verify the ""Rectangular Snip"" Mode is enabled, press ""New"" and carefully select a section of your screen similar to the samples shown. When calibrating it`'s important to not capture any surrounding elements (the map device background is fine) to avoid issues."
                     Caption := "-Caption"
                     If (SamplePressed = 1)
                     {
@@ -827,7 +828,7 @@ ViewFootnote(FootnoteNum)
         {
             If WinActive("Calibration Tool")
                 {
-                    CustomText := ""
+                    CustomText := "The Map Device is used for identifying when the map device is open to activate the Master Mapping tool. The calibrate button will open the ""Snipping Tool"" on your computer, verify the ""Rectangular Snip"" Mode is enabled, press ""New"" and carefully select a section of your screen similar to the samples shown. To calibrate select the ""Map Receptacle""  text and the surrounding box, it`'s important not to select any of the Kirac mods below or your hideout in the background as this may cause issues with screen recognition."
                     Caption := "-Caption"
                     If (SamplePressed = 1)
                     {
