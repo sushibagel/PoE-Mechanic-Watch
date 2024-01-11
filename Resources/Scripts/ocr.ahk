@@ -203,11 +203,20 @@ CheckScreen()
                MechanicsIni := MechanicsIni()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
-               If !(CurrentCount = EinharCount) and !(!CurrentCount) and !(!EinharCount)
+               If !(CurrentCount = EinharCount)
                {
-                  IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
-                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
-                  RefreshOverlay()
+                  MechanicsIni := MechanicsIni()
+                  IniRead, EinharActive, %MechanicsIni%, Mechanic Active, Einhar, 0
+                  If (EinharActive = 1) and !(EinharCount > 0)
+                     {
+                        
+                     }
+                  Else
+                     {
+                        IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
+                        IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
+                        RefreshOverlay()  
+                     }
                }
             }
 
@@ -269,11 +278,20 @@ CheckScreen()
                MechanicsIni := MechanicsIni()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
-               If !(CurrentCount = NikoCount) and !(!CurrentCount) and !(!NikoCount)
+               If !(CurrentCount = NikoCount)
                {
-                  IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
-                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
-                  RefreshOverlay()
+                  MechanicsIni := MechanicsIni()
+                  IniRead, NikoActive, %MechanicsIni%, Mechanic Active, Niko, 0
+                  If (NikoActive = 1) and !((NikoCount = "1/3") or (NikoCount = "2/3"))
+                     {
+
+                     }
+                  Else
+                     {
+                        IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
+                        IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
+                        RefreshOverlay()
+                     }
                }
             }
 
@@ -284,7 +302,7 @@ CheckScreen()
                If (CurrentStatus = 1)
                {
                   IniWrite, 0, %MechanicsIni%, Mechanic Active, Niko
-                  IniWrite, "", %MechanicsIni%, Niko Track, Current Count
+                  IniWrite, %BlankVariable%, %MechanicsIni%, Niko Track, Current Count
                   RefreshOverlay()
                }
             }
@@ -336,11 +354,20 @@ CheckScreen()
                MechanicsIni := MechanicsIni()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
-               If !(CurrentCount = BetrayalCount) and !(!CurrentCount) and !(!BetrayalCount)
+               If !(CurrentCount = BetrayalCount)
                {
-                  IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
-                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
-                  RefreshOverlay()
+                  MechanicsIni := MechanicsIni()
+                  IniRead, BetrayalActive, %MechanicsIni%, Mechanic Active, Betrayal, 0
+                  If (BetrayalActive = 1) and !(BetrayalCount > 0)
+                     {
+
+                     }
+                  Else
+                     {
+                        IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
+                        IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
+                        RefreshOverlay()
+                     }
                }
             }
 
@@ -412,11 +439,20 @@ CheckScreen()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Incursion Track, Current Count
                IniRead, ActiveCheck, %MechanicsIni%, Mechanic Active, Incursion, 0
-               If !(CurrentCount = IncursionCount) and !(!CurrentCount) and !(!IncursionCount)
+               If !(CurrentCount = IncursionCount)
                {
-                  IniWrite, %IncursionCount%, %MechanicsIni%, Incursion Track, Current Count
-                  IniWrite, 1, %MechanicsIni%, Mechanic Active, Incursion
-                  RefreshOverlay()
+                  MechanicsIni := MechanicsIni()
+                  IniRead, IncursionActive, %MechanicsIni%, Mechanic Active, Incursion, 0
+                  If (IncursionActive = 1) and !(IncursionCount > 0)
+                     {
+                        
+                     }
+                     Else
+                        {
+                           IniWrite, %IncursionCount%, %MechanicsIni%, Incursion Track, Current Count
+                           IniWrite, 1, %MechanicsIni%, Mechanic Active, Incursion
+                           RefreshOverlay()
+                        }
                }
             }
             If InStr(ScreenText, "Mission Complete")
@@ -787,14 +823,23 @@ RitualOCR()
          MechanicsIni := MechanicsIni()
          IniRead, CurrentCount, %MechanicsIni%, Ritual Track, Count
          RitualMatch := RegExReplace(RitualMatch, "([\s]*)([^\s]*)([\s]*)", "$2") ;remove whitespace from variable
-         If !(CurrentCount = RitualMatch) and !(!CurrentCount) and !(!RitualMatch)
+         If !(CurrentCount = RitualMatch)
             {
-               IniWrite, %RitualMatch%, %MechanicsIni%, Ritual Track, Count
-               If (RitualMatch = "3/3") or (RitualMatch = "4/4")
+               MechanicsIni := MechanicsIni()
+               IniRead, RitualnActive, %MechanicsIni%, Mechanic Active, Ritual, 0
+               If (RitualnActive = 1) and !(RitualMatch > 0)
                   {
-                     QuickNotify()
+
                   }
-               RefreshOverlay()
+               Else
+                  {
+                     IniWrite, %RitualMatch%, %MechanicsIni%, Ritual Track, Count
+                     If (RitualMatch = "3/3") or (RitualMatch = "4/4")
+                        {
+                           QuickNotify()
+                        }
+                     RefreshOverlay()
+                  }
             }
       }
    Return
@@ -809,7 +854,7 @@ QuickNotify()
     ThemeIni := ThemeIni()
     IniRead, Theme, %ThemeIni%, Theme, Theme
     IniRead, Background, %ThemeIni%, %Theme%, Background
-    IniRead, Background, %ThemeIni%, %Theme%, Font
+    IniRead, Font, %ThemeIni%, %Theme%, Font
     Gui, Quick:Color, %Background%
     Gui, Quick:Font, c%Font% s10
     ShowTitle := "-0xC00000"
