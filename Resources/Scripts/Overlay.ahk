@@ -41,7 +41,7 @@ RefreshOverlay()
                 If (Mechanic = "Incursion")
                     {
                         MechanicsIni := MechanicsIni()
-                        IniRead, IncursionCount, %MechanicsIni%, Incursion Count, Current Count
+                        IniRead, IncursionCount, %MechanicsIni%, Incursion Track, Current Count
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                         If (IncursionCount = 0) or (IncursionCount = "Error")
@@ -101,7 +101,7 @@ RefreshOverlay()
                 If (Mechanic = "Incursion")
                 {
                     MechanicsIni := MechanicsIni()
-                    IniRead, IncursionCount, %MechanicsIni%, Incursion Count, Current Count, %BlankVariable%
+                    IniRead, IncursionCount, %MechanicsIni%, Incursion Track, Current Count, %BlankVariable%
                     Gui, Overlay:Font, cWhite s%OverlayFont%
                     TrackOffset := IconHeight/2 - OverlayFont/2 - 6
                     If (IncursionCount = 0) or (IncursionCount = "Error")

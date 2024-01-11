@@ -368,7 +368,7 @@ CheckScreen()
          IncursionPattern := ".*(?:Master Explorer|Alva, Master|Alva Master|Complete the temporal|the temporal Incursion).*"
          If (RegExMatch(ScreenText, IncursionPattern)) and (OCRMechanics[A_Index] = "Incursion") ; Here I would put in the specific text to search for I believe it could be used for Alva, Incursion, Betrayal maybe other mechanics?
          {
-            IncursionProcessPattern := ".*(?:FComplete the temporal|the temporal Incursion).*"
+            IncursionProcessPattern := ".*(?:Complete the temporal|the temporal Incursion).*"
             If (RegExMatch(ScreenText, IncursionProcessPattern))
             {
                IncursionCount := StrSplit(ScreenText, "`n")
