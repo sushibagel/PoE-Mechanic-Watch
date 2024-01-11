@@ -137,14 +137,15 @@ CheckScreen()
                If (CurrentStatus = 1)
                {
                   IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
-                  IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
+                  IniWrite, %BlankVariable%, %MechanicsIni%, Einhar Track, Current Count
                   RefreshOverlay()
                }
             }
-            EinharPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+
+            EinharPattern := ".*(?:Find and weaken|weaken the beasts).*"
             If (RegExMatch(ScreenText, EinharPattern)) and (OCRMechanics[A_Index] = "Einhar") ; Find Einhar mission in the screen text and check that it the auto mechanic is active.
             {
-               EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*"
+               EinharProcessPattern := ".*(?:Find and weaken|weaken the beasts).*"
                If (RegExMatch(ScreenText, EinharProcessPattern)) ;Narrow down the search to see if the mission was completed.
                {
                   EinharCount := StrSplit(ScreenText, "`n") ;Split the text found on screen by lines.
@@ -219,19 +220,8 @@ CheckScreen()
                      }
                }
             }
-
-            If InStr(ScreenText, "Mission Complete")
-            {
-               MechanicsIni := MechanicsIni()
-               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
-               If (CurrentStatus = 1)
-               {
-                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
-                  IniWrite, "", %MechanicsIni%, Einhar Track, Current Count
-                  RefreshOverlay()
-               }
-            }
          }
+
          NikoPattern := ".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*"
          If (RegExMatch(ScreenText, NikoPattern)) and (OCRMechanics[A_Index] = "Niko") ; Here I would put in the specific text to search for I believe it could be used for Alva, Niko, Betrayal maybe other mechanics?
          {
