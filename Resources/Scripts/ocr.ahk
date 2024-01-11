@@ -203,7 +203,7 @@ CheckScreen()
                MechanicsIni := MechanicsIni()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Einhar Track, Current Count
-               If !(CurrentCount = EinharCount)
+               If !(CurrentCount = EinharCount) and !(!CurrentCount) and !(!EinharCount)
                {
                   IniWrite, %EinharCount%, %MechanicsIni%, Einhar Track, Current Count
                   IniWrite, 1, %MechanicsIni%, Mechanic Active, Einhar
@@ -269,7 +269,7 @@ CheckScreen()
                MechanicsIni := MechanicsIni()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Niko Track, Current Count
-               If !(CurrentCount = NikoCount)
+               If !(CurrentCount = NikoCount) and !(!CurrentCount) and !(!NikoCount)
                {
                   IniWrite, %NikoCount%, %MechanicsIni%, Niko Track, Current Count
                   IniWrite, 1, %MechanicsIni%, Mechanic Active, Niko
@@ -336,7 +336,7 @@ CheckScreen()
                MechanicsIni := MechanicsIni()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Betrayal Track, Current Count
-               If !(CurrentCount = BetrayalCount)
+               If !(CurrentCount = BetrayalCount) and !(!CurrentCount) and !(!BetrayalCount)
                {
                   IniWrite, %BetrayalCount%, %MechanicsIni%, Betrayal Track, Current Count
                   IniWrite, 1, %MechanicsIni%, Mechanic Active, Betrayal
@@ -411,7 +411,8 @@ CheckScreen()
                MechanicsIni := MechanicsIni()
                CurrentCount := ""
                IniRead, CurrentCount, %MechanicsIni%, Incursion Track, Current Count
-               If !(CurrentCount = IncursionCount)
+               IniRead, ActiveCheck, %MechanicsIni%, Mechanic Active, Incursion, 0
+               If !(CurrentCount = IncursionCount) and !(!CurrentCount) and !(!IncursionCount)
                {
                   IniWrite, %IncursionCount%, %MechanicsIni%, Incursion Track, Current Count
                   IniWrite, 1, %MechanicsIni%, Mechanic Active, Incursion
@@ -786,7 +787,7 @@ RitualOCR()
          MechanicsIni := MechanicsIni()
          IniRead, CurrentCount, %MechanicsIni%, Ritual Track, Count
          RitualMatch := RegExReplace(RitualMatch, "([\s]*)([^\s]*)([\s]*)", "$2") ;remove whitespace from variable
-         If !(CurrentCount = RitualMatch)
+         If !(CurrentCount = RitualMatch) and !(!CurrentCount) and !(!RitualMatch)
             {
                IniWrite, %RitualMatch%, %MechanicsIni%, Ritual Track, Count
                If (RitualMatch = "3/3") or (RitualMatch = "4/4")
