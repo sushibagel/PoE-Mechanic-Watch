@@ -44,7 +44,7 @@ RefreshOverlay()
                         IniRead, IncursionCount, %MechanicsIni%, Incursion Count, Current Count
                         Gui, Overlay:Font, cWhite s%OverlayFont%
                         TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                        If (IncursionCount = 0)
+                        If (IncursionCount = 0) or (IncursionCount = "Error")
                             {
                                 IncursionCount := BlankVariable
                             }
@@ -101,20 +101,20 @@ RefreshOverlay()
                 If (Mechanic = "Incursion")
                 {
                     MechanicsIni := MechanicsIni()
-                    IniRead, IncursionCount, %MechanicsIni%, Incursion Count, Current Count
+                    IniRead, IncursionCount, %MechanicsIni%, Incursion Count, Current Count, %BlankVariable%
                     Gui, Overlay:Font, cWhite s%OverlayFont%
                     TrackOffset := IconHeight/2 - OverlayFont/2 - 6
-                    If (IncursionCount = 0)
+                    If (IncursionCount = 0) or (IncursionCount = "Error")
                         {
                             IncursionCount := BlankVariable
                         }
                     Gui, Overlay:Add, Text, xs+%TrackOffset%, %IncursionCount%
                     }
-                }
             }
-            mechanictest ++
         }
+        mechanictest ++
     }
+    
     If (InfluenceActive != "None")
     {
         MechanicsPath := MechanicsIni()

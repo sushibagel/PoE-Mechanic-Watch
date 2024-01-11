@@ -73,7 +73,6 @@ SearchText(NewLine)
                         Break
                     }
                         RefreshOverlay()
-                    }
                 }
             }
         }
