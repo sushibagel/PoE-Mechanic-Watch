@@ -61,6 +61,18 @@ If FileExist(Location)
     }
 }
 
+IncursionDialogs := "Resources/Data/Incursiondialogs.txt"
+If FileExist(IncursionDialogs)
+    {
+        FileDelete, %IncursionDialogs%
+    }
+
+IncursionDialogsDisable := "Resources/Data/Incursiondialogsdisable.txt"
+If FileExist(IncursionDialogsDisable)
+    {
+        FileDelete, %IncursionDialogsDisable%
+    }
+
 Run, PoE Mechanic Watch.ahk
 ExitApp
 
