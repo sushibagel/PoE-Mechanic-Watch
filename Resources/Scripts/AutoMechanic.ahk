@@ -5,6 +5,7 @@ Global BlightAuto
 Global ExpeditionAuto
 Global IncursionAuto
 Global RitualAuto
+Global UltimatumAuto
 Global EldritchAuto
 Global Eldritch
 Global AutoMechanicSearch
@@ -156,10 +157,10 @@ ReadAutoMechanics()
     {
         IniRead, %Mechanic%, %MechanicsPath%, Auto Mechanics, %Mechanic%
         If (%Mechanic% = 1)
-        {
-            %Mechanic%Auto := 1
-            AutoMechanicsActive ++
-        }
+            {
+                %Mechanic%Auto := 1
+                AutoMechanicsActive ++
+            }
         Else
         {
             %Mechanic%Auto := 0
@@ -170,7 +171,7 @@ ReadAutoMechanics()
 
 AutoMechanics()
 {
-    Return, "Betrayal|Blight|Einhar|Expedition|Incursion|Niko|Ritual|Eldritch"
+    Return, "Betrayal|Blight|Einhar|Expedition|Incursion|Niko|Ritual|Ultimatum|Eldritch"
 }
 
 AutoButtonCalibrateSearch()
