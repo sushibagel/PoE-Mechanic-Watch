@@ -88,6 +88,10 @@ SelectAuto()
             {
                 FootNote := 5
             }
+        If (Mechanic = "Ultimatum") ; uses image recognition and OCR
+            {
+                FootNote := 3
+            }
         If (Mechanic = "Eldritch") ; uses image recognition
             {
                 FootNote := 6
