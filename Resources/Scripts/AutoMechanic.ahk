@@ -643,7 +643,7 @@ ScreenShotTool(path)
         GuiControl, CalibrationNotice:, Completion, %Completion%
         If (Gdip_ImageSearch(CaliHaystack,CaliNeedle,LIST,0,0,0,0,A_Index,,1,0) > 0)
         {
-            Global VariationAmt := A_Index + 10 ; Find matchpoint and add 10 for safety.
+            Global VariationAmt := A_Index + 15 ; Find matchpoint and add 15 for safety.
             ; msgbox, Success! Your new calibration value is %A_Index%
             Break
         }
@@ -664,9 +664,9 @@ ScreenShotTool(path)
     IniTitle := StrSplit(IniTitle[4],".png")
     IniTitle := IniTitle[1]
     ScreenIni := ScreenIni()
-    If (VariationAmt < 30)
+    If (VariationAmt < 50)
     {
-        VariationAmt := 30
+        VariationAmt := 50
     }
     IniWrite, %VariationAmt%, %ScreenIni%, Variation, %IniTitle%
     IniWrite, 0, %ScreenIni%, Screen Search Disable, Disable

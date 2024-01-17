@@ -17,6 +17,8 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
+GroupAdd, PoeWindow, ahk_exe Code.exe
+GroupAdd, PoeWindow, ahk_exe ApplicationFrameHost.exe
 
 Start()
 Return
@@ -86,7 +88,7 @@ ScreenCheck()
             MechanicsIni := MechanicsIni()
             IniRead, ThisSearchActive, %MechanicsIni%, %ThisSection%, %CurrentSearch%
             ScreenIni := ScreenIni()
-            IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 35
+            IniRead, SearchVariation, %ScreenIni%, Variation, %ThisSearch%, 50
             PngLocation := "Resources\Images\Image Search\Custom\" ThisSearch ".png"
             If !FileExist(PngLocation)
                 {
@@ -352,7 +354,7 @@ EldritchScreen()
                         EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
                     }
                 ScreenIni := ScreenIni()
-                IniRead, SearchVariation, %ScreenIni%, Variation, Eldritch, 35
+                IniRead, SearchVariation, %ScreenIni%, Variation, Eldritch, 50
                 EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
                 If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                     {
@@ -393,7 +395,8 @@ EldritchScreen()
                             }
 
                         EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
-                        If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,35,0xFFFFFF,1,0) > 0)
+                        IniRead, SearchVariation, %ScreenIni%, Variation, Eldritch, 50
+                        If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
                             {
                                 MechanicsIni := MechanicsIni()
                                 FixCase := RegExReplace(EldritchBoss, "^(.)", "$T1")
