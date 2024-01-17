@@ -39,7 +39,7 @@ The Trialmaster: Your doom is dark and roiling
 The Trialmaster: You play the game well, Challenger. Enjoy the fruits of your luck, and your skill. We shall meet again
 The Trialmaster: Victory requires a keen eye
 The Trialmaster: Be diminished
-The Trialmaster: The tide of death is rapid..
+The Trialmaster: The tide of death is rapid
 The Trialmaster: A second victory!
 The Trialmaster: Hate begets hate
 The Trialmaster: I can practically see your ego swelling
@@ -47,3 +47,4 @@ The Trialmaster: The vapours are inescapable
 The Trialmaster: A hateful grip will steal your breath
 The Trialmaster: A prism of pain
 The Trialmaster: The storm comes swiftly
+The Trialmaster: This will not continue. I am unconcerned. 
