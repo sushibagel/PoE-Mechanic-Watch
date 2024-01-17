@@ -18,7 +18,7 @@ LogMonitor() ;Monitor the PoE client.txt
     For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
         autocheck = %Mechanic%Auto
-        if (%autocheck% = 1)
+        if (%autocheck% > 0)
         {
             Loop, Read, Resources/Data/%Mechanic%dialogs.txt
             {

@@ -2,7 +2,7 @@
 #Persistent
 #NoEnv
 #MaxMem 1024
-; #NoTrayIcon ;need to enable for release
+#NoTrayIcon ;need to enable for release
 Menu, Tray, Icon, Resources\Images\incursion.png
 SetBatchLines, -1
 Global FinishedCoord
@@ -20,7 +20,7 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-GroupAdd, PoeWindow, ahk_exe Code.exe
+; GroupAdd, PoeWindow, ahk_exe Code.exe
 
 Start()
 Return

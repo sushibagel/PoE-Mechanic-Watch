@@ -22,7 +22,7 @@ GroupAdd, PoeWindow, Notification Settings
 GroupAdd, PoeWindow, Awakened PoE Trade
 GroupAdd, PoeWindow, Master Reminder
 GroupAdd, PoeWindow, Activate Blocker
-GroupAdd, PoeWindow, ahk_exe code.exe
+; GroupAdd, PoeWindow, ahk_exe code.exe
 
 SetTimer, CheckActive
 ; OnMessage(0x01192, "ActivateInfluenceReminder")

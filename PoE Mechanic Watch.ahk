@@ -149,7 +149,7 @@ GroupAdd, PoeWindow, Move
 GroupAdd, PoeWindow, Awakened PoE Trade
 GroupAdd, PoeWindow, Influence
 GroupAdd, PoeWindow, Transparency
-GroupAdd, PoeWindow, ahk_exe code.exe
+; GroupAdd, PoeWindow, ahk_exe code.exe
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Check for Ini Files ;;;;;;;;;;;;;;;;;;
 LocationIni := StorageIni()
