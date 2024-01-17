@@ -1,50 +1,78 @@
-The Trialmaster: Shrapnel and shards abound
-The Trialmaster: Relentless assault
-The Trialmaster: Your arteries constrict
-The Trialmaster: Be torn to shreds
-The Trialmaster: Ruin seeks you
-The Trialmaster: Ruin arrives suddenly
-The Trialmaster: Mystic pain will bring ruin
-The Trialmaster: You shall suffer your own bile
-The Trialmaster: Vengeance is cold indeed
-The Trialmaster: The expected choice
-The Trialmaster: The storm approaches
-The Trialmaster: It was not to be
-The Trialmaster: Lightning descends
-The Trialmaster: Fire seeks what it will
-The Trialmaster: You will fall to ruin
-The Trialmaster: The flames race toward you
-The Trialmaster: Fire always spreads
-The Trialmaster: Death's cold grip is inescapable
-The Trialmaster: The flames bite upon your heels
-The Trialmaster: Steel and pain
-The Trialmaster: Avoid the miasma, if you can
-The Trialmaster: Be not ashamed at your meagre record
-The Trialmaster: Two losses in a row!
-The Trialmaster: Slay them amongst the flames
-The Trialmaster: An unstoppable tide
-The Trialmaster: Fight the slowing of your own heart
-The Trialmaster: Time is your enemy.
-The Trialmaster: The fire of summer burns within
-The Trialmaster: Choking vapours seek the living
-The Trialmaster: Your enemies hasten
+The Trialmaster: …and my service continues. Chaos laughs, mortal, and fortune is yours.
+The Trialmaster: A choice of futures, as before. The next challenge will be even more difficult.
+The Trialmaster: A favourable result. Now you face another choice: further
+The Trialmaster: A hateful grip will steal your breath.
+The Trialmaster: A prism of pain.
+The Trialmaster: A sea of fire crashes upon your shores.
+The Trialmaster: A second victory
+The Trialmaster: A wall arises between you and victory.
+The Trialmaster: An arrow falls, and I know where.
+The Trialmaster: An unstoppable tide.
+The Trialmaster: Avoid the miasma, if you can.
+The Trialmaster: Be diminished.
+The Trialmaster: Be torn to shreds.
+The Trialmaster: Choking vapours seek the living.
+The Trialmaster: Contamination moves swiftly on the wind.
+The Trialmaster: Cut straight to the heart of the matter.
+The Trialmaster: Death's cold grip is inescapable.
+The Trialmaster: Do you wish to keep your fortunes, or continue in pursuit of greater riches?
+The Trialmaster: Faith and intellect burn alike.
+The Trialmaster: Fight the slowing of your own heart.
+The Trialmaster: Fire always spreads.
+The Trialmaster: Fire seeks what it will.
+The Trialmaster: Flames beget more flames.
+The Trialmaster: For now, the victor remains the victor
+The Trialmaster: Hahahahaha luck is over, fool
+The Trialmaster: Hate begets hate.
+The Trialmaster: It was not to be.
+The Trialmaster: Lightning always strikes twice.
+The Trialmaster: Lightning descends.
+The Trialmaster: Lightning gives little warning.
+The Trialmaster: Lightning lurks within you.
 The Trialmaster: Miasma spreads.
-The Trialmaster: Contamination moves swiftly on the wind
-The Trialmaster: You have restored your pride
-The Trialmaster: A sea of fire crashes upon your shores
-The Trialmaster: Luck can only carry you so far...
-The Trialmaster: Rare is the breath of living air
-The Trialmaster: An arrow falls, and I know where
-The Trialmaster: Your doom is dark and roiling
-The Trialmaster: You play the game well, Challenger. Enjoy the fruits of your luck, and your skill. We shall meet again
-The Trialmaster: Victory requires a keen eye
-The Trialmaster: Be diminished
-The Trialmaster: The tide of death is rapid
-The Trialmaster: A second victory!
-The Trialmaster: Hate begets hate
-The Trialmaster: I can practically see your ego swelling
-The Trialmaster: The vapours are inescapable
-The Trialmaster: A hateful grip will steal your breath
-The Trialmaster: A prism of pain
-The Trialmaster: The storm comes swiftly
-The Trialmaster: This will not continue. I am unconcerned. 
+The Trialmaster: Mystic pain will bring ruin.
+The Trialmaster: Rare is the breath of living air.
+The Trialmaster: Relentless assault.
+The Trialmaster: Ruin arrives suddenly.
+The Trialmaster: Ruin seeks you.
+The Trialmaster: Shrapnel and shards abound.
+The Trialmaster: Slay them amongst the flames.
+The Trialmaster: So be it, as disappointing as it is.
+The Trialmaster: Steel and pain.
+The Trialmaster: Stray too far and find pain.
+The Trialmaster: The bane of mystics and scholars.
+The Trialmaster: The dance of death is swift and turbid.
+The Trialmaster: The fire of summer burns within.
+The Trialmaster: The flames bite upon your heels.
+The Trialmaster: The flames race toward you.
+The Trialmaster: The future holds further challenges. Count on it.
+The Trialmaster: The riddle of steel has no answer.
+The Trialmaster: The safe choice.
+The Trialmaster: The storm approaches.
+The Trialmaster: The storm comes swiftly.
+The Trialmaster: The sun is setting on your success.
+The Trialmaster: The tide of death is rapid.
+The Trialmaster: The vapours are inescapable.
+The Trialmaster: The wind conspires with the flames.
+The Trialmaster: Thunder and lightning abound.
+The Trialmaster: Time is your enemy.
+The Trialmaster: Time to end this
+The Trialmaster: Try your luck again soon, challenger.
+The Trialmaster: Ultimatum
+The Trialmaster: Vengeance is cold indeed.
+The Trialmaster: Victory requires a keen eye.
+The Trialmaster: You have restored your pride.
+The Trialmaster: You only made it six rounds last time. Why do you bother?
+The Trialmaster: You play the game well, Challenger. Enjoy the fruits of your luck, and your skill. We shall meet again.
+The Trialmaster: You shall suffer your own bile.
+The Trialmaster: You will fall to ruin.
+The Trialmaster: You win… again.
+The Trialmaster: Your arteries constrict.
+The Trialmaster: Your doom is dark and roiling.
+The Trialmaster: Your enemies hasten.
+The Trialmaster: Your opponents bring night's madness.
+The Trialmaster: Your path to greatness has taken a hard turn toward a cliff.
+The Trialmaster: Your reach exceeds your grasp.
+The Trialmaster: Your series of victories continues.
+The Trialmaster: Your series of victories has come to an end.
+The Trialmaster: Your thoughts crackle with pain.
