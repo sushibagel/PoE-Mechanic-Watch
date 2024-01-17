@@ -33,7 +33,7 @@ The Trialmaster: Contamination moves swiftly on the wind
 The Trialmaster: You have restored your pride
 The Trialmaster: A sea of fire crashes upon your shores
 The Trialmaster: Luck can only carry you so far...
-Trialmaster: Rare is the breath of living air
+The Trialmaster: Rare is the breath of living air
 The Trialmaster: An arrow falls, and I know where
 The Trialmaster: Your doom is dark and roiling
 The Trialmaster: You play the game well, Challenger. Enjoy the fruits of your luck, and your skill. We shall meet again
@@ -42,9 +42,13 @@ The Trialmaster: Be diminished
 The Trialmaster: The tide of death is rapid
 The Trialmaster: A second victory!
 The Trialmaster: Hate begets hate
+<<<<<<< HEAD
 The Trialmaster: I can practically see your ego swelling
 The Trialmaster: The vapours are inescapable
 The Trialmaster: A hateful grip will steal your breath
 The Trialmaster: A prism of pain
 The Trialmaster: The storm comes swiftly
 The Trialmaster: This will not continue. I am unconcerned. 
+=======
+The Trialmaster: Not bad... for a mortal.
+>>>>>>> bc5e659b1c05974b39851e2fc203f2c54b993f45
