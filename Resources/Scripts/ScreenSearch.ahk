@@ -118,7 +118,6 @@ ScreenCheck()
                         }
                     If InStr(ThisSearch, "Blight")
                         {
-                            msgbox, blight
                             MechanicsIni := MechanicsIni()
                             IniWrite, 0, %MechanicsIni%, Mechanic Active, Blight
                             Sleep, 200

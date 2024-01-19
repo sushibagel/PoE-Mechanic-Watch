@@ -304,7 +304,6 @@ If !FileExist(VariableIni) ;Check for "Variable" ini
 if !(FileExist("Resources\Images\Image Search\Custom")) ;Check for Custom image search folders
     {
         FileCreateDir, Resources\Images\Image Search\Custom
-	    msgbox, then???
     } 
     
 if !(FileExist("Resources\Images\Image Search\Eldritch\Custom")) ;Check for Custom image search folders
