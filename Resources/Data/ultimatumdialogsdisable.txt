@@ -48,6 +48,7 @@ The Trialmaster: The flames race toward you.
 The Trialmaster: The future holds further challenges. Count on it.
 The Trialmaster: The riddle of steel has no answer.
 The Trialmaster: The safe choice.
+The Trialmaster: Steel and pain.
 The Trialmaster: The storm approaches.
 The Trialmaster: The storm comes swiftly.
 The Trialmaster: The sun is setting on your success.
@@ -58,6 +59,7 @@ The Trialmaster: Thunder and lightning abound.
 The Trialmaster: Time is your enemy.
 The Trialmaster: Time to end this
 The Trialmaster: Try your luck again soon, challenger.
+The Trialmaster: To lose twice in a row... how unfortunate. 
 The Trialmaster: Ultimatum
 The Trialmaster: Vengeance is cold indeed.
 The Trialmaster: Victory requires a keen eye.
