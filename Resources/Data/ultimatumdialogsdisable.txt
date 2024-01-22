@@ -31,6 +31,7 @@ The Trialmaster: Lightning gives little warning.
 The Trialmaster: Lightning lurks within you.
 The Trialmaster: Miasma spreads.
 The Trialmaster: Mystic pain will bring ruin.
+The Trialmaster: No rest for the wicked.
 The Trialmaster: Rare is the breath of living air.
 The Trialmaster: Relentless assault.
 The Trialmaster: Ruin arrives suddenly.
@@ -63,6 +64,7 @@ The Trialmaster: To lose twice in a row... how unfortunate.
 The Trialmaster: Ultimatum
 The Trialmaster: Vengeance is cold indeed.
 The Trialmaster: Victory requires a keen eye.
+The Trialmaster: You have redeemed yourself.
 The Trialmaster: You have restored your pride.
 The Trialmaster: You only made it six rounds last time. Why do you bother?
 The Trialmaster: You play the game well, Challenger. Enjoy the fruits of your luck, and your skill. We shall meet again.
