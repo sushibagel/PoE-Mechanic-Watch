@@ -15,6 +15,7 @@ The Trialmaster: Choking vapours seek the living.
 The Trialmaster: Contamination moves swiftly on the wind.
 The Trialmaster: Cut straight to the heart of the matter.
 The Trialmaster: Death's cold grip is inescapable.
+The Trialmaster: Dance neither near nor far.
 The Trialmaster: Do you wish to keep your fortunes, or continue in pursuit of greater riches?
 The Trialmaster: Faith and intellect burn alike.
 The Trialmaster: Fight the slowing of your own heart.
@@ -41,6 +42,7 @@ The Trialmaster: Slay them amongst the flames.
 The Trialmaster: So be it, as disappointing as it is.
 The Trialmaster: Steel and pain.
 The Trialmaster: Stray too far and find pain.
+The Trialmaster: That makes two in a row!
 The Trialmaster: The bane of mystics and scholars.
 The Trialmaster: The dance of death is swift and turbid.
 The Trialmaster: The fire of summer burns within.
@@ -61,6 +63,7 @@ The Trialmaster: Time is your enemy.
 The Trialmaster: Time to end this
 The Trialmaster: Try your luck again soon, challenger.
 The Trialmaster: To lose twice in a row... how unfortunate. 
+The Trialmaster: To shreds.
 The Trialmaster: Ultimatum
 The Trialmaster: Vengeance is cold indeed.
 The Trialmaster: Victory requires a keen eye.
