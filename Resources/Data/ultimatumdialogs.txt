@@ -31,3 +31,6 @@ The Trialmaster: The eight-round challenger returns…
 The Trialmaster: The nine-round challenger returns…
 The Trialmaster: Try to do better than three rounds this time.
 The Trialmaster: Yes, come lose another trial. Productive.
+The Trialmaster: This time you will finally lose.
+The Trialmaster: Try to do better than three rounds this time.
+The Trialmaster: Your victories will not continue. 
