@@ -6,4 +6,5 @@ v2.9
 -   Updated the Calibration Tool for the new mechanics along with new descriptions. 
 -   Added an option to only show mechanics on the Overlay when they are active. 
 -   Updated the Mechanic Selection Tool to support the "Active Only" mode. 
+-   Removed the Master Mapping Tool as Masters are no longer selectable at the map device. 
 -   Minor Fixes
