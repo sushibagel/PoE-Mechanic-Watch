@@ -45,7 +45,6 @@ Menu, Tray, NoStandard
 Menu, Tray, Add, Select Mechanics, SelectMechanics
 Menu, Tray, Add, Select Auto Enable/Disable, SelectAuto
 Menu, Tray, Add, View Maven Invitation Status, ViewMaven
-Menu, Tray, Add, Master Mapping Settings, MasterSetup
 Menu, Tray, Add
 Menu, Tray, Add, Launch Path of Exile, LaunchPoe
 Menu, Tray, Add, View Path of Exile Log, ViewLog
@@ -791,12 +790,6 @@ HotkeyCheck()
             Hotkey, IfWinActive, ahk_group PoeWindow
             Hotkey, %HotkeyCombo%, Generic, T5
         }
-
-        If (HotkeyItem = "MasterMapping") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-            {
-                Hotkey, IfWinActive, ahk_group PoeWindow
-                Hotkey, %HotkeyCombo%, ToggleMasters, T5
-            }
     }
 }
 
@@ -826,7 +819,6 @@ MapSettings()
 #Include, Resources\Scripts\iniChoose.ahk
 #Include, Resources\Scripts\Influences.ahk
 #Include, Resources\Scripts\LaunchOptions.ahk
-#Include, Resources\Scripts\Masters.ahk
 #Include, Resources\Scripts\Maven.ahk
 #Include, Resources\Scripts\MavenReminder.ahk
 #Include, Resources\Scripts\Mechanics.ahk
