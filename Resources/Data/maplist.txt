@@ -1,3 +1,4 @@
+Abomination
 Academy
 Acid Caverns
 AcidLakes
@@ -57,6 +58,7 @@ Crimson Temple
 CrimsonTemple
 Crimson Township
 CrimsonTownship
+Citadel
 Crystal Ore
 CrystalOre
 Cursed Crypt
@@ -84,6 +86,7 @@ ForbiddenWoods
 Forge of the Phoenix
 Forking River
 ForkingRiver
+Fortress
 Foundry
 Frozen Cabins
 FrozenCabins
@@ -160,6 +163,7 @@ Reef
 Relic Chambers
 RelicChambers
 Residence
+Sanctuary
 Scriptorium
 Sepulchre
 Shipyard
@@ -204,3 +208,4 @@ WastePool
 Wasteland
 Waterways
 Wharf
+Ziggurat
