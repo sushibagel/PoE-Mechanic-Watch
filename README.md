@@ -21,8 +21,7 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 - Ritual  
 - Ultimatum
 - Searing Exarch/Eater of Worlds/Maven (Map Count Tracking)
-- A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.
-- Mapping - Reminder to select a Master Mission.   
+- A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.   
 
 #### Auto Mechanic Tracking:
 Auto Mechanic Tracking is available for Betrayal, Blight, Einhar, Expedition, Incursion, Niko, Ritual, Ultimatum and the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven).
