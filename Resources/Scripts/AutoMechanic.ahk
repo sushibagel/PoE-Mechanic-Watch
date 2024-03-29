@@ -141,7 +141,7 @@ AutoWrite()
     For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
     {
         mechanicvalue := % %Mechanic%
-        IniWrite, %mechanicvalue%, %MechanicsPath%, Auto Mechanics, %Mechanic%
+        IniWrite, %mechanicvalue%, %MechanicsPath%, Auto Mechanics, %Mechanic%, 0
     }
     Gui, Auto:Destroy
 }
