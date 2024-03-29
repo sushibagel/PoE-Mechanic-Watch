@@ -127,6 +127,8 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 
 - If Auto tracking isn't working for Ritual or the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven) you may meed to calibrate the image recognition using the "Calibrate Search" tool found in the Auto Enable/Disable menu.
 
+- If OCR Auto Tracking isn't working verify that "Enable Quest Tracking" is enabled in the "UI" tab of the Options Menu in game. 
+
 - For the "Launch Path of Exile" tray menu command to work properly, the game must be launched at least once with this tool running first. 
 
 ##### Updating:
