@@ -9,27 +9,31 @@ This program works by setting an overlay in Path of Exile, when one of the overl
 
 #### The following game mechanics are currently supported:  
 - Abyss  
+- Betrayal
 - Blight  
 - Breach  
+- Einhar
 - Expedition  
 - Harvest  
 - Incursion  
 - Legion
+- Niko
 - Ritual  
+- Ultimatum
 - Searing Exarch/Eater of Worlds/Maven (Map Count Tracking)
 - A "Generic" option is also available for those who desire a simplier interface or for use with other (future) league mechanics.
 - Mapping - Reminder to select a Master Mission.   
 
 #### Auto Mechanic Tracking:
-Auto Mechanic Tracking is available for Blight, Expedition, Incursion, Ritual and the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven).
+Auto Mechanic Tracking is available for Betrayal, Blight, Einhar, Expedition, Incursion, Niko, Ritual, Ultimatum and the Eldritch bosses (Eater of Worlds, Searing Exarch and Maven).
 
-For Blight, Expedition and Incursion Auto Mechanic Tracking can be enabled in a seperate menu. This feature ***requires*** the ***"Output Dialogue To Chat"*** setting to be turned on in the "UI" section of the settings in game. Incursion reminders are only disabled after the 3rd encounter. Please note this feature depends on NPC dialogs, due to dialogs being random it may not be 100% reliable.  
-
-Auto Tracking for Ritual is done using image recognition. Image recognition may require calibration to work. It's recommended to use it as is first before attempting to calibrate.
+Auto Tracking is done using several combinations of Dialogues, Optical Character Recognition (OCR) and Image Recognition. For Dialogue search to work it  ***requires*** the ***"Output Dialogue To Chat"*** setting to be turned on in the "UI" section of the settings in game. For OCR to function you ***must*** have the ***Quest Tracking*** setting enabled in game. Image recognition may require calibration to work. It's recommended to use it as is first before attempting to calibrate.
 
 Influenced map tracking for the Searing Exarch and Eater of Worlds mechanics will happen automatically. Upon entering a map the counter will be ticked and a message displayed, the counter can be decreased using a hotkey (programmable) and increased by clicking on the icon, the counter can be reset by holding alt and right clicking the icon. The Hotkey to remove a counted map can be changed using the "Change Hotkey" tray menu option. 
 
 With Eldritch Auto tracking enabled the tool will attempt to verify which mechanic is currently being used and update counts as necessary using image recognition. The i,age recognition may require calibration but it is recommended to attempt to use it as is first before attempting to calibrate.
+
+Each mechanic has more informaiton on how it's tracked in the Auto Enable/Disable menu. 
 
 Note: If you favorite mechanic doesn't have Auto Mechanic tracking this is most likely because I haven't been able to find a reliable way to track it. I recommend considering setting a hotkey that can be easily pressed to trigger the mechanic. 
 
