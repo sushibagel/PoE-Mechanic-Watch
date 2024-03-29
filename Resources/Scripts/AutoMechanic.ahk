@@ -1,9 +1,12 @@
 #Include <Gdip_All>
 #Include <Gdip_ImageSearch>
 
+Global BetrayalAuto
 Global BlightAuto
+Global EinharAuto
 Global ExpeditionAuto
 Global IncursionAuto
+Global NikoAuto
 Global RitualAuto
 Global UltimatumAuto
 Global EldritchAuto
