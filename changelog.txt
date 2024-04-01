@@ -1,3 +1,7 @@
+v2.9.1
+-   Fix for screen searches not functioning. 
+-   Added a couple Ultimatum dialogs. 
+
 v2.9
 -   Added auto mechanic support for Betrayal, Einhar, Niko, Ritual and Ultimatum.
 -   Added overlay images for the new mechanics. 
