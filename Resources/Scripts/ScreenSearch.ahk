@@ -166,7 +166,7 @@ GetSearches()
                     IniRead, ActiveCheck,  %MechanicsIni%, Mechanics, % SearchMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay.
                     CurrentSearch := SearchMechanics[A_Index] " Track"
                     IniRead, TrackerCheck,  %MechanicsIni%, %CurrentSearch%, Status, 0 ; Check the status of the mechanic tracker 
-                    If (ActiveCheck = 1) and (TrackerCheck = 1) and !(SearchMechanics[A_Index] = "Blight")
+                    If (ActiveCheck > 0) and (TrackerCheck > 0) and !(SearchMechanics[A_Index] = "Blight")
                         {
                             If !(MySearches = "")
                                 {
@@ -180,7 +180,7 @@ GetSearches()
                                 }
                         }
                     IniRead, BlightStatus, %MechanicsIni%, Mechanic Active, Blight, 0
-                    If (SearchMechanics[A_Index] = "Blight") and (BlightStatus = 1)
+                    If (SearchMechanics[A_Index] = "Blight") and (BlightStatus > 0)
                         {
                             If !(MySearches = "")
                                 {
