@@ -287,13 +287,25 @@ CheckScreen()
 
             If InStr(ScreenText, "Mission Complete")
             {
-               MechanicsIni := MechanicsIni()
-               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Niko, 0
-               If (CurrentStatus = 1)
+               NikoCount := StrSplit(ScreenText, "`n")
+               NikoLines := NikoCount.MaxIndex()
+               Loop, %NikoLines%
                {
-                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Niko
-                  IniWrite, %BlankVariable%, %MechanicsIni%, Niko Track, Current Count
-                  RefreshOverlay()
+                  If (RegexMatch(NikoCount[A_Index],NikoPattern))
+                  {
+                     CheckCompletion := A_Index + 1
+                     If InStr(NikoCount[CheckCompletion], "Mission Complete")
+                        {
+                           MechanicsIni := MechanicsIni()
+                           IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Niko, 0
+                           If (CurrentStatus = 1)
+                           {
+                              IniWrite, 0, %MechanicsIni%, Mechanic Active, Niko
+                              IniWrite, %BlankVariable%, %MechanicsIni%, Niko Track, Current Count
+                              RefreshOverlay()
+                           }
+                        }
+                  }
                }
             }
          }
@@ -363,14 +375,26 @@ CheckScreen()
 
             If InStr(ScreenText, "Mission Complete")
             {
-               MechanicsIni := MechanicsIni()
-               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
-               If (CurrentStatus = 1)
-               {
-                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Betrayal
-                  IniWrite, "", %MechanicsIni%, Betrayal Track, Current Count
-                  RefreshOverlay()
-               }
+               BetrayalCount := StrSplit(ScreenText, "`n")
+               BetrayalLines := BetrayalCount.MaxIndex()
+               Loop, %BetrayalLines%
+                  {
+                     If (RegExMatch(BetrayalCount[A_Index], BetrayalPattern))
+                        {
+                           CheckCompletion := A_Index + 1
+                           If InStr(NikoCount[CheckCompletion], "Mission Complete")
+                              {
+                                 MechanicsIni := MechanicsIni()
+                                 IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
+                                 If (CurrentStatus = 1)
+                                 {
+                                    IniWrite, 0, %MechanicsIni%, Mechanic Active, Betrayal
+                                    IniWrite, "", %MechanicsIni%, Betrayal Track, Current Count
+                                    RefreshOverlay()
+                                 }
+                              }
+                        }
+                  }
             }
          }
          If (OCRMEchanics[A_Index] = "Ritual")
