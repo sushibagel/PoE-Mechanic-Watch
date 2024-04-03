@@ -132,14 +132,24 @@ CheckScreen()
             ;now look for specific match matches to determine what part of the chain we are in.
             If InStr(ScreenText, "Mission complete")
             {
-               MechanicsIni := MechanicsIni()
-               IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
-               If (CurrentStatus = 1)
-               {
-                  IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
-                  IniWrite, %BlankVariable%, %MechanicsIni%, Einhar Track, Current Count
-                  RefreshOverlay()
-               }
+               EinharCount := StrSplit(ScreenText, "`n")
+               EinharLines := EinharCount.MaxIndex()
+               Loop, %EinharLines%
+                  {
+                     If (RegExMatch(EinharCount[A_Index], EinharPattern))
+                        {
+                           CheckCompletion := A_Index + 1
+                           If InStr(EinharCount[CheckCompletion], "Mission Complete")
+                           MechanicsIni := MechanicsIni()
+                           IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Einhar, 0
+                           If (CurrentStatus = 1)
+                           {
+                              IniWrite, 0, %MechanicsIni%, Mechanic Active, Einhar
+                              IniWrite, %BlankVariable%, %MechanicsIni%, Einhar Track, Current Count
+                              RefreshOverlay()
+                           }
+                        }
+                  }
             }
 
             EinharPattern := ".*(?:Find and weaken|weaken the beasts).*"
@@ -382,7 +392,7 @@ CheckScreen()
                      If (RegExMatch(BetrayalCount[A_Index], BetrayalPattern))
                         {
                            CheckCompletion := A_Index + 1
-                           If InStr(NikoCount[CheckCompletion], "Mission Complete")
+                           If InStr(BetrayalCount[CheckCompletion], "Mission Complete")
                               {
                                  MechanicsIni := MechanicsIni()
                                  IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
@@ -471,14 +481,26 @@ CheckScreen()
             }
             If InStr(ScreenText, "Mission Complete")
                {
-                  MechanicsIni := MechanicsIni()
-                  IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Incursion, 0
-                  If (CurrentStatus = 1)
-                  {
-                     IniWrite, 0, %MechanicsIni%, Mechanic Active, Incursion
-                     IniWrite, "", %MechanicsIni%, Incursion Track, Current Count
-                     RefreshOverlay()
-                  }
+                  IncursionCount := StrSplit(ScreenText, "`n")
+                  IncursionLines := IncursionCount.MaxIndex()
+                  Loop, %IncursionLines%
+                     {
+                        If (RegExMatch(IncursionCount[A_Index], IncursionPattern))
+                           {
+                              CheckCompletion := A_Index + 1
+                              If InStr(IncursionCount[CheckCompletion], "Mission Complete")
+                                 {
+                                    MechanicsIni := MechanicsIni()
+                                    IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Incursion, 0
+                                    If (CurrentStatus = 1)
+                                    {
+                                       IniWrite, 0, %MechanicsIni%, Mechanic Active, Incursion
+                                       IniWrite, "", %MechanicsIni%, Incursion Track, Current Count
+                                       RefreshOverlay()
+                                    }
+                                 }
+                           }
+                     }
                }
             }
       }
