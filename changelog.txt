@@ -1,3 +1,6 @@
+v2.9.2
+-   Fixed various OCR Mechanics to only dismiss when they are complete when multiple mechanics are active. 
+
 v2.9.1
 -   Fix for screen searches not functioning. 
 -   Added a couple Ultimatum dialogs. 
