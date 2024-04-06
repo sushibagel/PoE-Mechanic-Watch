@@ -382,7 +382,7 @@ CheckScreen()
                      If (RegExMatch(BetrayalCount[A_Index], BetrayalPattern))
                         {
                            CheckCompletion := A_Index + 1
-                           If InStr(NikoCount[CheckCompletion], "Mission Complete")
+                           If InStr(BetrayalCount[CheckCompletion], "Mission Complete")
                               {
                                  MechanicsIni := MechanicsIni()
                                  IniRead, CurrentStatus, %MechanicsIni%, Mechanic Active, Betrayal, 0
