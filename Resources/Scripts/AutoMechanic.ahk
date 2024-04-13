@@ -42,7 +42,7 @@ Global MavenVar
 Global SampleEater
 Global SampleSearing
 Global SampleMaven
-Global SampleMapDevice
+Global SampleEldritchText
 Global Completion
 Global Text
 Global SampleEaterOn
@@ -283,16 +283,16 @@ AutoButtonCalibrateSearch()
         Gui, Calibrate:Add, Text, ys x+10 w80 HwndSample%boss%On g%boss%On, Sample
         Gui, Calibrate:Font, c%Font% Normal
     }
-    Gui, Calibrate:Add, Text, Section xs, Map Device
+    Gui, Calibrate:Add, Text, Section xs, Influence Count
     Gui, Calibrate:Font, s8 c1177bb Normal Underline
     Gui, Calibrate:Add, Text, x+.5 yp HwndFootnote6 gOpenFootnote, 6
     XBut := Round(96/A_ScreenDPI*425)
     Gui, Calibrate:Font, Normal 
     Gui, Calibrate:Font, c%Font% s12
-    Gui, Calibrate:Add, Button, ys x%XBut% w80 gMapDeviceButton, Calibrate
+    Gui, Calibrate:Add, Button, ys x%XBut% w80 gInfluenceCountButton, Calibrate
     XSample := Round(96/A_ScreenDPI*570)
     Gui, Calibrate:Font, c1177bb Normal Underline s12
-    Gui, Calibrate:Add, Text, ys x+10 w80 HwndSampleMapDevice gMapDeviceImage, Sample
+    Gui, Calibrate:Add, Text, ys x+10 w80 HwndSampleEldritchText gEldritchTextImage, Sample
     Gui, Calibrate:Font, c%Font% Normal
 
     Gui, Calibrate:Add, Text, Section,
@@ -425,12 +425,12 @@ MouseMove(wParam, lParam, Msg, Hwnd) {
                     ShowImage("Eldritch/maven" mavenVar, ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
-            If Instr(mHwnd, SampleMapDevice) and (mHwnd != LastHwnd)
+            If Instr(mHwnd, SampleEldritchText) and (mHwnd != LastHwnd)
                 {
-                    ImageH := 80
-                    ImageW := 250
+                    ImageH := 150
+                    ImageW := 450
                     Gui, Calibrate:Submit, Nohide
-                    ShowImage("MapDevice", ImageH, ImageW)
+                    ShowImage("EldritchText", ImageH, ImageW)
                     LastHwnd := mHwnd
                 }
             If Instr(mHwnd, SampleSearingOn) and (mHwnd != LastHwnd)
@@ -546,12 +546,12 @@ OpenImage()
         ShowImage("RitualShop", ImageH, ImageW, "+Caption")
         LastHwnd := mHwnd
     }
-    If Instr(mHwnd, "MapDevice")
+    If Instr(mHwnd, "EldritchText")
     {
         SamplePressed := 1
         ImageH := 150
         ImageW := 250
-        ShowImage("MapDevice", ImageH, ImageW, "+Caption")
+        ShowImage("EldritchText", ImageH, ImageW, "+Caption")
         LastHwnd := mHwnd
     }
     If Instr(mHwnd, "SampleMavenOn")
@@ -612,6 +612,7 @@ Button3()
 ScreenShotTool(path)
 {
     FileDelete, %path%
+    Clipboard := ""
     ScreenIni := ScreenIni()
     IniWrite, 1, %ScreenIni%, Screen Search Disable, Disable
     gdipCalibrate := Gdip_Startup()
@@ -620,11 +621,14 @@ ScreenShotTool(path)
     Run, SnippingTool
     SetTitleMatchMode, 2
     WinWaitActive, Snipping Tool
-    WinWaitClose, Snipping Tool
+    WinWaitClose, Snipping Tool 
     ClipWait, , 1
     CalibrateCreate := Gdip_CreateBitmapFromClipboard()
     Gdip_SaveBitmapToFile(CalibrateCreate, path)
-    WinActivate, Path of Exile
+    If WinExist("Path of Exile")
+        {  Sleep, 2000
+            WinActivate, Path of Exile
+        }
     WinWaitActive, Path of Exile
     PoeHwnd := WinExist(CWindow)
     Gui, CalibrationNotice:Destroy
@@ -836,7 +840,7 @@ ViewFootnote(FootnoteNum)
         {
             If WinActive("Calibration Tool")
                 {
-                    CustomText := "The Map Device is used for identifying when the map device is open to activate the Master Mapping tool. The calibrate button will open the ""Snipping Tool"" on your computer, verify the ""Rectangular Snip"" Mode is enabled, press ""New"" and carefully select a section of your screen similar to the samples shown. To calibrate select the ""Map Receptacle""  text and the surrounding box, it`'s important not to select any of the Kirac mods below or your hideout in the background as this may cause issues with screen recognition."
+                    CustomText := "Influence Count is used to verify/update your progress on the Edlritch Influence (Searing Exarch, Eater of Worlds ""&"" Maven) mechanics. For this to update you need to mouse over the influence buttons to show the ""Progress"" text. When calibrating check the layout of the text for each of the three mechanics with your inventory both open and closed to get an idea of the total area needed. Once you select the ""Calibrate"" button the Calibration Tool Menu will minimize, simply click and drag (a yellow box should appear as you drag) the area you want to use as the ""Calibrated"" area. Calibration shouldn't be necessary but can help to make the tool slightly more efficient."
                     Caption := "-Caption"
                     If (SamplePressed = 1)
                     {
@@ -907,23 +911,15 @@ MavenImage()
     LastHwnd := mHwnd
 }
 
-MapDeviceImage()
+EldritchTextImage()
 {
     MouseGetPos,,,, mHwnd,
     Gui, ImageView:Destroy
     SamplePressed := 1
-    ImageH := 130
-    ImageW := 250
-    ShowImage("MapDevice", ImageH, ImageW, "+Caption")
+    ImageH := 150
+    ImageW := 450
+    ShowImage("EldritchText", ImageH, ImageW, "+Caption")
     LastHwnd := mHwnd
-    Return
-}
-
-MapDeviceButton()
-{
-    Gui, Calibrate:Submit, Nohide
-    FileName := "Resources\Images\Image Search\Custom\MapDevice.png"
-    ScreenShotTool(FileName)
     Return
 }
 
@@ -993,6 +989,16 @@ QuestText()
     WinMinimize, Calibration Tool
     PostSetup()
     PostMessage, 0x01987,,,, ocr.ahk - AutoHotkey ; Calibrate quest tracker text search
+    PostRestore()
+    Return
+}
+
+InfluenceCountButton()
+{
+    Gui, Calibrate:Submit, Nohide
+    WinMinimize, Calibration Tool
+    PostSetup()
+    PostMessage, 0x01989,,,, ocr.ahk - AutoHotkey ; Calibrate Influence Count text search
     PostRestore()
     Return
 }
