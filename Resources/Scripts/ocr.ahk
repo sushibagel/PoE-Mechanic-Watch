@@ -10,6 +10,7 @@ Global EinharComplete
 
 OnMessage(0x01987, "GetSideTextArea")
 OnMessage(0x01988, "GetRitualTextArea")
+OnMessage(0x01989, "GetInfluenceTextArea")
 
 ;	REF: https://www.autohotkey.com/boards/viewtopic.php?t=72674
 ;	PROVIDED BY: teadrinker
@@ -44,12 +45,20 @@ Start()
    OCRMechanics := OCRMechanics()
    OCRMechanics := StrSplit(OCRMechanics, "|")
    MechanicCount := OCRMechanics.MaxIndex()
-   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting th   e search variables here because I don't want to activate the timer twice.
+   Loop, %MechanicCount% ;Check if any Screen Searches are active before enabling the timer. I'm not setting the search variables here because I don't want to activate the timer twice.
    {
       IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, % OCRMechanics[A_Index], 0
       If (ActiveCheck = 1)
       {
-         IniRead, mActiveCheck, %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay.
+         If (OCRMEchanics[A_Index] != "Eldritch")
+            {
+               IniRead, mActiveCheck, %MechanicsIni%, Mechanics, % OCRMechanics[A_Index], 0 ; Now check that the mechanic tracking is enabled for the overlay.
+            }
+         Else
+            {
+               mActiveCheck++
+            }
+
          If (mActiveCheck > 0)
          {
             SetTimer, CheckScreen, 800
@@ -62,7 +71,7 @@ Return
 
 OCRMechanics()
 {
-   Return, "Incursion|Niko|Betrayal|Einhar|Ritual"
+   Return, "Incursion|Niko|Betrayal|Einhar|Ritual|Eldritch"
 }
 
 CheckScreen()
@@ -78,7 +87,7 @@ CheckScreen()
       IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout
       If (HideoutStatus = 1)
       {
-         Sleep, 5000
+         EldritchOCR()
       }
       If (HideoutStatus = 0)
       {
@@ -808,6 +817,13 @@ GetRitualTextArea()
    Return
 }
 
+
+GetInfluenceTextArea()
+{
+   GetTextArea("Eldritch Area")
+   Return
+}
+
 RitualOCR()
 {
    ScreenIni := ScreenIni()
@@ -918,6 +934,103 @@ CloseGui()
     Gui, Quick:Destroy
     Tooltip
     Return
+}
+
+EldritchOCR()
+{
+   MechanicsIni := MechanicsIni() ; check if OCR is enabled for Eldritch
+   IniRead, OCREnabled, %MechanicsIni%, Auto Mechanics, Eldritch, 0
+   If (OCREnabled = 1)
+      {
+         ScreenIni := ScreenIni()
+         For each, Coordinate in StrSplit("x|y|w|h", "|")
+         {
+            For each, Coordinate in StrSplit("x|y|w|h", "|")
+               {
+                  If (Coordinate = "x")
+                  {
+                     Default := 0
+                  }
+                  If (Coordinate = "y")
+                  {
+                     Default := 0
+                  }
+                  If (Coordinate = "w")
+                  {
+                     Default := A_ScreenWidth - (A_ScreenWidth/4)
+                  }
+                  If (Coordinate = "h")
+                  {
+                     Default := A_ScreenHeight
+                  }
+                  Search := "Search" Coordinate
+                  IniRead, %Search%, %ScreenIni%, Eldritch Area, %Coordinate%, %Default%
+               }
+         }
+         hBitmap := HBitmapFromScreen(SearchX, SearchY, SearchW, SearchH)
+         pIRandomAccessStream := HBitmapToRandomAccessStream(hBitmap)
+         DllCall("DeleteObject", "Ptr", hBitmap)
+         v_text := OCR(pIRandomAccessStream, "en")
+         ObjRelease(pIRandomAccessStream)
+         ScreenText := % v_text
+         v_Reminder :=
+         EldritchPattern := ".*(?:Eater of Worlds Progress:|Searing Exarch Progress:|Maven Progress:).*"
+         If RegExMatch(ScreenText, EldritchPattern)
+            {
+               EldritchText := StrSplit(ScreenText, "`n")
+               EldritchLines := ELdritchText.MaxIndex()
+               Loop, %EldritchLines%
+                  {
+                     If (RegexMatch(EldritchText[A_Index],EldritchPattern))
+                        {
+                           FullText := EldritchText[A_Index]
+                           EldritchCount := StrSplit(EldritchText[A_Index], "Progress:", A_Space)
+                           If (StrLen(EldritchCount[2]) = 4)
+                              {
+                                 EldritchCount := StrSplit(EldritchCount[2])
+                                 NewCount := EldritchCount[1]
+                              }
+                           Else
+                              {
+                                 EldritchCount := StrSplit(EldritchCount[2])
+                                 NewCount := EldritchCount[1] EldritchCount[2]
+                              }
+                           If InStr(FullText, "Eater of Worlds")
+                              {
+                                 Influence := "Eater"
+                              }
+                           If InStr(FullText, "Searing Exarch")
+                              {
+                                 Influence := "Searing"
+                              }
+                           If InStr(FullText, "Maven")
+                              {
+                                 Influence := "Maven"
+                              }
+                           MechanicsIni := MechanicsIni()
+                           IniRead, CurrentCount, %MechanicsIni%, Influence Track, %Influence% , 0
+                           If (CurrentCount != NewCount) and (Influence != "")
+                                 {
+                                    IniWrite, %NewCount%, %MechanicsIni%, Influence Track, %Influence%
+                                    InfluenceTypes := "Eater|Searing|Maven"
+                                    For each, Mechanic in StrSplit(InfluenceTypes, "|")
+                                        {
+                                            IniRead, InfluenceStatus, %MechanicsIni%, Influence, %Mechanic%, 0
+                                            If (InfluenceStatus = 1)
+                                                {
+                                                    IniInfluence := Mechanic
+                                                    Break
+                                                }
+                                        }
+                                    If (IniInfluence = Influence)
+                                       {
+                                          RefreshOverlay()
+                                       }
+                              }
+                        }
+                  }
+            }
+      } 
 }
 
 #IncludeAgain, Resources/Scripts/Ini.ahk
