@@ -1,20 +1,15 @@
-v2.9.3
--   Fixed Betrayal OCR
+Note: For more information about this release, Questions or Feedback, please see the current release discussion thread on my Github by clicking the link found in the "Q&A/Feedback option in the tray menu.
 
-v2.9.2
--   Fixed various OCR Mechanics to only dismiss when they are complete when multiple mechanics are active. 
-
-v2.9.1
--   Fix for screen searches not functioning. 
--   Added a couple Ultimatum dialogs. 
-
-v2.9
--   Added auto mechanic support for Betrayal, Einhar, Niko, Ritual and Ultimatum.
--   Added overlay images for the new mechanics. 
--   Reworked how several mechanics are auto tracked
--   Updated the Auto Mechanic menu to support additional items. 
--   Updated the Calibration Tool for the new mechanics along with new descriptions. 
--   Added an option to only show mechanics on the Overlay when they are active. 
--   Updated the Mechanic Selection Tool to support the "Active Only" mode. 
--   Removed the Master Mapping Tool as Masters are no longer selectable at the map device. 
--   Minor Fixes
+v2.10
+-   Added a Portal hotkey notification trigger option. 
+    -   Added the Portal Hotkey and Chat Key options to the Hotkey setup menu. 
+    -   Added a popup note for to give more information about the Chat Key Hotkey. 
+    -   Added Trigger options to the Notification Settings Menu for Mechanic Notifications
+    -   Added the option to use a Quick Notification for Mechanic Notifications. This option can be found in the Notification Settings Menu.  
+    -   Added a Chat Delay option for the Mechanic Notifications to the Notification Settings Menu. 
+-   Reworked Influence tracking for better performance. For more information on this change visit the Github discussion page (A link can be found by clicking the "Q&A/Feedback option in the tray menu).
+    -   Influence image searching now only searching for 5 potential states, the last known count +/-2. For example if the last Eater of Worlds count you had was 15 it will search for 13, 14, 15, 16, 17. 
+    -   OCR can now be used to update/track Influence completion, this was added as a way to allow easy updating of Influence counts where Image Search may not work. For it to work you must hover your mouse over the button in the map device GUI in game. 
+    -   Added Influence Count OCR calibration to the Calibration Tool. 
+-   Fixes for Image Search Calibration. 
+-   Added an additional Ultimatum voice line. 
