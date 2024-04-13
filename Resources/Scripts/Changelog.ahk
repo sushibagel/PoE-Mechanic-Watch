@@ -34,4 +34,4 @@ Run, https://github.com/sushibagel/PoE-Mechanic-Watch/releases
 ExitApp
 Return
 
-#IncludeAgain Class_ScrollGUI.ahk
+#IncludeAgain  %A_ScriptDir%/Class_ScrollGUI.ahk
