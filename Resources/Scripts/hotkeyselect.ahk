@@ -1,5 +1,6 @@
 Global #ctrls
 Global ControlCheck
+Global HKChatKey
 
 HotkeyUpdate()
 {
@@ -48,9 +49,25 @@ HotkeyUpdate()
         {
           HotkeyText := "Master Mapping Tool"
         }
+      If (HotkeyItem = "PortalKey")
+        {
+          HotkeyText := "Portal Shortcut Key"
+        }
+      If (HotkeyItem = "ChatKey")
+        {
+          HotkeyText := "Chat Key"
+          Gui, Hotkey:Add, Text, xm x50 HwndHotkeyFootnote1 gOpenHotkeynFootnote, %HotKeyText% ;#%A_Index%:
+          Gui, Hotkey:Font, c%Font% s8 Normal
+          Gui, Hotkey:Add, Text, x+.5 yp HwndHotkeyFootnote1 gOpenHotkeynFootnote, 1
+          IniRead, savedHK%HotkeyItem%, %HotkeyIni%, Hotkeys, %HotkeyItem%, Enter
+          Gui, Hotkey:Font, c%Font% s11 Normal
+        }
+      Else
+        {
+          Gui, Hotkey:Add, Text, xm x50, %HotKeyText% ;#%A_Index%:
+          IniRead, savedHK%HotkeyItem%, %HotkeyIni%, Hotkeys, %HotkeyItem%, %A_Space%
+        }
   
-      Gui, Hotkey:Add, Text, xm x50, %HotKeyText% ;#%A_Index%:
-      IniRead, savedHK%HotkeyItem%, %HotkeyIni%, Hotkeys, %HotkeyItem%, %A_Space%
       If savedHK%HotkeyItem% ;Check for saved hotkeys in INI file.
         Hotkey,% savedHK%HotkeyItem%, Label%HotkeyItem%, UseErrorLevel ;Activate saved hotkeys if found.
       StringReplace, noMods, savedHK%HotkeyItem%, ~ ;Remove tilde (~) and Win (#) modifiers...
@@ -59,6 +76,7 @@ HotkeyUpdate()
         Gui, Hotkey:Add, Hotkey, yp x300 vHK%HotkeyItem% gLabel, %noMods% ;Add hotkey controls and show saved hotkeys.
     }
     Gui, Hotkey:Show, w550, Hotkey Selector
+    OnMessage(0x0200, "MouseView")
     return
 }
 
@@ -103,6 +121,13 @@ SetHK(num,INI,GUI)
 
 HotkeyGuiClose()
 {
+  Gui, Submit, NoHide
+  If (HKChatKey = "") or (HKChatKey = "Enter")
+    {
+      HotkeyPath := HotkeyIni()
+      IniWrite, Enter, %HotkeyPath%, Hotkeys, ChatKey
+    }
+
   Gui, Hotkey:Destroy
   SetHotKeys()
   FirstRunPath := FirstRunIni()
@@ -202,5 +227,60 @@ MasterHotkeyGet()
 
 GetHokeyMechanics()
 {
-  Return, "MapCount|ToggleInfluence|MavenInvitation|LaunchPoE|ToolLauncher|Abyss|Betrayal|Blight|Breach|Einhar|Expedition|Harvest|Incursion|Legion|Niko|Ritual|Ultimatum|Generic|MasterMapping"
+  Return, "MapCount|ToggleInfluence|MavenInvitation|LaunchPoE|ToolLauncher|Abyss|Betrayal|Blight|Breach|Einhar|Expedition|Harvest|Incursion|Legion|Niko|Ritual|Ultimatum|Generic|PortalKey|ChatKey"
+}
+
+OpenHotkeynFootnote()
+{
+  Gui, HotkeyFootnote:Destroy
+  NoteSelected := 1
+  ShowHotkeyFootnote(1)
+}
+
+MouseView(wParam, lParam, Msg, Hwnd) {
+  MouseGetPos,,,, mHwnd, 2
+  If InStr(A_GuiControl, "1") and (NoteSelected !=1) or InStr(A_GuiControl, "Chat Key") and (NoteSelected !=1) 
+    {
+      ShowHotkeyFootnote(1)
+    }
+  Else 
+    {
+      If (NoteSelected !=1)
+        {
+          Gui, HotkeyFootnote:Destroy
+        }
+    }
+}
+
+ShowHotkeyFootnote(FootnoteNumber)
+{
+  Gui, HotkeyFootnote:Destroy
+  If (FootnoteNumber = 1)
+    {
+      FootnoteText := "The default Chat Key is ""Enter"". To disable the ""Chat Key"" simply set the ""Mechanic Notification - Chat Delay"" to ""0"". If you've changed the Chat Key and need to reset it to simply press ""Delete"" or ""Backspace"" when in the entry box to set it to ""None"", this will reset the key to ""Enter""."
+    }
+  WinGetPos, HotX, HotY, HotW, HotH, Hotkey Selector
+  MouseGetPos, , MouseYPos,,,
+  Gui, HotkeyFootnote:Color, %Background%
+  Gui, HotkeyFootnote:Font, c%Font% s10
+  Gui, HotkeyFootnote:Add, Text,w135 +Wrap,%FootnoteText%
+  If (NoteSelected = 1)
+    {
+        Gui, HotkeyFootnote:Add, Button, gCloseHotkeyFootnote y+20 w50, Close
+    }
+  Gui, HotkeyFootnote:-Border -Caption
+  NSX := HotX - 200
+  NSH := HotH - 190
+  GuiHeight := 400
+  If (MouseYPos + 300 > A_ScreenHeight)
+    {
+      MouseYPos := (HotY + HotH) - GuiHeight
+    }
+  Gui, HotkeyFootnote:Show, NoActivate w150 x%NSX% y%MouseYPos% h300, Footnote Info
+}
+
+CloseHotkeyFootnote()
+{
+  Gui, HotkeyFootnote:Destroy
+  NoteSelected := 0
 }

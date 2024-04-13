@@ -36,7 +36,9 @@ LogTail(text)
 		PostMessage, 0x01155,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences 
 		PostRestore()
 		MechanicsActive()
-		If (MechanicsActive >= 1)
+		NotificationIni := NotificationIni()
+		IniRead, HideoutTrigger, %NotificationIni%, Notification Trigger, Hideout, 1
+		If (MechanicsActive >= 1) and (HideoutTrigger = 1) ;check if any mechanics are active and if notification should be triggered. 
 		{
 			Reminder()
 		}

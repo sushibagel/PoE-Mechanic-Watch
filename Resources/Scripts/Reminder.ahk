@@ -6,6 +6,7 @@ Global Secondary
 Reminder()
 {
     Gui, Reminder:Destroy
+    ReminderText := 
     ;;;;;;;;;;;;;;;;;; Read Status of Mechanics ;;;;;;;;;;;;;;;;
     MechanicsActive()
     Active = 
@@ -48,7 +49,29 @@ Reminder()
     {
         StringReplace, ReminderText, ReminderText,`, Eater,
     }
-    MechanicReminder()
+    NotificationIni := NotificationIni()
+    IniRead, QuickCheck, %NotificationIni%, Notification Trigger, Quick Triggered, 0
+    IniRead, UseQuick, %NotificationIni%, Notification Trigger, Use Quick, 0
+    If (QuickCheck = 1) and (UseQuick = 1)
+        {
+            Gui, Quick:Destroy
+            IniRead, Duration, %NotificationIni%, Map Notification Position, Duration, 3000
+            If (MechanicsActive > 1)
+                {
+                    ReminderText := Remindertext " are still active. Don't forget to complete them."
+                }
+            Else
+                {
+                    ReminderText := Remindertext " is still active. Don't forget to complete it."
+                }
+            QuickNotify(ReminderText)
+            SetTimer, QuickDestroy, %Duration%
+        }
+    Else
+        {
+            MechanicReminder()
+        }
+    IniWrite, 0, %NotificationIni%, Notification Trigger, Quick Triggered
     NotificationPrep("Notification")
     If (SoundActive = 1)
     {
@@ -92,4 +115,9 @@ ReminderButtonNo()
 ReminderDestroy()
 {
     Gui, Reminder:Destroy
+}
+
+QuickDestroy()
+{
+    Gui, Quick:Destroy
 }

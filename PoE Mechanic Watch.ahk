@@ -135,6 +135,7 @@ Global Item
 Global Space
 Global LaunchKeys
 Global keyLaunchName
+Global IgnoreNotificationKey
 
 ;;;;;;;;;;;;;;;;;;;;; Window Group ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
@@ -688,36 +689,36 @@ HotkeyCheck()
         HotkeySet := %HotkeyItem%
         Hotkey, IfWinActive
         If (HotkeyItem = "ToggleInfluence") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, ~%HotkeyCombo%, ToggleInfluence
-        }
+            {
+                Hotkey, ~%HotkeyCombo%, ToggleInfluence
+            }
 
         If (HotkeyItem = "MavenInvitation") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, ~%HotkeyCombo%, ViewMaven
-        }
+            {
+                Hotkey, ~%HotkeyCombo%, ViewMaven
+            }
 
         If (HotkeyItem = "LaunchPoE") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, ~%HotkeyCombo%, LaunchPoe
-        }
+            {
+                Hotkey, ~%HotkeyCombo%, LaunchPoe
+            }
 
         If (HotkeyItem = "ToolLauncher") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, ~%HotkeyCombo%, ToolLaunchGui
-        }
+            {
+                Hotkey, ~%HotkeyCombo%, ToolLaunchGui
+            }
 
         If (HotkeyItem = "MapCount") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, ~%HotkeyCombo%, SubtractOne
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, ~%HotkeyCombo%, SubtractOne
+            }
 
         If (HotkeyItem = "Abyss") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Abyss, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Abyss, T5
+            }
 
         If (HotkeyItem = "Betrayal") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
             {
@@ -726,16 +727,16 @@ HotkeyCheck()
             }
 
         If (HotkeyItem = "Blight") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Blight, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Blight, T5
+            }
 
         If (HotkeyItem = "Breach") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Breach, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Breach, T5
+            }
 
         If (HotkeyItem = "Einhar") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
             {
@@ -744,28 +745,28 @@ HotkeyCheck()
             }
 
         If (HotkeyItem = "Expedition") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Expedition, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Expedition, T5
+            }
 
         If (HotkeyItem = "Harvest") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Harvest, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Harvest, T5
+            }
 
         If (HotkeyItem = "Incursion") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Incursion, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Incursion, T5
+            }
 
         If (HotkeyItem = "Legion") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Legion, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Legion, T5
+            }
 
         If (HotkeyItem = "Niko") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
             {
@@ -774,10 +775,10 @@ HotkeyCheck()
             }
 
         If (HotkeyItem = "Ritual") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Ritual, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Ritual, T5
+            }
 
         If (HotkeyItem = "Ultimatum") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
             {
@@ -786,10 +787,20 @@ HotkeyCheck()
             }
 
         If (HotkeyItem = "Generic") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
-        {
-            Hotkey, IfWinActive, ahk_group PoeWindow
-            Hotkey, %HotkeyCombo%, Generic, T5
-        }
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, %HotkeyCombo%, Generic, T5
+            }
+        If (HotkeyItem = "PortalKey") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, ~%HotkeyCombo%, HotkeyReminder, T5
+            }
+        If (HotkeyItem = "ChatKey") and !(HotkeyCombo = "") and !(HotkeyCombo = "ERROR")
+            {
+                Hotkey, IfWinActive, ahk_group PoeWindow
+                Hotkey, ~%HotkeyCombo%, ChatDelay, T5
+            }
     }
 }
 
@@ -807,6 +818,39 @@ MapSettings()
     PostRestore()
 }
 
+HotkeyReminder()
+{
+    ActiveMechanics := MechanicsActive()
+    If (MechanicsActive > 0) and !(IgnoreNotificationKey = 1)
+        {
+            NotificationIni := NotificationIni()
+            IniRead, HotkeyTriggerStatus, %NotificationIni%, Notification Trigger, Hotkey, 0
+            If (HotkeyTriggerStatus = 1) ; Check if the hotkey setting is actually active before triggering the reminder
+            {
+                IniWrite, 1, %NotificationIni%, Notification Trigger, Quick Triggered
+                PostSetup()
+                PostMessage, 0x01112,,,, Tail.ahk ;Trigger reminder
+                PostRestore()
+            }
+        }
+}
+
+ChatDelay()
+{
+    NotificationIni := NotificationIni()
+    IniRead, DelayTime, %NotificationIni%, Notification Trigger, Chat Delay, 0 
+    If !(DelayTime = 0)
+        {
+            SetTimer, ChatDelayTimer, Off
+            IgnoreNotificationKey := 1
+            SetTimer, ChatDelayTimer, %DelayTime%
+        }
+}
+
+ChatDelayTimer()
+{
+    IgnoreNotificationKey := 0
+}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #Include, Resources\Scripts\AutoMechanic.ahk

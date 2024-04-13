@@ -23,6 +23,11 @@ Global FearedCheck
 Global TwistedCheck
 Global HiddenCheck
 Global ElderslayersCheck
+Global HideoutNotification
+Global HotkeyNotification
+Global UseQuick
+Global ChatDelay
+Global NoteSelected
 
 Test()
 {
@@ -192,9 +197,11 @@ NotificationSetup()
     ; Mechanic Notification Section
     Gui, NotificationSettings:Font
     Gui, NotificationSettings:Font, c%Font%
-    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh%
+    Boxh2 := Boxh + 40
+    Gui, NotificationSettings:Add, GroupBox, w%Box% +Center x5 h%Boxh2%
     Gui, NotificationSettings:Font, c%Font% s%fw% Bold
-    Gui, NotificationSettings:Add, Text, yp+%TextOffset% x25 Section, Mechanic Notification
+    test2 := TextOffset+20
+    Gui, NotificationSettings:Add, Text, yp+%test2% x25 Section, Mechanic Notification
     Gui, NotificationSettings:Font
     IniRead, Value, %NotificationIni%, Active, Notification, 1
     Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%Check1% Checked%Value% vNotificationActive
@@ -210,6 +217,56 @@ NotificationSetup()
     Gui, NotificationSettings:Add, Picture, gNotificationStop ys-%Offset% x%StopButton% w15 h15, %StopColor%
     IniRead, Value, %TransparencyFile%, Transparency, Notification, 255
     Gui, NotificationSettings:Add, Edit, Center ys-%Offset% x%Edit2% h20 w50 vNotificationTran
+    Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
+    
+    XOff := Round(96/A_ScreenDPI*815)
+    IniRead, Value, %NotificationIni%, Notification Trigger, Hideout, 1
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%XOff% w50 Checked%Value% vHideoutNotification
+    Gui, NotificationSettings:Font, c%Font%
+    XOffAdjust := XOff - 10
+    Gui, NotificationSettings:Add, Text, ys+20 x%XOffAdjust%, Hideout
+    Gui, NotificationSettings:Font, cBlack
+    Gui, NotificationSettings:Font, c%Font%
+
+    XOff := Round(96/A_ScreenDPI*830)
+    Gui, NotificationSettings:Font, c%Font% s9 Bold Underline
+    Gui, NotificationSettings:Add, Text, ys-20 x%XOff% HwndNotificationFootnote1 gOpenNotificationFootnote, Triggers
+    Gui, NotificationSettings:Font, s6 Normal
+    Gui, NotificationSettings:Add, Text, x+.5 yp HwndNotificationFootnote1 gOpenNotificationFootnote, 1
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Font, cBlack
+
+    XOff := Round(96/A_ScreenDPI*885)
+    Gui, NotificationSettings:Font, cBlack
+    IniRead, Value, %NotificationIni%, Notification Trigger, Hotkey, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%XOff% w50 Checked%Value% vHotkeyNotification gUseHotkey
+    Gui, NotificationSettings:Font, c%Font%
+    XOffAdjust := XOff - 10
+    Gui, NotificationSettings:Add, Text, ys+20 x%XOffAdjust%, Hotkey
+
+    XOff := Round(96/A_ScreenDPI*960)
+    Gui, NotificationSettings:Font, c%Font% s9 Bold Underline
+    XOffAdjust := XOff - 30
+    Gui, NotificationSettings:Add, Text, ys-20 x%XOffAdjust% HwndNotificationFootnote2 gOpenNotificationFootnote, Quick Notification
+    Gui, NotificationSettings:Font, s6 Normal
+    Gui, NotificationSettings:Add, Text, x+.5 yp HwndNotificationFootnote2 gOpenNotificationFootnote, 2
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Font, cBlack
+    IniRead, Value, %NotificationIni%, Notification Trigger, Use Quick, 0
+    Gui, NotificationSettings:Add, Checkbox, ys+%Offset% x%XOff%+10 w50 Checked%Value% vUseQuick 
+
+    XOff := Round(96/A_ScreenDPI*1120)
+    Gui, NotificationSettings:Font, c%Font% s9 Bold Underline
+    XOffAdjust := XOff - 30
+    Gui, NotificationSettings:Add, Text, ys-20 x%XOffAdjust% HwndNotificationFootnote2 gOpenNotificationFootnote, Chat Delay
+    Gui, NotificationSettings:Font, s6 Normal
+    Gui, NotificationSettings:Add, Text, x+.5 yp HwndNotificationFootnote3 gOpenNotificationFootnote, 3
+    Gui, NotificationSettings:Font
+    Gui, NotificationSettings:Font, cBlack
+    IniRead, Value, %NotificationIni%, Notification Trigger, Chat Delay, 0
+    Value := Value / 1000
+    XOffAdjust := XOff - 25
+    Gui, NotificationSettings:Add, Edit, Center ys+%Offset% x%XOffAdjust% h20 w50 vChatDelay
     Gui, NotificationSettings:Add, UpDown, Range0-255, %Value% x270 h20
 
     ; Influence Notification Section
@@ -288,14 +345,15 @@ NotificationSetup()
     Gui, NotificationSettings:Color, %Background%
 
     Gui, NotificationSettings:Show, y150 W%Width%, Notification Settings
+    OnMessage(0x0200, "MouseWatch")
     Return
 }
 
 NotificationSettingsButtonClose(){
-    Gui, NotificationSettings:Submit
-    Gui, NotificationSettings:Destroy
+    Gui, NotificationSettings:Submit, NoHide
     Gui, MavenReminder:Destroy
     Gui, Quick:Destroy
+    Gui, FootnoteInfo:Destroy
     PostSetup()
     PostMessage, 0x01113,,,, Tail.ahk - AutoHotkey ;Destroy Reminder
     PostMessage, 0x01122,,,, Tail.ahk - AutoHotkey ;Destroy Eldritch Reminder
@@ -304,6 +362,19 @@ NotificationSettingsButtonClose(){
     Invitations := Witnesses()
     NotificaitonIni := NotificationIni()
     TransparencyIni := TransparencyIni()
+    If (NotificationActive = 1) and (HideoutNotification < 1) and (HotkeyNotification < 1)
+        {
+            NotificationSettingsError()
+        }
+    Else
+        {
+            IniWrite, %HideoutNotification%, %NotificaitonIni%, Notification Trigger, Hideout
+            IniWrite, %HotkeyNotification%, %NotificaitonIni%, Notification Trigger, Hotkey
+            IniWrite, %UseQuick%, %NotificaitonIni%, Notification Trigger, Use Quick
+            ChatDelay := ChatDelay * 1000
+            IniWrite, %ChatDelay%, %NotificaitonIni%, Notification Trigger, Chat Delay
+            Gui, NotificationSettings:Destroy
+        }
     For each, Invitation in StrSplit(Invitations, "|")
     {
         Value := Invitation "Check"
@@ -559,4 +630,155 @@ MavenStop()
 {
     MavenReminderButtonNo()
     Return
+}
+
+NotificationSettingsError()
+{
+    Gui, NotificationError:Destroy
+    Gui, NotificationError:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+    Gui, NotificationError:Font, c%Font% s10
+    Gui, NotificationError:Add, Text, w490 +Wrap ,Error! Your Mechanic Notifications are enabled but a trigger hasn't been selected. Please select a trigger. For more information on what the triggers do click on the "Triggers" text in the settings menu. 
+    Gui, NotificationError:Font, c%Font% s10
+    Gui, NotificationError:Add, Button, x20 w50, Close
+    Gui, NotificationError:Color, %Background%
+    test := (A_ScreenHeight/2)+50
+    Gui, NotificationError:Show, W500 y%test%, Settings Error
+}
+
+NotificationErrorButtonClose()
+{
+    Gui, NotificationError:Destroy
+}
+
+UseHotkey()
+{
+    Gui, NotificationSettings:Submit, NoHide
+    If (UseQuick = 0) and (HotkeyNotification = 1)
+        {
+            Gui, HotkeyWarning:Destroy
+            Gui, HotkeyWarning:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
+            Gui, HotkeyWarning:Font, c%Font% s10
+            Gui, HotkeyWarning:Add, Text, w490 +Wrap , It's recommended to use the Hotkey Notification in conjunction with the "Quick Notification" Setting. The normal notification will create a permanent notification which may get in the way if trying to escape a map quickly or while typing. Quick Notifications are smaller with an automatic timeout resulting in a less intrusive notification. 
+            Gui, HotkeyWarning:Font, c%Font% s10
+            Gui, HotkeyWarning:Add, Button, x20 w50, Close
+            Gui, HotkeyWarning:Color, %Background%
+            test := (A_ScreenHeight/2)+50
+            Gui, HotkeyWarning:Show, W500 y%test%, Hotkey Warning
+        }
+}
+
+HotkeyWarningButtonClose()
+{
+    Gui, HotkeyWarning:Destroy
+}
+
+MouseWatch(wParam, lParam, Msg, Hwnd) {
+    IF (NoteSelected != 1)
+    {
+        MouseGetPos,,,, mHwnd, 2
+        If InStr(A_GuiControl, "1") or InStr(A_GuiControl, "Triggers") 
+            {
+                ViewNotificationFootnote(1)
+                LastHwnd := mHwnd
+                Return
+            }
+        If InStr(A_GuiControl, "2") or InStr(A_GuiControl, "Quick Notification") 
+            {
+                ViewNotificationFootnote(2)
+                LastHwnd := mHwnd
+                Return
+            }
+        If InStr(A_GuiControl, "3") or InStr(A_GuiControl, "Chat Delay") 
+            {
+                ViewNotificationFootnote(3)
+                LastHwnd := mHwnd
+                Return
+            }
+        If !InStr(A_GuiControl, "2") and (NoteSelected != 1) or !InStr(A_GuiControl, "Quick Notification") and (NoteSelected != 1) or !InStr(A_GuiControl, "1") and (NoteSelected != 1) or !InStr(A_GuiControl, "Triggers") and (NoteSelected != 1) or !InStr(A_GuiControl, "Chat Delay") and (NoteSelected != 1) or !InStr(A_GuiControl, "3") and (NoteSelected != 1)
+            {
+                Gui, FootnoteInfo:Destroy
+            }
+    }
+}
+
+OpenNotificationFootnote()
+{
+    Gui, NotificationFootnote:Destroy
+    If InStr(A_GuiControl, "1") or InStr(A_GuiControl, "Triggers") 
+        {
+            NoteSelected := 1
+            ViewNotificationFootnote(1)
+            LastHwnd := mHwnd
+            Return
+        }
+    If InStr(A_GuiControl, "2") or InStr(A_GuiControl, "Quick Notification") 
+        {
+            NoteSelected := 1
+            ViewNotificationFootnote(2)
+            LastHwnd := mHwnd
+            Return
+        }
+    If InStr(A_GuiControl, "3") or InStr(A_GuiControl, "Chat Delay") 
+        {
+            NoteSelected := 1
+            ViewNotificationFootnote(3)
+            LastHwnd := mHwnd
+            Return
+        }
+}
+
+ViewNotificationFootnote(FootnoteNum)
+{
+    Gui, FootnoteInfo:Destroy
+    If (FootnoteNum = 1)
+    {
+        CustomText := ""
+        Caption := "-Caption"
+        If (SamplePressed = 1)
+        {
+            Caption := "+Caption"
+        }
+        CustomText := "Triggers are the condition that will trigger your mechanic notifications. The Hideout Trigger is triggered when you enter your hideout. The Hotkey Trigger is triggered when you press the configured hotkey while not in your hideout."
+    }
+
+    If (FootnoteNum = 2)
+        {
+            CustomText := ""
+            Caption := "-Caption"
+            If (SamplePressed = 1)
+            {
+                Caption := "+Caption"
+            }
+            CustomText := "Quick Notifications are a smaller temporary nottification that can be used instead of the larger normal notifications. This is highly recommended if the Hotkey Trigger is being used as the normal notifications are permanent until dismissed and significantly larger, which can be problematic while mapping if you want to exit quickly or are typing a message. To adjust the size and timeout see the ""Quick Notification"" section."
+        }
+    
+    If (FootnoteNum = 3)
+        {
+            CustomText := ""
+            Caption := "-Caption"
+            If (SamplePressed = 1)
+            {
+                Caption := "+Caption"
+            }
+            CustomText := "Chat Delay is a timer (in seconds) that will cause the configured Hotkey for notifcations to be ignored. This is usefult if you have your Portal Hotkey on a letter key as it will allow you to avoid triggering notifications while typing messages. Set your Chat Trigger key in the ""Change Hotkey"" tool."
+        }
+    WinGetPos, NSX, NSY, NSW, NSH, Notification Settings
+    Gui, FootnoteInfo:Destroy
+    Gui, FootnoteInfo:Color, %Background%
+    Gui, FootnoteInfo:Font, c%Font% s10
+    Gui, FootnoteInfo:Add, Text,w135 +Wrap,%CustomText%
+    NSX := NSX + NSW + 20
+    NSH := NSH - 150
+    Gui, FootnoteInfo:-Border -Caption
+    If (NoteSelected = 1)
+        {
+            Gui, FootnoteInfo:Add, Button, gCloseFootnote y+50 w50, Close
+        }
+    Gui, FootnoteInfo:Show, NoActivate w150 x%NSX% y%NSY% h%NSH%, Footnote Info
+}
+
+CloseFootnote()
+{
+    Gui, FootnoteInfo:Destroy
+    NoteSelected := 0
 }
