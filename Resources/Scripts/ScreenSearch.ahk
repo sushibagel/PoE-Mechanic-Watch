@@ -17,8 +17,8 @@ GroupAdd, PoeWindow, ahk_exe PathOfExileSteam.exe
 GroupAdd, PoeWindow, ahk_exe PathOfExile.exe 
 GroupAdd, PoeWindow, ahk_exe PathOfExileEGS.exe
 GroupAdd, PoeWindow, ahk_class POEWindowClass
-GroupAdd, PoeWindow, ahk_exe Code.exe
-GroupAdd, PoeWindow, ahk_exe ApplicationFrameHost.exe
+; GroupAdd, PoeWindow, ahk_exe Code.exe
+; GroupAdd, PoeWindow, ahk_exe ApplicationFrameHost.exe
 
 Start()
 Return
@@ -67,7 +67,7 @@ ScreenCheck()
     IniRead, ActiveCheck, %MechanicsIni%, Auto Mechanics, Eldritch, 0
     If (HideoutStatus = 1) and (ActiveCheck = 1)
         {
-            EldritchScreen()
+            EldritchSearch()
             Return
         }
     MySearches := GetSearches()
@@ -288,138 +288,214 @@ Restart()
     Reload
 }
 
-EldritchScreen()
+InfluenceTypes()
 {
-    HideoutIni := HideoutIni()
-    IniRead, HideoutStatus, %HideoutIni%, In Hideout, In Hideout, 0
-    If !(HideoutStatus = 1)
-        {
-            Return
-        }
-    MechanicsPath := MechanicsIni()
-    InfluencesTypes := "Eater|Searing|Maven"
-    For each, Influence in StrSplit(InfluencesTypes, "|")
-    {
-        IniRead, %Influence%, %MechanicsPath%, Influence, %Influence%
-        If (%Influence% = 1)
-        %Influence%Active := 1
-        InfluenceActive = %Influence%
-        If (%Influence% = 0)
-        %Influence%Active := 0
-    }
-    If (SearingActive = 1)
-    {
-        InfluenceActive = Searing
-        ActiveSearch := "Eater|Maven"
-    }
-    If (EaterActive = 1)
-    {
-        InfluenceActive = Eater
-        ActiveSearch := "Searing|Maven"
-    }
-    If (MavenActive = 1)
-    {
-        InfluenceActive = Maven
-        ActiveSearch := "Eater|Searing"
-    }
-    If (EaterActive = 0) and (SearingActive = 0) and (MavenActive = 0)
-    {
-        InfluenceActive = None
-        ActiveSearch := "Eater|Searing|Maven"
-    }
-    If (InfluenceActive = "None")
-        {
-            Return
-        }
-    If (InfluenceActive = "Searing") or  (InfluenceActive = "Eater")
-        {
-            TotalSearches := 28
-        }
-    If (InfluenceActive = "Maven")
-        {
-            TotalSearches := 10
-        }
-        gdipToken := Gdip_Startup()
-        PoeHwnd := WinExist("ahk_group PoeWindow")
-        bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-        SearchActiveEldritch := 1
-        ; bmpHaystack := Gdip_BitmapFromScreen() ;For testing only
-        Loop, %TotalSearches%
-            {
-                CurrentSearch := A_Index - 1
-                EldritchPath := "Resources\Images\Image Search\Eldritch\Custom\" InfluenceActive CurrentSearch ".png"
-                If !FileExist(EldritchPath)
-                    {
-                        EldritchPath := "Resources\Images\Image Search\Eldritch\" InfluenceActive CurrentSearch ".png"
-                    }
-                ScreenIni := ScreenIni()
-                IniRead, SearchVariation, %ScreenIni%, Variation, Eldritch, 50
-                EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
-                If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
-                    {
-                        MechanicsIni := MechanicsIni()
-                        IniRead, CurrentCount, %MechanicsIni%, Influence Track, %InfluenceActive%
-                        If !(CurrentCount = CurrentSearch)
-                            {
-                                IniWrite, %CurrentSearch%, %MechanicsIni%, Influence Track, %InfluenceActive%
-                                RefreshOverlay()
-                            }
-                        SearchActiveEldritch := 0 ;Skip searching for an active mechanic if a match is found here
-                        Break ; Need to make it stop after 1 match. 
-                    }
-                    Else
-                    {
-                        Gdip_DisposeImage(EldritchSearch)
-                        DeleteObject(EldritchSearch)
-                    }
-            }
-        Gdip_DisposeImage(EldritchSearch)
-        DeleteObject(EldritchSearch)
-        Gdip_Shutdown(gdipToken)
-        Gdip_DisposeImage(bmpHaystack)
-        DeleteObject(bmpHaystack)
-        DeleteObject(ErrorLevel)
-        If !(SearchActiveEldritch := 0)
-            {
-                gdipToken := Gdip_Startup()
-                PoeHwnd := WinExist("ahk_group PoeWindow")
-                bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1)
-                SearchActiveEldritch := 1
-                For each, EldritchBoss in StrSplit(ActiveSearch, "|")
-                    {
-                        EldritchPath := "Resources\Images\Image Search\Eldritch\Custom\" EldritchBoss "on.png"
-                        If !FileExist(EldritchPath)
-                            {
-                                EldritchPath := "Resources\Images\Image Search\Eldritch\" EldritchBoss ".png"
-                            }
+    Return, "Eater|Searing|Maven"
+}
 
-                        EldritchSearch := Gdip_CreateBitmapFromFile(EldritchPath)
-                        IniRead, SearchVariation, %ScreenIni%, Variation, Eldritch, 50
-                        If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
-                            {
-                                MechanicsIni := MechanicsIni()
-                                FixCase := RegExReplace(EldritchBoss, "^(.)", "$T1")
-                                IniWrite, 0, %MechanicsIni%, Influence, Eater
-                                IniWrite, 0, %MechanicsIni%, Influence, Searing
-                                IniWrite, 0, %MechanicsIni%, Influence, Maven
-                                IniWrite, 1, %MechanicsIni%, Influence, %FixCase%
-                                RefreshOverlay()
-                                Break
-                            }
-                            Else
-                            {
-                                Gdip_DisposeImage(EldritchSearch)
-                                DeleteObject(EldritchSearch)
-                            }
-                    }
-            }
+EldritchSearch()
+{
+    ;Start by identifying which influence is active. 
+    ;Then do a search for +/- 2 for the influence count
+    ;If match isn't found with +/- 2 search in groups of 5 switching to checking influences between each group.
+    ActiveInfluence := FindActiveInfluence()
+    
+    If (ActiveInfluence != "")
+        {
+            EldritchCount := QuickCount(ActiveInfluence)
+        }
+}
+
+FindActiveInfluence()
+{
+
+    InfluenceTypes := InfluenceTypes()
+    gdipToken := Gdip_Startup()
+    PoeHwnd := WinExist("ahk_group PoeWindow")
+    bmpHaystack := Gdip_BitmapFromHWND(PoeHwnd, 1) ;Capture Screen for Search
+    WinWaitActive, ahk_group PoeWindow
+    For each, Influence in StrSplit(InfluenceTypes, "|")
+        {
+            InfluenceTarget := Influence "on"
+            InfluenceSearch := SearchMechanic(InfluenceTarget, bmpHaystack)
+            If (InfluenceSearch = "Match Found")
+                {
+                    Gdip_DisposeImage(EldritchSearch)
+                    DeleteObject(EldritchSearch)
+                    ; Gdip_DisposeImage(bmpHaystack)
+                    ; DeleteObject(bmpHaystack)
+                    ; DeleteObject(ErrorLevel)
+                    ; Gdip_Shutdown(gdipToken)
+                    InfluenceTypes := InfluenceTypes()
+                    MechanicsIni := MechanicsIni()
+                    CurrentInfluence := Influence
+                    For each, Influence in StrSplit(InfluenceTypes, "|")
+                        {
+                            IniRead, InfluenceStatus, %MechanicsIni%, Influence, %Influence%, 0
+                            If (InfluenceStatus = 1)
+                                {
+                                    IniInfluence := Influence
+                                    Break
+                                }
+                        }
+                    If (CurrentInfluence = IniInfluence)
+                        {
+                            ; just move on to checking current count
+                            Return, % CurrentInfluence "|" bmpHaystack
+                        }
+                    Else
+                        {
+                            ; write the new influence then move on to current count. 
+                            InfluenceTypes := InfluenceTypes()
+                            For each, Influence in StrSplit(InfluenceTypes, "|")
+                                {
+                                    IniWrite, 0, %MechanicsIni%, Influence, %Influence%
+                                }
+                            IniWrite, 1, %MechanicsIni%, Influence, %CurrentInfluence%
+                            SetTimer, DelayRefresh, 500
+                            Return, % CurrentInfluence "|" bmpHaystack  
+                        }
+                }
+            Else
+                {
+                    Gdip_DisposeImage(EldritchSearch)
+                    DeleteObject(EldritchSearch)
+                }
+        }
         Gdip_DisposeImage(EldritchSearch)
         DeleteObject(EldritchSearch)
-        Gdip_Shutdown(gdipToken)
         Gdip_DisposeImage(bmpHaystack)
         DeleteObject(bmpHaystack)
         DeleteObject(ErrorLevel)
-        Return
+        Gdip_Shutdown(gdipToken)
+}
+
+SearchMechanic(SearchTarget, bmpHaystack)
+{
+    SearchPath := "Resources\Images\Image Search\Eldritch\Custom\" SearchTarget ".png"
+    If !FileExist(SearchPath)
+        {
+            SearchPath := "Resources\Images\Image Search\Eldritch\" SearchTarget ".png"
+        }
+    ScreenIni := ScreenIni()
+    IniRead, SearchVariation, %ScreenIni%, Variation, Eldritch, 50
+    EldritchSearch := Gdip_CreateBitmapFromFile(SearchPath)
+    If (Gdip_ImageSearch(bmpHaystack,EldritchSearch,LIST,0,0,0,0,SearchVariation,0xFFFFFF,1,0) > 0)
+        {
+            Gdip_DisposeImage(EldritchSearch)
+            DeleteObject(EldritchSearch)
+            MechanicsIni := MechanicsIni() 
+            Return, "Match Found"
+        }
+}
+
+QuickCount(Influence)
+{
+    SearchInfo := StrSplit(Influence, "|")
+    Influence := SearchInfo[1]
+    bmpHaystack := SearchInfo[2]
+    MechanicsIni := MechanicsIni()
+    IniRead, LastKnown, %MechanicsIni%, Influence Track, %Influence%, 0
+    If (Influence = "Eater") or (Influence = "Searing")
+        {
+            If (LastKnown = 0)
+                {
+                    SearchNumber := "26|27|0|1|2"
+                }
+            Else If (LastKnown = 1)
+                {
+                    SearchNumber := "27|0|1|2|3"
+                }
+            Else If (LastKnown = 26)
+                {
+                    SearchNumber := "24|25|26|27|0"
+                }
+            Else If (LastKnown = 27)
+                {
+                    SearchNumber := "25|26|27|0|1"
+                }
+            Else
+                {
+                    SearchNumber := []
+                    Loop, 5
+                        {
+                            SubNumber := A_Index - 3
+                            SearchNumber.Push(LastKnown + SubNumber)
+                        }
+                }
+        }
+    If (Influence = "Maven")
+        {
+            If (LastKnown = 0)
+                {
+                    SearchNumber := "8|9|0|1"
+                }
+            Else If (LastKnown = 1)
+                {
+                    SearchNumber := "9|0|1|2|3"
+                }
+            Else If (LastKnown = 8)
+                {
+                    SearchNumber := "6|7|8|9|0"
+                }
+            Else If (LastKnown = 9)
+                {
+                    SearchNumber := "7|8|9|0|1"
+                }
+            Else
+                {
+                    SearchNumber := []
+                    Loop, 5
+                        {
+                            SubNumber := A_Index - 3
+                            SearchNumber.Push(LastKnown + SubNumber)
+                        }
+                }
+        }
+    If InStr(SearchNumber, "|")
+        {
+            SearchNumber := StrSplit(SearchNumber, "|")
+        }
+    InfluenceTypes := InfluenceTypes()
+    Loop, 5
+        {
+            SearchCount := Influence SearchNumber[A_Index]
+            SearchMechanic := SearchMechanic(SearchCount, bmpHaystack)
+            If (SearchMechanic = "Match Found")
+                {
+                    Gdip_DisposeImage(EldritchSearch)
+                    DeleteObject(EldritchSearch)
+                    Gdip_DisposeImage(bmpHaystack)
+                    DeleteObject(bmpHaystack)
+                    DeleteObject(ErrorLevel)
+                    Gdip_Shutdown(gdipToken)
+                    ; on successful match check if it's a new count if not write to ini file. 
+                    MechanicsIni := MechanicsIni()
+                    IniRead, CurrentCount, %MechanicsIni%, Influence Track, %Influence% , 0
+                    If (CurrentCount != SearchNumber[A_Index])
+                        {
+                            IniWrite, % SearchNumber[A_Index], %MechanicsIni%, Influence Track, %Influence%
+                            RefreshOverlay()
+                        }
+                }
+        }
+    Gdip_DisposeImage(EldritchSearch)
+    DeleteObject(EldritchSearch)
+    Gdip_DisposeImage(bmpHaystack)
+    DeleteObject(bmpHaystack)
+    DeleteObject(ErrorLevel)
+    Gdip_Shutdown(gdipToken)
+}
+
+EldritchCount(Influence)
+{
+
+}
+
+DelayRefresh()
+{
+    SetTimer, DelayRefresh, Off
+    RefreshOverlay()
 }
 
 #IncludeAgain, Resources/Scripts/Ini.ahk
