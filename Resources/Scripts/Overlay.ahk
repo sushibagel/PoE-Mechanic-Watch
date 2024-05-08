@@ -325,6 +325,10 @@ Maven()
     IniRead, Maven, %MechanicsFilePath%, Influence Track, Maven
     OldTrack := Maven
     Maven ++
+    If (Maven > 10)
+        {
+            Maven := 10
+        }
     IniWrite, %Maven%, %MechanicsFilePath%, Influence Track, Maven
     RefreshOverlay()
     Return
