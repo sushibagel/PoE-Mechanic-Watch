@@ -46,7 +46,7 @@ MavenReminder()
         {
             Gui, MavenReminder:Add, Button, xn y+20 x%bx2% Section w100, Stop Reminding
             Gui, MavenReminder:Add, Button, ys x%bx% Section w50, Okay
-        }
+        } 
         Else
         {
             Gui, MavenReminder:Add, Button, x%bx3% y+20 Section w50, Okay

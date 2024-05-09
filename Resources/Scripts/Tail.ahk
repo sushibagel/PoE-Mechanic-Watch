@@ -45,7 +45,7 @@ LogTail(text)
 		MechanicsIni := MechanicsIni()
 		IniRead, MavenMap, %MechanicsIni%, Maven Map, Maven Map, 0
 		{
-			If !(MavenMap = 0) and !(MavenMap = "")
+			If (MavenMap = 10) and !(MavenMap = "")
 			{
 				MavenReminderText := "You've completed 10 Maven Witnessed maps. Don't forget to complete an invitation." 
 				MavenReminderType := "Map"

@@ -851,6 +851,14 @@ ChatDelayTimer()
 {
     IgnoreNotificationKey := 0
 }
+
+~^s:: ;Remove for release
+{
+    If WinActive(A_ScriptName)
+        {
+            Reload()
+        }
+}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #Include, Resources\Scripts\AutoMechanic.ahk

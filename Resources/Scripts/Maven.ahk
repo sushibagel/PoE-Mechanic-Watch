@@ -115,6 +115,8 @@ ResetMaven()
 {
     MavenReminderText := "You have just entered a Maven's Crucible click ""Yes"" to view/reset tracking."
     MavenReminderType:= "Crucible"
+    NotificationIni := NotificationIni()
+    IniWrite, 0, %NotificationIni%, Active, %MavenReminderType%
     MavenReminder()
 }
 
@@ -443,6 +445,7 @@ ViewMaven()
     Gui, Maven:Font, c%Font%
     Gui, Maven:Add, Button, xn x20 Section, Close
     Gui, Maven:Color, %Background%
+    Gui, Maven:+AlwaysOnTop
     Gui, Maven:Show, w%Width%, Maven
     Return
 }
@@ -510,17 +513,7 @@ MavenButtonAdd()
 RemoveMap(RemoveMap)
 {
     MechanicsIni := MechanicsIni()
-    IniDelete, %MechanicsIni%, Maven Map, Maven Map %RemoveMap%
-    IniRead, MapCompletion, %MechanicsIni%, Maven Map
-    ReplaceMap := StrSplit(MapCompletion, "`n")
-    Loop, 10
-    {
-        IniDelete, %MechanicsIni%, Maven Map, Maven Map %A_Index%
-        WriteMap := ReplaceMap[A_Index]
-        WriteMap := StrSplit(WriteMap, "=")
-        WriteMap := WriteMap[2]
-        IniWrite, %WriteMap%, %MechanicsIni%, Maven Map, Maven Map %A_Index%
-    }
+    IniWrite, %A_Space%, %MechanicsIni%, Maven Map, Maven Map %RemoveMap%
 }
 
 MavenMatch(NewLine)
@@ -764,3 +757,15 @@ MavenLog(NewLine, CurrentSearch)
         }
     }
 }
+
+#IfWinActive, Maven.ahk
+
+~^s::
+{
+    Sleep, 1000
+    PostSetup()
+    PostMessage, 0x01789,,,, PoE Mechanic Watch.ahk ;Reload
+    PostRestore()
+}
+
+#If
