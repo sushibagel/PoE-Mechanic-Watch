@@ -85,3 +85,4 @@ The Trialmaster: Your reach exceeds your grasp.
 The Trialmaster: Your series of victories continues.
 The Trialmaster: Your series of victories has come to an end.
 The Trialmaster: Your thoughts crackle with pain.
+The Trialmaster: The horde adapts.
