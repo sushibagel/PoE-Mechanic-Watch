@@ -2,6 +2,7 @@ IniPath(FileRequested)
 {
     Switch
     {
+        Case FileRequested = "Hideout": Return "Resources\Settings\Hideout.ini"
         Case FileRequested = "HideoutList": Return "Resources\Data\HideoutList.txt"
         Case FileRequested = "Launch": Return "Resources\Data\LaunchPath.ini"
         Case FileRequested = "Mechanics": Return "Resources\Settings\Mechanics.ini"
