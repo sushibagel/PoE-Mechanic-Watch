@@ -12,6 +12,8 @@ MyTray.Add()
 MyTray.Add("Select Mechanics", MechanicsSelect)
 MyTray.Add()
 Setup := Menu()
+Setup.Add("Set Hideout", SetHideout)
+Setup.Add()
 Setup.Add("Overlay Settings", OverlaySettingsRun)
 Setup.Add("Move Overlay", MoveOverlay)
 Setup.Add()
@@ -61,7 +63,7 @@ GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
 GroupAdd("AHKFiles", "VariableHandler")
 
-SetHideout()
+LauncherGui()
 
 #HotIf WinActive("ahk_group AHKFiles") ; For dev purposes, Quick reload
 ~^s::
