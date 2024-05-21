@@ -57,11 +57,12 @@ GroupAdd("AHKFiles", "LaunchOptions.ahk")
 GroupAdd("AHKFiles", "Mechanics.ahk")
 GroupAdd("AHKFiles", "Calibration.ahk")
 GroupAdd("AHKFiles", "Hideout.ahk")
+GroupAdd("AHKFiles", "Setup.ahk")
 GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
 GroupAdd("AHKFiles", "VariableHandler")
 
-SetHideout()
+SetupTool()
 
 #HotIf WinActive("ahk_group AHKFiles") ; For dev purposes, Quick reload
 ~^s::
@@ -448,9 +449,10 @@ Close(*)
 #IncludeAgain "Resources\Scripts\Hideout.ahk"
 #IncludeAgain "Resources\Scripts\LaunchOptions.ahk"
 #IncludeAgain "Resources\Scripts\Mechanics.ahk"
+#IncludeAgain "Resources\Scripts\Setup.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
 
 ;Tasks
-    ;### Write check for Theme ini File and create if necsissary. 
+    ;### Write check for Theme ini File and create if necsessary. 
     ;### need to fix double overlay hapenning sometimes when moving overlay more than once. 
