@@ -7,6 +7,7 @@ IniPath(FileRequested)
         Case FileRequested = "Launch": Return "Resources\Data\LaunchPath.ini"
         Case FileRequested = "Mechanics": Return "Resources\Settings\Mechanics.ini"
         Case FileRequested = "Overlay": Return "Resources\Settings\Overlay.ini"
+        Case FileRequested = "Setup": Return "Resources\Data\Setup.ini"
         Case FileRequested = "Theme": Return "Resources\Settings\Theme.ini"
         Case FileRequested = "Transparency": Return "Resources\Settings\Transparency.ini"
     }
@@ -79,6 +80,39 @@ ImagePath(FileRequested, AllowCustom)
                 }
         }
     Return ReturnedPath
+}
+
+SettingsLocation(*)
+{
+    SettingsLocationDestroy()
+    CurrentTheme := GetTheme()
+    StorageGui.BackColor := CurrentTheme[1]
+    StorageGui.SetFont("s15 Bold c" CurrentTheme[3])
+    StorageGui.Add("Text", "Center w700", "Settings Storage Location")
+    StorageGui.AddText("h1 w700 Background" CurrentTheme[3])
+    StorageGui.SetFont("s10 Norm c" CurrentTheme[3])
+    ExplainTool := "This tool will allow you to choose a location for user specific settings to be stored. This is useful if you have multiple computers and want to sync your settings with Dropbox. Note: Calibration images are not moved."
+    StorageGui.Add("Text", "Center w700", ExplainTool)
+    StorageGui.Add("Text", "XM Section", "Current Location:")
+    StorageIni := IniPath("Storage")
+    CurrentLocation := IniRead(StorageIni, "Settings Location", "Location", A_ScriptDir)
+    StorageGui.Add("Edit", "YS w450 Background" CurrentTheme[2], CurrentLocation)
+    StorageGui.Add("Button", "YS", "Select Location").OnEvent("Click", GetLocation)
+    StorageGui.Show
+}
+
+SettingsLocationDestroy()
+{
+    If WinExist("Settings Storage Location")
+        {
+            StorageGui.Destroy()
+        }
+    Global StorageGui := Gui(,"Settings Storage Location")
+}
+
+GetLocation(*)
+{
+    msgbox "Get Location"
 }
 
 ; ListView Grid color thanks "just me" ======================================================================================================================

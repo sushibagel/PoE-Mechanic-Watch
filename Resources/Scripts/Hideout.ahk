@@ -92,3 +92,10 @@ LVDoubleClick(*)
     IniWrite(HideoutSelected[1], HideoutIni, "Current Hideout", "Hideout")
     DestroyHideoutTool()
 }
+
+GetHideout()
+{
+    HideoutIni := IniPath("Hideout")
+    CurrentHideout := IniRead(HideoutIni, "Current Hideout", "Hideout", "Error")
+    Return CurrentHideout
+}

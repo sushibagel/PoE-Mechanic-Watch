@@ -3,7 +3,7 @@
 Persistent
 
 ;Tray Menu setup
-TraySetIcon("Resources/Images/Ritual.png")
+TraySetIcon("Resources/Images/Generic.png")
 MyTray := Menu()
 MyTray:= A_TrayMenu
 MyTray.Delete() ; Delete the standard items.
@@ -12,6 +12,8 @@ MyTray.Add()
 MyTray.Add("Select Mechanics", MechanicsSelect)
 MyTray.Add()
 Setup := Menu()
+Setup.Add("Setup Tool", SetupTool)
+Setup.Add()
 Setup.Add("Set Hideout", SetHideout)
 Setup.Add()
 Setup.Add("Overlay Settings", OverlaySettingsRun)
@@ -20,7 +22,9 @@ Setup.Add()
 Setup.Add("Change Theme", ChangeGui)
 Setup.Add()
 Setup.Add("Calibration Tool", CalibrationTool)
+Setup.Default := "Setup Tool"
 MyTray.Add("Setup", Setup)
+MyTray.Default := "Setup"
 MyTray.Add()
 MyTray.Add("Reload This Script", Restart) 
 MyTray.Add("Exit", Close)
@@ -64,7 +68,16 @@ GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
 GroupAdd("AHKFiles", "VariableHandler")
 
-SetupTool()
+SettingsLocation()
+
+ClientCheck := ClientSetupCheck()
+HideoutCheck := HideoutSetupCheck()
+If (ClientCheck = 0) or (HideoutCheck = 0)
+    {
+        SetupTool()
+    }
+
+CheckPath()
 
 #HotIf WinActive("ahk_group AHKFiles") ; For dev purposes, Quick reload
 ~^s::
@@ -90,15 +103,19 @@ Recipient(Message, ID, *)
 }
 ;Overlay Control End
 
-WinWait("ahk_Group PoeWindow") ;Update launch path
-GamePath := WinGetProcessPath("ahk_Group PoeWindow")
-If InStr(GamePath, "PathOfExile")
+CheckPath()
+{
+    WinWait("ahk_Group PoeWindow") ;Update launch path
+    GamePath := WinGetProcessPath("ahk_Group PoeWindow")
+    If InStr(GamePath, "PathOfExile")
     {
         LaunchIni := IniPath("Launch")
         SplitPath(GamePath, &ExeName, &ExeDirectory)
         IniWrite(ExeName, LaunchIni, "POE", "EXE")
         IniWrite(ExeDirectory, LaunchIni, "POE", "Directory")
     }
+
+}
 
 CreateOverlay()
 {
