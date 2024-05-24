@@ -153,6 +153,22 @@ NotificationVars(NotificationType)
 {
     ;Needs to get Position, Transparency, Sound
     NotificationIni := IniPath("Notifications")
+    ReturnInfo := Array()
+    ActiveStatus := IniRead(NotificationIni, NotificationType, "Active", 1)
+    HorizontalStatus := IniRead(NotificationIni, NotificationType, "Horizontal", "")
+    VerticalStatus := IniRead(NotificationIni, NotificationType, "Vertical", "")
+    TransparencyStatus := IniRead(NotificationIni, NotificationType, "Transparency", 255)
+    SoundStatus := IniRead(NotificationIni, NotificationType, "Sound Active", 0)
+    PathStatus := IniRead(NotificationIni, NotificationType, "Sound Path", "Resources\Sounds\reminder.wav")
+    VolumeStatus := IniRead(NotificationIni, NotificationType, "Volume", 50)
+    DurationStatus := IniRead(NotificationIni, NotificationType, "Duration", 3000)
+    VariablesNames := ["Active", "Horizontal", "Vertical", "Transparency", "Sound", "Path", "Volume", "Duration"]
+    For Variable in VariablesNames
+        {
+            Item := Variable "Status"
+            ReturnInfo.Push(%Item%)
+        }
+    Return ReturnInfo
 }
 
 ; ListView Grid color thanks "just me" ======================================================================================================================

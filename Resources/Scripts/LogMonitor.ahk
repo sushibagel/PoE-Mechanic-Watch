@@ -70,16 +70,6 @@ CheckLogLine(LogLine)
                         {
                             ActiveMechanics.Push(Mechanic)
                         }
-                ;     If (TotalActive > 0) and (MechanicVar =1)
-                ;         {
-                ;             ActiveMechanics := ActiveMechanics ", " Mechanic
-                ;             TotalActive++
-                ;         }
-                ;     If (TotalActive = 0) and (MechanicVar =1)
-                ;         {
-                ;             ActiveMechanics := Mechanic
-                ;             TotalActive++
-                ;         }
                 }
             If (ActiveMechanics.Length > 0)
             {

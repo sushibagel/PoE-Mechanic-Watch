@@ -37,6 +37,7 @@ GroupAdd("PoeWindow", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
 GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
+GroupAdd("PoeWindow", "Quick Notification")
 ; GroupAdd("PoeWindow", "InfluenceReminder")
 ; GroupAdd("PoeWindow", "Overlay")
 ; GroupAdd("PoeWindow", "Move")
@@ -100,14 +101,14 @@ Recipient(Message, ID, *)
 {
     If ((Message == HSHELL_GETMINRECT) or (Message == HSHELL_RUDEAPPACTIVATED) or (Message == HSHELL_WINDOWACTIVATED) or (Message == HSHELL_WINDOWREPLACED)) and WinActive("ahk_group PoeWindow") and !(MoveActive = 1)
         {
+            lt.Start ; Stop log monitoring
             DestroyOverlay()
             CreateOverlay()
-            lt.Stop ; Stop log monitoring
         }
     If ((Message == HSHELL_GETMINRECT) or (Message == HSHELL_RUDEAPPACTIVATED) or (Message == HSHELL_WINDOWACTIVATED) or (Message == HSHELL_WINDOWREPLACED)) and !WinActive("ahk_group PoeWindow") and !(MoveActive = 1)
         {
+            lt.Stop ; Start log monitoring
             DestroyOverlay()
-            lt.Start ; Start log monitoring
         }
 }
 ;Overlay Control End
@@ -129,10 +130,7 @@ CheckPath()
 CreateOverlay()
 {
     ;Get overlay settings from ini files
-    If WinExist("Overlay")
-        {
-            DestroyOverlay()
-        }
+    DestroyOverlay()
     OverlayIni := IniPath("Overlay")
     TransparencyPath := IniPath("Transparency")
     MechanicsPath := IniPath("Mechanics")
@@ -211,7 +209,7 @@ AddOverlayItem(Mechanic, Active := 0, MechanicCount?)
     ;Get overlay settings
     OverlayIni := IniPath("Overlay")
     OverlayOrientation := IniRead(OverlayIni, "Overlay Position", "Orientation", "Horizontal")
-    IconHeight := IniRead(OverlayIni, "Size", "Height", 40)
+    IconSize := IniRead(OverlayIni, "Size", "Icons", 40)
     OverlayFont := IniRead(OverlayIni, "Size", "Font", 12)
     If (OverlayOrientation = "Horizontal")
         {
@@ -224,15 +222,15 @@ AddOverlayItem(Mechanic, Active := 0, MechanicCount?)
 
     If (Active = 1)
         {
-            Overlay.Add("Picture", "Section " OverlayOrientation " w-1 h" IconHeight, "Resources\Images\" Mechanic "_selected.png").Onevent("Click",  OverlayToggle.Bind(Mechanic))
+            Overlay.Add("Picture", "Section " OverlayOrientation " w" IconSize " h" IconSize, "Resources\Images\" Mechanic "_selected.png").Onevent("Click",  OverlayToggle.Bind(Mechanic))
         }
     If (Active = 0)
         {
-            Overlay.Add("Picture", "Section " OverlayOrientation " w-1 h" IconHeight, "Resources\Images\" Mechanic ".png").Onevent("Click", OverlayToggle.Bind(Mechanic))
+            Overlay.Add("Picture", "Section " OverlayOrientation " w" IconSize " h" IconSize, "Resources\Images\" Mechanic ".png").Onevent("Click", OverlayToggle.Bind(Mechanic))
         }
     Overlay.BackColor := "1e1e1e"
     Overlay.SetFont("s" OverlayFont)
-    Overlay.Add("Text", "BackgroundTrans cwhite Center XS w" IconHeight, MechanicCount).OnEvent("Click", OverlayToggle.Bind(Mechanic))
+    Overlay.Add("Text", "BackgroundTrans cwhite Center XS w" IconSize, MechanicCount).OnEvent("Click", OverlayToggle.Bind(Mechanic))
 }
 
 OverlayToggle(ToggledMechanic, *)
@@ -257,7 +255,7 @@ OverlayToggle(ToggledMechanic, *)
         }
 }
 
-Toggle(Mechanic)
+Toggle(Mechanic, Refresh:=1)
 {
     MechanicsPath := IniPath("Mechanics")
     MechanicActive := IniRead(MechanicsPath, "Mechanic Active", Mechanic, 0)
@@ -273,7 +271,10 @@ Toggle(Mechanic)
         {
             IniWrite(1, MechanicsPath, "Mechanic Active", Mechanic)
         }
-    RefreshOverlay()
+    If (Refresh = 1)
+        {
+            RefreshOverlay()
+        }
 }
 
 IncrementInfluence(Influence)
@@ -368,10 +369,10 @@ OverlaySettingsRun(*)
     OverlaySettings.SetFont("s13")
     OverlaySettings.Add("Text", "XM w150 Right Section", "Icon Size:")
     OverlaySettings.Add("Text", "w100 YS Right Section", "")
-    IconHeight := IniRead(OverlayIni, "Size", "Height", 40)
+    IconSize := IniRead(OverlayIni, "Size", "Icons", 40)
     OverlaySettings.SetFont("s11")
     Global IconEdit := OverlaySettings.AddEdit("YS w100 Number Background" CurrentTheme[2])
-    Global IconUpDown := OverlaySettings.AddUpDown("YS Range1-255", IconHeight)
+    Global IconUpDown := OverlaySettings.AddUpDown("YS Range1-255", IconSize)
     IconEdit.OnEvent("Change", IconEditChange)
     IconUpDown.OnEvent("Change", IconUpDownChange)
 
@@ -473,6 +474,7 @@ Close(*)
     ExitApp
 }
 
+#IncludeAgain "Resources\Scripts\AppVol.ahk"
 #IncludeAgain "Resources\Scripts\Calibration.ahk"
 #IncludeAgain "Resources\Scripts\Hideout.ahk"
 #IncludeAgain "Resources\Scripts\LaunchOptions.ahk"
@@ -485,4 +487,5 @@ Close(*)
 
 ;Tasks
     ;### Write check for Theme ini File and create if necsessary. 
-    ;### need to fix double overlay hapenning sometimes when moving overlay more than once. 
+    ;### need to fix double overlay hapenning sometimes when moving overlay more than once.
+    ;### include option for all gui's to always keep them centered (Basically just give an empty "x" value) 
