@@ -55,7 +55,7 @@ class CLogTailer
 CheckLogLine(LogLine)
 {
     HideoutText := "You have entered " GetHideout()
-    If InStr(LogLine, HideoutText)
+    If InStr(LogLine, HideoutText) ; If hideout is entered
         {
             HideoutIni := IniPath("Hideout")
             IniWrite(1, HideoutIni, "In Hideout", "In Hideout")
@@ -76,11 +76,23 @@ CheckLogLine(LogLine)
                 Notify(ActiveMechanics)
             }
         }
-    If !InStr(LogLine, HideoutText)
+    If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 
         {
-            HideoutIni := IniPath("Hideout")
-            InHideout := IniRead(HideoutIni, "In Hideout", "In Hideout", 0) ;Get Hideout status
+            NotHideoutLog(LogLine)
         }
         
 }
  
+NotHideoutLog(LogLine)
+{
+    ;Check new lines against active mechanics with dialogs
+    If InStr(LogLine, "Generating level") and InStr(LogLine, "with seed") ;These lines indicate a new zone has been entered. 
+        {
+            HideoutIni := IniPath("Hideout")
+            HideoutStatus := IniRead(HideoutIni,"In Hideout", "In Hideout", 0)
+            If (HideoutStatus = 1)
+                {
+                    IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
+                }
+        } 
+}
