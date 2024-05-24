@@ -230,7 +230,7 @@ OnSelected(MechanicSelected, NA1, NA2)
     IniWrite(1, MechanicsIni, "Mechanics", MechanicSelected)
 }
 
-OffSelected(MechanicSelected, NA1, NA2)
+OffSelected(MechanicSelected, *)
 {
     MechanicsIni := IniPath("Mechanics")
     IniWrite(0, MechanicsIni, "Mechanics", MechanicSelected)

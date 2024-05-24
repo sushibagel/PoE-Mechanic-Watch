@@ -19,9 +19,12 @@ Setup.Add()
 Setup.Add("Overlay Settings", OverlaySettingsRun)
 Setup.Add("Move Overlay", MoveOverlay)
 Setup.Add()
-Setup.Add("Change Theme", ChangeGui)
-Setup.Add()
 Setup.Add("Calibration Tool", CalibrationTool)
+Setup.Add()
+Setup.Add("Launcher Setup", LauncherGui)
+Setup.Add()
+Setup.Add("Change Theme", ChangeGui)
+Setup.Add("Change Settings Location", SettingsLocation)
 Setup.Default := "Setup Tool"
 MyTray.Add("Setup", Setup)
 MyTray.Default := "Setup"
@@ -33,7 +36,7 @@ MyTray.Add("Exit", Close)
 GroupAdd("PoeWindow", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
-; GroupAdd("PoeWindow", "Reminder")
+GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 ; GroupAdd("PoeWindow", "InfluenceReminder")
 ; GroupAdd("PoeWindow", "Overlay")
 ; GroupAdd("PoeWindow", "Move")
@@ -59,25 +62,29 @@ OnMessage(Messenger, Recipient)
 SetTrayTheme()
 
 ;Reload Group
-GroupAdd("AHKFiles", "LaunchOptions.ahk")
-GroupAdd("AHKFiles", "Mechanics.ahk")
 GroupAdd("AHKFiles", "Calibration.ahk")
+GroupAdd("AHKFiles", "LaunchOptions.ahk")
+GroupAdd("AHKFiles", "LogMonitor.ahk")
+GroupAdd("AHKFiles", "Mechanics.ahk")
+GroupAdd("AHKFiles", "Notification.ahk")
 GroupAdd("AHKFiles", "Hideout.ahk")
 GroupAdd("AHKFiles", "Setup.ahk")
 GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
 GroupAdd("AHKFiles", "VariableHandler")
 
-SettingsLocation()
-
 ClientCheck := ClientSetupCheck()
 HideoutCheck := HideoutSetupCheck()
 If (ClientCheck = 0) or (HideoutCheck = 0)
-    {
-        SetupTool()
-    }
+{
+    SetupTool()
+}
+
+HideoutIni := IniPath("Hideout")
+IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
 
 CheckPath()
+StartWatch()
 
 #HotIf WinActive("ahk_group AHKFiles") ; For dev purposes, Quick reload
 ~^s::
@@ -95,10 +102,12 @@ Recipient(Message, ID, *)
         {
             DestroyOverlay()
             CreateOverlay()
+            lt.Stop ; Stop log monitoring
         }
     If ((Message == HSHELL_GETMINRECT) or (Message == HSHELL_RUDEAPPACTIVATED) or (Message == HSHELL_WINDOWACTIVATED) or (Message == HSHELL_WINDOWREPLACED)) and !WinActive("ahk_group PoeWindow") and !(MoveActive = 1)
         {
             DestroyOverlay()
+            lt.Start ; Start log monitoring
         }
 }
 ;Overlay Control End
@@ -226,7 +235,7 @@ AddOverlayItem(Mechanic, Active := 0, MechanicCount?)
     Overlay.Add("Text", "BackgroundTrans cwhite Center XS w" IconHeight, MechanicCount).OnEvent("Click", OverlayToggle.Bind(Mechanic))
 }
 
-OverlayToggle(ToggledMechanic, NA1, NA2)
+OverlayToggle(ToggledMechanic, *)
 {
     Mechanics := VariableStore("Mechanics")
     For Mechanic in Mechanics
@@ -467,7 +476,9 @@ Close(*)
 #IncludeAgain "Resources\Scripts\Calibration.ahk"
 #IncludeAgain "Resources\Scripts\Hideout.ahk"
 #IncludeAgain "Resources\Scripts\LaunchOptions.ahk"
+#IncludeAgain "Resources\Scripts\LogMonitor.ahk"
 #IncludeAgain "Resources\Scripts\Mechanics.ahk"
+#IncludeAgain "Resources\Scripts\Notification.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"

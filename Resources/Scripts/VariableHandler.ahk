@@ -1,15 +1,21 @@
 IniPath(FileRequested)
 {
+    If !(FileRequested = "Storage")
+        {
+            StorageDir := GetStorageDir()
+        }
     Switch
     {
-        Case FileRequested = "Hideout": Return "Resources\Settings\Hideout.ini"
-        Case FileRequested = "HideoutList": Return "Resources\Data\HideoutList.txt"
-        Case FileRequested = "Launch": Return "Resources\Data\LaunchPath.ini"
-        Case FileRequested = "Mechanics": Return "Resources\Settings\Mechanics.ini"
-        Case FileRequested = "Overlay": Return "Resources\Settings\Overlay.ini"
-        Case FileRequested = "Setup": Return "Resources\Data\Setup.ini"
-        Case FileRequested = "Theme": Return "Resources\Settings\Theme.ini"
-        Case FileRequested = "Transparency": Return "Resources\Settings\Transparency.ini"
+        Case FileRequested = "Hideout": Return StorageDir "\Resources\Settings\Hideout.ini"
+        Case FileRequested = "HideoutList": Return StorageDir "\Resources\Data\HideoutList.txt"
+        Case FileRequested = "Launch": Return StorageDir "\Resources\Data\LaunchPath.ini"
+        Case FileRequested = "Mechanics": Return StorageDir "\Resources\Settings\Mechanics.ini"
+        Case FileRequested = "Notifications": Return StorageDir "\Resources\Settings\Notification.ini"
+        Case FileRequested = "Overlay": Return StorageDir "\Resources\Settings\Overlay.ini"
+        Case FileRequested = "Setup": Return StorageDir "\Resources\Data\Setup.ini"
+        Case FileRequested = "Storage": Return "Resources\Settings\StorageLocation.ini" ;Intentionally doesn't use alt storage path. 
+        Case FileRequested = "Theme": Return StorageDir "\Resources\Settings\Theme.ini"
+        Case FileRequested = "Transparency": Return StorageDir "\Resources\Settings\Transparency.ini"
     }
 }
 
@@ -96,6 +102,10 @@ SettingsLocation(*)
     StorageGui.Add("Text", "XM Section", "Current Location:")
     StorageIni := IniPath("Storage")
     CurrentLocation := IniRead(StorageIni, "Settings Location", "Location", A_ScriptDir)
+    If (CurrentLocation = "A_ScriptDir")
+        {
+            CurrentLocation := A_ScriptDir
+        }
     StorageGui.Add("Edit", "YS w450 Background" CurrentTheme[2], CurrentLocation)
     StorageGui.Add("Button", "YS", "Select Location").OnEvent("Click", GetLocation)
     StorageGui.Show
@@ -112,7 +122,37 @@ SettingsLocationDestroy()
 
 GetLocation(*)
 {
-    msgbox "Get Location"
+    SelectFolder := FileSelect("D 2", A_Desktop, "Please select the folder to store settings files in.")
+    If !(SelectFolder = "")
+        {
+            CurrentDir := GetStorageDir()
+            StorageIni := IniPath("Storage")
+            IniWrite(SelectFolder, StorageIni, "Settings Location", "Location")
+            DataFolder := "\Resources\Data"
+            SettingsFolder := "\Resources\Settings"
+            DirCreate(SelectFolder DataFolder)
+            DirCreate(SelectFolder SettingsFolder)
+            FileCopy(CurrentDir DataFolder "\*.ini", SelectFolder DataFolder, True)
+            FileCopy(CurrentDir SettingsFolder "\*.ini", SelectFolder SettingsFolder, True)
+            SettingsLocation()
+        }
+}
+
+GetStorageDir()
+{
+    StorageIni := IniPath("Storage")
+    CurrentDir := IniRead(StorageIni, "Settings Location", "Location", A_ScriptDir)
+    If (CurrentDir = "A_ScriptDir")
+        {
+            CurrentDir := A_ScriptDir
+        }
+    Return CurrentDir
+}
+
+NotificationVars(NotificationType)
+{
+    ;Needs to get Position, Transparency, Sound
+    NotificationIni := IniPath("Notifications")
 }
 
 ; ListView Grid color thanks "just me" ======================================================================================================================
@@ -201,4 +241,4 @@ LV_GridColor(LV, GridColor?) {
           Return ((Color >> 16) & 0xFF) | (Color & 0x00FF00) | ((Color & 0xFF) << 16)
        Return (HTML.HasOwnProp(Color) ? HTML.%Color% : Default)
     }
- }
+}
