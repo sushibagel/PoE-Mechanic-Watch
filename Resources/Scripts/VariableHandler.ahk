@@ -9,6 +9,7 @@ IniPath(FileRequested)
         Case FileRequested = "Hideout": Return StorageDir "\Resources\Settings\Hideout.ini"
         Case FileRequested = "HideoutList": Return StorageDir "\Resources\Data\HideoutList.txt"
         Case FileRequested = "Launch": Return StorageDir "\Resources\Data\LaunchPath.ini"
+        Case FileRequested = "Map List": Return StorageDir "\Resources\Data\maplist.txt"
         Case FileRequested = "Mechanics": Return StorageDir "\Resources\Settings\Mechanics.ini"
         Case FileRequested = "Notifications": Return StorageDir "\Resources\Settings\Notification.ini"
         Case FileRequested = "Overlay": Return StorageDir "\Resources\Settings\Overlay.ini"

@@ -94,5 +94,29 @@ NotHideoutLog(LogLine)
                 {
                     IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
                 }
+            GetMapName(LogLine)
         } 
+}
+
+GetMapName(LogLine)
+{
+    If InStr(LogLine, "MapWorlds")
+        {
+            MapString := StrSplit(LogLine, "MapWorlds")
+            MapString := StrSplit(MapString[2], "`"")
+            MapName := MapString[1]
+            MapList := IniPath("Map List")
+            MapList := FileRead(MapList)
+            If InStr(MapList, MapName) and (MapName != "")
+                {
+                    msgbox "test"
+                    ;insert map message code
+                }
+        }
+}
+
+
+^a::
+{
+    GetMapName("2022/09/05 06:45:01 575734343 118693cb [DEBUG Client 31600] Generating level 83 area `"MapWorldsRacecourse_`" with seed 667343842")
 }
