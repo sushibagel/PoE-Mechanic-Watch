@@ -65,8 +65,13 @@ LauncherGui(*)
         }
     LaunchGui.SetFont("s10 Norm c" CurrentTheme[3])    
     LaunchIni := IniPath("Launch")
-    CheckTotal := IniRead(LaunchIni, "Tool Path")
-    CheckTotal := StrSplit(CheckTotal, "`n")
+    FileData := FileRead(LaunchIni)
+    Checktotal := Array()
+    If InStr(FileData, "Tool Path")
+        {
+            CheckTotal := IniRead(LaunchIni, "Tool Path")
+            CheckTotal := StrSplit(CheckTotal, "`n")
+        }
     CloseButton := ImagePath("Close Button", "No")
     PlayButton := ImagePath("Play Button", "No")
 

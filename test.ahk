@@ -43,7 +43,7 @@ GroupAdd("PoeWindow", "Quick Notification")
 ; GroupAdd("PoeWindow", "Move")
 ; GroupAdd("PoeWindow", "Influence")
 ; GroupAdd("PoeWindow", "Transparency")
-GroupAdd("PoeWindow", "ahk_exe Code.exe")
+; GroupAdd("PoeWindow", "ahk_exe Code.exe")
 ; GroupAdd("PoeWindow", "ahk_class Notepad")
 
 Global Overlay := Gui(,"Overlay")
@@ -74,12 +74,7 @@ GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
 GroupAdd("AHKFiles", "VariableHandler")
 
-ClientCheck := ClientSetupCheck()
-HideoutCheck := HideoutSetupCheck()
-If (ClientCheck = 0) or (HideoutCheck = 0)
-{
-    SetupTool()
-}
+SetupVerification()
 
 HideoutIni := IniPath("Hideout")
 IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
@@ -101,13 +96,19 @@ Recipient(Message, ID, *)
 {
     If ((Message == HSHELL_GETMINRECT) or (Message == HSHELL_RUDEAPPACTIVATED) or (Message == HSHELL_WINDOWACTIVATED) or (Message == HSHELL_WINDOWREPLACED)) and WinActive("ahk_group PoeWindow") and !(MoveActive = 1)
         {
-            lt.Start ; Stop log monitoring
-            DestroyOverlay()
-            CreateOverlay()
+            If IsSet(lt)
+                {
+                    lt.Start ; Start log monitoring
+                    DestroyOverlay()
+                    CreateOverlay()
+                }
         }
     If ((Message == HSHELL_GETMINRECT) or (Message == HSHELL_RUDEAPPACTIVATED) or (Message == HSHELL_WINDOWACTIVATED) or (Message == HSHELL_WINDOWREPLACED)) and !WinActive("ahk_group PoeWindow") and !(MoveActive = 1)
         {
-            lt.Stop ; Start log monitoring
+            If IsSet(lt)
+                {
+                    lt.Stop ; Stop log monitoring
+                }
             DestroyOverlay()
         }
 }
@@ -115,16 +116,18 @@ Recipient(Message, ID, *)
 
 CheckPath()
 {
-    WinWait("ahk_Group PoeWindow") ;Update launch path
-    GamePath := WinGetProcessPath("ahk_Group PoeWindow")
-    If InStr(GamePath, "PathOfExile")
-    {
-        LaunchIni := IniPath("Launch")
-        SplitPath(GamePath, &ExeName, &ExeDirectory)
-        IniWrite(ExeName, LaunchIni, "POE", "EXE")
-        IniWrite(ExeDirectory, LaunchIni, "POE", "Directory")
-    }
-
+    LaunchIni := IniPath("Launch")
+    WinFound := WinWait("ahk_Group PoeWindow",,.1) ;Update launch path
+    If !(WinFound = 0)
+        {
+            GamePath := WinGetProcessPath("ahk_Group PoeWindow")
+            If InStr(GamePath, "PathOfExile")
+                {
+                    SplitPath(GamePath, &ExeName, &ExeDirectory)
+                    IniWrite(ExeName, LaunchIni, "POE", "EXE")
+                    IniWrite(ExeDirectory, LaunchIni, "POE", "Directory")
+                }
+        }
 }
 
 CreateOverlay()

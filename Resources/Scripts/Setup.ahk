@@ -51,6 +51,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
 {
     If (ItemIndex = "Client")
         {
+            SetupToolDestroy()
             CheckPath()
             PathAvailable := ClientSetupCheck()
             If (PathAvailable = "1")
@@ -174,4 +175,16 @@ WarningNo(*)
 {
     WarningGui.Destroy
     SetupTool()
+}
+
+SetupVerification()
+{
+    ClientCheck := ClientSetupCheck()
+    HideoutCheck := HideoutSetupCheck()
+    If (ClientCheck = 0) or (HideoutCheck = 0)
+    {
+        SetupTool()
+        WinWaitClose("Setup Tool")
+        SetupVerification()
+    }
 }
