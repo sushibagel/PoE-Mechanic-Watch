@@ -206,7 +206,103 @@ MapReminder()
         }
 }
 
+NotificationSettings(*)
+{
+    NotificationGuiDestroy()
+    CurrentTheme := GetTheme()
+    NotificationGui.BackColor := CurrentTheme[1]
+    NotificationGui.SetFont("s15 Bold c" CurrentTheme[3])
+    NotificationGui.Add("Text", "w1000 Center", "Notification Settings")
+    NotificationGui.AddText("w1000 h1 Background" CurrentTheme[3])
+    NotificationGui.SetFont("s12 Bold c" CurrentTheme[3])
+    Headers := ["Notification Type", "Enabled", "Sound Settings", "Transparency Settings", "Additional Settings"]
+    For Header in Headers
+        {
+            AddSection := "YS"
+            If (A_Index = 1)
+                {
+                    AddSection := "Section"
+                }
+            NotificationGui.Add("Text", "R1.5 w200 " AddSection, Header)
+        }
+    NotificationTypes := ["Overlay", "Quick Notificaiton", "Mechanic Notification", "Custom Reminder", "Influence Notification", "Maven Notification"]
+    NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
+    For Types in NotificationTypes
+        {
+            AddSection := ""
+            If (A_Index = 1)
+                {
+                    AddSection := "Section"
+                }
+            NotificationGui.Add("Text", "R2 w200 XM " AddSection, Types)
+        }
+    Loop NotificationTypes.Length
+        {
+            LocationControl := "XS"
+            CheckControl := "Checked"
+            If (A_Index =1)
+                {
+                    LocationControl := "x+50 YS Section"
+                    CheckControl := "Check3 Checked3 Disabled"
+                }
+            NotificationGui.Add("Checkbox", "R2 w150 Center " CheckControl " " LocationControl)
+        }
+    Loop NotificationTypes.Length
+        {
+            ControlType := "Checkbox"
+            LocationControl := "XS"
+            If (A_Index =1)
+                {
+                    ControlType := "Text"
+                    LocationControl := "YS Section"
+                }
+            NotificationGui.Add(ControlType, "R2 Center Checked1 " LocationControl)
+        }
+    VolumeIcon := ImagePath("Volume Button", "No")
+    Loop NotificationTypes.Length
+        {
+            LocationControl := "XS"
+            PictureDimensions := "w-1 h25"
+            If (A_Index = 1)
+                {
+                    LocationControl := "YS Section"
+                    NotificationGui.Add("Text", "Center R2 " LocationControl)
+                }
+            If (A_Index > 1)
+                {
+                    NotificationGui.Add("Picture", PictureDimensions " R2 Center " LocationControl, VolumeIcon)
+                }
+        }
+    PlayIcon := ImagePath("Play Button", "No")
+    Loop NotificationTypes.Length
+        {
+            LocationControl := "XS"
+            PictureDimensions := "w-1 h25"
+            If (A_Index = 1)
+                {
+                    LocationControl := "YS Section"
+                    NotificationGui.Add("Text", "Center R2 " LocationControl)
+                }
+            If (A_Index > 1)
+                {
+                    NotificationGui.Add("Picture", PictureDimensions " R2 Center " LocationControl, PlayIcon)
+                }
+        }
+
+
+    NotificationGui.Show
+}
+
+NotificationGuiDestroy()
+{
+    If WinExist("Notification Settings1")
+        {
+            NotificationGui.Destroy()
+        }
+    Global NotificationGui := Gui(,"Notification Settings1")
+}
+
 ^a::
 {
-    MapReminder()
+    NotificationSettings()
 }

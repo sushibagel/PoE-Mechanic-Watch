@@ -499,3 +499,4 @@ Close(*)
     ;### Write check for Theme ini File and create if necsessary. 
     ;### need to fix double overlay hapenning sometimes when moving overlay more than once.
     ;### include option for all gui's to always keep them centered (Basically just give an empty "x" value) 
+    ;### Fix icon colors from variable (Actually an issue with Theme Ini Not being set)
