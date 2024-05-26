@@ -288,7 +288,20 @@ NotificationSettings(*)
                     NotificationGui.Add("Picture", PictureDimensions " R2 Center " LocationControl, PlayIcon)
                 }
         }
-
+        Loop NotificationTypes.Length
+            {
+                LocationControl := "XS"
+                If (A_Index = 1)
+                    {
+                        LocationControl := "YS Section"
+                        NotificationGui.Add("Text", "Center R2 " LocationControl)
+                    }
+                If (A_Index > 1)
+                    {
+                        NotificationGui.Add("Edit", "R2 Center " LocationControl)
+                        NotificationGui.Add("UpDown", "R2 Center " LocationControl)
+                    }
+            }
 
     NotificationGui.Show
 }
