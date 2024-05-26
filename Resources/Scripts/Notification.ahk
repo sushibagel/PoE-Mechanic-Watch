@@ -85,7 +85,7 @@ NotificationSound(SoundPath, SoundVolume)
     SoundPlay(SoundPath, False)
 }
 
-QuickNotify(Mechanics, MechanicVersion:=0,MoveQuick:=0)
+QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
 {
     QuickNotifyDestroy()
     NotificationInfo := NotificationVars("Quick Notification")
@@ -103,6 +103,11 @@ QuickNotify(Mechanics, MechanicVersion:=0,MoveQuick:=0)
         {
             MechanicText := MechanicQuickText(Mechanics)
             NotificationInfo := NotificationVars("Mechanic Notification")
+        }
+    If (MechanicVersion = 2)
+        {
+            MechanicText := Mechanics
+            NotificationInfo := NotificationVars("Map Notification")
         }
     If (MoveQuick = 0)
     {
@@ -155,4 +160,19 @@ MechanicQuickText(Mechanics)
                 }
         }
     Return MechanicText
+}
+
+MapReminder()
+{
+    NotificationIni := IniPath("Notifications")
+    MapReminderActive := IniRead(NotificationIni, "Map Notification", "Active", 0)
+    If (MapReminderActive = 1)
+        {
+            MapReminderType := IniRead(NotificationIni, "Map Notification", "Type", "Quick")
+            NotificationText := IniRead(NotificationIni, "Map Notification", "Notification Text", "Don't forget to enable your buffs!")
+            If (MapReminderType = "Quick")
+                {
+                    QuickNotify(NotificationText, 2)
+                }
+        }
 }

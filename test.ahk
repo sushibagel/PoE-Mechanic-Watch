@@ -43,7 +43,7 @@ GroupAdd("PoeWindow", "Quick Notification")
 ; GroupAdd("PoeWindow", "Move")
 ; GroupAdd("PoeWindow", "Influence")
 ; GroupAdd("PoeWindow", "Transparency")
-; GroupAdd("PoeWindow", "ahk_exe Code.exe")
+GroupAdd("PoeWindow", "ahk_exe Code.exe")
 ; GroupAdd("PoeWindow", "ahk_class Notepad")
 
 Global Overlay := Gui(,"Overlay")
@@ -165,16 +165,7 @@ CreateOverlay()
         }
 
     ;Setup the active Influence
-    Influences := VariableStore("Influences")
-    For Influence in Influences
-        {
-            InfluenceActive := IniRead(MechanicsPath, "Influence", Influence, 0)
-            If (InfluenceActive = 1)
-                {
-                    ActiveInfluence := Influence
-                    Break
-                }
-        }
+    ActiveInfluence := GetInfluence()
     InfluenceCount := IniRead(MechanicsPath, "Influence Track", ActiveInfluence, 0)
     AddOverlayItem(ActiveInfluence,,InfluenceCount)
     ShouldActivate := "NoActivate"
@@ -278,6 +269,22 @@ Toggle(Mechanic, Refresh:=1)
         {
             RefreshOverlay()
         }
+}
+
+GetInfluence()
+{
+    Influences := VariableStore("Influences")
+    MechanicsPath := IniPath("Mechanics")
+    For Influence in Influences
+        {
+            InfluenceActive := IniRead(MechanicsPath, "Influence", Influence, 0)
+            If (InfluenceActive = 1)
+                {
+                    ActiveInfluence := Influence
+                    Break
+                }
+        }
+    Return ActiveInfluence
 }
 
 IncrementInfluence(Influence)

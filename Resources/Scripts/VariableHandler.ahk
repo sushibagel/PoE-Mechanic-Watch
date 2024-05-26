@@ -11,6 +11,7 @@ IniPath(FileRequested)
         Case FileRequested = "Launch": Return StorageDir "\Resources\Data\LaunchPath.ini"
         Case FileRequested = "Map List": Return StorageDir "\Resources\Data\maplist.txt"
         Case FileRequested = "Mechanics": Return StorageDir "\Resources\Settings\Mechanics.ini"
+        Case FileRequested = "Misc Data": Return StorageDir "\Resources\Data\Misc.ini"
         Case FileRequested = "Notifications": Return StorageDir "\Resources\Settings\Notification.ini"
         Case FileRequested = "Overlay": Return StorageDir "\Resources\Settings\Overlay.ini"
         Case FileRequested = "Setup": Return StorageDir "\Resources\Data\Setup.ini"
