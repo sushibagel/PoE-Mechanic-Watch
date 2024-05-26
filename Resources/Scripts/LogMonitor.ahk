@@ -130,8 +130,3 @@ GetMapName(LogLine)
                 }
         }
 } 
-
-^a::
-{
-    GetMapName("2022/09/05 06:45:01 575734343 118693cb [DEBUG Client 31600] Generating level 83 area `"MapWorldsRacecourse_`" with seed 667343842")
-}

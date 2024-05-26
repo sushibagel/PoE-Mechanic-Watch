@@ -4,7 +4,7 @@ Notify(ActiveMechanics)
     UseQuick := IniRead(NotificationIni, "Mechanic Notification", "Use Quick", 0)
     If (UseQuick = 0)
         {
-            NotificationBig(ActiveMechanics)
+            NotificationBig(ActiveMechanics, "Mechanic")
         }
     If (UseQuick = 1)
         {
@@ -12,7 +12,7 @@ Notify(ActiveMechanics)
         }
 }
 
-NotificationBig(ActiveMechanics) ;will need to replace last comma with "and"
+NotificationBig(ActiveMechanics, Type)
 {
     NotificationBigDestroy()
     NotificationInfo := NotificationVars("Mechanic Notification")
@@ -23,6 +23,30 @@ NotificationBig(ActiveMechanics) ;will need to replace last comma with "and"
     CurrentTheme := GetTheme()
     Notification.BackColor := CurrentTheme[1]
     Notification.SetFont("s12 c" CurrentTheme[3])
+    If (Type = "Mechanic")
+        {
+            MechanicNotificationSetup(ActiveMechanics)
+            If (NotificationInfo[5] = 1)
+                {
+                    NotificationSound(NotificationInfo[6], NotificationInfo[7])
+                }
+        }
+    If (Type = "Map Notification")
+        {
+            MapNotificationSetup(ActiveMechanics)
+            NotificationInfo := NotificationVars("Map Notification")
+            If (NotificationInfo[5] = 1)
+                {
+                    NotificationSound(NotificationInfo[6], NotificationInfo[7])
+                }
+        }
+    Notification.Opt("-Caption")
+    Notification.Show
+    WinSetTransparent(NotificationInfo[4], "PoE Mechanic Watch Notification")
+}
+
+MechanicnotificationSetup(ActiveMechanics)
+{
     If (ActiveMechanics.Length = 1)
         {
             MechanicText := ActiveMechanics[1] " is still active. Did you forget to complete it?"
@@ -48,13 +72,12 @@ NotificationBig(ActiveMechanics) ;will need to replace last comma with "and"
     Notification.Add("Text", "Center w500", MechanicText)
     Notification.Add("Button", "XM Section x125 w50", "Yes").OnEvent("Click", NotificationBigDestroy)
     Notification.Add("Button", "YS x350 w50", "No").OnEvent("Click", NoReminderButton.Bind(ActiveMechanics))
-    Notification.Opt("-Caption")
-    If (NotificationInfo[5] = 1)
-        {
-            NotificationSound(NotificationInfo[6], NotificationInfo[7])
-        }
-    Notification.Show
-    WinSetTransparent(NotificationInfo[4], "PoE Mechanic Watch Notification")
+}
+
+MapNotificationSetup(MechanicText)
+{
+    Notification.Add("Text", "Center", MechanicText)
+    Notification.Add("Button", "XM Section w50", "OK").OnEvent("Click", NotificationBigDestroy)
 }
 
 NotificationBigDestroy(*)
@@ -108,6 +131,8 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
         {
             MechanicText := Mechanics
             NotificationInfo := NotificationVars("Map Notification")
+            PosY:= NotificationInfo[2]
+            PosX:= NotificationInfo[3]
         }
     If (MoveQuick = 0)
     {
@@ -174,5 +199,14 @@ MapReminder()
                 {
                     QuickNotify(NotificationText, 2)
                 }
+            If (MapReminderType = "Permanent")
+                {
+                    NotificationBig(NotificationText, "Map Notification")
+                }
         }
+}
+
+^a::
+{
+    MapReminder()
 }
