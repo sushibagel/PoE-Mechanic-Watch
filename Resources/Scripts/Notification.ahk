@@ -243,7 +243,7 @@ NotificationSettings(*)
                 }
             Else If (Header = "Transparency Settings")
                 {
-                    NotificationGui.Add("Text", "R1 x+70 " AddSection, "Test")
+                    NotificationGui.Add("Text", "R1 x+66 " AddSection, "Test")
                     NotificationGui.Add("Text", "R1 " AddSection, "Close")
                     NotificationGui.Add("Text", "R1 Section " AddSection, "Opactiy")
                     NotificationGui.Add("Text", "R1 XS", "(0-255)")
@@ -271,7 +271,7 @@ NotificationSettings(*)
             NotificationGui.Add("Checkbox", "YS w105 Center Checked" CheckStatus) ; add Enabled checkbox
             If (Header = "Overlay")
                 {
-                    NotificationGui.Add("Text", "YS X+150",) ; add spacer
+                    NotificationGui.Add("Text", "YS X+148",) ; add spacer
                 }
             If !(Header = "Overlay")
                 {
@@ -306,8 +306,8 @@ NotificationSettings(*)
                     NotificationGui.Add("Text", "Center YS-15 Section", "Duration (Seconds)")
                     NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
                     NotificationGui.Add("Edit", "Center w50 XS+15 YP+18 Background" CurrentTheme[2]) ;add transparency edit box
-                    CurrentOpacity := IniRead(NotificationIni, Header, "Transparency", 255)
-                    NotificationGui.Add("UpDown", "Center YS Range0-255", CurrentOpacity) ; add up/down
+                    QuickDuration := IniRead(NotificationIni, Header, "Duration", 3)
+                    NotificationGui.Add("UpDown", "Center YS Range0-255", QuickDuration) ; add up/down
                 }
             If (Header = "Mechanic Notification")
                 {
