@@ -213,7 +213,7 @@ NotificationSettings(*)
     NotificationGui.BackColor := CurrentTheme[1]
     NotificationGui.SetFont("s15 Bold c" CurrentTheme[3])
     NotificationGui.Add("Text", "w1000 Center", "Notification Settings")
-    NotificationGui.AddText("w1050 h1 Background" CurrentTheme[3])
+    NotificationGui.AddText("w1150 h1 Background" CurrentTheme[3])
     NotificationGui.SetFont("s12 Bold c" CurrentTheme[3])
     Headers := ["Notification Type", "Enabled", "Sound Settings", "Transparency Settings", "Additional Settings"]
     For Header in Headers
@@ -229,13 +229,24 @@ NotificationSettings(*)
     For Header in Headers
         {
             AddSection := "YS"
-            If (A_Index = 1)
+            If (Header = "Notification Type")
                 {
                     AddSection := "XM Section"
+                    NotificationGui.Add("Text", "R1 w190 " AddSection,)
                 }
-            If (Header = "Sound Settings")
+            Else If (Header = "Sound Settings")
                 {
-                    NotificationGui.Add("Text", "R1 w190 " AddSection, "Active       Sound       Test        Volume      ")
+                    NotificationGui.Add("Text", "R1 " AddSection, "Active")
+                    NotificationGui.Add("Text", "R1 x+15.5 " AddSection, "Sound")
+                    NotificationGui.Add("Text", "R1 " AddSection, "Test")
+                    NotificationGui.Add("Text", "R1 " AddSection, "Volume")  
+                }
+            Else If (Header = "Transparency Settings")
+                {
+                    NotificationGui.Add("Text", "R1 x+70 " AddSection, "Test")
+                    NotificationGui.Add("Text", "R1 " AddSection, "Close")
+                    NotificationGui.Add("Text", "R1 Section " AddSection, "Opactiy")
+                    NotificationGui.Add("Text", "R1 XS", "(0-255)")
                 }
             Else
                 {
@@ -243,84 +254,175 @@ NotificationSettings(*)
                 }
         }
     NotificationGui.SetFont("s12 Bold c" CurrentTheme[3])
-    NotificationTypes := ["Overlay", "Quick Notificaiton", "Mechanic Notification", "Custom Reminder", "Influence Notification", "Maven Notification"]
+    NotificationTypes := ["Overlay", "Quick Notification", "Mechanic Notification", "Custom Reminder", "Influence Notification", "Maven Notification"]
     NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
-    For Types in NotificationTypes
+    PlayIcon := ImagePath("Play Button", "No") ; get play icon
+    VolumeIcon := ImagePath("Volume Button", "No") ; get volume icon
+    For Header in NotificationTypes
         {
-            AddSection := ""
-            If (A_Index = 1)
+            NotificationGui.Add("Text", "w280 XM Section", Header) ; add header
+            NotificationIni := IniPath("Notifications")
+            DefaultStatus := [3, 1, 1, 0, 1, 1]
+            CheckStatus := IniRead(NotificationIni, Header, "Active", DefaultStatus[A_Index])
+            If (Header = "Overlay")
                 {
-                    AddSection := "Section"
+                    CheckStatus := "3 Check3 Disabled"
                 }
-            NotificationGui.Add("Text", "R2 w200 XM " AddSection, Types)
-        }
-    Loop NotificationTypes.Length ; add "Enabled" Checkboxes
-        {
-            LocationControl := "XS"
-            CheckControl := "Checked"
-            If (A_Index =1)
+            NotificationGui.Add("Checkbox", "YS w105 Center Checked" CheckStatus) ; add Enabled checkbox
+            If (Header = "Overlay")
                 {
-                    LocationControl := "x+95 YS Section"
-                    CheckControl := "Check3 Checked3 Disabled"
+                    NotificationGui.Add("Text", "YS X+150",) ; add spacer
                 }
-            NotificationGui.Add("Checkbox", "R2 w105 Center " CheckControl " " LocationControl)
-        }
-    Loop NotificationTypes.Length ;Add Sound Settting Checkboxes
-        {
-            ControlType := "Checkbox"
-            LocationControl := "XS"
-            If (A_Index =1)
+            If !(Header = "Overlay")
                 {
-                    ControlType := "Text"
-                    LocationControl := "YS Section"
+                    CheckStatus := IniRead(NotificationIni, Header, "Sound Active", 0)
+                    NotificationGui.Add("Checkbox", "YS w30 Center Checked" CheckStatus ) ; add sound checkbox
+                    NotificationGui.Add("Picture", "Checked1 YS w-1 h22", VolumeIcon) ; add volume icon
+                    NotificationGui.Add("Picture", "w-1 h20 YS Center ", PlayIcon) ; Add Sound Play Icon
+                    NotificationGui.Add("Edit", "Center w50 YS Background" CurrentTheme[2]) ;add edit box
+                    CurrentVolume := IniRead(NotificationIni, Header, "Volume", 100)
+                    NotificationGui.Add("UpDown", "Center YS Range0-100", CurrentVolume) ; add up/down
                 }
-            NotificationGui.Add(ControlType, "R2 Checked1 " LocationControl)
-        }
-    VolumeIcon := ImagePath("Volume Button", "No")
-    Loop NotificationTypes.Length ;Add Speaker icons
-        {
-            LocationControl := "XS-15 y+20"
-            PictureDimensions := "w-1 h22"
-            If (A_Index = 1)
-                {
-                    LocationControl := "YS Section"
-                    NotificationGui.Add("Text", "R2 " LocationControl)
-                }
-            If (A_Index > 1)
-                {
-                    NotificationGui.Add("Picture", PictureDimensions " Center " LocationControl, VolumeIcon)
-                }
-        }
-    PlayIcon := ImagePath("Play Button", "No")
-    Loop NotificationTypes.Length ; Add play buttons
-        {
-            LocationControl := "XS y+20"
-            PictureDimensions := "w-1 h22"
-            If (A_Index = 1)
-                {
-                    LocationControl := "YS Section"
-                    NotificationGui.Add("Text", "R2 " LocationControl)
-                }
-            If (A_Index > 1)
-                {
-                    NotificationGui.Add("Picture", PictureDimensions " Center " LocationControl, PlayIcon)
-                }
-        }
-        Loop NotificationTypes.Length ;add edit boxes and updowns
-            {
-                LocationControl := "XS y+20"
-                If (A_Index = 1)
-                    {
-                        LocationControl := "YS Section"
-                        NotificationGui.Add("Text", "Center R2 " LocationControl)
-                    }
-                If (A_Index > 1)
-                    {
-                        NotificationGui.Add("Edit", "Center w70 " LocationControl " Background" CurrentTheme[2])
-                        NotificationGui.Add("UpDown", "Center " LocationControl)
-                    }
-            }
 
+            NotificationGui.Add("Text", "w85 ") ; add spacer
+            NotificationGui.Add("Picture", "w-1 h20 YS Center ", PlayIcon) ; Add Transparency Play Icon
+            StopIcon := ImagePath("Stop Button", "No") ; get stop icon
+            NotificationGui.Add("Picture", "w-1 h20 YS Center x+25 ", StopIcon) ; Add Transparency Play Icon
+            NotificationGui.Add("Edit", "Center w50 YS Background" CurrentTheme[2]) ;add transparency edit box
+            CurrentOpacity := IniRead(NotificationIni, Header, "Transparency", 255)
+            NotificationGui.Add("UpDown", "Center YS Range0-255", CurrentOpacity) ; add up/down
+
+            If (Header = "Overlay")
+                {
+                    NotificationGui.Add("Text", "Center YS w45")
+                    NotificationGui.Add("Button", "Center YS w50", "Move")
+                    NotificationGui.Add("Button", "Center YS w50", "Layout")
+                }
+            If (Header = "Quick Notification")
+                {
+                    NotificationGui.Add("Text", "Center YS w45")
+                    NotificationGui.Add("Button", "Center YS w50", "Move")
+                    NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
+                    NotificationGui.Add("Text", "Center YS-15 Section", "Duration (Seconds)")
+                    NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
+                    NotificationGui.Add("Edit", "Center w50 XS+15 YP+18 Background" CurrentTheme[2]) ;add transparency edit box
+                    CurrentOpacity := IniRead(NotificationIni, Header, "Transparency", 255)
+                    NotificationGui.Add("UpDown", "Center YS Range0-255", CurrentOpacity) ; add up/down
+                }
+            If (Header = "Mechanic Notification")
+                {
+                    NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
+                    NotificationGui.Add("Text", "Center YS-15 w100 Section", "Triggers")
+                    HideoutTrigger := IniRead(NotificationIni, Header, "Hideout Trigger", 1)
+                    NotificationGui.Add("Checkbox","XS+15 YP+18 Checked" HideoutTrigger)
+                    NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
+                    NotificationGui.Add("Text", "Center XS+2 YP+18", "Hideout")
+
+                    HotkeyTrigger := IniRead(NotificationIni, Header, "Hotkey Trigger", 0)
+                    NotificationGui.Add("Checkbox","YS+19 x+30 Checked" HotkeyTrigger)
+                    NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
+                    NotificationGui.Add("Text", "Center XP-9 YP+18 Section", "Hotkey")
+                    
+                    NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
+                    NotificationGui.Add("Text", "YS-35 w120 Section", "Quick Notification")
+                    QuickStatus := IniRead(NotificationIni, Header, "Quick Notification", 0)
+                    NotificationGui.Add("Checkbox","XS+45 YP+18 Checked" QuickStatus)
+
+                    NotificationGui.Add("Text", "YS w100 Section", "Chat Delay")
+                    NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
+                    NotificationGui.Add("Edit", "Center w50 XS+5 YP+18 Background" CurrentTheme[2]) ;add transparency edit box
+                    ChatDelay := IniRead(NotificationIni, Header, "Chat Delay", 3)
+                    NotificationGui.Add("UpDown", "Center YS Range0-100", ChatDelay) ; add up/down
+                }
+
+        }
+
+    ; For Types in NotificationTypes
+    ;     {
+    ;         AddSection := ""
+    ;         If (A_Index = 1)
+    ;             {
+    ;                 AddSection := "Section"
+    ;             }
+    ;         NotificationGui.Add("Text", "R2 w200 XM " AddSection, Types)
+    ;     }
+    ; Loop NotificationTypes.Length ; add "Enabled" Checkboxes
+    ;     {
+    ;         LocationControl := "XS"
+    ;         CheckControl := "Checked"
+    ;         If (A_Index =1)
+    ;             {
+    ;                 LocationControl := "x+95 YS Section"
+    ;                 CheckControl := "Check3 Checked3 Disabled"
+    ;             }
+    ;         NotificationGui.Add("Checkbox", "R2 w105 Center " CheckControl " " LocationControl)
+    ;     }
+    ; Loop NotificationTypes.Length ;Add Sound Settting Checkboxes
+    ;     {
+    ;         ControlType := "Checkbox"
+    ;         LocationControl := "XS"
+    ;         If (A_Index =1)
+    ;             {
+    ;                 ControlType := "Text"
+    ;                 LocationControl := "YS x+25 Section"
+    ;             }
+    ;         NotificationGui.Add(ControlType, "R2  Checked1 " LocationControl)
+    ;     }
+    ; VolumeIcon := ImagePath("Volume Button", "No")
+    ; Loop NotificationTypes.Length ;Add Speaker icons
+    ;     {
+    ;         LocationControl := "XS-15 y+20"
+    ;         PictureDimensions := "w-1 h22"
+    ;         If (A_Index = 1)
+    ;             {
+    ;                 LocationControl := "YS x+25 Section"
+    ;                 NotificationGui.Add("Text", "R2 " LocationControl)
+    ;             }
+    ;         If (A_Index > 1)
+    ;             {
+    ;                 NotificationGui.Add("Picture", PictureDimensions " Center " LocationControl, VolumeIcon)
+    ;             }
+    ;     }
+    ; PlayIcon := ImagePath("Play Button", "No")
+    ; Loop NotificationTypes.Length ; Add play buttons
+    ;     {
+    ;         LocationControl := "XS y+20"
+    ;         PictureDimensions := "w-1 h22"
+    ;         If (A_Index = 1)
+    ;             {
+    ;                 LocationControl := "YS Section"
+    ;                 NotificationGui.Add("Text", "R2 " LocationControl)
+    ;             }
+    ;         If (A_Index > 1)
+    ;             {
+    ;                 NotificationGui.Add("Picture", PictureDimensions " Center " LocationControl, PlayIcon)
+    ;             }
+    ;     }
+    ;     Loop NotificationTypes.Length ;add edit boxes and updowns
+    ;         {
+    ;             LocationControl := "XS y+20"
+    ;             If (A_Index = 1)
+    ;                 {
+    ;                     LocationControl := "YS Section"
+    ;                     NotificationGui.Add("Text", "Center R2 " LocationControl)
+    ;                 }
+    ;             If (A_Index > 1)
+    ;                 {
+    ;                     NotificationGui.Add("Edit", "Center w70 " LocationControl " Background" CurrentTheme[2])
+    ;                     NotificationGui.Add("UpDown", "Center " LocationControl)
+    ;                 }
+    ;         }
+
+    ;     Loop NotificationTypes.Length ; Add play buttons
+    ;         {
+    ;             LocationControl := "XS y+20"
+    ;             PictureDimensions := "w-1 h22"
+    ;             If (A_Index = 1)
+    ;                 {
+    ;                     LocationControl := "YS x+35 Section"
+    ;                 }
+    ;             NotificationGui.Add("Picture", PictureDimensions " Center " LocationControl, PlayIcon)
+    ;         }
     NotificationGui.Show
 }
 
