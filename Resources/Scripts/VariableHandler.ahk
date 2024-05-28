@@ -153,7 +153,6 @@ GetStorageDir()
 
 NotificationVars(NotificationType)
 {
-    ;Needs to get Position, Transparency, Sound
     NotificationIni := IniPath("Notifications")
     ReturnInfo := Array()
     ActiveStatus := IniRead(NotificationIni, NotificationType, "Active", 1)
@@ -163,7 +162,8 @@ NotificationVars(NotificationType)
     SoundStatus := IniRead(NotificationIni, NotificationType, "Sound Active", 0)
     PathStatus := IniRead(NotificationIni, NotificationType, "Sound Path", "Resources\Sounds\reminder.wav")
     VolumeStatus := IniRead(NotificationIni, NotificationType, "Volume", 50)
-    DurationStatus := IniRead(NotificationIni, NotificationType, "Duration", 3000)
+    DurationStatus := IniRead(NotificationIni, NotificationType, "Duration", 3)
+    DurationStatus := DurationStatus * 1000
     VariablesNames := ["Active", "Horizontal", "Vertical", "Transparency", "Sound", "Path", "Volume", "Duration"]
     For Variable in VariablesNames
         {
