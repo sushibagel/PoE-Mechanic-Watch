@@ -17,7 +17,7 @@ GetTheme() ;Returns "CurrentTheme" array with Background Color at "CurrentTheme[
     BackgroundTheme := IniRead(ThemePath, CurrentMode, "Background", "4e4f53")
     FontTheme := IniRead(ThemePath, CurrentMode, "Font", "White")
     SecondaryTheme := IniRead(ThemePath, CurrentMode, "Secondary", "a6a6a6")
-    IconTheme := IniRead(ThemePath, CurrentMode, "Icons", "Black")
+    IconTheme := IniRead(ThemePath, CurrentMode, "Icons", "White")
     CurrentTheme := Array()
     CurrentTheme.Push(BackgroundTheme)
     CurrentTheme.Push(SecondaryTheme)
