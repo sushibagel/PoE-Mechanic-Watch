@@ -187,6 +187,7 @@ CreateOverlay()
     ;Activate Overlay and set transparency
     Overlay.Show("y" OverlayHeight "x" OverlayWidth " " ShouldActivate)
     WinSetTransColor("1e1e1e " OverlayTransparency, "Overlay")
+    Overlay.OnEvent("Close", LockMove)
 }
 
 DestroyOverlay()

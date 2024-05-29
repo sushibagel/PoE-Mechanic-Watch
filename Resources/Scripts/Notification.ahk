@@ -295,15 +295,15 @@ NotificationSettings(*)
             NotificationGui.Add("Picture", "w-1 h20 YS Center ", PlayIcon).OnEvent("Click", TestGui.Bind(Header, "Test")) ; Add Transparency Play Icon
             StopIcon := ImagePath("Stop Button", "No") ; get stop icon
             NotificationGui.Add("Picture", "w-1 h20 YS Center x+25 ", StopIcon).OnEvent("Click", TestGui.Bind(Header, "Destroy")) ; Add Transparency Play Icon
-            NotificationGui.Add("Edit", "Center w50 YS Background" CurrentTheme[2]) ;add transparency edit box
+            NotificationGui.Add("Edit", "Center w50 YS Background" CurrentTheme[2]).OnEvent("Change", TransparencyAdjust.Bind(Header)) ;add transparency edit box
             CurrentOpacity := IniRead(NotificationIni, Header, "Transparency", 255)
             NotificationGui.Add("UpDown", "Center YS Range0-255", CurrentOpacity) ; add up/down
 
             If (Header = "Overlay")
                 {
                     NotificationGui.Add("Text", "Center YS w45")
-                    NotificationGui.Add("Button", "Center YS w50", "Move")
-                    NotificationGui.Add("Button", "Center YS w50", "Layout")
+                    NotificationGui.Add("Button", "Center YS w50", "Move").OnEvent("Click", MoveOverlay)
+                    NotificationGui.Add("Button", "Center YS w50", "Layout").OnEvent("Click", OverlaySettingsRun)
                 }
             If (Header = "Quick Notification")
                 {
@@ -464,6 +464,12 @@ TestGui(NotificationType, Action, *)
         }
 
     ; msgbox Notificationtype "|" Action
+}
+
+TransparencyAdjust(NotficationType, Status, *)
+{
+    NotificationIni := IniPath("Notifications")
+    IniWrite(Status.Value, NotificationIni, NotficationType, "Transparency")
 }
 
 ^a::
