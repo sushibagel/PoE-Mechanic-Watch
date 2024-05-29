@@ -135,11 +135,10 @@ CreateOverlay()
     ;Get overlay settings from ini files
     DestroyOverlay()
     OverlayIni := IniPath("Overlay")
-    TransparencyPath := IniPath("Transparency")
     MechanicsPath := IniPath("Mechanics")
     OverlayHeight := IniRead(OverlayIni, "Overlay Position", "Height", A_ScreenHeight-300)
     OverlayWidth := IniRead(OverlayIni, "Overlay Position", "Width", A_ScreenWidth/2)
-    OverlayTransparency := IniRead(TransparencyPath, "Transparency", "Overlay", 255)
+    OverlayTransparency := IniRead(OverlayIni, "Transparency", "Transparency", 255)
     ;Add additional settings
     Overlay.Opt("AlwaysOnTop")
     If (MoveActive = 0)
@@ -341,8 +340,11 @@ LockMove(*)
 ;Overlay Gui
 OverlaySettingsRun(*)
 {
+    If WinExist("Notification Settings")
+        {
+            WinMinimize
+        }
     OverlayIni := IniPath("Overlay")
-    OverlaySettings := Gui(,"Overlay Settings")
     OverlaySettingsClose()
     CurrentTheme := GetTheme()
     OverlaySettings.BackColor := CurrentTheme[1]
@@ -397,16 +399,18 @@ OverlaySettingsRun(*)
     FontEdit.OnEvent("Change", FontEditChange)
     FontUpDown.OnEvent("Change", FontUpDownChange)
     OverlaySettings.OnEvent("Close", RefreshOverlay)
+    OverlaySettings.OnEvent("Close", OverlaySettingsClose)
     OverlaySettings.Show
 }
 
-OverlaySettingsClose()
+OverlaySettingsClose(*)
 {
     If WinExist("Overlay Settings")
         {
             OverlaySettings.Destroy
-            OverlaySettings := Gui(,"Overlay Settings")
+            WinRestore "Notification Settings"
         }
+        Global OverlaySettings := Gui(,"Overlay Settings")
 }
 
 LayoutSet(*)

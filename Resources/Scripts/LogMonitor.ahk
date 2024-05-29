@@ -73,7 +73,7 @@ CheckLogLine(LogLine)
                 }
             If (ActiveMechanics.Length > 0)
             {
-                Notify(ActiveMechanics)
+                Notify(ActiveMechanics, "Mechanic Notification")
             }
         }
     If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 

@@ -1,14 +1,22 @@
-Notify(ActiveMechanics)
+Notify(ActiveMechanics, Type)
 {
     NotificationIni := IniPath("Notifications")
-    UseQuick := IniRead(NotificationIni, "Mechanic Notification", "Use Quick", 0)
+    UseQuick := IniRead(NotificationIni, Type, "Use Quick", 0)
     If (UseQuick = 0)
         {
-            NotificationBig(ActiveMechanics, "Mechanic")
+            NotificationBig(ActiveMechanics, Type)
         }
     If (UseQuick = 1)
         {
-            QuickNotify(ActiveMechanics, 1)
+            If (Type = "Mechanic Notification")
+                {
+                    Version := 1
+                }
+            If (Type = "Custom Reminder")
+                {
+                    Version := 2
+                }
+            QuickNotify(ActiveMechanics, Version)
         }
 }
 
@@ -23,7 +31,7 @@ NotificationBig(ActiveMechanics, Type)
     CurrentTheme := GetTheme()
     Notification.BackColor := CurrentTheme[1]
     Notification.SetFont("s12 c" CurrentTheme[3])
-    If (Type = "Mechanic")
+    If (Type = "Mechanic Notification")
         {
             MechanicNotificationSetup(ActiveMechanics)
             If (NotificationInfo[5] = 1)
@@ -31,10 +39,10 @@ NotificationBig(ActiveMechanics, Type)
                     NotificationSound(NotificationInfo[6], NotificationInfo[7])
                 }
         }
-    If (Type = "Custom Reminder")
+    If (Type = "Custom Reminder") or (Type = "Influence Notification") or (Type = "Maven Notification")
         {
             MapNotificationSetup(ActiveMechanics)
-            NotificationInfo := NotificationVars("Custom Reminder")
+            NotificationInfo := NotificationVars(Type)
             If (NotificationInfo[5] = 1)
                 {
                     NotificationSound(NotificationInfo[6], NotificationInfo[7])
@@ -92,9 +100,14 @@ NotificationBigDestroy(*)
 NoReminderButton(ActiveMechanics, *)
 {
     NotificationBigDestroy()
+    MechanicsIni := IniPath("Mechanics")
     For Mechanic in ActiveMechanics
         {
-            Toggle(Mechanic, 0)
+            CurrentStatus := IniRead(MechanicsIni, "Mechanic Active", Mechanic, 0)
+            If (CurrentStatus = 1)
+            {
+                Toggle(Mechanic, 0)
+            }
         }
     RefreshOverlay()
 }
@@ -116,8 +129,8 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
         {
             Return
         }
-    PosY := NotificationInfo[2]
-    PosX := NotificationInfo[3]
+    PosY := NotificationInfo[3]
+    PosX := NotificationInfo[2]
     QuickDuration := NotificationInfo[8]
     CurrentTheme := GetTheme()
     QuickNotification.BackColor := CurrentTheme[1]
@@ -137,22 +150,25 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
     If (MechanicVersion = 3)
         {
             MechanicText := Mechanics
-            NotificationInfo := NotificationVars("Custom Reminder")
+            NotificationInfo := NotificationVars("Quick Notification")
         }
-    If (MoveQuick = 0)
-    {
-        QuickNotification.Opt("-Caption")
-    }
     QuickNotification.Add("Text",, MechanicText)
-
+    If (MoveQuick = 0)
+        {
+            QuickNotification.Opt("-Caption")
+            SetTimer QuickNotifyDestroy, QuickDuration
+        }
+    If (MoveQuick = 1)
+        {
+            Tooltip("Drag the notification around and press `"Lock`" to store it's location.", A_ScreenWidth/2 - 200, A_ScreenHeight/2)
+            QuickNotification.Add("Button", "YM", "Lock").OnEvent("Click", LockQuick)
+        }
     If (NotificationInfo[5] = 1)
         {
             NotificationSound(NotificationInfo[6], NotificationInfo[7])
         }
-    
     QuickNotification.Show(PosX PosY)
     WinSetTransparent(NotificationInfo[4], "Quick Notification")
-    SetTimer QuickNotifyDestroy, QuickDuration
 }
 
 QuickNotifyDestroy()
@@ -308,11 +324,11 @@ NotificationSettings(*)
             If (Header = "Quick Notification")
                 {
                     NotificationGui.Add("Text", "Center YS w45")
-                    NotificationGui.Add("Button", "Center YS w50", "Move")
+                    NotificationGui.Add("Button", "Center YS w50", "Move").OnEvent("Click", MoveQuick)
                     NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
                     NotificationGui.Add("Text", "Center YS-15 Section", "Duration (Seconds)")
                     NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
-                    NotificationGui.Add("Edit", "Center w50 XS+15 YP+18 Background" CurrentTheme[2]) ;add transparency edit box
+                    NotificationGui.Add("Edit", "Center w50 XS+15 YP+18 Background" CurrentTheme[2]).OnEvent("Change", QuickDurationChange) ;add transparency edit box
                     QuickDuration := IniRead(NotificationIni, Header, "Duration", 3)
                     NotificationGui.Add("UpDown", "Center YS Range0-255", QuickDuration) ; add up/down
                 }
@@ -321,19 +337,19 @@ NotificationSettings(*)
                     NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
                     NotificationGui.Add("Text", "Center YS-15 w100 Section", "Triggers")
                     HideoutTrigger := IniRead(NotificationIni, Header, "Hideout Trigger", 1)
-                    NotificationGui.Add("Checkbox","XS+15 YP+18 Checked" HideoutTrigger)
+                    NotificationGui.Add("Checkbox","XS+15 YP+18 Checked" HideoutTrigger).OnEvent("Click", MechanicChecks.Bind("Hideout Trigger"))
                     NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
                     NotificationGui.Add("Text", "Center XS+2 YP+18", "Hideout")
 
                     HotkeyTrigger := IniRead(NotificationIni, Header, "Hotkey Trigger", 0)
-                    NotificationGui.Add("Checkbox","YS+19 x+30 Checked" HotkeyTrigger)
+                    NotificationGui.Add("Checkbox","YS+19 x+30 Checked" HotkeyTrigger).OnEvent("Click", MechanicChecks.Bind("Hotkey Trigger"))
                     NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
                     NotificationGui.Add("Text", "Center XP-9 YP+18 Section", "Hotkey")
                     
                     NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
                     NotificationGui.Add("Text", "YS-35 w120 Section", "Quick Notification")
-                    QuickStatus := IniRead(NotificationIni, Header, "Quick Notification", 0)
-                    NotificationGui.Add("Checkbox","XS+45 YP+18 Checked" QuickStatus)
+                    QuickStatus := IniRead(NotificationIni, Header, "Use Quick", 0)
+                    NotificationGui.Add("Checkbox","XS+45 YP+18 Checked" QuickStatus).OnEvent("Click", MechanicChecks.Bind("Use Quick"))
 
                     NotificationGui.Add("Text", "YS w100 Section", "Chat Delay")
                     NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
@@ -442,12 +458,18 @@ TestGui(NotificationType, Action, *)
                     QuickNotifyDestroy()
                 }
         }
-    If (NotificationType = "Mechanic Notification")
+    If (NotificationType = "Mechanic Notification") or (NotificationType = "Custom Reminder")
         {
-            If (Action = "Test")
+            If (Action = "Test") and (NotificationType = "Mechanic Notification")
                 {
                     Mechanics := ["Betrayal", "Ritual"]
-                    Notify(Mechanics)
+                    Notify(Mechanics, NotificationType)
+                }
+            If (Action = "Test") and (NotificationType = "Custom Reminder")
+                {
+                    NotificationsIni := IniPath("Notifications")
+                    Message := IniRead(NotificationsIni, "Custom Reminder", "Message", "Don't forget to activate your buffs!")
+                    Notify(Message, NotificationType)
                 }
             If (Action = "Destroy")
                 {
@@ -461,19 +483,74 @@ TestGui(NotificationType, Action, *)
                         }
                     
                 }
+        }       
+    If (NotificationType = "Influence Notification") or (NotificationType = "Maven Notification")
+        {
+            If (Action = "Test") and (NotificationType = "Influence Notification")
+                {
+                    Text := "This is your 28th map. Don't forget to kill the boss for your Screaming Invitation."
+                    NotificationBig(Text, "Influence Notification")
+                }
+            If (Action = "Test") and (NotificationType = "Maven Notification")
+                {
+                    Text := "You've completed 10 Maven Witnessed maps. Don't forget to complete an invitation."
+                    NotificationBig(Text, "Maven Notification")
+                }
+            If (Action = "Destroy")
+                {
+                    If WinActive("PoE Mechanic Watch Notification")
+                        {
+                            NotificationBigDestroy()
+                        }                  
+                }
         }
-
-    ; msgbox Notificationtype "|" Action
 }
 
 TransparencyAdjust(NotficationType, Status, *)
 {
+    If (NotficationType = "Overlay")
+        {
+            OverlayIni := IniPath("Overlay")
+            IniWrite(Status.Value, OverlayIni, "Transparency", "Transparency")
+        }
+    Else
+        {
+            NotificationIni := IniPath("Notifications")
+            IniWrite(Status.Value, NotificationIni, NotficationType, "Transparency")   
+        }
+}
+
+MoveQuick(*)
+{
+    Message := "You just entered a new map press FIXTHIS to subtract 1 map"
+    QuickNotify(Message, 3, 1)
+}
+
+LockQuick(*)
+{
+    WinGetPos &Xpos, &Ypos,,,"Quick Notification"
+    YPos := YPos + 32
     NotificationIni := IniPath("Notifications")
-    IniWrite(Status.Value, NotificationIni, NotficationType, "Transparency")
+    IniWrite("x" Xpos, NotificationIni, "Quick Notification", "Horizontal")
+    IniWrite("y" Ypos, NotificationIni, "Quick Notification", "Vertical")
+    QuickNotifyDestroy()
+    ToolTip
+}
+
+QuickDurationChange(Status, *)
+{
+    NotificationIni := IniPath("Notifications")
+    IniWrite(Status.Value, NotificationIni, "Quick Notification", "Duration") 
+}
+
+MechanicChecks(Type, Status, *)
+{
+    NotificationIni := IniPath("Notifications")
+    IniWrite(Status.Value, NotificationIni, "Mechanic Notification", Type) 
 }
 
 ^a::
 {
     NotificationSettings()
-    ; MapReminder()
+    ; Notify(["Blight"])
 }
