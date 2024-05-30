@@ -42,7 +42,7 @@ CalibrationTool(*)
             CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
             CalibrationGui.Add("Text", "YS w55",) ;For consistent Spacing
             CurrentCount := IniRead(MechanicsIni, "Influence Track", Influence, 0)
-            CalibrationGui.Add("Edit", "YS+5 w40 h25 Number Center", "Calibrate")
+            CalibrationGui.Add("Edit", "YS+5 w40 h25 Number Center Background" CurrentTheme[2], "Calibrate")
             %Influence%Value := CalibrationGui.Add("UpDown", "YS " UpDownRange, CurrentCount) ;### Needs event Handler
             CalibrationGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " Completion"))
             CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " Completion"))
