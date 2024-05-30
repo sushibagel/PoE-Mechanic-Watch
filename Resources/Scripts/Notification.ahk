@@ -703,10 +703,3 @@ MoveCustom(*)
     Message := IniRead(NotificationIni, "Custom Reminder", "Message", "Don't forget to activate your buffs!")
     QuickNotify(Message, 2, 1)
 }
-
-^a::
-{
-    ; CustomNotificationSetup()
-    ; Notify(["Blight"])
-    NotificationSettings()
-}
