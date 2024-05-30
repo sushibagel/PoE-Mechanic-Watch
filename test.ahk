@@ -19,6 +19,10 @@ Setup.Add()
 Setup.Add("Overlay Settings", OverlaySettingsRun)
 Setup.Add("Move Overlay", MoveOverlay)
 Setup.Add()
+Setup.Add("Notification Settings", NotificationSettings)
+Setup.Add("Move Quick Notifications", MoveQuick)
+Setup.Add("Custom Notification", CustomNotificationSetup)
+Setup.Add()
 Setup.Add("Calibration Tool", CalibrationTool)
 Setup.Add()
 Setup.Add("Launcher Setup", LauncherGui)
@@ -495,6 +499,7 @@ Close(*)
 #IncludeAgain "Resources\Scripts\AppVol.ahk"
 #IncludeAgain "Resources\Scripts\Calibration.ahk"
 #IncludeAgain "Resources\Scripts\Hideout.ahk"
+#IncludeAgain "Resources\Scripts\Hotkeys.ahk"
 #IncludeAgain "Resources\Scripts\LaunchOptions.ahk"
 #IncludeAgain "Resources\Scripts\LogMonitor.ahk"
 #IncludeAgain "Resources\Scripts\Mechanics.ahk"
@@ -508,3 +513,13 @@ Close(*)
     ;### need to fix double overlay hapenning sometimes when moving overlay more than once.
     ;### include option for all gui's to always keep them centered (Basically just give an empty "x" value) 
     ;### Fix icon colors from variable (Actually an issue with Theme Ini Not being set)
+
+    
+^a::
+{
+    ; CustomNotificationSetup()
+    ; Notify(["Blight"])
+    ; NotificationSettings()
+    SetupTool()
+    ; HotkeySetup()
+}
