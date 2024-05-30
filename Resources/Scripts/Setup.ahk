@@ -6,8 +6,8 @@ SetupTool(*)
     Setup.SetFont("s15 Bold c" CurrentTheme[3])
     Setup.Add("Text", "Center w500", "Setup Tool")
     Setup.AddText("h1 w500 Background" CurrentTheme[3])
-    SetupItems := ["* Open Path of Exile Client.", "  Select alternate settings storage location", "  Select your Theme", "* Select your Hideout", "* Select the Mechanics you want to track", "  View/Change options for various notifications", "  Modify Hotkeys", "  Quickly launch your favorite applications/scripts/websites", "  Get a reminder to start/enable your buffs when you enter a map"]
-    SetupCategories := ["Client", "Storage Location", "Theme", "Set Hideout", "Select Mechanics", "Notification Settings", "Hotkeys", "Quick Launch", "Mapping Tool"]
+    SetupItems := ["* Open Path of Exile Client.", "  Select alternate settings storage location", "  Select your Theme", "* Select your Hideout", "* Select the Mechanics you want to track", "  View/Change options for various notifications" ,"  Modify Hotkeys", "  Quickly launch your favorite applications/scripts/websites", "  Get a reminder to start/enable your buffs when you enter a map"]
+    SetupCategories := ["Client", "Storage Location", "Theme", "Set Hideout", "Select Mechanics", "Notification Settings", "Hotkeys", "Quick Launch", "Custom Reminder"]
     Setup.SetFont("s10 Norm c" CurrentTheme[3])
     Setup.Add("Text", "w500", "Before using PoE Mechanic Watch click each item below to set your preferences. `nItems with a * are required")
     TotalCounts := 9
@@ -97,6 +97,38 @@ LaunchEvent(ItemIndex, NA1, NA2)
             SetupToolDestroy()
             LauncherGui()
             WinWaitClose("Launcher Settings")
+            SetupComplete(ItemIndex)
+            SetupTool()
+        }
+    If (ItemIndex = "Storage Location")
+        {
+            SetupToolDestroy()
+            SettingsLocation()
+            WinWaitClose("Settings Storage Location")
+            SetupComplete(ItemIndex)
+            SetupTool()
+        }
+    If (ItemIndex = "Notification Settings")
+        {
+            SetupToolDestroy()
+            NotificationSettings()
+            WinWaitClose("Notification Settings")
+            SetupComplete(ItemIndex)
+            SetupTool()
+        }
+    If (ItemIndex = "Custom Reminder")
+        {
+            SetupToolDestroy()
+            CustomNotificationSetup()
+            WinWaitClose("Custom Reminder Setup")
+            SetupComplete(ItemIndex)
+            SetupTool()
+        }
+    If (ItemIndex = "Hotkeys")
+        {
+            SetupToolDestroy()
+            HotkeySetup()
+            WinWaitClose("Hotkey Setup")
             SetupComplete(ItemIndex)
             SetupTool()
         }
