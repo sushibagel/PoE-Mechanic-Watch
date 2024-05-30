@@ -139,6 +139,7 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
         {
             MechanicText := MechanicQuickText(Mechanics)
             NotificationInfo := NotificationVars("Mechanic Notification")
+            Type := "Mechanic Notification"
         }
     If (MechanicVersion = 2)
         {
@@ -146,11 +147,14 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
             NotificationInfo := NotificationVars("Custom Reminder")
             PosY:= NotificationInfo[2]
             PosX:= NotificationInfo[3]
+            Type := "Custom Reminder"
+            QuickDuration := NotificationInfo[8]
         }
     If (MechanicVersion = 3)
         {
             MechanicText := Mechanics
             NotificationInfo := NotificationVars("Quick Notification")
+            Type := "Quick Notification"
         }
     QuickNotification.Add("Text",, MechanicText)
     If (MoveQuick = 0)
@@ -160,8 +164,26 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
         }
     If (MoveQuick = 1)
         {
-            Tooltip("Drag the notification around and press `"Lock`" to store it's location.", A_ScreenWidth/2 - 200, A_ScreenHeight/2)
-            QuickNotification.Add("Button", "YM", "Lock").OnEvent("Click", LockQuick)
+            QuickNotification.SetFont("s8 c" CurrentTheme[3])
+            NotificationIni := IniPath("Notifications")
+            VerticalStatus := IniRead(NotificationIni, Type, "Vertical", 0)
+            HorizontalStatus := IniRead(NotificationIni, Type, "Horizontal", 0)
+            If VerticalStatus = ""
+                {
+                    VerticalStatus := 1
+                }
+            If (HorizontalStatus = "")
+                {
+                    HorizontalStatus := 1
+                }
+            VerticalCheck := QuickNotification.Add("Checkbox", "YM Section Checked" VerticalStatus, "Center Vertically")
+            HorizontalCheck := QuickNotification.Add("Checkbox", "XP Checked" HorizontalStatus, "Center Horizontally")
+            QuickNotification.OnEvent("Close",QuickNotifyDestroy)
+            QuickNotification.SetFont("s10 c" CurrentTheme[3])
+            QuickNotification.Add("Button", "YM", "Lock").OnEvent("Click", LockQuick.Bind(Type, VerticalCheck, HorizontalCheck))
+            QuickNotification.SetFont("s8 Bold c" CurrentTheme[2])
+            QuickNotification.Add("Text", "XM", "Drag the notification around and press `"Lock`" to store it's location.")
+            QuickNotification.SetFont("s10 c" CurrentTheme[3])
         }
     If (NotificationInfo[5] = 1)
         {
@@ -171,11 +193,15 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
     WinSetTransparent(NotificationInfo[4], "Quick Notification")
 }
 
-QuickNotifyDestroy()
+QuickNotifyDestroy(*)
 {
     If WinExist("Quick Notification")
         {
             QuickNotification.Destroy
+            If WinExist("Custom Reminder Setup")
+                {
+                    WinRestore
+                }
         }
     Global QuickNotification := Gui(,"Quick Notification")
     SetTimer QuickNotifyDestroy, 0
@@ -267,7 +293,7 @@ NotificationSettings(*)
                     NotificationGui.Add("Text", "R1 x+66 " AddSection, "Test")
                     NotificationGui.Add("Text", "R1 " AddSection, "Close")
                     NotificationGui.SetFont("s8 Underline c" CurrentTheme[2])
-                    NotificationGui.Add("Text", "R1 Section " AddSection, "Opactiy").OnEvent("Click", OpacityExplain)
+                    NotificationGui.Add("Text", "R1 Section " AddSection, "Opactiy").OnEvent("Click", ExplainNote.Bind("Opacity"))
                     NotificationGui.SetFont("s8 Norm c" CurrentTheme[2])
                     NotificationGui.Add("Text", "R1 XS", "(0-255)")
                 }
@@ -335,7 +361,7 @@ NotificationSettings(*)
             If (Header = "Mechanic Notification")
                 {
                     NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
-                    NotificationGui.Add("Text", "Center YS-15 w100 Section", "Triggers")
+                    NotificationGui.Add("Text", "Center YS-15 w100 Section", "Triggers").OnEvent("Click", ExplainNote.Bind("Triggers"))
                     HideoutTrigger := IniRead(NotificationIni, Header, "Hideout Trigger", 1)
                     NotificationGui.Add("Checkbox","XS+15 YP+18 Checked" HideoutTrigger).OnEvent("Click", MechanicChecks.Bind("Hideout Trigger"))
                     NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
@@ -347,27 +373,21 @@ NotificationSettings(*)
                     NotificationGui.Add("Text", "Center XP-9 YP+18 Section", "Hotkey")
                     
                     NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
-                    NotificationGui.Add("Text", "YS-35 w120 Section", "Quick Notification")
+                    NotificationGui.Add("Text", "YS-35 w120 Section", "Quick Notification").OnEvent("Click", ExplainNote.Bind("Quick"))
                     QuickStatus := IniRead(NotificationIni, Header, "Use Quick", 0)
                     NotificationGui.Add("Checkbox","XS+45 YP+18 Checked" QuickStatus).OnEvent("Click", MechanicChecks.Bind("Use Quick"))
 
-                    NotificationGui.Add("Text", "YS w100 Section", "Chat Delay")
+                    NotificationGui.Add("Text", "YS w100 Section", "Chat Delay").OnEvent("Click", ExplainNote.Bind("Delay"))
                     NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
-                    NotificationGui.Add("Edit", "Center w50 XS+5 YP+18 Background" CurrentTheme[2]) ;add transparency edit box
-                    ChatDelay := IniRead(NotificationIni, Header, "Chat Delay", 3)
+                    NotificationGui.Add("Edit", "Center w50 XS+5 YP+18 Background" CurrentTheme[2]).OnEvent("Change", ChatDelayUpdate) ;add transparency edit box
+                    ChatDelay := IniRead(NotificationIni, Header, "Chat Delay", 0)
                     NotificationGui.Add("UpDown", "Center YS Range0-100", ChatDelay) ; add up/down
                 }
             If (Header = "Custom Reminder")
                 {
                     NotificationGui.Add("Text", "Center YS w85")
-                    NotificationGui.Add("Button", "YS","Configure")
-                    ; NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
-                    ; NotificationGui.Add("Text", "Center YS-15 w200 Section", "Custom Message")
-                    ; NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
-                    ; CurrentMessage := IniRead(NotificationIni, Header, "Message", "Don't forget to activate your buffs!")
-                    ; NotificationGui.Add("Edit", "XS+15 YP+18 w190 R1 Background" CurrentTheme[2], CurrentMessage)
+                    NotificationGui.Add("Button", "YS","Configure").OnEvent("Click", CustomNotificationSetup)
                 }
-
         }
     NotificationGui.Opt("-DPIScale")
     NotificationGui.Show
@@ -382,9 +402,24 @@ NotificationGuiDestroy()
     Global NotificationGui := Gui(,"Notification Settings1")
 }
 
-OpacityExplain(*)
+ExplainNote(NoteSelected, *)
 {
-    GuiInfo := "The opacity setting determines how visible/transparent (opaque) the notification is. If set to 0 the notification will be invisible at 255 notification will be 100% opaque."
+    If (NoteSelected = "Opacity")
+        {
+            GuiInfo := "The opacity setting determines how visible/transparent (opaque) the notification is. If set to 0 the notification will be invisible at 255 notification will be 100% opaque."
+        }
+    If (NoteSelected = "Triggers")
+        {
+            GuiInfo := "There are two trigger settings `"Hideout`" and `"Hotkey`". When enabled the Hideout trigger will trigger Mechanic Notifications upon returning to your hideout. The Hotkey trigger will cause notifications to be triggered when a configured hotkey is pressed (See the Hotkey menu item to configure the key).`r`rIf the `"Hotkey`" trigger is active it's highly recommended to setup your `"Chat Delay`" hotkey and utilize `"Quick Notificaitons`"."
+        }
+    If (NoteSelected = "Quick")
+        {
+            GuiInfo := "If checked Quick Notifications will be used instead of Permanent Notifications (Permanent notifications will stay open unless a button is clicked). To change the duration, location and transparency of the quick notifcations see the settings in the `"Quick Notification`" section."
+        }
+    If (NoteSelected = "Delay")
+        {
+            GuiInfo := "`"Chat Delay`" is the number of seconds the Notification Trigger Hotkey will be disabled for each time the Chat Hotkey (Enter by default) is pressed. This is done to help prevent accidental activation while typing in chat. To disable set to `"0`"."
+        }
     TriggeredBy := "Notification Settings"
     WinGetPos(&X, &Y, &W, &H, TriggeredBy)
     XPos := X + W
@@ -435,6 +470,10 @@ VolumeAdjust(NotificationType, Status, *)
 
 TestGui(NotificationType, Action, *)
 {
+    If (Action = "Test") and !(NotificationType = "Overlay")
+        {
+            WinMinimize("Notification Settings")
+        }
     If (NotificationType = "Overlay")
         {
             If (Action = "Test")
@@ -504,6 +543,14 @@ TestGui(NotificationType, Action, *)
                         }                  
                 }
         }
+    GroupAdd("Notifications", "Notification ahk_class AutoHotkeyGUI")
+    GroupAdd("QuickNotification", "Notification ahk_class AutoHotkeyGUI")
+    WinWait("ahk_group Notifications")
+    WinWaitClose
+    If WinExist("Notification Settings")
+        {
+            WinRestore "Notification Settings"
+        } 
 }
 
 TransparencyAdjust(NotficationType, Status, *)
@@ -526,15 +573,23 @@ MoveQuick(*)
     QuickNotify(Message, 3, 1)
 }
 
-LockQuick(*)
+LockQuick(Type, VerticalCheck, HorizontalCheck, *)
 {
     WinGetPos &Xpos, &Ypos,,,"Quick Notification"
-    YPos := YPos + 32
+    YPos := "y" YPos + 32
+    XPos := "x" Xpos
+    If (VerticalCheck.Value = 1)
+        {
+            Ypos := ""
+        }
+    If (HorizontalCheck.Value = 1)
+        {
+            Xpos := ""
+        }
     NotificationIni := IniPath("Notifications")
-    IniWrite("x" Xpos, NotificationIni, "Quick Notification", "Horizontal")
-    IniWrite("y" Ypos, NotificationIni, "Quick Notification", "Vertical")
+    IniWrite(Xpos, NotificationIni, Type, "Horizontal")
+    IniWrite(Ypos, NotificationIni, Type, "Vertical")
     QuickNotifyDestroy()
-    ToolTip
 }
 
 QuickDurationChange(Status, *)
@@ -549,8 +604,109 @@ MechanicChecks(Type, Status, *)
     IniWrite(Status.Value, NotificationIni, "Mechanic Notification", Type) 
 }
 
+ChatDelayUpdate(Status, *)
+{
+    NotificationIni := IniPath("Notifications")
+    IniWrite(Status.Value, NotificationIni, "Mechanic Notification", "Chat Delay") 
+}
+
+CustomNotificationSetup(*)
+{
+    If WinExist("Notification Settings")
+        {
+            WinMinimize
+        }
+    CustomSetupDestroy()
+    CurrentTheme := GetTheme()
+    CustomSettings.BackColor := CurrentTheme[1]
+    CustomSettings.SetFont("s15 Bold c" CurrentTheme[3])
+    CustomSettings.Add("Text", "w500 Center", "Custom Reminder Setup")
+    CustomSettings.AddText("w500 h1 Background" CurrentTheme[3])
+    NotificationIni := IniPath("Notifications")
+    CurrentMessage := IniRead(NotificationIni, "Custom Reminder", "Message", "Don't forget to activate your buffs!")
+    CustomSettings.SetFont("s10 Norm")
+    CustomSettings.Add("Text", "w500 Center", "The Custom Reminder allows you to setup a custom message to be displayed when you enter a map. The reminder can be set as a permanent reminder that would need to be dismissed or a timed `"Quick`" reminder.")
+    CustomSettings.SetFont("s12")
+    CustomSettings.Add("Text", "Section", "Set Reminder:")
+    CustomSettings.Add("Edit", "w350 YS R1 Background" CurrentTheme[2], CurrentMessage).OnEvent("Change", CustomEditUpdate.Bind("Message"))
+    CustomSettings.Add("Text", "XM Section", "Reminder Type:")
+    QuickActive := IniRead(NotificationIni, "Custom Reminder", "Use Quick", 1)
+    PermanentActive := 1
+    If (QuickActive = 1)
+        {
+            PermanentActive := 0
+        }
+    CustomSettings.Add("Radio", "YS Checked" QuickActive, "Quick").OnEvent("Click", ToggleType.Bind("Quick"))
+    CustomSettings.Add("Radio", "YS Checked" PermanentActive, "Permanent").OnEvent("Click", ToggleType.Bind("Permanent"))
+    CustomSettings.Add("Text", "YS", "Test:")
+    PlayIcon := ImagePath("Play Button", "No")
+    CustomSettings.Add("Picture", "w-1 h20 YS Center ", PlayIcon).OnEvent("Click", TestGui.Bind("Custom Reminder", "Test"))
+    CustomSettings.AddText("w500 XM h1 Background" CurrentTheme[3])
+    CustomSettings.SetFont("s12 Bold c" CurrentTheme[3])
+    CustomSettings.Add("Text", "XM Center w500", "Quick Reminder Settings")
+    CustomSettings.SetFont("s10 Norm")
+    CustomSettings.Add("Button", "XM Section x150", "Move").OnEvent("Click", MoveCustom.Bind("Custom"))
+    CustomSettings.Add("Text", "YS w100")
+    CurrentDuration := IniRead(NotificationIni, "Custom Reminder", "Duration", 3)
+    CustomSettings.Add("Edit", "YS R1 w50 Center Background" CurrentTheme[2], CurrentDuration).OnEvent("Change", CustomEditUpdate.Bind("Duration"))
+    CustomSettings.Add("UpDown",,CurrentDuration)
+    CustomSettings.Show
+    CustomSettings.OnEvent("Close", CustomSetupDestroy)
+}
+
+CustomSetupDestroy(*)
+{
+    If WinExist("Custom Reminder Setup")
+        {
+            CustomSettings.Destroy
+            If WinExist("Notification Settings")
+                {
+                    WinRestore "Notification Settings"
+                } 
+        }
+        Global CustomSettings := Gui(,"Custom Reminder Setup")
+}
+
+CustomEditUpdate(EditType, Status, *)
+{
+    NotificationIni := IniPath("Notifications")
+    If (EditType = "Message")
+        {
+            IniWrite(Status.Value, NotificationIni, "Custom Reminder", "Message")
+        }
+    If (EditType = "Duration")
+        {
+            IniWrite(Status.Value, NotificationIni, "Custom Reminder", "Duration")
+        }
+}
+
+ToggleType(Type, Status, *)
+{
+    NotificationIni := IniPath("Notifications")
+    If (Type = "Quick") and (Status.Value = 1)
+        {
+            IniWrite(1, NotificationIni, "Custom Reminder", "Use Quick")
+        }
+    If (Type = "Permanent") and (Status.Value = 1)
+        {
+            IniWrite(0, NotificationIni, "Custom Reminder", "Use Quick")
+        }
+}
+
+MoveCustom(*)
+{
+    If WinExist("Custom Reminder Setup")
+        {
+            WinMinimize
+        }
+    NotificationIni := IniPath("Notifications")
+    Message := IniRead(NotificationIni, "Custom Reminder", "Message", "Don't forget to activate your buffs!")
+    QuickNotify(Message, 2, 1)
+}
+
 ^a::
 {
-    NotificationSettings()
+    ; CustomNotificationSetup()
     ; Notify(["Blight"])
+    NotificationSettings()
 }

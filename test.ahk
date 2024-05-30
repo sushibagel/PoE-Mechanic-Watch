@@ -408,7 +408,10 @@ OverlaySettingsClose(*)
     If WinExist("Overlay Settings")
         {
             OverlaySettings.Destroy
-            WinRestore "Notification Settings"
+            If WinExist("Notification Settings")
+                {
+                    WinRestore "Notification Settings"
+                }
         }
         Global OverlaySettings := Gui(,"Overlay Settings")
 }
