@@ -47,7 +47,7 @@ GroupAdd("PoeWindow", "Quick Notification")
 ; GroupAdd("PoeWindow", "Move")
 ; GroupAdd("PoeWindow", "Influence")
 ; GroupAdd("PoeWindow", "Transparency")
-GroupAdd("PoeWindow", "ahk_exe Code.exe")
+; GroupAdd("PoeWindow", "ahk_exe Code.exe")
 ; GroupAdd("PoeWindow", "ahk_class Notepad")
 
 Global Overlay := Gui(,"Overlay")
@@ -74,6 +74,7 @@ GroupAdd("AHKFiles", "Mechanics.ahk")
 GroupAdd("AHKFiles", "Notification.ahk")
 GroupAdd("AHKFiles", "Hideout.ahk")
 GroupAdd("AHKFiles", "Hotkeys.ahk")
+GroupAdd("AHKFiles", "ScrollableGui.ahk")
 GroupAdd("AHKFiles", "Setup.ahk")
 GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
@@ -505,6 +506,7 @@ Close(*)
 #IncludeAgain "Resources\Scripts\LogMonitor.ahk"
 #IncludeAgain "Resources\Scripts\Mechanics.ahk"
 #IncludeAgain "Resources\Scripts\Notification.ahk"
+#IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
@@ -516,11 +518,22 @@ Close(*)
     ;### Fix icon colors from variable (Actually an issue with Theme Ini Not being set)
 
     
-^a::
+^m::
+{
+    ; CustomNotificationSetup()
+    ; Notify(["Blight"])
+    ; NotificationSettings()
+    ; SetupTool()
+    ; HotkeySetup()
+    ApplyHotkeys()
+}
+
+^o::
 {
     ; CustomNotificationSetup()
     ; Notify(["Blight"])
     ; NotificationSettings()
     ; SetupTool()
     HotkeySetup()
+    ; ApplyHotkeys()
 }
