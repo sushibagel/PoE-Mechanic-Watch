@@ -25,11 +25,9 @@ HotkeySetup(*)
 
 SetHotkeyItems(Items)
 {
-    CurrentTheme := GetTheme()
-    HotkeyGui.SetFont("s10 c" CurrentTheme[2])
     HotkeyGui.Add("Text", "w300 XM Section", Items)
-    HotkeyGui.Add("Checkbox", "YS Checked")
-    HotkeyGui.Add("Hotkey", "YS Center")
+    HotkeyGui.Add("Checkbox", "YS Checked").OnEvent("Click", WinKeyCheck.Bind(Items))
+    HotkeyGui.Add("Hotkey", "YS Center").OnEvent("Change", HotkeyEdit.Bind(Items))
 }
 
 HotkeySetupDestroy()
@@ -39,4 +37,31 @@ HotkeySetupDestroy()
             HotkeyGui.Destroy()
         }
     Global HotkeyGui := Gui(,"Hotkey Setup")
+}
+
+WinKeyCheck(Item, Status, *)
+{
+    HotkeyIni := IniPath("Hotkeys")
+    CurrentValue := IniRead(HotkeyIni, "Hotkeys", Item, "")
+    If (Status.Value = 1)
+        {
+            IniWrite("#" CurrentValue, HotkeyIni, "Hotkeys", Item)
+        }
+    If (Status.Value = 0)
+        {
+            If InStr(CurrentValue, "#")
+                {
+                    NewValue := StrSplit(CurrentValue, "#")
+                    IniWrite(NewValue[2], HotkeyIni, "Hotkeys", Item)
+                }
+            Else
+                {
+                    IniWrite(NewValue, HotkeyIni,"Hotkeys", Item)
+                }
+        }
+}
+
+HotkeyEdit(Item, KeyCombo, *)
+{
+    ToolTip Item "|" KeyCombo.Value
 }
