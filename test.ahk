@@ -520,6 +520,6 @@ Close(*)
     ; CustomNotificationSetup()
     ; Notify(["Blight"])
     ; NotificationSettings()
-    SetupTool()
-    ; HotkeySetup()
+    ; SetupTool()
+    HotkeySetup()
 }
