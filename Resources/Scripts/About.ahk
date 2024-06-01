@@ -53,12 +53,22 @@ ViewChangelog(*)
     Changelog.AddText("h1 w1000 Background" CurrentTheme[3])
     ChangelogPath := IniPath("Changelog")
     ChangelogData := FileRead(ChangelogPath)
-
+    Changelog.SetFont("s10 Norm c" CurrentTheme[2])
+    Changelog.Add("Link", "w1000 +Wrap", "For more information, questions or feedback on this release please see the current release discussion thread on my Github <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here</a>.")
+    Changelog.SetFont("c" CurrentTheme[3])
+    Changelog.Add("Text", "XM", ChangelogData)
+    Changelog.OnEvent("Size", Changelog_Size)
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
     OnMessage(0X020A, OnWheel)  ; WM_MOUSEWHEEL
     Changelog.Show()
     Changelog.OnEvent("Close", CloseChangelog)
+}
+
+Changelog_Size(GuiObj, MinMax, Width, Height)
+{
+    If (MinMax != 1)
+        UpdateScrollBars(GuiObj)
 }
 
 DestroyChangelog()
