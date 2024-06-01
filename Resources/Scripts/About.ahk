@@ -51,7 +51,8 @@ ViewChangelog(*)
     Changelog.SetFont("s15 Bold c" CurrentTheme[3])
     Changelog.Add("Text", "Center w1000", "Changelog")
     Changelog.AddText("h1 w1000 Background" CurrentTheme[3])
-    
+    ChangelogPath := IniPath("Changelog")
+    ChangelogData := FileRead(ChangelogPath)
 
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL

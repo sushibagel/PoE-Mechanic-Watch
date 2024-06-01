@@ -6,6 +6,7 @@ IniPath(FileRequested)
         }
     Switch
     {
+        Case FileRequested = "Changelog": Return "Changelog.txt"
         Case FileRequested = "Hotkeys": Return StorageDir "\Resources\Settings\Hotkeys.ini" 
         Case FileRequested = "Hideout": Return StorageDir "\Resources\Settings\Hideout.ini"
         Case FileRequested = "HideoutList": Return "Resources\Data\HideoutList.txt"
