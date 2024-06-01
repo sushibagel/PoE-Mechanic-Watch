@@ -56,12 +56,13 @@ ViewChangelog(*)
     Changelog.SetFont("s10 Norm c" CurrentTheme[2])
     Changelog.Add("Link", "w1000 +Wrap", "For more information, questions or feedback on this release please see the current release discussion thread on my Github <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here</a>.")
     Changelog.SetFont("c" CurrentTheme[3])
-    Changelog.Add("Text", "XM", ChangelogData)
+
+    Changelog.Add("Text", "XM +Wrap w1000", ChangelogData)
     Changelog.OnEvent("Size", Changelog_Size)
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
     OnMessage(0X020A, OnWheel)  ; WM_MOUSEWHEEL
-    Changelog.Show()
+    Changelog.Show("h800 w1050")
     Changelog.OnEvent("Close", CloseChangelog)
 }
 

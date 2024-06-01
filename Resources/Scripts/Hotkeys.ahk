@@ -22,11 +22,12 @@ HotkeySetup(*)
         {
             SetHotkeyItems(Mechanic)
         }
+    HotkeyGui.Add("Text", "YS R2",)
     HotkeyGui.OnEvent("Size", HotkeyGui_Size)
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
     OnMessage(0x020A, OnWheel)  ; WM_MOUSEWHEEL
-    HotkeyGui.Show()
+    HotkeyGui.Show("w550 h800")
     HotkeyGui.OnEvent("Close", CloseHotkey)
 }
 
