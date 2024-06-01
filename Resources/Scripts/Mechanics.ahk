@@ -272,3 +272,74 @@ CalibrateSearchButton(*)
     DestroyMechanicsGui()
     CalibrationTool()
 }
+
+NotifyActiveMechanics(*)
+{
+    MechanicsIni := IniPath("Mechanics")
+    Mechanics := VariableStore("Mechanics")
+    ActiveMechanics := Array()
+    For Mechanic in Mechanics
+        {
+            MechanicVar := Mechanic "Status"
+            MechanicVar:= IniRead(MechanicsIni, "Mechanic Active", Mechanic, 0)
+            If (MechanicVar = 1)
+                {
+                    ActiveMechanics.Push(Mechanic)
+                }
+        }
+    If (ActiveMechanics.Length > 0)
+    {
+        Notify(ActiveMechanics, "Mechanic Notification")
+    }
+}
+
+InfluenceRemoveOne(*)
+{
+    MechanicsIni := IniPath("Mechanics")
+    ActiveInfluence := GetInfluence()
+    CurrentCount := IniRead(MechanicsIni, "Influence Track", ActiveInfluence, 0)
+    CurrentCount--
+    If (CurrentCount = -1)
+        {
+            If (ActiveInfluence = "Eater") or (ActiveInfluence = "Searing")
+                {
+                    CurrentCount := 27
+                }
+            If (ActiveInfluence = "Maven")
+                {
+                    CurrentCount := 10
+                }
+        }
+    IniWrite(CurrentCount, MechanicsIni, "Influence Track", ActiveInfluence)
+    RefreshOverlay()
+}
+
+ToggleInfluence(*)
+{
+    ActiveInfluence := GetInfluence()
+    Influences := VariableStore("Influences")
+    For Influence in Influences
+        {
+            If (ActiveInfluence = Influence)
+                {
+                    InfluenceIndex := A_Index
+                    Break
+                }
+        }
+    InfluenceIndex++
+    If (InfluenceIndex > 3)
+        {
+            InfluenceIndex := 1
+        }            
+    MechanicsIni := IniPath("Mechanics")
+    Influences := VariableStore("Influences")
+    For Influence in Influences
+        {
+            IniWrite(0, MechanicsIni, "Influence", Influence)
+        }
+    If !(ActiveInfluence = "None")
+        {
+            IniWrite(1, MechanicsIni, "Influence", Influences[InfluenceIndex])
+        }
+    RefreshOverlay()
+}

@@ -159,7 +159,7 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
     QuickNotification.Add("Text",, MechanicText)
     If (MoveQuick = 0)
         {
-            QuickNotification.Opt("-Caption")
+            QuickNotification.Opt("-Caption +AlwaysOnTop")
             SetTimer QuickNotifyDestroy, QuickDuration
         }
     If (MoveQuick = 1)
@@ -189,7 +189,7 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
         {
             NotificationSound(NotificationInfo[6], NotificationInfo[7])
         }
-    QuickNotification.Show(PosX PosY)
+    QuickNotification.Show(PosX PosY "NoActivate")
     WinSetTransparent(NotificationInfo[4], "Quick Notification")
 }
 

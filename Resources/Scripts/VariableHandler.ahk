@@ -8,7 +8,7 @@ IniPath(FileRequested)
     {
         Case FileRequested = "Hotkeys": Return StorageDir "\Resources\Settings\Hotkeys.ini" 
         Case FileRequested = "Hideout": Return StorageDir "\Resources\Settings\Hideout.ini"
-        Case FileRequested = "HideoutList": Return StorageDir "\Resources\Data\HideoutList.txt"
+        Case FileRequested = "HideoutList": Return "Resources\Data\HideoutList.txt"
         Case FileRequested = "Launch": Return StorageDir "\Resources\Data\LaunchPath.ini"
         Case FileRequested = "Map List": Return StorageDir "\Resources\Data\maplist.txt"
         Case FileRequested = "Mechanics": Return StorageDir "\Resources\Settings\Mechanics.ini"
@@ -19,6 +19,7 @@ IniPath(FileRequested)
         Case FileRequested = "Storage": Return "Resources\Settings\StorageLocation.ini" ;Intentionally doesn't use alt storage path. 
         Case FileRequested = "Theme": Return StorageDir "\Resources\Settings\Theme.ini"
         Case FileRequested = "Transparency": Return StorageDir "\Resources\Settings\Transparency.ini"
+        Case FileRequested = "Version": Return "Resources\Data\Version.txt"
     }
 }
 

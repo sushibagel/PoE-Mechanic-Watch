@@ -59,22 +59,7 @@ CheckLogLine(LogLine)
         {
             HideoutIni := IniPath("Hideout")
             IniWrite(1, HideoutIni, "In Hideout", "In Hideout")
-            MechanicsIni := IniPath("Mechanics")
-            Mechanics := VariableStore("Mechanics")
-            ActiveMechanics := Array()
-            For Mechanic in Mechanics
-                {
-                    MechanicVar := Mechanic "Status"
-                    MechanicVar:= IniRead(MechanicsIni, "Mechanic Active", Mechanic, 0)
-                    If (MechanicVar = 1)
-                        {
-                            ActiveMechanics.Push(Mechanic)
-                        }
-                }
-            If (ActiveMechanics.Length > 0)
-            {
-                Notify(ActiveMechanics, "Mechanic Notification")
-            }
+            NotifyActiveMechanics()
         }
     If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 
         {

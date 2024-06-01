@@ -102,6 +102,7 @@ CloseHotkey(*)
 {
     DestroyFootnote()
     HotkeySetupDestroy()
+    ApplyHotkeys()
 }
 
 WinKeyCheck(Item, Status, *)
@@ -128,13 +129,27 @@ WinKeyCheck(Item, Status, *)
 
 HotkeyEdit(Item, WinStatus, KeyCombo, *)
 {
+    
     NewKey := KeyCombo.Value
     If (WinStatus.Value = 1)
         {
             NewKey := "#" KeyCombo.Value
         }
     HotkeyIni := IniPath("Hotkeys")
+    CurrentHotkey := IniRead(HotkeyIni, "Hotkeys", Item)
     IniWrite(NewKey, HotkeyIni, "Hotkeys", Item)
+    Hotkeys := GetHotkeyItems()
+    For HotkeyItems in Hotkeys
+        {
+            If (HotkeyItems = "Item")
+                {
+                    IndexMatch := A_Index
+                    HotkeyActions := GetHotkeyPairs()
+                    msgbox IndexMatch
+                    Hotkey CurrentHotkey, HotkeyActions[IndexMatch], "Off"
+                    Break
+                }
+        }
 }
 
 HotkeyGui_Size(GuiObj, MinMax, Width, Height)
@@ -191,6 +206,7 @@ HotkeyFootnote(FootnoteNum, Mechanic, *)
 ApplyHotkeys()
 {
     HotkeyItems := GetHotkeyItems()
+    HotkeyPairs := GetHotkeyPairs()
     HotkeyIni := IniPath("Hotkeys")
     For ThisHotkey in HotkeyItems
         {
@@ -205,24 +221,47 @@ ApplyHotkeys()
                 }
             If (ThisHotkey = "Launch PoE") and !(HotkeyCombo ="")
                 {
-                    Hotkey HotkeyCombo, LauncherGui, "On"
+                    Hotkey HotkeyCombo, LaunchPoE, "On"
                 }
             Else If !(HotkeyCombo ="")
                 {
                     HotIfWinActive("ahk_group PoeWindow")
-                    Hotkey HotkeyCombo, Test, "On"
+                    Hotkey HotkeyCombo, %HotkeyPairs[A_Index]%, "On"
                     HotIfWinActive
                 }
         }
-; ;     CurrentValue := 
-;     Hotkey "^y", Test, "Off"
-;     Hotkey "~p", Test, "On"
-
+    Mechanics := VariableStore("Mechanics")
+    For Item in Mechanics
+        {
+            HotkeyCombo := IniRead(HotkeyIni, "Hotkeys", Item, "")
+            If !(HotkeyCombo = "")
+                {
+                    HotIfWinActive("ahk_group PoeWindow")
+                    Hotkey HotkeyCombo, Toggle.Bind(Item, 1), "On"
+                    HotIfWinActive
+                }
+        }
 }
 
-Test(*)
+Test(asdf, tttt, *)
 {
-    Msgbox "Test"
+    Tooltip "Test " asdf "|" tttt
+    Sleep 2000
+    Tooltip
+}
+
+ChatDelay(*)
+{
+    HotkeyIni := IniPath("Hotkeys")
+    PortalHotkey := IniRead(HotkeyIni, "Hotkeys","Portal Key", "")
+    If !(PortalHotkey = "")
+        {
+            Hotkey PortalHotkey, NotifyActiveMechanics, "Off"
+            NotificaitonIni := IniPath("Notifications")
+            DelayTime := IniRead(NotificaitonIni, "Mechanic Notification", "Chat Delay", 0)
+            Sleep DelayTime*1000
+            Hotkey "~" PortalHotkey, NotifyActiveMechanics, "On"
+        } 
 }
 
 GetHotkeyItems()
@@ -232,5 +271,5 @@ GetHotkeyItems()
 
 GetHotkeyPairs()
 {
-    Return ["Map Count", "Toggle Influences", "Maven Invitation", "LaunchPoE", "LauncherGui", "Portal Key", "Chat Key"]
+    Return ["InfluenceRemoveOne", "ToggleInfluence", "Test", "LaunchPoE", "LauncherGui", "NotifyActiveMechanics", "ChatDelay"]
 }

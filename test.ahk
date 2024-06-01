@@ -24,6 +24,7 @@ Setup.Add("Move Quick Notifications", MoveQuick)
 Setup.Add("Custom Notification", CustomNotificationSetup)
 Setup.Add()
 Setup.Add("Calibration Tool", CalibrationTool)
+Setup.Add("Set Hotkeys", HotkeySetup)
 Setup.Add()
 Setup.Add("Launcher Setup", LauncherGui)
 Setup.Add()
@@ -47,7 +48,7 @@ GroupAdd("PoeWindow", "Quick Notification")
 ; GroupAdd("PoeWindow", "Move")
 ; GroupAdd("PoeWindow", "Influence")
 ; GroupAdd("PoeWindow", "Transparency")
-; GroupAdd("PoeWindow", "ahk_exe Code.exe")
+GroupAdd("PoeWindow", "ahk_exe Code.exe")
 ; GroupAdd("PoeWindow", "ahk_class Notepad")
 
 Global Overlay := Gui(,"Overlay")
@@ -67,6 +68,7 @@ OnMessage(Messenger, Recipient)
 SetTrayTheme()
 
 ;Reload Group
+GroupAdd("AHKFiles", "About.ahk")
 GroupAdd("AHKFiles", "Calibration.ahk")
 GroupAdd("AHKFiles", "LaunchOptions.ahk")
 GroupAdd("AHKFiles", "LogMonitor.ahk")
@@ -78,7 +80,7 @@ GroupAdd("AHKFiles", "ScrollableGui.ahk")
 GroupAdd("AHKFiles", "Setup.ahk")
 GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
-GroupAdd("AHKFiles", "VariableHandler")
+GroupAdd("AHKFiles", "VariableHandler.ahk")
 
 SetupVerification()
 
@@ -87,6 +89,7 @@ IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
 
 CheckPath()
 StartWatch()
+ApplyHotkeys()
 
 #HotIf WinActive("ahk_group AHKFiles") ; For dev purposes, Quick reload
 ~^s::
@@ -255,7 +258,7 @@ OverlayToggle(ToggledMechanic, *)
         }
 }
 
-Toggle(Mechanic, Refresh:=1)
+Toggle(Mechanic, Refresh:=1, *)
 {
     MechanicsPath := IniPath("Mechanics")
     MechanicActive := IniRead(MechanicsPath, "Mechanic Active", Mechanic, 0)
@@ -498,6 +501,7 @@ Close(*)
     ExitApp
 }
 
+#IncludeAgain "Resources\Scripts\About.ahk"
 #IncludeAgain "Resources\Scripts\AppVol.ahk"
 #IncludeAgain "Resources\Scripts\Calibration.ahk"
 #IncludeAgain "Resources\Scripts\Hideout.ahk"
@@ -513,9 +517,8 @@ Close(*)
 
 ;Tasks
     ;### Write check for Theme ini File and create if necsessary. 
-    ;### need to fix double overlay hapenning sometimes when moving overlay more than once.
-    ;### include option for all gui's to always keep them centered (Basically just give an empty "x" value) 
-    ;### Fix icon colors from variable (Actually an issue with Theme Ini Not being set)
+    ;### add centering option for overlay
+    ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
 
     
 ^m::
@@ -525,15 +528,16 @@ Close(*)
     ; NotificationSettings()
     ; SetupTool()
     ; HotkeySetup()
-    ApplyHotkeys()
+    ; ApplyHotkeys()
+    GetAbout()
 }
 
-^o::
-{
-    ; CustomNotificationSetup()
-    ; Notify(["Blight"])
-    ; NotificationSettings()
-    ; SetupTool()
-    HotkeySetup()
-    ; ApplyHotkeys()
-}
+; ^o::
+; {
+;     ; CustomNotificationSetup()
+;     ; Notify(["Blight"])
+;     ; NotificationSettings()
+;     ; SetupTool()
+;     HotkeySetup()
+;     ; ApplyHotkeys()
+; }
