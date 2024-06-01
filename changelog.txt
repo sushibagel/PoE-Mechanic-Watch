@@ -1,0 +1,15 @@
+Note: For more information about this release, Questions or Feedback, please see the current release discussion thread on my Github by clicking the link found in the "Q&A/Feedback option in the tray menu.
+
+v2.10
+-   Added a Portal hotkey notification trigger option. 
+    -   Added the Portal Hotkey and Chat Key options to the Hotkey setup menu. 
+    -   Added a popup note for to give more information about the Chat Key Hotkey. 
+    -   Added Trigger options to the Notification Settings Menu for Mechanic Notifications
+    -   Added the option to use a Quick Notification for Mechanic Notifications. This option can be found in the Notification Settings Menu.  
+    -   Added a Chat Delay option for the Mechanic Notifications to the Notification Settings Menu. 
+-   Reworked Influence tracking for better performance. For more information on this change visit the Github discussion page (A link can be found by clicking the "Q&A/Feedback option in the tray menu).
+    -   Influence image searching now only searching for 5 potential states, the last known count +/-2. For example if the last Eater of Worlds count you had was 15 it will search for 13, 14, 15, 16, 17. 
+    -   OCR can now be used to update/track Influence completion, this was added as a way to allow easy updating of Influence counts where Image Search may not work. For it to work you must hover your mouse over the button in the map device GUI in game. 
+    -   Added Influence Count OCR calibration to the Calibration Tool. 
+-   Fixes for Image Search Calibration. 
+-   Added an additional Ultimatum voice line. 
