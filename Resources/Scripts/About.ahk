@@ -62,7 +62,8 @@ ViewChangelog(*)
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
     OnMessage(0X020A, OnWheel)  ; WM_MOUSEWHEEL
-    Changelog.Show("h800 w1050")
+    H := "h" A_ScreenHeight - 500
+    Changelog.Show("w1050" H)
     Changelog.OnEvent("Close", CloseChangelog)
 }
 
