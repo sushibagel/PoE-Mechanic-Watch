@@ -3,7 +3,7 @@
 Persistent
 
 ;Tray Menu setup
-TraySetIcon("Resources/Images/Generic.png")
+TraySetIcon("Resources/Images/MechanicWatch.png")
 MyTray := Menu()
 MyTray:= A_TrayMenu
 MyTray.Delete() ; Delete the standard items.
