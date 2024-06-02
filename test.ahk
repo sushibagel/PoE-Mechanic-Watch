@@ -80,6 +80,7 @@ GroupAdd("AHKFiles", "ScrollableGui.ahk")
 GroupAdd("AHKFiles", "Setup.ahk")
 GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
+GroupAdd("AHKFiles", "Update.ahk")
 GroupAdd("AHKFiles", "VariableHandler.ahk")
 
 SetupVerification()
@@ -513,6 +514,7 @@ Close(*)
 #IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
+#IncludeAgain "Resources\Scripts\Update.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
 
 ;Tasks
