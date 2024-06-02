@@ -4,7 +4,7 @@ GetAbout(*)
     CurrentTheme := GetTheme()
     AboutGui.BackColor := CurrentTheme[1]
     AboutGui.SetFont("s15 Bold c" CurrentTheme[3])
-    AboutGui.Add("Text", "w400 Center" ,"About PoE Mechanic Watch")
+    AboutGui.Add("Text", "w400 Center", "About PoE Mechanic Watch")
     AboutGui.AddText("w400 h1 Background" CurrentTheme[3])
     AboutGui.SetFont("s10 Norm")
     AboutGui.Add("Text", "XM Section", "Version:")
