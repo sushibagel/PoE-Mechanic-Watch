@@ -34,6 +34,9 @@ Setup.Default := "Setup Tool"
 MyTray.Add("Setup", Setup)
 MyTray.Default := "Setup"
 MyTray.Add()
+MyTray.Add("Check for Updates", UpdateCheck)
+MyTray.Add("About", GetAbout)
+MyTray.Add()
 MyTray.Add("Reload This Script", Restart) 
 MyTray.Add("Exit", Close)
 
@@ -88,6 +91,7 @@ SetupVerification()
 HideoutIni := IniPath("Hideout")
 IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
 
+UpdateCheck()
 CheckPath()
 StartWatch()
 ApplyHotkeys()

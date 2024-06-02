@@ -43,7 +43,7 @@ UpdateCheck(GuiButton := "", *)
         }
     If (CurrentVersion[2] = InstalledVersion[2])
         {
-            TrayTip("PoE Mechanic Watch is Up-To-Date")
+            TrayTip("PoE Mechanic Watch is Up-To-Date",,4)
             If WinExist("About PoE Mechanic Watch")
                 {
                     GuiButton.Text := "No Update Available"
