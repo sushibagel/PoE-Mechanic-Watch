@@ -86,4 +86,3 @@ CloseChangelog(*)
 {
     DestroyChangelog()
 }
-;### add check for updates button and changelog button

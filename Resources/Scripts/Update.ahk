@@ -85,7 +85,72 @@ UpdateGui_Size(GuiObj, MinMax, Width, Height)
 
 DownloadUpdate(UpdateURL, CurrentVersion, *)
 {
-    Download(UpdateURL, "PoE Mechanic Watch " CurrentVersion '.zip')
+    WinMinimize("Update Available")
+    FileName := "PoE Mechanic Watch " CurrentVersion ".zip"
+    Download(UpdateURL, FileName)
+    DownloadComplete := DownloadCheck(FileName)
+    If (DownloadComplete = 1)
+        {
+            DownloadGui := Gui(, "Download Complete")
+            DownloadGui := DestroyDownloadGui(DownloadGui)
+            CurrentTheme := GetTheme()
+            DownloadGui.BackColor := CurrentTheme[1]
+            DownloadGui.SetFont("s15 Bold c" CurrentTheme[3])
+            DownloadGui.Add("Text", "Center w300", "Download Complete!")
+            DownloadGui.AddText("h1 w300 Background" CurrentTheme[3])
+            DownloadGui.SetFont("s10 Norm")
+            DownloadGui.Add("Text", "w300 +Wrap", "To update unzip the contents of  `"" FileName "`" simply open the contained folders until you see `"" A_ScriptName "`" and a folders titled `"Resources`" copy all the files in the directory and simply paste them into the your current install directory.")
+            DownloadGui.Add("Button", "XM Section w100", "Open File").OnEvent("Click", OpenFile.Bind(Filename, DownloadGui))
+            DownloadGui.Add("Text", "Center w175", "")
+            DownloadGui.Add("Button", "YS w100", "Close").OnEvent("Click", CloseDlGui.Bind(DownloadGui))
+            DownloadGui.Show()
+            DownloadGui.OnEvent("Close", CloseDlGui.Bind(DownloadGui))
+        }
 }
 
+DownloadCheck(FileName)
+{
+    If FileExist(FileName)
+        {
+            Return 1
+        }
+    Else
+        {
+            Sleep 200
+            DownloadCheck(FileName)
+        }
+}
+
+DestroyDownloadGui(DownloadGui)
+{
+    If WinExist("Download Complete")
+        {
+            DownloadGui.Destroy()
+        }
+    DownloadGui := Gui(, "Download Complete")
+    Return DownloadGui
+}
+
+OpenFile(FileName, DownloadGui, *)
+{
+    If WinExist("Update Available")
+        {
+            WinClose
+        }
+    If WinExist("About PoE Mechanic Watch")
+        {
+            WinClose
+        }
+    DestroyDownloadGui(DownloadGui)
+    Run(FileName)  
+}
+
+CloseDlGui(DownloadGui, *)
+{
+    DestroyDownloadGui(DownloadGui)
+    If WinExist("Update Available")
+        {
+            WinRestore
+        }
+}
 ; ### add option to go to zip file with install instructions
