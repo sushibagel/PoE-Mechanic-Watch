@@ -72,6 +72,7 @@ GroupAdd("AHKFiles", "About.ahk")
 GroupAdd("AHKFiles", "Calibration.ahk")
 GroupAdd("AHKFiles", "LaunchOptions.ahk")
 GroupAdd("AHKFiles", "LogMonitor.ahk")
+GroupAdd("AHKFiles", "Maven.ahk")
 GroupAdd("AHKFiles", "Mechanics.ahk")
 GroupAdd("AHKFiles", "Notification.ahk")
 GroupAdd("AHKFiles", "Hideout.ahk")
@@ -508,6 +509,7 @@ Close(*)
 #IncludeAgain "Resources\Scripts\Hotkeys.ahk"
 #IncludeAgain "Resources\Scripts\LaunchOptions.ahk"
 #IncludeAgain "Resources\Scripts\LogMonitor.ahk"
+#IncludeAgain "Resources\Scripts\Maven.ahk"
 #IncludeAgain "Resources\Scripts\Mechanics.ahk"
 #IncludeAgain "Resources\Scripts\Notification.ahk"
 #IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
