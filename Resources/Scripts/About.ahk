@@ -4,7 +4,7 @@ GetAbout(*)
     CurrentTheme := GetTheme()
     AboutGui.BackColor := CurrentTheme[1]
     AboutGui.SetFont("s15 Bold c" CurrentTheme[3])
-    AboutGui.Add("Text", "w400 Center" ,"About PoE Mechanic Watch")
+    AboutGui.Add("Text", "w400 Center", "About PoE Mechanic Watch")
     AboutGui.AddText("w400 h1 Background" CurrentTheme[3])
     AboutGui.SetFont("s10 Norm")
     AboutGui.Add("Text", "XM Section", "Version:")
@@ -18,7 +18,7 @@ GetAbout(*)
     AboutGui.SetFont("c" CurrentTheme[2])
     AboutGui.Add("Text", "YS x+1", FileData[2])
     AboutGui.SetFont("c" CurrentTheme[3])
-    AboutGui.Add("Button", "XM Section w150 ", "Check For Updates")
+    Global CheckButton := AboutGui.Add("Button", "XM Section w150 ", "Check For Updates").OnEvent("Click", UpdateCheck)
     AboutGui.Add("Text","YS w50")
     AboutGui.Add("Button", "YS W150", "Changelog").OnEvent("Click", AboutChangelog)
     AboutGui.Add("Link", "XM w400 +Wrap", "To view previous versions and release information visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/releases`">here.</a> For feedback and questions visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here.</a>")
@@ -56,8 +56,8 @@ ViewChangelog(*)
     Changelog.SetFont("s10 Norm c" CurrentTheme[2])
     Changelog.Add("Link", "w1000 +Wrap", "For more information, questions or feedback on this release please see the current release discussion thread on my Github <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here</a>.")
     Changelog.SetFont("c" CurrentTheme[3])
-
     Changelog.Add("Text", "XM +Wrap w1000", ChangelogData)
+    Changelog.Add("Text", "Xm r2")
     Changelog.OnEvent("Size", Changelog_Size)
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
@@ -86,4 +86,3 @@ CloseChangelog(*)
 {
     DestroyChangelog()
 }
-;### add check for updates button and changelog button

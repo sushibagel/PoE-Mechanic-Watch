@@ -3,7 +3,7 @@
 Persistent
 
 ;Tray Menu setup
-TraySetIcon("Resources/Images/Generic.png")
+TraySetIcon("Resources\Images\mechanicwatch.png")
 MyTray := Menu()
 MyTray:= A_TrayMenu
 MyTray.Delete() ; Delete the standard items.
@@ -33,6 +33,9 @@ Setup.Add("Change Settings Location", SettingsLocation)
 Setup.Default := "Setup Tool"
 MyTray.Add("Setup", Setup)
 MyTray.Default := "Setup"
+MyTray.Add()
+MyTray.Add("Check for Updates", UpdateCheck)
+MyTray.Add("About", GetAbout)
 MyTray.Add()
 MyTray.Add("Reload This Script", Restart) 
 MyTray.Add("Exit", Close)
@@ -81,6 +84,7 @@ GroupAdd("AHKFiles", "ScrollableGui.ahk")
 GroupAdd("AHKFiles", "Setup.ahk")
 GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
+GroupAdd("AHKFiles", "Update.ahk")
 GroupAdd("AHKFiles", "VariableHandler.ahk")
 
 SetupVerification()
@@ -88,6 +92,7 @@ SetupVerification()
 HideoutIni := IniPath("Hideout")
 IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
 
+UpdateCheck()
 CheckPath()
 StartWatch()
 ApplyHotkeys()
@@ -515,6 +520,7 @@ Close(*)
 #IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
+#IncludeAgain "Resources\Scripts\Update.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
 
 ;Tasks
