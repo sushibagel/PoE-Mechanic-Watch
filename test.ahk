@@ -10,6 +10,7 @@ MyTray.Delete() ; Delete the standard items.
 MyTray.Add("Launch Path of Exile", LaunchPoE)
 MyTray.Add()
 MyTray.Add("Select Mechanics", MechanicsSelect)
+MyTray.Add("Maven Status", MavenStatus)
 MyTray.Add()
 Setup := Menu()
 Setup.Add("Setup Tool", SetupTool)
@@ -537,7 +538,10 @@ Close(*)
     ; SetupTool()
     ; HotkeySetup()
     ; ApplyHotkeys()
-    GetAbout()
+    ; GetAbout()
+    MavenStatus()
+    ; UpdateCheck()
+    ; RenumberMavenBosses()
 }
 
 ; ^o::

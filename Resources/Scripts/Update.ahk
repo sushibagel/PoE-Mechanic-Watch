@@ -17,17 +17,23 @@ UpdateCheck(GuiButton := "", *)
                 {
                     WinMinimize
                 }
-            DestroyUpdateGui()
+            UpdateGui := GuiTemplate("UpdateGui", "Update Available", "800")
+            ; If WinExist("Update Available")
+            ;     {
+            ;         WinClose
+            ;     }
+            ; UpdateGui := Gui(, "Update Available")
+            ; CurrentTheme := GetTheme()
+            ; UpdateGui.BackColor := CurrentTheme[1]
+            ; UpdateGui.SetFont("s15 Bold c" CurrentTheme[3])
+            ; UpdateGui.Add("Text", "w800 Center", "Update Available")
+            ; UpdateGui.AddText("w800 h1 Background" CurrentTheme[3])
+            ; UpdateGui.SetFont("s10 Norm")
             CurrentTheme := GetTheme()
-            UpdateGui.BackColor := CurrentTheme[1]
-            UpdateGui.SetFont("s15 Bold c" CurrentTheme[3])
-            UpdateGui.Add("Text", "w800 Center", "Update Available")
-            UpdateGui.AddText("w800 h1 Background" CurrentTheme[3])
-            UpdateGui.SetFont("s10 Norm")
             UpdateGui.Add("Text", "XM Section w130")
             UpdateGui.Add("Button", "YS w150", "Download").OnEvent("Click", DownloadUpdate.Bind(UpdateUrl, CurrentVersion[2]))
             UpdateGui.Add("Text", "YS w170")
-            UpdateGui.Add("Button", "YS w150", "Remind Me Later").OnEvent("Click", DestroyUpdateGui)
+            UpdateGui.Add("Button", "YS w150", "Remind Me Later").OnEvent("Click", DestroyUpdateGui.Bind(UpdateGui))
             UpdateGui.SetFont("c" CurrentTheme[2])
             UpdateGui.Add("Link", "XM w800 +Wrap", "To view previous versions and release information visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/releases`">here.</a> For feedback and questions visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here.</a>")
             UpdateGui.SetFont("c" CurrentTheme[3])
@@ -39,6 +45,7 @@ UpdateCheck(GuiButton := "", *)
             OnMessage(0X020A, OnWheel)  ; WM_MOUSEWHEEL
             H := "h" A_ScreenHeight - 500
             UpdateGui.Show("w850" H)
+            UpdateGui.OnEvent("Close", DestroyUpdateGui)
             WinWaitClose("Update Available")
         }
     If (CurrentVersion[2] = InstalledVersion[2])
@@ -59,13 +66,9 @@ UpdateCheck(GuiButton := "", *)
     IniWrite(A_Now, MiscIni, "Update", "Last Check")
 }
 
-DestroyUpdateGui(*)
+DestroyUpdateGui(UpdateGui, *)
 {
-    If WinExist("Update Available")
-        {
-            UpdateGui.Destroy()
-        }
-    Global UpdateGui := Gui(,"Update Available")
+    UpdateGui.Destroy()
 }
 
 GetContent(URL)

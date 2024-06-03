@@ -263,3 +263,21 @@ LV_GridColor(LV, GridColor?) {
        Return (HTML.HasOwnProp(Color) ? HTML.%Color% : Default)
     }
 }
+
+; Gui Boiler Plate
+GuiTemplate(GuiName, GuiTitle, GuiWidth)
+{
+    If WinExist(GuiTitle)
+        {
+            WinClose
+        }
+    GuiName := Gui(, GuiTitle)
+    CurrentTheme := GetTheme()
+    GuiName.BackColor := CurrentTheme[1]
+    GuiName.SetFont("s15 Bold c" CurrentTheme[3])
+    GuiName.Add("Text", "Center w" GuiWidth, GuiTitle)
+    GuiName.AddText("h1 w" GuiWidth " Background" CurrentTheme[3])
+    GuiName.SetFont("Norm s10.")
+    GuiName.OnEvent("Close", DestroyMavenGui)
+    Return GuiName
+}
