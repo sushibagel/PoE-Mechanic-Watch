@@ -1,12 +1,7 @@
 GetAbout(*)
 {
-    DestroyVersionGui()
+    AboutGui := GuiTemplate("AboutGui", "About PoE Mechanic Watch", 400)
     CurrentTheme := GetTheme()
-    AboutGui.BackColor := CurrentTheme[1]
-    AboutGui.SetFont("s15 Bold c" CurrentTheme[3])
-    AboutGui.Add("Text", "w400 Center", "About PoE Mechanic Watch")
-    AboutGui.AddText("w400 h1 Background" CurrentTheme[3])
-    AboutGui.SetFont("s10 Norm")
     AboutGui.Add("Text", "XM Section", "Version:")
     VersionPath := IniPath("Version")
     FileData := Fileread(VersionPath)
@@ -23,15 +18,12 @@ GetAbout(*)
     AboutGui.Add("Button", "YS W150", "Changelog").OnEvent("Click", AboutChangelog)
     AboutGui.Add("Link", "XM w400 +Wrap", "To view previous versions and release information visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/releases`">here.</a> For feedback and questions visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here.</a>")
     AboutGui.Show()
+    AboutGui.OnEvent("Close", DestroyAboutGui)
 }
 
-DestroyVersionGui()
+DestroyAboutGui(AboutGui)
 {
-    If WinExist("About PoE Mechanic Watch")
-        {
-            AboutGui.Destroy()
-        }
-    Global AboutGui := Gui(,"About PoE Mechanic Watch")
+    AboutGui.Destroy()
 }
 
 AboutChangelog(*)
@@ -45,12 +37,14 @@ AboutChangelog(*)
 
 ViewChangelog(*)
 {
-    DestroyChangelog()
+    ; DestroyChangelog()
+    ; 
+    ; Changelog.BackColor := CurrentTheme[1]
+    ; Changelog.SetFont("s15 Bold c" CurrentTheme[3])
+    ; Changelog.Add("Text", "Center w1000", "Changelog")
+    ; Changelog.AddText("h1 w1000 Background" CurrentTheme[3])
+    Changelog := GuiTemplate("Changelog", "PoE Mechanic Watch Changelog", 1000, "+Resize +0x300000")
     CurrentTheme := GetTheme()
-    Changelog.BackColor := CurrentTheme[1]
-    Changelog.SetFont("s15 Bold c" CurrentTheme[3])
-    Changelog.Add("Text", "Center w1000", "Changelog")
-    Changelog.AddText("h1 w1000 Background" CurrentTheme[3])
     ChangelogPath := IniPath("Changelog")
     ChangelogData := FileRead(ChangelogPath)
     Changelog.SetFont("s10 Norm c" CurrentTheme[2])
@@ -64,7 +58,7 @@ ViewChangelog(*)
     OnMessage(0X020A, OnWheel)  ; WM_MOUSEWHEEL
     H := "h" A_ScreenHeight - 500
     Changelog.Show("w1050" H)
-    Changelog.OnEvent("Close", CloseChangelog)
+    Changelog.OnEvent("Close", DestroyChangelog)
 }
 
 Changelog_Size(GuiObj, MinMax, Width, Height)
@@ -73,16 +67,7 @@ Changelog_Size(GuiObj, MinMax, Width, Height)
         UpdateScrollBars(GuiObj)
 }
 
-DestroyChangelog()
+DestroyChangelog(Changelog)
 {
-    If WinExist("PoE Mechanic Watch Changelog")
-        {
-            Changelog.Destroy()
-        }
-    Global Changelog := Gui("+Resize +0x300000", "PoE Mechanic Watch Changelog")
-}
-
-CloseChangelog(*)
-{
-    DestroyChangelog()
+    Changelog.Destroy()
 }
