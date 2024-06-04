@@ -1,11 +1,7 @@
 HotkeySetup(*)
 {
-    HotkeySetupDestroy()
+    HotkeyGui := GuiTemplate("HotkeyGui", "Hotkey Setup", 550)
     CurrentTheme := GetTheme()
-    HotkeyGui.BackColor := CurrentTheme[1]
-    HotkeyGui.SetFont("s15 Bold c" CurrentTheme[3])
-    HotkeyGui.Add("Text", "Center w500", "Hotkey Setup")
-    HotkeyGui.AddText("h1 w500 Background" CurrentTheme[3])
     HotkeyGui.SetFont("s10 Norm c" CurrentTheme[2])
     HotkeyGui.Add("Text", "Center w500", "To setup a hotkey simply click each input box and press your desired hotkey combination. To use the `"Windows Key`" as part of your hotkey combination simply check the box next designated input box. `"Backspace`" will remove/unset any entered hotkey combinations.")
     HotkeyGui.SetFont("s10 Norm c" CurrentTheme[3])
@@ -15,23 +11,24 @@ HotkeySetup(*)
     HotkeyItems := GetHotkeyItems()
     For Item in HotkeyItems
         {
-            SetHotkeyItems(Item)
+            SetHotkeyItems(Item, HotkeyGui)
         }
     Mechanics := VariableStore("Mechanics")
     For Mechanic in Mechanics
         {
-            SetHotkeyItems(Mechanic)
+            SetHotkeyItems(Mechanic, Hotkeygui)
         }
     HotkeyGui.Add("Text", "YS R2",)
     HotkeyGui.OnEvent("Size", HotkeyGui_Size)
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
     OnMessage(0x020A, OnWheel)  ; WM_MOUSEWHEEL
-    HotkeyGui.Show("w550 h800")
-    HotkeyGui.OnEvent("Close", CloseHotkey)
+    GuiHeight := "h" A_ScreenHeight - 400
+    HotkeyGui.Show("w600" GuiHeight)
+    HotkeyGui.OnEvent("Close", HotkeySetupDestroy)
 }
 
-SetHotkeyItems(Items)
+SetHotkeyItems(Items, HotkeyGui)
 {
     HotkeyIni := IniPath("Hotkeys")
     CurrentTheme := GetTheme()
@@ -90,19 +87,10 @@ SetHotkeyItems(Items)
     CheckNum.OnEvent("Click", WinKeyCheck.Bind(Items))
 }
 
-HotkeySetupDestroy()
-{
-    If WinExist("Hotkey Setup")
-        {
-            HotkeyGui.Destroy()
-        }
-    Global HotkeyGui := Gui("+Resize +0x300000","Hotkey Setup")
-}
-
-CloseHotkey(*)
+HotkeySetupDestroy(HotkeyGui)
 {
     DestroyFootnote()
-    HotkeySetupDestroy()
+    HotkeyGui.Destroy()
     ApplyHotkeys()
 }
 
