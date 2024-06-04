@@ -539,9 +539,10 @@ Close(*)
     ; HotkeySetup()
     ; ApplyHotkeys()
     ; GetAbout()
-    MavenStatus()
+    ; MavenStatus()
     ; UpdateCheck()
     ; RenumberMavenBosses()
+    ViewChangelog()
 }
 
 ; ^o::
