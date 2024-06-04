@@ -542,7 +542,8 @@ Close(*)
     ; MavenStatus()
     ; UpdateCheck()
     ; RenumberMavenBosses()
-    ViewChangelog()
+    ; ViewChangelog()
+    ChangeGui()
 }
 
 ; ^o::
