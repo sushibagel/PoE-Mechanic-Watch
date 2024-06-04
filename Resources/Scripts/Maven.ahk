@@ -22,21 +22,50 @@ MavenStatus(*)
                     If (Invitation = "Map Bosses")
                         {
                             CheckStatus := 1
-                            Control := "Boss" A_Index
                         }
                     Else
                         {
-                            CheckStatus := IniRead(MechanicsIni, Invitation, Boss, "0")
+                            CheckStatus := IniRead(MechanicsIni, Invitation, InvitationBosses[A_Index], "0")
                         }
-                    MavenGui.Add("Checkbox", "XS v" A_LoopField, Boss).OnEvent("Click", ToggleBoss.Bind(Boss, Invitation, A_Index))
+                    MavenGui.Add("Checkbox", "XS v" Boss " Checked" CheckStatus, InvitationBosses[A_Index])
                 }
-            MavenGui.Add("Button", "XS c" CurrentTheme[2], "Remove All").OnEvent("Click", RemoveAll.Bind(Invitation, MavenGui))
+            MavenGui.Add("Checkbox", "XS c" CurrentTheme[2], "Remove All").OnEvent("Click", RemoveAll.Bind(Invitation, MavenGui, Vars, InvitationBosses))
         }
     MavenGui.Show()
 }
 
 DestroyMavenGui(MavenGui)
 {
+    Invitations := MavenInvitations()
+    MechanicsIni := IniPath("Mechanics")
+    Obj := MavenGui.Submit()
+    For Name, Value in Obj.OwnProps() 
+        {
+            If Instr(Name, "Map") and (Value = 0)
+                {
+                    MapName := StrSplit(Name, "Map")
+                    MapName := "Maven Map " MapName[2]
+                    IniDelete(MechanicsIni, "Maven Map", MapName)
+                }
+            Else
+                {
+                    For Invitation in Invitations
+                        {
+                            Bosses := GetBosses(Invitation)
+                            Labels := GetLabels(Invitation)
+                            Loop Labels.Length
+                                {
+                                    If (Labels[A_Index] = Name)
+                                        {
+                                            Match := Bosses[A_Index]
+                                            Category := Invitation
+                                            Break
+                                        }
+                                }
+                        }
+                    IniWrite(Value, MechanicsIni, Category, Match )
+                }
+        }
     MavenGui.Destroy()
     RenumberMavenBosses()
 }
@@ -116,29 +145,6 @@ GetLabels(Invitation)
             }
 }
 
-ToggleBoss(Boss, Invitation, IndexCount, Value, *)
-{
-    MechanicsIni := IniPath("Mechanics")
-    If !(Invitation = "Map Bosses")
-        {
-            IniWrite(Value.Value, MechanicsIni, Invitation, Boss)
-        }
-    Else
-        {
-            MavenMaps := BuildMapArray()
-            If (Value.Value = 0) ; if the map being removed is the last one just remove it. 
-                {
-
-                    IniDelete(MechanicsIni, "Maven Map", "Maven Map " IndexCount)
-                }
-            Else If (Value.Value = 1) ; if box is rechecked add it back
-                {
-                    MavenMaps := BuildMapArray()
-                    IniWrite(Boss, MechanicsIni, "Maven Map", "Maven Map " IndexCount)
-                }
-        }
-}
-
 RenumberMavenBosses()
 {
     MavenMaps := BuildMapArray() ; get map array
@@ -183,36 +189,23 @@ BuildMapArray()
     Return MavenMaps
 }
 
-RemoveAll(Invitation, MavenGui, Status, *)
+RemoveAll(Invitation, MavenGui, Vars, InvitationBosses, Status, *)
 {
-    obj := MavenGui.Submit()
-		for name, value in obj.OwnProps() {
-            MsgBox Value
-			If value = 1
-				myOptions .= name . " "
-		}
-		; MsgBox 'selected: ' myOptions
+    MechanicsIni := IniPath("Mechanics")
+    For Boss in Vars
+        {
+            ; ControlHWND := ControlGetHwnd(Boss, "Maven Completion Status")
+            If (ControlGetChecked(Boss, "Maven Completion Status") = 1) and (Status.Value = 1)
+                {
+                    ControlSetChecked(!Status.Value, Boss, "Maven Completion Status")
+                }
+            Else
+                {
+                    BossStatus := IniRead(MechanicsIni, Invitation, InvitationBosses[A_Index], 0)
+                    If (BossStatus = 1)
+                        {
+                            ControlSetChecked(1, Boss, "Maven Completion Status")
+                        }
+                }
+        }
 	}
-
-
-;     MechanicsIni := IniPath("Mechanics")
-;     If (Invitation = "Map Bosses")
-;         {
-;             Loop 10
-;                 {
-;                     IniDelete(MechanicsIni, "Maven Map", "Maven Map " A_Index)
-;                 }
-;         }
-;     Else
-;         {
-;             Bosses := GetBosses(Invitation)
-;             For Boss in Bosses
-;                 {
-;                     IniWrite(Status.Value, MechanicsIni, Invitation, Boss)
-;                 }
-;         }
-; }
-
-; ### Probably should have this one always on top. 
-; ### built in transparency slider? 
-; ### Control for individual notifications
