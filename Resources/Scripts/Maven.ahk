@@ -32,6 +32,7 @@ MavenStatus(*)
             MavenGui.Add("Checkbox", "XS c" CurrentTheme[2], "Remove All").OnEvent("Click", RemoveAll.Bind(Invitation, MavenGui, Vars, InvitationBosses))
         }
     MavenGui.Show()
+    MavenGui.OnEvent("Close", DestroyMavenGui)
 }
 
 DestroyMavenGui(MavenGui)
