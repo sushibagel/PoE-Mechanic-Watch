@@ -14,8 +14,9 @@ MavenStatus(*)
                 }
             MavenGui.Add("Text", "Section " Location, Invitation)
             InvitationBosses := GetBosses(Invitation)
+            Vars := GetLabels(Invitation)
             MavenGui.SetFont("s10 Norm")
-            For Boss in InvitationBosses
+            For Boss in Vars
                 {
                     CheckStatus := 0
                     If (Invitation = "Map Bosses")
@@ -26,35 +27,12 @@ MavenStatus(*)
                     Else
                         {
                             CheckStatus := IniRead(MechanicsIni, Invitation, Boss, "0")
-                            If (Invitation = "The Formed")
-                                {
-                                    Control := "Formed" A_Index
-                                }
-                            If (Invitation = "The Forgotten")
-                                {
-                                    Control := "Forgotten" A_Index
-                                }
-                            If (Invitation = "The Feared")
-                                {
-                                    Control := "Feared" A_Index
-                                }
-                            If (Invitation = "The Twisted")
-                                {
-                                    Control := "Twisted" A_Index
-                                }
-                            If (Invitation = "The Hidden")
-                                {
-                                    Control := "Hidden" A_Index
-                                }
-                            If (Invitation = "The Elderslayers")
-                                {
-                                    Control := "Elderslayer" A_Index
-                                }
                         }
-                    MavenGui.Add("Checkbox", "XS v" Control, Boss).OnEvent("Click", ToggleBoss.Bind(Boss, Invitation, A_Index))
+                    MavenGui.Add("Checkbox", "XS v" A_LoopField, Boss).OnEvent("Click", ToggleBoss.Bind(Boss, Invitation, A_Index))
                 }
-            MavenGui.Add("Checkbox", "XS c" CurrentTheme[2], "Remove All").OnEvent("Click", RemoveAll.Bind(Invitation))
+            MavenGui.Add("Button", "XS c" CurrentTheme[2], "Remove All").OnEvent("Click", RemoveAll.Bind(Invitation, MavenGui))
         }
+    MavenGui.Show()
 }
 
 DestroyMavenGui(MavenGui)
@@ -101,9 +79,45 @@ GetBosses(Invitation)
         }
 }
 
+GetLabels(Invitation)
+{
+    If (Invitation = "Map Bosses")
+        {
+            MapArray := Array()
+            Loop 10
+                {
+                    MapArray.Push("Map" A_Index)
+                }
+            Return ["Map1", "Map2", "Map3", "Map4"]
+        }
+    If (Invitation = "The Formed")
+        {
+            Return ["Hydra", "Minotaur", "Phoenix", "Chimera"]
+        }
+        If (Invitation = "The Forgotten")
+            {
+                Return ["Rewritten", "Augmented", "Altered", "Twisted"]
+            }
+        If (Invitation = "The Feared")
+            {
+                Return ["Cortex", "Chayula", "Alluring", "Shaper", "Absence"]
+            }
+        If (Invitation = "The Twisted")
+            {
+                Return ["Purifier", "Constrictor", "Enslaver", "Eradicator"]
+            }
+        If (Invitation = "The Hidden")
+            {
+                Return ["Uu", "Xoph", "Tul", "Esh"]
+            }
+        If (Invitation = "The Elderslayers")
+            {
+                Return ["Baran", "Veritania", "Al-Hezmin", "Drox"]
+            }
+}
+
 ToggleBoss(Boss, Invitation, IndexCount, Value, *)
 {
-    ; msgbox Boss "|" Invitation "|" IndexCount "|" Value.Value
     MechanicsIni := IniPath("Mechanics")
     If !(Invitation = "Map Bosses")
         {
@@ -169,25 +183,35 @@ BuildMapArray()
     Return MavenMaps
 }
 
-RemoveAll(Invitation, Status,*)
+RemoveAll(Invitation, MavenGui, Status, *)
 {
-    MechanicsIni := IniPath("Mechanics")
-    If (Invitation = "Map Bosses")
-        {
-            Loop 10
-                {
-                    IniDelete(MechanicsIni, "Maven Map", "Maven Map " A_Index)
-                }
-        }
-    Else
-        {
-            Bosses := GetBosses(Invitation)
-            For Boss in Bosses
-                {
-                    IniWrite(Status.Value, MechanicsIni, Invitation, Boss)
-                }
-        }
-}
+    obj := MavenGui.Submit()
+		for name, value in obj.OwnProps() {
+            MsgBox Value
+			If value = 1
+				myOptions .= name . " "
+		}
+		; MsgBox 'selected: ' myOptions
+	}
+
+
+;     MechanicsIni := IniPath("Mechanics")
+;     If (Invitation = "Map Bosses")
+;         {
+;             Loop 10
+;                 {
+;                     IniDelete(MechanicsIni, "Maven Map", "Maven Map " A_Index)
+;                 }
+;         }
+;     Else
+;         {
+;             Bosses := GetBosses(Invitation)
+;             For Boss in Bosses
+;                 {
+;                     IniWrite(Status.Value, MechanicsIni, Invitation, Boss)
+;                 }
+;         }
+; }
 
 ; ### Probably should have this one always on top. 
 ; ### built in transparency slider? 
