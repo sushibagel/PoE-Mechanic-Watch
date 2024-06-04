@@ -29,14 +29,8 @@ GetTheme() ;Returns "CurrentTheme" array with Background Color at "CurrentTheme[
 
 ChangeGui(*)
 {
-    Global ChangeTheme := Gui(,"Change Theme")
-    DestroyChangeTheme()
+    ChangeTheme := GuiTemplate("ChangeTheme", "Change Theme", 500)
     CurrentTheme := GetTheme()
-    ChangeTheme.BackColor := CurrentTheme[1]
-    ChangeTheme.SetFont("s20 Bold c" CurrentTheme[3])
-    ChangeTheme.Add("Text", "w500 Center", "Change Theme")
-    ChangeTheme.SetFont("s10 Norm")
-    ChangeTheme.AddText("w500 h1 Background" CurrentTheme[3])
     ChangeTheme.Add("Button","Section XM x125" , "Dark Theme").OnEvent("Click", RefreshTheme.Bind("Dark"))
     ChangeTheme.Add("Button","YS" , "Light Theme").OnEvent("Click", RefreshTheme.Bind("Light"))
     ChangeTheme.Add("Button","YS" , "Custom Theme").OnEvent("Click", RefreshTheme.Bind("Custom"))
