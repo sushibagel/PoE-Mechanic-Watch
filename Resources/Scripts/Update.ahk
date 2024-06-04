@@ -120,12 +120,7 @@ DownloadCheck(FileName)
 
 DestroyDownloadGui(DownloadGui)
 {
-    If WinExist("Download Complete")
-        {
-            DownloadGui.Destroy()
-        }
-    DownloadGui := Gui(, "Download Complete")
-    Return DownloadGui
+    DownloadGui.Destroy()
 }
 
 OpenFile(FileName, DownloadGui, *)
