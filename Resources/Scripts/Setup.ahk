@@ -1,11 +1,7 @@
 SetupTool(*)
 {
-    SetupToolDestroy()
+    Setup := GuiTemplate("Setup", "Setup Tool", 500)
     CurrentTheme := GetTheme()
-    Setup.BackColor := CurrentTheme[1]
-    Setup.SetFont("s15 Bold c" CurrentTheme[3])
-    Setup.Add("Text", "Center w500", "Setup Tool")
-    Setup.AddText("h1 w500 Background" CurrentTheme[3])
     SetupItems := ["* Open Path of Exile Client.", "  Select alternate settings storage location", "  Select your Theme", "* Select your Hideout", "* Select the Mechanics you want to track", "  View/Change options for various notifications" ,"  Modify Hotkeys", "  Quickly launch your favorite applications/scripts/websites", "  Get a reminder to start/enable your buffs when you enter a map"]
     SetupCategories := ["Client", "Storage Location", "Theme", "Set Hideout", "Select Mechanics", "Notification Settings", "Hotkeys", "Quick Launch", "Custom Reminder"]
     Setup.SetFont("s10 Norm c" CurrentTheme[3])
@@ -39,13 +35,9 @@ SetupTool(*)
 }
 
 SetupToolDestroy()
-{
-If WinExist("Setup Tool")
     {
         Setup.Destroy()
     }
-    Global Setup := Gui(, "Setup Tool")
-}
 
 LaunchEvent(ItemIndex, NA1, NA2)
 {
