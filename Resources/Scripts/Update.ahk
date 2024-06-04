@@ -94,14 +94,8 @@ DownloadUpdate(UpdateURL, CurrentVersion, *)
     DownloadComplete := DownloadCheck(FileName)
     If (DownloadComplete = 1)
         {
-            DownloadGui := Gui(, "Download Complete")
-            DownloadGui := DestroyDownloadGui(DownloadGui)
+            DownloadGui := GuiTemplate("DownloadGui", "Download Complete", 300)
             CurrentTheme := GetTheme()
-            DownloadGui.BackColor := CurrentTheme[1]
-            DownloadGui.SetFont("s15 Bold c" CurrentTheme[3])
-            DownloadGui.Add("Text", "Center w300", "Download Complete!")
-            DownloadGui.AddText("h1 w300 Background" CurrentTheme[3])
-            DownloadGui.SetFont("s10 Norm")
             DownloadGui.Add("Text", "w300 +Wrap", "To update unzip the contents of  `"" FileName "`" simply open the contained folders until you see `"" A_ScriptName "`" and a folders titled `"Resources`" copy all the files in the directory and simply paste them into the your current install directory.")
             DownloadGui.Add("Button", "XM Section w100", "Open File").OnEvent("Click", OpenFile.Bind(Filename, DownloadGui))
             DownloadGui.Add("Text", "Center w175", "")
@@ -156,4 +150,3 @@ CloseDlGui(DownloadGui, *)
             WinRestore
         }
 }
-; ### add option to go to zip file with install instructions
