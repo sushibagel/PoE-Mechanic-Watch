@@ -532,7 +532,7 @@ Close(*)
     
 ^m::
 {
-    LauncherGui()
+    MechanicsSelect()
 }
 
 ; ^o::
