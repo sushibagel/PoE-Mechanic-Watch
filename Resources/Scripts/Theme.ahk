@@ -31,9 +31,9 @@ ChangeGui(*)
 {
     ChangeTheme := GuiTemplate("ChangeTheme", "Change Theme", 500)
     CurrentTheme := GetTheme()
-    ChangeTheme.Add("Button","Section XM x125" , "Dark Theme").OnEvent("Click", RefreshTheme.Bind("Dark"))
-    ChangeTheme.Add("Button","YS" , "Light Theme").OnEvent("Click", RefreshTheme.Bind("Light"))
-    ChangeTheme.Add("Button","YS" , "Custom Theme").OnEvent("Click", RefreshTheme.Bind("Custom"))
+    ChangeTheme.Add("Button","Section XM x125" , "Dark Theme").OnEvent("Click", RefreshTheme.Bind("Dark", ChangeTheme))
+    ChangeTheme.Add("Button","YS" , "Light Theme").OnEvent("Click", RefreshTheme.Bind("Light", ChangeTheme))
+    ChangeTheme.Add("Button","YS" , "Custom Theme").OnEvent("Click", RefreshTheme.Bind("Custom", ChangeTheme))
 
     Global BackgroundColor := ""
     Global SecondaryColor := ""
@@ -91,20 +91,16 @@ ChangeGui(*)
     ChangeTheme.Show
 }
 
-DestroyChangeTheme()
+DestroyChangeTheme(ChangeTheme)
 {
-    If WinExist("Change Theme")
-        {
-            ChangeTheme.Destroy()
-        }
-    Global ChangeTheme := Gui(,"Change Theme")
+    ChangeTheme.Destroy()
 }
 
-RefreshTheme(ChangeTo, NA1, NA2)
+RefreshTheme(ChangeTo, ChangeTheme, *)
 {
     ThemePath := IniPath("Theme")
     IniWrite(ChangeTo, ThemePath, "Theme", "Theme")
-    DestroyChangeTheme()
+    DestroyChangeTheme(ChangeTheme)
     ChangeGui()
 }
 
