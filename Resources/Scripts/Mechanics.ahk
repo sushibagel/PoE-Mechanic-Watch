@@ -1,12 +1,7 @@
 MechanicsSelect(*)
 {
-    Global MechanicSelectGui := Gui(,"Mechanics")
-    Global Footnote1 := ""
-    Global Footnote2 := ""
-    Global Footnote3 := ""
-    DestroyMechanicsGui()
+    MechanicSelectGui := GuiTemplate("MechanicSelectGui", "Mechanics Settings", 580)
     CurrentTheme := GetTheme()
-    MechanicSelectGui.BackColor := CurrentTheme[1]
     MechanicSelectGui.SetFont("s12 Bold c" CurrentTheme[3]) 
     Headers := ["Mechanic", "On", "Active Only", "Off", "Auto"]
     FootnoteIndex := 0
@@ -27,8 +22,9 @@ MechanicsSelect(*)
             If (Title = "On") or (Title = "Active Only") or (Title = "Auto")
                 {
                     MechanicSelectGui.SetFont("s8 Underline Bold c" CurrentTheme[2])  
-                    Footnote%FootnoteIndex% := MechanicSelectGui.Add("Text","YP w70 Left " HeaderWidth, FootnoteIndex)
-                    Footnote%FootnoteIndex%.OnEvent("Click", ShowFootnote.Bind(FootnoteIndex))
+
+                    MechanicSelectGui.Add("Text","YP w70 Left " HeaderWidth, FootnoteIndex).OnEvent("Click", ShowFootnote.Bind(FootnoteIndex))
+
                     MechanicSelectGui.SetFont("s12 Norm Bold c" CurrentTheme[3])  
                 }
         } 
@@ -134,21 +130,17 @@ MechanicsSelect(*)
             IsChecked := "Checked"
         }
     MechanicSelectGui.Add("Checkbox", IsChecked " YS Left w135 Section " OnCheck,).OnEvent("Click",InfluenceTracking)
-    MechanicSelectGui.Add("Button", "XS-50 y+50", "Calibrate Search",).OnEvent("Click",CalibrateSearchButton)
+    MechanicSelectGui.Add("Button", "XS-50 y+50", "Calibrate Search",).OnEvent("Click",CalibrateSearchButton.Bind(MechanicSelectGui))
     MechanicSelectGui.Show
     MechanicSelectGui.OnEvent("Close", MechanicSelectClose)
 }
 
-DestroyMechanicsGui()
+DestroyMechanicsGui(MechanicSelectGui)
 {
-    If WinExist("Mechanics")
-        {
-            MechanicSelectGui.Destroy()
-        }
-    Global MechanicSelectGui := Gui(,"Mechanics")
+    MechanicSelectGui.Destroy()
 }
 
-ShowFootnote(FootnoteSelected, NA1, NA2)
+ShowFootnote(FootnoteSelected, Control, *)
 {
     If (FootnoteSelected = 1)
         {
@@ -166,14 +158,14 @@ ShowFootnote(FootnoteSelected, NA1, NA2)
         {
             TriggeredBy := "Mechanics"
             WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-            Footnote%FootnoteSelected%.GetPos(,&ControlY)
+            ControlGetPos(,&ControlY,,,Control.Value,"Mechanics")
             XPos := X + W
             YPos := Y + ControlY
             ActivateFootnoteGui(GuiInfo, XPos, YPos)
         }
 }
 
-ShowMechanicFootnote(FootnoteSelected, NA1, NA2)
+ShowMechanicFootnote(FootnoteSelected, Control, *)
 {
     If (FootnoteSelected = 1)
         {
@@ -199,7 +191,7 @@ ShowMechanicFootnote(FootnoteSelected, NA1, NA2)
         {
             TriggeredBy := "Mechanics"
             WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-            Footnote2.GetPos(,&ControlY)
+            ControlGetPos(,&ControlY,,,Control.Value,"Mechanics")
             XPos := X + W
             YPos := ((Y + H)/2) - 32
             ActivateFootnoteGui(GuiInfo, XPos, YPos)
@@ -267,9 +259,9 @@ MechanicSelectClose(*)
     DestroyFootnote()
 }
 
-CalibrateSearchButton(*)
+CalibrateSearchButton(MechanicSelectGui, *)
 {
-    DestroyMechanicsGui()
+    DestroyMechanicsGui(MechanicSelectGui)
     CalibrationTool()
 }
 
