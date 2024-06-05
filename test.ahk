@@ -56,7 +56,6 @@ GroupAdd("PoeWindow", "ahk_exe Code.exe")
 ; GroupAdd("PoeWindow", "ahk_class Notepad")
 
 Global Overlay := Gui(,"Overlay")
-Global OverlaySettings := Gui(,"Overlay Settings")
 Global MoveActive := 0
 
 HSHELL_WINDOWACTIVATED := 4
@@ -356,17 +355,9 @@ LockMove(*)
 ;Overlay Gui
 OverlaySettingsRun(*)
 {
-    If WinExist("Notification Settings")
-        {
-            WinMinimize
-        }
+    OverlaySettings := GuiTemplate("OverlaySettings", "Overlay Settings", 500)
     OverlayIni := IniPath("Overlay")
-    OverlaySettingsClose()
     CurrentTheme := GetTheme()
-    OverlaySettings.BackColor := CurrentTheme[1]
-    OverlaySettings.SetFont("s20 Bold c" CurrentTheme[3])
-    OverlaySettings.Add("Text", "w500 Center", "Overlay Settings")
-    OverlaySettings.AddText("w500 h1 Background" CurrentTheme[3])
     OverlaySettings.SetFont("s13 Norm")
     OverlaySettings.Add("Text", "w150 Right Section", "Refresh Overlay:")
     OverlaySettings.Add("Text", "w130 YS Right ", "")
@@ -419,17 +410,13 @@ OverlaySettingsRun(*)
     OverlaySettings.Show
 }
 
-OverlaySettingsClose(*)
+OverlaySettingsClose(OverlaySettings)
 {
-    If WinExist("Overlay Settings")
+    OverlaySettings.Destroy
+    If WinExist("Notification Settings")
         {
-            OverlaySettings.Destroy
-            If WinExist("Notification Settings")
-                {
-                    WinRestore "Notification Settings"
-                }
+            WinRestore "Notification Settings"
         }
-        Global OverlaySettings := Gui(,"Overlay Settings")
 }
 
 LayoutSet(*)
