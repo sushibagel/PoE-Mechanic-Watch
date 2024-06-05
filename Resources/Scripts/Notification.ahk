@@ -255,12 +255,8 @@ MapReminder()
 
 NotificationSettings(*)
 {
-    NotificationGuiDestroy()
+    NotificationGui := GuiTemplate("NotificationGui", "Notification Settings", 1000)
     CurrentTheme := GetTheme()
-    NotificationGui.BackColor := CurrentTheme[1]
-    NotificationGui.SetFont("s15 Bold c" CurrentTheme[3])
-    NotificationGui.Add("Text", "w1000 Center", "Notification Settings")
-    NotificationGui.AddText("w1150 h1 Background" CurrentTheme[3])
     NotificationGui.SetFont("s12 Bold c" CurrentTheme[3])
     Headers := ["Notification Type", "Enabled", "Sound Settings", "Transparency Settings", "Additional Settings"]
     For Header in Headers
@@ -393,13 +389,9 @@ NotificationSettings(*)
     NotificationGui.Show
 }
 
-NotificationGuiDestroy()
+NotificationGuiDestroy(NotificationGui)
 {
-    If WinExist("Notification Settings1")
-        {
-            NotificationGui.Destroy()
-        }
-    Global NotificationGui := Gui(,"Notification Settings1")
+    NotificationGui.Destroy()
 }
 
 ExplainNote(NoteSelected, *)
@@ -614,17 +606,13 @@ CustomNotificationSetup(*)
 {
     If WinExist("Notification Settings")
         {
-            WinMinimize
-        }
-    CustomSetupDestroy()
+            WinMinimize "Notification Settings"
+        } 
+    CustomSettings := GuiTemplate("CustomSettings", "Custom Reminder Setup", 500)
     CurrentTheme := GetTheme()
     CustomSettings.BackColor := CurrentTheme[1]
-    CustomSettings.SetFont("s15 Bold c" CurrentTheme[3])
-    CustomSettings.Add("Text", "w500 Center", "Custom Reminder Setup")
-    CustomSettings.AddText("w500 h1 Background" CurrentTheme[3])
     NotificationIni := IniPath("Notifications")
     CurrentMessage := IniRead(NotificationIni, "Custom Reminder", "Message", "Don't forget to activate your buffs!")
-    CustomSettings.SetFont("s10 Norm")
     CustomSettings.Add("Text", "w500 Center", "The Custom Reminder allows you to setup a custom message to be displayed when you enter a map. The reminder can be set as a permanent reminder that would need to be dismissed or a timed `"Quick`" reminder.")
     CustomSettings.SetFont("s12")
     CustomSettings.Add("Text", "Section", "Set Reminder:")
@@ -654,17 +642,13 @@ CustomNotificationSetup(*)
     CustomSettings.OnEvent("Close", CustomSetupDestroy)
 }
 
-CustomSetupDestroy(*)
+CustomSetupDestroy(CustomSettings)
 {
-    If WinExist("Custom Reminder Setup")
+    CustomSettings.Destroy
+    If WinExist("Notification Settings")
         {
-            CustomSettings.Destroy
-            If WinExist("Notification Settings")
-                {
-                    WinRestore "Notification Settings"
-                } 
-        }
-        Global CustomSettings := Gui(,"Custom Reminder Setup")
+            WinRestore "Notification Settings"
+        } 
 }
 
 CustomEditUpdate(EditType, Status, *)

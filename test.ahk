@@ -519,7 +519,7 @@ Close(*)
     
 ^m::
 {
-    MechanicsSelect()
+    NotificationSettings()
 }
 
 ; ^o::

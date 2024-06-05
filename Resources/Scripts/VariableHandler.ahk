@@ -95,13 +95,8 @@ ImagePath(FileRequested, AllowCustom)
 
 SettingsLocation(*)
 {
-    SettingsLocationDestroy()
+    StorageGui := GuiTemplate("StorageGUi", "Settings Storage Location", 700)
     CurrentTheme := GetTheme()
-    StorageGui.BackColor := CurrentTheme[1]
-    StorageGui.SetFont("s15 Bold c" CurrentTheme[3])
-    StorageGui.Add("Text", "Center w700", "Settings Storage Location")
-    StorageGui.AddText("h1 w700 Background" CurrentTheme[3])
-    StorageGui.SetFont("s10 Norm c" CurrentTheme[3])
     ExplainTool := "This tool will allow you to choose a location for user specific settings to be stored. This is useful if you have multiple computers and want to sync your settings with Dropbox. Note: Calibration images are not moved."
     StorageGui.Add("Text", "Center w700", ExplainTool)
     StorageGui.Add("Text", "XM Section", "Current Location:")
@@ -116,13 +111,9 @@ SettingsLocation(*)
     StorageGui.Show
 }
 
-SettingsLocationDestroy()
+SettingsLocationDestroy(StorageGui)
 {
-    If WinExist("Settings Storage Location")
-        {
-            StorageGui.Destroy()
-        }
-    Global StorageGui := Gui(,"Settings Storage Location")
+    StorageGui.Destroy()
 }
 
 GetLocation(*)
