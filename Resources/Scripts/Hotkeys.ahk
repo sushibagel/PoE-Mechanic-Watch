@@ -232,13 +232,6 @@ ApplyHotkeys()
         }
 }
 
-Test(asdf, tttt, *)
-{
-    Tooltip "Test " asdf "|" tttt
-    Sleep 2000
-    Tooltip
-}
-
 ChatDelay(*)
 {
     HotkeyIni := IniPath("Hotkeys")

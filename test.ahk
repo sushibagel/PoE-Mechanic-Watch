@@ -505,6 +505,7 @@ Close(*)
 #IncludeAgain "Resources\Scripts\Maven.ahk"
 #IncludeAgain "Resources\Scripts\Mechanics.ahk"
 #IncludeAgain "Resources\Scripts\Notification.ahk"
+#IncludeAgain "Resources\Scripts\OCR.ahk"
 #IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
@@ -517,17 +518,25 @@ Close(*)
     ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
 
     
-^m::
+; ^m::
+; {
+;     test()
+; }
+
+
+; Global Testvar := 0
+
+Test(*)
 {
-    NotificationSettings()
+    Global Testvar++
+    Tooltip Testvar
+    ; Sleep 2000
+    ; Tooltip
+    ; testOCR := OCR.FromRect(62, 738, 625, 738)
+    ; msgbox testOCR.Text
 }
 
-; ^o::
-; {
-;     ; CustomNotificationSetup()
-;     ; Notify(["Blight"])
-;     ; NotificationSettings()
-;     ; SetupTool()
-;     HotkeySetup()
-;     ; ApplyHotkeys()
-; }
+^o::
+{
+    SetTimer test, 5000
+}

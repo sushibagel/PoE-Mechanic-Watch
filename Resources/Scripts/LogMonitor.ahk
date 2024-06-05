@@ -65,7 +65,6 @@ CheckLogLine(LogLine)
         {
             NotHideoutLog(LogLine)
         }
-        
 }
  
 NotHideoutLog(LogLine)
