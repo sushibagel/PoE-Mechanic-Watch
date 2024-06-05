@@ -532,18 +532,7 @@ Close(*)
     
 ^m::
 {
-    ; CustomNotificationSetup()
-    ; Notify(["Blight"])
-    ; NotificationSettings()
-    ; SetupTool()
-    ; HotkeySetup()
-    ; ApplyHotkeys()
-    ; GetAbout()
-    ; MavenStatus()
-    ; UpdateCheck()
-    ; RenumberMavenBosses()
-    ; ViewChangelog()
-    ChangeGui()
+    LauncherGui()
 }
 
 ; ^o::

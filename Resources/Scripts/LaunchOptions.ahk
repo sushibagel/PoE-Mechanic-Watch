@@ -28,13 +28,8 @@ LaunchSupport()
 LauncherGui(*)
 {
     ;This will combine both Launcher Guis and will instead just have a "Launch" with PoE Checkbox
-    DestroyLauncherGui()
+    LaunchGui := GuiTemplate("LaunchGui", "Launcher Settings", 500)
     CurrentTheme := GetTheme()
-    LaunchGui.BackColor := CurrentTheme[1]
-    LaunchGui.SetFont("s15 Bold c" CurrentTheme[3])
-    LaunchGui.Add("Text", "w500 Center Section", "Launcher Settings")
-    LaunchGui.AddText("w500 h1 Background" CurrentTheme[3])
-    LaunchGui.SetFont("s10 Norm")
     Headers := ["Auto Launch", "Tool Name", "Remove", "Launch"]
     HeaderFootNotes := ["1","2","3","4"]
     SectionWidths := ["w100", "w85","w25","w25"]
@@ -106,15 +101,14 @@ LauncherGui(*)
     LaunchGui.OnEvent("Close", DestroyLauncherGui)
 }
 
-DestroyLauncherGui(*)
+DestroyLauncherGui(LaunchGui, *)
 {
-    DestroyLauncherPath()
-    DestroyFootnote()
-    If WinExist("Launcher Settings")
+    If WinExist("Launcher Path")
         {
-            LaunchGui.Destroy()
+            Winclose
         }
-    Global LaunchGui := Gui(,"Launcher Settings")
+    DestroyFootnote()
+    LaunchGui.Destroy()
 }
 
 LaunchFootnoteShow(FootnoteNum, NA1, NA2)
@@ -151,7 +145,7 @@ TooltipPath(LauncherIndex, NA1, NA2)
     LaunchIni := IniPath("Launch")
     ToolName := IniRead(LaunchIni, "Tool Name", LauncherIndex)
     ToolPath := IniRead(LaunchIni, "Tool Path", LauncherIndex)
-    DestroyLauncherPath()
+    LaunchPath := DestroyLauncherPath("LaunchPath")
     CurrentTheme := GetTheme()
     LaunchPath.BackColor := CurrentTheme[1]
     LaunchPath.SetFont("s10 c" CurrentTheme[3])
@@ -160,13 +154,14 @@ TooltipPath(LauncherIndex, NA1, NA2)
     LaunchPath.Show("y" Y+H)
 }
 
-DestroyLauncherPath()
+DestroyLauncherPath(LaunchPath)
 {
     If WinExist("Launcher Path")
         {
             LaunchPath.Destroy()
         }
-    Global LaunchPath := Gui(,"Launcher Path")
+    LaunchPath := Gui(,"Launcher Path")
+    Return LaunchPath
 }
 
 RemoveTool(RemoveIndex, NA1, NA2)

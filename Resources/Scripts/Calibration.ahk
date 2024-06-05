@@ -1,12 +1,7 @@
 CalibrationTool(*)
 {
-    DestroyCalibrationGui()
+    CalibrationGui := GuiTemplate("CalibrationGui", "Calibration Tool", 500)
     CurrentTheme := GetTheme()
-    CalibrationGui.BackColor := CurrentTheme[1]
-    CalibrationGui.SetFont("s20 Bold c" CurrentTheme[3])
-    CalibrationGui.Add("Text", "w500 Center", "Calibration Tool")
-    CalibrationGui.AddText("w500 h1 Background" CurrentTheme[3])
-    CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
     LoopCategories := ["Quest Tracker Text", "Ritual Icon", "Ritual Text", "Ritual Shop", "Influence Count"]
     LoopFootnote := ["1", "2", "1", "2", "3"]
     For Category in LoopCategories
@@ -17,7 +12,7 @@ CalibrationTool(*)
             CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
             CalibrationGui.Add("Text", "YS w120",) ;For consistent Spacing
             CalibrationGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Category))
-            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Category))
+            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Category, CalibrationGui))
         }
     Influences := VariableStore("Influences")
     TextWidth := ["w36", "w50", "w48"]
@@ -45,7 +40,7 @@ CalibrationTool(*)
             CalibrationGui.Add("Edit", "YS+5 w40 h25 Number Center Background" CurrentTheme[2], "Calibrate")
             %Influence%Value := CalibrationGui.Add("UpDown", "YS " UpDownRange, CurrentCount) ;### Needs event Handler
             CalibrationGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " Completion"))
-            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " Completion"))
+            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " Completion", CalibrationGui))
 
             CalibrationGui.Add("Text", "Section XM Right w140", Influence " On")
             CalibrationGui.SetFont("s8 Underline c" CurrentTheme[2])
@@ -53,19 +48,15 @@ CalibrationTool(*)
             CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
             CalibrationGui.Add("Text", "YS w120",) ;For consistent Spacing
             CalibrationGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " On"))
-            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " On"))
+            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " On", CalibrationGui))
         }
     CalibrationGui.Show
     CalibrationGui.OnEvent("Close", CalibrationToolClose)
 }
 
-DestroyCalibrationGui()
+DestroyCalibrationGui(CalibrationGui)
 {
-    If WinExist("Calibration Tool")
-        {
-            CalibrationGui.Destroy()
-        }
-    Global CalibrationGui := Gui(,"Calibration Tool")
+    CalibrationGui.Destroy()
 }
 
 FootnoteShow(FootnoteNum, NA1, NA2)
@@ -103,12 +94,12 @@ FootnoteShow(FootnoteNum, NA1, NA2)
     ActivateFootnoteGui(GuiInfo, XPos, YPos)
 }
 
-CalibrateMechanic(Mechanic, NA1, NA2)
+CalibrateMechanic(Mechanic, *)
 {
     msgbox Mechanic
 }
 
-SampleMechanic(Mechanic, NA1, NA2)
+SampleMechanic(Mechanic, CalibrationGui, *)
 {
     CalibrationGui.Submit(False)
     If InStr(Mechanic, "Completion")
