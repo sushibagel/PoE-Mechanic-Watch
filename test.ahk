@@ -528,8 +528,8 @@ Close(*)
 
 Test(*)
 {
-    Global Testvar++
-    Tooltip Testvar
+    ; Global Testvar++
+    ; Tooltip Testvar
     ; Sleep 2000
     ; Tooltip
     ; testOCR := OCR.FromRect(62, 738, 625, 738)
