@@ -1,12 +1,12 @@
 /**
- * 
- * @param FileRequested String with the name of the file needed. 
- * @param {String} Action String of the action desired. Read/Write blank will just return the ini path
+ * Function for managing file paths as well as reading and writing to files
+ * @param {String} FileRequested String with the name of the file needed. (Changelog, Hotkeys, Hideout, HideoutList, Launch, Map List, Mechanics, Misc Data, Notifications, Overlay, Setup, Storage, Theme, Transparency, Version)
+ * @param {String} Action The action desired. Read/Write, if left blank it will return the INI path.
  * @param {String} Value This is the value to be written to the ini file.
- * @param {String} Section This is the section being read/written
- * @param {String} Key Key to be read/written to.
+ * @param {String} Section This is the Ini Section Header being read/written
+ * @param {String} Key the Ini Key to be read/written to.
  * @param {String} Default The default return value if the key is blank.
- * @returns ini path for the file requested
+ * @returns This returns the Ini path unless a Read action is requested. For read actions the Key value would be returned. 
  */
 IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
 {
@@ -41,21 +41,34 @@ IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
     }
 }
 
+/**
+ * 
+ * @param VariableRequested {String} Requested variable data. [Influences, Mechanics, ImageSearch]
+ * @returns {Array} 
+ */
 VariableStore(VariableRequested)
 {
     Switch 
     {
         Case VariableRequested = "Influences": Return ["Eater", "Searing", "Maven"]
         Case VariableRequested = "Mechanics": Return ["Abyss", "Betrayal", "Blight", "Breach", "Einhar", "Expedition", "Harvest", "Incursion", "Legion", "Niko", "Ritual", "Ultimatum", "Generic"]
+        Case VariableRequested = "ImageSearch": Return ["Ritual Icon", "Ritual Shop", "Blight"]
     }
 }
 
+/**
+ * 
+ * @param FileRequested 
+ * @param AllowCustom {String} "Yes" or "No"
+ * @returns {String} 
+ */
 ImagePath(FileRequested, AllowCustom)
 {
     CurrentTheme := GetTheme()
     BasePath := "Resources\Images\Image Search\"
     Switch
         {
+            Case FileRequested = "Blight": Append := "Blight.png"
             Case FileRequested = "Quest Tracker Text": Append := "QuestTracker.png"
             Case FileRequested = "Ritual Icon": Append := "RitualIcon.png"
             Case FileRequested = "Ritual Text": Append := "RitualText.png"

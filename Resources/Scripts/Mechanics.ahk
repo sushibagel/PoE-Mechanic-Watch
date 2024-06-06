@@ -335,3 +335,22 @@ ToggleInfluence(*)
         }
     RefreshOverlay()
 }
+
+ChangeInfluence(NewInfluence)
+{
+    ActiveInfluence := GetInfluence()
+    If !(NewInfluence = ActiveInfluence)
+        {
+            MechanicsIni := IniPath("Mechanics")
+            Influences := VariableStore("Influences")
+            For Influence in Influences
+                {
+                    IniWrite(0, MechanicsIni, "Influence", Influence)
+                }
+            If !(ActiveInfluence = "None")
+                {
+                    IniWrite(1, MechanicsIni, "Influence", NewInfluence)
+                }
+            RefreshOverlay()
+        }
+}

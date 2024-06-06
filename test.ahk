@@ -80,6 +80,7 @@ GroupAdd("AHKFiles", "Mechanics.ahk")
 GroupAdd("AHKFiles", "Notification.ahk")
 GroupAdd("AHKFiles", "Hideout.ahk")
 GroupAdd("AHKFiles", "Hotkeys.ahk")
+GroupAdd("AHKFiles", "ScreenSearch.ahk")
 GroupAdd("AHKFiles", "ScrollableGui.ahk")
 GroupAdd("AHKFiles", "Setup.ahk")
 GroupAdd("AHKFiles", "test.ahk")
@@ -113,6 +114,7 @@ Recipient(Message, ID, *)
         {
             If IsSet(lt)
                 {
+                    SetTimer(ScreenSearchHandler)
                     lt.Start ; Start log monitoring
                     DestroyOverlay()
                     CreateOverlay()
@@ -122,6 +124,7 @@ Recipient(Message, ID, *)
         {
             If IsSet(lt)
                 {
+                    SetTimer(ScreenSearchHandler, 0)
                     lt.Stop ; Stop log monitoring
                 }
             DestroyOverlay()
@@ -264,25 +267,29 @@ OverlayToggle(ToggledMechanic, *)
         }
 }
 
-Toggle(Mechanic, Refresh:=1, *)
+Toggle(Mechanic, Refresh:=1, Status:="", *)
 {
     MechanicsPath := IniPath("Mechanics")
     MechanicActive := IniRead(MechanicsPath, "Mechanic Active", Mechanic, 0)
-    If (MechanicActive = 1)
+    If (MechanicActive = 1) and !(Status = "On")
         {
             IniWrite(0, MechanicsPath, "Mechanic Active", Mechanic)
+            If (Refresh = 1)
+                {
+                    RefreshOverlay()
+                }
             If (Mechanic = "Ritual") or (Mechanic = "Einhar") or (Mechanic = "Niko") or (Mechanic = "Betrayal")  or (Mechanic = "Incursion")
                 {
                     IniWrite(A_Space, MechanicsPath, Mechanic " Track", "Current Count")
                 } 
         }
-    Else
+    If (MechanicActive = 0) and !(Status = "Off")
         {
             IniWrite(1, MechanicsPath, "Mechanic Active", Mechanic)
-        }
-    If (Refresh = 1)
-        {
-            RefreshOverlay()
+            If (Refresh = 1)
+                {
+                    RefreshOverlay()
+                }
         }
 }
 
@@ -500,12 +507,14 @@ Close(*)
 #IncludeAgain "Resources\Scripts\Calibration.ahk"
 #IncludeAgain "Resources\Scripts\Hideout.ahk"
 #IncludeAgain "Resources\Scripts\Hotkeys.ahk"
+#IncludeAgain "Resources\Scripts\ImagePut.ahk"
 #IncludeAgain "Resources\Scripts\LaunchOptions.ahk"
 #IncludeAgain "Resources\Scripts\LogMonitor.ahk"
 #IncludeAgain "Resources\Scripts\Maven.ahk"
 #IncludeAgain "Resources\Scripts\Mechanics.ahk"
 #IncludeAgain "Resources\Scripts\Notification.ahk"
 #IncludeAgain "Resources\Scripts\OCR.ahk"
+#IncludeAgain "Resources\Scripts\ScreenSearch.ahk"
 #IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
@@ -518,10 +527,10 @@ Close(*)
     ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
 
     
-; ^m::
-; {
-;     test()
-; }
+^m::
+{
+    ScreenSearchHandler()
+}
 
 
 ; Global Testvar := 0
@@ -534,6 +543,14 @@ Test(*)
     ; Tooltip
     ; testOCR := OCR.FromRect(62, 738, 625, 738)
     ; msgbox testOCR.Text
+
+
+    pic := ImagePutBuffer(0)                               ; Screen capture
+    search := ImagePutBuffer("Resources\Images\Image Search\Custom\Blight.png")             ; Convert File -> Buffer
+    if pic.ImageSearch(search)
+        {
+            MsgBox "test"
+        }                                               ; Move cursor 
 }
 
 ^o::
