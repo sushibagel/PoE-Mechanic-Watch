@@ -2,6 +2,7 @@ CalibrationTool(*)
 {
     CalibrationGui := GuiTemplate("CalibrationGui", "Calibration Tool", 500)
     CurrentTheme := GetTheme()
+    CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
     LoopCategories := ["Quest Tracker Text", "Ritual Icon", "Ritual Text", "Ritual Shop", "Influence Count"]
     LoopFootnote := ["1", "2", "1", "2", "3"]
     For Category in LoopCategories
@@ -169,3 +170,5 @@ DestroySampleGui()
 }
 
 ; #### Need to add Blight
+; #### Remove Influence Text
+; ### Fix layout
