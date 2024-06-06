@@ -17,20 +17,27 @@ IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
     Switch
     {
         Case FileRequested = "Changelog": Return "Changelog.txt"
-        Case FileRequested = "Hotkeys": Return StorageDir "\Resources\Settings\Hotkeys.ini" 
-        Case FileRequested = "Hideout": Return StorageDir "\Resources\Settings\Hideout.ini"
+        Case FileRequested = "Hotkeys": Path := StorageDir "\Resources\Settings\Hotkeys.ini" 
+        Case FileRequested = "Hideout": Path := StorageDir "\Resources\Settings\Hideout.ini"
         Case FileRequested = "HideoutList": Return "Resources\Data\HideoutList.txt"
-        Case FileRequested = "Launch": Return StorageDir "\Resources\Data\LaunchPath.ini"
+        Case FileRequested = "Launch": Path := StorageDir "\Resources\Data\LaunchPath.ini"
         Case FileRequested = "Map List": Return StorageDir "\Resources\Data\maplist.txt"
-        Case FileRequested = "Mechanics": Return StorageDir "\Resources\Settings\Mechanics.ini"
-        Case FileRequested = "Misc Data": Return StorageDir "\Resources\Data\Misc.ini"
-        Case FileRequested = "Notifications": Return StorageDir "\Resources\Settings\Notification.ini"
-        Case FileRequested = "Overlay": Return StorageDir "\Resources\Settings\Overlay.ini"
-        Case FileRequested = "Setup": Return StorageDir "\Resources\Data\Setup.ini"
-        Case FileRequested = "Storage": Return "Resources\Settings\StorageLocation.ini" ;Intentionally doesn't use alt storage path. 
-        Case FileRequested = "Theme": Return StorageDir "\Resources\Settings\Theme.ini"
-        Case FileRequested = "Transparency": Return StorageDir "\Resources\Settings\Transparency.ini"
+        Case FileRequested = "Mechanics": Path := StorageDir "\Resources\Settings\Mechanics.ini"
+        Case FileRequested = "Misc Data": Path := StorageDir "\Resources\Data\Misc.ini"
+        Case FileRequested = "Notifications": Path := StorageDir "\Resources\Settings\Notification.ini"
+        Case FileRequested = "Overlay": Path := StorageDir "\Resources\Settings\Overlay.ini"
+        Case FileRequested = "Setup": Path := StorageDir "\Resources\Data\Setup.ini"
+        Case FileRequested = "Storage": Path := "Resources\Settings\StorageLocation.ini" ;Intentionally doesn't use alt storage path. 
+        Case FileRequested = "Theme": Path := StorageDir "\Resources\Settings\Theme.ini"
+        Case FileRequested = "Transparency": Path := StorageDir "\Resources\Settings\Transparency.ini"
         Case FileRequested = "Version": Return "Resources\Data\Version.txt"
+    }
+    Switch(True) 
+    {
+        Case Action = "Write" : IniWrite(Value, Path, Section, Key)
+        Case Action = "Read" : Return IniRead(Path, Section, Key, Default)  
+        Default: Return Path
+            
     }
 }
 
