@@ -1,4 +1,14 @@
-IniPath(FileRequested)
+/**
+ * 
+ * @param FileRequested String with the name of the file needed. 
+ * @param {String} Action String of the action desired. Read/Write blank will just return the ini path
+ * @param {String} Value This is the value to be written to the ini file.
+ * @param {String} Section This is the section being read/written
+ * @param {String} Key Key to be read/written to.
+ * @param {String} Default The default return value if the key is blank.
+ * @returns ini path for the file requested
+ */
+IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
 {
     If !(FileRequested = "Storage")
         {
