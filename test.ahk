@@ -53,7 +53,7 @@ GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 ; GroupAdd("PoeWindow", "Move")
 ; GroupAdd("PoeWindow", "Influence")
 ; GroupAdd("PoeWindow", "Transparency")
-GroupAdd("PoeWindow", "ahk_exe Code.exe")
+; GroupAdd("PoeWindow", "ahk_exe Code.exe")
 ; GroupAdd("PoeWindow", "ahk_class Notepad")
 
 Global Overlay := Gui(,"Overlay")

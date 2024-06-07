@@ -92,12 +92,12 @@ MechanicOCR()
     If (ActiveOCR.Length > 0)
         {
             ScreenSearchIni := IniPath("ScreenSearch")
-            XOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "X", A_ScreenWidth/2)
-            YOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "Y", 0)
-            WOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "W", A_ScreenWidth/2)
-            HOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "H", A_ScreenHeight)
-            OCRText := OCR.FromRect(XOCR, YOCR, WOCR, HOCR) ; Get OCR Image
+            WinGetPos(&X, &Y, &W, &H, "ahk_exe Photos.exe")
+            ; msgbox W-(W//3)
+            ; MouseMove(W//2, 50)
+            OCRText := OCR.FromWindow("ahk_exe Photos.exe",,,{X:W//2, Y:H//2, W:W, H:H, onlyClientArea:1}) ; Get OCR Image
             TextLines := Array()
+            msgbox OCRText.Text
             For Mechanic in ActiveOCR
                 {
                     SearchPatterns := GetPatterns(Mechanic)
@@ -122,7 +122,6 @@ MechanicOCR()
                                                     IndexMatch++
                                                     If InStr(TextLines[IndexMatch], "(")
                                                         {
-
                                                             MechanicCount := StrSplit(TextLines[IndexMatch], "(")
                                                             MechanicCount := StrSplit(MechanicCount[2], ")")
                                                             If InStr(MechanicCount[1], "/") ; If OCR read the backslash correctly we are done. If not we need to correct it. 
@@ -156,6 +155,7 @@ MechanicOCR()
                                                         }
                                                     If !InStr(TextLines[IndexMatch], "(") and (A_Index = 2) ; If "(" wasn't in the text we are probably at step 1 for the mechanic and can just activate it
                                                         {
+                                                            Tooltip TextLines[IndexMatch]
                                                             Toggle(Mechanic, 1, "On")
                                                             Break
                                                         }
@@ -173,6 +173,36 @@ MechanicOCR()
 
                         }
 
+                }
+            ; Ritual is looked for next in a different zone
+            RitualStatus := IniPath("Mechanics", "Read", ,"Auto Mechanics", "Ritual", 0) 
+            If (RitualStatus = 1) ; Check if Auto is turned on for Ritual
+                {
+                    ScreenSearchIni := IniPath("ScreenSearch")
+                    XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", 0)
+                    YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", (A_ScreenHeight/3)*2)
+                    WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", A_ScreenWidth)
+                    HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", A_ScreenHeight/3)
+
+                    WinGetPos(&X, &Y, &W, &H, "ahk_Group PoeWindow")
+                    OCRText := OCR.FromWindow("ahk_Group PoeWindow",,, {X:0, Y:(H/3)*2, W:W, H:H/3, onlyClientArea:1}) ; Get OCR Image
+                    
+                    TextLines := Array()
+                    For Line in OCRText.Lines
+                        {
+                            TextLines.Push(Line.Text)
+                            ; \d\d\d|\d\/\d
+                            If (RegExMatch(TextLines[A_Index], "(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", &RitualMatch)) and !RegExMatch(TextLines[A_Index], "(?i)^(?:e(?:ncounters|inhar)|alva|niko|jun|\(\))$")
+                                {
+                                    If !InStr(RitualMatch[1], "/")
+                                        {
+                                            RitualMatch := StrSplit(RitualMatch[1])
+                                            RitualMatch := RitualMatch[1] "/" RitualMatch[3]
+                                        }
+                                    CheckCountToggle(RitualMatch, "Ritual")
+                                    Break
+                                }
+                        }
                 }
         }
 
