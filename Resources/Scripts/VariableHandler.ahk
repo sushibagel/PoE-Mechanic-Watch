@@ -54,7 +54,7 @@ VariableStore(VariableRequested)
         Case VariableRequested = "Influences": Return ["Eater", "Searing", "Maven"]
         Case VariableRequested = "Mechanics": Return ["Abyss", "Betrayal", "Blight", "Breach", "Einhar", "Expedition", "Harvest", "Incursion", "Legion", "Niko", "Ritual", "Ultimatum", "Generic"]
         Case VariableRequested = "ImageSearch": Return ["Ritual Icon", "Ritual Shop", "Blight"]
-        Case VariableRequested = "OCRSearch": Return ["Betrayal", "Blight", "Einhar", "Expedition", "Incursion", "Niko"] ; Ritual left out of this on purpose
+        Case VariableRequested = "OCRSearch": Return ["Betrayal", "Einhar", "Incursion", "Niko"] ; Ritual left out of this on purpose
     }
 }
 

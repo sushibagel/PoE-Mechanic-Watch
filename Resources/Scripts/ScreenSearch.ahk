@@ -3,17 +3,20 @@ ScreenSearchHandler()
     HideoutStatus := IniPath("Hideout", "Read", , "In Hideout", "In Hideout", 0)
     If (HideoutStatus = 1) ; Active searches if the user is in the hideout
         {
-            SetTimer(InfluenceScreenSearch)
+            InfluenceScreenSearch()
+            ; SetTimer(InfluenceScreenSearch)
             ; SetTimer(InfluenceOCR)
-            SetTimer(MechanicScreenSearch, 0)
-            SetTimer(MechanicOCR, 0)
+            ; SetTimer(MechanicScreenSearch, 0)
+            ; SetTimer(MechanicOCR, 0)
         }
     Else
         {
-            SetTimer(InfluenceScreenSearch, 0)
+            ; SetTimer(MechanicScreenSearch, 500)
+            ; SetTimer(MechanicOCR, 500)
+            ; SetTimer(InfluenceScreenSearch, 0)
             ; SetTimer(InfluenceOCR, 0)
-            SetTimer(MechanicScreenSearch, 500)
-            SetTimer(MechanicOCR, 500)
+            MechanicScreenSearch()
+            MechanicOCR()
         }
 }
 
@@ -97,7 +100,20 @@ MechanicOCR()
             For Mechanic in ActiveOCR
                 {
                     SearchPatterns := GetPatterns(Mechanic)
-                    msgbox SearchPatterns.Length "KJHKJH"
+                    If (RegExMatch(OCRText.Text, SearchPatterns[1])) ;First find a match in the complete pattern
+                        {
+                            For Line in OCRText.Lines
+                            If (RegExMatch(Line.Text, SearchPatterns[2])) ; Check second set of patterns for a match
+                                {
+                                    IndexMatch := A_Index - 1
+                                    Loop 2
+                                        {
+                                            IndexMatch++
+                                            ; msgbox OCRText.Lines.Text[2]
+                                        }
+                                }
+                        }
+
                 }
         }
 
@@ -109,11 +125,15 @@ GetPatterns(Mechanic)
     PatternArray := Array()
     Switch 
     {
-        Case Mechanic = "Einhar": PatternArray.Push(".*(?:Find and weaken|weaken the beasts).*") PatternArray.Push("Mission Complete") PatternArray.Push(".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*")
+        Case Mechanic = "Einhar" : PatternArray.Push(".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*") PatternArray.Push(".*(?:Find and weaken|weaken the beasts).*") PatternArray.Push("Mission Complete") 
             
+        Case Mechanic = "Niko" : PatternArray.Push(".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*") PatternArray.Push(".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*") PatternArray.Push("Mission Complete") 
+
+        Case Mechanic = "Betrayal" : PatternArray.Push(".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*") PatternArray.Push(".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*") PatternArray.Push("Mission Complete") 
         
-            
+        Case Mechanic = "Incursion" : PatternArray.Push(".*(?:Master Explorer|Alva, Master|Alva Master|Complete the temporal|the temporal Incursion).*") PatternArray.Push(".*(?:Complete the temporal|the temporal Incursion).*") PatternArray.Push("Mission Complete")
     }
     Return PatternArray
 }
+
 ; ### need to add a check for Screen Searches that the screen search feature is actually turned on for each mechanic. 

@@ -47,6 +47,7 @@ GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
 GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
+GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 ; GroupAdd("PoeWindow", "InfluenceReminder")
 ; GroupAdd("PoeWindow", "Overlay")
 ; GroupAdd("PoeWindow", "Move")
@@ -100,8 +101,8 @@ ApplyHotkeys()
 
 If WinActive("ahk_group PoeWindow")
     {
-        SetTimer(ScreenSearchHandler)
-        lt.Start
+        SetTimer(ScreenSearchHandler, 500)
+        lt.Start ; Start log monitoring
         DestroyOverlay()
         CreateOverlay()
     }
@@ -550,15 +551,15 @@ Test(*)
     ; Sleep 2000
     ; Tooltip
     ; testOCR := OCR.FromRect(62, 738, 625, 738)
-    ; msgbox testOCR.Text
+    msgbox "test"
 
 
-    pic := ImagePutBuffer(0)                               ; Screen capture
-    search := ImagePutBuffer("Resources\Images\Image Search\Custom\Blight.png")             ; Convert File -> Buffer
-    if pic.ImageSearch(search)
-        {
-            MsgBox "test"
-        }                                               ; Move cursor 
+;     pic := ImagePutBuffer(0)                               ; Screen capture
+;     search := ImagePutBuffer("Resources\Images\Image Search\Custom\Blight.png")             ; Convert File -> Buffer
+;     if pic.ImageSearch(search)
+;         {
+;             MsgBox "test"
+;         }                                               ; Move cursor 
 }
 
 ^o::
