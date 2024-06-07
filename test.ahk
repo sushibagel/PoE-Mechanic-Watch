@@ -98,6 +98,14 @@ CheckPath()
 StartWatch()
 ApplyHotkeys()
 
+If WinActive("ahk_group PoeWindow")
+    {
+        SetTimer(ScreenSearchHandler)
+        lt.Start
+        DestroyOverlay()
+        CreateOverlay()
+    }
+
 #HotIf WinActive("ahk_group AHKFiles") ; For dev purposes, Quick reload
 ~^s::
 {
