@@ -17,11 +17,6 @@ ScreenSearchHandler()
         }
 }
 
-MechanicOCR()
-{
-
-}
-
 MechanicScreenSearch()
 {
     ScreenShot := ImagePutBuffer(0)                               ; Screen capture
@@ -78,3 +73,47 @@ InfluenceScreenSearch()
                 }      
         }                                         
 }
+
+MechanicOCR()
+{
+    OCRMechanics := VariableStore("OCRSearch")
+    ActiveOCR := Array()
+    For Mechanic in OCRMechanics ; Check if any OCR Mechanics are active
+        {
+            OCRActive := IniPath("Mechanics", "Read", , "Auto Mechanics", Mechanic, 0)
+            If (OCRActive = 1)
+                {
+                    ActiveOCR.Push(Mechanic)
+                }
+        }
+    If (ActiveOCR.Length > 0)
+        {
+            ScreenSearchIni := IniPath("ScreenSearch")
+            XOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "X", A_ScreenWidth/2)
+            YOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "Y", 0)
+            WOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "W", A_ScreenWidth/2)
+            HOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "H", A_ScreenHeight)
+            OCRText := OCR.FromRect(XOCR, YOCR, WOCR, HOCR) ; Get OCR Image
+            For Mechanic in ActiveOCR
+                {
+                    SearchPatterns := GetPatterns(Mechanic)
+                    msgbox SearchPatterns.Length "KJHKJH"
+                }
+        }
+
+    ; Ritual needs a seperate search since a different image location would be used. 
+}
+
+GetPatterns(Mechanic)
+{
+    PatternArray := Array()
+    Switch 
+    {
+        Case Mechanic = "Einhar": PatternArray.Push(".*(?:Find and weaken|weaken the beasts).*") PatternArray.Push("Mission Complete") PatternArray.Push(".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*")
+            
+        
+            
+    }
+    Return PatternArray
+}
+; ### need to add a check for Screen Searches that the screen search feature is actually turned on for each mechanic. 

@@ -26,6 +26,7 @@ IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
         Case FileRequested = "Misc Data": Path := StorageDir "\Resources\Data\Misc.ini"
         Case FileRequested = "Notifications": Path := StorageDir "\Resources\Settings\Notification.ini"
         Case FileRequested = "Overlay": Path := StorageDir "\Resources\Settings\Overlay.ini"
+        Case FileRequested = "ScreenSearch" : Path := StorageDir "\Resources\Settings\ScreenSarch.ini"
         Case FileRequested = "Setup": Path := StorageDir "\Resources\Data\Setup.ini"
         Case FileRequested = "Storage": Path := "Resources\Settings\StorageLocation.ini" ;Intentionally doesn't use alt storage path. 
         Case FileRequested = "Theme": Path := StorageDir "\Resources\Settings\Theme.ini"
@@ -43,7 +44,7 @@ IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
 
 /**
  * 
- * @param VariableRequested {String} Requested variable data. [Influences, Mechanics, ImageSearch]
+ * @param VariableRequested {String} Requested variable data. [Influences, Mechanics, ImageSearch, OCRSearch]
  * @returns {Array} 
  */
 VariableStore(VariableRequested)
@@ -53,6 +54,7 @@ VariableStore(VariableRequested)
         Case VariableRequested = "Influences": Return ["Eater", "Searing", "Maven"]
         Case VariableRequested = "Mechanics": Return ["Abyss", "Betrayal", "Blight", "Breach", "Einhar", "Expedition", "Harvest", "Incursion", "Legion", "Niko", "Ritual", "Ultimatum", "Generic"]
         Case VariableRequested = "ImageSearch": Return ["Ritual Icon", "Ritual Shop", "Blight"]
+        Case VariableRequested = "OCRSearch": Return ["Betrayal", "Blight", "Einhar", "Expedition", "Incursion", "Niko"] ; Ritual left out of this on purpose
     }
 }
 

@@ -114,7 +114,7 @@ Recipient(Message, ID, *)
         {
             If IsSet(lt)
                 {
-                    SetTimer(ScreenSearchHandler)
+                    SetTimer(ScreenSearchHandler, 500)
                     lt.Start ; Start log monitoring
                     DestroyOverlay()
                     CreateOverlay()
