@@ -544,14 +544,14 @@ Close(*)
 
 ; Global Testvar := 0
 
-Test(*)
+Test(AlsoMessage:="", *)
 {
     ; Global Testvar++
     ; Tooltip Testvar
     ; Sleep 2000
     ; Tooltip
     ; testOCR := OCR.FromRect(62, 738, 625, 738)
-    msgbox "test"
+    msgbox "test" AlsoMessage
 
 
 ;     pic := ImagePutBuffer(0)                               ; Screen capture
