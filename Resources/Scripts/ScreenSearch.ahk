@@ -97,21 +97,80 @@ MechanicOCR()
             WOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "W", A_ScreenWidth/2)
             HOCR := IniRead(ScreenSearchIni, "Quest Tracker Text", "H", A_ScreenHeight)
             OCRText := OCR.FromRect(XOCR, YOCR, WOCR, HOCR) ; Get OCR Image
+            TextLines := Array()
             For Mechanic in ActiveOCR
                 {
                     SearchPatterns := GetPatterns(Mechanic)
                     If (RegExMatch(OCRText.Text, SearchPatterns[1])) ;First find a match in the complete pattern
                         {
+                            OriginalMatchIndex := 0
                             For Line in OCRText.Lines
-                            If (RegExMatch(Line.Text, SearchPatterns[2])) ; Check second set of patterns for a match
                                 {
-                                    IndexMatch := A_Index - 1
-                                    Loop 2
+                                    TextLines.Push(Line.Text)
+                                    If RegExMatch(TextLines[A_Index], SearchPatterns[1])
                                         {
-                                            IndexMatch++
-                                            ; msgbox OCRText.Lines.Text[2]
+                                            OriginalMatchIndex := A_Index
                                         }
                                 }
+                            For Line in TextLines
+                                {
+                                    If (RegExMatch(Line, SearchPatterns[2])) ; Check second set of patterns for a match
+                                        {
+                                            IndexMatch := A_Index - 1
+                                            Loop 2
+                                                {
+                                                    IndexMatch++
+                                                    If InStr(TextLines[IndexMatch], "(")
+                                                        {
+
+                                                            MechanicCount := StrSplit(TextLines[IndexMatch], "(")
+                                                            MechanicCount := StrSplit(MechanicCount[2], ")")
+                                                            If InStr(MechanicCount[1], "/") ; If OCR read the backslash correctly we are done. If not we need to correct it. 
+                                                                {
+                                                                   MechanicCount := MechanicCount[1]
+                                                                   CheckCountToggle(MechanicCount, Mechanic)
+                                                                   Break
+                                                                }
+                                                            Else ; If we didn't find a back a backslash we most likely got a "1' or "l" instead, so we have to figure out what the correct count is. 
+                                                                {
+                                                                    If (StrLen(MechanicCount[1]) = 3) ; if the count is 3 digit then the middle character should be "/"
+                                                                        {
+                                                                            MechanicCount := StrSplit(MechanicCount[1])
+                                                                            MechanicCount := MechanicCount[1] "/" MechanicCount[3]
+                                                                            CheckCountToggle(MechanicCount, Mechanic)
+                                                                            Break
+                                                                        }
+                                                                    If (StrLen(MechanicCount[1]) = 4)
+                                                                        {
+                                                                            MechanicCount := StrSplit(MechanicCount[1])
+                                                                            MechanicCount := MechanicCount[1] "/" MechanicCount[3] MechanicCount[4]
+                                                                            CheckCountToggle(MechanicCount, Mechanic)
+                                                                            Break
+                                                                         }
+                                                                    If (StrLen(MechanicCount[1]) = 5)
+                                                                    {
+                                                                        MechanicCount := StrSplit(MechanicCount[1])
+                                                                        MechanicCount := MechanicCount[1] MechanicCount[2] "/" MechanicCount[4] MechanicCount[5]
+                                                                    }
+                                                                }
+                                                        }
+                                                    If !InStr(TextLines[IndexMatch], "(") and (A_Index = 2) ; If "(" wasn't in the text we are probably at step 1 for the mechanic and can just activate it
+                                                        {
+                                                            Toggle(Mechanic, 1, "On")
+                                                            Break
+                                                        }
+                                                }
+                                        }
+                                    Else ; If we don't find a match in series #2 check and see if it's because we've completed the mission
+                                        {
+                                            If InStr(TextLines[OriginalMatchIndex + 1], "Mission Complete") and (OriginalMatchIndex > 0)
+                                                {
+                                                    Toggle(Mechanic, 1, "Off")
+                                                    Break
+                                                }
+                                        }
+                                }
+
                         }
 
                 }
@@ -120,18 +179,29 @@ MechanicOCR()
     ; Ritual needs a seperate search since a different image location would be used. 
 }
 
+CheckCountToggle(MechanicCount, Mechanic)
+{
+    CurrentCount := IniPath("Mechanics", "Read", , Mechanic " Track", "Current Count", "")
+    If !(CurrentCount = MechanicCount)
+        {
+            IniPath("Mechanics", "Write", MechanicCount, Mechanic " Track", "Current Count")
+            Toggle(Mechanic, 1, "On")
+        }
+}
+
+
 GetPatterns(Mechanic)
 {
     PatternArray := Array()
     Switch 
     {
-        Case Mechanic = "Einhar" : PatternArray.Push(".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*") PatternArray.Push(".*(?:Find and weaken|weaken the beasts).*") PatternArray.Push("Mission Complete") 
+        Case Mechanic = "Einhar" : PatternArray.Push(".*(?:Find and weaken|weaken the beasts|Einhar, Beastmaster|Einhar Beastmaster).*") PatternArray.Push(".*(?:Find and weaken|weaken the beasts).*")
             
-        Case Mechanic = "Niko" : PatternArray.Push(".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*") PatternArray.Push(".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*") PatternArray.Push("Mission Complete") 
+        Case Mechanic = "Niko" : PatternArray.Push(".*(?:Master of the Depths|Niko, Master|Niko Master|Master of the Depths|Find the Voltaxic|Voltaxic Sulphite deposits).*") PatternArray.Push(".*(?:Find the Voltaxic|Voltaxic Sulphite deposits).*") 
 
-        Case Mechanic = "Betrayal" : PatternArray.Push(".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*") PatternArray.Push(".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*") PatternArray.Push("Mission Complete") 
+        Case Mechanic = "Betrayal" : PatternArray.Push(".*(?:Jun, Veiled|Jun Veiled|Veiled Master|Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*") PatternArray.Push(".*(?:Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter).*") 
         
-        Case Mechanic = "Incursion" : PatternArray.Push(".*(?:Master Explorer|Alva, Master|Alva Master|Complete the temporal|the temporal Incursion).*") PatternArray.Push(".*(?:Complete the temporal|the temporal Incursion).*") PatternArray.Push("Mission Complete")
+        Case Mechanic = "Incursion" : PatternArray.Push(".*(?:Master Explorer|Alva, Master|Alva Master|Complete the temporal|the temporal Incursion).*") PatternArray.Push(".*(?:Complete the temporal|the temporal Incursion).*") 
     }
     Return PatternArray
 }
