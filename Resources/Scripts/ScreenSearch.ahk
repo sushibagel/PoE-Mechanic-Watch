@@ -119,23 +119,22 @@ MechanicOCR()
 
 CheckOCR(TextFound, ActiveOCR)
 { 
-    For Mechanic in ActiveOCR
+    TextLines := Array()
+    For Mechanic in ActiveOCR ;Find the mechanic and line that was matched.
         {
-            SearchPatterns := GetPatterns(Mechanic, 2)
-            ThisMatch := RegExMatch(TextFound.Text, SearchPatterns, &MatchText) ;First find a match in the complete pattern
-            If (ThisMatch)
-                {
+            SearchPatterns := GetPatterns(Mechanic, 1)
                     For Line in TextFound.Lines
                         {
                             TextLines.Push(Line.Text)
-                            If RegExMatch(TextLines[A_Index], SearchPatterns[1])
+                            If RegExMatch(TextLines[A_Index], SearchPatterns)
                                 {
                                     OriginalMatchIndex := A_Index
                                 }
                         }
                     For Line in TextLines
                         {
-                            If (RegExMatch(Line, SearchPatterns[2])) ; Check second set of patterns for a match
+                            SearchPattern := GetPatterns(Mechanic, 2)
+                            If (RegExMatch(Line, SearchPatterns)) ; Check second set of patterns for a match
                                 {
                                     IndexMatch := A_Index - 1
                                     Loop 2
@@ -224,7 +223,7 @@ CheckOCR(TextFound, ActiveOCR)
                             Break
                         }
                 }
-        }
+        
 }
 
     ; ; Ritual needs a seperate search since a different image location would be used. 
