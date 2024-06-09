@@ -100,7 +100,7 @@ MechanicOCR()
         }
     If (ActiveOCR.Length > 0)
         {
-            WinWaitActive "ahk_exe Photos.exe"
+            WinWaitActive "ahk_group PoeWindow"
             WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
             XOCR := WOCR - WOCR//3
             ScreenSearchIni := IniPath("ScreenSearch")
@@ -124,11 +124,9 @@ CheckOCR(TextFound, ActiveOCR)
             ThisMatch := RegExMatch(TextFound, SearchPatterns, &MatchText) ;First find a match in the complete pattern
             If (ThisMatch)
                 {
-                    msgbox ThisMatch "|" MatchText.Match[1]
+                    msgbox ThisMatch "|" MatchText[] '\' TextFound
 
-
-                    OriginalMatchIndex := 0
-                    For Line in OCRText.Lines
+                    For Line in TextFound.Lines
                         {
                             TextLines.Push(Line.Text)
                             If RegExMatch(TextLines[A_Index], SearchPatterns[1])
