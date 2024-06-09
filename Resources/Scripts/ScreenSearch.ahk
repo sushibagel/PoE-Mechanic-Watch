@@ -111,7 +111,8 @@ MechanicOCR()
             OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "A",, 2, {X:XOCR, Y:YOCR, W:WOCR, H:HOCR, onlyClientArea:1}),,RegExMatch) ; Find text indicating missions are in the map. 
             If (OCRText)
                 {
-                    CheckOCR(OCRText.Text, ActiveOCR)
+
+                    CheckOCR(OCRText, ActiveOCR)
                 }
         }
 }
@@ -121,11 +122,9 @@ CheckOCR(TextFound, ActiveOCR)
     For Mechanic in ActiveOCR
         {
             SearchPatterns := GetPatterns(Mechanic, 2)
-            ThisMatch := RegExMatch(TextFound, SearchPatterns, &MatchText) ;First find a match in the complete pattern
+            ThisMatch := RegExMatch(TextFound.Text, SearchPatterns, &MatchText) ;First find a match in the complete pattern
             If (ThisMatch)
                 {
-                    msgbox ThisMatch "|" MatchText[] '\' TextFound
-
                     For Line in TextFound.Lines
                         {
                             TextLines.Push(Line.Text)
