@@ -37,8 +37,7 @@ IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
     {
         Case Action = "Write" : IniWrite(Value, Path, Section, Key)
         Case Action = "Read" : Return IniRead(Path, Section, Key, Default)  
-        Default: Return Path
-            
+        Default: Return Path            
     }
 }
 
