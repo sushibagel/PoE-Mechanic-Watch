@@ -4,17 +4,9 @@ ScreenSearchHandler()
     If (HideoutStatus = 1) ; Active searches if the user is in the hideout
     {
         InfluenceScreenSearch()
-        ; SetTimer(InfluenceScreenSearch)
-        ; SetTimer(InfluenceOCR)
-        ; SetTimer(MechanicScreenSearch, 0)
-        ; SetTimer(MechanicOCR, 0)
     }
     Else
     {
-        ; SetTimer(MechanicScreenSearch, 500)
-        ; SetTimer(MechanicOCR, 500)
-        ; SetTimer(InfluenceScreenSearch, 0)
-        ; SetTimer(InfluenceOCR, 0)
         MechanicScreenSearch()
         MechanicOCR()
     }
@@ -22,12 +14,12 @@ ScreenSearchHandler()
 
 MechanicScreenSearch()
 {
-    ScreenShot := ImagePutBuffer(0)                               ; Screen capture
+    ScreenShot := ImagePutBuffer(0) ; Screen capture
     SearchMechanics := VariableStore("ImageSearch")
     For Mechanic in SearchMechanics
     {
         ImageFile := ImagePath(Mechanic, "Yes")
-        Search := ImagePutBuffer(ImageFile)             ; Convert File -> Buffer
+        Search := ImagePutBuffer(ImageFile) ; Convert File -> Buffer
         If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
         {
             Switch ; Match mechanic and toggle.
@@ -112,18 +104,21 @@ MechanicOCR()
         {
             CheckOCR(OCRText, ActiveOCR)
         }
-        WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
-        YOCR := HOCR - HOCR // 3
-        XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", XOCR)
-        YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
-        WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", WOCR)
-        HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", HOCR)
-        RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "A", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
-        If (RitualOCR)
-            {
-                RitualOCRMatch(RitualOCR)
-            }
-
+        RitualStatus := IniPath("Mechanics", "Read", , "Auto Mechanics", "Ritual")
+        {
+            WinWaitActive "ahk_group PoeWindow"
+            WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+            YOCR := HOCR - HOCR // 3
+            XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", XOCR)
+            YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
+            WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", WOCR)
+            HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", HOCR)
+            RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "A", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating ritual are in the map.
+            If (RitualOCR)
+                {
+                    RitualOCRMatch(RitualOCR)
+                }
+        }
     }
 }
 
@@ -189,13 +184,13 @@ CheckOCR(TextFound, ActiveOCR)
                         Break
                     }
                 }
-            }
-            Else ; If we don't find a match in series #2 check and see if it's because we've completed the mission
-            {
-                If InStr(TextLines[OriginalMatchIndex + 1], "Mission Complete") and (OriginalMatchIndex > 0)
+                Else ; If we don't find a match in series #2 check and see if it's because we've completed the mission
                 {
-                    Toggle(Mechanic, 1, "Off")
-                    Break
+                    If InStr(TextLines[IndexMatch + 1], "Mission Complete") and (IndexMatch > 0)
+                    {
+                        Toggle(Mechanic, 1, "Off")
+                        Break
+                    }
                 }
             }
         }
@@ -204,7 +199,6 @@ CheckOCR(TextFound, ActiveOCR)
 
 }
 
-
 ; Ritual is looked for next in a different zone
 RitualOCRMatch(RitualOCR)
 {
@@ -212,23 +206,27 @@ RitualOCRMatch(RitualOCR)
     For Line in RitualOCR.Lines
     {
         TextLines.Push(Line.Text)
-        ; \d\d\d|\d\/\d
         If (RegExMatch(TextLines[A_Index], "(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", &RitualMatch)) and !RegExMatch(TextLines[A_Index], "(?i)^(?:e(?:ncounters|inhar)|alva|niko|jun|\(\))$")
         {
             If !InStr(RitualMatch[1], "/")
-            {
-                RitualMatch := StrSplit(RitualMatch[1])
-                RitualMatch := RitualMatch[1] "/" RitualMatch[3]
-            }
+                {
+                    RitualMatch := StrSplit(RitualMatch[1])
+                    RitualMatch := RitualMatch[1] "/" RitualMatch[3]
+                }
+            Else
+                {
+                    RitualMatch := RitualMatch[1]
+                }
+            CurrentCount := IniPath("Mechanics", "Read", , "Ritual Track", "Current Count", "")
             CheckCountToggle(RitualMatch, "Ritual")
+            If (RitualMatch = "3/3") or (RitualMatch = "4/4") and !(RitualMatch = CurrentCount)
+                {
+                    QuickNotify("tesing 123", 3)
+                }
             Break
         }
     }
-
 }
-
-; ; Ritual needs a seperate search since a different image location would be used.
-
 
 CheckCountToggle(MechanicCount, Mechanic)
 {
@@ -239,7 +237,6 @@ CheckCountToggle(MechanicCount, Mechanic)
         Toggle(Mechanic, 1, "On")
     }
 }
-
 
 GetPatterns(Mechanic, Version)
 {
@@ -252,7 +249,6 @@ GetPatterns(Mechanic, Version)
             If (Version = 2)
                 Return "Find and weaken|weaken the beasts"
         }
-
         Case Mechanic = "Niko":
         {
             If (Version = 1)
@@ -267,7 +263,6 @@ GetPatterns(Mechanic, Version)
             If (Version = 2)
                 Return "Immortal Syndicate Encounters|Complete the Immortal|the Immortal Syndicate|Syndicate encounter"
         }
-
         Case Mechanic = "Incursion":
         {
             If (Version = 1)
@@ -278,5 +273,6 @@ GetPatterns(Mechanic, Version)
     }
 }
 
-; ### need to add a check for Screen Searches that the screen search feature is actually turned on for each mechanic.
-; ### need to fix mission complete portion. 
+; ### fix window missing error
+; ### Need to implement the ritual shop part
+; ### Finish mechanic screen search
