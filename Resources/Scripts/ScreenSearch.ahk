@@ -121,7 +121,7 @@ MechanicOCR()
         RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "A", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
         If (RitualOCR)
             {
-                msgbox RitualOCR.Text
+                RitualOCRMatch(RitualOCR)
             }
 
     }
@@ -206,36 +206,26 @@ CheckOCR(TextFound, ActiveOCR)
 
 
 ; Ritual is looked for next in a different zone
-; RitualStatus := IniPath("Mechanics", "Read", , "Auto Mechanics", "Ritual", 0)
-; If (RitualStatus = 1) ; Check if Auto is turned on for Ritual
-; {
-;     ScreenSearchIni := IniPath("ScreenSearch")
-;     XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", 0)
-;     YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", (A_ScreenHeight / 3) * 2)
-;     WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", A_ScreenWidth)
-;     HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", A_ScreenHeight / 3)
+RitualOCRMatch(RitualOCR)
+{
+    TextLines := Array()
+    For Line in RitualOCR.Lines
+    {
+        TextLines.Push(Line.Text)
+        ; \d\d\d|\d\/\d
+        If (RegExMatch(TextLines[A_Index], "(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", &RitualMatch)) and !RegExMatch(TextLines[A_Index], "(?i)^(?:e(?:ncounters|inhar)|alva|niko|jun|\(\))$")
+        {
+            If !InStr(RitualMatch[1], "/")
+            {
+                RitualMatch := StrSplit(RitualMatch[1])
+                RitualMatch := RitualMatch[1] "/" RitualMatch[3]
+            }
+            CheckCountToggle(RitualMatch, "Ritual")
+            Break
+        }
+    }
 
-;     WinGetPos(&X, &Y, &W, &H, "ahk_Group PoeWindow")
-;     OCRText := OCR.FromWindow("ahk_Group PoeWindow", , , { X: 0, Y: (H / 3) * 2, W: W, H: H / 3, onlyClientArea: 1 }) ; Get OCR Image
-
-;     TextLines := Array()
-;     For Line in OCRText.Lines
-;     {
-;         TextLines.Push(Line.Text)
-;         ; \d\d\d|\d\/\d
-;         If (RegExMatch(TextLines[A_Index], "(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", &RitualMatch)) and !RegExMatch(TextLines[A_Index], "(?i)^(?:e(?:ncounters|inhar)|alva|niko|jun|\(\))$")
-;         {
-;             If !InStr(RitualMatch[1], "/")
-;             {
-;                 RitualMatch := StrSplit(RitualMatch[1])
-;                 RitualMatch := RitualMatch[1] "/" RitualMatch[3]
-;             }
-;             CheckCountToggle(RitualMatch, "Ritual")
-;             Break
-;         }
-;     }
-
-; }
+}
 
 ; ; Ritual needs a seperate search since a different image location would be used.
 
