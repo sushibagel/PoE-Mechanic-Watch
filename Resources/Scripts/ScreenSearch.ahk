@@ -14,27 +14,38 @@ ScreenSearchHandler()
 
 MechanicScreenSearch()
 {
-    ScreenShot := ImagePutBuffer(0) ; Screen capture
+    ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
     SearchMechanics := VariableStore("ImageSearch")
     For Mechanic in SearchMechanics
     {
-        ImageFile := ImagePath(Mechanic, "Yes")
+        ImageFile := ImagePath(Mechanic, "Yes") 
         Search := ImagePutBuffer(ImageFile) ; Convert File -> Buffer
         If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
         {
+            test
             Switch ; Match mechanic and toggle.
             {
-                Case Mechanic = "Blight": Toggle("Blight", 1, "Off")
-                Case Mechanic = "Ritual Icon": Toggle("Ritual", 1, "On")
-                Case Mechanic = "Ritual Shop": Toggle("Ritual", 1, "Off")
+                Case Mechanic = "Blight": ToggleMechanic("Blight", 1, "Off")
+                Case Mechanic = "Ritual Icon": ToggleMechanic("Ritual", 1, "On")
+                Case Mechanic = "Ritual Shop": CheckRitualStatus()
             }
         }
     }
 }
 
+CheckRitualStatus()
+{
+    Active := IniPath("Mechanics", "Read", , "Mechanic Active", "Ritual", 0)
+    Status := IniPath("Mechanics", "Read", , "Ritual Track", "Current Count", "")
+    If (Active = 1) and ((Status = "3/3") or (Status = "4/4"))
+        {
+            ToggleMechanic("Ritual", 1, "Off")
+        }
+}
+
 InfluenceScreenSearch()
 {
-    ScreenShot := ImagePutBuffer(0)                               ; Screen capture
+    ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
     ActiveInfluence := GetInfluence()
     InfluenceMechanics := VariableStore("Influences")
     For Influence in InfluenceMechanics ; Check which Influence is on
@@ -54,7 +65,7 @@ InfluenceScreenSearch()
     Loop LoopTotal
     {
         ImageFile := ImagePath(ActiveInfluence A_Index - 1, "Yes")
-        Search := ImagePutBuffer(ImageFile)             ; Convert File -> Buffer
+        Search := ImagePutBuffer(ImageFile) ; Convert File -> Buffer
         If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
         {
             CurrentCount := IniPath("Mechanics", "Read", , "Influence Track", ActiveInfluence, 0) ;Check if new count matches prior count
@@ -128,6 +139,7 @@ CheckOCR(TextFound, ActiveOCR)
     For Mechanic in ActiveOCR ;Find the mechanic and line that was matched.
     {
         SearchPatterns := GetPatterns(Mechanic, 1)
+        OriginalMatchIndex := 0
         For Line in TextFound.Lines
         {
             TextLines.Push(Line.Text)
@@ -175,24 +187,31 @@ CheckOCR(TextFound, ActiveOCR)
                             {
                                 MechanicCount := StrSplit(MechanicCount[1])
                                 MechanicCount := MechanicCount[1] MechanicCount[2] "/" MechanicCount[4] MechanicCount[5]
+                                Break
                             }
                         }
                     }
                     If !InStr(TextLines[IndexMatch], "(") and (A_Index = 2) ; If "(" wasn't in the text we are probably at step 1 for the mechanic and can just activate it
                     {
-                        Toggle(Mechanic, 1, "On")
-                        Break
-                    }
-                }
-                Else ; If we don't find a match in series #2 check and see if it's because we've completed the mission
-                {
-                    If InStr(TextLines[IndexMatch + 1], "Mission Complete") and (IndexMatch > 0)
-                    {
-                        Toggle(Mechanic, 1, "Off")
-                        Break
+                        MapSeed := IniPath("Misc Data", "Read", , "Map", "Last Seed", "")
+                        SeedCheck := IniPath("Mechanics", "Read", , Mechanic " Track", "Seed", "1")
+                        If !(MapSeed = SeedCheck)
+                            {
+                                ToggleMechanic(Mechanic, 1, "On")
+                            }
                     }
                 }
             }
+            Else ; If we don't find a match in series #2 check and see if it's because we've completed the mission
+                {
+                    If InStr(TextLines[OriginalMatchIndex + 1], "Mission Complete") and (OriginalMatchIndex > 0)
+                    {
+                        ToggleMechanic(Mechanic, 1, "Off")
+                        MapSeed := IniPath("Misc Data", "Read", , "Map", "Last Seed", "")
+                        SeedCheck := IniPath("Mechanics", "Write", MapSeed, Mechanic " Track", "Seed")
+                        Break
+                    }
+                }
         }
 
     }
@@ -218,23 +237,26 @@ RitualOCRMatch(RitualOCR)
                     RitualMatch := RitualMatch[1]
                 }
             CurrentCount := IniPath("Mechanics", "Read", , "Ritual Track", "Current Count", "")
-            CheckCountToggle(RitualMatch, "Ritual")
-            If (RitualMatch = "3/3") or (RitualMatch = "4/4") and !(RitualMatch = CurrentCount)
+            CheckCountToggle(RitualMatch, "Ritual", "No") ; Apply ritual count but don't toggle ritual. Ritual is only toggled by image matching to avoid false positives. 
+            RitualStatus := IniPath("Mechanics", "Read", , "Mechanic Active", "Ritual", 0)
+            If ((RitualMatch = "3/3") or (RitualMatch = "4/4")) and !(RitualMatch = CurrentCount) and (RitualStatus = 1)
                 {
-                    QuickNotify("tesing 123", 3)
+                    QuickNotify("You've completed the final ritual. Don't forget to collect your rewards.", 3)
                 }
-            Break
         }
     }
 }
 
-CheckCountToggle(MechanicCount, Mechanic)
+CheckCountToggle(MechanicCount, Mechanic, Toggle:="Yes")
 {
     CurrentCount := IniPath("Mechanics", "Read", , Mechanic " Track", "Current Count", "")
     If !(CurrentCount = MechanicCount)
     {
         IniPath("Mechanics", "Write", MechanicCount, Mechanic " Track", "Current Count")
-        Toggle(Mechanic, 1, "On")
+        If (Toggle = "Yes") and IsSet(Mechanic)
+            {
+                ToggleMechanic(Mechanic, 1, "On")
+            }
     }
 }
 
@@ -276,3 +298,4 @@ GetPatterns(Mechanic, Version)
 ; ### fix window missing error
 ; ### Need to implement the ritual shop part
 ; ### Finish mechanic screen search
+; ### need to keep mechanics off once completed in a map, had niko and betryal trigger on for a sec because "Complete" text must have been jumbled. 

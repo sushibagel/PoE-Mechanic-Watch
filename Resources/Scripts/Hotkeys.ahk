@@ -226,7 +226,7 @@ ApplyHotkeys()
             If !(HotkeyCombo = "")
                 {
                     HotIfWinActive("ahk_group PoeWindow")
-                    Hotkey HotkeyCombo, Toggle.Bind(Item, 1), "On"
+                    Hotkey HotkeyCombo, ToggleMechanic.Bind(Item, 1), "On"
                     HotIfWinActive
                 }
         }

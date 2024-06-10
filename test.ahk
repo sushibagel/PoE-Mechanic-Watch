@@ -263,7 +263,7 @@ OverlayToggle(ToggledMechanic, *)
         {
             If (ToggledMechanic = Mechanic)
                 {
-                    Toggle(Mechanic)
+                    ToggleMechanic(Mechanic)
                     Break
                 }
         }
@@ -278,7 +278,7 @@ OverlayToggle(ToggledMechanic, *)
         }
 }
 
-Toggle(Mechanic, Refresh:=1, Status:="", *)
+ToggleMechanic(Mechanic, Refresh:=1, Status:="", *)
 {
     MechanicsPath := IniPath("Mechanics")
     MechanicActive := IniRead(MechanicsPath, "Mechanic Active", Mechanic, 0)
@@ -540,7 +540,8 @@ Close(*)
     
 ^m::
 {
-    ScreenSearchHandler()
+    ; NotificationBig(["Blight"], "Mechanic Notification")
+    QuickNotify(["Blight"], 1)
 }
 
 

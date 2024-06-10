@@ -106,7 +106,7 @@ NoReminderButton(ActiveMechanics, *)
             CurrentStatus := IniRead(MechanicsIni, "Mechanic Active", Mechanic, 0)
             If (CurrentStatus = 1)
             {
-                Toggle(Mechanic, 0)
+                ToggleMechanic(Mechanic, 0)
             }
         }
     RefreshOverlay()
@@ -190,12 +190,12 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
             NotificationSound(NotificationInfo[6], NotificationInfo[7])
         }
     QuickNotification.Show(PosX PosY "NoActivate")
-    WinSetTransparent(NotificationInfo[4], "Quick Notification")
+    WinSetTransparent(NotificationInfo[4], "Simple Notification")
 }
 
 QuickNotifyDestroy(*)
 {
-    If WinExist("Quick Notification")
+    If WinExist("Simple Notification")
         {
             QuickNotification.Destroy
             If WinExist("Custom Reminder Setup")
@@ -203,7 +203,7 @@ QuickNotifyDestroy(*)
                     WinRestore
                 }
         }
-    Global QuickNotification := Gui(,"Quick Notification")
+    Global QuickNotification := Gui(,"Simple Notification")
     SetTimer QuickNotifyDestroy, 0
 }
 
