@@ -51,8 +51,8 @@ GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
 GroupAdd("PoeWindow", "ahk_exe nomacs.exe")
 
-Global Overlay := Gui(,"Overlay")
 Global MoveActive := 0
+Global TestActive := 0
 
 HSHELL_WINDOWACTIVATED := 4
 HSHELL_GETMINRECT := 5
@@ -98,7 +98,6 @@ If WinActive("ahk_group PoeWindow")
     {
         SetTimer(ScreenSearchHandler, 500)
         lt.Start ; Start log monitoring
-        ; DestroyOverlay()
         CreateOverlay()
     }
 
@@ -471,13 +470,13 @@ LayoutSet(*)
 IconEditChange(*)
 {
     OverlayIni := IniPath("Overlay")
-    IniWrite(IconEdit.Value, OverlayIni, "Size", "Height")
+    IniWrite(IconEdit.Value, OverlayIni, "Size", "Icons")
 }
 
 IconUpDownChange(*)
 {
     OverlayIni := IniPath("Overlay")
-    IniWrite(IconUpDown.Value, OverlayIni, "Size", "Height")
+    IniWrite(IconUpDown.Value, OverlayIni, "Size", "Icons")
 }
 
 FontEditChange(*)
