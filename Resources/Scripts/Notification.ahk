@@ -335,6 +335,10 @@ NotificationSettings(*)
             NotificationGui.Add("Picture", "w-1 h20 YS Center x+25 ", StopIcon).OnEvent("Click", TestGui.Bind(Header, "Destroy")) ; Add Transparency Play Icon
             NotificationGui.Add("Edit", "Center w50 YS Background" CurrentTheme[2]).OnEvent("Change", TransparencyAdjust.Bind(Header)) ;add transparency edit box
             CurrentOpacity := IniRead(NotificationIni, Header, "Transparency", 255)
+            If (Header = "Overlay")
+            {
+                CurrentOpacity := IniPath("Overlay", "Read", , "Transparency", "Transparency", 255)
+            }
             NotificationGui.Add("UpDown", "Center YS Range0-255", CurrentOpacity) ; add up/down
 
             If (Header = "Overlay")
@@ -387,6 +391,7 @@ NotificationSettings(*)
         }
     NotificationGui.Opt("-DPIScale")
     NotificationGui.Show
+    NotificationGui.OnEvent("Close", NotificationGuiDestroy)
 }
 
 NotificationGuiDestroy(NotificationGui)
@@ -471,10 +476,12 @@ TestGui(NotificationType, Action, *)
             If (Action = "Test")
                 {
                     CreateOverlay()
+                    Return
                 }
             If (Action = "Destroy")
                 {
                     DestroyOverlay()
+                    Return
                 }
         }
     If (NotificationType = "Quick Notification")
@@ -535,11 +542,11 @@ TestGui(NotificationType, Action, *)
                         }                  
                 }
         }
-    GroupAdd("Notifications", "Notification ahk_class AutoHotkeyGUI")
-    GroupAdd("QuickNotification", "Notification ahk_class AutoHotkeyGUI")
-    WinWait("ahk_group Notifications")
-    WinWaitClose
-    If WinExist("Notification Settings")
+        GroupAdd("Notifications", "Notification ahk_class AutoHotkeyGUI")
+        GroupAdd("QuickNotification", "Notification ahk_class AutoHotkeyGUI")
+        WinWait("ahk_group Notifications")
+        WinWaitClose
+        If WinExist("Notification Settings")
         {
             WinRestore "Notification Settings"
         } 
