@@ -50,13 +50,6 @@ GroupAdd("PoeWindow", "Quick Notification")
 GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
 GroupAdd("PoeWindow", "ahk_exe nomacs.exe")
-; GroupAdd("PoeWindow", "InfluenceReminder")
-; GroupAdd("PoeWindow", "Overlay")
-; GroupAdd("PoeWindow", "Move")
-; GroupAdd("PoeWindow", "Influence")
-; GroupAdd("PoeWindow", "Transparency")
-; GroupAdd("PoeWindow", "ahk_exe Code.exe")
-; GroupAdd("PoeWindow", "ahk_class Notepad")
 
 Global Overlay := Gui(,"Overlay")
 Global MoveActive := 0
@@ -105,7 +98,7 @@ If WinActive("ahk_group PoeWindow")
     {
         SetTimer(ScreenSearchHandler, 500)
         lt.Start ; Start log monitoring
-        DestroyOverlay()
+        ; DestroyOverlay()
         CreateOverlay()
     }
 
@@ -162,11 +155,17 @@ CheckPath()
 CreateOverlay()
 {
     ;Get overlay settings from ini files
-    DestroyOverlay()
+    If WinExist("PoE Mechanic Watch Overlay")
+        {   
+            OverlayHwnd := WinWait("PoE Mechanic Watch Overlay")
+            OverlayObj := GuiFromHwnd(OverlayHwnd)
+            OverlayObj.Destroy
+        }
+    Overlay := Gui(, "PoE Mechanic Watch Overlay")
     OverlayIni := IniPath("Overlay")
     MechanicsPath := IniPath("Mechanics")
-    OverlayHeight := IniRead(OverlayIni, "Overlay Position", "Height", A_ScreenHeight-300)
-    OverlayWidth := IniRead(OverlayIni, "Overlay Position", "Width", A_ScreenWidth/2)
+    OverlayHeight := IniRead(OverlayIni, "Overlay Position", "Height", "")
+    OverlayWidth := IniRead(OverlayIni, "Overlay Position", "Width", "")
     OverlayTransparency := IniRead(OverlayIni, "Transparency", "Transparency", 255)
     ;Add additional settings
     Overlay.Opt("AlwaysOnTop")
@@ -188,14 +187,14 @@ CreateOverlay()
                 } 
             If ((MechanicOn = 2) and (MechanicActive = 1)) or (MechanicOn = 1)
                 {
-                    AddOverlayItem(Mechanic, MechanicActive, MechanicCount)
+                    Overlay := AddOverlayItem(Overlay, Mechanic, MechanicActive, MechanicCount)
                 }
         }
 
     ;Setup the active Influence
     ActiveInfluence := GetInfluence()
     InfluenceCount := IniRead(MechanicsPath, "Influence Track", ActiveInfluence, 0)
-    AddOverlayItem(ActiveInfluence,,InfluenceCount)
+    Overlay := AddOverlayItem(Overlay, ActiveInfluence,,InfluenceCount)
     ShouldActivate := "NoActivate"
     If (MoveActive = 1)
         {
@@ -208,26 +207,45 @@ CreateOverlay()
                 {
                     OverlayOrientation := "XM"
                 }
-            Overlay.Add("Button", OverlayOrientation, "Lock").OnEvent("Click", LockMove)
+            CurrentTheme := GetTheme()
+            VerticalStatus := 0
+            HorizontalStatus := 0
+            If OverlayHeight = ""
+                {
+                    VerticalStatus := 1
+                }
+            If (OverlayWidth = "")
+                {
+                    HorizontalStatus := 1
+                }
+            Overlay.SetFont("s10 c" CurrentTheme[3])
+            VerticalCheck := Overlay.Add("Checkbox", "YM Section Checked" VerticalStatus, "Center Vertically")
+            HorizontalCheck := Overlay.Add("Checkbox", "XP Checked" HorizontalStatus, "Center Horizontally")
+            Overlay.Add("Button", OverlayOrientation, "Lock").OnEvent("Click", LockMove.Bind(VerticalCheck, HorizontalCheck))
+            Overlay.SetFont("s8 Bold c" CurrentTheme[2])
+            Overlay.Add("Text", "XM", "Drag the overlay around and press `"Lock`" to store it's location.")
             ShouldActivate := ""
-            Tooltip("Drag the overlay around and press `"Lock`" to store it's location.", A_ScreenWidth/2 - 200, A_ScreenHeight/2)
         }
     ;Activate Overlay and set transparency
-    Overlay.Show("y" OverlayHeight "x" OverlayWidth " " ShouldActivate)
-    WinSetTransColor("1e1e1e " OverlayTransparency, "Overlay")
-    Overlay.OnEvent("Close", LockMove)
-}
-
-DestroyOverlay()
-{
-    If WinExist("Overlay")
+    Overlay.Show(OverlayHeight OverlayWidth " " ShouldActivate)
+    If !(MoveActive = 1)
         {
-            Overlay.Destroy()
+            WinSetTransColor("1e1e1e " OverlayTransparency, "Overlay")
         }
-    Global Overlay := Gui(,"Overlay")
+    Overlay.OnEvent("Close", DestroyOverlay)
 }
 
-AddOverlayItem(Mechanic, Active := 0, MechanicCount?)
+DestroyOverlay(*)
+{
+    If WinExist("PoE Mechanic Watch Overlay")
+        {   
+            OverlayHwnd := WinWait("PoE Mechanic Watch Overlay")
+            OverlayObj := GuiFromHwnd(OverlayHwnd)
+            OverlayObj.Destroy
+        }
+}
+
+AddOverlayItem(Overlay, Mechanic, Active := 0, MechanicCount?)
 {
     ;Get overlay settings
     OverlayIni := IniPath("Overlay")
@@ -254,6 +272,7 @@ AddOverlayItem(Mechanic, Active := 0, MechanicCount?)
     Overlay.BackColor := "1e1e1e"
     Overlay.SetFont("s" OverlayFont)
     Overlay.Add("Text", "BackgroundTrans cwhite Center XS w" IconSize, MechanicCount).OnEvent("Click", OverlayToggle.Bind(Mechanic))
+    Return Overlay
 }
 
 OverlayToggle(ToggledMechanic, *)
@@ -356,17 +375,23 @@ MoveOverlay(*)
     RefreshOverlay()
 }
 
-LockMove(*)
+LockMove(VerticalCheck, HorizontalCheck, *)
 {
-    newwidth := 0
-    newHeight := 0
-    WinGetPos &Xpos, &Ypos,,,Overlay
-    YPos := YPos + 32
+    WinGetPos &Xpos, &Ypos,,,"PoE Mechanic Watch Overlay"
+    YPos := "y" YPos + 32
+    XPos := "x" XPos
+    If (VerticalCheck.Value = 1)
+        {
+            Ypos := ""
+        }
+    If (HorizontalCheck.Value = 1)
+        {
+            Xpos := ""
+        }
     OverlayIni := IniPath("Overlay")
     IniWrite(Xpos, OverlayIni, "Overlay Position", "Width")
     IniWrite(Ypos, OverlayIni, "Overlay Position", "Height")
     Global MoveActive := 0
-    ToolTip
     RefreshOverlay()
 }
 

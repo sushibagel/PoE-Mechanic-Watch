@@ -1,3 +1,4 @@
+; Imageput seems to be significantly faster but can't handle variance as well as ImageSearch. 
 ScreenSearchHandler()
 {
     HideoutStatus := IniPath("Hideout", "Read", , "In Hideout", "In Hideout", 0)
@@ -14,19 +15,16 @@ ScreenSearchHandler()
 
 MechanicScreenSearch()
 {
-    ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
     SearchMechanics := VariableStore("ImageSearch")
     For Mechanic in SearchMechanics
     {
         ImageFile := ImagePath(Mechanic, "Yes") 
-        Search := ImagePutBuffer(ImageFile) ; Convert File -> Buffer
-        If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
+        If ImageSearch(&FoundX, &FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, "*50 " ImageFile)
         {
-            test
             Switch ; Match mechanic and toggle.
             {
-                Case Mechanic = "Blight": ToggleMechanic("Blight", 1, "Off")
-                Case Mechanic = "Ritual Icon": ToggleMechanic("Ritual", 1, "On")
+                Case Mechanic = "Blight": CheckSeed("Blight", "Off")
+                Case Mechanic = "Ritual Icon": CheckSeed("Ritual", "On")
                 Case Mechanic = "Ritual Shop": CheckRitualStatus()
             }
         }
@@ -40,8 +38,21 @@ CheckRitualStatus()
     If (Active = 1) and ((Status = "3/3") or (Status = "4/4"))
         {
             ToggleMechanic("Ritual", 1, "Off")
+            MapSeed := IniPath("Misc Data", "Read", , "Map", "Last Seed", "")
+            IniPath("Mechanics", "Write", MapSeed, "Ritual Track", "Seed")
         }
 }
+
+CheckSeed(Mechanic, Status:= "On")
+{
+    MapSeed := IniPath("Misc Data", "Read", , "Map", "Last Seed", "")
+    SeedCheck := IniPath("Mechanics", "Read", , Mechanic " Track", "Seed", "1")
+    If !(MapSeed = SeedCheck)
+        {
+            ToggleMechanic(Mechanic, 1, Status)
+        }
+}
+
 
 InfluenceScreenSearch()
 {
@@ -187,18 +198,14 @@ CheckOCR(TextFound, ActiveOCR)
                             {
                                 MechanicCount := StrSplit(MechanicCount[1])
                                 MechanicCount := MechanicCount[1] MechanicCount[2] "/" MechanicCount[4] MechanicCount[5]
+                                CheckCountToggle(MechanicCount, Mechanic)
                                 Break
                             }
                         }
                     }
                     If !InStr(TextLines[IndexMatch], "(") and (A_Index = 2) ; If "(" wasn't in the text we are probably at step 1 for the mechanic and can just activate it
                     {
-                        MapSeed := IniPath("Misc Data", "Read", , "Map", "Last Seed", "")
-                        SeedCheck := IniPath("Mechanics", "Read", , Mechanic " Track", "Seed", "1")
-                        If !(MapSeed = SeedCheck)
-                            {
-                                ToggleMechanic(Mechanic, 1, "On")
-                            }
+                        CheckSeed(Mechanic, "On")
                     }
                 }
             }
@@ -208,7 +215,7 @@ CheckOCR(TextFound, ActiveOCR)
                     {
                         ToggleMechanic(Mechanic, 1, "Off")
                         MapSeed := IniPath("Misc Data", "Read", , "Map", "Last Seed", "")
-                        SeedCheck := IniPath("Mechanics", "Write", MapSeed, Mechanic " Track", "Seed")
+                       IniPath("Mechanics", "Write", MapSeed, Mechanic " Track", "Seed")
                         Break
                     }
                 }
@@ -253,9 +260,14 @@ CheckCountToggle(MechanicCount, Mechanic, Toggle:="Yes")
     If !(CurrentCount = MechanicCount)
     {
         IniPath("Mechanics", "Write", MechanicCount, Mechanic " Track", "Current Count")
-        If (Toggle = "Yes") and IsSet(Mechanic)
+        ActiveStatus := IniPath("Mechanics", "Read", , "Mechanic Active", Mechanic, 0)
+        If (Toggle = "Yes") and IsSet(Mechanic) and (ActiveStatus = 0)
             {
                 ToggleMechanic(Mechanic, 1, "On")
+            }
+        Else
+            {
+                RefreshOverlay()
             }
     }
 }
