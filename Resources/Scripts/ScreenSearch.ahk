@@ -47,9 +47,18 @@ CheckSeed(Mechanic, Status:= "On")
 {
     MapSeed := IniPath("Misc Data", "Read", , "Map", "Last Seed", "")
     SeedCheck := IniPath("Mechanics", "Read", , Mechanic " Track", "Seed", "1")
+    If (Mechanic = "Ritual")
+        {
+            SeedCheck := IniPath("Mechanics", "Read", , Mechanic " Track", "Active Seed", "1")
+        }
     If !(MapSeed = SeedCheck)
         {
             ToggleMechanic(Mechanic, 1, Status)
+            If (Mechanic = "Ritual")
+                {
+                    IniPath("Mechanics", "Write", "", "Ritual Track", "Current Count")
+                    IniPath("Mechanics", "Write", MapSeed , Mechanic " Track", "Active Seed")
+                }
         }
 }
 

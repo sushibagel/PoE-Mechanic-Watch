@@ -97,6 +97,8 @@ GetMapName(LogLine)
             MiscIni := IniPath("Misc Data")
             LastMap := IniRead(MiscIni, "Map", "Last Map", "Error")
             LastSeed := IniRead(MiscIni, "Map", "Last Seed", "Error")
+
+            
             If InStr(MapList, MapName) and (MapName != "") and ((MapName != LastMap) or (MapSeed != LastSeed))
                 {
                     IniWrite(MapName, MiscIni, "Map", "Last Map")
