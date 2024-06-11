@@ -49,7 +49,7 @@ GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
 GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
-GroupAdd("PoeWindow", "ahk_exe nomacs.exe")
+GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 Global MoveActive := 0
 Global TestActive := 0
