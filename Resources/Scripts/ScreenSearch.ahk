@@ -4,7 +4,12 @@ ScreenSearchHandler()
     HideoutStatus := IniPath("Hideout", "Read", , "In Hideout", "In Hideout", 0)
     If (HideoutStatus = 1) ; Active searches if the user is in the hideout
     {
-        InfluenceScreenSearch()
+        InfluenceStatus := IniPath("Mechanics", "Read", , "Auto Mechanics", "Eldritch", 0)
+        If (InfluenceStatus = 1)
+        {
+            InfluenceScreenSearch()
+            InfluenceOCR()
+        }
     }
     Else
     {
@@ -316,7 +321,12 @@ GetPatterns(Mechanic, Version)
     }
 }
 
+InfluenceOCR()
+{
+    
+}
 ; ### fix window missing error
 ; ### Need to implement the ritual shop part
 ; ### Finish mechanic screen search
 ; ### need to keep mechanics off once completed in a map, had niko and betryal trigger on for a sec because "Complete" text must have been jumbled. 
+; ### need to add check for mechanic screensearch to make sure auto is active. 

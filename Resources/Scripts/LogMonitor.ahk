@@ -88,6 +88,7 @@ GetMapName(LogLine)
         {
             MapReminder()
             MapString := StrSplit(LogLine, "MapWorlds")
+            AreaLevel := MapString[1]
             MapString := StrSplit(MapString[2], "`"")
             MapName := MapString[1]
             MapSeed := StrSplit(MapString[2], "with seed ")
@@ -97,19 +98,20 @@ GetMapName(LogLine)
             MiscIni := IniPath("Misc Data")
             LastMap := IniRead(MiscIni, "Map", "Last Map", "Error")
             LastSeed := IniRead(MiscIni, "Map", "Last Seed", "Error")
-
-            
+            AreaLevel := StrSplit(AreaLevel, "Generating level")
+            AreaLevel := StrSplit(AreaLevel[2], A_Space)
+            AreaLevel := AreaLevel[2]
             If InStr(MapList, MapName) and (MapName != "") and ((MapName != LastMap) or (MapSeed != LastSeed))
                 {
                     IniWrite(MapName, MiscIni, "Map", "Last Map")
                     IniWrite(MapSeed, MiscIni, "Map", "Last Seed")
                     ActiveInfluence := GetInfluence()
-                    If !(ActiveInfluence = "Maven")
+                    If !(ActiveInfluence = "Maven") and (AreaLevel > 80)
                         {
                             IniWrite("False", MiscIni, "Map", "Maven Map")
                             IncrementInfluence(ActiveInfluence)
                         }
-                    Else
+                    If (ActiveInfluence = "Maven") and (AreaLevel > 80)
                         {
                             IniWrite("True", MiscIni, "Map", "Maven Map")
                         }
