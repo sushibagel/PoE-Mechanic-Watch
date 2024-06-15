@@ -142,8 +142,10 @@ MechanicOCR()
         }
         RitualStatus := IniPath("Mechanics", "Read", , "Auto Mechanics", "Ritual")
         {
-            WinWaitActive "ahk_group PoeWindow"
-            WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+            If WinActive("ahk_group PoeWindow")
+            {
+                WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+            }
             YOCR := HOCR - HOCR // 3
             XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", XOCR)
             YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
