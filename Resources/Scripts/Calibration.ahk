@@ -36,7 +36,7 @@ CalibrationTool(*)
                 }
             CalibrationGui.Add("Text", " x+.8", Footnote).OnEvent("Click",FootnoteShow.Bind(Footnote))
             CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
-            CalibrationGui.Add("Text", "YS w55",) ;For consistent Spacing
+            CalibrationGui.Add("Text", "YS w62",) ;For consistent Spacing
             CurrentCount := IniRead(MechanicsIni, "Influence Track", Influence, 0)
             CalibrationGui.Add("Edit", "YS+5 w40 h25 Number Center Background" CurrentTheme[2], "Calibrate")
             %Influence%Value := CalibrationGui.Add("UpDown", "YS " UpDownRange, CurrentCount) ;### Needs event Handler

@@ -98,8 +98,7 @@ DestroyChangeTheme(ChangeTheme)
 
 RefreshTheme(ChangeTo, ChangeTheme, *)
 {
-    ThemePath := IniPath("Theme")
-    IniWrite(ChangeTo, ThemePath, "Theme", "Theme")
+    IniPath("Theme", "Write", ChangeTo, "Theme", "Theme")
     DestroyChangeTheme(ChangeTheme)
     ChangeGui()
 }

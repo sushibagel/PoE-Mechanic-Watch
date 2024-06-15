@@ -50,6 +50,7 @@ GroupAdd("PoeWindow", "Quick Notification")
 GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
 GroupAdd("PoeWindow", "ahk_exe Code.exe")
+GroupAdd("PoeWindow", "ahk_exe Notepad.exe")
 
 Global MoveActive := 0
 Global TestActive := 0
@@ -240,7 +241,10 @@ DestroyOverlay(*)
         {   
             OverlayHwnd := WinWait("PoE Mechanic Watch Overlay")
             OverlayObj := GuiFromHwnd(OverlayHwnd)
-            OverlayObj.Destroy
+            If HasMethod(OverlayObj, "Destroy")
+                {
+                    OverlayObj.Destroy()
+                }
         }
 }
 
@@ -565,7 +569,8 @@ Close(*)
 ^m::
 {
     ; NotificationBig(["Blight"], "Mechanic Notification")
-    QuickNotify(["Blight"], 1)
+    ; QuickNotify(["Blight"], 1)
+    HotkeySetup
 }
 
 
@@ -593,3 +598,7 @@ Test(AlsoMessage:="", *)
 {
     SetTimer test, 5000
 }
+
+
+; ### need to fix situation if "Calibration Gui" is launched from Mechanic Screen. Because setup tool and Calibration Gui both launch.
+; ### Hotkey Gui need to keep it at a max size of screen size 

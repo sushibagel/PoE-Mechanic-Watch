@@ -23,7 +23,7 @@ HotkeySetup(*)
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
     OnMessage(0x020A, OnWheel)  ; WM_MOUSEWHEEL
-    GuiHeight := "h" A_ScreenHeight - 400
+    GuiHeight := "h" A_ScreenHeight - 500
     HotkeyGui.Show("w600" GuiHeight)
     HotkeyGui.OnEvent("Close", HotkeySetupDestroy)
 }

@@ -1,5 +1,9 @@
 SetupTool(*)
 {
+    If !DirExist("Resources/Settings") ; Check if Settins directory exists and create if it doesn't
+        {
+            DirCreate("Resources/Settings")
+        }
     Setup := GuiTemplate("Setup", "Setup Tool", 500)
     CurrentTheme := GetTheme()
     SetupItems := ["* Open Path of Exile Client.", "  Select alternate settings storage location", "  Select your Theme", "* Select your Hideout", "* Select the Mechanics you want to track", "  View/Change options for various notifications" ,"  Modify Hotkeys", "  Quickly launch your favorite applications/scripts/websites", "  Get a reminder to start/enable your buffs when you enter a map"]
@@ -19,8 +23,8 @@ SetupTool(*)
                 {
                     SetupCompletion := HideoutSetupCheck()
                 }
-            Setup.Add("Checkbox", "XM Section Checked" SetupCompletion).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index]))
-            Setup.Add("Text", "YS", SetupItems[A_Index]).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index]))
+            Setup.Add("Checkbox", "XM Section Checked" SetupCompletion).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], Setup))
+            Setup.Add("Text", "YS", SetupItems[A_Index]).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], Setup))
             If (SetupCategories[A_Index] = "Set Hideout") and (SetupCompletion = 1)
                 {
                     CurrentHideout := GetHideout()
@@ -31,19 +35,19 @@ SetupTool(*)
                 }
         }
     Setup.Show
-    Setup.OnEvent("Close", CheckCompletion)
+    Setup.OnEvent("Close", CheckCompletion.Bind(Setup))
 }
 
-SetupToolDestroy()
+SetupToolDestroy(Setup)
     {
         Setup.Destroy()
     }
 
-LaunchEvent(ItemIndex, NA1, NA2)
+LaunchEvent(ItemIndex, Setup, *)
 {
     If (ItemIndex = "Client")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             CheckPath()
             PathAvailable := ClientSetupCheck()
             If (PathAvailable = "1")
@@ -58,7 +62,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Set Hideout")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             SetHideout()
             WinWaitClose("Update Hideout")
             HideoutComplete := HideoutSetupCheck()
@@ -70,7 +74,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Theme")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             ChangeGui()
             WinWaitClose("Change Theme")
             SetupComplete(ItemIndex)
@@ -78,7 +82,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Select Mechanics")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             MechanicsSelect()
             WinWaitClose("Mechanics")
             SetupComplete(ItemIndex)
@@ -86,7 +90,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Quick Launch")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             LauncherGui()
             WinWaitClose("Launcher Settings")
             SetupComplete(ItemIndex)
@@ -94,7 +98,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Storage Location")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             SettingsLocation()
             WinWaitClose("Settings Storage Location")
             SetupComplete(ItemIndex)
@@ -102,7 +106,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Notification Settings")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             NotificationSettings()
             WinWaitClose("Notification Settings")
             SetupComplete(ItemIndex)
@@ -110,7 +114,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Custom Reminder")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             CustomNotificationSetup()
             WinWaitClose("Custom Reminder Setup")
             SetupComplete(ItemIndex)
@@ -118,7 +122,7 @@ LaunchEvent(ItemIndex, NA1, NA2)
         }
     If (ItemIndex = "Hotkeys")
         {
-            SetupToolDestroy()
+            SetupToolDestroy(Setup)
             HotkeySetup()
             WinWaitClose("Hotkey Setup")
             SetupComplete(ItemIndex)
@@ -159,7 +163,7 @@ SetupComplete(Completed)
     IniWrite(1, SetupIni, "Setup Completion", Completed)
 }
 
-CheckCompletion(*)
+CheckCompletion(Setup, *)
 {
     ClientCheck := ClientSetupCheck()
     HideoutCheck := HideoutSetupCheck()
@@ -173,7 +177,7 @@ CheckCompletion(*)
             WarningGui.SetFont("s12 Norm c" CurrentTheme[3])
             ErrorMessage := "The required setup tasks have not been completed. PoE Mechanic watch will not function properly until completed.`r`rBy clicking `"Yes`" PoE Mechanic Watch will close. Are you sure you want to close?"
             WarningGui.Add("Text", "w300", ErrorMessage)
-            WarningGui.Add("Button","Section x100 w50", "Yes").OnEvent("Click", WarningYes)
+            WarningGui.Add("Button","Section x100 w50", "Yes").OnEvent("Click", WarningYes.Bind(Setup))
             WarningGui.Add("Button","YS x200 w50", "No").OnEvent("Click", WarningNo)
             WarningGui.Opt("-Caption")
             WarningGui.Show
@@ -189,9 +193,9 @@ WarningGuiDestroy()
     Global WarningGui := Gui(,"Warning")
 }
 
-WarningYes(*)
+WarningYes(Setup)
 {
-    WarningGui.Destroy
+    WarningGui.Destroy(Setup)
     ExitApp
 }
 
