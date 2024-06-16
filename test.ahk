@@ -564,7 +564,7 @@ Close(*)
 {
     ; NotificationBig(["Blight"], "Mechanic Notification")
     ; QuickNotify(["Blight"], 1)
-    HotkeySetup
+    RitualOCRCalibrate
 }
 
 
@@ -598,3 +598,4 @@ Test(AlsoMessage:="", *)
     ; ### need to fix situation if "Calibration Gui" is launched from Mechanic Screen. Because setup tool and Calibration Gui both launch.
     ; ### need to add check for mechanic screensearch to make sure auto is active. 
     ; #### Need to add Blight to calibration menu. 
+    ; ### verify that all auto mechanics check that the mechanic is on and the auto mode is enabled. 

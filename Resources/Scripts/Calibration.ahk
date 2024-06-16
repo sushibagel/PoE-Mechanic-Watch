@@ -168,3 +168,34 @@ DestroySampleGui()
         }
     Global SampleGui := Gui(,"Image Sample")
 }
+
+;Ritual OCR Zone
+RitualOCRCalibrate()
+{
+    ScreenSearchIni := IniPath("ScreenSearch")
+    If WinActive("ahk_group PoeWindow")
+        {
+            WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+        }
+        YOCR := HOCR - HOCR // 3
+        XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", XOCR)
+        YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
+        WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", WOCR)
+        HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", HOCR)
+        CalibrationZoneGui(XOCR, YOCR, WOCR, HOCR, "Ritual")
+}
+
+CalibrationZoneGui(XZone, YZone, WZone, HZone, Mechanic)
+{
+    msgbox XZone "|" YZone "|" WZone "|" HZone "|" A_ScreenWidth "|" A_ScreenHeight
+    CalibrationGui := Gui("Resize","Calibration Zone")
+    CurrentTheme := GetTheme()
+    CalibrationGui.BackColor := "1e1e1e"
+    CalibrationGui.SetFont("s13 c" CurrentTheme[3])
+    CalibrationGui.Add("Link", "w" WZone " +Wrap Background" CurrentTheme[1], "Move and resize this window to fit the `"Calibration` Zone. Note: It is recommended to make the zone slightly larger than necessary. Click  <a href=`"  `">here.</a> to view a sample image of the area needed." XZone "|" YZone "|" WZone "|" HZone)
+    WZone := WZone - 700
+    CalibrationGui.Show("w" WZone "h" HZone)
+    WinMove(XZone, YZone, , , "Calibration Zone")
+    WinSetTransparent(100, "Calibration Zone")
+
+}

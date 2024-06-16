@@ -76,7 +76,7 @@ InfluenceScreenSearch()
     For Influence in InfluenceMechanics ; Check which Influence is on
     {
         ImageFile := ImagePath(Influence " On", "Yes")
-        Search := ImagePutBuffer(ImageFile)             ; Convert File -> Buffer
+        Search := ImagePutBuffer(ImageFile) ; Convert File -> Buffer
         If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
         {
             ChangeInfluence(Influence)
