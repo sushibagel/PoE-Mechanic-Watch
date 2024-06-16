@@ -52,6 +52,10 @@ GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
 GroupAdd("PoeWindow", "ahk_exe Code.exe")
 GroupAdd("PoeWindow", "ahk_exe Notepad.exe")
 
+GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
+GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
+GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
+
 Global MoveActive := 0
 Global TestActive := 0
 

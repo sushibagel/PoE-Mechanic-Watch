@@ -127,34 +127,35 @@ MechanicOCR()
     }
     If (ActiveOCR.Length > 0)
     {
-        WinWaitActive "ahk_group PoeWindow"
-        If WinActive("ahk_group PoeWindow")
-            {
-                WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
-            }
+        WinWaitActive "ahk_group PoeOnly"
+        WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR)
+        ; If WinActive("ahk_group PoeOnly")
+            ; {
+                ; WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR)
+            ; }
         XOCR := WOCR - WOCR // 3
         ScreenSearchIni := IniPath("ScreenSearch")
         XOCR := IniRead(ScreenSearchIni, "Side Area", "X", XOCR)
         YOCR := IniRead(ScreenSearchIni, "Side Area", "Y", YOCR)
         WOCR := IniRead(ScreenSearchIni, "Side Area", "W", WOCR)
         HOCR := IniRead(ScreenSearchIni, "Side Area", "H", HOCR)
-        OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "A", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
+        OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
         If (OCRText)
         {
             CheckOCR(OCRText, ActiveOCR)
         }
         RitualStatus := IniPath("Mechanics", "Read", , "Auto Mechanics", "Ritual")
         {
-            If WinActive("ahk_group PoeWindow")
+            If WinActive("ahk_group PoeOnly")
             {
-                WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+                WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR)
             }
             YOCR := HOCR - HOCR // 3
             XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", XOCR)
             YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
             WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", WOCR)
             HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", HOCR)
-            RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "A", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating ritual are in the map.
+            RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating ritual are in the map.
             If (RitualOCR)
                 {
                     RitualOCRMatch(RitualOCR)
