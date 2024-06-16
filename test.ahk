@@ -560,12 +560,6 @@ Close(*)
 #IncludeAgain "Resources\Scripts\Update.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
 
-;Tasks
-    ;### Write check for Theme ini File and create if necsessary. 
-    ;### add centering option for overlay
-    ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
-
-    
 ^m::
 {
     ; NotificationBig(["Blight"], "Mechanic Notification")
@@ -599,6 +593,8 @@ Test(AlsoMessage:="", *)
     SetTimer test, 5000
 }
 
-
-; ### need to fix situation if "Calibration Gui" is launched from Mechanic Screen. Because setup tool and Calibration Gui both launch.
-; ### Hotkey Gui need to keep it at a max size of screen size 
+;Tasks
+    ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
+    ; ### need to fix situation if "Calibration Gui" is launched from Mechanic Screen. Because setup tool and Calibration Gui both launch.
+    ; ### need to add check for mechanic screensearch to make sure auto is active. 
+    ; #### Need to add Blight to calibration menu. 

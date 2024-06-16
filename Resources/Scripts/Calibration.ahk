@@ -168,7 +168,3 @@ DestroySampleGui()
         }
     Global SampleGui := Gui(,"Image Sample")
 }
-
-; #### Need to add Blight
-; #### Remove Influence Text
-; ### Fix layout

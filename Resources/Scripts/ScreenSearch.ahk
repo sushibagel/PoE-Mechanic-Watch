@@ -128,7 +128,10 @@ MechanicOCR()
     If (ActiveOCR.Length > 0)
     {
         WinWaitActive "ahk_group PoeWindow"
-        WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+        If WinActive("ahk_group PoeWindow")
+            {
+                WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+            }
         XOCR := WOCR - WOCR // 3
         ScreenSearchIni := IniPath("ScreenSearch")
         XOCR := IniRead(ScreenSearchIni, "Side Area", "X", XOCR)
@@ -327,8 +330,3 @@ InfluenceOCR()
 {
     
 }
-; ### fix window missing error
-; ### Need to implement the ritual shop part
-; ### Finish mechanic screen search
-; ### need to keep mechanics off once completed in a map, had niko and betryal trigger on for a sec because "Complete" text must have been jumbled. 
-; ### need to add check for mechanic screensearch to make sure auto is active. 
