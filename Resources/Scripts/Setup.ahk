@@ -86,6 +86,10 @@ LaunchEvent(ItemIndex, Setup, *)
             MechanicsSelect()
             WinWaitClose("Mechanics")
             SetupComplete(ItemIndex)
+            If WinActive("Calibration Tool")
+                {
+                    WinWaitClose("Calibration Tool")
+                }
             SetupTool()
         }
     If (ItemIndex = "Quick Launch")

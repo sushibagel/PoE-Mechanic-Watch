@@ -261,8 +261,10 @@ MechanicSelectClose(*)
 
 CalibrateSearchButton(MechanicSelectGui, *)
 {
-    DestroyMechanicsGui(MechanicSelectGui)
+    WinMinimize("Mechanics Settings")
     CalibrationTool()
+    Sleep 1000
+    DestroyMechanicsGui(MechanicSelectGui)
 }
 
 NotifyActiveMechanics(*)
