@@ -567,8 +567,6 @@ Close(*)
 
 ^m::
 {
-    ; NotificationBig(["Blight"], "Mechanic Notification")
-    ; QuickNotify(["Blight"], 1)
     RitualOCRCalibrate
 }
 
@@ -577,20 +575,7 @@ Close(*)
 
 Test(AlsoMessage:="", *)
 {
-    ; Global Testvar++
-    ; Tooltip Testvar
-    ; Sleep 2000
-    ; Tooltip
-    ; testOCR := OCR.FromRect(62, 738, 625, 738)
     msgbox "test" AlsoMessage
-
-
-;     pic := ImagePutBuffer(0)                               ; Screen capture
-;     search := ImagePutBuffer("Resources\Images\Image Search\Custom\Blight.png")             ; Convert File -> Buffer
-;     if pic.ImageSearch(search)
-;         {
-;             MsgBox "test"
-;         }                                               ; Move cursor 
 }
 
 ^o::
