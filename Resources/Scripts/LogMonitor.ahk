@@ -63,7 +63,11 @@ CheckLogLine(LogLine)
         }
     If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 
         {
-            NotHideoutLog(LogLine)
+            HideoutStatus := IniPath("Hideout", "Read", , "In Hideout", "In Hideout", 0)
+            If (HideoutStatus = 0)
+                {
+                    NotHideoutLog(LogLine)
+                }
         }
 }
  
@@ -80,6 +84,10 @@ NotHideoutLog(LogLine)
                 }
             GetMapName(LogLine)
         } 
+    Else
+        {
+            CheckDialogs(LogLine)
+        }
 }
 
 GetMapName(LogLine)
@@ -116,5 +124,56 @@ GetMapName(LogLine)
                             IniWrite("True", MiscIni, "Map", "Maven Map")
                         }
                 }
+            Return 1
+        }
+    Else
+        {
+            Return 0
         }
 } 
+
+CheckDialogs(LogLine)
+{
+    GetSearches := VariableStore("LogSearch")
+    MechanicsIni := IniPath("Mechanics")
+    For Mechanic in GetSearches
+        {
+            Active := IniRead(MechanicsIni, "Mechanics", Mechanic, 0)
+            AutoActive := IniRead(MechanicsIni, "Auto Mechanics", Mechanic, 0)
+            If (Active > 1) and (AutoActive = 1) ; Check if the mechanic is active and if the auto mechanic is on. 
+                {
+                    If (Mechanic = "Incursion")
+                        {
+                           
+                        }
+                    Else
+                        {
+                            DialogMatch := CheckDialogText(LogLine, Mechanic)
+                            If !(DialogMatch = 1)
+                                {
+                                    DialogMatch := CheckDialogText(LogLine, Mechanic, "Disable")
+                                }
+                        }
+                }
+        }
+}
+
+CheckDialogText(LogLine, Mechanic, Version:="")
+{
+    DialogsPath := "Resources/Data/" Mechanic "dialogs" Version ".txt"
+    Loop Read DialogsPath
+        {
+            If InStr(LogLine, A_LoopReadLine)
+                {
+                    If (Version = "")
+                        {
+                            ToggleMechanic(Mechanic, 1, "On")
+                        }
+                    Else
+                        {
+                            ToggleMechanic(Mechanic, 1, "Off")
+                        }
+                    Return 1
+                }
+        }
+}
