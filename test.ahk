@@ -589,3 +589,4 @@ Test(AlsoMessage:="", *)
     ; ### need to add check for mechanic screensearch to make sure auto is active. 
     ; #### Need to add Blight to calibration menu. 
     ; ### verify that all auto mechanics check that the mechanic is on and the auto mode is enabled. 
+    ; ### ritual toggling for auto mode needs to check that it's enabled. 
