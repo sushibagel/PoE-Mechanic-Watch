@@ -142,18 +142,11 @@ CheckDialogs(LogLine)
             AutoActive := IniRead(MechanicsIni, "Auto Mechanics", Mechanic, 0)
             If (Active > 1) and (AutoActive = 1) ; Check if the mechanic is active and if the auto mechanic is on. 
                 {
-                    If (Mechanic = "Incursion")
+                    DialogMatch := CheckDialogText(LogLine, Mechanic)
+                    If !(DialogMatch = 1)
                         {
-                           
-                        }
-                    Else
-                        {
-                            DialogMatch := CheckDialogText(LogLine, Mechanic)
-                            If !(DialogMatch = 1)
-                                {
-                                    DialogMatch := CheckDialogText(LogLine, Mechanic, "Disable")
-                                }
-                        }
+                            DialogMatch := CheckDialogText(LogLine, Mechanic, "Disable")
+                        } 
                 }
         }
 }
