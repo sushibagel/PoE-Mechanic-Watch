@@ -55,12 +55,12 @@ MechanicsSelect(*)
                 } 
             If (Mechanic = "Incursion")
                 {
-                    FootnoteNum := 4
+                    FootnoteNum := 1
                     AutoAvailable := 1
                 } 
             If (Mechanic = "Ritual")
                 {
-                    FootnoteNum := 5
+                    FootnoteNum := 4
                     AutoAvailable := 1
                 } 
             MechanicSelectGui.Add("Text","XM Right w10", FootnoteNum).OnEvent("Click", ShowMechanicFootnote.Bind(FootnoteNum))
@@ -180,10 +180,6 @@ ShowMechanicFootnote(FootnoteSelected, Control, *)
             GuiInfo := "The `"Auto`" setting for this mechanic reads the game logs to determine its satus. To use it you MUST have `"Output Dialog to Chat`" enabled in the in-game settings and the corresponding mechanic must be set to `"On`" or `"Active Only`"."
         }
     If (FootnoteSelected = 4)
-        {
-            GuiInfo := "The `"Auto`" setting for this mechanic uses a combination of reading the game logs and Optical Character Recognition (OCR) to detect its status. To use it you MUST have `"Output Dialog to Chat`" enabled in the in-game settings and the corresponding mechanic must be set to `"On`" or `"Active Only`". If necessary you can adjust the OCR Zone in the Calibration Tool, but it should not be needed."
-        }
-    If (FootnoteSelected = 5)
         {
             GuiInfo := "The `"Auto`" setting for this mechanic uses a combination Image Matching and Optical Character Recognition (OCR) to detect its status. To use it the correstponding mechanic must be set to `"On`" or `"Active Only`". You may need to calibrate the Image Matching Tool, this can be done by clicking the `"Calibrate Search`" button (Note: to calibrate you will need to have the mechanic active in game). If necessary you can adjust the OCR Zone in the Calibration Tool, but it should not be needed."
         }
