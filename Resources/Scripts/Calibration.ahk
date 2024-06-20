@@ -97,7 +97,14 @@ FootnoteShow(FootnoteNum, NA1, NA2)
 
 CalibrateMechanic(Mechanic, *)
 {
-    msgbox Mechanic
+    If (Mechanic = "Quest Tracker Text")
+        {
+            OCRCalibrate("Side Area")
+        }
+    Else If (Mechanic = "Ritual Text")
+        {
+            OCRCalibrate("Ritual Area")
+        }
 }
 
 SampleMechanic(Mechanic, CalibrationGui, *)
@@ -169,33 +176,79 @@ DestroySampleGui()
     Global SampleGui := Gui(,"Image Sample")
 }
 
-;Ritual OCR Zone
-RitualOCRCalibrate()
+;OCR Zone
+OCRCalibrate(Mechanic)
 {
-    ScreenSearchIni := IniPath("ScreenSearch")
-    If WinActive("ahk_group PoeWindow")
+    TTInfo := "Right click and drag your mouse to select your search area."
+    Area := SelectScreenRegion("RButton", "Yellow", 30, TTinfo)
+    ZoneLetters := ["X", "Y", "W", "H"]
+    If Area.Has("X")
         {
-            WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "A")
+            For Letter in ZoneLetters
+                {
+                    IniPath("ScreenSearch", "Write", Area.%Letter%, "Side Area", Letter)
+                }
         }
-        YOCR := HOCR - HOCR // 3
-        XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", XOCR)
-        YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
-        WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", WOCR)
-        HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", HOCR)
-        CalibrationZoneGui(XOCR, YOCR, WOCR, HOCR, "Ritual")
 }
 
-CalibrationZoneGui(XZone, YZone, WZone, HZone, Mechanic)
-{
-    msgbox XZone "|" YZone "|" WZone "|" HZone "|" A_ScreenWidth "|" A_ScreenHeight
-    CalibrationGui := Gui("Resize","Calibration Zone")
-    CurrentTheme := GetTheme()
-    CalibrationGui.BackColor := "1e1e1e"
-    CalibrationGui.SetFont("s13 c" CurrentTheme[3])
-    CalibrationGui.Add("Link", "w" WZone " +Wrap Background" CurrentTheme[1], "Move and resize this window to fit the `"Calibration` Zone. Note: It is recommended to make the zone slightly larger than necessary. Click  <a href=`"  `">here.</a> to view a sample image of the area needed." XZone "|" YZone "|" WZone "|" HZone)
-    WZone := WZone - 700
-    CalibrationGui.Show("w" WZone "h" HZone)
-    WinMove(XZone, YZone, , , "Calibration Zone")
-    WinSetTransparent(100, "Calibration Zone")
+; Credit Spitzi  https://www.autohotkey.com/boards/viewtopic.php?style=19&t=115226
+; initially by FanaticGuru  https://www.autohotkey.com/boards/viewtopic.php?f=83&t=115226
+; Key can be LButton, or M or whatever, e.g:  Area := SelectScreenRegion("LButton", "Lime", 30)
+; Lets the user select a portion of the screen
+; - key: the key to be held while selecting the screen
+; - color: the color the selection rectangle will have
+; - transaprent: 0 is invisible, 255 is fully visible
+; - TTinfo: Tooltip to show before selection begins
+; - subA: subarea, the selection process is restricted to (Map with x,y,w,h), false to turn that feature off
+; returns the selected area as a map, or false if escaped
+SelectScreenRegion(Key, Color := "Lime", Transparent:= 80, TTinfo:="Please select screen area. Hit Esc to chancel", subA:=false) {
+	local X:=0, Y:=0, W:=0, H:=0, X2:=0, Y2:=0																; set return variables to an initial value
+	CoordMode("Mouse", "Screen")
 
+	; 0) create Gui first to intercept left mouse button
+	ssrGui := Gui("+AlwaysOnTop -caption +Border +ToolWindow +LastFound -DPIScale", "SSR-GUI")
+	WinSetTransparent(Transparent)
+	ssrGui.BackColor := Color
+	ssrGui.Show("x1 y1 w1 h1")
+
+	; 1) show tooltip until selection begins
+	Loop {
+		Sleep(30)
+		Tooltip(TTinfo)
+		if GetKeyState("Esc", "p") {
+			Tooltip()
+			ssrGui.Destroy()
+			return false
+		}
+		MouseGetPos(&mX, &mY)
+		if subA {																									; restrict to subarea, if one is given
+			new_mX := (mX < subA.X) ? subA.X : mX																	; new coordinates of mouse in subarea
+			new_mX := (mX > subA.X+subA.W) ? subA.X+subA.W : new_mX
+			new_mY := (mY < subA.Y) ? subA.Y : mY
+			new_mY := (mY > subA.Y+subA.H) ? subA.Y+subA.H : new_mY
+			if !((mX == new_mX) && (mY == new_mY)) 																	; set the new coordinates if they are not the same
+				MouseMove(new_mX, new_mY)
+		}
+	} Until GetKeyState(Key, "p")
+	ToolTip()
+
+	; 2) show gui where mouse is
+	MouseGetPos(&sX, &sY)
+	Loop
+	{
+		if GetKeyState("Esc", "p") {
+			Tooltip()
+			ssrGui.Destroy()
+			return false
+		}
+		Sleep(30)
+		MouseGetPos(&eX, &eY)
+		W := Abs(sX - eX), H := Abs(sY - eY)
+		X := Min(sX, eX), Y := Min(sY, eY)
+		ssrGui.Move(X, Y, W, H)
+	} Until !GetKeyState(Key, "p")
+
+	; 3) clean up
+	ssrGui.Destroy()
+	return { X: X, Y: Y, W: W, H: H, X2: X + W, Y2: Y + H }
 }

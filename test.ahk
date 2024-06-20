@@ -567,7 +567,7 @@ Close(*)
 
 ^m::
 {
-    RitualOCRCalibrate
+    OCRCalibrate("Side Area")
 }
 
 

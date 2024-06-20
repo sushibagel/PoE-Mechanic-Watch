@@ -1,6 +1,6 @@
 /**
  * Function for managing file paths as well as reading and writing to files
- * @param {String} FileRequested String with the name of the file needed. (Changelog, Hotkeys, Hideout, HideoutList, Launch, Map List, Mechanics, Misc Data, Notifications, Overlay, Setup, Storage, Theme, Transparency, Version)
+ * @param {String} FileRequested String with the name of the file needed. (Changelog, Hotkeys, Hideout, HideoutList, Launch, Map List, Mechanics, Misc Data, Notifications, Overlay, Setup,ScreenSearch, Storage, Theme, Transparency, Version)
  * @param {String} Action The action desired. Read/Write, if left blank it will return the INI path.
  * @param {String} Value This is the value to be written to the ini file.
  * @param {String} Section This is the Ini Section Header being read/written
