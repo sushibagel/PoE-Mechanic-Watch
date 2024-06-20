@@ -182,7 +182,7 @@ OCRCalibrate(Mechanic)
     TTInfo := "Right click and drag your mouse to select your search area."
     Area := SelectScreenRegion("RButton", "Yellow", 30, TTinfo)
     ZoneLetters := ["X", "Y", "W", "H"]
-    If Area.Has("X")
+    If (Area)
         {
             For Letter in ZoneLetters
                 {
