@@ -105,6 +105,10 @@ CalibrateMechanic(Mechanic, *)
         {
             OCRCalibrate("Ritual Area")
         }
+    Else If (Mechanic ~= "i)\A(Ritual Icon|Ritual Shop|Eater Completion|Searing Completion|Maven Completion|Eater On|Maven On|Searing On)\z")
+        {
+            ImageCalibration(Mechanic)
+        }
 }
 
 SampleMechanic(Mechanic, CalibrationGui, *)
@@ -186,9 +190,41 @@ OCRCalibrate(Mechanic)
         {
             For Letter in ZoneLetters
                 {
-                    IniPath("ScreenSearch", "Write", Area.%Letter%, "Side Area", Letter)
+                    IniPath("ScreenSearch", "Write", Area.%Letter%, Mechanic, Letter)
                 }
         }
+}
+
+ImageCalibration(Mechanic)
+{
+    TestImage := "C:\Users\drwsi\Desktop\test\test.png"
+    ; ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
+    ScreenShot := ImagePutBuffer(0) 
+    ; Search := ImagePutBuffer(TestImage) ; Convert File -> Buffer
+    SearchVariation := 0
+    ; Loop 10 ;255
+    ;     {
+
+            pic := ImagePutBuffer(0)                               ; Screen capture
+            ; pic.show() ; or ImageShow(pic)                         ; Show image
+            if xy := pic.ImageSearch("C:\Users\drwsi\Desktop\test\1.png", 150) {           ; Search image
+            MouseMove xy[1], xy[2]                             ; Move cursor
+                              ; MsgBox pic[xy*]
+            }
+            MsgBox "no match"
+
+            ; if xy := pic.ImageSearch("test_image.png") {           ; Search image
+            ;     MouseMove xy[1], xy[2]    
+            
+            ; ; ToolTip SearchVariation
+            ; If xy := ScreenShot.ImageSearch("C:\Users\drwsi\Desktop\test\test.png", 10) ; Look in "ScreenShot" for "Search"
+            ;     MouseMove xy[1], xy[2] 
+            ;     ; {
+            ;     ;     msgbox "Match! " A_Index
+            ;     ; }
+;             SearchVariation++
+;         }
+;     ToolTip
 }
 
 ; Credit Spitzi  https://www.autohotkey.com/boards/viewtopic.php?style=19&t=115226

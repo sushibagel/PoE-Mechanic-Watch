@@ -567,7 +567,7 @@ Close(*)
 
 ^m::
 {
-    OCRCalibrate("Side Area")
+    ImageCalibration("Mechanic")
 }
 
 
