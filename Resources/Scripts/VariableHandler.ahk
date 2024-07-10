@@ -26,7 +26,7 @@ IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
         Case FileRequested = "Misc Data": Path := StorageDir "\Resources\Data\Misc.ini"
         Case FileRequested = "Notifications": Path := StorageDir "\Resources\Settings\Notification.ini"
         Case FileRequested = "Overlay": Path := StorageDir "\Resources\Settings\Overlay.ini"
-        Case FileRequested = "ScreenSearch" : Path := StorageDir "\Resources\Settings\ScreenSarch.ini"
+        Case FileRequested = "ScreenSearch" : Path := StorageDir "\Resources\Settings\ScreenSearch.ini"
         Case FileRequested = "Setup": Path := StorageDir "\Resources\Data\Setup.ini"
         Case FileRequested = "Storage": Path := "Resources\Settings\StorageLocation.ini" ;Intentionally doesn't use alt storage path. 
         Case FileRequested = "Theme": Path := StorageDir "\Resources\Settings\Theme.ini"
