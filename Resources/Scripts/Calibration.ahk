@@ -109,6 +109,10 @@ CalibrateMechanic(Mechanic, *)
         {
             ImageCalibration(Mechanic)
         }
+    Else If (Mechanic = "Influence Count")
+        {
+            OCRCalibrate("Influence Area")
+        }
 }
 
 SampleMechanic(Mechanic, CalibrationGui, *)
@@ -180,38 +184,23 @@ DestroySampleGui()
     Global SampleGui := Gui(,"Image Sample")
 }
 
-;OCR Zone
-OCRCalibrate(Mechanic)
-{
-    TTInfo := "Right click and drag your mouse to select your search area."
-    Area := SelectScreenRegion("RButton", "Yellow", 30, TTinfo)
-    ZoneLetters := ["X", "Y", "W", "H"]
-    If (Area)
-        {
-            For Letter in ZoneLetters
-                {
-                    IniPath("ScreenSearch", "Write", Area.%Letter%, Mechanic, Letter)
-                }
-        }
-}
-
 ImageCalibration(Mechanic)
 {
-    TestImage := "C:\Users\drwsi\Desktop\test\test.png"
-    ; ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
-    ScreenShot := ImagePutBuffer(0) 
-    ; Search := ImagePutBuffer(TestImage) ; Convert File -> Buffer
-    SearchVariation := 0
-    ; Loop 10 ;255
-    ;     {
+    MsgBox(Mechanic " calibration is not currently implemented. Check back in future releases.")
+    ; TestImage := "C:\Users\drwsi\Desktop\test\test.png"
+    ; ; ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
+    ; ScreenShot := ImagePutBuffer(0) 
+    ; ; Search := ImagePutBuffer(TestImage) ; Convert File -> Buffer
+    ; SearchVariation := 0
+    ; ; Loop 10 ;255
+    ; ;     {
 
-            pic := ImagePutBuffer(0)                               ; Screen capture
-            ; pic.show() ; or ImageShow(pic)                         ; Show image
-            if xy := pic.ImageSearch("C:\Users\drwsi\Desktop\test\1.png", 150) {           ; Search image
-            MouseMove xy[1], xy[2]                             ; Move cursor
-                              ; MsgBox pic[xy*]
-            }
-            MsgBox "no match"
+    ;         pic := ImagePutBuffer(0)                               ; Screen capture
+    ;         ; pic.show() ; or ImageShow(pic)                         ; Show image
+    ;         if xy := pic.ImageSearch("C:\Users\drwsi\Desktop\test\2.png", 150) {           ; Search image
+    ;         MouseMove xy[1], xy[2]                             ; Move cursor
+    ;                           ; MsgBox pic[xy*]
+    ;         }
 
             ; if xy := pic.ImageSearch("test_image.png") {           ; Search image
             ;     MouseMove xy[1], xy[2]    
@@ -227,64 +216,116 @@ ImageCalibration(Mechanic)
 ;     ToolTip
 }
 
-; Credit Spitzi  https://www.autohotkey.com/boards/viewtopic.php?style=19&t=115226
-; initially by FanaticGuru  https://www.autohotkey.com/boards/viewtopic.php?f=83&t=115226
-; Key can be LButton, or M or whatever, e.g:  Area := SelectScreenRegion("LButton", "Lime", 30)
-; Lets the user select a portion of the screen
-; - key: the key to be held while selecting the screen
-; - color: the color the selection rectangle will have
-; - transaprent: 0 is invisible, 255 is fully visible
-; - TTinfo: Tooltip to show before selection begins
-; - subA: subarea, the selection process is restricted to (Map with x,y,w,h), false to turn that feature off
-; returns the selected area as a map, or false if escaped
-SelectScreenRegion(Key, Color := "Lime", Transparent:= 80, TTinfo:="Please select screen area. Hit Esc to chancel", subA:=false) {
-	local X:=0, Y:=0, W:=0, H:=0, X2:=0, Y2:=0																; set return variables to an initial value
-	CoordMode("Mouse", "Screen")
+;OCR Zone
+OCRCalibrate(Mechanic)
+{
+    If WinExist("Set Area")
+    {
+        WinClose
+    }
+    If WinExist("Calibrate Background")
+        {
+            WinClose
+        }
+    OCRSet := Gui(,"Set Area")
+    CurrentTheme := GetTheme()
+    OCRSet.BackColor := "Blue"
+    WinActivate("ahk_group PoeOnly")
+    WinWaitActive("ahk_group PoeOnly")
+    PoeHWND := WinGetID("ahk_group PoeOnly")
+    WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
+    OCRSet.SetFont("s15 c" CurrentTheme[3])
+    ScreenSearchIni := IniPath("ScreenSearch")
+    XArea := IniRead(ScreenSearchIni, Mechanic, "X", XOCR)
+    YArea := IniRead(ScreenSearchIni, Mechanic, "Y", YOCR)
+    WArea := IniRead(ScreenSearchIni, Mechanic, "W", WOCR)
+    HArea := IniRead(ScreenSearchIni, Mechanic, "H", HOCR)
+    OCRSet.Add("Text", " w" WOCR-20 " y" HOCR/2-100 " Wrap" , "To set your calibration area position your mouse according to the boundry you are trying to set and press the assigned hotkey. Upon pressing the assigned hotkey the assigned number values should update. If for some reason the numbers are not updating click this text and try again.")
+    OCRSet.Add("Text", "w75 XM Section", "Top")
+    OCRSet.Add("Text", "w120 YS", "(Control + T)")
+    OCRSet.Add("Text", "YS", "=")
+    Global TopValue := OCRSet.Add("Text", "w80 YS Section", YArea)
+    OCRSet.Add("Text", "w75 XM Section", "Bottom")
+    OCRSet.Add("Text", "w120 YS", "(Control + B)")
+    OCRSet.Add("Text", "YS", "=")
+    Global BottomValue := OCRSet.Add("Text", "w80 YS Section", HArea)
+    OCRSet.Add("Text", "w75 XM Section", "Left")
+    OCRSet.Add("Text", "w120 YS", "(Control + L)")
+    OCRSet.Add("Text", "YS", "=")
+    Global LeftValue := OCRSet.Add("Text", "w80 YS Section", XArea)
+    OCRSet.Add("Text", "w75 XM Section", "Right")
+    OCRSet.Add("Text", "w120 YS", "(Control + R)")
+    OCRSet.Add("Text", "YS", "=") 
+    WinSetTransColor "Blue", OCRSet
+    OCRSet.Opt("-Caption")
+    OCRSet2 := Gui(,"Calibrate Background")
+    OCRSet2.Opt("AlwaysOnTop -Caption +E0x08000000 +Owner" PoeHWND)
+    OCRSet.Opt("AlwaysOnTop +Owner" OCRSet2.Hwnd)
+    Global RightValue := OCRSet.Add("Text", "w80 YS Section", WArea)
+    OCRSet.SetFont("s12 c" CurrentTheme[3])
+    OCRSet.Add("Button", "XM Y+50", "Close").OnEvent("Click", CloseOCRSet.Bind(OCRSet, OCRSet2))
+    OCRSet2.BackColor := CurrentTheme[1]
+    WinSetTransparent(150, OCRSet2)
+    OCRSet.SetFont("s1 cBlue")
+    Global OCRSetMechanic := OCRSet.Add("Text", "YS", Mechanic) 
+    OCRSet2.Show( "NoActivate x" XOCR " y" YOCR " h" HOCR " w" WOCR )
+    OCRSet.Show( "x" XOCR " y" YOCR " h" HOCR " w" WOCR )
+}
 
-	; 0) create Gui first to intercept left mouse button
-	ssrGui := Gui("+AlwaysOnTop -caption +Border +ToolWindow +LastFound -DPIScale", "SSR-GUI")
-	WinSetTransparent(Transparent)
-	ssrGui.BackColor := Color
-	ssrGui.Show("x1 y1 w1 h1")
+#HotIf WinActive("Set Area")
 
-	; 1) show tooltip until selection begins
-	Loop {
-		Sleep(30)
-		Tooltip(TTinfo)
-		if GetKeyState("Esc", "p") {
-			Tooltip()
-			ssrGui.Destroy()
-			return false
-		}
-		MouseGetPos(&mX, &mY)
-		if subA {																									; restrict to subarea, if one is given
-			new_mX := (mX < subA.X) ? subA.X : mX																	; new coordinates of mouse in subarea
-			new_mX := (mX > subA.X+subA.W) ? subA.X+subA.W : new_mX
-			new_mY := (mY < subA.Y) ? subA.Y : mY
-			new_mY := (mY > subA.Y+subA.H) ? subA.Y+subA.H : new_mY
-			if !((mX == new_mX) && (mY == new_mY)) 																	; set the new coordinates if they are not the same
-				MouseMove(new_mX, new_mY)
-		}
-	} Until GetKeyState(Key, "p")
-	ToolTip()
+^t::
+{
+    NewValue := GetCalPosition("Y", OCRSetMechanic)
+    TopValue.Text := NewValue
+}
 
-	; 2) show gui where mouse is
-	MouseGetPos(&sX, &sY)
-	Loop
-	{
-		if GetKeyState("Esc", "p") {
-			Tooltip()
-			ssrGui.Destroy()
-			return false
-		}
-		Sleep(30)
-		MouseGetPos(&eX, &eY)
-		W := Abs(sX - eX), H := Abs(sY - eY)
-		X := Min(sX, eX), Y := Min(sY, eY)
-		ssrGui.Move(X, Y, W, H)
-	} Until !GetKeyState(Key, "p")
+^b::
+{
+    NewValue := GetCalPosition("H", OCRSetMechanic)
+    BottomValue.Text := NewValue
+}
 
-	; 3) clean up
-	ssrGui.Destroy()
-	return { X: X, Y: Y, W: W, H: H, X2: X + W, Y2: Y + H }
+^l::
+{
+    NewValue := GetCalPosition("X", OCRSetMechanic)
+    LeftValue.Text := NewValue
+}
+
+^r::
+{
+    NewValue := GetCalPosition("W", OCRSetMechanic)
+    RightValue.Text := NewValue
+}
+
+#HotIf
+
+GetCalPosition(Position, Mechanic)
+{
+    WinHide("Set Area")
+    WinHide("Calibrate Background")
+    CoordMode("Mouse", "Window")
+    WinActivate("ahk_group PoeOnly")
+    MouseGetPos(&MouseX, &MouseY)
+    WinShow("Set Area")
+    WinShow("Calibrate Background")
+    WinActivate("Set Area")
+    CoordMode("Mouse", "Screen")
+    If (Position = "Y") or (Position = "H")
+    {
+        IniPath("ScreenSearch", "Write", MouseY, Mechanic.Text, Position)
+        NewValue := MouseY
+    }
+    If (Position = "X") or (Position = "W")
+    {
+        IniPath("ScreenSearch", "Write", MouseX, Mechanic.Text, Position)
+        NewValue := MouseX
+    }
+    Return NewValue
+}
+
+CloseOCRSet(OCRSet, OCRSet2, *)
+{
+    OCRSet.Destroy
+    OCRSet2.Destroy
 }
