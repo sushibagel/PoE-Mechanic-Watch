@@ -329,5 +329,50 @@ GetPatterns(Mechanic, Version)
 
 InfluenceOCR()
 {
-    
+    WinWaitActive "ahk_group PoeOnly"
+    WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
+    ScreenSearchIni := IniPath("ScreenSearch")
+    XOCR := IniRead(ScreenSearchIni, "Influence Area", "X", XOCR)
+    YOCR := IniRead(ScreenSearchIni, "Influence Area", "Y", YOCR)
+    WOCR := IniRead(ScreenSearchIni, "Influence Area", "W", WOCR)
+    HOCR := IniRead(ScreenSearchIni, "Influence Area", "H", HOCR)
+    OCRRegex := "Searing Exarch Progress:|Eater of Worlds Progress:|Maven Progress:"
+    OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
+    TextLines := Array()
+    If (OCRText)
+    {
+        For Line in OCRText.Lines
+            {
+                TextLines.Push(Line.Text)
+                If RegExMatch(TextLines[A_Index], OCRRegex, &FoundText)
+                {
+                    CurrentCount := StrSplit(TextLines[A_Index], FoundText[0], "`n `t")
+                    If InStr(CurrentCount[2], "/")
+                    {
+                        CurrentCount := StrSplit(CurrentCount[2], "/", "`n `t")
+                        CurrentCount := CurrentCount[1]
+                    }
+                    Else
+                    {
+                        If (StrLen(CurrentCount[2]) = 4)
+                            {
+                                CurrentCount := StrSplit(CurrentCount[2],, "`n `t")
+                                CurrentCount := CurrentCount[1]
+                            }
+                        Else If (StrLen(CurrentCount[2]) = 5)
+                            {
+                                CurrentCount := StrSplit(CurrentCount[2],, "`n `t")
+                                CurrentCount := CurrentCount[1] CurrentCount[2]
+                            }
+                    }
+                    InfluenceMatch := StrSplit(FoundText[0], A_Space, "`n `t")
+                    IniCount := IniPath("Mechanics", "Read", , "Influence Track", InfluenceMatch[1], 0)
+                    If !(IniCount = CurrentCount)
+                    {
+                        IniPath("Mechanics", "Write", CurrentCount, "Influence Track", InfluenceMatch[1])
+                        RefreshOverlay
+                    }
+                }
+            }
+    }
 }
