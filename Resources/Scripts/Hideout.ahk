@@ -87,11 +87,13 @@ EditUnFocused(*)
 
 LVDoubleClick(*)
 {
-    HideoutSelected := ListViewGetContent("Selected", "SysListView321", "Update Hideout")
+    HideoutSelected := ListViewGetContent("Selected", "SysListView321", "Settings")
     HideoutSelected := StrSplit(HideoutSelected, A_Tab,A_Tab "`r `n" A_Space)
     HideoutIni := IniPath("Hideout")
     IniWrite(HideoutSelected[1], HideoutIni, "Current Hideout", "Hideout")
-    DestroyHideoutTool()
+    SettingsGui["EditText"].Text := HideoutSelected[1]
+    SettingsGui["HideoutName"].Text := "Current Hideout: " HideoutSelected[1]
+    SettingsGui["SetupHideout"].Text := "Current Hideout: " HideoutSelected[1]
 }
 
 GetHideout()

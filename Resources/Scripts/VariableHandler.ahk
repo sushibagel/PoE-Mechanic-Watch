@@ -217,6 +217,15 @@ GuiTemplate(GuiName, GuiTitle, GuiWidth, GuiParams:="")
     Return GuiName
 }
 
+GetTabNames()
+{
+    Return ["Setup", "MechanicsTab", "HideoutTab", "ThemeTab"]
+}
+
+GetTabs()
+{
+    Return ["Setup", "Mechanics", "Set Hideout", "Theme"]
+}
 ; ListView Grid color thanks "just me" ======================================================================================================================
 ; just me      ->  https://www.autohotkey.com/boards/viewtopic.php?f=83&t=125259
 ; LV_GridColor - Sets/resets the color used to draw the gridlines in a ListView
