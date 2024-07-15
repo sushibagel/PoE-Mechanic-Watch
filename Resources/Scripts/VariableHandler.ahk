@@ -219,12 +219,12 @@ GuiTemplate(GuiName, GuiTitle, GuiWidth, GuiParams:="")
 
 GetTabNames()
 {
-    Return ["Setup", "MechanicsTab", "OverlayTab", "NotificationsTab", "HideoutTab", "ThemeTab", "HotkeyTab", "LauncherTab", "AboutTab", "CustomTab", "CalibrationTab"]
+    Return ["Setup", "MechanicsTab", "OverlayTab", "NotificationsTab", "HideoutTab", "ThemeTab", "HotkeyTab", "LauncherTab", "AboutTab", "CustomTab", "CalibrationTab", "ChangelogTab"]
 }
 
 GetTabs() ; Changes needed for the (A_Index < x) section for start of script and at the "ChangeTab" function
 {
-    Return ["Setup", "Mechanics", "Overlay", "Notifications", "Set Hideout", "Theme", "Hotkeys", "Launcher Setup", "About", "Custom", "Calibration"]
+    Return ["Setup", "Mechanics", "Overlay", "Notifications", "Set Hideout", "Theme", "Hotkeys", "Launcher Setup", "About", "Custom", "Calibration", "Changelog"]
 }
 
 NewTab(CurrentTab)

@@ -221,7 +221,7 @@ SetupVerification()
     }
 }
 
-^#i:: Settings("11") 
+^#i:: Settings("12") 
 ^#o:: NotificationSettings
 
 Settings(TargetTab:=1, *)
@@ -954,6 +954,19 @@ Settings(TargetTab:=1, *)
             SettingsGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " On", SettingsGui))
         }
 
+    ;Changelog Tab
+    CurrentTab := NewTab(CurrentTab)
+    SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
+    SettingsGui.Add("Text", TabMaxW " Center" ,"Changelog")
+    SettingsGui.AddText( TabMaxW " h1 Section Background" CurrentTheme[3])
+    SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
+    ChangelogPath := IniPath("Changelog")
+    ChangelogData := FileRead(ChangelogPath)
+    SettingsGui.SetFont("s10 Norm c" CurrentTheme[2])
+    SettingsGui.Add("Link", "w1000 +Wrap", "For more information, questions or feedback on this release please see the current release discussion thread on my Github <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here</a>.")
+    SettingsGui.SetFont("c" CurrentTheme[3])
+    SettingsGui.Add("Text", "XS +Wrap " TabMaxW, ChangelogData)
+
     ; Allow scrolling
     SettingsGui.OnEvent("Size", UpdateGui_Size) 
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
@@ -998,3 +1011,4 @@ Enter::
 #HotIf
 
 ;; will need to check buttons and links before release
+;; add Update Gui
