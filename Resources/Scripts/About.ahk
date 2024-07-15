@@ -37,12 +37,6 @@ AboutChangelog(*)
 
 ViewChangelog(*)
 {
-    ; DestroyChangelog()
-    ; 
-    ; Changelog.BackColor := CurrentTheme[1]
-    ; Changelog.SetFont("s15 Bold c" CurrentTheme[3])
-    ; Changelog.Add("Text", "Center w1000", "Changelog")
-    ; Changelog.AddText("h1 w1000 Background" CurrentTheme[3])
     Changelog := GuiTemplate("Changelog", "PoE Mechanic Watch Changelog", 1000, "+Resize +0x300000")
     CurrentTheme := GetTheme()
     ChangelogPath := IniPath("Changelog")
