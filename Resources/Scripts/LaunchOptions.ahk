@@ -222,7 +222,6 @@ SelectTool(*)
         {
             LaunchIni := IniPath("Launch")
             CheckTotal := IniRead(LaunchIni, "Tool Path",,"") ;Check current number of launch tools
-            msgbox CheckTotal
             CheckTotal := StrSplit(CheckTotal, "`n")
             IniWrite(NewLocation.Value, Launchini, "Tool Path", CheckTotal.Length + 1)
             IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
@@ -236,7 +235,6 @@ SelectTool(*)
                 {
                     LaunchIni := IniPath("Launch")
                     CheckTotal := IniRead(LaunchIni, "Tool Path",,"") ;Check current number of launch tools
-                    msgbox CheckTotal
                     CheckTotal := StrSplit(CheckTotal, "`n")
                     IniWrite(LaunchPath, Launchini, "Tool Path", CheckTotal.Length + 1)
                     IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
