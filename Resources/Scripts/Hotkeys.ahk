@@ -78,7 +78,8 @@ SetHotkeyItems(Items, HotkeyGui)
         {
             FootNote := 8
         }
-    HotkeyGui.Add("Text", "w1 XM Section", FootNote).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
+    HotkeyGui.Add("Text", "w115 XS Section",) ;Spacer
+    HotkeyGui.Add("Text", "w1 YS", FootNote).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
     HotkeyGui.SetFont("s10 c" CurrentTheme[3])
     HotkeyGui.Add("Text", "w295 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
     CheckNum := A_Index "Check"
