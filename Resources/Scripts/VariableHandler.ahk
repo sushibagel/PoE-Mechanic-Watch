@@ -219,13 +219,21 @@ GuiTemplate(GuiName, GuiTitle, GuiWidth, GuiParams:="")
 
 GetTabNames()
 {
-    Return ["Setup", "MechanicsTab", "HideoutTab", "ThemeTab"]
+    Return ["Setup", "MechanicsTab", "OverlayTab", "NotificationsTab", "HideoutTab", "ThemeTab", "HotkeyTab", "LauncherTab", "AboutTab", "CustomTab", "CalibrationTab"]
 }
 
-GetTabs()
+GetTabs() ; Changes needed for the (A_Index < x) section for start of script and at the "ChangeTab" function
 {
-    Return ["Setup", "Mechanics", "Set Hideout", "Theme"]
+    Return ["Setup", "Mechanics", "Overlay", "Notifications", "Set Hideout", "Theme", "Hotkeys", "Launcher Setup", "About", "Custom", "Calibration"]
 }
+
+NewTab(CurrentTab)
+{
+    CurrentTab := CurrentTab + 1
+    GuiTabs.UseTab(CurrentTab)
+    Return CurrentTab
+}
+
 ; ListView Grid color thanks "just me" ======================================================================================================================
 ; just me      ->  https://www.autohotkey.com/boards/viewtopic.php?f=83&t=125259
 ; LV_GridColor - Sets/resets the color used to draw the gridlines in a ListView
