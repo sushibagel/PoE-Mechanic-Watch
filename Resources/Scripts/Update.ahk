@@ -18,17 +18,6 @@ UpdateCheck(GuiButton := "", *)
                     WinMinimize
                 }
             UpdateGui := GuiTemplate("UpdateGui", "Update Available", "800")
-            ; If WinExist("Update Available")
-            ;     {
-            ;         WinClose
-            ;     }
-            ; UpdateGui := Gui(, "Update Available")
-            ; CurrentTheme := GetTheme()
-            ; UpdateGui.BackColor := CurrentTheme[1]
-            ; UpdateGui.SetFont("s15 Bold c" CurrentTheme[3])
-            ; UpdateGui.Add("Text", "w800 Center", "Update Available")
-            ; UpdateGui.AddText("w800 h1 Background" CurrentTheme[3])
-            ; UpdateGui.SetFont("s10 Norm")
             CurrentTheme := GetTheme()
             UpdateGui.Add("Text", "XM Section w130")
             UpdateGui.Add("Button", "YS w150", "Download").OnEvent("Click", DownloadUpdate.Bind(UpdateUrl, CurrentVersion[2]))
