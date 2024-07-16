@@ -1,59 +1,14 @@
-SetupTool(*)
-{
-    If !DirExist("Resources/Settings") ; Check if Settins directory exists and create if it doesn't
-        {
-            DirCreate("Resources/Settings")
-        }
-    Setup := GuiTemplate("Setup", "Setup Tool", 500)
-    CurrentTheme := GetTheme()
-    SetupItems := ["* Open Path of Exile Client.", "  Select alternate settings storage location", "  Select your Theme", "* Select your Hideout", "* Select the Mechanics you want to track", "  View/Change options for various notifications" ,"  Modify Hotkeys", "  Quickly launch your favorite applications/scripts/websites", "  Get a reminder to start/enable your buffs when you enter a map"]
-    SetupCategories := ["Client", "Storage Location", "Theme", "Set Hideout", "Select Mechanics", "Notification Settings", "Hotkeys", "Quick Launch", "Custom Reminder"]
-    Setup.SetFont("s10 Norm c" CurrentTheme[3])
-    Setup.Add("Text", "w500", "Before using PoE Mechanic Watch click each item below to set your preferences. `nItems with a * are required")
-    TotalCounts := 9
-    Loop TotalCounts
-        {
-            SetupIni := IniPath("Setup")
-            SetupCompletion := IniRead(SetupIni, "Setup Completion", SetupCategories[A_Index], 0)
-            If (SetupCategories[A_Index] = "Client")
-                {
-                    SetupCompletion := ClientSetupCheck()
-                }
-            If (SetupCategories[A_Index] = "Set Hideout")
-                {
-                    SetupCompletion := HideoutSetupCheck()
-                }
-            Setup.Add("Checkbox", "XM Section Checked" SetupCompletion).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], Setup))
-            Setup.Add("Text", "YS", SetupItems[A_Index]).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], Setup))
-            If (SetupCategories[A_Index] = "Set Hideout") and (SetupCompletion = 1)
-                {
-                    CurrentHideout := GetHideout()
-                    Setup.SetFont("Bold c" CurrentTheme[2])
-                    Setup.Add("Text", "YS w70", ) ;Add spacer
-                    Setup.Add("Text", "YS", "Current Hideout: " CurrentHideout)
-                    Setup.SetFont("Norm c" CurrentTheme[3])
-                }
-        }
-    Setup.Show
-    Setup.OnEvent("Close", CheckCompletion.Bind(Setup))
-}
-
-SetupToolDestroy(Setup)
-    {
-        Setup.Destroy()
-    }
-
-LaunchEvent(ItemIndex, Setup, *)
+LaunchEvent(ItemIndex, Setup, GuiTabs, IndexCount *)
 {
     If (ItemIndex = "Client")
         {
-            SetupToolDestroy(Setup)
             CheckPath()
             PathAvailable := ClientSetupCheck()
             If (PathAvailable = "1")
                 {
                     SetupComplete(ItemIndex)
-                    SetupTool()
+                    ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
+                    Settings(1)
                 }
             Else
                 {
@@ -62,75 +17,57 @@ LaunchEvent(ItemIndex, Setup, *)
         }
     If (ItemIndex = "Set Hideout")
         {
-            SetupToolDestroy(Setup)
-            SetHideout()
-            WinWaitClose("Update Hideout")
+            SwitchTab(5, GuiTabs)
+            While (GuiTabs.Value = 5)
+                Sleep(1)
             HideoutComplete := HideoutSetupCheck()
             If (HideoutComplete = 1)
             {
+                ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
                 SetupComplete(ItemIndex)
             }
-            SetupTool()
         }
     If (ItemIndex = "Theme")
         {
-            SetupToolDestroy(Setup)
-            Settings("Change Theme")
-            WinWaitClose("Change Theme")
+            SwitchTab(6, GuiTabs)
             SetupComplete(ItemIndex)
-            SetupTool()
+            ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
         }
     If (ItemIndex = "Select Mechanics")
         {
-            SetupToolDestroy(Setup)
-            MechanicsSelect()
-            WinWaitClose("Mechanics")
+            SwitchTab(2, GuiTabs)
+            ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
             SetupComplete(ItemIndex)
-            If WinActive("Calibration Tool")
-                {
-                    WinWaitClose("Calibration Tool")
-                }
-            SetupTool()
         }
     If (ItemIndex = "Quick Launch")
         {
-            SetupToolDestroy(Setup)
-            LauncherGui()
-            WinWaitClose("Launcher Settings")
+            SwitchTab(8, GuiTabs)
+            ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
             SetupComplete(ItemIndex)
-            SetupTool()
         }
     If (ItemIndex = "Storage Location")
         {
-            SetupToolDestroy(Setup)
-            SettingsLocation()
-            WinWaitClose("Settings Storage Location")
+            SwitchTab(9, GuiTabs)
             SetupComplete(ItemIndex)
-            SetupTool()
+            ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
         }
     If (ItemIndex = "Notification Settings")
         {
-            SetupToolDestroy(Setup)
-            NotificationSettings()
-            WinWaitClose("Notification Settings")
+            SwitchTab(4, GuiTabs)
+            ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
             SetupComplete(ItemIndex)
-            SetupTool()
         }
     If (ItemIndex = "Custom Reminder")
         {
-            SetupToolDestroy(Setup)
-            CustomNotificationSetup()
-            WinWaitClose("Custom Reminder Setup")
+            SwitchTab(11, GuiTabs)
+            ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
             SetupComplete(ItemIndex)
-            SetupTool()
         }
     If (ItemIndex = "Hotkeys")
         {
-            SetupToolDestroy(Setup)
-            HotkeySetup()
-            WinWaitClose("Hotkey Setup")
+            SwitchTab(7, GuiTabs)
+            ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
             SetupComplete(ItemIndex)
-            SetupTool()
         }
 }
 
@@ -206,7 +143,6 @@ WarningYes(Setup)
 WarningNo(*)
 {
     WarningGui.Destroy
-    SetupTool()
 }
 
 SetupVerification()
@@ -215,14 +151,16 @@ SetupVerification()
     HideoutCheck := HideoutSetupCheck()
     If (ClientCheck = 0) or (HideoutCheck = 0)
     {
-        SetupTool()
-        WinWaitClose("Setup Tool")
-        SetupVerification()
+        Settings(1)
+    }
+    Else
+    {
+        StartTasks()
     }
 }
 
-^#i:: Settings("13") 
-^#o:: NotificationSettings
+^#i:: Settings(6) 
+^#o:: SettingsGui
 
 Settings(TargetTab:=1, *)
 {
@@ -261,7 +199,7 @@ Settings(TargetTab:=1, *)
     TabMaxW := "w850"
     CurrentTab := 0
 
-    ;Tab 1 Setup
+    ;Tab 1 Setup 
     CurrentTab := NewTab(CurrentTab)
     CurrentTheme := GetTheme()
     SetupItems := ["* Open Path of Exile Client.", "  Select alternate settings storage location", "  Select your Theme", "* Select your Hideout", "* Select the Mechanics you want to track", "  View/Change options for various notifications" ,"  Modify Hotkeys", "  Quickly launch your favorite applications/scripts/websites", "  Get a reminder to start/enable your buffs when you enter a map"]
@@ -287,8 +225,8 @@ Settings(TargetTab:=1, *)
                 {
                     SetupCompletion := HideoutSetupCheck()
                 }
-            SettingsGui.Add("Checkbox", "XS Section Checked" SetupCompletion).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], Setup))
-            SettingsGui.Add("Text", "YS", SetupItems[A_Index]).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], Setup))
+            SettingsGui.Add("Checkbox", "XS Section Checked" SetupCompletion " vCheckbox" A_Index ).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], SettingsGui, GuiTabs,  A_Index))
+            SettingsGui.Add("Text", "YS", SetupItems[A_Index]).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], SettingsGui, GuiTabs, A_Index))
             If (SetupCategories[A_Index] = "Set Hideout") and (SetupCompletion = 1)
                 {
                     CurrentHideout := GetHideout()
@@ -430,7 +368,7 @@ Settings(TargetTab:=1, *)
             IsChecked := "Checked"
         }
     SettingsGui.Add("Checkbox", IsChecked " YS Left w135 Section " OnCheck,).OnEvent("Click",InfluenceTracking)
-    SettingsGui.Add("Button", "XS-50 y+50", "Calibrate Search",).OnEvent("Click",CalibrateSearchButton.Bind(SettingsGui))
+    SettingsGui.Add("Button", "XS-50 y+50", "Calibrate Search",).OnEvent("Click",CalibrateSearchButton.Bind(GuiTabs))
 
     ;Overlay Tab
     CurrentTab := NewTab(CurrentTab)
@@ -587,7 +525,7 @@ Settings(TargetTab:=1, *)
                 {
                     SettingsGui.Add("Text", "Center YS w45")
                     SettingsGui.Add("Button", "Center YS w50", "Move").OnEvent("Click", MoveOverlay)
-                    SettingsGui.Add("Button", "Center YS w50", "Layout").OnEvent("Click", Settings.Bind("Overlay"))
+                    SettingsGui.Add("Button", "Center YS w50", "Layout").OnEvent("Click", SwitchTab.Bind(3, GuiTabs))
                 }
             If (Header = "Quick Notification")
                 {
@@ -629,7 +567,7 @@ Settings(TargetTab:=1, *)
             If (Header = "Custom Reminder")
                 {
                     SettingsGui.Add("Text", "Center YS w85")
-                    SettingsGui.Add("Button", "YS","Configure").OnEvent("Click", CustomNotificationSetup)
+                    SettingsGui.Add("Button", "YS","Configure").OnEvent("Click", SwitchTab.Bind(11, GuiTabs))
                 }
         }
 
@@ -1014,6 +952,11 @@ Settings(TargetTab:=1, *)
     SettingsGui.Show("h750")
 }
 
+SettingsToolDestroy(SettingsGui)
+    {
+        SettingsGui.Destroy()
+    }
+
 ChangeTab(TabName, ButtonInfo, *)
 {
     GuiTabs.Choose(ButtonInfo.Text)
@@ -1025,6 +968,22 @@ ChangeTab(TabName, ButtonInfo, *)
         SettingsGui[Tab].Opt("c" CurrentTheme[3])
     }
     SettingsGui[TabName].Opt("cRed")
+}
+
+SwitchTab(TabNumber, GuiTabs, *)
+{
+    GuiTabs.Choose(TabNumber)
+    SettingsTabs := GetTabNames()
+    CurrentTheme := GetTheme()
+    For Tab in SettingsTabs
+        {
+            If (A_Index < 11)
+            SettingsGui[Tab].Opt("c" CurrentTheme[3])
+        }
+        If (TabNumber < 11)
+        {
+            SettingsGui[SettingsTabs[TabNumber]].Opt("cRed")
+        }
 }
 
 #HotIf WinActive('Settings')
@@ -1042,12 +1001,6 @@ Enter::
     }
 }
 
-; ~LButton::
-; {
-;     MouseGetPos(,,,&ControlInfo)
-;     MsgBox ControlInfo
-; }
 #HotIf
 
-;; will need to check buttons and links before release
-;; Settings Location
+;; will need to check buttons and links before release 

@@ -20,14 +20,14 @@ Setup.Add()
 Setup.Add("Overlay Settings", OverlaySettingsRun)
 Setup.Add("Move Overlay", MoveOverlay)
 Setup.Add()
-Setup.Add("Notification Settings", NotificationSettings)
+Setup.Add("Notification Settings", Settings.Bind(4))
 Setup.Add("Move Quick Notifications", MoveQuick)
 Setup.Add("Custom Notification", CustomNotificationSetup)
 Setup.Add()
 Setup.Add("Calibration Tool", CalibrationTool)
 Setup.Add("Set Hotkeys", HotkeySetup)
 Setup.Add()
-Setup.Add("Launcher Setup", LauncherGui)
+Setup.Add("Launcher Setup", Settings.Bind(8))
 Setup.Add()
 Setup.Add("Change Theme", Settings.Bind(4))
 Setup.Add("Change Settings Location", SettingsLocation)
@@ -94,11 +94,6 @@ SetupVerification()
 
 HideoutIni := IniPath("Hideout")
 IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
-
-UpdateCheck()
-CheckPath()
-StartWatch()
-ApplyHotkeys()
 
 If WinActive("ahk_group PoeWindow")
     {
@@ -470,10 +465,10 @@ OverlaySettingsClose(OverlaySettings)
         }
 }
 
-LayoutSet(*)
+LayoutSet(Value, *)
 {
     OverlayIni := IniPath("Overlay")
-    IniWrite(DDLOptions[LayoutSelect.Value], OverlayIni, "Overlay Position", "Orientation")
+    IniWrite(Value.Text, OverlayIni, "Overlay Position", "Orientation")
 }
 
 IconEditChange(*)
@@ -544,6 +539,14 @@ Restart(*)
 Close(*)
 {
     ExitApp
+}
+
+StartTasks()
+{
+    UpdateCheck()
+    CheckPath()
+    StartWatch()
+    ApplyHotkeys()
 }
 
 #IncludeAgain "Resources\Scripts\About.ahk"

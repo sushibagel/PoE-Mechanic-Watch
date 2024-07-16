@@ -30,6 +30,13 @@ GetTheme() ;Returns "CurrentTheme" array with Background Color at "CurrentTheme[
 RefreshTheme(ChangeTo, ChangeTheme, *)
 {
     IniPath("Theme", "Write", ChangeTo, "Theme", "Theme")
+    If(ChangeTo = "Light")
+    {
+        IniPath("Theme", "Write", "Black", "Light", "Icons")
+        IniPath("Theme", "Write", "White", "Light", "Background")
+        IniPath("Theme", "Write", "a6a6a6", "Light", "Secondary")
+        IniPath("Theme", "Write", "Black", "Light", "Font")
+    }
     Settings("Change Theme")
 }
 

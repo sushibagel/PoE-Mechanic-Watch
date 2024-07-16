@@ -253,147 +253,6 @@ MapReminder()
         }
 }
 
-NotificationSettings(*)
-{
-    NotificationGui := GuiTemplate("NotificationGui", "Notification Settings", 1000)
-    CurrentTheme := GetTheme()
-    NotificationGui.SetFont("s12 Bold c" CurrentTheme[3])
-    Headers := ["Notification Type", "Enabled", "Sound Settings", "Transparency Settings", "Additional Settings"]
-    For Header in Headers
-        {
-            AddSection := "YS"
-            If (A_Index = 1)
-                {
-                    AddSection := "Section"
-                }
-            NotificationGui.Add("Text", "R1 Center w190 " AddSection, Header)
-        }
-    NotificationGui.SetFont("s8 Norm c" CurrentTheme[2])
-    For Header in Headers
-        {
-            AddSection := "YS"
-            If (Header = "Notification Type")
-                {
-                    AddSection := "XM Section"
-                    NotificationGui.Add("Text", "R1 w190 " AddSection,)
-                }
-            Else If (Header = "Sound Settings")
-                {
-                    NotificationGui.Add("Text", "R1 " AddSection, "Active")
-                    NotificationGui.Add("Text", "R1 x+15.5 " AddSection, "Sound")
-                    NotificationGui.Add("Text", "R1 " AddSection, "Test")
-                    NotificationGui.Add("Text", "R1 " AddSection, "Volume")  
-                }
-            Else If (Header = "Transparency Settings")
-                {
-                    NotificationGui.Add("Text", "R1 x+66 " AddSection, "Test")
-                    NotificationGui.Add("Text", "R1 " AddSection, "Close")
-                    NotificationGui.SetFont("s8 Underline c" CurrentTheme[2])
-                    NotificationGui.Add("Text", "R1 Section " AddSection, "Opactiy").OnEvent("Click", ExplainNote.Bind("Opacity"))
-                    NotificationGui.SetFont("s8 Norm c" CurrentTheme[2])
-                    NotificationGui.Add("Text", "R1 XS", "(0-255)")
-                }
-            Else
-                {
-                    NotificationGui.Add("Text", "R1 w190 " AddSection,)
-                }
-        }
-    NotificationGui.SetFont("s12 Bold c" CurrentTheme[3])
-    NotificationTypes := ["Overlay", "Quick Notification", "Mechanic Notification", "Custom Reminder", "Influence Notification", "Maven Notification"]
-    NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
-    PlayIcon := ImagePath("Play Button", "No") ; get play icon
-    VolumeIcon := ImagePath("Volume Button", "No") ; get volume icon
-    For Header in NotificationTypes
-        {
-            NotificationGui.Add("Text", "w280 XM Section", Header) ; add header
-            NotificationIni := IniPath("Notifications")
-            DefaultStatus := [3, 1, 1, 0, 1, 1]
-            CheckStatus := IniRead(NotificationIni, Header, "Active", DefaultStatus[A_Index])
-            If (Header = "Overlay")
-                {
-                    CheckStatus := "3 Check3 Disabled"
-                }
-            NotificationGui.Add("Checkbox", "YS w105 Center Checked" CheckStatus).OnEvent("Click", EnableCheck.Bind(Header)) ; add Enabled checkbox
-            If (Header = "Overlay")
-                {
-                    NotificationGui.Add("Text", "YS X+148",) ; add spacer
-                }
-            If !(Header = "Overlay")
-                {
-                    CheckStatus := IniRead(NotificationIni, Header, "Sound Active", 0)
-                    NotificationGui.Add("Checkbox", "YS w30 Center Checked" CheckStatus).OnEvent("Click", SoundCheck.Bind(Header)) ; add sound checkbox
-                    NotificationGui.Add("Picture", "Checked1 YS w-1 h22", VolumeIcon).OnEvent("Click", SoundAction.Bind(Header, "Sound")) ; add volume icon
-                    NotificationGui.Add("Picture", "w-1 h20 YS Center ", PlayIcon).OnEvent("Click", SoundAction.Bind(Header, "Test")) ; Add Sound Play Icon
-                    NotificationGui.Add("Edit", "Center w50 YS Background" CurrentTheme[2]).OnEvent("Change", VolumeAdjust.Bind(Header)) ;add edit box
-                    CurrentVolume := IniRead(NotificationIni, Header, "Volume", 100)
-                    NotificationGui.Add("UpDown", "Center YS Range0-100", CurrentVolume) ; add up/down
-                }
-
-            NotificationGui.Add("Text", "w85 ") ; add spacer
-            NotificationGui.Add("Picture", "w-1 h20 YS Center ", PlayIcon).OnEvent("Click", TestGui.Bind(Header, "Test")) ; Add Transparency Play Icon
-            StopIcon := ImagePath("Stop Button", "No") ; get stop icon
-            NotificationGui.Add("Picture", "w-1 h20 YS Center x+25 ", StopIcon).OnEvent("Click", TestGui.Bind(Header, "Destroy")) ; Add Transparency Play Icon
-            NotificationGui.Add("Edit", "Center w50 YS Background" CurrentTheme[2]).OnEvent("Change", TransparencyAdjust.Bind(Header)) ;add transparency edit box
-            CurrentOpacity := IniRead(NotificationIni, Header, "Transparency", 255)
-            If (Header = "Overlay")
-            {
-                CurrentOpacity := IniPath("Overlay", "Read", , "Transparency", "Transparency", 255)
-            }
-            NotificationGui.Add("UpDown", "Center YS Range0-255", CurrentOpacity) ; add up/down
-
-            If (Header = "Overlay")
-                {
-                    NotificationGui.Add("Text", "Center YS w45")
-                    NotificationGui.Add("Button", "Center YS w50", "Move").OnEvent("Click", MoveOverlay)
-                    NotificationGui.Add("Button", "Center YS w50", "Layout").OnEvent("Click", OverlaySettingsRun)
-                }
-            If (Header = "Quick Notification")
-                {
-                    NotificationGui.Add("Text", "Center YS w45")
-                    NotificationGui.Add("Button", "Center YS w50", "Move").OnEvent("Click", MoveQuick)
-                    NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
-                    NotificationGui.Add("Text", "Center YS-15 Section", "Duration (Seconds)")
-                    NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
-                    NotificationGui.Add("Edit", "Center w50 XS+15 YP+18 Background" CurrentTheme[2]).OnEvent("Change", QuickDurationChange) ;add transparency edit box
-                    QuickDuration := IniRead(NotificationIni, Header, "Duration", 3)
-                    NotificationGui.Add("UpDown", "Center YS Range0-255", QuickDuration) ; add up/down
-                }
-            If (Header = "Mechanic Notification")
-                {
-                    NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
-                    NotificationGui.Add("Text", "Center YS-15 w100 Section", "Triggers").OnEvent("Click", ExplainNote.Bind("Triggers"))
-                    HideoutTrigger := IniRead(NotificationIni, Header, "Hideout Trigger", 1)
-                    NotificationGui.Add("Checkbox","XS+15 YP+18 Checked" HideoutTrigger).OnEvent("Click", MechanicChecks.Bind("Hideout Trigger"))
-                    NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
-                    NotificationGui.Add("Text", "Center XS+2 YP+18", "Hideout")
-
-                    HotkeyTrigger := IniRead(NotificationIni, Header, "Hotkey Trigger", 0)
-                    NotificationGui.Add("Checkbox","YS+19 x+30 Checked" HotkeyTrigger).OnEvent("Click", MechanicChecks.Bind("Hotkey Trigger"))
-                    NotificationGui.SetFont("s8 Norm c" CurrentTheme[3])
-                    NotificationGui.Add("Text", "Center XP-9 YP+18 Section", "Hotkey")
-                    
-                    NotificationGui.SetFont("s8 Bold Underline c" CurrentTheme[3])
-                    NotificationGui.Add("Text", "YS-35 w120 Section", "Quick Notification").OnEvent("Click", ExplainNote.Bind("Quick"))
-                    QuickStatus := IniRead(NotificationIni, Header, "Use Quick", 0)
-                    NotificationGui.Add("Checkbox","XS+45 YP+18 Checked" QuickStatus).OnEvent("Click", MechanicChecks.Bind("Use Quick"))
-
-                    NotificationGui.Add("Text", "YS w100 Section", "Chat Delay").OnEvent("Click", ExplainNote.Bind("Delay"))
-                    NotificationGui.SetFont("s10 Norm c" CurrentTheme[3])
-                    NotificationGui.Add("Edit", "Center w50 XS+5 YP+18 Background" CurrentTheme[2]).OnEvent("Change", ChatDelayUpdate) ;add transparency edit box
-                    ChatDelay := IniRead(NotificationIni, Header, "Chat Delay", 0)
-                    NotificationGui.Add("UpDown", "Center YS Range0-100", ChatDelay) ; add up/down
-                }
-            If (Header = "Custom Reminder")
-                {
-                    NotificationGui.Add("Text", "Center YS w85")
-                    NotificationGui.Add("Button", "YS","Configure").OnEvent("Click", CustomNotificationSetup)
-                }
-        }
-    NotificationGui.Opt("-DPIScale")
-    NotificationGui.Show
-    NotificationGui.OnEvent("Close", NotificationGuiDestroy)
-}
-
 NotificationGuiDestroy(NotificationGui)
 {
     NotificationGui.Destroy()
@@ -469,7 +328,7 @@ TestGui(NotificationType, Action, *)
 {
     If (Action = "Test") and !(NotificationType = "Overlay")
         {
-            WinMinimize("Notification Settings")
+            WinMinimize("Settings")
         }
     If (NotificationType = "Overlay")
         {
@@ -493,7 +352,11 @@ TestGui(NotificationType, Action, *)
                 }
             If (Action = "Destroy")
                 {
-                    QuickNotifyDestroy()
+                    If WinExist("Simple Notification")
+                    {
+                        WinClose
+                        Settings(4)
+                    }
                 }
         }
     If (NotificationType = "Mechanic Notification") or (NotificationType = "Custom Reminder")
@@ -511,15 +374,15 @@ TestGui(NotificationType, Action, *)
                 }
             If (Action = "Destroy")
                 {
-                    If WinActive("PoE Mechanic Watch Notification")
+                    If WinExist("PoE Mechanic Watch Notification")
                         {
-                            NotificationBigDestroy()
+                            WinClose
                         }
-                    If WinActive("Quick Notification")
+                    If WinExist("Quick Notification")
                         {
-                            QuickNotifyDestroy()
+                            WinClose
+                            Settings(4)
                         }
-                    
                 }
         }       
     If (NotificationType = "Influence Notification") or (NotificationType = "Maven Notification")
@@ -536,20 +399,24 @@ TestGui(NotificationType, Action, *)
                 }
             If (Action = "Destroy")
                 {
-                    If WinActive("PoE Mechanic Watch Notification")
+                    If WinExist("PoE Mechanic Watch Notification")
                         {
-                            NotificationBigDestroy()
+                            WinClose
                         }                  
                 }
         }
-        GroupAdd("Notifications", "Notification ahk_class AutoHotkeyGUI")
-        GroupAdd("QuickNotification", "Notification ahk_class AutoHotkeyGUI")
-        WinWait("ahk_group Notifications")
-        WinWaitClose
-        If WinExist("Notification Settings")
+        If !(Action = "Destroy")
         {
-            WinRestore "Notification Settings"
-        } 
+            GroupAdd("Notifications", "Notification ahk_class AutoHotkeyGUI")
+            GroupAdd("QuickNotification", "Notification ahk_class AutoHotkeyGUI")
+            GroupAdd("Notification", "Notification ahk_class AutoHotkeyGUI")
+            WinWait("ahk_group Notifications",,1000)
+            WinWaitClose("ahk_group Notifications",,1000)
+            If WinExist("Settings")
+            {
+                WinRestore "Settings"
+            } 
+        }
 }
 
 TransparencyAdjust(NotficationType, Status, *)

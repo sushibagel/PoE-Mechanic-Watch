@@ -25,82 +25,6 @@ LaunchSupport()
         }
 }
 
-LauncherGui(*)
-{
-    ;This will combine both Launcher Guis and will instead just have a "Launch" with PoE Checkbox
-    LaunchGui := GuiTemplate("LaunchGui", "Launcher Settings", 500)
-    CurrentTheme := GetTheme()
-    Headers := ["Auto Launch", "Tool Name", "Remove", "Launch"]
-    HeaderFootNotes := ["1","2","3","4"]
-    SectionWidths := ["w100", "w85","w25","w25"]
-    LaunchGui.SetFont("s12 Bold c" CurrentTheme[3])
-    For Header in Headers
-        {
-            GuiOptions := "YS"
-            If (A_Index = 1)
-                {
-                    GuiOptions := "XM Section"
-                }
-            If (A_Index = 3)
-                {
-                    GuiOptions := "YS Right"
-                }
-            If (A_Index = 4)
-                {
-                    GuiOptions := "YS Center"
-                }
-            LaunchGui.Add("Text", GuiOptions " " SectionWidths[A_Index], Header)
-            LaunchGui.SetFont("s8 Norm Underline c" CurrentTheme[2])
-            LaunchGui.Add("Text", "x+.8 Left", HeaderFootNotes[A_Index]).OnEvent("Click",LaunchFootnoteShow.Bind(HeaderFootNotes[A_Index]))
-            If (A_Index = 2)
-                {
-                    LaunchGui.Add("Text", "w100 YS",)
-                }
-            LaunchGui.SetFont("s12 Norm Bold c" CurrentTheme[3])
-        }
-    LaunchGui.SetFont("s10 Norm c" CurrentTheme[3])    
-    LaunchIni := IniPath("Launch")
-    FileData := FileRead(LaunchIni)
-    Checktotal := Array()
-    If InStr(FileData, "Tool Path")
-        {
-            CheckTotal := IniRead(LaunchIni, "Tool Path")
-            CheckTotal := StrSplit(CheckTotal, "`n")
-        }
-    CloseButton := ImagePath("Close Button", "No")
-    PlayButton := ImagePath("Play Button", "No")
-
-    Loop CheckTotal.Length
-        {
-            LaunchOption := IniRead(LaunchIni, "Tool Launch", A_Index)
-            ToolName := IniRead(LaunchIni, "Tool Name", A_Index)
-            LaunchGui.Add("Checkbox", "Section XM x60 Checked" LaunchOption).OnEvent("Click",ToggleLaunch.Bind(A_Index))
-            LaunchGui.Add("Text", "YS w15",) ;Spacer
-            LaunchGui.Add("Text", "w205 YS", ToolName).OnEvent("Click",TooltipPath.Bind(A_Index))
-            LaunchGui.Add("Picture", "x+40 w20 h-1", CloseButton).OnEvent("Click", RemoveTool.Bind(A_Index))
-            LaunchGui.Add("Text", "w30 YS",)
-            LaunchGui.Add("Picture", "YS w20 h-1", PlayButton).OnEvent("Click", LaunchTool.Bind(A_Index))
-            LaunchGui.Add("Text", "w20 YS",)
-        }
-    LaunchGui.AddText("w500 h1 XM Background" CurrentTheme[3])
-    LaunchGui.SetFont("s10 Norm Bold c" CurrentTheme[3]) 
-    LaunchGui.Add("Text", "XM w250 Right", "Add Tool")
-
-    LaunchGui.SetFont("s7 Norm Underline c" CurrentTheme[2])
-    LaunchGui.Add("Text", "x+1 Left w200", 5).OnEvent("Click",LaunchFootnoteShow.Bind(5))
-
-    LaunchGui.SetFont("s10 Norm c" CurrentTheme[3])
-    LaunchGui.Add("Text", "XM Section", "Name:")
-    Global NewName := LaunchGui.Add("Edit", "w300 YS Background" CurrentTheme[2])
-    LaunchGui.Add("Text", "YS", "Auto Launch:")
-    Global NewCheck := LaunchGui.Add("Checkbox", "YS")
-    LaunchGui.Add("Text", "XM Section", "URL/Location:")
-    Global NewLocation := LaunchGui.Add("Edit", "w300 YS Background" CurrentTheme[2])
-    LaunchGui.Add("Button", "YS", "Add Tool").OnEvent("Click", SelectTool)
-    LaunchGui.Show
-    LaunchGui.OnEvent("Close", DestroyLauncherGui)
-}
-
 DestroyLauncherGui(LaunchGui, *)
 {
     If WinExist("Launcher Path")
@@ -196,7 +120,7 @@ RemoveTool(RemoveIndex, NA1, NA2)
             IniDelete(LaunchIni, "Tool Launch", CheckTotal.Length)
 
         }
-    LauncherGui()
+    ; LauncherGui()
 }
 
 LaunchTool(LaunchIndex, NA1, NA2)
@@ -226,7 +150,7 @@ SelectTool(*)
             IniWrite(NewLocation.Value, Launchini, "Tool Path", CheckTotal.Length + 1)
             IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
             IniWrite(NewCheck.Value, Launchini, "Tool Launch", CheckTotal.Length + 1)
-            LauncherGui()
+            ; LauncherGui()
         }
     If (NewLocation.Value = "") and !(NewName.Value = "")
         {
@@ -239,7 +163,7 @@ SelectTool(*)
                     IniWrite(LaunchPath, Launchini, "Tool Path", CheckTotal.Length + 1)
                     IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
                     IniWrite(NewCheck.Value, Launchini, "Tool Launch", CheckTotal.Length + 1)
-                    LauncherGui()
+                    ; LauncherGui()
                 }
         }
 }

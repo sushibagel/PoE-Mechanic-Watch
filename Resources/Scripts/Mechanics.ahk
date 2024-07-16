@@ -1,145 +1,3 @@
-MechanicsSelect(*)
-{
-    MechanicSelectGui := GuiTemplate("MechanicSelectGui", "Mechanics Settings", 580)
-    CurrentTheme := GetTheme()
-    MechanicSelectGui.SetFont("s12 Bold c" CurrentTheme[3]) 
-    Headers := ["Mechanic", "On", "Active Only", "Off", "Auto"]
-    FootnoteIndex := 0
-    For Title in Headers
-        {
-            HeaderWidth := "w100"
-            If (Title = "On") or (Title = "Active Only") or (Title = "Auto")
-                {
-                    HeaderWidth := ""
-                    FootnoteIndex++
-                }
-            LayoutSet := "YP"
-            If (A_Index = 1)
-                {
-                    LayoutSet := "XM"
-                }
-            MechanicSelectGui.Add("Text", LayoutSet " Left " HeaderWidth, Title)
-            If (Title = "On") or (Title = "Active Only") or (Title = "Auto")
-                {
-                    MechanicSelectGui.SetFont("s8 Underline Bold c" CurrentTheme[2])  
-
-                    MechanicSelectGui.Add("Text","YP w70 Left " HeaderWidth, FootnoteIndex).OnEvent("Click", ShowFootnote.Bind(FootnoteIndex))
-
-                    MechanicSelectGui.SetFont("s12 Norm Bold c" CurrentTheme[3])  
-                }
-        } 
-    MechanicSelectGui.AddText("w580 h1 XM Background" CurrentTheme[3])
-    Mechanics := VariableStore("Mechanics")
-    MechanicsIni := IniPath("Mechanics")
-    For Mechanic in Mechanics
-        {
-            Active := IniRead(MechanicsIni, "Mechanics", Mechanic, 0)
-            Auto := IniRead(MechanicsIni, "Auto Mechanics", Mechanic, 0)
-            MechanicSelectGui.SetFont("s8 Underline c" CurrentTheme[2])
-            FootnoteNum := ""
-            AutoAvailable := 0
-            If (Mechanic = "Betrayal") or (Mechanic = "Einhar") or (Mechanic = "Niko")
-                {
-                    FootnoteNum := 1
-                    AutoAvailable := 1
-                } 
-            If (Mechanic = "Blight")
-                {
-                    FootnoteNum := 2
-                    AutoAvailable := 1
-                } 
-            If (Mechanic = "Ultimatum") or (Mechanic = "Expedition")
-                {
-                    FootnoteNum := 3
-                    AutoAvailable := 1
-                } 
-            If (Mechanic = "Incursion")
-                {
-                    FootnoteNum := 1
-                    AutoAvailable := 1
-                } 
-            If (Mechanic = "Ritual")
-                {
-                    FootnoteNum := 4
-                    AutoAvailable := 1
-                } 
-            MechanicSelectGui.Add("Text","XM Right w10", FootnoteNum).OnEvent("Click", ShowMechanicFootnote.Bind(FootnoteNum))
-            MechanicSelectGui.SetFont("s10 Norm c" CurrentTheme[3]) 
-            MechanicSelectGui.Add("Text","YP Left w85", Mechanic ":")
-            OnCheck := ""
-            OnlyCheck := ""
-            OffCheck := ""
-            If (Active = 1)
-                {
-                    OnCheck := "Checked"
-                }
-            If (Active = 2)
-                {
-                    OnlyCheck := "Checked"
-                }
-            If (Active = 0)
-                {
-                    OffCheck := "Checked"
-                }
-            MechanicSelectGui.Add("Radio","YP Left w135 " OnCheck).OnEvent("Click",OnSelected.Bind(Mechanic))
-            MechanicSelectGui.Add("Radio","YP Left w135 " OnlyCheck).OnEvent("Click",ActiveSelected.Bind(Mechanic))
-            MechanicSelectGui.Add("Radio","YP Left w110 " OffCheck).OnEvent("Click",OffSelected.Bind(Mechanic))
-            If (AutoAvailable = 1)
-                {
-                    AutoChecked := ""
-                    If (Auto = 1)
-                        {
-                            AutoChecked := "Checked"
-                        }
-                    MechanicSelectGui.Add("Checkbox","YP Left " AutoChecked).OnEvent("Click",AutoSelected.Bind(Mechanic))
-                }
-        }
-    MechanicSelectGui.SetFont("s12 Bold c" CurrentTheme[3])
-    MechanicSelectGui.AddText("w580 h1 XM Background" CurrentTheme[3])
-    MechanicSelectGui.AddText("w150 Center XM Section", "Mechanic")
-    MechanicSelectGui.AddText("w50 Center YS",)
-    MechanicSelectGui.AddText("w200 Right YS", "Auto Switching/Tracking")
-    MechanicSelectGui.SetFont("s8 Underline Bold c" CurrentTheme[2])  
-    Global EldritchFootnoteHandler := MechanicSelectGui.Add("Text","YP w70 Left", 1)
-    EldritchFootnoteHandler.OnEvent("Click", EldritchFootnote)
-    Influences := VariableStore("Influences")
-    MechanicSelectGui.SetFont("s10 Norm c" CurrentTheme[3])
-    NoneChecked := "Checked"
-    For Influence in Influences
-        {
-            Active := IniRead(MechanicsIni, "Influence", Influence, 0)
-            OnCheck := ""
-            SectionSet := ""
-            If (Active = 1)
-                {
-                    OnCheck := "Checked"
-                    NoneChecked := ""
-                }
-            If (A_Index = 1)
-                {
-                    SectionSet := "Section"
-                }
-            MechanicSelectGui.Add("Radio","XM Left x60 w135 " OnCheck " " SectionSet, Influence).OnEvent("Click",InfluenceSelected.Bind(Influence))
-        }
-    MechanicSelectGui.Add("Radio","XM Left x60 w135 " NoneChecked, "None").OnEvent("Click",InfluenceSelected.Bind("None"))
-    MechanicSelectGui.Add("Text","YS Left w135 " OnCheck,).OnEvent("Click",InfluenceSelected.Bind("None"))
-    Active := IniRead(MechanicsIni,"Auto Mechanics", "Eldritch", 0)
-    IsChecked := ""
-    If (Active = 1)
-        {
-            IsChecked := "Checked"
-        }
-    MechanicSelectGui.Add("Checkbox", IsChecked " YS Left w135 Section " OnCheck,).OnEvent("Click",InfluenceTracking)
-    MechanicSelectGui.Add("Button", "XS-50 y+50", "Calibrate Search",).OnEvent("Click",CalibrateSearchButton.Bind(MechanicSelectGui))
-    MechanicSelectGui.Show
-    MechanicSelectGui.OnEvent("Close", MechanicSelectClose)
-}
-
-DestroyMechanicsGui(MechanicSelectGui)
-{
-    MechanicSelectGui.Destroy()
-}
-
 ShowFootnote(FootnoteSelected, Control, *)
 {
     If (FootnoteSelected = 1)
@@ -156,12 +14,10 @@ ShowFootnote(FootnoteSelected, Control, *)
         }
     If !(GuiInfo = "")
         {
-            TriggeredBy := "Mechanics"
-            WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-            ControlGetPos(,&ControlY,,,Control.Value,"Mechanics")
-            XPos := X + W
-            YPos := Y + ControlY
-            ActivateFootnoteGui(GuiInfo, XPos, YPos)
+            MouseGetPos(&X,&Y)
+            Y := Y - 150
+            X := X + 300
+            ActivateFootnoteGui(GuiInfo, X, Y)
         }
 }
 
@@ -185,25 +41,26 @@ ShowMechanicFootnote(FootnoteSelected, Control, *)
         }
     If !(GuiInfo = "")
         {
-            TriggeredBy := "Mechanics"
-            WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-            ControlGetPos(,&ControlY,,,Control.Value,"Mechanics")
-            XPos := X + W
-            YPos := ((Y + H)/2) - 32
-            ActivateFootnoteGui(GuiInfo, XPos, YPos)
+            MouseGetPos(&X,&Y)
+            Y := Y
+            X := X - 50
+            If (FootnoteSelected = 4)
+            {
+                Y := Y - 150
+            }
+            ActivateFootnoteGui(GuiInfo, X, Y)
         }
 }
 
 EldritchFootnote(*)
 {
     GuiInfo := "This `"Auto Switching/Tracking`" setting incorporates all three Eldritch mechanics (Eater of Worlds, Searing Exarch and Maven) and will attempt to track completion numbers and switch between the three mechanics when possible. This is accomplished through a combination of reading the game logs, Optical Character Recognition (OCR) and Image Matching. `r `rHow it works: when in your hideout the Image Search feature will begin looking for the Eldritch map device icons, once it identifies which mechanic is currently active it will try to update the current completion total if it's within +/-2 completion. If at any time the completion count isn't updating correctly or it is outside of +/-2 completions you can hover your mouse over the active mechanics icon and OCR will be used to update the count. For more information on why the +/-2 complitions was used see <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions/51`">here.</a> Completion counts can be incremented by clicking the icon in the overlay or reset (to zero) by holding `"Alt`" and clicking."
-    TriggeredBy := "Mechanics"
-    WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-    EldritchFootnoteHandler.GetPos(,&ControlY)
-    XPos := X + W
-    YPos := Y + ControlY - 50 ;- 50 only used because of he wall of text... 
-    WTotal := 350
-    ActivateFootnoteGui(GuiInfo, XPos, YPos, WTotal)
+    MouseGetPos(&X,&Y)
+    Y := Y - 300
+    X := X - 295
+    ActivateFootnoteGui(GuiInfo, X, Y)
+    WTotal := 580
+    ActivateFootnoteGui(GuiInfo, X, Y, WTotal)
 }
 
 ActiveSelected(MechanicSelected, NA1, NA2)
@@ -255,12 +112,9 @@ MechanicSelectClose(*)
     DestroyFootnote()
 }
 
-CalibrateSearchButton(MechanicSelectGui, *)
+CalibrateSearchButton(GuiTabs, *)
 {
-    WinMinimize("Mechanics Settings")
-    CalibrationTool()
-    Sleep 1000
-    DestroyMechanicsGui(MechanicSelectGui)
+    SwitchTab(12, GuiTabs)
 }
 
 NotifyActiveMechanics(*)
