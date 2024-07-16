@@ -19,23 +19,7 @@ UpdateCheck(GuiButton := "", *)
                 }
             UpdateGui := GuiTemplate("UpdateGui", "Update Available", "800")
             CurrentTheme := GetTheme()
-            UpdateGui.Add("Text", "XM Section w130")
-            UpdateGui.Add("Button", "YS w150", "Download").OnEvent("Click", DownloadUpdate.Bind(UpdateUrl, CurrentVersion[2]))
-            UpdateGui.Add("Text", "YS w170")
-            UpdateGui.Add("Button", "YS w150", "Remind Me Later").OnEvent("Click", DestroyUpdateGui.Bind(UpdateGui))
-            UpdateGui.SetFont("c" CurrentTheme[2])
-            UpdateGui.Add("Link", "XM w800 +Wrap", "To view previous versions and release information visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/releases`">here.</a> For feedback and questions visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here.</a>")
-            UpdateGui.SetFont("c" CurrentTheme[3])
-            Changelog := GetContent(ChangelogURL)
-            UpdateGui.Add("Text", "w800 +Wrap XM", Changelog)
-            UpdateGui.OnEvent("Size", UpdateGui_Size)
-            OnMessage(0x0115, OnScroll) ; WM_VSCROLL
-            OnMessage(0x0114, OnScroll) ; WM_HSCROLL
-            OnMessage(0X020A, OnWheel)  ; WM_MOUSEWHEEL
-            H := "h" A_ScreenHeight - 500
-            UpdateGui.Show("w850" H)
-            UpdateGui.OnEvent("Close", DestroyUpdateGui)
-            WinWaitClose("Update Available")
+            Settings(13)
         }
     If (CurrentVersion[2] = InstalledVersion[2])
         {

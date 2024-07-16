@@ -221,7 +221,7 @@ SetupVerification()
     }
 }
 
-^#i:: Settings("12") 
+^#i:: Settings("13") 
 ^#o:: NotificationSettings
 
 Settings(TargetTab:=1, *)
@@ -240,7 +240,7 @@ Settings(TargetTab:=1, *)
     SettingsGui.SetFont("s12 c" CurrentTheme[3])
     For Setting in SettingsTabs
     {
-        If (A_Index > 1) and (A_Index < 10) ; Controls what settings pages show as buttons. 
+        If (A_Index > 1) and (A_Index < 11) ; Controls what settings pages show as buttons. 
         {
             SettingsGui.Add("GroupBox", "XS y+20 r1 w130")
             If (A_Index = TargetTab)
@@ -762,7 +762,7 @@ Settings(TargetTab:=1, *)
     SettingsGui.SetFont("s11 Norm c" CurrentTheme[3])
     Headers := ["Auto Launch", "Tool Name", "Remove", "Launch"]
     HeaderFootNotes := ["1","2","3","4"]
-    SectionWidths := ["w100", "w85","w25","w25"]
+    SectionWidths := ["w105", "w85","w30","w30"]
     SettingsGui.SetFont("s12 Bold c" CurrentTheme[3])
     For Header in Headers
         {
@@ -779,13 +779,12 @@ Settings(TargetTab:=1, *)
                 {
                     GuiOptions := "YS Center"
                 }
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
             SettingsGui.Add("Text", GuiOptions " " SectionWidths[A_Index], Header)
             SettingsGui.SetFont("s8 Norm Underline c" CurrentTheme[2])
-            SettingsGui.Add("Text", "x+.8 Left", HeaderFootNotes[A_Index]).OnEvent("Click",LaunchFootnoteShow.Bind(HeaderFootNotes[A_Index]))
+            SettingsGui.Add("Text", "x+1 Left", HeaderFootNotes[A_Index]).OnEvent("Click",LaunchFootnoteShow.Bind(HeaderFootNotes[A_Index]))
             If (A_Index = 2)
                 {
-                    SettingsGui.Add("Text", "w300 YS",)
+                    SettingsGui.Add("Text", "w250 YS",)
                 }
             Else
                 {
@@ -835,6 +834,24 @@ Settings(TargetTab:=1, *)
     SettingsGui.Add("Text", "XS Section", "URL/Location:")
     Global NewLocation := SettingsGui.Add("Edit", "w605 YS Background" CurrentTheme[2])
     SettingsGui.Add("Button", "YS", "Add Tool").OnEvent("Click", SelectTool)
+
+    ;Settings Tab
+    CurrentTab := NewTab(CurrentTab)
+    SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
+    SettingsGui.Add("Text", TabMaxW " Center" ,"Settings Storage Location")
+    SettingsGui.AddText( TabMaxW " h1 Section Background" CurrentTheme[3])
+    SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
+    ExplainTool := "This tool will allow you to choose a location for user specific settings to be stored. This is useful if you have multiple computers and want to sync your settings with Dropbox. Note: Calibration images are not moved."
+    SettingsGui.Add("Text", TabMaxW " XS Center", ExplainTool)
+    SettingsGui.Add("Text", "XS Right w180 Section", "Current Location:")
+    StorageIni := IniPath("Storage")
+    CurrentLocation := IniRead(StorageIni, "Settings Location", "Location", A_ScriptDir)
+    If (CurrentLocation = "A_ScriptDir")
+        {
+            CurrentLocation := A_ScriptDir
+        }
+    SettingsGui.Add("Edit", "YS w450 Background" CurrentTheme[2], CurrentLocation)
+    SettingsGui.Add("Button", "YS", "Select Location").OnEvent("Click", GetLocation)
 
     ;About Tab
     CurrentTab := NewTab(CurrentTab)
@@ -967,6 +984,28 @@ Settings(TargetTab:=1, *)
     SettingsGui.SetFont("c" CurrentTheme[3])
     SettingsGui.Add("Text", "XS +Wrap " TabMaxW, ChangelogData)
 
+    ;Update Tab
+    CurrentTab := NewTab(CurrentTab)
+    SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
+    SettingsGui.Add("Text", TabMaxW " Center" ,"Update Available")
+    SettingsGui.AddText( TabMaxW " h1 Section Background" CurrentTheme[3])
+    SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
+    ; Get Version Info
+    VersionURL := "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/Resources/Data/Version.txt"
+    CurrentVersion := GetContent(VersionURL)
+    CurrentVersion := Trim(CurrentVersion, "`n `t") ; Trim and clean
+    CurrentVersion := StrSplit(CurrentVersion, "v")
+    UpdateUrl := "https://github.com/sushibagel/PoE-Mechanic-Watch/archive/refs/tags/v" CurrentVersion[2] ".zip"
+    ChangelogURL := "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/changelog.txt"
+    ;Add gui data
+    SettingsGui.SetFont("c" CurrentTheme[2])
+    SettingsGui.Add("Link", TabMaxW " XS +Wrap", "To view previous versions and release information visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/releases`">here.</a> For feedback and questions visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here.</a>")
+    SettingsGui.SetFont("c" CurrentTheme[3])
+    Changelog := GetContent(ChangelogURL)
+    SettingsGui.Add("Text", TabMaxW " +Wrap XS", Changelog)
+    SettingsGui.Add("Text", "XS w150")
+    SettingsGui.Add("Button", "XS w150", "Download").OnEvent("Click", DownloadUpdate.Bind(UpdateUrl, CurrentVersion[2]))
+
     ; Allow scrolling
     SettingsGui.OnEvent("Size", UpdateGui_Size) 
     OnMessage(0x0115, OnScroll) ; WM_VSCROLL
@@ -982,7 +1021,7 @@ ChangeTab(TabName, ButtonInfo, *)
     CurrentTheme := GetTheme()
     For Tab in SettingsTabs
     {
-        If (A_Index < 10)
+        If (A_Index < 11)
         SettingsGui[Tab].Opt("c" CurrentTheme[3])
     }
     SettingsGui[TabName].Opt("cRed")
@@ -1011,4 +1050,4 @@ Enter::
 #HotIf
 
 ;; will need to check buttons and links before release
-;; add Update Gui
+;; Settings Location
