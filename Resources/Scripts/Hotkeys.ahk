@@ -1,33 +1,3 @@
-HotkeySetup(*)
-{
-    HotkeyGui := GuiTemplate("HotkeyGui", "Hotkey Setup", 550)
-    CurrentTheme := GetTheme()
-    HotkeyGui.SetFont("s10 Norm c" CurrentTheme[2])
-    HotkeyGui.Add("Text", "Center w500", "To setup a hotkey simply click each input box and press your desired hotkey combination. To use the `"Windows Key`" as part of your hotkey combination simply check the box next designated input box. `"Backspace`" will remove/unset any entered hotkey combinations.")
-    HotkeyGui.SetFont("s10 Norm c" CurrentTheme[3])
-    HotkeyGui.Add("Text", "w270 Section", "Hotkey Items")
-    HotkeyGui.Add("Text", "YS w100", "Use Win Key")
-    HotkeyGui.Add("Text", "YS", "Hotkey(s)")
-    HotkeyItems := GetHotkeyItems()
-    For Item in HotkeyItems
-        {
-            SetHotkeyItems(Item, HotkeyGui)
-        }
-    Mechanics := VariableStore("Mechanics")
-    For Mechanic in Mechanics
-        {
-            SetHotkeyItems(Mechanic, Hotkeygui)
-        }
-    HotkeyGui.Add("Text", "YS R2",)
-    HotkeyGui.OnEvent("Size", HotkeyGui_Size)
-    OnMessage(0x0115, OnScroll) ; WM_VSCROLL
-    OnMessage(0x0114, OnScroll) ; WM_HSCROLL
-    OnMessage(0x020A, OnWheel)  ; WM_MOUSEWHEEL
-    GuiHeight := "h" A_ScreenHeight - 500
-    HotkeyGui.Show("w600" GuiHeight)
-    HotkeyGui.OnEvent("Close", HotkeySetupDestroy)
-}
-
 SetHotkeyItems(Items, HotkeyGui)
 {
     HotkeyIni := IniPath("Hotkeys")
@@ -40,7 +10,7 @@ SetHotkeyItems(Items, HotkeyGui)
             CurrentValue := CurrentValue[2]
             CheckboxStatus := 1
         }
-    HotkeyGui.SetFont("s8 c" CurrentTheme[2])
+    HotkeyGui.SetFont("s8 Underline c" CurrentTheme[2])
     Footnote := "    "
     If (Items = "Map Count")
         {
@@ -80,7 +50,7 @@ SetHotkeyItems(Items, HotkeyGui)
         }
     HotkeyGui.Add("Text", "w115 XS Section",) ;Spacer
     HotkeyGui.Add("Text", "w1 YS", FootNote).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
-    HotkeyGui.SetFont("s10 c" CurrentTheme[3])
+    HotkeyGui.SetFont("s10 Norm c" CurrentTheme[3])
     HotkeyGui.Add("Text", "w295 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
     CheckNum := A_Index "Check"
     CheckNum := HotkeyGui.Add("Checkbox", "YS Checked" CheckboxStatus)
@@ -150,10 +120,9 @@ HotkeyGui_Size(GuiObj, MinMax, Width, Height)
 
 HotkeyFootnote(FootnoteNum, Mechanic, *)
 {
-    TriggeredBy := "Hotkey Setup"
-    WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-    XPos := X + W
-    YPos := ((Y + H)/2) - 32
+    MouseGetPos(, &Y)
+    Y := Y + 100
+    WinGetPos(&X,,,,"Settings")
     If (FootnoteNum = 1)
         {
             YPos := Y + 200
@@ -190,7 +159,7 @@ HotkeyFootnote(FootnoteNum, Mechanic, *)
         {
             GuiInfo := "The " Mechanic.Value " hotkey is used to quickly toggle the status of the " Mechanic.Value " mechanic this can be a great alternative to pressing the image to disable tracking."
         }
-    ActivateFootnoteGui(GuiInfo, XPos, YPos)
+    ActivateFootnoteGui(GuiInfo, X, Y)
 }
 
 ApplyHotkeys()

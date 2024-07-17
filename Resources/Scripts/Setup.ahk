@@ -160,7 +160,7 @@ SetupVerification()
 }
 
 ^#i:: Settings(6) 
-^#o:: SettingsGui
+^#o:: SettingsGui["SettingsEdit"].Text := "Testing"
 
 Settings(TargetTab:=1, *)
 {
@@ -748,8 +748,8 @@ Settings(TargetTab:=1, *)
             ToolName := IniRead(LaunchIni, "Tool Name", A_Index)
             SettingsGui.Add("Text", "XS Section",) ;Spacer
             SettingsGui.Add("Checkbox", "YS Checked" LaunchOption).OnEvent("Click",ToggleLaunch.Bind(A_Index))
-            SettingsGui.Add("Text", "YS w95",) ;Spacer
-            SettingsGui.Add("Text", "w410 YS", ToolName).OnEvent("Click",TooltipPath.Bind(A_Index))
+            SettingsGui.Add("Text", "YS w100",) ;Spacer
+            SettingsGui.Add("Text", "w370 YS", ToolName).OnEvent("Click",TooltipPath.Bind(A_Index))
             SettingsGui.Add("Picture", "x+40 w15 h-1", CloseButton).OnEvent("Click", RemoveTool.Bind(A_Index))
             SettingsGui.Add("Text", "w100 YS",) ;Spacer
             SettingsGui.Add("Picture", "YS w15 h-1", PlayButton).OnEvent("Click", LaunchTool.Bind(A_Index))
@@ -788,8 +788,8 @@ Settings(TargetTab:=1, *)
         {
             CurrentLocation := A_ScriptDir
         }
-    SettingsGui.Add("Edit", "YS w450 Background" CurrentTheme[2], CurrentLocation)
-    SettingsGui.Add("Button", "YS", "Select Location").OnEvent("Click", GetLocation)
+    SettingsGui.Add("Edit", "YS vSettingsEdit w450 Background" CurrentTheme[2], CurrentLocation)
+    SettingsGui.Add("Button", "YS", "Select Location").OnEvent("Click", GetLocation.Bind(SettingsGui, GuiTabs))
 
     ;About Tab
     CurrentTab := NewTab(CurrentTab)
@@ -1004,3 +1004,4 @@ Enter::
 #HotIf
 
 ;; will need to check buttons and links before release 
+;; Settings location not updating.. 

@@ -37,10 +37,7 @@ DestroyLauncherGui(LaunchGui, *)
 
 LaunchFootnoteShow(FootnoteNum, NA1, NA2)
 {
-    TriggeredBy := "Launcher Settings"
-    WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-    XPos := X + W
-    YPos := Y
+    MouseGetPos(&X, &Y)
     If (FootnoteNum = 1)
         {
             GuiInfo := "If checked the associated tool will launch along side PoE when you use the `"Launch Path of Exile`" option in the tray menu."
@@ -61,7 +58,8 @@ LaunchFootnoteShow(FootnoteNum, NA1, NA2)
         {
             GuiInfo := "To add a new tool input the name of your new tool, if the `"URL/Location`" is omitted a dialog will pop-up to select a file/application."
         }
-    ActivateFootnoteGui(GuiInfo, XPos, YPos)
+    X := X + 250
+    ActivateFootnoteGui(GuiInfo, X, Y)
 }
 
 TooltipPath(LauncherIndex, NA1, NA2)

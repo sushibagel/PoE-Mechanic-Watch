@@ -125,30 +125,7 @@ ImagePath(FileRequested, AllowCustom)
     Return ReturnedPath
 }
 
-SettingsLocation(*)
-{
-    StorageGui := GuiTemplate("StorageGUi", "Settings Storage Location", 700)
-    CurrentTheme := GetTheme()
-    ExplainTool := "This tool will allow you to choose a location for user specific settings to be stored. This is useful if you have multiple computers and want to sync your settings with Dropbox. Note: Calibration images are not moved."
-    StorageGui.Add("Text", "Center w700", ExplainTool)
-    StorageGui.Add("Text", "XM Section", "Current Location:")
-    StorageIni := IniPath("Storage")
-    CurrentLocation := IniRead(StorageIni, "Settings Location", "Location", A_ScriptDir)
-    If (CurrentLocation = "A_ScriptDir")
-        {
-            CurrentLocation := A_ScriptDir
-        }
-    StorageGui.Add("Edit", "YS w450 Background" CurrentTheme[2], CurrentLocation)
-    StorageGui.Add("Button", "YS", "Select Location").OnEvent("Click", GetLocation)
-    StorageGui.Show
-}
-
-SettingsLocationDestroy(StorageGui)
-{
-    StorageGui.Destroy()
-}
-
-GetLocation(*)
+GetLocation(SettingsGui, GuiTabs, *)
 {
     SelectFolder := FileSelect("D 2", A_Desktop, "Please select the folder to store settings files in.")
     If !(SelectFolder = "")
@@ -162,7 +139,7 @@ GetLocation(*)
             DirCreate(SelectFolder SettingsFolder)
             FileCopy(CurrentDir DataFolder "\*.ini", SelectFolder DataFolder, True)
             FileCopy(CurrentDir SettingsFolder "\*.ini", SelectFolder SettingsFolder, True)
-            SettingsLocation()
+            SettingsGui["SettingsEdit"].Text := SelectFolder
         }
 }
 
