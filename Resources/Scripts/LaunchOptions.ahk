@@ -120,7 +120,7 @@ RemoveTool(RemoveIndex, NA1, NA2)
             IniDelete(LaunchIni, "Tool Launch", CheckTotal.Length)
 
         }
-    ; LauncherGui()
+    Settings(8)
 }
 
 LaunchTool(LaunchIndex, NA1, NA2)
@@ -150,7 +150,7 @@ SelectTool(*)
             IniWrite(NewLocation.Value, Launchini, "Tool Path", CheckTotal.Length + 1)
             IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
             IniWrite(NewCheck.Value, Launchini, "Tool Launch", CheckTotal.Length + 1)
-            ; LauncherGui()
+            Settings(8)
         }
     If (NewLocation.Value = "") and !(NewName.Value = "")
         {
@@ -163,7 +163,7 @@ SelectTool(*)
                     IniWrite(LaunchPath, Launchini, "Tool Path", CheckTotal.Length + 1)
                     IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
                     IniWrite(NewCheck.Value, Launchini, "Tool Launch", CheckTotal.Length + 1)
-                    ; LauncherGui()
+                    Settings(8)
                 }
         }
 }
