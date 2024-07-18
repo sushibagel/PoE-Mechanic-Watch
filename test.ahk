@@ -564,13 +564,23 @@ StartTasks()
 #IncludeAgain "Resources\Scripts\ScreenSearch.ahk"
 #IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
+#IncludeAgain "Resources\Scripts\ToolTipOptions.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
 #IncludeAgain "Resources\Scripts\Update.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
 
+
 ^m::
 {
-    ImageCalibration("Mechanic")
+    ToolTipOptions.Init()
+    CurrentTheme := GetTheme()
+    ToolTipOptions.SetColors(CurrentTheme[1], CurrentTheme[2])
+    ToolTipOptions.SetFont("s12 Norm")
+    ToolTipOptions.SetMargins(12,12,12,12)
+    TooltipText := "A bunch of text to test here."
+    ToolTip(TooltipText, 100)
+ 
+    ; ToolTipOptions.Reset()
 }
 
 
@@ -585,6 +595,9 @@ Test(AlsoMessage:="", *)
 {
     SetTimer test, 5000
 }
+
+^#i:: Settings(7) 
+^#o:: SettingsGui["SettingsEdit"].Text := "Testing"
 
 ;Tasks
     ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
