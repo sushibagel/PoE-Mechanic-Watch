@@ -159,9 +159,6 @@ SetupVerification()
     }
 }
 
-^#i:: Settings(6) 
-^#o:: SettingsGui["SettingsEdit"].Text := "Testing"
-
 Settings(TargetTab:=1, *)
 {
     Global SettingsGui := GuiTemplate("SettingsGui", "Settings", 1050)

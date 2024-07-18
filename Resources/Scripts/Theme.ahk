@@ -37,7 +37,7 @@ RefreshTheme(ChangeTo, ChangeTheme, *)
         IniPath("Theme", "Write", "a6a6a6", "Light", "Secondary")
         IniPath("Theme", "Write", "Black", "Light", "Font")
     }
-    Settings("Change Theme")
+    Settings(6)
 }
 
 BackgroundColorSet(BackgroundColor, *)
