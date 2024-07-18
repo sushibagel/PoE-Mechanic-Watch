@@ -131,8 +131,6 @@ GetLocation(SettingsGui, GuiTabs, *)
     If !(SelectFolder = "")
         {
             CurrentDir := GetStorageDir()
-            StorageIni := IniPath("Storage")
-            IniWrite(SelectFolder, StorageIni, "Settings Location", "Location")
             DataFolder := "\Resources\Data"
             SettingsFolder := "\Resources\Settings"
             DirCreate(SelectFolder DataFolder)
@@ -140,6 +138,7 @@ GetLocation(SettingsGui, GuiTabs, *)
             FileCopy(CurrentDir DataFolder "\*.ini", SelectFolder DataFolder, True)
             FileCopy(CurrentDir SettingsFolder "\*.ini", SelectFolder SettingsFolder, True)
             SettingsGui["SettingsEdit"].Text := SelectFolder
+            StorageIni := IniPath("Storage", "Write", SelectFolder, "Settings Location", "Location")
         }
 }
 
