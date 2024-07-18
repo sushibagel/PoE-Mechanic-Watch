@@ -49,7 +49,7 @@ SetHotkeyItems(Items, HotkeyGui)
             FootNote := 8
         }
     HotkeyGui.Add("Text", "w115 XS Section",) ;Spacer
-    HotkeyGui.Add("Text", "w1 YS", FootNote).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
+    HotkeyGui.Add("Text", "w1 YS", FootNote).OnEvent("Click", HotkeyFootnote.Bind(FootNote, Items))
     HotkeyGui.SetFont("s10 Norm c" CurrentTheme[3])
     HotkeyGui.Add("Text", "w295 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
     CheckNum := A_Index "Check"
@@ -105,7 +105,6 @@ HotkeyEdit(Item, WinStatus, KeyCombo, *)
                 {
                     IndexMatch := A_Index
                     HotkeyActions := GetHotkeyPairs()
-                    msgbox IndexMatch
                     Hotkey CurrentHotkey, HotkeyActions[IndexMatch], "Off"
                     Break
                 }
@@ -120,46 +119,73 @@ HotkeyGui_Size(GuiObj, MinMax, Width, Height)
 
 HotkeyFootnote(FootnoteNum, Mechanic, *)
 {
-    MouseGetPos(, &Y)
-    Y := Y + 100
-    WinGetPos(&X,,,,"Settings")
+    FootnoteMenu := Menu()
+    ToolTipOptions.Init()
+    CurrentTheme := GetTheme()
+    ToolTipOptions.SetColors(CurrentTheme[2], CurrentTheme[3])
     If (FootnoteNum = 1)
         {
-            YPos := Y + 200
-            GuiInfo := "The `"Map Count`" hotkey is used to remove a map from the Eldritch Influence (Maven, Eater of Worlds and Searing Exarch) count.`r`rThis is not required but highly recommended as depending on the content you are doing you may periodically need to remove a map from the count."
+            TooltipText := "The `"Map Count`" hotkey is used to remove a map from the`rEldritch Influence (Maven, Eater of Worlds and Searing Exarch)`rcount. This is not required but highly recommended as"
+            ToolTip(TooltipText)
+            ; FootnoteMenu.Add("The `"Map Count`" hotkey is used to remove a map from the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            ; FootnoteMenu.Add("Eldritch Influence (Maven, Eater of Worlds and Searing Exarch)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            ; FootnoteMenu.Add("count. This is not required but highly recommended as", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            ; FootnoteMenu.Add("depending on the content you are doing you may periodically", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            ; FootnoteMenu.Add("periodically need to remove a map from the count.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 2)
         {
-            YPos := Y + 200
-            GuiInfo := "The `"Toggle Influence`" hotkey will allow you to quickly switch between Eldritch Influences (Maven, Eater of Worlds and Searing Exarch)."
+            TooltipText := "The `"Toggle Influence`" hotkey will allow you to quickly`rswitch between Eldritch Influences (Maven, Eater of Worlds`rand Searing Exarch)"
+            ToolTip(TooltipText)
+        ;     FootnoteMenu.Add("The `"Toggle Influence`" hotkey will allow you to quickly)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        ;     FootnoteMenu.Add("switch between Eldritch Influences (Maven, Eater of Worlds", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        ;     FootnoteMenu.Add("and Searing Exarch)", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 3)
         {
-            YPos := Y + 200
-            GuiInfo := "The `"Maven Inventation`" hotkey allows you to quickly open the Maven Invitation Status Menu."
+            FootnoteMenu.Add("The `"Maven Inventation`" hotkey allows you to quickly open", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the Maven Invitation Status Menu.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 4)
         {
-            YPos := Y + 200
-            GuiInfo := "The `"Launch PoE`" hotkey allows you to launch Path of Exile along with any configured `"Auto Launch`" items. Auto Launch items can be configured in the Launcher Setup menu.`r`rPlease note, that this hotkey will work everywhere in Windows so it's important to set a hotkey that will not conflict with any other hotkeys or Windows shortcuts you may already be using."
+            FootnoteMenu.Add("The `"Launch PoE`" hotkey allows you to launch Path of Exile", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("along with any configured `"Auto Launch`" items. Auto Launch", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("items can be configured in the Launcher Setup menu. Please", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("note, that this hotkey will work everywhere in Windows so", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("it's important to set a hotkey that will not conflict with", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("any other hotkeys or Windows shortcuts you may already be using.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 5)
         {
-            GuiInfo := "The `"Launcher Tool`" hotkey allows you to quickly launch the Launcher Setup tool."
+            FootnoteMenu.Add("The `"Launcher Tool`" hotkey allows you to quickly launch", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the Launcher Setup tool.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 6)
         {
-            GuiInfo := "The `"Portal Key`" hotkey is used to trigger mechanic completion reminders. It is recommended to bind this to whichever key you have your in game Portal hotkey set to.`r`rTo avoid accidental triggers while typing in chat it's highly recommended to setup the `"Chat Delay`" feature in the Notification Settings menu."
+            FootnoteMenu.Add("The `"Portal Key`" hotkey is used to trigger mechanic", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("completion reminders. It is recommended to bind this to", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("whichever key you have your in game Portal hotkey set to.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("rTo avoid accidental triggers while typing in chat it's", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("highly recommended to setup the `"Chat Delay`" feature", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("in the Notification Settings menu.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 7)
         {
-            GuiInfo := "The `"Chat Key`" hotkey is used along with the `"Chat Delay`" feature in the Notification Settings menu to ignore key presses of the `"Portal Key`" while typing in chat. By default the hotkey is set to `"Enter`", if you've changed the key and would like to reset it simply press `"Delete`" or `"Backspace`" when in the entry box, this will set it to `"None`" and reset the key to `"Enter`"."
+            FootnoteMenu.Add("The `"Chat Key`" hotkey is used along with the `"Chat Delay`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("feature in the Notification Settings menu to ignore key presses", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("of the `"Portal Key`" while typing in chat. By default the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("hotkey is set to `"Enter`", if you've changed the key and", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("would like to reset it simply press `"Delete`" or `"Backspace`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("when in the entry box, this will set it to `"None`" and", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("reset the key to `"Enter`".", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 8)
         {
-            GuiInfo := "The " Mechanic.Value " hotkey is used to quickly toggle the status of the " Mechanic.Value " mechanic this can be a great alternative to pressing the image to disable tracking."
+            FootnoteMenu.Add("The " Mechanic " hotkey is used to quickly toggle the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("status of the " Mechanic " mechanic this can be a", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("great alternative to pressing the image to disable tracking.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
-    ActivateFootnoteGui(GuiInfo, X, Y)
+    FootnoteMenu.Show()
 }
 
 ApplyHotkeys()
