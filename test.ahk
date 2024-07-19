@@ -54,7 +54,7 @@ GroupAdd("PoeWindow", "ahk_exe Code.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
-GroupAdd("PoeOnly", "ahk_exe Photos.exe")
+GroupAdd("PoeOnly", "ahk_exe NVIDIA GeForce Experience.exe")
 
 Global MoveActive := 0
 Global TestActive := 0
@@ -229,7 +229,7 @@ CreateOverlay()
     Overlay.Show(OverlayHeight OverlayWidth " " ShouldActivate)
     If !(MoveActive = 1)
         {
-            WinSetTransColor("1e1e1e " OverlayTransparency, "Overlay")
+            WinSetTransColor("1e1e1e " OverlayTransparency, "PoE Mechanic Watch Overlay")
         }
     Overlay.OnEvent("Close", DestroyOverlay)
 }
@@ -566,7 +566,7 @@ StartTasks()
 #IncludeAgain "Resources\Scripts\Theme.ahk"
 #IncludeAgain "Resources\Scripts\Update.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
-
+#IncludeAgain "Resources\Scripts\wincapture\wincapture.ahk"
 
 ^m::
 {
@@ -583,7 +583,11 @@ Test(AlsoMessage:="", *)
 
 ^o::
 {
-    SetTimer test, 5000
+    testgui := Gui(,"Test Gui")
+    testgui.Add("Text",,"test text")
+    testgui.BackColor := "Gray"
+    testgui.Show("w1000 h1000")
+    WinSetTransColor("Gray", "Test Gui")
 }
 
 ^#i:: Settings(12) 
