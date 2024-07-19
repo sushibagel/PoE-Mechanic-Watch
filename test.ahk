@@ -24,7 +24,7 @@ Setup.Add("Notification Settings", Settings.Bind(4))
 Setup.Add("Move Quick Notifications", MoveQuick)
 Setup.Add("Custom Notification", CustomNotificationSetup)
 Setup.Add()
-Setup.Add("Calibration Tool", CalibrationTool)
+Setup.Add("Calibration Tool", Settings.Bind(12))
 Setup.Add("Set Hotkeys", Settings.Bind(7))
 Setup.Add()
 Setup.Add("Launcher Setup", Settings.Bind(8))
@@ -49,8 +49,7 @@ GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
 GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 ; GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
-; GroupAdd("PoeWindow", "ahk_exe Code.exe")
-; GroupAdd("PoeWindow", "ahk_exe Notepad.exe")
+GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
@@ -549,7 +548,6 @@ StartTasks()
     ApplyHotkeys()
 }
 
-#IncludeAgain "Resources\Scripts\About.ahk"
 #IncludeAgain "Resources\Scripts\AppVol.ahk"
 #IncludeAgain "Resources\Scripts\Calibration.ahk"
 #IncludeAgain "Resources\Scripts\Hideout.ahk"
@@ -572,15 +570,7 @@ StartTasks()
 
 ^m::
 {
-    ToolTipOptions.Init()
-    CurrentTheme := GetTheme()
-    ToolTipOptions.SetColors(CurrentTheme[1], CurrentTheme[2])
-    ToolTipOptions.SetFont("s12 Norm")
-    ToolTipOptions.SetMargins(12,12,12,12)
-    TooltipText := "A bunch of text to test here."
-    ToolTip(TooltipText, 100)
- 
-    ; ToolTipOptions.Reset()
+    ImagePutFile(ClipboardAll(), "C:\Users\drwsi\OneDrive\Documents\PoE Mechanic Watch v2\PoE-Mechanic-Watch\tit.png")
 }
 
 
@@ -596,8 +586,8 @@ Test(AlsoMessage:="", *)
     SetTimer test, 5000
 }
 
-^#i:: Settings(7) 
-^#o:: SettingsGui["SettingsEdit"].Text := "Testing"
+^#i:: Settings(12) 
+^#o:: MsgBox IniPath("Storage")
 
 ;Tasks
     ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
@@ -606,3 +596,4 @@ Test(AlsoMessage:="", *)
     ; #### Need to add Blight to calibration menu. 
     ; ### verify that all auto mechanics check that the mechanic is on and the auto mode is enabled. 
     ; ### ritual toggling for auto mode needs to check that it's enabled. 
+    ; ### Fix Maven Gui
