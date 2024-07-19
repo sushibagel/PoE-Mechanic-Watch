@@ -1,98 +1,126 @@
-CalibrationTool(*)
+FootnoteShow(FootnoteNum, *)
 {
-    CalibrationGui := GuiTemplate("CalibrationGui", "Calibration Tool", 500)
-    CurrentTheme := GetTheme()
-    CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
-    LoopCategories := ["Quest Tracker Text", "Ritual Icon", "Ritual Text", "Ritual Shop", "Influence Count"]
-    LoopFootnote := ["1", "2", "1", "2", "3"]
-    For Category in LoopCategories
-        {
-            CalibrationGui.Add("Text", "Section XM Right w140", Category)
-            CalibrationGui.SetFont("s8 Underline c" CurrentTheme[2])
-            CalibrationGui.Add("Text", " x+.8", LoopFootnote[A_Index]).OnEvent("Click",FootnoteShow.Bind(LoopFootnote[A_Index]))
-            CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
-            CalibrationGui.Add("Text", "YS w120",) ;For consistent Spacing
-            CalibrationGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Category))
-            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Category, CalibrationGui))
-        }
-    Influences := VariableStore("Influences")
-    TextWidth := ["w36", "w50", "w48"]
-    SpacerWidth := ["w154", "w136", "w143"]
-    SpacerWidth2 := ["w219", "w201", "w207"]
-    MechanicsIni := IniPath("Mechanics")
-    Global SearingValue := ""
-    Global EaterValue := ""
-    Global MavenValue := ""
-    For Influence in Influences
-        {
-            CalibrationGui.Add("Text", "Section XM Right w140", Influence " Completion")
-            CalibrationGui.SetFont("s8 Underline c" CurrentTheme[2])
-            Footnote := 4
-            UpDownRange := "Range0-28"
-            If (Influence = "Maven")
-                {
-                    Footnote := 6
-                    UpDownRange := "Range0-10"
-                }
-            CalibrationGui.Add("Text", " x+.8", Footnote).OnEvent("Click",FootnoteShow.Bind(Footnote))
-            CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
-            CalibrationGui.Add("Text", "YS w62",) ;For consistent Spacing
-            CurrentCount := IniRead(MechanicsIni, "Influence Track", Influence, 0)
-            CalibrationGui.Add("Edit", "YS+5 w40 h25 Number Center Background" CurrentTheme[2], "Calibrate")
-            %Influence%Value := CalibrationGui.Add("UpDown", "YS " UpDownRange, CurrentCount) ;### Needs event Handler
-            CalibrationGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " Completion"))
-            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " Completion", CalibrationGui))
-
-            CalibrationGui.Add("Text", "Section XM Right w140", Influence " On")
-            CalibrationGui.SetFont("s8 Underline c" CurrentTheme[2])
-            CalibrationGui.Add("Text", " x+.8", "5").OnEvent("Click",FootnoteShow.Bind("5"))
-            CalibrationGui.SetFont("s12 Norm c" CurrentTheme[3])
-            CalibrationGui.Add("Text", "YS w120",) ;For consistent Spacing
-            CalibrationGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " On"))
-            CalibrationGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " On", CalibrationGui))
-        }
-    CalibrationGui.Show
-    CalibrationGui.OnEvent("Close", CalibrationToolClose)
-}
-
-DestroyCalibrationGui(CalibrationGui)
-{
-    CalibrationGui.Destroy()
-}
-
-FootnoteShow(FootnoteNum, NA1, NA2)
-{
-    TriggeredBy := "Calibration Tool"
-    WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-    XPos := X + W
-    YPos := ((Y + H)/2) - 32
+    FootnoteMenu := Menu()
     If (FootnoteNum = 1)
         {
-            GuiInfo := "Note: Calibration of this tool shouldn't be necessary but may help make it be faster on slower systems.`r`rUpon selecting `"Calibrate`" the Calibration Tool will minimize, simply click and drag (a yellow box should appear as you drag) to select the `"Calibrated`" area. It's recommended to select a larger area than may seem necessary to make sure the text is completely captured."
+            FootnoteMenu.Add("Note: Calibration of this tool shouldn't be", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("necessary but may help make faster on", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("slower systems.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(A_Space, DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Upon selecting `"Calibrate`" the Calibration", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Tool will minimize, simply click and drag", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("(a yellow box should appear as you drag) to", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("select the `"Calibrated`" area. It's", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("recommended to select a larger area than may", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("seem necessary to make sure the text is", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("completely captured.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 2)
         {
-            GuiInfo := "Upon selecting `"Calibrate`" the `"Snipping Tool`" will open on your computer, verify the `"Rectangular Snip`" mode is enabled and press `"New`". This should change your cursor to a crosshair, carefully select the section of your screen similar to the samples shown when clicking the `"Sample`" button. Be sure that your screenshot only includes a static image, if you have any background (any background game elements like your map ground) it can result in the tool failing to recognize future instances. Once you are happy with the screenshot you took, close the `"Snipping Tool`" without saving."
+            FootnoteMenu.Add("Upon selecting `"Calibrate`" the `"Snipping Tool`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("will open on your computer, verify the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Rectangular Snip`" mode is enabled and press", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"New`". This should change your cursor to a", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("crosshair, carefully select the section of your", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("screen similar to the samples shown when", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("clicking the `"Sample`" button. Be sure that", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("your screenshot only includes a static image,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("if you have any background (any background", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("game elements like your map ground) it can", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("result in the tool failing to recognize future", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("instances. Once you are happy with the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("screenshot you took, close the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Snipping Tool`" without saving.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 3)
         {
-            YPos := Y
-            GuiInfo := "The Influence Count is used to verify/update your progress on the Eldritch Influences mechanics (Searing Exarch, Eater of Worlds and Maven). For this to update you will need to mouse over the influence buttons to show the `"Progress`" text.`r`rNote: Calibration of this tool shouldn't be necessary but it may help it be faster on slower systems. If you decide to calibrate this tool it is very important to read and follow the instructions to make sure that the entire area needed is being captured.`r`rWhen calibrating first check the layout of the text for each of the three mechanics with your inventory both open and closed, this is to help give you an idea of the total area needed. Once you select the `"Calbirate`" button the Calibration Tool will minimize, simply click and drag (a yellow box should appear as you drag) to select the `"Calibrated`" area. It's recommended to select a larger area than may seem necessary to make sure the text is completely captured."
+            FootnoteMenu.Add("The Influence Count is used to verify/update", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("your progress on the Eldritch Influences", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("mechanics (Searing Exarch, Eater of Worlds", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("and Maven). For this to update you will", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("need to mouse over the influence buttons", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to show the `"Progress`" text.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(A_Space, DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Note: Calibration of this tool shouldn't be", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("necessary but it may help it be faster on", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("slower systems. If you decide to calibrate", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("this tool it is very important to read and", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("follow the instructions to make sure that", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the entire area needed is being captured.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(A_Space, DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("When calibrating first check the layout of", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the text for each of the three mechanics", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("with your inventory both open and closed,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("this is to help give you an idea of the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("total area needed. Once you select the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Calbirate`" button the Calibration Tool", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("will minimize, simply click and drag", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("(a yellow box should appear as you drag)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to select the `"Calibrated`" area.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("It's recommended to select a larger area", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("than may seem necessary to make sure the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("text is completely captured.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 4)
         {
-            GuiInfo := "To calibrate Eldritch Influence Completion you will need to have each stage (0-28) available. Set the number in the entry box to match the completion you want to calibrate by typing in the number or using the up/down arrows and press the `"Calibrate`" button. Upon selecting `"Calibrate`" the `"Snipping Tool`" will open on your computer, verify the `"Rectangular Snip`" mode is enabled and press `"New`". This should change your cursor to a crosshair, carefully select the section of your screen similar to the samples shown when clicking the `"Sample`" button. Once you are happy with the screenshot you took, close the `"Snipping Tool`" without saving."
+            FootnoteMenu.Add("Tracking for the mechanic can be enabled by", DestroyFootnoteMenu.Bind(FootnoteMenu))
+
+            FootnoteMenu.Add("To calibrate Eldritch Influence Completion", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("you will need to have each stage (0-28)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("available. Set the number in the entry box", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to match the completion you want to calibrate", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("by typing in the number or using the up/down", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("arrows and press the `"Calibrate`" button.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Upon selecting `"Calibrate`" the `"Snipping", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(" Tool`" will open on your computer, verify", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the `"Rectangular Snip`" mode is enabled and", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("press `"New`". This should change your cursor", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to a crosshair, carefully select the section", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("of your screen similar to the samples shown", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("when clicking the `"Sample`" button. Once", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("you are happy with the screenshot you took,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("close the `"Snipping Tool`" without saving.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 5)
         {
-            YPos := Y
-            GuiInfo := "The Eldritch Influence `"On`" search function is used is currently selected. When active it will attempt to switch between the three mechanics when necessary. Upon selecting `"Calibrate`" the `"Snipping Tool`" will open on your computer, verify the `"Rectangular Snip`" mode is enabled and press `"New`". This should change your cursor to a crosshair, carefully select the section of your screen similar to the samples shown when clicking the `"Sample`" button. Once you are happy with the screenshot you took, close the `"Snipping Tool`" without saving.`r`rNote: when calibrating the `"On`" search function be carefult to not select any of the colored outer ring area in your screenshot as it will cause issues with detection at various completion stages."
+            FootnoteMenu.Add("The Eldritch Influence `"On`" search function", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("is used is currently selected. When active it", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("will attempt to switch between the three", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("mechanics when necessary. Upon selecting", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Calibrate`" the `"Snipping Tool`" will open", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("n your computer, verify the `"Rectangular Snip`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("mode is enabled and press `"New`". This should", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("change your cursor to a crosshair, carefully", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("select the section of your screen similar to", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the samples shown when clicking the `"Sample`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("button. Once you are happy with the screenshot", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("you took, close the `"Snipping Tool`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("without saving.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(A_Space, DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Note: when calibrating the `"On`" search function", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("be careful to not select any of the colored outer", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("ring area in your screenshot as it will cause", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("issues with detection at various completion stages.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 6)
         {
-            GuiInfo := "To calibrate Eldritch Influence Completion you will need to have each stage (0-10) available. Set the number in the entry box to match the completion you want to calibrate by typing in the number or using the up/down arrows and press the `"Calibrate`" button. Upon selecting `"Calibrate`" the `"Snipping Tool`" will open on your computer, verify the `"Rectangular Snip`" mode is enabled and press `"New`". This should change your cursor to a crosshair, carefully select the section of your screen similar to the samples shown when clicking the `"Sample`" button. Once you are happy with the screenshot you took, close the `"Snipping Tool`" without saving."
+            FootnoteMenu.Add("To calibrate Eldritch Influence Completion", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("you will need to have each stage (0-10)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("available. Set the number in the entry box", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to match the completion you want to calibrate", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("by typing in the number or using the up/down", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("arrows and press the `"Calibrate`" button.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Upon selecting `"Calibrate`" the `"Snipping", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Tool`" will open on your computer, verify the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(" `"Rectangular Snip`" mode is enabled and", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("press `"New`". This should change your cursor", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to a crosshair, carefully select the section", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("of your screen similar to the samples shown", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("when clicking the `"Sample`" button. Once", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("you are happy with the screenshot you took,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("close the `"Snipping Tool`" without saving.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
-    ActivateFootnoteGui(GuiInfo, XPos, YPos)
+    FootnoteMenu.Show() 
 }
 
 CalibrateMechanic(Mechanic, *)
@@ -115,8 +143,9 @@ CalibrateMechanic(Mechanic, *)
         }
 }
 
-SampleMechanic(Mechanic, CalibrationGui, *)
+SampleMechanic(Mechanic, CalibrationGui, ButtonInfo *)
 {
+    ControlGetPos(&XPos,&YPos,&WPos,,ButtonInfo[1])
     CalibrationGui.Submit(False)
     If InStr(Mechanic, "Completion")
         {
@@ -136,10 +165,10 @@ SampleMechanic(Mechanic, CalibrationGui, *)
                 }
             Mechanic := ValueName ValueSearch
         }
-    TriggeredBy := "Calibration Tool"
+    TriggeredBy := "Settings"
     WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-    XPos := X + W
-    YPos := ((Y + H)/2) - 32
+    XPos := XPos + X + WPos + 10
+    ; YPos := ((Y + H)/2) - 32
     ImageFile := ImagePath(Mechanic, "No")
     ActivateSampleGui(Mechanic, ImageFile, XPos, YPos)
 }
@@ -156,23 +185,25 @@ ActivateSampleGui(GuiInfo, ImageFile, X:="", Y:="", W:="", H:="")
     CurrentTheme := GetTheme()
     SampleGui.BackColor := CurrentTheme[1]
     SampleGui.SetFont("s13 c" CurrentTheme[3])
-    GuiX := ""
-    GuiY := ""
-    GuiW := ""
-    GuiH := ""
+    GuiPosX := ""
+    GuiPosY := ""
+    GuiPosW := ""
+    GuiPosH := ""
     LocationVariable := ["X", "Y", "W", "H"]
     For Location in LocationVariable
         {
             If !(%Location% = "")
                 {
-                    Gui%Location% := Location %Location%
+                    GuiPos%Location% := Location %Location%
                 }
         }
-    SampleGui.Add("Picture", "XM", ImageFile)    
-    SampleGui.Show( GuiX GuiY GuiW GuiH)
+    SampleGui.Add("Picture", "XM", ImageFile)
+    SampleGui.Show( GuiPosX GuiPosY GuiPosW GuiPosH)
     WinGetClientPos(,,&W,,"Image Sample")
-    If (W > 600)
-        WinMove(W/2,0,,,"Image Sample")
+    If (W > 600) or (W + X > A_ScreenWidth)
+    {
+        WinMove(X-W,Y,,,"Image Sample")
+    }   
 }
 
 DestroySampleGui()
@@ -186,7 +217,28 @@ DestroySampleGui()
 
 ImageCalibration(Mechanic)
 {
-    MsgBox(Mechanic " calibration is not currently implemented. Check back in future releases.")
+    WinMinimize("Settings")
+    Run("SnippingTool")
+    A_Clipboard := "" ; Make sure clipboard is empty so we can tell if a screenshot was taken. 
+    Sleep(2000)
+    WinWaitActive("Snipping Tool")
+    WinWaitClose("Snipping Tool")
+    ClipWait(,1)
+    Sleep(2000)
+    WinWaitClose("Snipping Tool")
+    TestImage := "Resources/Images/Image Search/Custom/Test.png"
+    ImagePutFile(ClipboardAll(), TestImage) ;Temporarily save as Test.png
+    ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
+    ScreenShot := ImagePutBuffer(0)
+    Search := ImagePutBuffer(TestImage) ; Convert File -> Buffer 
+    If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
+    {
+        NewImage := ImagePath(Mechanic, "Force") ;Get path for file. 
+        ImagePutFile(ClipboardAll(), NewImage) ; Save file 
+        FileDelete(TestImage)
+        msgbox("Calibration Successful")
+    }
+    
     ; TestImage := "C:\Users\drwsi\Desktop\test\test.png"
     ; ; ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
     ; ScreenShot := ImagePutBuffer(0) 
@@ -227,10 +279,17 @@ OCRCalibrate(Mechanic)
         {
             WinClose
         }
+    If WinExist("Settings")
+        {
+            WinMinimize
+        } 
     OCRSet := Gui(,"Set Area")
     CurrentTheme := GetTheme()
     OCRSet.BackColor := "Blue"
-    WinActivate("ahk_group PoeOnly")
+    If WinExist("ahk_group PoeOnly")
+    {
+        WinActivate("ahk_group PoeOnly")
+    }
     WinWaitActive("ahk_group PoeOnly")
     PoeHWND := WinGetID("ahk_group PoeOnly")
     WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")

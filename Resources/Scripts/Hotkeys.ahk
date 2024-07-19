@@ -48,10 +48,12 @@ SetHotkeyItems(Items, HotkeyGui)
         {
             FootNote := 8
         }
-    HotkeyGui.Add("Text", "w115 XS Section",) ;Spacer
+    HotkeyGui.Add("Text", "w175 XS Section",) ;Spacer
     HotkeyGui.Add("Text", "w1 YS", FootNote).OnEvent("Click", HotkeyFootnote.Bind(FootNote, Items))
     HotkeyGui.SetFont("s10 Norm c" CurrentTheme[3])
-    HotkeyGui.Add("Text", "w295 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
+    HotkeyGui.Add("Text", "w120 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
+    HotkeyGui.Add("Text", "w175 YS",)
+    ; HotkeyGui.Add("Text", "w295 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
     CheckNum := A_Index "Check"
     CheckNum := HotkeyGui.Add("Checkbox", "YS Checked" CheckboxStatus)
     HotkeyGui.Add("Hotkey", "YS Center", CurrentValue).OnEvent("Change", HotkeyEdit.Bind(Items, Checknum))
@@ -120,26 +122,19 @@ HotkeyGui_Size(GuiObj, MinMax, Width, Height)
 HotkeyFootnote(FootnoteNum, Mechanic, *)
 {
     FootnoteMenu := Menu()
-    ToolTipOptions.Init()
-    CurrentTheme := GetTheme()
-    ToolTipOptions.SetColors(CurrentTheme[2], CurrentTheme[3])
     If (FootnoteNum = 1)
         {
-            TooltipText := "The `"Map Count`" hotkey is used to remove a map from the`rEldritch Influence (Maven, Eater of Worlds and Searing Exarch)`rcount. This is not required but highly recommended as"
-            ToolTip(TooltipText)
-            ; FootnoteMenu.Add("The `"Map Count`" hotkey is used to remove a map from the", DestroyFootnoteMenu.Bind(FootnoteMenu))
-            ; FootnoteMenu.Add("Eldritch Influence (Maven, Eater of Worlds and Searing Exarch)", DestroyFootnoteMenu.Bind(FootnoteMenu))
-            ; FootnoteMenu.Add("count. This is not required but highly recommended as", DestroyFootnoteMenu.Bind(FootnoteMenu))
-            ; FootnoteMenu.Add("depending on the content you are doing you may periodically", DestroyFootnoteMenu.Bind(FootnoteMenu))
-            ; FootnoteMenu.Add("periodically need to remove a map from the count.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("The `"Map Count`" hotkey is used to remove a map from the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Eldritch Influence (Maven, Eater of Worlds and Searing Exarch)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("count. This is not required but highly recommended as", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("depending on the content you are doing you may periodically", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("periodically need to remove a map from the count.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 2)
         {
-            TooltipText := "The `"Toggle Influence`" hotkey will allow you to quickly`rswitch between Eldritch Influences (Maven, Eater of Worlds`rand Searing Exarch)"
-            ToolTip(TooltipText)
-        ;     FootnoteMenu.Add("The `"Toggle Influence`" hotkey will allow you to quickly)", DestroyFootnoteMenu.Bind(FootnoteMenu))
-        ;     FootnoteMenu.Add("switch between Eldritch Influences (Maven, Eater of Worlds", DestroyFootnoteMenu.Bind(FootnoteMenu))
-        ;     FootnoteMenu.Add("and Searing Exarch)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("The `"Toggle Influence`" hotkey will allow you to quickly)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("switch between Eldritch Influences (Maven, Eater of Worlds", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("and Searing Exarch)", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 3)
         {
@@ -165,7 +160,7 @@ HotkeyFootnote(FootnoteNum, Mechanic, *)
             FootnoteMenu.Add("The `"Portal Key`" hotkey is used to trigger mechanic", DestroyFootnoteMenu.Bind(FootnoteMenu))
             FootnoteMenu.Add("completion reminders. It is recommended to bind this to", DestroyFootnoteMenu.Bind(FootnoteMenu))
             FootnoteMenu.Add("whichever key you have your in game Portal hotkey set to.", DestroyFootnoteMenu.Bind(FootnoteMenu))
-            FootnoteMenu.Add("rTo avoid accidental triggers while typing in chat it's", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("To avoid accidental triggers while typing in chat it's", DestroyFootnoteMenu.Bind(FootnoteMenu))
             FootnoteMenu.Add("highly recommended to setup the `"Chat Delay`" feature", DestroyFootnoteMenu.Bind(FootnoteMenu))
             FootnoteMenu.Add("in the Notification Settings menu.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }

@@ -260,28 +260,42 @@ NotificationGuiDestroy(NotificationGui)
 
 ExplainNote(NoteSelected, *)
 {
+    FootnoteMenu := Menu()
     If (NoteSelected = "Opacity")
         {
-            GuiInfo := "The opacity setting determines how visible/transparent (opaque) the notification is. If set to 0 the notification will be invisible at 255 notification will be 100% opaque."
+            FootnoteMenu.Add("The opacity setting determines how visible/transparent (opaque)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the notification is. If set to 0 the notification will be", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("invisible at 255 notification will be 100% opaque.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (NoteSelected = "Triggers")
         {
-            GuiInfo := "There are two trigger settings `"Hideout`" and `"Hotkey`". When enabled the Hideout trigger will trigger Mechanic Notifications upon returning to your hideout. The Hotkey trigger will cause notifications to be triggered when a configured hotkey is pressed (See the Hotkey menu item to configure the key).`r`rIf the `"Hotkey`" trigger is active it's highly recommended to setup your `"Chat Delay`" hotkey and utilize `"Quick Notificaitons`"."
+            FootnoteMenu.Add("There are two trigger settings `"Hideout`" and `"Hotkey`".", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("When enabled the Hideout trigger will trigger Mechanic", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Notifications upon returning to your hideout. The Hotkey", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("trigger will cause notifications to be triggered when a", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("configured hotkey is pressed (See the Hotkey menu item", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to configure the key).", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(A_Space, DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("If the `"Hotkey`" trigger is active it's highly recommended", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to setup your `"Chat Delay`" hotkey and utilize", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Quick Notificaitons`".", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (NoteSelected = "Quick")
         {
-            GuiInfo := "If checked Quick Notifications will be used instead of Permanent Notifications (Permanent notifications will stay open unless a button is clicked). To change the duration, location and transparency of the quick notifcations see the settings in the `"Quick Notification`" section."
+            FootnoteMenu.Add("If checked Quick Notifications will be used instead of", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Permanent Notifications (Permanent notifications will stay", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("open unless a button is clicked). To change the duration,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("location and transparency of the quick notifcations see", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the settings in the `"Quick Notification`" section.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (NoteSelected = "Delay")
         {
-            GuiInfo := "`"Chat Delay`" is the number of seconds the Notification Trigger Hotkey will be disabled for each time the Chat Hotkey (Enter by default) is pressed. This is done to help prevent accidental activation while typing in chat. To disable set to `"0`"."
+            FootnoteMenu.Add("`"Chat Delay`" is the number of seconds the Notification Trigger Hotkey", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("will be disabled for each time the Chat Hotkey (Enter by default) is", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("pressed. This is done to help prevent accidental activation while", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("typing in chat. To disable set to `"0`".", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
-    TriggeredBy := "Notification Settings"
-    WinGetPos(&X, &Y, &W, &H, TriggeredBy)
-    XPos := X + W
-    YPos := Y
-    WPos := A_ScreenWidth-(X+W+75)
-    ActivateFootnoteGui(GuiInfo, XPos, YPos, WPos)
+    FootnoteMenu.Show()
 }
 
 EnableCheck(NotificationType, Status, *)

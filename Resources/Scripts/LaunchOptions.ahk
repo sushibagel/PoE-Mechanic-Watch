@@ -37,29 +37,33 @@ DestroyLauncherGui(LaunchGui, *)
 
 LaunchFootnoteShow(FootnoteNum, NA1, NA2)
 {
-    MouseGetPos(&X, &Y)
+    FootnoteMenu := Menu()
     If (FootnoteNum = 1)
         {
-            GuiInfo := "If checked the associated tool will launch along side PoE when you use the `"Launch Path of Exile`" option in the tray menu."
+            FootnoteMenu.Add("If checked the associated tool will launch along side PoE when", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("you use the `"Launch Path of Exile`" option in the tray menu.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 2)
         {
-            GuiInfo := "Click the name of each tool to view the Path/URL."
+            FootnoteMenu.Add("Click the name of each tool to view the Path/URL.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Clicking the popup will launch the tool.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 3)
         {
-            GuiInfo := "Clicking the icons below will remove the corresponding tool from the launcher options."
+            FootnoteMenu.Add("Clicking the icons below will remove the corresponding tool", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("from the launcher options.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 4)
         {
-            GuiInfo := "Clicking the icons below will launch/open the associated tool."
+            FootnoteMenu.Add("Clicking the icons below will launch/open the associated tool.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
     If (FootnoteNum = 5)
         {
-            GuiInfo := "To add a new tool input the name of your new tool, if the `"URL/Location`" is omitted a dialog will pop-up to select a file/application."
+            FootnoteMenu.Add("To add a new tool input the name of your new tool,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("if the `"URL/Location`" is omitted a dialog will", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("pop-up to select a file/application.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
-    X := X + 250
-    ActivateFootnoteGui(GuiInfo, X, Y)
+    FootnoteMenu.Show()
 }
 
 TooltipPath(LauncherIndex, NA1, NA2)
@@ -67,13 +71,9 @@ TooltipPath(LauncherIndex, NA1, NA2)
     LaunchIni := IniPath("Launch")
     ToolName := IniRead(LaunchIni, "Tool Name", LauncherIndex)
     ToolPath := IniRead(LaunchIni, "Tool Path", LauncherIndex)
-    LaunchPath := DestroyLauncherPath("LaunchPath")
-    CurrentTheme := GetTheme()
-    LaunchPath.BackColor := CurrentTheme[1]
-    LaunchPath.SetFont("s10 c" CurrentTheme[3])
-    LaunchPath.Add("Text",, ToolName ": " ToolPath)
-    WinGetPos(,&Y,,&H,"Launcher Settings")
-    LaunchPath.Show("y" Y+H)
+    FootnoteMenu := Menu()
+    FootnoteMenu.Add(ToolName ": " ToolPath, LaunchTool.Bind(LauncherIndex))
+    FootnoteMenu.Show()
 }
 
 DestroyLauncherPath(LaunchPath)
@@ -86,7 +86,7 @@ DestroyLauncherPath(LaunchPath)
     Return LaunchPath
 }
 
-RemoveTool(RemoveIndex, NA1, NA2)
+RemoveTool(RemoveIndex, *)
 {
     LaunchIni := IniPath("Launch")
     CheckTotal := IniRead(LaunchIni, "Tool Path") ;Check current number of launch tools
@@ -121,14 +121,14 @@ RemoveTool(RemoveIndex, NA1, NA2)
     Settings(8)
 }
 
-LaunchTool(LaunchIndex, NA1, NA2)
+LaunchTool(LaunchIndex, *)
 {
     LaunchIni := IniPath("Launch")
     LaunchPath := IniRead(LaunchIni,"Tool Path", LaunchIndex)
     Run(LaunchPath)
 }
 
-ToggleLaunch(LaunchIndex, ToggleValue, NA2)
+ToggleLaunch(LaunchIndex, ToggleValue, *)
 {
     LaunchIni := IniPath("Launch")
     IniWrite(ToggleValue.Value, LaunchIni, "Tool Launch", LaunchIndex)
