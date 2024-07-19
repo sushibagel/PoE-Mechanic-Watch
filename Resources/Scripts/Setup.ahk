@@ -423,7 +423,6 @@ Settings(TargetTab:=1, *)
     Global FontUpDown := SettingsGui.AddUpDown("Range1-255", OverlayFont)
     FontEdit.OnEvent("Change", FontEditChange)
     FontUpDown.OnEvent("Change", FontUpDownChange)
-    SettingsGui.OnEvent("Close", RefreshOverlay)
 
     ;Tab 3 Notification Settings
     CurrentTab := NewTab(CurrentTab)
@@ -665,7 +664,7 @@ Settings(TargetTab:=1, *)
     SettingsGui.AddText( TabMaxW " XS x175 h1 Section Background" CurrentTheme[3])
     SettingsGui.Add("Link", TabMaxW " Center", 'Use the buttons above to apply the specified theme. To set custom colors type your desired colors in the various boxes and press the `"Custom Theme`" button. Please note changing the values above ONLY changes the `"Custom Theme`" the Dark and Light themes don`'t support customization. Color can be specified by name or with a 6-digit hex color code (Note: Do not include "#" in your hex code). A list of color names can be found <a href="https://www.autohotkey.com/docs/v2/misc/Colors.htm">here.</a> Google also has a great color picker that can be found <a href="https://g.co/kgs/yV1scj8">here.</a>')
 
-    ;Tab 5 Hotkey Tab
+    ;Hotkey Tab
     CurrentTab := NewTab(CurrentTab)
     SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center" ,"Hotkey Settings")
@@ -673,7 +672,7 @@ Settings(TargetTab:=1, *)
     SettingsGui.SetFont("s10 Norm c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center", "To setup a hotkey simply click each input box and press your desired hotkey combination. To use the `"Windows Key`" as part of your hotkey combination simply check the box next designated input box. `"Backspace`" will remove/unset any entered hotkey combinations.")
     SettingsGui.SetFont("s10 Norm c" CurrentTheme[3])
-    SettingsGui.Add("Text", "w115 Section",) ;Spacer
+    SettingsGui.Add("Text", "w175 Section",) ;Spacer
     SettingsGui.Add("Text", "w270 YS", "Hotkey Items")
     SettingsGui.Add("Text", "YS w100", "Use Win Key")
     SettingsGui.Add("Text", "YS", "Hotkey(s)")
@@ -689,7 +688,7 @@ Settings(TargetTab:=1, *)
         }
 
 
-    ;Tab 7 Launcher Tab
+    ;Launcher Tab
     CurrentTab := NewTab(CurrentTab)
     SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center" ,"Launcher Settings")
@@ -809,7 +808,7 @@ Settings(TargetTab:=1, *)
     SettingsGui.Add("Text", "XS Section w235") ;Spacer 
     Global CheckButton := SettingsGui.Add("Button", "YS w150 ", "Check For Updates").OnEvent("Click", UpdateCheck)
     SettingsGui.Add("Text","YS w50")
-    SettingsGui.Add("Button", "YS W150", "Changelog").OnEvent("Click", AboutChangelog)
+    SettingsGui.Add("Button", "YS W150", "Changelog").OnEvent("Click", SwitchTab.Bind(13, GuiTabs))
     SettingsGui.Add("Text", "XS Section w100") ;Spacer 
     SettingsGui.Add("Link", TabMaxW " YS Center +Wrap", "To view previous versions and release information visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/releases`">here.</a> For feedback and questions visit <a href=`"https://github.com/sushibagel/PoE-Mechanic-Watch/discussions`">here.</a>")
 
@@ -947,11 +946,17 @@ Settings(TargetTab:=1, *)
     OnMessage(0x0114, OnScroll) ; WM_HSCROLL
     OnMessage(0X020A, OnWheel)  ; WM_MOUSEWHEEL
     SettingsGui.Show("h750")
+    SettingsGui.OnEvent("Close", SettingsToolDestroy)
 }
 
 SettingsToolDestroy(SettingsGui)
     {
+        If WinExist("Image Sample")
+            {
+                WinClose
+            }
         SettingsGui.Destroy()
+        RefreshOverlay()
     }
 
 ChangeTab(TabName, ButtonInfo, *)
@@ -1001,4 +1006,3 @@ Enter::
 #HotIf
 
 ;; will need to check buttons and links before release 
-;; Settings location not updating.. 

@@ -96,7 +96,7 @@ ImagePath(FileRequested, AllowCustom)
         {
             Return Path
         }
-    If (AllowCustom = "Yes")
+    If (AllowCustom = "Yes") or (AllowCustom = "Force")
         {
             If InStr(FileRequested, "Searing") or InStr(FileRequested, "Eater") or InStr(FileRequested, "Maven")
                 {
@@ -106,7 +106,7 @@ ImagePath(FileRequested, AllowCustom)
                 {
                     CustomPath := BasePath "Custom\" Append
                 }
-           If FileExist(CustomPath)
+           If FileExist(CustomPath) or (AllowCustom = "Force")
             {
                 ReturnedPath := CustomPath
             }
