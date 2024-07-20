@@ -49,6 +49,7 @@ GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
 GroupAdd("PoeWindow", "ahk_exe Photos.exe")
 ; GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
+GroupAdd("PoeOnly", "ahk_exe NVIDIA GeForce Experience.exe")
 GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
@@ -566,7 +567,6 @@ StartTasks()
 #IncludeAgain "Resources\Scripts\Theme.ahk"
 #IncludeAgain "Resources\Scripts\Update.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
-#IncludeAgain "Resources\Scripts\wincapture\wincapture.ahk"
 
 ^m::
 {
