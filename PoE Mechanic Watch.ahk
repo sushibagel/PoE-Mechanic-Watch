@@ -47,11 +47,12 @@ GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
 GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
+GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
-
+GroupAdd("PoeOnly", "ahk_exe Code.exe")
 Global MoveActive := 0
 Global TestActive := 0
 
@@ -467,5 +468,4 @@ StartTasks()
     ; ### ritual toggling for auto mode needs to check that it's enabled. 
     ; ### Ritual text isn't being read. (Works from default settings but not from set area.)
     ; ### input for the gui doens't consistently work with OCR Calibration. 
-    ; ### Overlay didn't show on first launch without alt-tab.
-    ; ### calibration tool not auto maximizing after screenshot is taken.  
+    ; ### Overlay didn't show on first launch without alt-tab.  
