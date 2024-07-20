@@ -87,7 +87,10 @@ GroupAdd("AHKFiles", "Update.ahk")
 GroupAdd("AHKFiles", "VariableHandler.ahk")
 
 SetupVerification()
-
+If !DirExist("Resources/Settings")
+    {
+        DirCreate("Resources/Settings")
+    }
 HideoutIni := IniPath("Hideout")
 IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
 

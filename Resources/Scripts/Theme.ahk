@@ -27,7 +27,7 @@ GetTheme() ;Returns "CurrentTheme" array with Background Color at "CurrentTheme[
     Return(CurrentTheme)
 }
 
-RefreshTheme(ChangeTo, ChangeTheme, *)
+RefreshTheme(ChangeTo, SettingsGui, *)
 {
     IniPath("Theme", "Write", ChangeTo, "Theme", "Theme")
     If(ChangeTo = "Light")
@@ -37,6 +37,7 @@ RefreshTheme(ChangeTo, ChangeTheme, *)
         IniPath("Theme", "Write", "a6a6a6", "Light", "Secondary")
         IniPath("Theme", "Write", "Black", "Light", "Font")
     }
+    SettingsToolDestroy(SettingsGui, 1)
     Settings(6)
 }
 

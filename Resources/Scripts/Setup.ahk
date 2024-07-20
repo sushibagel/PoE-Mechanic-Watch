@@ -122,6 +122,7 @@ CheckCompletion(Setup, *)
             WarningGui.Add("Button","YS x200 w50", "No").OnEvent("Click", WarningNo)
             WarningGui.Opt("-Caption")
             WarningGui.Show
+            Return 0
         }
 }
 
@@ -134,15 +135,16 @@ WarningGuiDestroy()
     Global WarningGui := Gui(,"Warning")
 }
 
-WarningYes(Setup)
+WarningYes(Setup, *)
 {
-    WarningGui.Destroy(Setup)
+    WarningGui.Destroy()
     ExitApp
 }
 
 WarningNo(*)
 {
     WarningGui.Destroy
+    Settings()
 }
 
 SetupVerification()
@@ -733,7 +735,7 @@ Settings(TargetTab:=1, *)
         FileData := FileRead(LaunchIni)
     }
     Checktotal := Array()
-    If InStr(FileData, "Tool Path")
+    If IsSet(FileData) and InStr(FileData, "Tool Path")
         {
             CheckTotal := IniRead(LaunchIni, "Tool Path")
             CheckTotal := StrSplit(CheckTotal, "`n")
@@ -799,8 +801,10 @@ Settings(TargetTab:=1, *)
     SettingsGui.Add("Text", "XS Section w250") ;Spacer          
     SettingsGui.Add("Text", "YS", "Version:")
     VersionPath := IniPath("Version")
-    FileData := Fileread(VersionPath)
-    FileData := StrSplit(FileData, "`r", "`r`n")
+    FileContent := Fileread(VersionPath)
+    FileData := Array()
+    Loop Parse, FileContent, "`n", "`r"
+        FileData.Push A_LoopField
     SettingsGui.SetFont("c" CurrentTheme[2])
     SettingsGui.Add("Text", "YS x+1 w150", FileData[1])
     SettingsGui.SetFont("c" CurrentTheme[3])
@@ -952,14 +956,25 @@ Settings(TargetTab:=1, *)
     SettingsGui.OnEvent("Close", SettingsToolDestroy)
 }
 
-SettingsToolDestroy(SettingsGui)
+SettingsToolDestroy(SettingsGui, ThemeReset:="")
     {
         If WinExist("Image Sample")
             {
                 WinClose
             }
+        If !(ThemeReset = 1)
+        {
+            CompletionCheck := CheckCompletion(SettingsGui)
+        }
+        Else
+        {
+            CompletionCheck := 0
+        }
         SettingsGui.Destroy()
-        RefreshOverlay()
+        If !(CompletionCheck = 0)
+            {
+                RefreshOverlay()
+            }
     }
 
 ChangeTab(TabName, ButtonInfo, *)
