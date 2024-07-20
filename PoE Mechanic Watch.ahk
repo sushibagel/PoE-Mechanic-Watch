@@ -465,3 +465,7 @@ StartTasks()
     ; #### Need to add Blight to calibration menu. 
     ; ### verify that all auto mechanics check that the mechanic is on and the auto mode is enabled. 
     ; ### ritual toggling for auto mode needs to check that it's enabled. 
+    ; ### Ritual text isn't being read. (Works from default settings but not from set area.)
+    ; ### input for the gui doens't consistently work with OCR Calibration. 
+    ; ### Overlay didn't show on first launch without alt-tab.
+    ; ### calibration tool not auto maximizing after screenshot is taken.  
