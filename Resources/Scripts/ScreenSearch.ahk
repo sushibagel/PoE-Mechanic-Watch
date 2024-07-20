@@ -376,29 +376,3 @@ InfluenceOCR()
             }
     }
 }
-
-^f::
-{
-    needleFile := "C:\Users\drwsi\Desktop\Screenshot 2024-07-19 104524.png"
-    PoeHWND := WinGetID("ahk_Group PoeOnly")
-    ScreenCap := wincapture.WGC(PoeHWND)
-    needle := BitmapBuffer.loadPicture(needleFile)
-    Try
-    {
-        screen := ScreenCap.capture(0)
-    } 
-    Catch Error
-    {
-
-    }
-    Else
-    {
-        variationR := variationG := variationB := 30
-        variation := Format("0x{1:02X}{2:02X}{3:02X}", variationR, variationG, variationB)
-        Coords := screen.findAllPic(needle,,,variation)
-        If Coords
-        {
-            MsgBox "Image Found!"
-        }
-    }
-}
