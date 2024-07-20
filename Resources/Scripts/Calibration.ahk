@@ -173,12 +173,6 @@ SampleMechanic(Mechanic, CalibrationGui, ButtonInfo *)
     ActivateSampleGui(Mechanic, ImageFile, XPos, YPos)
 }
 
-CalibrationToolClose(*)
-{
-    DestroyFootnote()
-    DestroySampleGui()
-}
-
 ActivateSampleGui(GuiInfo, ImageFile, X:="", Y:="", W:="", H:="")
 {
     DestroySampleGui()
@@ -217,55 +211,75 @@ DestroySampleGui()
 
 ImageCalibration(Mechanic)
 {
+    A_Clipboard := "" ; Make sure clipboard is empty so we can tell if a screenshot was taken.
+    TestImage := "Resources/Images/Image Search/Custom/Test.png"
+    If FileExist(TestImage)
+    {
+        FileDelete(TestImage)
+    }
     WinMinimize("Settings")
-    Run("SnippingTool")
-    A_Clipboard := "" ; Make sure clipboard is empty so we can tell if a screenshot was taken. 
-    Sleep(2000)
-    WinWaitActive("Snipping Tool")
+    Run("SnippingTool") 
+    WinWait("Snipping Tool")
     WinWaitClose("Snipping Tool")
     ClipWait(,1)
-    Sleep(2000)
+    Sleep(1000)
     WinWaitClose("Snipping Tool")
-    TestImage := "Resources/Images/Image Search/Custom/Test.png"
-    ImagePutFile(ClipboardAll(), TestImage) ;Temporarily save as Test.png
-    ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
-    ScreenShot := ImagePutBuffer(0)
-    Search := ImagePutBuffer(TestImage) ; Convert File -> Buffer 
-    If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
-    {
-        NewImage := ImagePath(Mechanic, "Force") ;Get path for file. 
-        ImagePutFile(ClipboardAll(), NewImage) ; Save file 
-        FileDelete(TestImage)
-        msgbox("Calibration Successful")
-    }
     
-    ; TestImage := "C:\Users\drwsi\Desktop\test\test.png"
-    ; ; ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeWindow"}) ; Screen capture
-    ; ScreenShot := ImagePutBuffer(0) 
-    ; ; Search := ImagePutBuffer(TestImage) ; Convert File -> Buffer
-    ; SearchVariation := 0
-    ; ; Loop 10 ;255
-    ; ;     {
-
-    ;         pic := ImagePutBuffer(0)                               ; Screen capture
-    ;         ; pic.show() ; or ImageShow(pic)                         ; Show image
-    ;         if xy := pic.ImageSearch("C:\Users\drwsi\Desktop\test\2.png", 150) {           ; Search image
-    ;         MouseMove xy[1], xy[2]                             ; Move cursor
-    ;                           ; MsgBox pic[xy*]
-    ;         }
-
-            ; if xy := pic.ImageSearch("test_image.png") {           ; Search image
-            ;     MouseMove xy[1], xy[2]    
-            
-            ; ; ToolTip SearchVariation
-            ; If xy := ScreenShot.ImageSearch("C:\Users\drwsi\Desktop\test\test.png", 10) ; Look in "ScreenShot" for "Search"
-            ;     MouseMove xy[1], xy[2] 
-            ;     ; {
-            ;     ;     msgbox "Match! " A_Index
-            ;     ; }
-;             SearchVariation++
-;         }
-;     ToolTip
+    ImagePutFile(ClipboardAll(), TestImage) ;Temporarily save as Test.png
+    Try 
+    {
+        ScreenShot := ImagePutBuffer({Window: "ahk_Group PoeOnly"}) ; Screen capture
+    }
+    Catch Error
+    {
+        WinActivate("Settings")
+        FootnoteMenu := Menu()
+        FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        WinWaitActive("Settings")
+        WinGetPos(&X, &Y, &W, &H, "Settings")
+        FootnoteMenu.Show(X+W/2, Y+H/2) 
+    }
+    Else
+    {
+        ScreenShot := ImagePutBuffer(0)
+        Search := ImagePutBuffer(TestImage) ; Convert File -> Buffer 
+        If ScreenShot.ImageSearch(Search) ; Look in "ScreenShot" for "Search"
+        {
+            NewImage := ImagePath(Mechanic, "Force") ;Get path for file. 
+            Try 
+            {
+                ImagePutFile(ClipboardAll(), NewImage) ; Save file 
+            } 
+            Catch Error
+            {
+                WinActivate("Settings")
+                FootnoteMenu := Menu()
+                FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
+                WinWaitActive("Settings")
+                WinGetPos(&X, &Y, &W, &H, "Settings")
+                FootnoteMenu.Show(X+W/2, Y+H/2) 
+            }
+            Else
+            {
+                FileDelete(TestImage)
+                WinRestore("Settings")
+                FootnoteMenu := Menu()
+                FootnoteMenu.Add( Mechanic " Calibration was successful!", DestroyFootnoteMenu.Bind(FootnoteMenu))
+                WinWaitActive("Settings")
+                WinGetPos(&X, &Y, &W, &H, "Settings")
+                FootnoteMenu.Show(X+W/2, Y+H/2) 
+            }
+        }
+        Else
+        {
+            WinActivate("Settings")
+            FootnoteMenu := Menu()
+            FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            WinWaitActive("Settings")
+            WinGetPos(&X, &Y, &W, &H, "Settings")
+            FootnoteMenu.Show(X+W/2, Y+H/2) 
+        }
+    }
 }
 
 ;OCR Zone
