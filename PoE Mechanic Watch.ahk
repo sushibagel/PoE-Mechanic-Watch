@@ -47,15 +47,10 @@ GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
 GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
-GroupAdd("PoeWindow", "ahk_exe Photos.exe")
-; GroupAdd("PoeWindow", "ahk_exe ApplicationFrameHost.exe")
-GroupAdd("PoeOnly", "ahk_exe NVIDIA GeForce Experience.exe")
-GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
-GroupAdd("PoeOnly", "ahk_exe NVIDIA GeForce Experience.exe")
 
 Global MoveActive := 0
 Global TestActive := 0
@@ -460,41 +455,13 @@ StartTasks()
 #IncludeAgain "Resources\Scripts\ScreenSearch.ahk"
 #IncludeAgain "Resources\Scripts\ScrollableGui.ahk"
 #IncludeAgain "Resources\Scripts\Setup.ahk"
-#IncludeAgain "Resources\Scripts\ToolTipOptions.ahk"
 #IncludeAgain "Resources\Scripts\Theme.ahk"
 #IncludeAgain "Resources\Scripts\Update.ahk"
 #IncludeAgain "Resources\Scripts\VariableHandler.ahk"
 
-^m::
-{
-    ImagePutFile(ClipboardAll(), "C:\Users\drwsi\Downloads\tit.png")
-}
-
-
-; Global Testvar := 0
-
-Test(AlsoMessage:="", *)
-{
-    msgbox "test" AlsoMessage
-}
-
-^o::
-{
-    testgui := Gui(,"Test Gui")
-    testgui.Add("Text",,"test text")
-    testgui.BackColor := "Gray"
-    testgui.Show("w1000 h1000")
-    WinSetTransColor("Gray", "Test Gui")
-}
-
-^#i:: Settings(12) 
-^#o:: MsgBox IniPath("Storage")
-
 ;Tasks
     ;### need to complete Maven Invitation function in the hotkey script for "GetHotkeyPairs()"
-    ; ### need to fix situation if "Calibration Gui" is launched from Mechanic Screen. Because setup tool and Calibration Gui both launch.
     ; ### need to add check for mechanic screensearch to make sure auto is active. 
     ; #### Need to add Blight to calibration menu. 
     ; ### verify that all auto mechanics check that the mechanic is on and the auto mode is enabled. 
     ; ### ritual toggling for auto mode needs to check that it's enabled. 
-    ; ### Fix Maven Gui

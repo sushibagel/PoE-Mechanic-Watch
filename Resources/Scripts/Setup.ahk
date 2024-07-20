@@ -1004,5 +1004,3 @@ Enter::
 }
 
 #HotIf
-
-;; will need to check buttons and links before release 
