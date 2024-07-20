@@ -5,7 +5,7 @@ ScreenSearchHandler()
     If (HideoutStatus = 1) ; Active searches if the user is in the hideout
     {
         InfluenceStatus := IniPath("Mechanics", "Read", , "Auto Mechanics", "Eldritch", 0)
-        If (InfluenceStatus = 1)
+        If (InfluenceStatus = 1) ; Verify auto search is on before starting.
         {
             InfluenceScreenSearch()
             InfluenceOCR()
@@ -139,7 +139,7 @@ MechanicOCR()
         YOCR := IniRead(ScreenSearchIni, "Side Area", "Y", YOCR)
         WOCR := IniRead(ScreenSearchIni, "Side Area", "W", WOCR)
         HOCR := IniRead(ScreenSearchIni, "Side Area", "H", HOCR)
-        OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
+        Try OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
         If (OCRText)
         {
             CheckOCR(OCRText, ActiveOCR)
@@ -155,8 +155,7 @@ MechanicOCR()
             YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
             WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", WOCR)
             HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", HOCR)
-            testOCR := OCR.FromWindow("ahk_group PoeOnly",,,{ X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 },2)
-            RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating ritual are in the map.
+            Try RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating ritual are in the map.
             If (RitualOCR)
                 {
                     RitualOCRMatch(RitualOCR)
