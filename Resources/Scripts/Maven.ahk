@@ -19,15 +19,17 @@ MavenStatus(*)
             For Boss in Vars
                 {
                     CheckStatus := 0
-                    If (Invitation = "Map Bosses")
+                    If (Invitation = "Map Bosses") and (InvitationBosses.Length >= A_Index)
                         {
+                            MsgBox InvitationBosses.Length
                             CheckStatus := 1
+                            MavenGui.Add("Checkbox", "XS v" Boss " Checked" CheckStatus, InvitationBosses[A_Index])
                         }
-                    Else
+                    Else If !(Invitation = "Map Bosses")
                         {
                             CheckStatus := IniRead(MechanicsIni, Invitation, InvitationBosses[A_Index], "0")
+                            MavenGui.Add("Checkbox", "XS v" Boss " Checked" CheckStatus, InvitationBosses[A_Index])
                         }
-                    MavenGui.Add("Checkbox", "XS v" Boss " Checked" CheckStatus, InvitationBosses[A_Index])
                 }
             MavenGui.Add("Checkbox", "XS c" CurrentTheme[2], "Remove All").OnEvent("Click", RemoveAll.Bind(Invitation, MavenGui, Vars, InvitationBosses))
         }
