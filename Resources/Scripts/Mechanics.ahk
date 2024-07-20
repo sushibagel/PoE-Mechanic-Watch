@@ -159,11 +159,6 @@ InfluenceTracking(Status, NA2)
     IniWrite(Status.Value, MechanicsIni, "Auto Mechanics", "Eldritch")
 }
 
-MechanicSelectClose(*)
-{
-    DestroyFootnote()
-}
-
 CalibrateSearchButton(GuiTabs, *)
 {
     SwitchTab(12, GuiTabs)

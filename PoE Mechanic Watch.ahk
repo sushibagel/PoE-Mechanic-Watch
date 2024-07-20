@@ -15,28 +15,28 @@ MyTray.Add()
 Setup := Menu()
 Setup.Add("Setup Tool", Settings.Bind(1))
 Setup.Add()
-Setup.Add("Set Hideout", Settings.Bind(3))
+Setup.Add("Set Hideout", Settings.Bind(5))
 Setup.Add()
-Setup.Add("Overlay Settings", OverlaySettingsRun)
+Setup.Add("Overlay Settings", Settings.Bind(3))
 Setup.Add("Move Overlay", MoveOverlay)
 Setup.Add()
 Setup.Add("Notification Settings", Settings.Bind(4))
 Setup.Add("Move Quick Notifications", MoveQuick)
-Setup.Add("Custom Notification", CustomNotificationSetup)
+Setup.Add("Custom Notification", Settings.Bind(11))
 Setup.Add()
 Setup.Add("Calibration Tool", Settings.Bind(12))
 Setup.Add("Set Hotkeys", Settings.Bind(7))
 Setup.Add()
 Setup.Add("Launcher Setup", Settings.Bind(8))
 Setup.Add()
-Setup.Add("Change Theme", Settings.Bind(4))
+Setup.Add("Change Theme", Settings.Bind(6))
 Setup.Add("Change Settings Location", Settings.Bind(9))
 Setup.Default := "Setup Tool"
 MyTray.Add("Setup", Setup)
 MyTray.Default := "Setup"
 MyTray.Add()
 MyTray.Add("Check for Updates", UpdateCheck)
-MyTray.Add("About", Settings.Bind(5))
+MyTray.Add("About", Settings.Bind(10))
 MyTray.Add()
 MyTray.Add("Reload This Script", Restart) 
 MyTray.Add("Exit", Close)
@@ -80,7 +80,7 @@ GroupAdd("AHKFiles", "LogMonitor.ahk")
 GroupAdd("AHKFiles", "Maven.ahk")
 GroupAdd("AHKFiles", "Mechanics.ahk")
 GroupAdd("AHKFiles", "Notification.ahk")
-GroupAdd("AHKFiles", "PoE Mechnic Watch.ahk")
+GroupAdd("AHKFiles", "PoE Mechanic Watch.ahk")
 GroupAdd("AHKFiles", "Hideout.ahk")
 GroupAdd("AHKFiles", "Hotkeys.ahk")
 GroupAdd("AHKFiles", "ScreenSearch.ahk")
@@ -398,73 +398,6 @@ LockMove(VerticalCheck, HorizontalCheck, *)
     RefreshOverlay()
 }
 
-;Overlay Gui
-OverlaySettingsRun(*)
-{
-    OverlaySettings := GuiTemplate("OverlaySettings", "Overlay Settings", 500)
-    OverlayIni := IniPath("Overlay")
-    CurrentTheme := GetTheme()
-    OverlaySettings.SetFont("s13 Norm")
-    OverlaySettings.Add("Text", "w150 Right Section", "Refresh Overlay:")
-    OverlaySettings.Add("Text", "w130 YS Right ", "")
-    RefreshIcon := "Resources\Images\refresh " CurrentTheme[4] ".png"
-    OverlaySettings.Add("Picture", "w25 h25 YS Right", RefreshIcon).OnEvent("Click", RefreshOverlay)
-
-    OverlaySettings.Add("Text", "XM w150 Right Section", "Move Overlay:")
-    OverlaySettings.Add("Text", "w130 YS Right Section", "")
-
-    MoveIcon := "Resources\Images\Move " CurrentTheme[4] ".png"
-    OverlaySettings.Add("Picture", "w25 h25 YS Right", MoveIcon).OnEvent("Click", MoveOverlay)
-
-    OverlaySettings.Add("Text", "XM w150 Right Section", "Layout:")
-    OverlaySettings.Add("Text", "w100 YS Right Section", "")
-    OverlayOrientation := IniRead(OverlayIni, "Overlay Position", "Orientation", "Horizontal")
-    If (OverlayOrientation = "Horizontal")
-        {
-            OverlayOrientation := 2
-        }
-    Else
-        {
-            OverlayOrientation := 1
-        }
-    OverlaySettings.SetFont("s11")
-    Global DDLOptions := ["Vertical", "Horizontal"]
-    Global LayoutSelect := OverlaySettings.Add("DropDownList", "w100 vOrientationChoice YS Choose" OverlayOrientation " Background" CurrentTheme[2],DDLOptions )
-    LayoutSelect.OnEvent("Change", LayoutSet)
-
-    OverlaySettings.SetFont("s13")
-    OverlaySettings.Add("Text", "XM w150 Right Section", "Icon Size:")
-    OverlaySettings.Add("Text", "w100 YS Right Section", "")
-    IconSize := IniRead(OverlayIni, "Size", "Icons", 40)
-    OverlaySettings.SetFont("s11")
-    Global IconEdit := OverlaySettings.AddEdit("YS w100 Number Background" CurrentTheme[2])
-    Global IconUpDown := OverlaySettings.AddUpDown("YS Range1-255", IconSize)
-    IconEdit.OnEvent("Change", IconEditChange)
-    IconUpDown.OnEvent("Change", IconUpDownChange)
-
-    OverlaySettings.SetFont("s13")
-    OverlaySettings.Add("Text", "XM w150 Right Section", "Font Size:")
-    OverlaySettings.Add("Text", "w100 YS Right Section", "")
-    OverlayFont := IniRead(OverlayIni, "Size", "Font", 12)
-    OverlaySettings.SetFont("s11")
-    Global FontEdit := OverlaySettings.AddEdit("YS w100 Number Background" CurrentTheme[2])
-    Global FontUpDown := OverlaySettings.AddUpDown("Range1-255", OverlayFont)
-    FontEdit.OnEvent("Change", FontEditChange)
-    FontUpDown.OnEvent("Change", FontUpDownChange)
-    OverlaySettings.OnEvent("Close", RefreshOverlay)
-    OverlaySettings.OnEvent("Close", OverlaySettingsClose)
-    OverlaySettings.Show
-}
-
-OverlaySettingsClose(OverlaySettings)
-{
-    OverlaySettings.Destroy
-    If WinExist("Notification Settings")
-        {
-            WinRestore "Notification Settings"
-        }
-}
-
 LayoutSet(Value, *)
 {
     OverlayIni := IniPath("Overlay")
@@ -493,42 +426,6 @@ FontUpDownChange(*)
 {
     OverlayIni := IniPath("Overlay")
     IniWrite(FontUpDown.Value, OverlayIni, "Size", "Font")
-}
-
-ActivateFootnoteGui(GuiInfo, X:="", Y:="", W:="", H:="")
-{
-    DestroyFootnote()
-    CurrentTheme := GetTheme()
-    FootnoteGui.BackColor := CurrentTheme[1]
-    FootnoteGui.SetFont("s10 c" CurrentTheme[3])
-    WrapWidth := "w200"
-    If !(W = "")
-        {
-            WrapWidth := "w" W-20
-        }
-    FootnoteGui.Add("Link", WrapWidth " Wrap" ,GuiInfo)
-    GuiX := ""
-    GuiY := ""
-    GuiW := ""
-    GuiH := ""
-    LocationVariable := ["X", "Y", "W", "H"]
-    For Location in LocationVariable
-        {
-            If !(%Location% = "")
-                {
-                    Gui%Location% := Location %Location%
-                }
-        }
-    FootnoteGui.Show( GuiX GuiY GuiW GuiH)
-}
-
-DestroyFootnote()
-{
-    If WinExist("Footnote")
-        {
-            FootnoteGui.Destroy()
-        }
-    Global FootnoteGui := Gui(,"Footnote")
 }
 
 Restart(*)

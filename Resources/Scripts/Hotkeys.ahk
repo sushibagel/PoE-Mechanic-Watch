@@ -60,13 +60,6 @@ SetHotkeyItems(Items, HotkeyGui)
     CheckNum.OnEvent("Click", WinKeyCheck.Bind(Items))
 }
 
-HotkeySetupDestroy(HotkeyGui)
-{
-    DestroyFootnote()
-    HotkeyGui.Destroy()
-    ApplyHotkeys()
-}
-
 WinKeyCheck(Item, Status, *)
 {
     HotkeyIni := IniPath("Hotkeys")

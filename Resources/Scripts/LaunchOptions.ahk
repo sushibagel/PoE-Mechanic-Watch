@@ -25,16 +25,6 @@ LaunchSupport()
         }
 }
 
-DestroyLauncherGui(LaunchGui, *)
-{
-    If WinExist("Launcher Path")
-        {
-            Winclose
-        }
-    DestroyFootnote()
-    LaunchGui.Destroy()
-}
-
 LaunchFootnoteShow(FootnoteNum, NA1, NA2)
 {
     FootnoteMenu := Menu()
