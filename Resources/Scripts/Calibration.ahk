@@ -168,7 +168,6 @@ SampleMechanic(Mechanic, CalibrationGui, ButtonInfo *)
     TriggeredBy := "Settings"
     WinGetPos(&X, &Y, &W, &H, TriggeredBy)
     XPos := XPos + X + WPos + 10
-    ; YPos := ((Y + H)/2) - 32
     ImageFile := ImagePath(Mechanic, "No")
     ActivateSampleGui(Mechanic, ImageFile, XPos, YPos)
 }
@@ -211,6 +210,7 @@ DestroySampleGui()
 
 ImageCalibration(Mechanic)
 {
+    SaveClipboard := A_Clipboard ; copy existing clipboard data so it can be restored.
     A_Clipboard := "" ; Make sure clipboard is empty so we can tell if a screenshot was taken.
     TestImage := "Resources/Images/Image Search/Custom/Test.png"
     If FileExist(TestImage)
@@ -238,6 +238,7 @@ ImageCalibration(Mechanic)
         WinWaitActive("Settings")
         WinGetPos(&X, &Y, &W, &H, "Settings")
         FootnoteMenu.Show(X+W/2, Y+H/2) 
+        A_Clipboard := SaveClipboard
     }
     Else
     {
@@ -258,16 +259,18 @@ ImageCalibration(Mechanic)
                 WinWaitActive("Settings")
                 WinGetPos(&X, &Y, &W, &H, "Settings")
                 FootnoteMenu.Show(X+W/2, Y+H/2) 
+                A_Clipboard := SaveClipboard
             }
             Else
             {
                 FileDelete(TestImage)
-                WinRestore("Settings")
+                WinActivate("Settings")
                 FootnoteMenu := Menu()
                 FootnoteMenu.Add( Mechanic " Calibration was successful!", DestroyFootnoteMenu.Bind(FootnoteMenu))
                 WinWaitActive("Settings")
                 WinGetPos(&X, &Y, &W, &H, "Settings")
                 FootnoteMenu.Show(X+W/2, Y+H/2) 
+                A_Clipboard := SaveClipboard
             }
         }
         Else
@@ -278,6 +281,7 @@ ImageCalibration(Mechanic)
             WinWaitActive("Settings")
             WinGetPos(&X, &Y, &W, &H, "Settings")
             FootnoteMenu.Show(X+W/2, Y+H/2) 
+            A_Clipboard := SaveClipboard
         }
     }
 }
