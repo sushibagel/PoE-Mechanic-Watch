@@ -80,12 +80,12 @@ GroupAdd("AHKFiles", "LogMonitor.ahk")
 GroupAdd("AHKFiles", "Maven.ahk")
 GroupAdd("AHKFiles", "Mechanics.ahk")
 GroupAdd("AHKFiles", "Notification.ahk")
+GroupAdd("AHKFiles", "PoE Mechnic Watch.ahk")
 GroupAdd("AHKFiles", "Hideout.ahk")
 GroupAdd("AHKFiles", "Hotkeys.ahk")
 GroupAdd("AHKFiles", "ScreenSearch.ahk")
 GroupAdd("AHKFiles", "ScrollableGui.ahk")
 GroupAdd("AHKFiles", "Setup.ahk")
-GroupAdd("AHKFiles", "test.ahk")
 GroupAdd("AHKFiles", "Theme.ahk")
 GroupAdd("AHKFiles", "Update.ahk")
 GroupAdd("AHKFiles", "VariableHandler.ahk")
@@ -570,7 +570,7 @@ StartTasks()
 
 ^m::
 {
-    ImagePutFile(ClipboardAll(), "C:\Users\drwsi\OneDrive\Documents\PoE Mechanic Watch v2\PoE-Mechanic-Watch\tit.png")
+    ImagePutFile(ClipboardAll(), "C:\Users\drwsi\Downloads\tit.png")
 }
 
 
