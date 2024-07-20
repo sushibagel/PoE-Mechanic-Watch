@@ -728,7 +728,10 @@ Settings(TargetTab:=1, *)
         }
     SettingsGui.SetFont("s10 Norm c" CurrentTheme[3])    
     LaunchIni := IniPath("Launch")
-    FileData := FileRead(LaunchIni)
+    If FileExist(LaunchIni)
+    {
+        FileData := FileRead(LaunchIni)
+    }
     Checktotal := Array()
     If InStr(FileData, "Tool Path")
         {
