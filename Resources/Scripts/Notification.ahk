@@ -361,7 +361,8 @@ TestGui(NotificationType, Action, *)
         {
             If (Action = "Test")
                 {
-                    Text := "You just entered a new map press" A_Space  "Hotkey" A_Space "to subtract 1 map"
+                    MapHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", "Map Count", "Hotkey Not Set")
+                    Text := "You just entered a new map press" A_Space  MapHotkey A_Space "to subtract 1 map"
                     QuickNotify(Text, 3)
                 }
             If (Action = "Destroy")
@@ -449,7 +450,8 @@ TransparencyAdjust(NotficationType, Status, *)
 
 MoveQuick(*)
 {
-    Message := "You just entered a new map press FIXTHIS to subtract 1 map"
+    MapHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", "Map Count", "Hotkey Not Set")
+    Message := "You just entered a new map press " MapHotkey " to subtract 1 map"
     QuickNotify(Message, 3, 1)
 }
 
