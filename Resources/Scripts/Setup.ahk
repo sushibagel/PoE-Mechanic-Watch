@@ -772,7 +772,7 @@ Settings(TargetTab:=1, *)
     Global NewCheck := SettingsGui.Add("Checkbox", "YS")
     SettingsGui.Add("Text", "XS Section", "URL/Location:")
     Global NewLocation := SettingsGui.Add("Edit", "w605 YS Background" CurrentTheme[2])
-    SettingsGui.Add("Button", "YS", "Add Tool").OnEvent("Click", SelectTool)
+    SettingsGui.Add("Button", "YS", "Add Tool").OnEvent("Click", SelectTool.Bind(SettingsGui))
 
     ;Settings Tab
     CurrentTab := NewTab(CurrentTab)

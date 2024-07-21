@@ -134,7 +134,7 @@ ToggleLaunch(LaunchIndex, ToggleValue, *)
     IniWrite(ToggleValue.Value, LaunchIni, "Tool Launch", LaunchIndex)
 }
 
-SelectTool(*)
+SelectTool(SettingsGui, *)
 {
     If (NewName.Value = "")
         {
@@ -142,6 +142,7 @@ SelectTool(*)
         }
     If !(NewLocation.Value = "") and !(NewName.Value = "")
         {
+            SettingsToolDestroy(SettingsGui, 1)
             LaunchIni := IniPath("Launch")
             CheckTotal := IniRead(LaunchIni, "Tool Path",,"") ;Check current number of launch tools
             CheckTotal := StrSplit(CheckTotal, "`n")
