@@ -8,7 +8,7 @@ LaunchEvent(ItemIndex, Setup, GuiTabs, IndexCount *)
                 {
                     SetupComplete(ItemIndex)
                     ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
-                    SettingsToolDestroy(Setup, "1")
+                    SettingsToolDestroy(Setup, 1)
                     Settings(1)
                 }
             Else
