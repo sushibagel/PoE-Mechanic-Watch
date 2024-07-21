@@ -142,13 +142,14 @@ SelectTool(SettingsGui, *)
         }
     If !(NewLocation.Value = "") and !(NewName.Value = "")
         {
-            SettingsToolDestroy(SettingsGui, 1)
             LaunchIni := IniPath("Launch")
             CheckTotal := IniRead(LaunchIni, "Tool Path",,"") ;Check current number of launch tools
             CheckTotal := StrSplit(CheckTotal, "`n")
             IniWrite(NewLocation.Value, Launchini, "Tool Path", CheckTotal.Length + 1)
             IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
             IniWrite(NewCheck.Value, Launchini, "Tool Launch", CheckTotal.Length + 1)
+            SettingsToolDestroy(SettingsGui, 1)
+            Sleep(100)
             Settings(8)
         }
     If (NewLocation.Value = "") and !(NewName.Value = "")
