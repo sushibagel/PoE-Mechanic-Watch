@@ -338,7 +338,10 @@ GetInfluence()
                     Break
                 }
         }
-    Return ActiveInfluence
+    If IsSet(ActiveInfluence)
+    {
+        Return ActiveInfluence
+    }
 }
 
 IncrementInfluence(Influence)

@@ -6,7 +6,7 @@ FilterSearch(FilterSearch, NA1)
             LV.Delete
             HideoutPath := IniPath("HideoutList")
             HideoutFile := FileRead(HideoutPath)
-            Loop Parse HideoutFile, "`r"
+            Loop Parse HideoutFile, "`n"
                 {
                     If InStr(A_LoopField, FilterSearch.Value)
                         {
@@ -36,7 +36,6 @@ LVDoubleClick(*)
     IniWrite(HideoutSelected[1], HideoutIni, "Current Hideout", "Hideout")
     SettingsGui["EditText"].Text := HideoutSelected[1]
     SettingsGui["HideoutName"].Text := "Current Hideout: " HideoutSelected[1]
-    SettingsGui["SetupHideout"].Text := "Current Hideout: " HideoutSelected[1]
 }
 
 GetHideout()

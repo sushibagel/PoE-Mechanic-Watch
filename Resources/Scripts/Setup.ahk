@@ -4,7 +4,7 @@ LaunchEvent(ItemIndex, Setup, GuiTabs, IndexCount *)
         {
             CheckPath()
             PathAvailable := ClientSetupCheck()
-            If (PathAvailable = "1")
+            If (PathAvailable = 1)
                 {
                     SetupComplete(ItemIndex)
                     ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))

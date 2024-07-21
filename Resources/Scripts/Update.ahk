@@ -2,13 +2,13 @@ UpdateCheck(GuiButton := "", *)
 {
     VersionPath := IniPath("Version")
     VersionData := FileRead(VersionPath)
-    VersionData := StrSplit(VersionData, "`r", "`n `t")
+    VersionData := StrSplit(VersionData, "`n", "`n `t")
     InstalledVersion := VersionData[1]
     VersionURL := "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/Resources/Data/Version.txt"
     CurrentVersion := GetContent(VersionURL)
     CurrentVersion := Trim(CurrentVersion, "`n `t") ; Trim and clean
-    CurrentVersion := StrSplit(CurrentVersion, "v")
-    InstalledVersion := StrSplit(InstalledVersion, "v")
+    CurrentVersion := StrSplit(CurrentVersion, "v", "`r 'n")
+    InstalledVersion := StrSplit(InstalledVersion, "v", "`r 'n")
     If (CurrentVersion[2] > InstalledVersion[2])
         {
             UpdateUrl := "https://github.com/sushibagel/PoE-Mechanic-Watch/archive/refs/tags/v" CurrentVersion[2] ".zip"
