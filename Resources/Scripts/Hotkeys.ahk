@@ -91,7 +91,7 @@ HotkeyEdit(Item, WinStatus, KeyCombo, *)
             NewKey := "#" KeyCombo.Value
         }
     HotkeyIni := IniPath("Hotkeys")
-    CurrentHotkey := IniRead(HotkeyIni, "Hotkeys", Item)
+    CurrentHotkey := IniRead(HotkeyIni, "Hotkeys", Item, "")
     IniWrite(NewKey, HotkeyIni, "Hotkeys", Item)
     Hotkeys := GetHotkeyItems()
     For HotkeyItems in Hotkeys
