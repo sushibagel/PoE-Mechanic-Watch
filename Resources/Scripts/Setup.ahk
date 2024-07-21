@@ -767,11 +767,11 @@ Settings(TargetTab:=1, *)
     SettingsGui.Add("Text", "x+1 Left w200", 5).OnEvent("Click",LaunchFootnoteShow.Bind(5))
     SettingsGui.SetFont("s10 Norm c" CurrentTheme[3])
     SettingsGui.Add("Text", "XS Section", "Name:")
-    Global NewName := SettingsGui.Add("Edit", "w650 YS Background" CurrentTheme[2])
+    Global NewName := SettingsGui.Add("Edit", "vLaunchName w650 YS Background" CurrentTheme[2])
     SettingsGui.Add("Text", "YS", "Auto Launch:")
     Global NewCheck := SettingsGui.Add("Checkbox", "YS")
     SettingsGui.Add("Text", "XS Section", "URL/Location:")
-    Global NewLocation := SettingsGui.Add("Edit", "w605 YS Background" CurrentTheme[2])
+    Global NewLocation := SettingsGui.Add("Edit", "vLaunchLocation w605 YS Background" CurrentTheme[2])
     SettingsGui.Add("Button", "YS", "Add Tool").OnEvent("Click", SelectTool.Bind(SettingsGui))
 
     ;Settings Tab
@@ -1017,12 +1017,20 @@ Enter::
 {
     CurrentHWND := ControlGetFocus("PoE Mechanic Watch - Settings")
     EditHWND := ControlGetHwnd(SettingsGui["EditText"])
+    LaunchHWND := ControlGetHwnd(SettingsGui["LaunchName"])
+    LaunchLocationHWND := ControlGetHwnd(SettingsGui["LaunchLocation"])
     If (EditHWND = CurrentHWND)
     {
         HideoutText := SettingsGui["EditText"].Text
         IniWrite(HideoutText, HideoutIni, "Current Hideout", "Hideout")
         SettingsGui["HideoutName"].Text := "Current Hideout: " HideoutText
         SettingsGui["SetupHideout"].Text := "Current Hideout: " HideoutText
+    }
+    If (CurrentHWND = LaunchHWND) or (CurrentHWND = LaunchLocationHWND)
+    {
+        ToolNameText := SettingsGui["LaunchName"].Text
+        ToolPathText := SettingsGui["LaunchLocation"].Text
+        SelectTool(SettingsGui)
     }
 }
 
