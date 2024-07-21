@@ -1011,7 +1011,7 @@ SwitchTab(TabNumber, GuiTabs, *)
         }
 }
 
-#HotIf WinActive('Settings')
+#HotIf WinActive("PoE Mechanic Watch - Settings")
 
 Enter::
 {
@@ -1026,4 +1026,17 @@ Enter::
     }
 }
 
+~LButton::
+{
+    MouseGetPos(,,,&ControlClicked)
+    If InStr(ControlClicked, "Button")
+    {
+        BoxNumber := StrSplit(ControlClicked, "Button", "`r `n")
+        If (BoxNumber[2]< 10)
+        {
+            BoxNumber := BoxNumber[2] * 1 ; Convert string to integer. 
+            SwitchTab(BoxNumber, GuiTabs)
+        }
+    }
+}
 #HotIf
