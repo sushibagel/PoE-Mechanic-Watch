@@ -12,17 +12,27 @@ LaunchPoE(*)
 LaunchSupport()
 {
     LaunchIni := IniPath("Launch")
-    CheckTotal := IniRead(LaunchIni, "Tool Path")
-    CheckTotal := StrSplit(CheckTotal, "`n")
-    Loop CheckTotal.Length
-        {
-            LaunchValue := IniRead(LaunchIni, "Tool Launch", A_Index, 0)
-            If (LaunchValue = 1)
-                {
-                    LaunchPath := IniRead(LaunchIni, "Tool Path", A_Index)
-                    Run LaunchPath
-                }
-        }
+    Try 
+    {
+        CheckTotal := IniRead(LaunchIni, "Tool Path")
+    }
+    Catch Error
+    {
+
+    }
+    Else
+    {
+        CheckTotal := StrSplit(CheckTotal, "`n")
+        Loop CheckTotal.Length
+            {
+                LaunchValue := IniRead(LaunchIni, "Tool Launch", A_Index, 0)
+                If (LaunchValue = 1)
+                    {
+                        LaunchPath := IniRead(LaunchIni, "Tool Path", A_Index)
+                        Run LaunchPath
+                    }
+            }
+    }
 }
 
 LaunchFootnoteShow(FootnoteNum, *)
