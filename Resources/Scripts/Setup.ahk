@@ -8,6 +8,7 @@ LaunchEvent(ItemIndex, Setup, GuiTabs, IndexCount *)
                 {
                     SetupComplete(ItemIndex)
                     ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
+                    SettingsToolDestroy(Setup, "1")
                     Settings(1)
                 }
             Else
@@ -426,7 +427,7 @@ Settings(TargetTab:=1, *)
     FontEdit.OnEvent("Change", FontEditChange)
     FontUpDown.OnEvent("Change", FontUpDownChange)
 
-    ;Tab 3 Notification Settings
+    ;Notification Settings Tab
     CurrentTab := NewTab(CurrentTab)
     SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center" ,"Notification Settings")
@@ -569,7 +570,7 @@ Settings(TargetTab:=1, *)
                 }
         }
 
-    ;Set Hideout
+    ;Set Hideout Tab
     CurrentTab := NewTab(CurrentTab)
     SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center" ,"Update Hideout")
@@ -956,13 +957,18 @@ Settings(TargetTab:=1, *)
     SettingsGui.OnEvent("Close", SettingsToolDestroy)
 }
 
-SettingsToolDestroy(SettingsGui, ThemeReset:="")
+/**
+ * 
+ * @param SettingsGui Pass gui variable here. 
+ * @param {String} IgnoreCheck If "1" is passed here setup completion will not be checked when the Gui is closed. 
+ */
+SettingsToolDestroy(SettingsGui, IgnoreCheck:="")
     {
         If WinExist("Image Sample")
             {
                 WinClose
             }
-        If !(ThemeReset = 1)
+        If !(IgnoreCheck = 1)
         {
             CompletionCheck := CheckCompletion(SettingsGui)
         }

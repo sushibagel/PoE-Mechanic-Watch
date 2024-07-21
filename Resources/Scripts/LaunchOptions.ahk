@@ -25,7 +25,7 @@ LaunchSupport()
         }
 }
 
-LaunchFootnoteShow(FootnoteNum, NA1, NA2)
+LaunchFootnoteShow(FootnoteNum, *)
 {
     FootnoteMenu := Menu()
     If (FootnoteNum = 1)
