@@ -569,7 +569,7 @@ Settings(TargetTab:=1, *)
                 }
         }
 
-    ;Tab 4 Set Hideout
+    ;Set Hideout
     CurrentTab := NewTab(CurrentTab)
     SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center" ,"Update Hideout")
@@ -585,8 +585,8 @@ Settings(TargetTab:=1, *)
     SearchEdit.OnEvent("Change", FilterSearch)
     SearchEdit.OnEvent("Focus", EditFocused)
     SearchEdit.OnEvent("LoseFocus", EditUnFocused)
-    Global LV := SettingsGui.Add("ListView","Sort Grid w250 r18 Background" CurrentTheme[2], ["Name"])
-    Loop Parse HideoutFile, "`r"
+    LV := SettingsGui.Add("ListView","Sort Grid w250 r18 Background" CurrentTheme[2], ["Name"])
+    Loop Parse HideoutFile, "`n"
         {
             LV.Add(,A_LoopField)
         }
@@ -601,7 +601,7 @@ Settings(TargetTab:=1, *)
     SettingsGui.SetFont("s13 Bold c" CurrentTheme[3])
     SettingsGui.Add("Text", TabMaxW " x200 y+5 Center vHideoutName" ,"Current Hideout: " CurrentHideout)
 
-    ;Tab 5 Theme Tab
+    ;Theme Tab
     CurrentTab := NewTab(CurrentTab)
     SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center" ,"Select Theme")
