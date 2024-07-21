@@ -6,9 +6,8 @@ LaunchEvent(ItemIndex, Setup, GuiTabs, IndexCount *)
             PathAvailable := ClientSetupCheck()
             If (PathAvailable = 1)
                 {
-                    SetupComplete(ItemIndex)
-                    ControlSetChecked(1, ControlGetHwnd(SettingsGui["Checkbox" IndexCount[1]]))
                     SettingsToolDestroy(Setup, 1)
+                    SetupComplete(ItemIndex)
                     Settings(1)
                 }
             Else
@@ -164,7 +163,7 @@ SetupVerification()
 
 Settings(TargetTab:=1, *)
 {
-    Global SettingsGui := GuiTemplate("SettingsGui", "Settings", 1050)
+    Global SettingsGui := GuiTemplate("SettingsGui", "PoE Mechanic Watch - Settings", 1050)
     CurrentTheme := GetTheme()
     SettingsGui.SetFont("s12")
     If (TargetTab = 1)
