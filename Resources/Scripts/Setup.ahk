@@ -585,7 +585,7 @@ Settings(TargetTab:=1, *)
     SearchEdit.OnEvent("Change", FilterSearch)
     SearchEdit.OnEvent("Focus", EditFocused)
     SearchEdit.OnEvent("LoseFocus", EditUnFocused)
-    LV := SettingsGui.Add("ListView","Sort Grid w250 r18 Background" CurrentTheme[2], ["Name"])
+    Global LV := SettingsGui.Add("ListView","Sort Grid w250 r18 Background" CurrentTheme[2], ["Name"])
     Loop Parse HideoutFile, "`n"
         {
             LV.Add(,A_LoopField)
