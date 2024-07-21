@@ -342,7 +342,7 @@ TestGui(NotificationType, Action, *)
 {
     If (Action = "Test") and !(NotificationType = "Overlay")
         {
-            WinMinimize("Settings")
+            WinMinimize("PoE Mechanic Watch - Settings")
         }
     If (NotificationType = "Overlay")
         {
@@ -427,9 +427,9 @@ TestGui(NotificationType, Action, *)
             GroupAdd("Notification", "Notification ahk_class AutoHotkeyGUI")
             WinWait("ahk_group Notifications",,1000)
             WinWaitClose("ahk_group Notifications",,1000)
-            If WinExist("Settings")
+            If WinExist("PoE Mechanic Watch - Settings")
             {
-                WinRestore "Settings"
+                WinRestore "PoE Mechanic Watch - Settings"
             } 
         }
 }

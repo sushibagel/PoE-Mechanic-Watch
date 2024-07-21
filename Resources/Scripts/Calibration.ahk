@@ -165,7 +165,7 @@ SampleMechanic(Mechanic, CalibrationGui, ButtonInfo *)
                 }
             Mechanic := ValueName ValueSearch
         }
-    TriggeredBy := "Settings"
+    TriggeredBy := "PoE Mechanic Watch - Settings"
     WinGetPos(&X, &Y, &W, &H, TriggeredBy)
     XPos := XPos + X + WPos + 10
     ImageFile := ImagePath(Mechanic, "No")
@@ -217,7 +217,7 @@ ImageCalibration(Mechanic)
     {
         FileDelete(TestImage)
     }
-    WinMinimize("Settings")
+    WinMinimize("PoE Mechanic Watch - Settings")
     Run("SnippingTool") 
     WinWait("Snipping Tool")
     WinWaitClose("Snipping Tool")
@@ -232,11 +232,11 @@ ImageCalibration(Mechanic)
     }
     Catch Error
     {
-        WinActivate("Settings")
+        WinActivate("PoE Mechanic Watch - Settings")
         FootnoteMenu := Menu()
         FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
-        WinWaitActive("Settings")
-        WinGetPos(&X, &Y, &W, &H, "Settings")
+        WinWaitActive("PoE Mechanic Watch - Settings")
+        WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
         FootnoteMenu.Show(X+W/2, Y+H/2) 
         A_Clipboard := SaveClipboard
     }
@@ -253,33 +253,33 @@ ImageCalibration(Mechanic)
             } 
             Catch Error
             {
-                WinActivate("Settings")
+                WinActivate("PoE Mechanic Watch - Settings")
                 FootnoteMenu := Menu()
                 FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
-                WinWaitActive("Settings")
-                WinGetPos(&X, &Y, &W, &H, "Settings")
+                WinWaitActive("PoE Mechanic Watch - Settings")
+                WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
                 FootnoteMenu.Show(X+W/2, Y+H/2) 
                 A_Clipboard := SaveClipboard
             }
             Else
             {
                 FileDelete(TestImage)
-                WinActivate("Settings")
+                WinActivate("PoE Mechanic Watch - Settings")
                 FootnoteMenu := Menu()
                 FootnoteMenu.Add( Mechanic " Calibration was successful!", DestroyFootnoteMenu.Bind(FootnoteMenu))
-                WinWaitActive("Settings")
-                WinGetPos(&X, &Y, &W, &H, "Settings")
+                WinWaitActive("PoE Mechanic Watch - Settings")
+                WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
                 FootnoteMenu.Show(X+W/2, Y+H/2) 
                 A_Clipboard := SaveClipboard
             }
         }
         Else
         {
-            WinActivate("Settings")
+            WinActivate("PoE Mechanic Watch - Settings")
             FootnoteMenu := Menu()
             FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
-            WinWaitActive("Settings")
-            WinGetPos(&X, &Y, &W, &H, "Settings")
+            WinWaitActive("PoE Mechanic Watch - Settings")
+            WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
             FootnoteMenu.Show(X+W/2, Y+H/2) 
             A_Clipboard := SaveClipboard
         }
@@ -297,7 +297,7 @@ OCRCalibrate(Mechanic)
         {
             WinClose
         }
-    If WinExist("Settings")
+    If WinExist("PoE Mechanic Watch - Settings")
         {
             WinMinimize
         } 

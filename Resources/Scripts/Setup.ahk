@@ -1015,7 +1015,7 @@ SwitchTab(TabNumber, GuiTabs, *)
 
 Enter::
 {
-    CurrentHWND := ControlGetFocus("Settings")
+    CurrentHWND := ControlGetFocus("PoE Mechanic Watch - Settings")
     EditHWND := ControlGetHwnd(SettingsGui["EditText"])
     If (EditHWND = CurrentHWND)
     {
