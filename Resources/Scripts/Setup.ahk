@@ -226,14 +226,19 @@ Settings(TargetTab:=1, *)
                 }
             SettingsGui.Add("Checkbox", "XS Section Checked" SetupCompletion " vCheckbox" A_Index ).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], SettingsGui, GuiTabs,  A_Index))
             SettingsGui.Add("Text", "YS", SetupItems[A_Index]).OnEvent("Click", LaunchEvent.Bind(SetupCategories[A_Index], SettingsGui, GuiTabs, A_Index))
+            HideoutText := "                                                       "
             If (SetupCategories[A_Index] = "Set Hideout") and (SetupCompletion = 1)
                 {
                     CurrentHideout := GetHideout()
-                    SettingsGui.SetFont("Bold c" CurrentTheme[2])
-                    SettingsGui.Add("Text", "YS w70", ) ;Add spacer
-                    SettingsGui.Add("Text", "YS vSetupHideout", "Current Hideout: " CurrentHideout)
-                    SettingsGui.SetFont("Norm c" CurrentTheme[3])
+                    HideoutText :="CurrentHideout: " CurrentHideout
                 }
+                If (SetupCategories[A_Index] = "Set Hideout")
+                    {
+                        SettingsGui.SetFont("Bold c" CurrentTheme[2])
+                        SettingsGui.Add("Text", "YS w70", ) ;Add spacer
+                        SettingsGui.Add("Text", "YS vSetupHideout", HideoutText)
+                        SettingsGui.SetFont("Norm c" CurrentTheme[3])
+                    }
         }
 
     ;Mechanics Tab
