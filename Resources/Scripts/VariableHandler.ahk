@@ -127,10 +127,10 @@ ImagePath(FileRequested, AllowCustom)
 
 GetLocation(SettingsGui, GuiTabs, *)
 {
+    CurrentDir := GetStorageDir()
     SelectFolder := FileSelect("D 2", A_Desktop, "Please select the folder to store settings files in.")
-    If !(SelectFolder = "")
+    If !(SelectFolder = "") and !(SelectFolder = CurrentDir)
         {
-            CurrentDir := GetStorageDir()
             DataFolder := "\Resources\Data"
             SettingsFolder := "\Resources\Settings"
             DirCreate(SelectFolder DataFolder)
