@@ -854,14 +854,14 @@ Settings(TargetTab:=1, *)
     SettingsGui.Add("Text", "XS Section x585")
     SettingsGui.Add("Text", "YS Right", "Duration (Seconds)")
 
-    ;Search Calibration
+    ;Search Calibration Tab
     CurrentTab := NewTab(CurrentTab)
     SettingsGui.SetFont("s15 Bold c" CurrentTheme[2])
     SettingsGui.Add("Text", TabMaxW " Center" ,"Auto Tracking Calibration")
     SettingsGui.AddText( TabMaxW " h1 Section Background" CurrentTheme[3])
     SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
-    LoopCategories := ["Quest Tracker Text", "Ritual Icon", "Ritual Text", "Ritual Shop", "Influence Count"]
-    LoopFootnote := ["1", "2", "1", "2", "3"]
+    LoopCategories := ["Quest Tracker Text", "Ritual Icon", "Ritual Text", "Ritual Shop", "Blight", "Influence Count"]
+    LoopFootnote := ["1", "2", "1", "2", "2", "3"]
     For Category in LoopCategories
         {
             SettingsGui.Add("Text", "Section XS Right w170") ; Spacer

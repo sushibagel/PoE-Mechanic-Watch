@@ -133,7 +133,7 @@ CalibrateMechanic(Mechanic, *)
         {
             OCRCalibrate("Ritual Area")
         }
-    Else If (Mechanic ~= "i)\A(Ritual Icon|Ritual Shop|Eater Completion|Searing Completion|Maven Completion|Eater On|Maven On|Searing On)\z")
+    Else If (Mechanic ~= "i)\A(Ritual Icon|Ritual Shop|Eater Completion|Searing Completion|Maven Completion|Eater On|Maven On|Searing On|Blight)\z")
         {
             ImageCalibration(Mechanic)
         }
