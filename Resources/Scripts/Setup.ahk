@@ -897,9 +897,10 @@ Settings(TargetTab:=1, *)
             SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
             SettingsGui.Add("Text", "YS w62",) ;For consistent Spacing
             CurrentCount := IniRead(MechanicsIni, "Influence Track", Influence, 0)
-            SettingsGui.Add("Edit", "YS+5 w40 h25 Number Center Background" CurrentTheme[2], "Calibrate")
+            VControl := Influence "Edit"
+            SettingsGui.Add("Edit", "v" VControl " YS+5 w40 h25 Number Center Background" CurrentTheme[2], "Calibrate")
             %Influence%Value := SettingsGui.Add("UpDown", "YS " UpDownRange, CurrentCount) ;### Needs event Handler
-            SettingsGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " Completion"))
+            SettingsGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " Completion", SettingsGui))
             SettingsGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " Completion", SettingsGui))
 
             SettingsGui.Add("Text", "Section XS Right w170") ; Spacer

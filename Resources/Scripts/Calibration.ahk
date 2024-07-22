@@ -123,7 +123,7 @@ FootnoteShow(FootnoteNum, *)
     FootnoteMenu.Show() 
 }
 
-CalibrateMechanic(Mechanic, *)
+CalibrateMechanic(Mechanic, SettingsGui, *)
 {
     If (Mechanic = "Quest Tracker Text")
         {
@@ -135,7 +135,14 @@ CalibrateMechanic(Mechanic, *)
         }
     Else If (Mechanic ~= "i)\A(Ritual Icon|Ritual Shop|Eater Completion|Searing Completion|Maven Completion|Eater On|Maven On|Searing On|Blight)\z")
         {
-            ImageCalibration(Mechanic)
+            MechanicLong := ""
+            If InStr(Mechanic, "Completion")
+                {
+                    MechanicLong := Mechanic
+                    MechanicShort := StrSplit(Mechanic, "Completion", "`r `n")
+                    Mechanic := MechanicShort[1] SettingsGui[MechanicShort[1] "Edit"].Value
+                }
+            ImageCalibration(Mechanic, MechanicLong)
         }
     Else If (Mechanic = "Influence Count")
         {
@@ -208,7 +215,7 @@ DestroySampleGui()
     Global SampleGui := Gui(,"Image Sample")
 }
 
-ImageCalibration(Mechanic)
+ImageCalibration(Mechanic, MechanicLong:="")
 {
     SaveClipboard := A_Clipboard ; copy existing clipboard data so it can be restored.
     A_Clipboard := "" ; Make sure clipboard is empty so we can tell if a screenshot was taken.
@@ -234,6 +241,10 @@ ImageCalibration(Mechanic)
     {
         WinActivate("PoE Mechanic Watch - Settings")
         FootnoteMenu := Menu()
+        If RegExMatch(Mechanic, "[/maven|eater|searing/i]")
+            {
+                Mechanic := MechanicLong
+            }
         FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
         WinWaitActive("PoE Mechanic Watch - Settings")
         WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
@@ -255,6 +266,10 @@ ImageCalibration(Mechanic)
             {
                 WinActivate("PoE Mechanic Watch - Settings")
                 FootnoteMenu := Menu()
+                If RegExMatch(Mechanic, "[/maven|eater|searing/i]")
+                    {
+                        Mechanic := MechanicLong
+                    }
                 FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
                 WinWaitActive("PoE Mechanic Watch - Settings")
                 WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
@@ -266,6 +281,10 @@ ImageCalibration(Mechanic)
                 FileDelete(TestImage)
                 WinActivate("PoE Mechanic Watch - Settings")
                 FootnoteMenu := Menu()
+                If RegExMatch(Mechanic, "[/maven|eater|searing/i]")
+                    {
+                        Mechanic := MechanicLong
+                    }
                 FootnoteMenu.Add( Mechanic " Calibration was successful!", DestroyFootnoteMenu.Bind(FootnoteMenu))
                 WinWaitActive("PoE Mechanic Watch - Settings")
                 WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
@@ -277,6 +296,10 @@ ImageCalibration(Mechanic)
         {
             WinActivate("PoE Mechanic Watch - Settings")
             FootnoteMenu := Menu()
+            If RegExMatch(Mechanic, "[/maven|eater|searing/i]")
+                {
+                    Mechanic := MechanicLong
+                }
             FootnoteMenu.Add(Mechanic " Calibration failed try again!", DestroyFootnoteMenu.Bind(FootnoteMenu))
             WinWaitActive("PoE Mechanic Watch - Settings")
             WinGetPos(&X, &Y, &W, &H, "PoE Mechanic Watch - Settings")
