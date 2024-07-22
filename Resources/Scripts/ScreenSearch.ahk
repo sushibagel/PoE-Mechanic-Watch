@@ -23,14 +23,23 @@ MechanicScreenSearch()
     SearchMechanics := VariableStore("ImageSearch")
     For Mechanic in SearchMechanics
     {
-        ImageFile := ImagePath(Mechanic, "Yes") 
-        If ImageSearch(&FoundX, &FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, "*50 " ImageFile)
+        CheckActive := Mechanic
+        If InStr(Mechanic, "Ritual")
         {
-            Switch ; Match mechanic and toggle.
+            CheckActive := "Ritual"
+        }
+        AutoActive := IniPath("Mechanics", "Read", , "Auto Mechanics", CheckActive, 0)
+        If (AutoActive = 1) ; Check if auto search is enabled for the mechanics. 
+        {
+            ImageFile := ImagePath(Mechanic, "Yes")
+            If ImageSearch(&FoundX, &FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, "*50 " ImageFile)
             {
-                Case Mechanic = "Blight": CheckSeed("Blight", "Off")
-                Case Mechanic = "Ritual Icon": CheckSeed("Ritual", "On")
-                Case Mechanic = "Ritual Shop": CheckRitualStatus()
+                Switch ; Match mechanic and toggle.
+                {
+                    Case Mechanic = "Blight": CheckSeed("Blight", "Off")
+                    Case Mechanic = "Ritual Icon": CheckSeed("Ritual", "On")
+                    Case Mechanic = "Ritual Shop": CheckRitualStatus()
+                }
             }
         }
     }
@@ -129,10 +138,6 @@ MechanicOCR()
     {
         WinWaitActive "ahk_group PoeOnly"
         WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR)
-        ; If WinActive("ahk_group PoeOnly")
-            ; {
-                ; WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR)
-            ; }
         XOCR := WOCR - WOCR // 3
         ScreenSearchIni := IniPath("ScreenSearch")
         XOCR := IniRead(ScreenSearchIni, "Side Area", "X", XOCR)
