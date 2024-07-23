@@ -57,11 +57,11 @@ Please note, that it must be run from within a folder containing all the assets 
 ## Usage: 
 The first time you use this tool you will be greeted with a setup screen. This will walk you through the initial setup.  
 
-![Startup Tool](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Startup%20Tool.jpg?raw=true) 
+![Setup Tool](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Dark%20Settings.png?raw=true) 
 
 Once set up, while in the game you have an overlay present with various images (one for each mechanic you've selected).  
 
-![Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay.jpg?raw=true)  
+![Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Overlay.png?raw=true)  
 
 Clicking an image will activate tracking and display a red box around the image. Once active, clicking the image again will deactivate it.  
 
@@ -69,7 +69,7 @@ Clicking an image will activate tracking and display a red box around the image.
 
 If you enter your hideout with tracking active on any mechanics you will be greeted with a reminder message.  
 
-![Notification](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Notification.jpg?raw=true)
+![Notification](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Dark%20Reminder.png?raw=true)
 
 If at any time you wish to change any settings this can be done by right-clicking the Tray Menu Icon and choosing the desired menu item. 
 
