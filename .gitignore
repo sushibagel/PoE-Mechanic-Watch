@@ -28,7 +28,7 @@ Resources/Data/Setup.ini
 Resources/Settings/Overlay.ini
 Resources/Data/Misc.ini
 Resources/Settings/ScreenSearch.ini
-Resources/Images/Image Search/Custom/*
-Resources/Images/Image Search/Eldritch/Custom/*
+Resources/Images/Image Search/Custom/
+Resources/Images/Image Search/Eldritch/Custom/
 Resources/Images/Image Search/Custom/Blight.png
 Resources/Images/Image Search/Custom/RitualIcon.png
