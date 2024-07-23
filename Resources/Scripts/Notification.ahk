@@ -326,7 +326,7 @@ SoundAction(NotificationType, Button, *)
             SoundFile := NotificationVars(NotificationType)
             SoundPlay("Resources\Sounds\blank.wav", False)
             DetectHiddenWindows True
-            ScriptInfo := WinGetProcessName("test")
+            ScriptInfo := WinGetProcessName("PoE Mechanic Watch - Settings")
             AppVol("AutoHotkey64.exe", SoundFile[7])
             SoundPlay(SoundFile[6], False)
         }
@@ -457,7 +457,7 @@ MoveQuick(*)
 
 LockQuick(Type, VerticalCheck, HorizontalCheck, *)
 {
-    WinGetPos &Xpos, &Ypos,,,"Quick Notification"
+    WinGetPos &Xpos, &Ypos,,,"Simple Notification"
     YPos := "y" YPos + 32
     XPos := "x" Xpos
     If (VerticalCheck.Value = 1)
