@@ -84,7 +84,6 @@ WinKeyCheck(Item, Status, *)
 
 HotkeyEdit(Item, WinStatus, KeyCombo, *)
 {
-    
     NewKey := KeyCombo.Value
     If (WinStatus.Value = 1)
         {
@@ -94,13 +93,32 @@ HotkeyEdit(Item, WinStatus, KeyCombo, *)
     CurrentHotkey := IniRead(HotkeyIni, "Hotkeys", Item, "")
     IniWrite(NewKey, HotkeyIni, "Hotkeys", Item)
     Hotkeys := GetHotkeyItems()
+    HotkeyPairs := GetHotkeyPairs()
     For HotkeyItems in Hotkeys
         {
-            If (HotkeyItems = "Item")
+            If (HotkeyItems = Item)
                 {
                     IndexMatch := A_Index
                     HotkeyActions := GetHotkeyPairs()
-                    Hotkey CurrentHotkey, HotkeyActions[IndexMatch], "Off"
+                    Try Hotkey CurrentHotkey, HotkeyActions[IndexMatch], "Off"
+                    If !(NewKey = "") and ((Item = "Portal Key") or (Item = "Chat Key"))
+                        {
+                            NewKey := "~" NewKey
+                        }
+                    Else If (NewKey = "") and (Item = "Chat Key") 
+                        {
+                            NewKey := "~Enter"
+                        }
+                    Else If (Item = "Launch PoE") and !(NewKey ="")
+                        {
+                            Hotkey NewKey, LaunchPoE, "On"
+                        }
+                    If !(NewKey ="")
+                        {
+                            HotIfWinActive("ahk_group PoeWindow")
+                            Hotkey NewKey, %HotkeyPairs[A_Index]%, "On"
+                            HotIfWinActive
+                        }
                     Break
                 }
         }
@@ -184,9 +202,9 @@ ApplyHotkeys()
     For ThisHotkey in HotkeyItems
         {
             HotkeyCombo := IniRead(HotkeyIni, "Hotkeys", ThisHotkey, "")
-            If !(HotkeyCombo = "") and (ThisHotkey = "Portal Key") or (ThisHotkey = "Chat Key") 
+            If !(HotkeyCombo = "") and ((ThisHotkey = "Portal Key") or (ThisHotkey = "Chat Key"))
                 {
-                    If (ThisHotkey = "Chat Key")
+                    If (ThisHotkey = "Chat Key") and (HotkeyCombo = "") ;Default "Chat Key" to "Enter" if not set. 
                         {
                             HotkeyCombo := "Enter"
                         } 
