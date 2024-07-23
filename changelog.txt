@@ -1,6 +1,6 @@
 PoE Mechanic Watch v3
 Important Note!: This release of PoE Mechanic Watch requires Auto Hotkey v2.0.18 or higher. To update please visit https://www.autohotkey.com/ (Please note that v1 and v2 can be installed together).
 
-This release is a complete rewrite of the entire program from the ground up to be compatible with AutoHotkey v2. In addition to compatibility with AHK v2 this release aims to maintain all the functionality of prior releases while simplifying and improving speed. 
+This release is a complete rewrite of the entire program from the ground up to be compatible with AutoHotkey v2. In addition to compatibility with AHK v2 this release aims to maintain all the functionality of prior releases while simplifying and improving speed. To avoid issues delete any prior installation folders before unzipping the new version. 
 
 Note: For more information about this release, Questions or Feedback, please see the current release discussion thread on my Github by clicking the link found in the "Q&A/Feedback option in the tray menu.
