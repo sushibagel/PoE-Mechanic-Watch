@@ -239,7 +239,7 @@ DestroyOverlay(*)
     If WinExist("PoE Mechanic Watch Overlay")
         {   
             OverlayHwnd := WinWait("PoE Mechanic Watch Overlay")
-            OverlayObj := GuiFromHwnd(OverlayHwnd)
+            Try OverlayObj := GuiFromHwnd(OverlayHwnd)
             If HasMethod(OverlayObj, "Destroy")
                 {
                     OverlayObj.Destroy()
