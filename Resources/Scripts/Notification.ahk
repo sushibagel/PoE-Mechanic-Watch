@@ -156,6 +156,13 @@ QuickNotify(Mechanics, MechanicVersion:=0, MoveQuick:=0)
             NotificationInfo := NotificationVars("Quick Notification")
             Type := "Quick Notification"
         }
+    If (MechanicVersion = 4)
+        {
+            MapHotkey := GetMapHotkey()
+            MechanicText := "You just entered a new map press" A_Space  MapHotkey A_Space "to subtract 1 map"
+            NotificationInfo := NotificationVars("Quick Notification")
+            Type := "Quick Notification"
+        }
     QuickNotification.Add("Text",, MechanicText)
     If (MoveQuick = 0)
         {
@@ -361,7 +368,7 @@ TestGui(NotificationType, Action, *)
         {
             If (Action = "Test")
                 {
-                    MapHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", "Map Count", "Hotkey Not Set")
+                    MapHotkey := GetMapHotkey()
                     Text := "You just entered a new map press" A_Space  MapHotkey A_Space "to subtract 1 map"
                     QuickNotify(Text, 3)
                 }
@@ -450,7 +457,7 @@ TransparencyAdjust(NotficationType, Status, *)
 
 MoveQuick(*)
 {
-    MapHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", "Map Count", "Hotkey Not Set")
+    MapHotkey := GetMapHotkey()
     Message := "You just entered a new map press " MapHotkey " to subtract 1 map"
     QuickNotify(Message, 3, 1)
 }

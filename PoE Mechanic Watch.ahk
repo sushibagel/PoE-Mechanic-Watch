@@ -47,12 +47,12 @@ GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
 GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
-GroupAdd("PoeWindow", "ahk_exe Code.exe")
+; GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
-GroupAdd("PoeOnly", "ahk_exe Code.exe")
+; GroupAdd("PoeOnly", "ahk_exe Code.exe")
 Global MoveActive := 0
 Global TestActive := 0
 
@@ -344,7 +344,7 @@ GetInfluence()
     }
 }
 
-IncrementInfluence(Influence)
+IncrementInfluence(Influence, TriggerQuick := 0)
 {
     MechanicsPath := IniPath("Mechanics")
     If GetKeyState("ALT", "P") ; Reset influence count if "Alt Clicked"
@@ -364,6 +364,10 @@ IncrementInfluence(Influence)
                     CurrentCount := 0
                 }
             IniWrite(CurrentCount, MechanicsPath, "Influence Track", Influence)
+            If (TriggerQuick = 1)
+            {
+                QuickNotify("none", 4)
+            }
         }
     RefreshOverlay()
 }

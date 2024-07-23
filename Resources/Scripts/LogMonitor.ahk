@@ -59,37 +59,36 @@ CheckLogLine(LogLine)
         {
             HideoutIni := IniPath("Hideout")
             IniWrite(1, HideoutIni, "In Hideout", "In Hideout")
-            NotifyActiveMechanics()
+            HideoutNotify := IniPath("Notifications", "Read", , "Mechanic Notification", "Hideout Trigger", 1)
+            If (HideoutNotify = 1)
+            {
+                NotifyActiveMechanics()
+            }
         }
     If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 
         {
-            HideoutStatus := IniPath("Hideout", "Read", , "In Hideout", "In Hideout", 0)
+            HideoutStatus := IniPath("Hideout", "Read", ,"In Hideout", "In Hideout", 0)
             If (HideoutStatus = 0)
                 {
-                    NotHideoutLog(LogLine)
+                    CheckDialogs(LogLine)
                 }
+            Else 
+            {
+                ;Check new lines against active mechanics with dialogs
+                If InStr(LogLine, "Generating level") and InStr(LogLine, "with seed") ;These lines indicate a new zone has been entered. 
+                    {
+                        HideoutIni := IniPath("Hideout")
+                        HideoutStatus := IniRead(HideoutIni,"In Hideout", "In Hideout", 0)
+                        If (HideoutStatus = 1)
+                            {
+                                IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
+                            }
+                            GetMapName(LogLine)
+                        }
+            }
         }
 }
  
-NotHideoutLog(LogLine)
-{
-    ;Check new lines against active mechanics with dialogs
-    If InStr(LogLine, "Generating level") and InStr(LogLine, "with seed") ;These lines indicate a new zone has been entered. 
-        {
-            HideoutIni := IniPath("Hideout")
-            HideoutStatus := IniRead(HideoutIni,"In Hideout", "In Hideout", 0)
-            If (HideoutStatus = 1)
-                {
-                    IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
-                }
-            GetMapName(LogLine)
-        } 
-    Else
-        {
-            CheckDialogs(LogLine)
-        }
-}
-
 GetMapName(LogLine)
 {
     If InStr(LogLine, "MapWorlds")
@@ -117,7 +116,7 @@ GetMapName(LogLine)
                     If !(ActiveInfluence = "Maven") and (AreaLevel > 80)
                         {
                             IniWrite("False", MiscIni, "Map", "Maven Map")
-                            IncrementInfluence(ActiveInfluence)
+                            IncrementInfluence(ActiveInfluence, 1)
                         }
                     If (ActiveInfluence = "Maven") and (AreaLevel > 80)
                         {

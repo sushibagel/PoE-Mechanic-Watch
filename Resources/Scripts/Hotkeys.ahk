@@ -257,3 +257,24 @@ GetHotkeyPairs()
 {
     Return ["InfluenceRemoveOne", "ToggleInfluence", "Test", "LaunchPoE", "LauncherGui", "NotifyActiveMechanics", "ChatDelay"]
 }
+
+GetMapHotkey()
+{
+    MapHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", "Map Count", "Not Set")
+    ;Convert Modifier keys to humar readable (# Win ! Alt ^ Ctrl + Shift)
+    If !(MapHotkey = "Not Set")
+    {
+        MapHotkey := StrUpper(MapHotkey)
+        ModifierTypes := ["#", "^", "!", "+"]
+        ReplaceWith := ["Win", "Ctrl", "Alt", "Shift"]
+        For Modifier in ModifierTypes
+        {
+            If InStr(MapHotkey, Modifier)
+                {
+                    MapHotkey := StrReplace(MapHotkey, ModifierTypes[A_Index], ReplaceWith[A_Index] A_Space)
+                }
+        }
+        MapHotkey := StrReplace(MapHotkey, A_Space, "+")
+    }
+    Return MapHotkey
+}
