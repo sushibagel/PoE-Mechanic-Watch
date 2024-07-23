@@ -51,7 +51,7 @@ SetHotkeyItems(Items, HotkeyGui)
     HotkeyGui.Add("Text", "w175 XS Section",) ;Spacer
     HotkeyGui.Add("Text", "w1 YS", FootNote).OnEvent("Click", HotkeyFootnote.Bind(FootNote, Items))
     HotkeyGui.SetFont("s10 Norm c" CurrentTheme[3])
-    HotkeyGui.Add("Text", "w120 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
+    HotkeyGui.Add("Text", "w120 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote, Items))
     HotkeyGui.Add("Text", "w175 YS",)
     ; HotkeyGui.Add("Text", "w295 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
     CheckNum := A_Index "Check"
@@ -187,7 +187,7 @@ HotkeyFootnote(FootnoteNum, Mechanic, *)
         }
     If (FootnoteNum = 8)
         {
-            FootnoteMenu.Add("The " Mechanic " hotkey is used to quickly toggle the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("The " Mechanic.Text " hotkey is used to quickly toggle the", DestroyFootnoteMenu.Bind(FootnoteMenu))
             FootnoteMenu.Add("status of the " Mechanic " mechanic this can be a", DestroyFootnoteMenu.Bind(FootnoteMenu))
             FootnoteMenu.Add("great alternative to pressing the image to disable tracking.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
