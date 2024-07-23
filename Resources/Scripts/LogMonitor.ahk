@@ -64,7 +64,7 @@ CheckLogLine(LogLine)
     If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 
         {
             HideoutStatus := IniPath("Hideout", "Read", , "In Hideout", "In Hideout", 0)
-            If (HideoutStatus = 1)
+            If (HideoutStatus = 0)
                 {
                     NotHideoutLog(LogLine)
                 }
