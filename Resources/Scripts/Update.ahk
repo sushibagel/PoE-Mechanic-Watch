@@ -61,21 +61,25 @@ UpdateGui_Size(GuiObj, MinMax, Width, Height)
 
 DownloadUpdate(UpdateURL, CurrentVersion, *)
 {
-    WinMinimize("Update Available")
     FileName := "PoE Mechanic Watch " CurrentVersion ".zip"
     Download(UpdateURL, FileName)
     DownloadComplete := DownloadCheck(FileName)
     If (DownloadComplete = 1)
         {
+            WinMinimize("PoE Mechanic Watch - Settings")
             DownloadGui := GuiTemplate("DownloadGui", "Download Complete", 300)
             CurrentTheme := GetTheme()
             DownloadGui.Add("Text", "w300 +Wrap", "To update unzip the contents of  `"" FileName "`" simply open the contained folders until you see `"" A_ScriptName "`" and a folders titled `"Resources`" copy all the files in the directory and simply paste them into the your current install directory.")
-            DownloadGui.Add("Button", "XM Section w100", "Open File").OnEvent("Click", OpenFile.Bind(Filename, DownloadGui))
+            DownloadGui.Add("Button", "XM Section w100", "View").OnEvent("Click", OpenFile.Bind(Filename, DownloadGui))
             DownloadGui.Add("Text", "Center w175", "")
             DownloadGui.Add("Button", "YS w100", "Close").OnEvent("Click", CloseDlGui.Bind(DownloadGui))
             DownloadGui.Show()
             DownloadGui.OnEvent("Close", CloseDlGui.Bind(DownloadGui))
         }
+    Else
+    {
+        MsgBox "Download Failed, Try again"
+    }
 }
 
 DownloadCheck(FileName)
@@ -107,7 +111,7 @@ OpenFile(FileName, DownloadGui, *)
             WinClose
         }
     DestroyDownloadGui(DownloadGui)
-    Run(FileName)  
+    Run(A_ScriptDir)  
 }
 
 CloseDlGui(DownloadGui, *)
