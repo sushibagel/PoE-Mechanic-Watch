@@ -163,6 +163,10 @@ SetupVerification()
 
 Settings(TargetTab:=1, *)
 {
+    If WinExist("PoE Mechanic Watch - Settings")
+    {
+        WinClose
+    }
     Global SettingsGui := GuiTemplate("SettingsGui", "PoE Mechanic Watch - Settings", 1050)
     CurrentTheme := GetTheme()
     SettingsGui.SetFont("s12")
@@ -904,7 +908,7 @@ Settings(TargetTab:=1, *)
             CurrentCount := IniRead(MechanicsIni, "Influence Track", Influence, 0)
             VControl := Influence "Edit"
             SettingsGui.Add("Edit", "v" VControl " YS+5 w40 h25 Number Center Background" CurrentTheme[2], "Calibrate")
-            %Influence%Value := SettingsGui.Add("UpDown", "YS " UpDownRange, CurrentCount) ;### Needs event Handler
+            %Influence%Value := SettingsGui.Add("UpDown", "YS " UpDownRange, CurrentCount)
             SettingsGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " Completion", SettingsGui))
             SettingsGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " Completion", SettingsGui))
 
