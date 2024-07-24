@@ -53,7 +53,6 @@ SetHotkeyItems(Items, HotkeyGui)
     HotkeyGui.SetFont("s10 Norm c" CurrentTheme[3])
     HotkeyGui.Add("Text", "w120 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote, Items))
     HotkeyGui.Add("Text", "w175 YS",)
-    ; HotkeyGui.Add("Text", "w295 x+1 YS", Items).OnEvent("Click", HotkeyFootnote.Bind(FootNote))
     CheckNum := A_Index "Check"
     CheckNum := HotkeyGui.Add("Checkbox", "YS Checked" CheckboxStatus)
     HotkeyGui.Add("Hotkey", "YS Center", CurrentValue).OnEvent("Change", HotkeyEdit.Bind(Items, Checknum))
@@ -80,48 +79,60 @@ WinKeyCheck(Item, Status, *)
                     IniWrite(CurrentValue, HotkeyIni,"Hotkeys", Item)
                 }
         }
+    HotkeyEdit(Item, Status.Value, "112222llF")
 }
 
 HotkeyEdit(Item, WinStatus, KeyCombo, *)
 {
-    NewKey := KeyCombo.Value
-    If (WinStatus.Value = 1)
-        {
-            NewKey := "#" KeyCombo.Value
-        }
-    HotkeyIni := IniPath("Hotkeys")
-    CurrentHotkey := IniRead(HotkeyIni, "Hotkeys", Item, "")
-    IniWrite(NewKey, HotkeyIni, "Hotkeys", Item)
+    If (KeyCombo = "112222llF")
+    {
+        NewKey := IniPath("Hotkeys", "Read", , "Hotkeys", Item, "")
+        If (WinStatus = 1)
+            {
+                NewKey := "#" NewKey
+            }
+    }
+    Else
+    {
+        NewKey := KeyCombo.Value
+        If (WinStatus.Value = 1)
+            {
+                NewKey := "#" KeyCombo.Value
+            } 
+    }
+    HotkeyIni := IniPath("Hotkeys") 
     Hotkeys := GetHotkeyItems()
     HotkeyPairs := GetHotkeyPairs()
-    For HotkeyItems in Hotkeys
+    For HotkeyItems in Hotkeys ;Disable all active hokeys
         {
-            If (HotkeyItems = Item)
+            ActiveHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", HotkeyItems, "")
+            If !(ActiveHotkey = "")
+            {
+                If (HotkeyItems = "Launch PoE")
                 {
-                    IndexMatch := A_Index
-                    HotkeyActions := GetHotkeyPairs()
-                    Try Hotkey CurrentHotkey, HotkeyActions[IndexMatch], "Off"
-                    If !(NewKey = "") and ((Item = "Portal Key") or (Item = "Chat Key"))
-                        {
-                            NewKey := "~" NewKey
-                        }
-                    Else If (NewKey = "") and (Item = "Chat Key") 
-                        {
-                            NewKey := "~Enter"
-                        }
-                    Else If (Item = "Launch PoE") and !(NewKey ="")
-                        {
-                            Hotkey NewKey, LaunchPoE, "On"
-                        }
-                    If !(NewKey ="")
-                        {
-                            HotIfWinActive("ahk_group PoeWindow")
-                            Hotkey NewKey, %HotkeyPairs[A_Index]%, "On"
-                            HotIfWinActive
-                        }
-                    Break
+                    Hotkey ActiveHotkey, "Off"
                 }
+                Else
+                {
+                    HotIfWinActive("ahk_group PoeWindow")
+                    Hotkey ActiveHotkey, "Off"
+                    HotIfWinActive
+                }
+            }
         }
+    Mechanics := VariableStore("Mechanics")
+    For Mechanic in Mechanics
+    {
+        ActiveHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", Mechanic, "")
+        If !(ActiveHotkey = "")
+        {
+            HotIfWinActive("ahk_group PoeWindow")
+            Hotkey ActiveHotkey, "Off"
+            HotIfWinActive
+        }
+    }
+    IniWrite(NewKey, HotkeyIni, "Hotkeys", Item)
+    ApplyHotkeys()
 }
 
 HotkeyGui_Size(GuiObj, MinMax, Width, Height)
@@ -255,7 +266,12 @@ GetHotkeyItems()
 
 GetHotkeyPairs()
 {
-    Return ["InfluenceRemoveOne", "ToggleInfluence", "Test", "LaunchPoE", "LauncherGui", "NotifyActiveMechanics", "ChatDelay"]
+    Return ["InfluenceRemoveOne", "ToggleInfluence", "MavenStatus", "LaunchPoE", "LauncherGui", "NotifyActiveMechanics", "ChatDelay"]
+}
+
+LauncherGui(*)
+{
+    Settings(8)
 }
 
 GetMapHotkey()
