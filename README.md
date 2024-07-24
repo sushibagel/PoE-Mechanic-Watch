@@ -67,48 +67,45 @@ Clicking an image will activate tracking and display a red box around the image.
 
 ![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay%20Active.jpg?raw=true)
 
-If you enter your hideout with tracking active on any mechanics you will be greeted with a reminder message.  
+If you enter your hideout or press your portal hokey (if active) with tracking active on any mechanics you will be greeted with a reminder message.  
 
 ![Notification](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Dark%20Reminder.png?raw=true)
 
 If at any time you wish to change any settings this can be done by right-clicking the Tray Menu Icon and choosing the desired menu item. 
 
-![Tray Menu Icon](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu%20Icon.jpg?raw=true)
+![Tray Menu Icon](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Tray%20Icon.png?raw=true)
 
-![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
+![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Tray%20Menu.png?raw=true)
 
 All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking them or reset with "Alt + Right Click" 
 
 #### Tray Menu Item Descriptions:  
-- Select Mechanics - Allows you to select which mechanics will appear for tracking in your Overlay  
-- Select Auto Enable/Disable - Allows you to select which mechanics will have auto enable/disable active. Please see the important information above about this feature. [Go to Auto Mechanic Information](#auto-mechanic-tracking)  
-- View Maven Invitation Status - Launches a window that allows you to view/manage the completion of the various Maven invitations.
-- Master Mapping Settings - Launches the setup tool for the Master Mapping Reminder. 
 - Launch Path of Exile - This will launch your Path of Exile client along with anything you've set to launch alongside it with the "Launch Assist" tool  
-- View Path of Exile Log - Takes you to your Client.txt Log File  
+- Select Mechanics - Opens the "Mechanics" Settings page and allows you to select which mechanics will appear for tracking in your Overlay, Enable/Diable Auto tracking as well as access the Auto Tracking Calibration Tool. [Go to Auto Mechanic Information](#auto-mechanic-tracking)  
+- Maven Status - Launches a window that allows you to view/manage the completion of the various Maven invitations.
 - Setup - Takes you to the "Setup" sub-menu   
-- Reload - Reloads PoE Mechanic Tracking  
-- Check for Updates - Manually check for updates. For more information on updating please see the Troubleshooting section. [Go to Troubleshooting section](#troubleshooting)  
-- Setup Menu - Display the "Setup Menu" that is shown the first time you run the tool   
+- Check for Updates - Manually check for updates. For more information on updating please see the Troubleshooting section. [Go to Troubleshooting section](#troubleshooting) 
+- About - Gives brings you to the "About" page of the Settings giving version information and access to the most recent Changelog. 
+- Reload This Script - Will relaunch PoE Mechanic Watch. This may be useful if for some reason the tool is not performing as expected. 
+- Exit - Closes PoE Mechanic Watch.
+- Setup Tool - Opens the Settings Menu to the "Setup" page.
 - Set Hideout - Launches the Hideout selection tool. Please see the [hideout notes](#hideout-notes) below 
-- Map Reminder Settings - Launches the setup tool for the Map Reminder. 
-- Calibrate Search - Launches the image recognition setup tool. 
-- Change Theme - Displays the Theme Selector Tool   
-- Change Hotkey - Allows you to set your hotkey combination for various tasks. 
-- Overlay Settings - Allows you to change the size, position, and orientation of the overlay.
+
+- Master Mapping Settings - Launches the setup tool for the Master Mapping Reminder. 
+- View Path of Exile Log - Takes you to your Client.txt Log File  
+- Overlay Settings - Opens the "Overlay Setting" page in the Settings Tool allowing you to change the size, position, and orientation of the overlay.
 - Move Overlay - Allows you to reposition your overlay 
+- Notification Settings - Opens the "Notification Settings" page allowing you to toggle various notifications on/off. Toggle and set notification sound files and volume. Set the transparency of notifications and move/manage notifications.
 - Move Quick Notification - Allows you to move the position of all quick notifications.
-- Notification Settings - Allows you to toggle various notifications on/off. Toggle and set notification sound files and volume. Set the transparency of notifications and move/manage notifications.
-- Launch Assist - The launch assist tool allows you to select files/applications that you would like launched alongside your Path of Exile client when using your defined hotkey or the "Launch Path of Exile" tray menu item   
-- Tool Launcher - A set of shortcuts that can be used to launch various programs, tools, websites, etc. that you may wish to use while playing.
-- Choose Settings File Location - Allows you to set the location you want your settings to be stored. This is useful if you wish to share settings between machines. 
+- Custom Reminder - Launches the "Custom Reminder" settings page. This allows you to setup a notification for the start of each map.  
+- Calibrate Tool - Launches the "Calibration" Settings Page which allows capturing of image recognition images and setting zones for optical character recognition (OCR). 
+- Change Hotkey - Opens the "Hotkey" Settings Page allowing you to set your hotkey combination for various tasks. 
+- Launcher Setup - Opens the "Launcher Settings" page allowing for setup of applications/website shortcuts. Each shortcut also has an option to auto launch when the "Launch Path of Exile" shortcut is used. 
+- Change Theme - Opens the "Theme" Settings Page allowing for selection of Dark/Light or Custom Themes.    
+- Change Settings Location - Opens the "Settings Location" page allowing you to set the location you want your settings to be stored. This is useful if you wish to share settings between machines. 
 
 ## Troubleshooting:  
-- If you are receiving the following error when starting the script: "Call to nonexistent function: Specifically: SetWindowVol(AhkExe, NotificationVolume) Line 67" this is likely because you launched the "PoE Mechanic Watch.ahk" file. Please try again using the "Launcher.ahk" instead. 
-
-- If you are receiving the following error when starting the script: "Error: Function library not found"this is likely because you launched the "PoE Mechanic Watch.ahk" file. Please try again using the "Launcher.ahk" instead. 
-
-- Please make sure that you have AutoHotKey version 1.1.36.02. This script is not yet compatible with version 2.0+.
+- PoE Mechanic Watch now requires the installation of AutoHotKey version 2.0+ which can be downloaded [here.](https://www.autohotkey.com/) Please note that if you currently us any AutoHotKey 1.0+ < 2.0 scripts you can install both versions.  
 
 - If notifications aren't being displayed when entering your hideout double-check that you have the correct Hideout set. For more information on setting your hideout please view the [hideout notes](#hideout-notes) below. 
 
@@ -116,11 +113,9 @@ All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking
 
 - Make sure that you are running the script from within a folder containing all of the original assets of the program. 
 
-- If at any time the script freezes right click the icon in the System Tray and click "Reload". This will restart the script and in many cases resolve any problems. 
+- If at any time the script freezes right click the icon in the System Tray and click "Reload This Script". This will restart the script and in many cases resolve any problems. 
 
-- If clicking the "View Log" button isn't taking you to the correct path, this is likely because you opened the script prior to having your client open. Once your client is open click the "Reload" button and it should work as expected. 
-
-- Blight, Expedition or Incursion mechanics aren't automatically enabled/disabling. These mechanics all require the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. Please note there are some situations where certain dialogs aren't issued and it may result in a failure to enable/disable tracking. If you happen to find any dialogs that do not work as triggers please post a bug report on my Github. 
+- Blight, Expedition, Incursion or Ultimatum mechanics aren't automatically enabled/disabling. These mechanics all require the "Output Dialogue To Chat" setting to be turned on in the "UI" section of the settings in game. Please note there are some situations where certain dialogs aren't issued and it may result in a failure to enable/disable tracking. If you happen to find any dialogs that do not work as triggers please post a bug report on my Github. 
 
 - If Auto tracking isn't working for Ritual or the Eldritch bosses (Eater of Worlds, Searing Exarch, and Maven) you may need to calibrate the image recognition using the "Calibrate Search" tool found in the Auto Enable/Disable menu.
 
@@ -138,33 +133,27 @@ For feedback, questions or suggestions please visit the <a href="https://github.
 
 ## Credits:  
 Thank you to Grinding Gear Games the developers of Path of Exile  
-Thank you to hi5 for the use of the tf.ahk autohotkey library. <a href="https://github.com/hi5/TF" title="tf library">Tf Library Github</a>  
 Thank you to Reddit user "evilC_UK" and cjsmiles999 on the AHK forums for the sample code used to more efficiently read the log files.   
 Thank you to the developers of AutoHotKey. https://www.autohotkey.com/  
 Thanks to user "mshall" on the AutoHotKey forums for the base code for the updater.  
 Thanks to user "jaco0646" for the code for the Hotkey Selector posted on the AutoHotKey forums.  
-Thanks to user "masonjar13" on the AutoHotKey forums for the Volume Adjust "VA" library used in the volume control settings.   
-Thank you to the user "just me" on the AutoHotKey forums for the Class_ScrollGUI.ahk script. https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk)  
-Thank you to user "Coco" on the AutoHotKey forums for sharing the OnWin.ahk library. https://www.autohotkey.com/boards/viewtopic.php?t=6463
-Thank you to "Marius Șucan" for Gdip_All https://github.com/marius-sucan/AHK-GDIp-Library-Compilation
-Thank you to "Masterfocus" for Gdip_ImageSearch https://github.com/MasterFocus/AutoHotkey/blob/master/Functions/Gdip_ImageSearch/Gdip_ImageSearch.ahk
+Thank you to anonymous1184 for sharing <a href="https://gist.github.com/anonymous1184/b251cd8407a379d4965791585887cfce#file-appvol-ahk">"AppVol.ahk"</a>   
+Thank you to the user "just me" on the AutoHotKey forums for the
+base code for the <a href="https://github.com/AHK-just-me/Class_ScrollGUI/blob/master/Sources/Class_ScrollGUI.ahk">"scrollable Gui."</a> and <a href="https://www.autohotkey.com/boards/viewtopic.php?f=83&t=125259>"ListView Grid Color"</a>
+Thank you to iseahound for the <a href="https://github.com/iseahound/ImagePut">"ImagePut Library"</a> 
 The speaker icon was found at <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>  
 The play button was found at <a href="https://www.flaticon.com/free-icons/play" title="play icons">Play icons created by Freepik - Flaticon</a>  
 The reload button was found at <a href="https://www.flaticon.com/free-icons/refresh" title="refresh icons">Refresh icons created by Gregor Cresnar - Flaticon</a>  
 The stop button was found at <a href="https://www.flaticon.com/free-icons/forbidden" title="forbidden icons">Forbidden icons created by Freepik - Flaticon</a> 
-The mimize icon was found at <a href="https://www.flaticon.com/free-icons/minus" title="minus icons">Minus icons created by Pixel perfect - Flaticon</a>
+The minimize icon was found at <a href="https://www.flaticon.com/free-icons/minus" title="minus icons">Minus icons created by Pixel perfect - Flaticon</a>
 The close icon was found at <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by Pixel perfect - Flaticon</a>
 
-I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey. I am in no way responsible if this script bricks your computer, causes errors, or results in a ban in Path of Exile. 
+I am in no way affiliated with Grinding Gear Games or the developers of AutoHotkey. I am in no way responsible if this script bricks your computer, causes errors, or results in a ban in Path of Exile. 
 
 ## Screenshots:
 #### Move Overlay Tool: 
 
-![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Move%20Overlay.jpg?raw=true)
-
-#### Theme Selector: 
-
-![Theme Selector](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Theme%20Selector.png?raw=true)
+![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blobv2-Development/Resources/Images/Screenshots/Move%20Overlay.png?raw=true)
 
 #### See Auto-Mechanic Tracking in action (Click Image Below): 
 
