@@ -65,7 +65,7 @@ Once set up, while in the game you have an overlay present with various images (
 
 Clicking an image will activate tracking and display a red box around the image. Once active, clicking the image again will deactivate it.  
 
-![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay%20Active.jpg?raw=true)
+![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Overlay%20Active.png?raw=true)
 
 If you enter your hideout or press your portal hokey (if active) with tracking active on any mechanics you will be greeted with a reminder message.  
 
@@ -153,7 +153,7 @@ I am in no way affiliated with Grinding Gear Games or the developers of AutoHotk
 ## Screenshots:
 #### Move Overlay Tool: 
 
-![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blobv2-Development/Resources/Images/Screenshots/Move%20Overlay.png?raw=true)
+![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/v2-Development/Resources/Images/Screenshots/Move%20Overlay.png?raw=true)
 
 #### See Auto-Mechanic Tracking in action (Click Image Below): 
 
