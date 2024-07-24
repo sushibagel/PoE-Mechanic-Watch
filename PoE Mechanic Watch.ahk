@@ -53,6 +53,7 @@ GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
 ; GroupAdd("PoeOnly", "ahk_exe Code.exe")
+
 Global MoveActive := 0
 Global TestActive := 0
 
@@ -358,6 +359,30 @@ IncrementInfluence(Influence, TriggerQuick := 0)
             If (CurrentCount > 28) and ((Influence = "Searing") or (Influence = "Eater"))
                 {
                     CurrentCount := 0
+                }
+            If ((CurrentCount = 28) or (CurrentCount = 14)) and ((Influence = "Searing") or (Influence = "Eater")) and (TriggerQuick = 1)
+                {
+                    If (Influence = "Searing")
+                    {
+                        InfluenceLong := "Searing Exarch"
+                        InvitationName := "Incandescent Invitation"
+                        If (CurrentCount = 14)
+                        {
+                            InvitationName := "Polaric Invitation"
+                        } 
+                        
+                    }
+                    If (Influence = "Eater")
+                    {
+                        InfluenceLong := "Eater of Worlds"
+                        InvitationName := "Screaming Invitation"
+                        If (CurrentCount = 14)
+                        {
+                            InvitationName := "Writhing Invitation"
+                        }
+                    }
+                    FullText := "This is your " CurrentCount "th " InfluenceLong " map. Don't forget to kill the boss for your " InvitationName " Invitation."
+                    Notify(FullText, "influence Notification")
                 }
             If (CurrentCount > 10) and (Influence = "Maven")
                 {

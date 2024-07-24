@@ -108,7 +108,8 @@ GetMapName(LogLine)
             AreaLevel := StrSplit(AreaLevel, "Generating level")
             AreaLevel := StrSplit(AreaLevel[2], A_Space)
             AreaLevel := AreaLevel[2]
-            If InStr(MapList, MapName) and (MapName != "") and ((MapName != LastMap) or (MapSeed != LastSeed))
+            EldritchAutoOn := IniPath("Mechanics", "Read", , "Auto Mechanics", "Eldritch", 0)
+            If InStr(MapList, MapName) and (MapName != "") and ((MapName != LastMap) or (MapSeed != LastSeed)) and (EldritchAutoOn = 1)
                 {
                     IniWrite(MapName, MiscIni, "Map", "Last Map")
                     IniWrite(MapSeed, MiscIni, "Map", "Last Seed")
