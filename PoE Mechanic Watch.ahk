@@ -47,12 +47,12 @@ GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
 GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
-GroupAdd("PoeWindow", "ahk_exe Code.exe")
+; GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
-GroupAdd("PoeOnly", "ahk_exe Code.exe")
+; GroupAdd("PoeOnly", "ahk_exe Code.exe")
 
 Global MoveActive := 0
 Global TestActive := 0
