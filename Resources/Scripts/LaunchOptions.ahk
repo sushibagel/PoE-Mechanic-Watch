@@ -1,118 +1,169 @@
-Global ArrCount
-
-LaunchSupport() ;read ini file and launch each item
+LaunchPoE(*)
 {
-    LaunchPath := LaunchOptionsIni()
-    ArrCount := CountLauncher()
-    Loop, %ArrCount%
+    LaunchIni := IniPath("Launch")
+    ExePath := IniRead(LaunchIni,"POE", "EXE")
+    ExeDir := IniRead(LaunchIni, "POE", "Directory")
+    SetWorkingDir(ExeDir)
+    Run(ExeDir "\" ExePath)
+    SetWorkingDir(A_ScriptDir)
+    LaunchSupport()
+}
+
+LaunchSupport()
+{
+    LaunchIni := IniPath("Launch")
+    Try 
     {
-        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %A_Index%
-        if !(KeyLaunchKeys = "ERROR")
-        {
-            run, % keyLaunchKeys
-        }
+        CheckTotal := IniRead(LaunchIni, "Tool Path")
     }
-    Return
-}
-
-LaunchGui: 
-LaunchIni := LaunchOptionsIni()
-yh := (A_ScreenHeight/2) -150
-xh := A_ScreenWidth/2
-ArrCount := CountLauncher()
-Gui, Launcher:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-Gui, Launcher:Color, %Background%
-Gui, Launcher:Font, c%Font% s12
-Gui, Launcher:Add, Text, +Center, Uncheck items to delete from launcher
-Gui, Launcher: -Caption
-Gui, Launcher:Font, c%Font% s10
-Loop, %ArrCount%
-{
-    IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %A_Index%
-    if !(KeyLaunchKeys = "ERROR")
+    Catch Error
     {
-        Gui, Launcher:Add, Checkbox, v%A_Index% Checked1, % keyLaunchKeys
+
     }
-}
-Gui, Launcher:Show,,Launcher
-WinGetPos, X, Y, w, h, Launcher
-If (h < 85)
-{
-    h = 85
-}
-Gui, Launcher:Destroy
-Gui, Launcher:+E0x02000000 +E0x00080000 ; WS_EX_COMPOSITED WS_EX_LAYERED
-Gui, Launcher:Color, %Background%
-Gui, Launcher:Font, c%Font% s12
-Gui, Launcher:Add, Text, +Center, Uncheck items to delete from launcher
-Gui, Launcher: -Caption
-Gui, Launcher:Font, c%Font% s10
-Loop, %ArrCount%
-{
-    IniRead, keyLaunchKeys, %LaunchIni%, Launch Options, %A_Index%
-    if !(KeyLaunchKeys = "ERROR")
+    Else
     {
-        Gui, Launcher:Add, Checkbox, v%A_Index% Checked1, % keyLaunchKeys
-    }
-}
-xh := xh - (w/2)
-yh2 := yh + h
-h := h - 30
-Gui, Launcher:Add, Button, xn x50 Section, Accept
-Gui, Launcher:Add, Button, ys x170, Select File
-Gui, Launcher:Show, x%xh% y%yh%, Launcher
-Return
-
-
-LauncherButtonAccept()
-{
-    Gui, Submit, NoHide
-    Gui, Launcher:Destroy
-    LaunchPath := LaunchOptionsIni()
-    NewKey = 0
-    Loop, %ArrCount%
-    {
-        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %A_Index%
-        if !(KeyLaunchKeys = "ERROR")
-        {
-            IniDelete, %LaunchPath%, Launch Options, %A_Index%
-            If (%A_Index% = 1)
+        CheckTotal := StrSplit(CheckTotal, "`n")
+        Loop CheckTotal.Length
             {
-                NewKey ++
-                IniWrite, % keyLaunchKeys, %LaunchPath%, Launch Options, %NewKey%
+                LaunchValue := IniRead(LaunchIni, "Tool Launch", A_Index, 0)
+                If (LaunchValue = 1)
+                    {
+                        LaunchPath := IniRead(LaunchIni, "Tool Path", A_Index)
+                        Run LaunchPath
+                    }
             }
-        }
     }
-    Return
 }
 
-LauncherButtonSelectFile()
+LaunchFootnoteShow(FootnoteNum, *)
 {
-    Gui, Submit, NoHide
-    Gui, Launcher:Destroy
-    FileSelectFile, LaunchOptions, 1, %A_ScriptDir%, Please select any new file you would like to add to your launch options. 
-    KeyCount = 0
-    ArrCount := CountLauncher()
-    LaunchPath := LaunchOptionsIni()
-    Loop, %ArrCount%
-    {
-        IniRead, keyLaunchKeys, %LaunchPath%, Launch Options, %A_Index%
-        if !(KeyLaunchKeys = "ERROR")
+    FootnoteMenu := Menu()
+    If (FootnoteNum = 1)
         {
-            KeyCount++
+            FootnoteMenu.Add("If checked the associated tool will launch along side PoE when", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("you use the `"Launch Path of Exile`" option in the tray menu.", DestroyFootnoteMenu.Bind(FootnoteMenu))
         }
-    }
-    KeyCount++
-    IniWrite, %LaunchOptions%, %LaunchPath%, Launch Options, %KeyCount%
-    Gosub, LaunchGui
-    Return
+    If (FootnoteNum = 2)
+        {
+            FootnoteMenu.Add("Click the name of each tool to view the Path/URL.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Clicking the popup will launch the tool.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteNum = 3)
+        {
+            FootnoteMenu.Add("Clicking the icons below will remove the corresponding tool", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("from the launcher options.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteNum = 4)
+        {
+            FootnoteMenu.Add("Clicking the icons below will launch/open the associated tool.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteNum = 5)
+        {
+            FootnoteMenu.Add("To add a new tool input the name of your new tool,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("if the `"URL/Location`" is omitted a dialog will", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("pop-up to select a file/application.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    FootnoteMenu.Show()
 }
 
-CountLauncher()
+TooltipPath(LauncherIndex, NA1, NA2)
 {
-    ArrCount := 0
-    LaunchIni := LaunchOptionsIni()
-    IniRead, SectionCount, %LaunchIni%, Launch Options
-    TotalTools := StrSplit(SectionCount, "`n")
-    Return % TotalTools.MaxIndex()
+    LaunchIni := IniPath("Launch")
+    ToolName := IniRead(LaunchIni, "Tool Name", LauncherIndex)
+    ToolPath := IniRead(LaunchIni, "Tool Path", LauncherIndex)
+    FootnoteMenu := Menu()
+    FootnoteMenu.Add(ToolName ": " ToolPath, LaunchTool.Bind(LauncherIndex))
+    FootnoteMenu.Show()
+}
+
+DestroyLauncherPath(LaunchPath)
+{
+    If WinExist("Launcher Path")
+        {
+            LaunchPath.Destroy()
+        }
+    LaunchPath := Gui(,"Launcher Path")
+    Return LaunchPath
+}
+
+RemoveTool(RemoveIndex, *)
+{
+    LaunchIni := IniPath("Launch")
+    CheckTotal := IniRead(LaunchIni, "Tool Path") ;Check current number of launch tools
+    CheckTotal := StrSplit(CheckTotal, "`n")
+    If (RemoveIndex = CheckTotal.Length) ; If the one being removed is the last one just remove it. 
+        {
+            IniDelete(LaunchIni,"Tool Path", RemoveIndex)
+            IniDelete(LaunchIni,"Tool Name", RemoveIndex)
+            IniDelete(LaunchIni,"Tool Launch", RemoveIndex)
+        }
+    Else ; Rewrite everthing else and remove the last one. 
+        {
+            LoopTotal := CheckTotal.Length - RemoveIndex
+            ReadIndex := RemoveIndex
+            WriteIndex := RemoveIndex
+            Loop LoopTotal
+                {
+                    ReadIndex++ 
+                    Tools := ["Tool Path", "Tool Name", "Tool Launch"]
+                    For Tool in Tools
+                        {
+                            NextValue := IniRead(LaunchIni, Tool, ReadIndex) ;;; read next value
+                            IniWrite(NextValue, LaunchIni, Tool, WriteIndex) ;;; write it to the previous value
+                        }
+                    WriteIndex++
+                }
+            IniDelete(LaunchIni, "Tool Path", CheckTotal.Length)
+            IniDelete(LaunchIni, "Tool Name", CheckTotal.Length)
+            IniDelete(LaunchIni, "Tool Launch", CheckTotal.Length)
+
+        }
+    Settings(8)
+}
+
+LaunchTool(LaunchIndex, *)
+{
+    LaunchIni := IniPath("Launch")
+    LaunchPath := IniRead(LaunchIni,"Tool Path", LaunchIndex)
+    Run(LaunchPath)
+}
+
+ToggleLaunch(LaunchIndex, ToggleValue, *)
+{
+    LaunchIni := IniPath("Launch")
+    IniWrite(ToggleValue.Value, LaunchIni, "Tool Launch", LaunchIndex)
+}
+
+SelectTool(SettingsGui, *)
+{
+    If (NewName.Value = "")
+        {
+            Msgbox "Error: Please Enter a name before selecting your tool."
+        }
+    If !(NewLocation.Value = "") and !(NewName.Value = "")
+        {
+            LaunchIni := IniPath("Launch")
+            CheckTotal := IniRead(LaunchIni, "Tool Path",,"") ;Check current number of launch tools
+            CheckTotal := StrSplit(CheckTotal, "`n")
+            IniWrite(NewLocation.Value, Launchini, "Tool Path", CheckTotal.Length + 1)
+            IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
+            IniWrite(NewCheck.Value, Launchini, "Tool Launch", CheckTotal.Length + 1)
+            SettingsToolDestroy(SettingsGui, 1)
+            Sleep(100)
+            Settings(8)
+        }
+    If (NewLocation.Value = "") and !(NewName.Value = "")
+        {
+            LaunchPath := FileSelect("S 1", A_Desktop, "Please select the file you would like to add to your launch options.")
+            If !(LaunchPath = "")
+                {
+                    LaunchIni := IniPath("Launch")
+                    CheckTotal := IniRead(LaunchIni, "Tool Path",,"") ;Check current number of launch tools
+                    CheckTotal := StrSplit(CheckTotal, "`n")
+                    IniWrite(LaunchPath, Launchini, "Tool Path", CheckTotal.Length + 1)
+                    IniWrite(NewName.Value, Launchini, "Tool Name", CheckTotal.Length + 1)
+                    IniWrite(NewCheck.Value, Launchini, "Tool Launch", CheckTotal.Length + 1)
+                    Settings(8)
+                }
+        }
 }

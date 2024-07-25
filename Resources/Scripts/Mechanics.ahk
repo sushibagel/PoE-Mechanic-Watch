@@ -1,223 +1,255 @@
-Global Abyss
-Global Betrayal
-Global Blight
-Global Breach
-Global Einhar
-Global Expedition
-Global Harvest
-Global Incursion
-Global Legion
-Global Niko
-Global Ritual
-Global Ultimatum
-Global Generic
-Global Eater
-Global Searing
-Global Maven
-Global AbyssActive
-Global BetrayalActive
-Global BlightActive
-Global BreachActive
-Global EinharActive
-Global ExpeditionActive
-Global HarvestActive
-Global IncursionActive
-Global LegionActive
-Global NikoActive
-Global RitualActive
-Global UltimatumActive
-Global GenericActive
-Global MechanicSearch
-Global AbyssOn
-Global BetrayalOn
-Global BlightOn
-Global BreachOn
-Global EinharOn
-Global ExpeditionOn
-Global HarvestOn
-Global IncursionOn
-Global IncursionTotal
-Global LegionOn
-Global NikoOn
-Global RitualOn
-Global UltimatumOn
-Global GenericOn
-Global mechanicsOn
-Global MechanicsActive
-Global Mechanic
-Global None
-Global AutoRun
-
-Mechanics() ;List of Mechanics
+ShowFootnote(FootnoteSelected, Control, *)
 {
-    Return, "Abyss|Betrayal|Blight|Breach|Einhar|Expedition|Harvest|Incursion|Legion|Niko|Ritual|Ultimatum|Generic"
+    FootnoteMenu := Menu()
+    If (FootnoteSelected = 1)
+        {
+            FootnoteMenu.Add("The `"On`" setting will enable the mechanic", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("associated, adding an image to the overlay.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Tracking for the mechanic can be enabled by", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("clicking on the mechanic image or with an", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("associated hotkey.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteSelected = 2)
+        {
+            FootnoteMenu.Add("The `"Active Only`" setting will enable the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("mechanic associated but the overlay image will", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("not be present unless the mechanic is made active", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("either by hotkey or an auto mechanic trigger.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteSelected = 3)
+        {
+            FootnoteMenu.Add("The `"Auto Mechanics`" setting allows mechanics", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("to be triggered using a combination of Optical", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Character Recognition (OCR), Image Matching and", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("reading game logs. Note: Not all mechanics will", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("have an `"Auto`" trigger ability, this is mostly", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("due to how they are implemented into the game.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Some Auto Mechanics will may need calibration", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("or setup, this can be done by navigating to the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Calibrate Search`" option. You can learn more", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("about how each mechanics auto tracking works by", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("clicking on the number next to the mechanic.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    FootnoteMenu.Show() 
 }
 
-SelectMechanics(RunAuto := False)
+DestroyFootnoteMenu(FootnoteMenu, *)
 {
-    Gui, Mechanic:Destroy
-    MechanicSearch := Mechanics()
-    Gui, Mechanic:Font, c%Font% s10
-    MechanicsPath := MechanicsIni()
-    Gui, Mechanic:Add, Text, xn x10 Section, Mechanic
-    Gui, Mechanic:Add, Text, x93 ys, On
-    Gui, Mechanic:Add, Text, x135 ys, Active Only
-    Gui, Mechanic:Font, c%Font% s7
-    Gui, Mechanic:Add, Text, x+.5 ys, 1
-    Gui, Mechanic:Font, c%Font% s10
-    Gui, Mechanic:Add, Text, x222 ys, Off
-    For each, Mechanic in StrSplit(MechanicSearch, "|")
-    {
-        IniRead, %Mechanic%State, %MechanicsPath%, Mechanics, %Mechanic%, 0
-        autochecked := % mechanic "State"
-        autochecked := % %autochecked%
-        Gui, Mechanic:Add, Text, xn x15 Section, %Mechanic%:
-        If (autochecked = 1)
-            {
-                OnChecked := 1
-                OffChecked := 0
-                AutoOnly := 0
-            }
-        If (autochecked = 0)
-            {
-                OnChecked := 0
-                OffChecked := 1
-                AutoOnly := 0
-            }
-        If (autochecked = 2)
-            {
-                OnChecked := 0
-                OffChecked := 0
-                AutoOnly := 1
-            }
-        Gui, Mechanic:Add, Radio, x95 ys v%Mechanic% Checked%OnChecked%
-        Gui, Mechanic:Add, Radio, x160 ys Checked%AutoOnly%
-        Gui, Mechanic:Add, Radio, x225 ys Checked%OffChecked%
-    }
-    Gui, Mechanic:Font, s8 c%Font%
-    Gui, Mechanic:Add, Text, xn x10 w240,1. Active Only will hide the mechanic icon unless it is made active either by hotkey or auto mechanic. 
-
-    Gui, Mechanic:-Border -Caption
-    Gui, Mechanic:Color, %Background%
-    Gui, Mechanic:Font, s1 c%Secondary%
-    Gui, Mechanic:Add, Text
-    Gui, Mechanic:Add, Text, xn w260 0x10
-    Gui, Mechanic:Font, Bold s11
-    Gui, Mechanic:Add, Text,x10,Select One
-    Gui, Mechanic:Font, s1 c%Font%
-    Gui, Mechanic:Font, Normal s10
-    InfluencesTypes := Influences()
-    For each, Influence in StrSplit(InfluencesTypes, "|")
-    {
-        IniRead, %Influence%State, %MechanicsPath%, Influence, %Influence%
-        autochecked = %Influence%State
-        autochecked := % %autochecked%
-        Gui, Mechanic:Add, Radio, x15 v%Influence% Checked%autochecked%, %Influence%
-    }
-    Gui, Mechanic:Add, Radio, vNone, None
-    Gui, Mechanic:Add, Button, xp x150 w80 h20, OK
-    Gui Mechanic:Show,,Mechanic
-    If (RunAuto = 1)
-    {
-        AutoRun := 1
-    }
-    Return
+    FootnoteMenu.Delete
 }
 
-MechanicGuiClose()
+ShowMechanicFootnote(FootnoteSelected, Control, *)
 {
-    Return
+    FootnoteMenu := Menu()
+    If (FootnoteSelected = 1)
+        {
+            FootnoteMenu.Add("The `"Auto`" setting for this mechanic uses ", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Optical Character Recognition (OCR) to read text", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("on your screen and recognize when certain mechanics", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("are active in game. To use it you MUST have", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Quest Tracking`" enabled in the in-game settings", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("and the corresponding mechanic must be set to `"On`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("or `"Active Only`". If necessary you can adjust the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("OCR Zone in the Calibration Tool, but it should", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("not be needed.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteSelected = 2)
+        {
+            FootnoteMenu.Add("The `"Auto`" setting for this mechanic uses a", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("combination of Image Matching and reading the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("game logs to detect its status. To use it you MUST", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("have `"Output Dialog to Chat`" enabled in the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("in-game settings and the corresponding mechanic", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("must be set to `"On`" or `"Active Only`".", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("You may need to calibrate the Image Matching Tool,", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("this can be done by clicking the `"Calibrate Search`"", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("button (Note: to calibrate you will need to have the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("mechanic active in game).", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteSelected = 3)
+        {
+            FootnoteMenu.Add("The `"Auto`" setting for this mechanic reads the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("game logs to determine its satus. To use it you", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("MUST have `"Output Dialog to Chat`" enabled in the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("in-game settings and the corresponding mechanic must", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add(" be set to `"On`" or `"Active Only`".", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    If (FootnoteSelected = 4)
+        {
+            FootnoteMenu.Add("The `"Auto`" setting for this mechanic uses a", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("combination Image Matching and Optical Character", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Recognition (OCR) to detect its status. To use it", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("the corresponding mechanic must be set to `"On`" or", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Active Only`". You may need to calibrate the Image", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Matching Tool, this can be done by clicking the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("`"Calibrate Search`" button (Note: to calibrate you", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("will need to have the mechanic active in game).", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("If necessary you can adjust the OCR Zone in the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+            FootnoteMenu.Add("Calibration Tool, but it should not be needed.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+        }
+    FootnoteMenu.Show()
 }
 
-MechanicButtonOk()
+EldritchFootnote(*)
 {
-    Gui, Submit, NoHide
-    If (Searing = 1) and (Eater = 1)
+    FootnoteMenu := Menu()
+    FootnoteMenu.Add("This `"Auto Switching/Tracking`" setting incorporates all three Eldritch mechanics", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("(Eater of Worlds, Searing Exarch and Maven) and will attempt to track completion", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("numbers and switch between the three mechanics when possible This is accomplished", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("through a combination of reading the game logs, Optical Character Recognition (OCR)", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("and Image Matching. How it works: when in your hideout the Image Search feature", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("will begin looking for the Eldritch map device icons, once it identifies which", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("mechanic is currently active it will try to update the current completion total", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("if it's within +/-2 completion. If at any time the completion count isn't updating", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("correctly or it is outside of +/-2 completions you can hover your mouse over the", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("active mechanics icon and OCR will be used to update the count. For", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("morere information on why the +/-2 complitions was used see", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("https://github.com/sushibagel/PoE-Mechanic-Watch/discussions/51", DiscussionLink)
+    FootnoteMenu.Add("Completion counts can be incremented by clicking the icon in the overlay or reset", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Add("(to zero) by holding `"Alt`" and clicking.", DestroyFootnoteMenu.Bind(FootnoteMenu))
+    FootnoteMenu.Show()
+}
+
+DiscussionLink(*)
+{
+    Run("https://github.com/sushibagel/PoE-Mechanic-Watch/discussions/51")
+}
+
+ActiveSelected(MechanicSelected, NA1, NA2)
+{
+    MechanicsIni := IniPath("Mechanics")
+    IniWrite(2, MechanicsIni, "Mechanics", MechanicSelected)
+}
+
+OnSelected(MechanicSelected, NA1, NA2)
+{
+    MechanicsIni := IniPath("Mechanics")
+    IniWrite(1, MechanicsIni, "Mechanics", MechanicSelected)
+}
+
+OffSelected(MechanicSelected, *)
+{
+    MechanicsIni := IniPath("Mechanics")
+    IniWrite(0, MechanicsIni, "Mechanics", MechanicSelected)
+}
+
+AutoSelected(MechanicSelected, Status, NA2)
+{
+    MechanicsIni := IniPath("Mechanics")
+    IniWrite(Status.Value, MechanicsIni, "Auto Mechanics", MechanicSelected)
+}
+
+InfluenceSelected(MechanicSelected, Status, NA2)
+{
+    MechanicsIni := IniPath("Mechanics")
+    Influences := VariableStore("Influences")
+    For Influence in Influences
+        {
+            IniWrite(0, MechanicsIni, "Influence", Influence)
+        }
+    If !(MechanicSelected = "None")
+        {
+            IniWrite(Status.Value, MechanicsIni, "Influence", MechanicSelected)
+        }
+}
+
+InfluenceTracking(Status, NA2)
+{
+    MechanicsIni := IniPath("Mechanics")
+    IniWrite(Status.Value, MechanicsIni, "Auto Mechanics", "Eldritch")
+}
+
+CalibrateSearchButton(GuiTabs, *)
+{
+    SwitchTab(12, GuiTabs)
+}
+
+NotifyActiveMechanics(*)
+{
+    MechanicsIni := IniPath("Mechanics")
+    Mechanics := VariableStore("Mechanics")
+    ActiveMechanics := Array()
+    For Mechanic in Mechanics
+        {
+            MechanicVar := Mechanic "Status"
+            MechanicVar:= IniRead(MechanicsIni, "Mechanic Active", Mechanic, 0)
+            If (MechanicVar = 1)
+                {
+                    ActiveMechanics.Push(Mechanic)
+                }
+        }
+    If (ActiveMechanics.Length > 0)
     {
-        Msgbox, Warning, you can only have one Influence active at a time.
-        Gui, Mechanic:Destroy
-        SelectMechanics()
+        Notify(ActiveMechanics, "Mechanic Notification")
     }
-    MechanicSearch := Mechanics()
-    InfluencesTypes := Influences()
-    MechanicsPath := MechanicsIni()
-    For each, Mechanic in StrSplit(MechanicSearch, "|")
-    {
-        If (%Mechanic% = 3)
-            {
-                %Mechanic% := 0
-            }
-        IniWrite, % %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
-    }
-    For each, Influence in StrSplit(InfluencesTypes, "|")
-    {
-        IniWrite, % %Influence%, %MechanicsPath%, Influence, %Influence%
-    }
-    Gui, Mechanic:Destroy
-    PostSetup()
-    PostMessage, 0x01111,,,, WindowMonitor.ahk - AutoHotkey ; Deactive alt tab reminder for influences
-    PostRestore()
-    If (AutoRun = 1)
-    {
-        SelectAuto()
-        Exit
-    }
-    FirstRunPath := FirstRunIni()
-    IniRead, Active, %FirstRunPath%, Active, Active
-    If (Active = 1)
-    {
-        FirstRunPath := FirstRunIni()
-        Iniwrite, 1, %FirstRunPath%, Completion, Mechanic
-        FirstRun()
-    }
-    ReloadScreenSearch()
+}
+
+InfluenceRemoveOne(*)
+{
+    MechanicsIni := IniPath("Mechanics")
+    ActiveInfluence := GetInfluence()
+    CurrentCount := IniRead(MechanicsIni, "Influence Track", ActiveInfluence, 0)
+    CurrentCount--
+    If (CurrentCount = -1)
+        {
+            If (ActiveInfluence = "Eater") or (ActiveInfluence = "Searing")
+                {
+                    CurrentCount := 27
+                }
+            If (ActiveInfluence = "Maven")
+                {
+                    CurrentCount := 10
+                }
+        }
+    IniWrite(CurrentCount, MechanicsIni, "Influence Track", ActiveInfluence)
     RefreshOverlay()
-    Return
 }
 
-ReadMechanics()
+ToggleInfluence(*)
 {
-    MechanicsPath := MechanicsIni()
-    MechanicSearch := Mechanics()
-    MechanicsOn := ""
-    For each, Mechanic in StrSplit(MechanicSearch, "|")
-    {
-        IniRead, %Mechanic%, %MechanicsPath%, Mechanics, %Mechanic%
-        If (%Mechanic% = 1)
-            {
-                %Mechanic%On := 1
-                MechanicsOn ++
-            }
-        If (%Mechanic% = 0)
-            {
-                %Mechanic%On := 0
-            }
-        If (%Mechanic% = 2)
-            {
-                %Mechanic%On := 2
-                MechanicsOn ++
-            }
-    }
-    Return
+    ActiveInfluence := GetInfluence()
+    Influences := VariableStore("Influences")
+    For Influence in Influences
+        {
+            If (ActiveInfluence = Influence)
+                {
+                    InfluenceIndex := A_Index
+                    Break
+                }
+        }
+    InfluenceIndex++
+    If (InfluenceIndex > 3)
+        {
+            InfluenceIndex := 1
+        }            
+    MechanicsIni := IniPath("Mechanics")
+    Influences := VariableStore("Influences")
+    For Influence in Influences
+        {
+            IniWrite(0, MechanicsIni, "Influence", Influence)
+        }
+    If !(ActiveInfluence = "None")
+        {
+            IniWrite(1, MechanicsIni, "Influence", Influences[InfluenceIndex])
+        }
+    RefreshOverlay()
 }
 
-MechanicsActive()
+ChangeInfluence(NewInfluence)
 {
-    MechanicsActive := 0
-    MechanicsPath := MechanicsIni()
-    MechanicSearch := Mechanics()
-    For each, Mechanic in StrSplit(MechanicSearch, "|")
-    {
-        IniRead, %Mechanic%, %MechanicsPath%, Mechanic Active, %Mechanic%, 0
-        If (%Mechanic% = 1)
+    ActiveInfluence := GetInfluence()
+    If !(NewInfluence = ActiveInfluence)
         {
-            %Mechanic%Active := 1
-            MechanicsActive ++
+            MechanicsIni := IniPath("Mechanics")
+            Influences := VariableStore("Influences")
+            For Influence in Influences
+                {
+                    IniWrite(0, MechanicsIni, "Influence", Influence)
+                }
+            If !(ActiveInfluence = "None")
+                {
+                    IniWrite(1, MechanicsIni, "Influence", NewInfluence)
+                }
+            RefreshOverlay()
         }
-        If (%Mechanic% = 0)
-        {
-            %Mechanic%Active := 0
-        }
-    }
-    Return
 }

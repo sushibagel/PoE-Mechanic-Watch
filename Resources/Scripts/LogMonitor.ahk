@@ -1,137 +1,172 @@
-Global MyDialogs
-Global MyDialogsDisable
-Global FullSearch
-Global MyHideout
-Global MavenSearch
-
-LogMonitor() ;Monitor the PoE client.txt
+StartWatch()
 {
-    MyHideout := GetHideout()
-    ReadMechanics()
-    ReadAutoMechanics()
-    InfluenceActive()
+    LaunchIni := IniPath("Launch")
+    FolderToWatch := IniRead(LaunchIni ,"POE", "Directory")
+    FileToWatch := FolderToWatch "\logs\Client.txt"
+    Global lt := CLogTailer(FileToWatch, CheckLogLine)
+}
 
-    FullSearch =
-    MyDialogs = 
-    MyDialogsDisable =
-    AutoMechanicSearch := AutoMechanics()
-    For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-    {
-        autocheck = %Mechanic%Auto
-        if (%autocheck% > 0)
+class CLogTailer 
+{
+	__New(logfile, callback)
+	{
+		this.file := FileOpen(logfile, "r-d")
+		If (!IsObject(this.file)){
+            MsgBox("Unable to load file: " logfile "`nmake sure your Path of Exile client is open and reload the script.")
+        }
+		this.callback := callback
+		; Move seek to end of file
+		this.file.Seek(0, 2)
+		fn := this.WatchLog.Bind(this)
+        this.ReadFn := fn
+		SetTimer(fn,100)
+	}
+	
+	WatchLog()
+	{
+		Loop{
+			p := this.file.Pos
+			l := this.file.Length
+			line := this.file.ReadLine(), "`r`n"
+			len := StrLen(line)
+			if (len){
+				RegExMatch(line, "[\r\n]+", &matches)
+				if (line == matches)
+					continue
+				this.callback.Call(Trim(line, "`r`n"))
+                Return line
+			}
+		}  until (p == l)
+	}
+
+    ; Starts tailing
+    Start(){
+        fn := this.ReadFn
+        SetTimer(fn,100)
+    }
+    
+    ; Stops tailing
+    Stop(){
+        fn := this.ReadFn
+        SetTimer(fn,0)
+    }
+}
+
+CheckLogLine(LogLine)
+{
+    HideoutText := "You have entered " GetHideout()
+    If InStr(LogLine, HideoutText) ; If hideout is entered
         {
-            Loop, Read, Resources/Data/%Mechanic%dialogs.txt
+            HideoutIni := IniPath("Hideout")
+            IniWrite(1, HideoutIni, "In Hideout", "In Hideout")
+            HideoutNotify := IniPath("Notifications", "Read", , "Mechanic Notification", "Hideout Trigger", 1)
+            If (HideoutNotify = 1)
             {
-                if (MyDialogs = "")
-                {
-                    MyDialogs = %A_LoopReadLine%
-                }
-                Else
-                {
-                    MyDialogs = %MyDialogs%,%A_LoopReadLine%
-                }
-            }
-            Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
-            {
-                if (MyDialogsDisable = "")
-                {
-                    MyDialogsDisable = %A_LoopReadLine%
-                }
-                Else
-                {
-                    MyDialogsDisable = %MyDialogsDisable%,%A_LoopReadLine%
-                }
+                NotifyActiveMechanics()
             }
         }
-    }
-}
-
-SearchText(NewLine)
-{
-    MechanicsActive()
-    LogMonitor()
-    If NewLine contains %MyDialogs%
+    If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 
         {
-            For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-            Loop, Read, Resources/Data/%Mechanic%dialogs.txt
-            {
-                activecheck = %Mechanic%Active
-                automechanic = %Mechanic%Auto
-                If NewLine contains %A_LoopReadLine%
+            HideoutStatus := IniPath("Hideout", "Read", ,"In Hideout", "In Hideout", 0)
+            If (HideoutStatus = 0)
                 {
-                    If (%activecheck% != 1) and (%automechanic% = 1)
-                    { ; This now activates the mechanic in the mechanics.ini and sends a message to the overlay script to refresh the overlay. 
-                        IniPath := MechanicsIni()
-                        IniWrite, 1, %IniPath%, Mechanic Active, %Mechanic%
-                        Prev_DetectHiddenWindows := A_DetectHiddenWIndows
-                        Prev_TitleMatchMode := A_TitleMatchMode
-                        SetTitleMatchMode 2
-                        DetectHiddenWindows On
-                        PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
-                        DetectHiddenWindows, %Prev_DetectHiddenWindows%
-                        SetTitleMatchMode, %A_TitleMatchMode%
-                        Break
-                    }
-                        RefreshOverlay()
+                    CheckDialogs(LogLine)
                 }
-            }
-        }
-    If NewLine contains %MyDialogsDisable%
-    {
-        For each, Mechanic in StrSplit(AutoMechanicSearch, "|")
-        Loop, Read, Resources/Data/%Mechanic%dialogsdisable.txt
-        {
-            If NewLine contains %A_LoopReadLine%
+            Else 
             {
-                activecheck = %Mechanic%Active
-                automechanic = %Mechanic%Auto
-                If (%activecheck% = 1) and (%automechanic% = 1) and !InStr(Mechanic, "Incursion")
-                {
-                    IniPath := MechanicsIni()
-                    IniWrite, 0, %IniPath%, Mechanic Active, %Mechanic%
-                    Prev_DetectHiddenWindows := A_DetectHiddenWIndows
-                    Prev_TitleMatchMode := A_TitleMatchMode
-                    SetTitleMatchMode 2
-                    DetectHiddenWindows On
-                    PostMessage, 0x01111,,,, PoE Mechanic Watch.ahk - AutoHotkey
-                    DetectHiddenWindows, %Prev_DetectHiddenWindows%
-                    SetTitleMatchMode, %A_TitleMatchMode%
-                    Break 
-                }  
+                ;Check new lines against active mechanics with dialogs
+                If InStr(LogLine, "Generating level") and InStr(LogLine, "with seed") ;These lines indicate a new zone has been entered. 
+                    {
+                        HideoutIni := IniPath("Hideout")
+                        HideoutStatus := IniRead(HideoutIni,"In Hideout", "In Hideout", 0)
+                        If (HideoutStatus = 1)
+                            {
+                                IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
+                            }
+                            GetMapName(LogLine)
+                        }
             }
         }
-    }
-    IfWinActive, First2
-    {
-        Return
-    }
-    Return
+}
+ 
+GetMapName(LogLine)
+{
+    If InStr(LogLine, "MapWorlds")
+        {
+            MapReminder()
+            MapString := StrSplit(LogLine, "MapWorlds")
+            AreaLevel := MapString[1]
+            MapString := StrSplit(MapString[2], "`"")
+            MapName := MapString[1]
+            MapSeed := StrSplit(MapString[2], "with seed ")
+            MapSeed := MapSeed[2]
+            MapList := IniPath("Map List")
+            MapList := FileRead(MapList)
+            MiscIni := IniPath("Misc Data")
+            LastMap := IniRead(MiscIni, "Map", "Last Map", "Error")
+            LastSeed := IniRead(MiscIni, "Map", "Last Seed", "Error")
+            AreaLevel := StrSplit(AreaLevel, "Generating level")
+            AreaLevel := StrSplit(AreaLevel[2], A_Space)
+            AreaLevel := AreaLevel[2]
+            EldritchAutoOn := IniPath("Mechanics", "Read", , "Auto Mechanics", "Eldritch", 0)
+            If InStr(MapList, MapName) and (MapName != "") and ((MapName != LastMap) or (MapSeed != LastSeed)) and (EldritchAutoOn = 1)
+                {
+                    IniWrite(MapName, MiscIni, "Map", "Last Map")
+                    IniWrite(MapSeed, MiscIni, "Map", "Last Seed")
+                    ActiveInfluence := GetInfluence()
+                    If !(ActiveInfluence = "Maven") and (AreaLevel > 80)
+                        {
+                            IniWrite("False", MiscIni, "Map", "Maven Map")
+                            IncrementInfluence(ActiveInfluence, 1)
+                        }
+                    If (ActiveInfluence = "Maven") and (AreaLevel > 80)
+                        {
+                            IniWrite("True", MiscIni, "Map", "Maven Map")
+                        }
+                }
+            Return 1
+        }
+    Else
+        {
+            Return 0
+        }
+} 
+
+CheckDialogs(LogLine)
+{
+    GetSearches := VariableStore("LogSearch")
+    MechanicsIni := IniPath("Mechanics")
+    For Mechanic in GetSearches
+        {
+            Active := IniRead(MechanicsIni, "Mechanics", Mechanic, 0)
+            AutoActive := IniRead(MechanicsIni, "Auto Mechanics", Mechanic, 0)
+            If (Active > 1) and (AutoActive = 1) ; Check if the mechanic is active and if the auto mechanic is on. 
+                {
+                    DialogMatch := CheckDialogText(LogLine, Mechanic)
+                    If !(DialogMatch = 1)
+                        {
+                            DialogMatch := CheckDialogText(LogLine, Mechanic, "Disable")
+                        } 
+                }
+        }
 }
 
-GetLogPath()
+CheckDialogText(LogLine, Mechanic, Version:="")
 {
-    LaunchIni := LaunchOptionsIni()
-    IniRead, LogPath, %LaunchIni%, POE, log
-    Return, %LogPath%
-}
-
-GetHideout()
-{
-    IniFile := HideoutIni()
-    IniRead, MyHideout, %IniFile%, Current Hideout, MyHideout
-    Return, %MyHideout%
-}
-
-CheckTheme()
-{
-    Global ThemeItems := "Font|Background|Secondary"
-    ThemeFile := ThemeIni()
-    IniRead, ColorMode, %ThemeFile%, Theme, Theme
-    Global Item
-    Global each
-    For each, Item in StrSplit(ThemeItems, "|")
-    {
-        IniRead, %Item%, %ThemeFile%, %ColorMode%, %Item%
-    }
-    Return, %ColorMode%
+    DialogsPath := "Resources/Data/" Mechanic "dialogs" Version ".txt"
+    Loop Read DialogsPath
+        {
+            If InStr(LogLine, A_LoopReadLine)
+                {
+                    If (Version = "")
+                        {
+                            ToggleMechanic(Mechanic, 1, "On")
+                        }
+                    Else
+                        {
+                            ToggleMechanic(Mechanic, 1, "Off")
+                        }
+                    Return 1
+                }
+        }
 }
