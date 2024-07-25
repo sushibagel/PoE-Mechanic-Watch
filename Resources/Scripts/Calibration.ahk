@@ -333,7 +333,7 @@ OCRCalibrate(Mechanic)
     }
     WinWaitActive("ahk_group PoeOnly")
     PoeHWND := WinGetID("ahk_group PoeOnly")
-    WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
+    WinGetClientPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
     OCRSet.SetFont("s15 c" CurrentTheme[3])
     ScreenSearchIni := IniPath("ScreenSearch")
     XArea := IniRead(ScreenSearchIni, Mechanic, "X", XOCR)
