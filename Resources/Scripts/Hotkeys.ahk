@@ -277,7 +277,7 @@ LauncherGui(*)
 GetMapHotkey()
 {
     MapHotkey := IniPath("Hotkeys", "Read", , "Hotkeys", "Map Count", "Not Set")
-    ;Convert Modifier keys to humar readable (# Win ! Alt ^ Ctrl + Shift)
+    ;Convert Modifier keys to human readable (# Win ! Alt ^ Ctrl + Shift)
     If !(MapHotkey = "Not Set")
     {
         MapHotkey := StrUpper(MapHotkey)

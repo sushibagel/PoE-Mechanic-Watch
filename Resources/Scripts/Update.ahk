@@ -7,7 +7,8 @@ UpdateCheck(GuiButton := "", *)
     VersionURL := "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/Resources/Data/Version.txt"
     CurrentVersion := GetContent(VersionURL)
     CurrentVersion := Trim(CurrentVersion, "`n `t") ; Trim and clean
-    CurrentVersion := StrSplit(CurrentVersion, "v", "`r 'n")
+    CurrentVersion := StrSplit(CurrentVersion, "`n", "`n `t")
+    CurrentVersion := StrSplit(CurrentVersion[1], "v", "`r 'n")
     InstalledVersion := StrSplit(InstalledVersion, "v", "`r 'n")
     If (CurrentVersion[2] > InstalledVersion[2])
         {
