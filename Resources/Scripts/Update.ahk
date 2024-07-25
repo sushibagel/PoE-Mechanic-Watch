@@ -20,7 +20,14 @@ UpdateCheck(GuiButton := "", *)
                 }
             UpdateGui := GuiTemplate("UpdateGui", "Update Available", "800")
             CurrentTheme := GetTheme()
-            Settings(13)
+            If WinExist("PoE Mechanic Watch - Settings")
+            {
+                SwitchTab(14, GuiTabs)
+            }
+            Else
+            {
+                Settings(14)
+            } 
         }
     If (CurrentVersion[2] = InstalledVersion[2])
         {
