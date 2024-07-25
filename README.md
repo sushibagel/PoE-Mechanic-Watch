@@ -160,11 +160,8 @@ I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey
 ## Screenshots:
 #### Move Overlay Tool: 
 
-![Move Overlay](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Move%20Overlay.jpg?raw=true)
+![Move Overlay](https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/Resources/Images/Screenshots/Move%20Overlay.png)
 
-#### Theme Selector: 
-
-![Theme Selector](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Theme%20Selector.png?raw=true)
 
 #### See Auto-Mechanic Tracking in action (Click Image Below): 
 
