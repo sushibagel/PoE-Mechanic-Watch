@@ -47,12 +47,12 @@ GroupAdd("PoeWindow", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeWindow", "ahk_exe PathOfExileEGS.exe")
 GroupAdd("PoeWindow", "PoE Mechanic Watch Notification")
 GroupAdd("PoeWindow", "Quick Notification")
-; GroupAdd("PoeWindow", "ahk_exe Code.exe")
+GroupAdd("PoeWindow", "ahk_exe Code.exe")
 
 GroupAdd("PoeOnly", "ahk_exe PathOfExileSteam.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExile.exe")
 GroupAdd("PoeOnly", "ahk_exe PathOfExileEGS.exe")
-; GroupAdd("PoeOnly", "ahk_exe Code.exe")
+GroupAdd("PoeOnly", "ahk_exe Code.exe")
 
 Global MoveActive := 0
 Global TestActive := 0
@@ -268,7 +268,7 @@ AddOverlayItem(Overlay, Mechanic, Active := 0, MechanicCount?)
         {
             Overlay.Add("Picture", "Section " OverlayOrientation " w" IconSize " h" IconSize, "Resources\Images\" Mechanic "_selected.png").Onevent("Click",  OverlayToggle.Bind(Mechanic))
         }
-    If (Active = 0)
+    If (Active = 0) and !(Mechanic = "")
         {
             Overlay.Add("Picture", "Section " OverlayOrientation " w" IconSize " h" IconSize, "Resources\Images\" Mechanic ".png").Onevent("Click", OverlayToggle.Bind(Mechanic))
         }
