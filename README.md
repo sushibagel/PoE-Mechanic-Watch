@@ -165,4 +165,4 @@ I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey
 
 #### See Auto-Mechanic Tracking in action (Click Image Below): 
 
-[![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)
+[![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Resources/Images/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)
