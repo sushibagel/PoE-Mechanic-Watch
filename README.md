@@ -65,7 +65,7 @@ Once set up, while in the game you have an overlay present with various images (
 
 Clicking an image will activate tracking and display a red box around the image. Once active, clicking the image again will deactivate it.  
 
-![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Overlay%20Active.jpg?raw=true)
+![Overlay Active](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Resources/Images/Screenshots/Overlay%20Active.png?raw=true)
 
 If you enter your hideout with tracking active on any mechanics you will be greeted with a reminder message.  
 
@@ -73,9 +73,9 @@ If you enter your hideout with tracking active on any mechanics you will be gree
 
 If at any time you wish to change any settings this can be done by right-clicking the Tray Menu Icon and choosing the desired menu item. 
 
-![Tray Menu Icon](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu%20Icon.jpg?raw=true)
+![Tray Menu Icon](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Resources/Images/Screenshots/Tray%20Icon.png?raw=true)
 
-![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Tray%20Menu.jpg?raw=true)
+![Tray Menu](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Resources/Images/Screenshots/Tray%20Menu.png?raw=true)
 
 All "Counters" (Eater, Searing, Maven, Incursion) can be incremented by clicking them or reset with "Alt + Right Click" 
 
@@ -165,4 +165,4 @@ I am in no way affiliated with Grinding Gear Games, the developers of AutoHotkey
 
 #### See Auto-Mechanic Tracking in action (Click Image Below): 
 
-[![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)
+[![Video Link](https://github.com/sushibagel/PoE-Mechanic-Watch/blob/main/Resources/Images/Screenshots/Video%20Snap.jpg?raw=true)](https://youtu.be/kMowzpj714A)
