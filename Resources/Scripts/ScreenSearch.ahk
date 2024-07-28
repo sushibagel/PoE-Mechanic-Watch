@@ -335,7 +335,7 @@ GetPatterns(Mechanic, Version)
 InfluenceOCR()
 {
     WinWaitActive "ahk_group PoeOnly"
-    WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
+    Try WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
     ScreenSearchIni := IniPath("ScreenSearch")
     XOCR := IniRead(ScreenSearchIni, "Influence Area", "X", XOCR)
     YOCR := IniRead(ScreenSearchIni, "Influence Area", "Y", YOCR)

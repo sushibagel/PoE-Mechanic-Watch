@@ -232,7 +232,7 @@ CreateOverlay()
         {
             WinSetTransColor("1e1e1e " OverlayTransparency, "PoE Mechanic Watch Overlay")
         }
-    Overlay.OnEvent("Close", DestroyOverlay)
+    Try Overlay.OnEvent("Close", DestroyOverlay)
 }
 
 DestroyOverlay(*)
