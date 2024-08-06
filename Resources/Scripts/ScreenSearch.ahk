@@ -161,7 +161,7 @@ MechanicOCR()
             WOCR := IniRead(ScreenSearchIni, "Ritual Area", "W", WOCR)
             HOCR := IniRead(ScreenSearchIni, "Ritual Area", "H", HOCR)
             Try RitualOCR := OCR.WaitText("(113|213|313|114|214|314|414|1\/3|2\/3|3\/3|1\/4|2\/4|3\/4|4\/4)", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating ritual are in the map.
-            If (RitualOCR)
+            Try If (RitualOCR)
                 {
                     RitualOCRMatch(RitualOCR)
                 }
@@ -372,7 +372,7 @@ InfluenceOCR()
                     }
                     InfluenceMatch := StrSplit(FoundText[0], A_Space, "`n `t")
                     IniCount := IniPath("Mechanics", "Read", , "Influence Track", InfluenceMatch[1], 0)
-                    If !(IniCount = CurrentCount)
+                    If !(IniCount = CurrentCount) and !(CurrentCount = "")
                     {
                         IniPath("Mechanics", "Write", CurrentCount, "Influence Track", InfluenceMatch[1])
                         RefreshOverlay

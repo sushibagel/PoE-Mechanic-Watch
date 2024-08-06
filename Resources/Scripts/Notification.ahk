@@ -116,7 +116,7 @@ NotificationSound(SoundPath, SoundVolume)
 {
     SoundPlay("Resources\Sounds\blank.wav", False)
     DetectHiddenWindows True
-    ScriptInfo := WinGetProcessName("test")
+    ScriptInfo := WinGetProcessName("PoE Mechanic Watch")
     AppVol("AutoHotkey64.exe", SoundVolume)
     SoundPlay(SoundPath, False)
 }
