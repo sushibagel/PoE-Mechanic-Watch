@@ -197,7 +197,7 @@ CheckOCR(TextFound, ActiveOCR)
                     {
                         MechanicCount := StrSplit(TextLines[IndexMatch], "(")
                         MechanicCount := StrSplit(MechanicCount[2], ")")
-                        If InStr(MechanicCount[1], "/") ; If OCR read the backslash correctly we are done. If not we need to correct it.
+                        Try If InStr(MechanicCount[1], "/") ; If OCR read the backslash correctly we are done. If not we need to correct it.
                         {
                             MechanicCount := MechanicCount[1]
                             CheckCountToggle(MechanicCount, Mechanic)
@@ -372,7 +372,7 @@ InfluenceOCR()
                     }
                     InfluenceMatch := StrSplit(FoundText[0], A_Space, "`n `t")
                     IniCount := IniPath("Mechanics", "Read", , "Influence Track", InfluenceMatch[1], 0)
-                    If !(IniCount = CurrentCount) and !(CurrentCount = "")
+                    If !(IniCount = CurrentCount) and !(CurrentCount = "") and !(CurrentCount[1])
                     {
                         IniPath("Mechanics", "Write", CurrentCount, "Influence Track", InfluenceMatch[1])
                         RefreshOverlay
