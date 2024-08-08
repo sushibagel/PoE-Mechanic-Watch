@@ -372,7 +372,7 @@ InfluenceOCR()
                     }
                     InfluenceMatch := StrSplit(FoundText[0], A_Space, "`n `t")
                     IniCount := IniPath("Mechanics", "Read", , "Influence Track", InfluenceMatch[1], 0)
-                    If !(IniCount = CurrentCount) and !(CurrentCount = "") and !(CurrentCount[1])
+                    Try If !(IniCount = CurrentCount) and !(CurrentCount = "")
                     {
                         IniPath("Mechanics", "Write", CurrentCount, "Influence Track", InfluenceMatch[1])
                         RefreshOverlay
