@@ -65,6 +65,15 @@ CheckLogLine(LogLine)
                 NotifyActiveMechanics()
             }
         }
+    If InStr(LogLine, "You have entered ")
+        {
+            WarnStatus := IniPath("Misc Data", "Read", , "Maven", "Maven Warn", 0)
+            If (WarnStatus = 1)
+            {
+                IniPath("Misc Data", "Write", "0", "Maven", "Maven Warn")
+                NotificationBig("You just left Maven's Crucible. Would you like to view/reset progress?", "Maven Notification")
+            }
+        }
     If !InStr(LogLine, HideoutText) ; If new line doesn't have hideout defined. 
         {
             HideoutStatus := IniPath("Hideout", "Read", ,"In Hideout", "In Hideout", 0)
@@ -134,7 +143,7 @@ GetMapName(LogLine)
 
 CheckDialogs(LogLine)
 {
-    GetSearches := VariableStore("LogSearch")
+    GetSearches := VariableStore("LogSearch") 
     MechanicsIni := IniPath("Mechanics")
     For Mechanic in GetSearches
         {
@@ -147,6 +156,19 @@ CheckDialogs(LogLine)
                         {
                             DialogMatch := CheckDialogText(LogLine, Mechanic, "Disable")
                         } 
+                }
+        }
+    AutoStatus := IniPath("Mechanics", "Read", ,"Auto Mechanics", "Eldritch", 0)    
+    If InStr(LogLine, "You have entered The Maven's Crucible.") and (AutoStatus = 1) ; This will set a flag to trigger the "Maven Status" gui on next zone change. 
+        {
+        IniPath("Misc Data", "Write", "1", "Maven", "Maven Warn")
+        }
+    Else If (AutoStatus = 1) and InStr(LogLine, "The Maven:")
+        {
+            MavenMapStatus := IniPath("Misc Data", "Read", ,"Map", "Maven Map", "False")
+            If (MavenMapStatus = "True")
+                {
+                    IncrementInfluence("Maven")
                 }
         }
 }

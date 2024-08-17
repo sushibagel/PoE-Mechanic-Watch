@@ -115,13 +115,13 @@ DiscussionLink(*)
     Run("https://github.com/sushibagel/PoE-Mechanic-Watch/discussions/51")
 }
 
-ActiveSelected(MechanicSelected, NA1, NA2)
+ActiveSelected(MechanicSelected, *)
 {
     MechanicsIni := IniPath("Mechanics")
     IniWrite(2, MechanicsIni, "Mechanics", MechanicSelected)
 }
 
-OnSelected(MechanicSelected, NA1, NA2)
+OnSelected(MechanicSelected, *)
 {
     MechanicsIni := IniPath("Mechanics")
     IniWrite(1, MechanicsIni, "Mechanics", MechanicSelected)
@@ -133,13 +133,13 @@ OffSelected(MechanicSelected, *)
     IniWrite(0, MechanicsIni, "Mechanics", MechanicSelected)
 }
 
-AutoSelected(MechanicSelected, Status, NA2)
+AutoSelected(MechanicSelected, Status, *)
 {
     MechanicsIni := IniPath("Mechanics")
     IniWrite(Status.Value, MechanicsIni, "Auto Mechanics", MechanicSelected)
 }
 
-InfluenceSelected(MechanicSelected, Status, NA2)
+InfluenceSelected(MechanicSelected, Status, *)
 {
     MechanicsIni := IniPath("Mechanics")
     Influences := VariableStore("Influences")
@@ -153,7 +153,7 @@ InfluenceSelected(MechanicSelected, Status, NA2)
         }
 }
 
-InfluenceTracking(Status, NA2)
+InfluenceTracking(Status, *)
 {
     MechanicsIni := IniPath("Mechanics")
     IniWrite(Status.Value, MechanicsIni, "Auto Mechanics", "Eldritch")

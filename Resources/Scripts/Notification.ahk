@@ -85,7 +85,18 @@ MechanicnotificationSetup(ActiveMechanics)
 MapNotificationSetup(MechanicText)
 {
     Notification.Add("Text", "Center", MechanicText)
-    Notification.Add("Button", "XM Section w50", "OK").OnEvent("Click", NotificationBigDestroy)
+    If InStr(MechanicText, "You just left Maven's Crucible")
+        {   
+            Notification.Add("Text", "XM Section w100") ; Spacer
+            Notification.Add("Button", "YS w50", "Yes").OnEvent("Click", ViewMavenStatus)
+            Notification.Add("Text", "YS w100") ; Spacer
+            Notification.Add("Button", "YS Section w50", "No").OnEvent("Click", NotificationBigDestroy)
+        }
+    Else
+        {
+            Notification.Add("Button", "XM Section w50", "OK").OnEvent("Click", NotificationBigDestroy)
+        }
+    
 }
 
 NotificationBigDestroy(*)
@@ -95,6 +106,16 @@ NotificationBigDestroy(*)
             Notification.Destroy
         }
     Global Notification := Gui(,"PoE Mechanic Watch Notification")
+}
+
+ViewMavenStatus(*)
+{
+    If WinExist("PoE Mechanic Watch Notification")
+        {
+            Notification.Destroy
+        }
+    Global Notification := Gui(,"PoE Mechanic Watch Notification")
+    MavenStatus()
 }
 
 NoReminderButton(ActiveMechanics, *)
