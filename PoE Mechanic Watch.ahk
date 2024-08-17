@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
-#Warn All, Off ; For releases only
+; #Warn All, Off ; For releases only
 Persistent
 
 ;Tray Menu setup
