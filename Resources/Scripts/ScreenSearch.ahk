@@ -337,13 +337,16 @@ InfluenceOCR()
     WinWaitActive "ahk_group PoeOnly"
     Try WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
     ScreenSearchIni := IniPath("ScreenSearch")
-    XOCR := IniRead(ScreenSearchIni, "Influence Area", "X", XOCR)
-    YOCR := IniRead(ScreenSearchIni, "Influence Area", "Y", YOCR)
-    WOCR := IniRead(ScreenSearchIni, "Influence Area", "W", WOCR)
-    HOCR := IniRead(ScreenSearchIni, "Influence Area", "H", HOCR)
-    OCRRegex := "Searing Exarch Progress:|Eater of Worlds Progress:|Maven Progress:"
-    OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
-    TextLines := Array()
+    If !(XOCR = "")
+    {
+        XOCR := IniRead(ScreenSearchIni, "Influence Area", "X", XOCR)
+        YOCR := IniRead(ScreenSearchIni, "Influence Area", "Y", YOCR)
+        WOCR := IniRead(ScreenSearchIni, "Influence Area", "W", WOCR)
+        HOCR := IniRead(ScreenSearchIni, "Influence Area", "H", HOCR)
+        OCRRegex := "Searing Exarch Progress:|Eater of Worlds Progress:|Maven Progress:"
+        OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
+        TextLines := Array()
+    }
     If (OCRText)
     {
         For Line in OCRText.Lines

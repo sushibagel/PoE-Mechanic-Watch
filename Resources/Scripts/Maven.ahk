@@ -198,7 +198,7 @@ RemoveAll(Invitation, MavenGui, Vars, InvitationBosses, Status, *)
     For Boss in Vars
         {
             ; ControlHWND := ControlGetHwnd(Boss, "Maven Completion Status")
-            If (ControlGetChecked(Boss, "Maven Completion Status") = 1) and (Status.Value = 1)
+            Try If (ControlGetChecked(Boss, "Maven Completion Status") = 1) and (Status.Value = 1)
                 {
                     ControlSetChecked(!Status.Value, Boss, "Maven Completion Status")
                 }
