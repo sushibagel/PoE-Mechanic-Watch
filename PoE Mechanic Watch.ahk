@@ -346,7 +346,7 @@ GetInfluence()
     }
 }
 
-IncrementInfluence(Influence, TriggerQuick := 0)
+IncrementInfluence(Influence, TriggerQuick := 0, MapTrigger := 0)
 {
     MechanicsPath := IniPath("Mechanics")
     If GetKeyState("ALT", "P") ; Reset influence count if "Alt Clicked"
@@ -357,9 +357,13 @@ IncrementInfluence(Influence, TriggerQuick := 0)
         {
             CurrentCount := IniRead(MechanicsPath, "Influence Track", Influence, 0)
             CurrentCount++
-            If (CurrentCount > 28) and ((Influence = "Searing") or (Influence = "Eater"))
+            If (CurrentCount > 28) and (MapTrigger = 0) and ((Influence = "Searing") or (Influence = "Eater"))
                 {
                     CurrentCount := 0
+                }
+            Else If (CurrentCount > 28) and (MapTrigger = 1) and ((Influence = "Searing") or (Influence = "Eater"))
+                {
+                    CurrentCount := 1
                 }
             If ((CurrentCount = 28) or (CurrentCount = 14)) and ((Influence = "Searing") or (Influence = "Eater")) and (TriggerQuick = 1)
                 {
@@ -385,9 +389,13 @@ IncrementInfluence(Influence, TriggerQuick := 0)
                     FullText := "This is your " CurrentCount "th " InfluenceLong " map. Don't forget to kill the boss for your " InvitationName " Invitation."
                     Notify(FullText, "influence Notification")
                 }
-            If (CurrentCount > 10) and (Influence = "Maven")
+            If (CurrentCount > 10) and (Influence = "Maven") and (MapTrigger = 0)
                 {
                     CurrentCount := 0
+                }
+            If (CurrentCount > 10) and (Influence = "Maven") and (MapTrigger = 1)
+                {
+                    CurrentCount := 1
                 }
             IniWrite(CurrentCount, MechanicsPath, "Influence Track", Influence)
             If (TriggerQuick = 1)
