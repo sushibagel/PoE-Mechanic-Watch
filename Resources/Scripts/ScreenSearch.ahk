@@ -384,3 +384,28 @@ InfluenceOCR()
             }
     }
 }
+
+MavenOCR()
+{
+    WinWaitActive "ahk_group PoeOnly"
+    Try WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
+    ScreenSearchIni := IniPath("ScreenSearch")
+    If !(XOCR = "")
+    {
+        XOCR := IniRead(ScreenSearchIni, "Maven Area", "X", XOCR)
+        YOCR := IniRead(ScreenSearchIni, "Maven Area", "Y", YOCR)
+        WOCR := IniRead(ScreenSearchIni, "Maven Area", "W", WOCR)
+        HOCR := IniRead(ScreenSearchIni, "Maven Area", "H", HOCR)
+        OCRRegex := "The Maven has witnessed" ; I have to get the exact text when in game but I think this is close to correct
+        OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating the Maven witnessed a kill. 
+        TextLines := Array()
+    }
+    If (OCRText)
+    {
+        For Line in OCRText.Lines ; from here I will need to figure out how to pull the map name (Boss Name?) out of the text and insert it to the witness list. 
+            {
+                msgbox Line.Text
+                TextLines.Push(Line.Text)
+            }
+    }
+}
