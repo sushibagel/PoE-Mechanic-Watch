@@ -1,6 +1,6 @@
 /**
  * Function for managing file paths as well as reading and writing to files
- * @param {String} FileRequested String with the name of the file needed. (Changelog, Hotkeys, Hideout, HideoutList, Launch, Map List, Mechanics, Misc Data, Notifications, Overlay, Setup,ScreenSearch, Storage, Theme, Transparency, Version)
+ * @param {String} FileRequested String with the name of the file needed. (Changelog, Hotkeys, Hideout, HideoutList, Launch, Map List, Maven, Mechanics, Misc Data, Notifications, Overlay, Setup,ScreenSearch, Storage, Theme, Transparency, Version)
  * @param {String} Action The action desired. Read/Write, if left blank it will return the INI path.
  * @param {String} Value This is the value to be written to the ini file.
  * @param {String} Section This is the Ini Section Header being read/written
@@ -22,6 +22,7 @@ IniPath(FileRequested, Action:="", Value:="", Section:="", Key:="", Default:="")
         Case FileRequested = "HideoutList": Return "Resources\Data\HideoutList.txt"
         Case FileRequested = "Launch": Path := StorageDir "\Resources\Data\LaunchPath.ini"
         Case FileRequested = "Map List": Return StorageDir "\Resources\Data\maplist.txt"
+        Case FileRequested = "Maven": Path := StorageDir "\Resources\Data\Maven.ini"
         Case FileRequested = "Mechanics": Path := StorageDir "\Resources\Settings\Mechanics.ini"
         Case FileRequested = "Misc Data": Path := StorageDir "\Resources\Data\Misc.ini"
         Case FileRequested = "Notifications": Path := StorageDir "\Resources\Settings\Notification.ini"

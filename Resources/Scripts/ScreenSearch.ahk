@@ -15,6 +15,11 @@ ScreenSearchHandler()
     {
         MechanicScreenSearch()
         MechanicOCR()
+        MavenOCRStatus := IniPath("Misc Data", "Read", , "Map", "Maven OCR", 0)
+        If (MavenOCRStatus = 1)
+        {
+            MavenOCR()
+        }
     }
 }
 
@@ -136,8 +141,8 @@ MechanicOCR()
     }
     If (ActiveOCR.Length > 0)
     {
-        WinWaitActive "ahk_group PoeOnly"
-        WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR)
+        ActiveHwnd := WinWaitActive("ahk_group PoeOnly")
+        WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, ActiveHwnd)
         XOCR := WOCR - WOCR // 3
         ScreenSearchIni := IniPath("ScreenSearch")
         XOCR := IniRead(ScreenSearchIni, "Side Area", "X", XOCR)
@@ -145,16 +150,14 @@ MechanicOCR()
         WOCR := IniRead(ScreenSearchIni, "Side Area", "W", WOCR)
         HOCR := IniRead(ScreenSearchIni, "Side Area", "H", HOCR)
         Try OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating missions are in the map.
-        If (OCRText)
+        Try If (OCRText)
         {
             CheckOCR(OCRText, ActiveOCR)
         }
         RitualStatus := IniPath("Mechanics", "Read", , "Auto Mechanics", "Ritual")
         {
-            If WinActive("ahk_group PoeOnly")
-            {
-                WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR)
-            }
+            ActiveHwnd := WinWaitActive("ahk_group PoeOnly")
+            WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, ActiveHwnd)
             YOCR := HOCR - HOCR // 3
             XOCR := IniRead(ScreenSearchIni, "Ritual Area", "X", XOCR)
             YOCR := IniRead(ScreenSearchIni, "Ritual Area", "Y", YOCR)
@@ -334,8 +337,8 @@ GetPatterns(Mechanic, Version)
 
 InfluenceOCR()
 {
-    WinWaitActive "ahk_group PoeOnly"
-    Try WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
+    ActiveHwnd := WinWaitActive("ahk_group PoeOnly")
+    WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, ActiveHwnd)
     ScreenSearchIni := IniPath("ScreenSearch")
     If !(XOCR = "")
     {
@@ -387,8 +390,8 @@ InfluenceOCR()
 
 MavenOCR()
 {
-    WinWaitActive "ahk_group PoeOnly"
-    Try WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, "ahk_group PoeOnly")
+    ActiveHwnd := WinWaitActive("ahk_group PoeOnly")
+    WinGetPos(&XOCR, &YOCR, &WOCR, &HOCR, ActiveHwnd)
     ScreenSearchIni := IniPath("ScreenSearch")
     If !(XOCR = "")
     {
@@ -396,16 +399,32 @@ MavenOCR()
         YOCR := IniRead(ScreenSearchIni, "Maven Area", "Y", YOCR)
         WOCR := IniRead(ScreenSearchIni, "Maven Area", "W", WOCR)
         HOCR := IniRead(ScreenSearchIni, "Maven Area", "H", HOCR)
-        OCRRegex := "The Maven has witnessed" ; I have to get the exact text when in game but I think this is close to correct
-        OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating the Maven witnessed a kill. 
-        TextLines := Array()
-    }
-    If (OCRText)
-    {
-        For Line in OCRText.Lines ; from here I will need to figure out how to pull the map name (Boss Name?) out of the text and insert it to the witness list. 
-            {
-                msgbox Line.Text
-                TextLines.Push(Line.Text)
-            }
+        OCRRegex := "Witnessed by the|Completion Witnessed"
+        Try OCRText := OCR.WaitText(".*(?:" OCRRegex ").*", 500, OCR.FromWindow.Bind(OCR, "ahk_group PoeOnly", , 2, { X: XOCR, Y: YOCR, W: WOCR, H: HOCR, onlyClientArea: 1 }), , RegExMatch) ; Find text indicating a maven witness was completed.
+        Try If (OCRText)
+        {
+            For Line in OCRText.Lines
+                If RegExMatch(Line.Text, OCRRegex) ;Find the line containing witness completion
+                {
+                    WitnessInfo := Line.Text
+                    WitnessInfo := StrSplit(WitnessInfo, "Completion Witnessed") ;Get boss/map name.
+                    WitnessInfo := Trim(WitnessInfo[1], "`t `n")
+                    BossCategory := IniPath("Maven", "Read", , "Maven", WitnessInfo, "Map Bosses") 
+                    If (BossCategory = "The Formed") or (BossCategory = "The Forgotten") or (BossCategory = "The Feared") ;or (BossCategory = "The Hidden") or (BossCategory = "The Elderslayers")
+                    {
+                        IniPath("Mechanics", "Write", 1, BossCategory, WitnessInfo)
+                    }
+                    Else If (BossCategory = "Map Bosses")
+                    {
+                        Bosses := GetBosses("Map Bosses")
+                        BossCount := Bosses.Length + 1
+                        IniPath("Mechanics", "Write", WitnessInfo, "Maven Map", "Maven Map " BossCount)
+                        ; msgbox Bosses.Length
+                        ; need to write map boss completion to next available line. 
+                    }
+                    Break
+                }
+        }
+
     }
 }

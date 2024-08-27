@@ -21,12 +21,12 @@ MavenStatus(*)
                     CheckStatus := 0
                     If (Invitation = "Map Bosses") and (InvitationBosses.Length >= A_Index)
                         {
-                            MsgBox InvitationBosses.Length
                             CheckStatus := 1
                             MavenGui.Add("Checkbox", "XS v" Boss " Checked" CheckStatus, InvitationBosses[A_Index])
                         }
                     Else If !(Invitation = "Map Bosses")
                         {
+                            ; need to find a way to keep it from adding the same boss multiple times. 
                             CheckStatus := IniRead(MechanicsIni, Invitation, InvitationBosses[A_Index], "0")
                             MavenGui.Add("Checkbox", "XS v" Boss " Checked" CheckStatus, InvitationBosses[A_Index])
                         }
