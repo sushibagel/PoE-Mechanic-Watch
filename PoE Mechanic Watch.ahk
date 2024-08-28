@@ -94,7 +94,10 @@ If !DirExist("Resources/Settings")
         DirCreate("Resources/Settings")
     }
 HideoutIni := IniPath("Hideout")
-IniWrite(0, HideoutIni, "In Hideout", "In Hideout")
+IniWrite(0, HideoutIni, "In Hideout", "In Hideout") ; Set hideout status to off by default
+MiscPath := IniPath("Misc Data")
+IniWrite("False", MiscPath, "Map", "Maven Map") ; Set default status
+IniWrite(0, MiscPath, "Map", "Maven OCR") ; Set default status
 
 If WinActive("ahk_group PoeWindow")
     {
