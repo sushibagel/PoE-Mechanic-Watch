@@ -150,7 +150,7 @@ CheckDialogs(LogLine)
         {
             Active := IniRead(MechanicsIni, "Mechanics", Mechanic, 0)
             AutoActive := IniRead(MechanicsIni, "Auto Mechanics", Mechanic, 0)
-            If (Active > 1) and (AutoActive = 1) ; Check if the mechanic is active and if the auto mechanic is on. 
+            If (Active > 0) and (AutoActive = 1) ; Check if the mechanic is active and if the auto mechanic is on. 
                 {
                     DialogMatch := CheckDialogText(LogLine, Mechanic)
                     If !(DialogMatch = 1)
