@@ -981,7 +981,7 @@ class OCR {
         if !IsSet(comparefunc)
             comparefunc := InStr.Bind(,,casesense)
         While timeout > 0 ? (A_TickCount < endTime) : 1 {
-            result := func(), total := ""
+            Try result := func(), total := ""
             for line in result.Lines
                 total .= line.Text "`n"
             if comparefunc(Trim(total, "`n"), needle)

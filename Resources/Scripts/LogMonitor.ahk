@@ -170,24 +170,6 @@ CheckDialogs(LogLine)
             If (MavenMapStatus = "True")
                 {
                     IniPath("Misc Data", "Write", 1, "Map", "Maven OCR") ; Set maven OCR to "1" (On) This will be read to be checked if active or not and will be deactivated upon entering a new map until Maven is encountered. 
-
-                    ; IncrementInfluence("Maven")
-                    ; IniPath("Misc Data", "Write", "False", "Map", "Maven Map") ; Toggle maven map off so it doesn't count it more than once. 
-                    ; MavenMap := IniPath("Misc Data" "Read", ,"Map", "Last Map", "Unknown") ; Get current map name. 
-                    ; MavenCount := IniPath("Mechanics" "Read", ,"Influence Track", "Maven", 0) 
-                    ; ; Need to add a check to make sure it's just a regular map boss and not something else (Shaper guardia, Conqurer Etc.)
-                    ; MavenCount++
-                    ; IniPath("Mechanics", "Write", MavenMap, "Maven", MavenCount)
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
                 }
         }
 }
