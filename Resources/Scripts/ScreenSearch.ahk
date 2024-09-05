@@ -190,7 +190,7 @@ CheckOCR(TextFound, ActiveOCR)
         For Line in TextLines
         {
             SearchPattern := GetPatterns(Mechanic, 2)
-            If (RegExMatch(Line, SearchPatterns)) ; Check second set of patterns for a match
+            If (RegExMatch(Line, SearchPatterns)) and !(InStr(Line, "Find and defeat the Syndicate Mastermind") or InStr(Line, "Follow Catarina and defeat her")) ; Check second set of patterns for a match  
             {
                 IndexMatch := A_Index - 1
                 Loop 2
