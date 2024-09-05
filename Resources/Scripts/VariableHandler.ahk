@@ -84,7 +84,8 @@ ImagePath(FileRequested, AllowCustom)
             Case FileRequested = "Eater On": Append := "eateron.png"
             Case FileRequested = "Searing On": Append := "searingon.png"
             Case FileRequested = "Maven On": Append := "mavenon.png"
-            
+            Case FileRequested = "Maven Text": Append := "witnesstext.png"
+
             Case FileRequested = "Close Button": Path := "Resources/Images/Close " CurrentTheme[4] ".png"
             Case FileRequested = "Minimize Button": Path := "Resources/Images/minimize " CurrentTheme[4] ".png"
             Case FileRequested = "Move Button": Path := "Resources/Images/move " CurrentTheme[4] ".png"

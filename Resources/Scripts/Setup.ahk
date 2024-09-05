@@ -873,8 +873,8 @@ Settings(TargetTab:=1, *)
     LoopFootnote := ["1", "2", "1", "2", "2", "3"]
     For Category in LoopCategories
         {
-            SettingsGui.Add("Text", "Section XS Right w170") ; Spacer
-            SettingsGui.Add("Text", "YS Right w140", Category)
+            SettingsGui.Add("Text", "Section XS Right w150") ; Spacer
+            SettingsGui.Add("Text", "YS Right w160", Category)
             SettingsGui.SetFont("s8 Underline c" CurrentTheme[2])
             SettingsGui.Add("Text", " x+.8", LoopFootnote[A_Index]).OnEvent("Click",FootnoteShow.Bind(LoopFootnote[A_Index]))
             SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
@@ -892,8 +892,8 @@ Settings(TargetTab:=1, *)
     Global MavenValue := ""
     For Influence in Influences
         {
-            SettingsGui.Add("Text", "Section XS Right w170") ; Spacer
-            SettingsGui.Add("Text", "YS Right w140", Influence " Completion")
+            SettingsGui.Add("Text", "Section XS Right w120") ; Spacer
+            SettingsGui.Add("Text", "YS Right w190", Influence " Completion")
             SettingsGui.SetFont("s8 Underline c" CurrentTheme[2])
             Footnote := 4
             UpDownRange := "Range0-28"
@@ -912,8 +912,8 @@ Settings(TargetTab:=1, *)
             SettingsGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " Completion", SettingsGui))
             SettingsGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " Completion", SettingsGui))
 
-            SettingsGui.Add("Text", "Section XS Right w170") ; Spacer
-            SettingsGui.Add("Text", "YS Right w140", Influence " On")
+            SettingsGui.Add("Text", "Section XS Right w120") ; Spacer
+            SettingsGui.Add("Text", "YS Right w190", Influence " On")
             SettingsGui.SetFont("s8 Underline c" CurrentTheme[2])
             SettingsGui.Add("Text", " x+.8", "5").OnEvent("Click",FootnoteShow.Bind("5"))
             SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
@@ -921,6 +921,14 @@ Settings(TargetTab:=1, *)
             SettingsGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind(Influence " On"))
             SettingsGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind(Influence " On", SettingsGui))
         }
+        SettingsGui.Add("Text", "Section XS Right w120") ; Spacer
+        SettingsGui.Add("Text", "YS Right w190", "Maven Completion Text")
+        SettingsGui.SetFont("s8 Underline c" CurrentTheme[2])
+        SettingsGui.Add("Text", " x+.8", "1").OnEvent("Click",FootnoteShow.Bind("1"))
+        SettingsGui.SetFont("s12 Norm c" CurrentTheme[3])
+        SettingsGui.Add("Text", "YS w120",) ;For consistent Spacing
+        SettingsGui.Add("Button", "YS", "Calibrate").OnEvent("Click", CalibrateMechanic.Bind("Maven Text"))
+        SettingsGui.Add("Button", "YS", "Sample").OnEvent("Click", SampleMechanic.Bind("Maven Text", SettingsGui))
 
     ;Changelog Tab
     CurrentTab := NewTab(CurrentTab)

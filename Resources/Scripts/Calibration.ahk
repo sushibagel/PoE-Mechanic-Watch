@@ -133,6 +133,10 @@ CalibrateMechanic(Mechanic, SettingsGui, *)
         {
             OCRCalibrate("Ritual Area")
         }
+    Else If (Mechanic = "Maven Text")
+        {
+            OCRCalibrate("Maven Area")
+        }
     Else If (Mechanic ~= "i)\A(Ritual Icon|Ritual Shop|Eater Completion|Searing Completion|Maven Completion|Eater On|Maven On|Searing On|Blight)\z")
         {
             MechanicLong := ""
