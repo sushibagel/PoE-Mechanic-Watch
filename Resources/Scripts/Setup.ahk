@@ -954,7 +954,8 @@ Settings(TargetTab:=1, *)
     CurrentVersion := GetContent(VersionURL)
     CurrentVersion := Trim(CurrentVersion, "`n `t") ; Trim and clean
     CurrentVersion := StrSplit(CurrentVersion, "v")
-    UpdateUrl := "https://github.com/sushibagel/PoE-Mechanic-Watch/archive/refs/tags/v" CurrentVersion[2] ".zip"
+    CurrentVersion := StrSplit(CurrentVersion[2], "`n")
+    UpdateUrl := "https://github.com/sushibagel/PoE-Mechanic-Watch/archive/refs/tags/v" CurrentVersion[1] ".zip"
     ChangelogURL := "https://raw.githubusercontent.com/sushibagel/PoE-Mechanic-Watch/main/changelog.txt"
     ;Add gui data
     SettingsGui.SetFont("c" CurrentTheme[2])
@@ -963,7 +964,7 @@ Settings(TargetTab:=1, *)
     Changelog := GetContent(ChangelogURL)
     SettingsGui.Add("Text", TabMaxW " +Wrap XS", Changelog)
     SettingsGui.Add("Text", "XS w150")
-    SettingsGui.Add("Button", "XS w150", "Download").OnEvent("Click", DownloadUpdate.Bind(UpdateUrl, CurrentVersion[2]))
+    SettingsGui.Add("Button", "XS w150", "Download").OnEvent("Click", DownloadUpdate.Bind(UpdateUrl, CurrentVersion[1]))
 
     ; Allow scrolling
     SettingsGui.OnEvent("Size", UpdateGui_Size) 
