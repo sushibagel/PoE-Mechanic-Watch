@@ -1,2 +1,8 @@
-PoE Mechanic Watch v3.1
-This update includes several fixes to various warnings and errors. 
+PoE Mechanic Watch v3.1.1
+
+- Fix Betrayal being triggered during the Catarina fight. 
+- Fix Maven Auto Tracking. 
+- Added option for Maven Completion OCR Calibration. 
+- Added and fixed several Ultimatum dialogs
+- Implemented a fix for text not being recognized in game logs due to extra whitespace. 
+- Implemented a fix to make sure Influence counts will go to "1" in the next map after reaching the max count. 
