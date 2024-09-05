@@ -179,9 +179,9 @@ CheckDialogText(LogLine, Mechanic, Version:="")
     DialogsPath := "Resources/Data/" Mechanic "dialogs" Version ".txt"
     Loop Read DialogsPath
         {
-            If InStr(LogLine, A_LoopReadLine)
+            If InStr(LogLine, Trim(A_LoopReadLine, ' `t`n`r'))
                 {
-                    If (Version = "") and (!InStr(LogLine, "Find and defeat the Syndicate Mastermind") or !InStr(LogLine, "Follow Catarina and defeat her"))
+                    If (Version = "")
                         {
                             ToggleMechanic(Mechanic, 1, "On")
                         }

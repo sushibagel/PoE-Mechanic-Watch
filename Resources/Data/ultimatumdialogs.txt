@@ -16,7 +16,7 @@ The Trialmaster: I hope you have enjoyed your brief string of victories
 The Trialmaster: One loss is nothing to be ashamed of
 The Trialmaster: Can you be victorious twice in a row?
 The Trialmaster: This trial will see your downfall.
-The Trialmaster: Your victories will not continue. 
+The Trialmaster: Your victories will not continue.
 The Trialmaster: Approach, Challenger.
 The Trialmaster: Be not ashamed at your meagre record.
 The Trialmaster: Bloodthirsty princes surround you, hungry for the throne.
@@ -43,5 +43,5 @@ The Trialmaster: Six rounds? Try to make it to the end this time.
 The Trialmaster: Chaos would like to see you make it past round seven...
 The Trialmaster: You've been winning, but can you keep it up?
 The Trialmaster: Corruption starts in the blood.
-The Trialmaster: I am being punished
+ The Trialmaster: I am being punished
 The Trialmaster: Is this some farcical joke?
