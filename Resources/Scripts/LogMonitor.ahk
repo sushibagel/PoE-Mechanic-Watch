@@ -181,7 +181,7 @@ CheckDialogText(LogLine, Mechanic, Version:="")
         {
             If InStr(LogLine, A_LoopReadLine)
                 {
-                    If (Version = "")
+                    If (Version = "") and (!InStr(LogLine, "Find and defeat the Syndicate Mastermind") or !InStr(LogLine, "Follow Catarina and defeat her"))
                         {
                             ToggleMechanic(Mechanic, 1, "On")
                         }
