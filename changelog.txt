@@ -1,4 +1,4 @@
-PoE Mechanic Watch v3.1.1
+PoE Mechanic Watch v3.2
 
 - Fix Betrayal being triggered during the Catarina fight. 
 - Fix Maven Auto Tracking. 
