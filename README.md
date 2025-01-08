@@ -1,3 +1,11 @@
+## PoE-Mechanic-Watch Status
+Due to an operating system change and the inability to run Autohotkey I will no longer be maintaining PoE Mechanic Watch. 
+
+For anyone intersted in running PoE Mechanic Watch for Path of Exile 2. I've received reports of being able to run it by adding the POE2.exe title to the "GroupAdd" commands for "PoeWindow" and "PoeOnly" 
+Ex: GroupAdd("PoeWindow", "ahk_exe PathOfExile2.exe") Additionally, you'll want to set your hideout name either by manually adding or adding into the HideoutList.txt which can be found in the Resources/Data folder. This will allow it to show as a hidout in the selectable list. 
+
+For anyone who wants to take over development and I'd happily allow that.
+
 # PoE-Mechanic-Watch
 AHK Script that helps track and warn the user to complete certain mechanics. 
 
